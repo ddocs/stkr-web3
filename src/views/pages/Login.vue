@@ -92,11 +92,11 @@
 
 <script>
 export default{
-  data() {
+  data () {
     return {
-      email: "",
-      password: "",
-      checkbox_remember_me: false,
+      email: '',
+      password: '',
+      checkbox_remember_me: false
     }
   }
 }

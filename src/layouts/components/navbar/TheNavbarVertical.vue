@@ -23,10 +23,6 @@
 
         <vs-spacer />
 
-        <search-bar class="mr-4" />
-
-        <notification-drop-down />
-
         <profile-drop-down />
 
       </vs-navbar>
