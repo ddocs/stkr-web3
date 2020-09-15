@@ -8,6 +8,7 @@
 ==========================================================================================*/
 
 import Web3 from 'web3'
+import artifacts from '@/artifacts'
 
 const actions = {
 
@@ -16,20 +17,20 @@ const actions = {
   // /////////////////////////////////////////////
 
   // Vertical NavMenu
-  updateVerticalNavMenuWidth ({commit}, width) {
+  updateVerticalNavMenuWidth ({ commit }, width) {
     commit('UPDATE_VERTICAL_NAV_MENU_WIDTH', width)
   },
 
   // VxAutoSuggest
-  updateStarredPage ({commit}, payload) {
+  updateStarredPage ({ commit }, payload) {
     commit('UPDATE_STARRED_PAGE', payload)
   },
 
   // The Navbar
-  arrangeStarredPagesLimited ({commit}, list) {
+  arrangeStarredPagesLimited ({ commit }, list) {
     commit('ARRANGE_STARRED_PAGES_LIMITED', list)
   },
-  arrangeStarredPagesMore ({commit}, list) {
+  arrangeStarredPagesMore ({ commit }, list) {
     commit('ARRANGE_STARRED_PAGES_MORE', list)
   },
 
@@ -37,10 +38,10 @@ const actions = {
   // UI
   // /////////////////////////////////////////////
 
-  toggleContentOverlay ({commit}) {
+  toggleContentOverlay ({ commit }) {
     commit('TOGGLE_CONTENT_OVERLAY')
   },
-  updateTheme ({commit}, val) {
+  updateTheme ({ commit }, val) {
     commit('UPDATE_THEME', val)
   },
 
@@ -48,23 +49,30 @@ const actions = {
   // User/Account
   // /////////////////////////////////////////////
 
-  updateUserInfo ({commit}, payload) {
+  updateUserInfo ({ commit }, payload) {
     commit('UPDATE_USER_INFO', payload)
   },
 
-  async login ({commit}) {
+  async login ({ commit }) {
     if (window.web3) {
       // eslint-disable-next-line no-undef
-      window.web3 = new Web3(window.web3.currentProvider)
       await window.ethereum.enable()
+      window.web3 = new Web3(window.web3.currentProvider)
+      window.web3.eth.defaultAccount = window.ethereum.selectedAddress
     } else {
       alert('Please install MetaMask to use this dApp!')
     }
-    console.log('Here')
-    commit('UPDATE_USER_INFO', {displayName: window.ethereum.selectedAddress})
+
+    commit('UPDATE_USER_INFO', { displayName: window.ethereum.selectedAddress })
   },
 
-  async updatePools ({commit}) {
+  async allowance ({ commit }, amount) {
+    const provider = await new window.web3.Contract(artifacts.ANKR.abi, artifacts.ANKR.address)
+
+    provider.allowance(artifacts.Staking.address, window.web3.utils.toWei(amount)).send()
+  },
+
+  async updatePools ({ commit }) {
 
     // if (state.pools.length && !force) return true
 
