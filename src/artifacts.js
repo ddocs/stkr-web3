@@ -4,13 +4,14 @@ import AETH from '../../build/contracts/AETH.json'
 import ANKR from '../../build/contracts/ANKR.json'
 import Governance from '../../build/contracts/Governance.json'
 import Staking from '../../build/contracts/Staking.json'
+import Node from '../../build/contracts/Node.json'
 
 // TODO: Implement drizzle asap
 
 export default {
   Provider: {
     abi: Provider.abi,
-    address: '0xcC5dd115Dfe5CEE3d6269bdD67D9Fa496C513905'
+    address: '0x6adfc53D2A0356b18803A92909E93D5A978Be080'
   },
   Auctions: {
     abi: Auctions.abi,
@@ -18,11 +19,11 @@ export default {
   },
   Staking: {
     abi: Staking.abi,
-    address: '0x350794FeaC8b5aAf154AE1b483AED0E9890F9AD7'
+    address: '0xE85F4aa42B71E5D64f6E0Bb8df46Bb1d7eB5DE85'
   },
   AETH: {
-    abi: Staking.abi,
-    address: '0xA39A1D9aF7d3Caad525e9729824D0927f85F25e1'
+    abi: AETH.abi,
+    address: '0xde24f229760dC5E17F1e452F34563fEC9295BD18'
   },
   Governance: {
     abi: Governance.abi,
@@ -30,10 +31,14 @@ export default {
   },
   Micropool: {
     abi: Staking.abi,
-    address: '0xc8871904883eD5e271a15770CA7755b989CC897c'
+    address: '0x3f4b33F71709693B9b0ce007b6ddC093eC0f61C6'
   },
   ANKR: {
     abi: ANKR.abi,
-    address: '0xdF533bA9937819f166fa1C4788364d0DAcF4eD12'
+    address: '0x0543891EDe8b2d54bED2FdD411B9EE2e6a2C207D'
+  },
+  Node: {
+    abi: Node.abi,
+    address: '0xD4b44aF478083839c4906b8c7FA2d3a4912093Db'
   }
 }

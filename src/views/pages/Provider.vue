@@ -34,16 +34,17 @@
 </template>
 
 <script>
+/* eslint-disable */
 import artifacts from '@/artifacts'
 
 export default {
   name: 'provider',
   data () {
     return {
-      providerName: 'asdf',
-      website: 'asdf',
-      iconUrl: 'asdf',
-      email: 'asdf'
+      providerName: '0x616e696c00000000000000000000000000000000000000000000000000000000',
+      website: '0x616e696c00000000000000000000000000000000000000000000000000000000',
+      iconUrl: '0x616e696c00000000000000000000000000000000000000000000000000000000',
+      email: '0x616e696c00000000000000000000000000000000000000000000000000000000'
     }
   },
   computed: {
@@ -53,16 +54,20 @@ export default {
   },
   methods: {
     apply () {
-      console.log('hh')
       const contract = new window.web3.eth.Contract(artifacts.Provider.abi, artifacts.Provider.address, {
         from: this.activeUserInfo.displayName
       })
-
+      console.log(
+          window.web3.utils.hexToBytes((window.web3.utils.fromAscii(this.providerName))),
+          window.web3.utils.hexToBytes((window.web3.utils.fromAscii(this.website))),
+          window.web3.utils.hexToBytes((window.web3.utils.fromAscii(this.iconUrl))),
+          window.web3.utils.hexToBytes((window.web3.utils.fromAscii(this.email)))
+      )
       contract.methods.applyToBeProvider(
-          window.web3.utils.hexToBytes((window.web3.utils.fromAscii                                                                                                                                               (this.providerName))),
-          window.web3.utils.hexToBytes((window.web3.utils.fromAscii                                                                                                                                               (this.website))),
-          window.web3.utils.hexToBytes((window.web3.utils.fromAscii                                                                                                                                               (this.iconUrl))),
-          window.web3.utils.hexToBytes((window.web3.utils.fromAscii                                                                                                                                               (this.email)).send({ value: window.web3.utils.toWei('1') })))
+          window.web3.utils.hexToBytes((window.web3.utils.fromAscii(this.providerName))),
+          window.web3.utils.hexToBytes((window.web3.utils.fromAscii(this.website))),
+          window.web3.utils.hexToBytes((window.web3.utils.fromAscii(this.iconUrl))),
+          window.web3.utils.hexToBytes((window.web3.utils.fromAscii(this.email)))).send({ value: window.web3.utils.toWei('1') })
     }
   }
 }

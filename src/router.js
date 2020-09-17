@@ -40,6 +40,11 @@ const router = new Router({
           path: '/provider',
           name: 'provider',
           component: () => import('./views/pages/Provider.vue')
+        },
+        {
+          path: '/governance',
+          name: 'governance',
+          component: () => import('./views/pages/Governance.vue')
         }
       ]
     },
