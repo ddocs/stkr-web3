@@ -20,5 +20,11 @@ export default [
     name: 'Become a provider',
     slug: 'provider',
     icon: 'person'
-  }
+  },
+  {
+    url: '/governance',
+    name: 'Governance',
+    slug: 'governance',
+    icon: 'governor'
+  },
 ]

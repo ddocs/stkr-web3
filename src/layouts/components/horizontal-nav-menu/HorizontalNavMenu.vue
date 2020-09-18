@@ -1,4 +1,4 @@
-<template>
+ <template>
   <div class="relative">
     <div class="vx-navbar-wrapper nav-menu-wrapper">
       <vs-navbar class="vx-navbar navbar-custom navbar-skelton" :color="navbarColor">

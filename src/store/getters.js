@@ -40,8 +40,6 @@ const getters = {
     }
     return false
   }
-
-
 }
 
 export default getters

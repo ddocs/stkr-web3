@@ -103,6 +103,10 @@ const actions = {
     ]
 
     commit('UPDATE_POOLS', pools)
+  },
+
+  async poolsToApprove ({ commit }) {
+
   }
 }
 

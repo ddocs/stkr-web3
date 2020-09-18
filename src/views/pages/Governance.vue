@@ -1,6 +1,7 @@
 <template>
   <vs-row>
-    <vs-col vs-lg="6">
+    <vs-card>
+      <vs-navbar-title>Providers to approve</vs-navbar-title>
       <vs-table search :data="providers">
 
         <template slot="thead">
@@ -33,8 +34,9 @@
           </vs-tr>
         </template>
       </vs-table>
-    </vs-col>
-    <vs-col vs-lg="6">
+    </vs-card>
+    <vs-card>
+      <vs-navbar-title>Pools to approve</vs-navbar-title>
       <vs-table search :data="pools">
 
         <template slot="thead">
@@ -75,7 +77,8 @@
             </vs-td>
 
             <vs-td>
-              <vs-button v-show="data[indextr].status === 'Pending'" @click="poolModal = true; modalData = data[indextr]">
+              <vs-button v-show="data[indextr].status === 'Pending'"
+                         @click="poolModal = true; modalData = data[indextr]">
                 Join
               </vs-button>
             </vs-td>
@@ -83,7 +86,7 @@
           </vs-tr>
         </template>
       </vs-table>
-    </vs-col>
+    </vs-card>
   </vs-row>
 </template>
 
