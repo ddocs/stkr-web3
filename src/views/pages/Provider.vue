@@ -64,14 +64,10 @@ export default {
   name: "provider",
   data() {
     return {
-      providerName:
-        "0x68656c6f6d6f746f000000000000000000000000000000000000000000000000",
-      website:
-        "0x68656c6f6d6f746f000000000000000000000000000000000000000000000000",
-      iconUrl:
-        "0x68656c6f6d6f746f000000000000000000000000000000000000000000000000",
-      email:
-        "0x68656c6f6d6f746f000000000000000000000000000000000000000000000000"
+      providerName: "test name",
+      website: "test website",
+      iconUrl: "test icon url",
+      email: "test email"
     };
   },
   computed: {
