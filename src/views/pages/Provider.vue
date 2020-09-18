@@ -80,6 +80,10 @@ export default {
     }
   },
   methods: {
+    stringToBytes(data) {
+      return web3.utils.padRight(web3.utils.asciiToHex(data), 64);
+    },
+
     apply() {
       const contract = new window.web3.eth.Contract(
         artifacts.Provider.abi,
@@ -91,10 +95,10 @@ export default {
 
       contract.methods
         .applyToBeProvider(
-          this.providerName,
-          this.website,
-          this.iconUrl,
-          this.email
+          this.stringToBytes(this.providerName),
+          this.stringToBytes(this.website),
+          this.stringToBytes(this.iconUrl),
+          this.stringToBytes(this.email)
         )
         .send({ value: window.web3.utils.toWei("1"), gasLimit: 300000 });
     }
