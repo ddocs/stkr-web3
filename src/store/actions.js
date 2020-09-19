@@ -53,21 +53,25 @@ const actions = {
     commit('UPDATE_USER_INFO', payload)
   },
 
-  async login ({ commit }) {
+  async login ({ commit, dispatch }) {
     if (window.web3) {
       // eslint-disable-next-line no-undef
       await window.ethereum.enable()
+      window.contracts = {}
       window.web3 = new Web3(window.web3.currentProvider)
       window.web3.eth.defaultAccount = window.ethereum.selectedAddress
+      window.web3.eth.personal.defaultAccount = window.ethereum.selectedAddress
     } else {
       alert('Please install MetaMask to use this dApp!')
     }
 
     commit('UPDATE_USER_INFO', { displayName: window.ethereum.selectedAddress })
+    dispatch('getProviders')
+    dispatch('stakeStats')
   },
 
   async allowance ({ commit }, amount) {
-    const provider = await new window.web3.Contract(artifacts.ANKR.abi, artifacts.ANKR.address)
+    const provider = await new window.web3.Contract(artifacts.ANKR.abi, artifacts.ANKR.address, {from: window.ethereum.selectedAddress})
 
     provider.allowance(artifacts.Staking.address, window.web3.utils.toWei(amount)).send()
   },
@@ -105,7 +109,65 @@ const actions = {
     commit('UPDATE_POOLS', pools)
   },
 
-  async poolsToApprove ({ commit }) {
+  async stakeStats({commit, dispatch}) {
+    const stakingContract = await dispatch('getContract', 'Staking')
+    const ankrContract = await dispatch('getContract', 'ANKR')
+    const userTotal = await stakingContract.methods.totalStakes().call()
+    window.ankr = ankrContract
+    window.staking = stakingContract
+    const total = await ankrContract.methods.balanceOf(stakingContract._address).call()
+    commit('UPDATE_STAKE_STATS', {
+      userTotal, total
+    })
+  },
+
+  async getProviders({commit, dispatch}) {
+    const providerContract = await dispatch('getContract', 'Provider')
+    const stakingContract = await dispatch('getContract', 'Staking')
+    const appliedEvents = await providerContract.getPastEvents('Applied');
+    const statusChangeEvents = await providerContract.getPastEvents('StatusChanged');
+    const providers = []
+    for (const event of appliedEvents) {
+      const data = {}
+
+      if (await providerContract.methods.isProvider(await event.returnValues.provider).call())
+        continue;
+
+      providers.push({
+        address: await event.returnValues.provider,
+        stakes: await stakingContract.methods._stakes(event.returnValues.provider).call(),
+        status: 'PENDING'
+      })
+    }
+
+    for (const event of statusChangeEvents) {
+      const data = {}
+      providers.push({
+        address: await event.returnValues.provider,
+        stakes: await stakingContract.methods._stakes(event.returnValues.provider).call(),
+        status: 'APPLIED'
+      })
+
+    }
+
+    console.log(providers)
+    commit('UPDATE_PROVIDERS', providers)
+  },
+
+  async getContract ({ commit }, contract) {
+    const contractData = new window.web3.eth.Contract(artifacts[contract].abi, artifacts[contract].address, { from: window.ethereum.selectedAddress });
+    window.contracts[contract] = contractData
+    return contractData
+  },
+
+  async approveProvider({commit, dispatch}, providerAddress) {
+    const contract = await dispatch('getContract', 'Provider')
+    await contract.methods.approve(providerAddress).send()
+    await dispatch('getProviders')
+  },
+
+  async getMicropools({commit}) {
+    const contract = await dispatch('getContract', 'Micropool')
 
   }
 }

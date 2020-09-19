@@ -68,7 +68,12 @@ const state = {
   // Note: Above breakpoint state is for internal use of sidebar & navbar component
   windowWidth: null,
 
-  pools: []
+  pools: [],
+  providers: [],
+  stakeStats: {
+    total: 0,
+    userTotal: 0
+  }
 }
 
 export default state

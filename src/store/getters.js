@@ -11,6 +11,7 @@
 // import tailwindConfig from "../../tailwind.config.js"
 
 import Web3 from 'web3'
+import artifacts from '@/artifacts'
 
 const getters = {
 
@@ -39,7 +40,16 @@ const getters = {
       return true
     }
     return false
+  },
+
+  pendingProviders: state => {
+    return state.providers.filter(provider => provider.status === 'PENDING')
+  },
+
+  appliedProviders: state => {
+    return state.providers.filter(provider => provider.status === 'APPLIED')
   }
 }
+
 
 export default getters

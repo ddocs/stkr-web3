@@ -45,6 +45,11 @@ const router = new Router({
           path: '/governance',
           name: 'governance',
           component: () => import('./views/pages/Governance.vue')
+        },
+        {
+          path: '/staking',
+          name: 'staking',
+          component: () => import('./views/pages/Staking.vue')
         }
       ]
     },

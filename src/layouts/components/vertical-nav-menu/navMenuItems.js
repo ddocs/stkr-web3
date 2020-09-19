@@ -17,7 +17,7 @@ export default [
   },
   {
     url: '/provider',
-    name: 'Become a provider',
+    name: 'Providers',
     slug: 'provider',
     icon: 'person'
   },
@@ -26,5 +26,11 @@ export default [
     name: 'Governance',
     slug: 'governance',
     icon: 'governor'
+  },
+  {
+    url: '/staking',
+    name: 'Staking',
+    slug: 'staking',
+    icon: 'staking'
   },
 ]

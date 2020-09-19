@@ -13,7 +13,7 @@
               d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12"
                                                                               r="3"></circle></svg></span>
             <div class="truncate"><h2 class="mb-1 font-bold">
-              36.9k</h2>
+              -</h2>
               <span>Staker</span>
             </div>
           </div>
@@ -34,7 +34,7 @@
               d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12"
                                                                               r="3"></circle></svg></span>
             <div class="truncate"><h2 class="mb-1 font-bold">
-              200</h2>
+              -</h2>
               <span>Provider</span>
             </div>
           </div>
@@ -55,7 +55,7 @@
               d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12"
                                                                               r="3"></circle></svg></span>
             <div class="truncate"><h2 class="mb-1 font-bold">
-              200k ANKR</h2>
+              {{ stakeStats.total }}</h2>
               <span>Staked</span>
             </div>
           </div>
@@ -87,8 +87,13 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
-  name: 'HomeStats'
+  name: 'HomeStats',
+  computed: {
+    ...mapState(['stakeStats'])
+  }
 }
 </script>
 

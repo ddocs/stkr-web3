@@ -127,6 +127,14 @@ const mutations = {
 
   UPDATE_POOLS (state, payload) {
     state.pools = payload
+  },
+
+  UPDATE_STAKE_STATS (state, payload) {
+    state.stakeStats = payload
+  },
+
+  UPDATE_PROVIDERS(state, payload) {
+    state.providers = payload
   }
 }
 
