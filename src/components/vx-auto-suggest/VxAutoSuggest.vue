@@ -4,62 +4,63 @@
 
       <!-- Input -->
       <vs-input
-        ref="input"
-        :placeholder="placeholder"
-        :class="inputClassses"
-        class="z-50"
-        icon-pack="feather"
-        icon="icon-search"
-        icon-no-border
-        v-model="searchQuery"
-        @keyup.esc="escPressed"
-        @keyup.up="increaseIndex(false)"
-        @keyup.down="increaseIndex"
-        @keyup.enter="suggestionSelected"
-        @focus="updateInputFocus"
-        @blur="updateInputFocus(false)" />
+          ref="input"
+          v-model="searchQuery"
+          :class="inputClassses"
+          :placeholder="placeholder"
+          class="z-50"
+          icon="icon-search"
+          icon-no-border
+          icon-pack="feather"
+          @blur="updateInputFocus(false)"
+          @focus="updateInputFocus"
+          @keyup.esc="escPressed"
+          @keyup.up="increaseIndex(false)"
+          @keyup.down="increaseIndex"
+          @keyup.enter="suggestionSelected"/>
     </div>
 
     <!-- Group List -->
     <ul
-      ref="scrollContainer"
-      :class="{'hidden': !inputFocused}"
-      class="auto-suggest-suggestions-list z-50 rounded-lg mt-2 shadow-lg overflow-x-hidden"
-      @mouseenter="insideSuggestions = true"
-      @mouseleave="insideSuggestions = false"
-      @focus="updateInputFocus"
-      @blur="updateInputFocus(false)"
-      tabindex="-1">
+        ref="scrollContainer"
+        :class="{'hidden': !inputFocused}"
+        class="auto-suggest-suggestions-list z-50 rounded-lg mt-2 shadow-lg overflow-x-hidden"
+        tabindex="-1"
+        @blur="updateInputFocus(false)"
+        @focus="updateInputFocus"
+        @mouseenter="insideSuggestions = true"
+        @mouseleave="insideSuggestions = false">
 
       <li
-        ref="grp_list"
-        v-for="(suggestion_list, grp_name, grp_index) in filteredData"
-        :key="grp_index"
-        class="auto-suggest__suggestion-group-container">
+          v-for="(suggestion_list, grp_name, grp_index) in filteredData"
+          :key="grp_index"
+          ref="grp_list"
+          class="auto-suggest__suggestion-group-container">
 
-          <!-- Group Header -->
-          <p class="auto-suggest__suggestion-group-title pt-3 pb-1 px-4" v-if="!hideGroupTitle">
-            <slot name="group" :group_name="grp_name"></slot>
-          </p>
+        <!-- Group Header -->
+        <p v-if="!hideGroupTitle" class="auto-suggest__suggestion-group-title pt-3 pb-1 px-4">
+          <slot :group_name="grp_name" name="group"></slot>
+        </p>
 
-          <!-- Suggestion List of each group -->
-          <ul>
-            <li
+        <!-- Suggestion List of each group -->
+        <ul>
+          <li
               v-for="(suggestion, index) in suggestion_list"
               :key="index"
-              class="auto-suggest__suggestion-group__suggestion py-3 px-4 cursor-pointer"
               :class="{'vx-auto-suggest__current-selected': currentSelected == `${grp_index}.${index}`}"
-              @mouseenter="currentSelected = `${grp_index}.${index}`"
-              @click="suggestionSelected">
-              <slot :name="grp_name" :suggestion="suggestion"></slot>
-            </li>
+              class="auto-suggest__suggestion-group__suggestion py-3 px-4 cursor-pointer"
+              @click="suggestionSelected"
+              @mouseenter="currentSelected = `${grp_index}.${index}`">
+            <slot :name="grp_name" :suggestion="suggestion"></slot>
+          </li>
 
-            <li class="auto-suggest__suggestion-group__suggestion py-3 px-4 no-results" v-if="!suggestion_list.length && searchQuery">
-              <slot name="noResult" :group_name="grp_name">
-                  <p>No Results Found.</p>
-              </slot>
-            </li>
-          </ul>
+          <li v-if="!suggestion_list.length && searchQuery"
+              class="auto-suggest__suggestion-group__suggestion py-3 px-4 no-results">
+            <slot :group_name="grp_name" name="noResult">
+              <p>No Results Found.</p>
+            </slot>
+          </li>
+        </ul>
       </li>
     </ul>
 
@@ -67,7 +68,7 @@
 </template>
 
 <script>
-export default{
+export default {
   props: {
     placeholder: {
       type: String,
@@ -148,7 +149,7 @@ export default{
         }
       }
 
-      if (grp_index !== null) this.currentSelected = `${grp_index  }.0`
+      if (grp_index !== null) this.currentSelected = `${grp_index}.0`
     }
   },
   methods: {
@@ -214,16 +215,16 @@ export default{
       if (val) {
         // If active item is not of last item in grp
         if (active_grp_total_items - 1 > item_i) {
-          this.currentSelected = `${grp_i  }.${   Number(item_i) + 1}`
+          this.currentSelected = `${grp_i}.${Number(item_i) + 1}`
 
-        // If active item grp is not last in grp list
+          // If active item grp is not last in grp list
         } else if (grp_i < grp_arr.length - 1) {
 
           for (let i = Number(grp_i) + 1; i < grp_arr.length; i++) {
 
             // If navigating group have items => Then move in that group
             if (grp_arr[i][1].length > 0) {
-              this.currentSelected = `${Number(i)  }.0`
+              this.currentSelected = `${Number(i)}.0`
               break
             }
           }
@@ -231,16 +232,16 @@ export default{
       } else {
         // If active item is not of first item in grp
         if (Number(item_i)) {
-          this.currentSelected = `${grp_i  }.${   Number(item_i) - 1}`
+          this.currentSelected = `${grp_i}.${Number(item_i) - 1}`
 
-        // If active item grp  is not first in grp list
+          // If active item grp  is not first in grp list
         } else if (Number(grp_i)) {
 
           for (let i = Number(grp_i) - 1; i >= 0; i--) {
 
             // If navigating group have items => Then move in that group
             if (grp_arr[i][1].length > 0) {
-              this.currentSelected = `${i  }.${  grp_arr[i][1].length - 1}`
+              this.currentSelected = `${i}.${grp_arr[i][1].length - 1}`
               break
             }
           }

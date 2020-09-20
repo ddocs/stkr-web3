@@ -1,7 +1,7 @@
 <template>
   <div class="the-navbar__user-meta flex items-center">
-      <vs-button v-if="!activeUserInfo.displayName" color="success" @click="login" type="filled">Login</vs-button>
-      <p v-else class="font-semibold">{{ activeUserInfo.displayName }}</p>
+    <vs-button v-if="!activeUserInfo.displayName" color="success" type="filled" @click="login">Login</vs-button>
+    <p v-else class="font-semibold">{{ activeUserInfo.displayName }}</p>
   </div>
 </template>
 
@@ -20,7 +20,8 @@ export default {
       localStorage.removeItem('userInfo')
 
       // This is just for demo Purpose. If user clicks on logout -> redirect
-      this.$router.push('/pages/login').catch(() => {})
+      this.$router.push('/pages/login').catch(() => {
+      })
     }
   }
 }

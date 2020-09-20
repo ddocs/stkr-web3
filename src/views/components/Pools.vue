@@ -1,6 +1,6 @@
 <template>
   <div>
-    <vs-table search :data="pools">
+    <vs-table :data="pools" search>
 
       <template slot="thead">
         <vs-th sort-key="name">Name</vs-th>
@@ -13,7 +13,7 @@
       </template>
 
       <template slot-scope="{data}">
-        <vs-tr :key="indextr" v-for="(tr, indextr) in pools">
+        <vs-tr v-for="(tr, indextr) in pools" :key="indextr">
 
           <vs-td :data="data[indextr].name">
             {{ data[indextr].name }}
@@ -50,22 +50,22 @@
     </vs-table>
 
     <vs-popup
-        color="primary"
-        @close="modalData = {}"
         :active.sync="poolModal"
         :button-accept="false"
         :title="`You are joining to: ${modalData.name}`"
+        color="primary"
+        @close="modalData = {}"
     >
       <p class="ml-3 text-danger text-large">Fee: {{ modalData.fee }}</p>
 
       <vs-tabs alignment="fixed">
         <vs-tab label="Pay with eth">
           <p class="con-tab-ejemplo">
-            <p class="mb-5">
-              <vs-input disabled="true" value="ETH Value: 0.001" class="mb-6"></vs-input>
-              <vs-input label-placeholder="Stake Value"></vs-input>
-            </p>
-            <vs-button>Join</vs-button>
+          <p class="mb-5">
+            <vs-input class="mb-6" disabled="true" value="ETH Value: 0.001"></vs-input>
+            <vs-input label-placeholder="Stake Value"></vs-input>
+          </p>
+          <vs-button>Join</vs-button>
         </vs-tab>
         <vs-tab label="Pay with ANKR">
           <div class="con-tab-ejemplo">

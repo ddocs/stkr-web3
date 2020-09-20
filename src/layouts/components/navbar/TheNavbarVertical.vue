@@ -12,18 +12,18 @@
 <template>
   <div class="relative">
 
-    <div class="vx-navbar-wrapper" :class="classObj">
+    <div :class="classObj" class="vx-navbar-wrapper">
 
-      <vs-navbar class="vx-navbar navbar-custom navbar-skelton" :color="navbarColorLocal" :class="textColor">
+      <vs-navbar :class="textColor" :color="navbarColorLocal" class="vx-navbar navbar-custom navbar-skelton">
 
         <!-- SM - OPEN SIDEBAR BUTTON -->
-        <feather-icon class="sm:inline-flex xl:hidden cursor-pointer p-2" icon="MenuIcon" @click.stop="showSidebar" />
+        <feather-icon class="sm:inline-flex xl:hidden cursor-pointer p-2" icon="MenuIcon" @click.stop="showSidebar"/>
 
-        <bookmarks :navbarColor="navbarColor" v-if="windowWidth >= 992" />
+        <bookmarks v-if="windowWidth >= 992" :navbarColor="navbarColor"/>
 
-        <vs-spacer />
+        <vs-spacer/>
 
-        <profile-drop-down />
+        <profile-drop-down/>
 
       </vs-navbar>
     </div>
@@ -32,10 +32,10 @@
 
 
 <script>
-import Bookmarks            from './components/Bookmarks.vue'
-import SearchBar            from './components/SearchBar.vue'
+import Bookmarks from './components/Bookmarks.vue'
+import SearchBar from './components/SearchBar.vue'
 import NotificationDropDown from './components/NotificationDropDown.vue'
-import ProfileDropDown      from './components/ProfileDropDown.vue'
+import ProfileDropDown from './components/ProfileDropDown.vue'
 
 export default {
   name: 'the-navbar-vertical',
@@ -67,9 +67,9 @@ export default {
 
     // NAVBAR STYLE
     classObj () {
-      if      (this.verticalNavMenuWidth === 'default') return 'navbar-default'
+      if (this.verticalNavMenuWidth === 'default') return 'navbar-default'
       else if (this.verticalNavMenuWidth === 'reduced') return 'navbar-reduced'
-      else if (this.verticalNavMenuWidth)               return 'navbar-full'
+      else if (this.verticalNavMenuWidth) return 'navbar-full'
     }
   },
   methods: {

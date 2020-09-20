@@ -11,7 +11,6 @@
 // import tailwindConfig from "../../tailwind.config.js"
 
 import Web3 from 'web3'
-import artifacts from '@/artifacts'
 
 const getters = {
 

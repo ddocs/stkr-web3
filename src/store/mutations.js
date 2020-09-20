@@ -133,7 +133,7 @@ const mutations = {
     state.stakeStats = payload
   },
 
-  UPDATE_PROVIDERS(state, payload) {
+  UPDATE_PROVIDERS (state, payload) {
     state.providers = payload
   }
 }

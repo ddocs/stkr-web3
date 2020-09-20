@@ -7,7 +7,8 @@
   Author URL: http://www.themeforest.net/user/pixinvent
 ==========================================================================================*/
 
-import navbarSearchAndPinList from '@/layouts/components/navbar/navbarSearchAndPinList'
+import navbarSearchAndPinList
+  from '@/layouts/components/navbar/navbarSearchAndPinList'
 import themeConfig from '@/../themeConfig.js'
 
 // /////////////////////////////////////////////

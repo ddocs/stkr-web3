@@ -17,14 +17,17 @@ const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   scrollBehavior () {
-    return { x: 0, y: 0 }
+    return {
+      x: 0,
+      y: 0
+    }
   },
   routes: [
 
     {
-    // =============================================================================
-    // MAIN LAYOUT ROUTES
-    // =============================================================================
+      // =============================================================================
+      // MAIN LAYOUT ROUTES
+      // =============================================================================
       path: '',
       component: () => import('./layouts/main/Main.vue'),
       children: [
@@ -50,6 +53,11 @@ const router = new Router({
           path: '/staking',
           name: 'staking',
           component: () => import('./views/pages/Staking.vue')
+        },
+        {
+          path: '/nodes',
+          name: 'nodes',
+          component: () => import('./views/pages/Nodes.vue')
         }
       ]
     },

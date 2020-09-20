@@ -8,25 +8,27 @@
 ========================================================================================== -->
 
 <template>
-    <vx-card class="overflow-hidden">
-        <div slot="no-body">
-            <div class="p-6" :class="{
+  <vx-card class="overflow-hidden">
+    <div slot="no-body">
+      <div :class="{
               'flex justify-between flex-row-reverse items-center': iconRight,
               'text-center': !iconRight && hideChart,
               'pb-0': !hideChart
-            }">
-                <feather-icon :icon="icon" class="p-3 inline-flex rounded-full" :class="[`text-${color}`, {'mb-4': !iconRight}]" :style="{background: `rgba(var(--vs-${color}),.15)`}"></feather-icon>
-                <div class="truncate">
-                    <h2 class="mb-1 font-bold">{{ statistic }}</h2>
-                    <span>{{ statisticTitle }}</span>
-                </div>
-            </div>
-
-            <div class="line-area-chart" v-if="!hideChart">
-                <vue-apex-charts ref="apexChart" :type="type" height="100" width="100%" :options="chartOptions" :series="chartData" />
-            </div>
+            }" class="p-6">
+        <feather-icon :class="[`text-${color}`, {'mb-4': !iconRight}]" :icon="icon" :style="{background: `rgba(var(--vs-${color}),.15)`}"
+                      class="p-3 inline-flex rounded-full"></feather-icon>
+        <div class="truncate">
+          <h2 class="mb-1 font-bold">{{ statistic }}</h2>
+          <span>{{ statisticTitle }}</span>
         </div>
-    </vx-card>
+      </div>
+
+      <div v-if="!hideChart" class="line-area-chart">
+        <vue-apex-charts ref="apexChart" :options="chartOptions" :series="chartData" :type="type" height="100"
+                         width="100%"/>
+      </div>
+    </div>
+  </vx-card>
 </template>
 
 <script>
@@ -34,7 +36,7 @@ import VueApexCharts from 'vue-apexcharts'
 import chartConfigs from './chartConfigs.js'
 import _color from '@/assets/utils/color.js'
 
-export default{
+export default {
   props: {
     icon: {
       type: String,
@@ -82,7 +84,7 @@ export default{
   },
   watch: {
     themePrimaryColor () {
-      this.$refs.apexChart.updateOptions({ theme: { monochrome: { color: this.getHex(this.color) } } })
+      this.$refs.apexChart.updateOptions({theme: {monochrome: {color: this.getHex(this.color)}}})
     }
   },
   computed: {
@@ -93,9 +95,9 @@ export default{
   methods: {
     getHex (color) {
       if (_color.isColor(color)) {
-        let rgb  = window.getComputedStyle(document.documentElement).getPropertyValue(`--vs-${color}`)
+        let rgb = window.getComputedStyle(document.documentElement).getPropertyValue(`--vs-${color}`)
         rgb = rgb.split(',')
-        return `#${  ((1 << 24) + (Number(rgb[0]) << 16) + (Number(rgb[1]) << 8) + Number(rgb[2])).toString(16).slice(1)}`
+        return `#${((1 << 24) + (Number(rgb[0]) << 16) + (Number(rgb[1]) << 8) + Number(rgb[2])).toString(16).slice(1)}`
       }
       return color
     },

@@ -10,28 +10,28 @@
 
 <template>
   <div
-    class="h-nav-menu-item"
-    :class="[
+      :class="[
       {'h-nav-active-item text-primary font-medium' : activeLink},
       {'disabled-item pointer-events-none' : isDisabled},
-    ]" >
+    ]"
+      class="h-nav-menu-item">
 
-      <router-link
+    <router-link
         v-if="to"
-        exact
         :class="[{'router-link-active': activeLink}, 'nav-link flex items-center']"
+        :target="target"
         :to="to"
-        :target="target" >
-          <vs-icon v-if="!featherIcon" :icon-pack="iconPack" :icon="icon" />
-          <feather-icon v-else :class="iconClasses" :icon="icon" />
-          <slot />
-      </router-link>
+        exact>
+      <vs-icon v-if="!featherIcon" :icon="icon" :icon-pack="iconPack"/>
+      <feather-icon v-else :class="iconClasses" :icon="icon"/>
+      <slot/>
+    </router-link>
 
-      <a v-else :target="target" :href="href" class="nav-link flex items-center">
-        <vs-icon v-if="!featherIcon" :icon-pack="iconPack" :icon="icon" />
-        <feather-icon v-else :class="iconClasses" :icon="icon" />
-        <slot />
-      </a>
+    <a v-else :href="href" :target="target" class="nav-link flex items-center">
+      <vs-icon v-if="!featherIcon" :icon="icon" :icon-pack="iconPack"/>
+      <feather-icon v-else :class="iconClasses" :icon="icon"/>
+      <slot/>
+    </a>
   </div>
 </template>
 
@@ -39,16 +39,46 @@
 export default {
   name: 'v-nav-menu-item',
   props: {
-    icon        : { type: String,                 default: ''               },
-    iconSmall   : { type: Boolean,                default: false            },
-    iconPack    : { type: String,                 default: 'material-icons' },
-    href        : { type: [String, null],         default: '#'              },
-    to          : { type: [String, Object, null], default: null             },
-    slug        : { type: String,                 default: null             },
-    index       : { type: [String, Number],       default: null             },
-    featherIcon : { type: Boolean,                default: true             },
-    target      : { type: String,                 default: '_self'          },
-    isDisabled  : { type: Boolean,                default: false            }
+    icon: {
+      type: String,
+      default: ''
+    },
+    iconSmall: {
+      type: Boolean,
+      default: false
+    },
+    iconPack: {
+      type: String,
+      default: 'material-icons'
+    },
+    href: {
+      type: [String, null],
+      default: '#'
+    },
+    to: {
+      type: [String, Object, null],
+      default: null
+    },
+    slug: {
+      type: String,
+      default: null
+    },
+    index: {
+      type: [String, Number],
+      default: null
+    },
+    featherIcon: {
+      type: Boolean,
+      default: true
+    },
+    target: {
+      type: String,
+      default: '_self'
+    },
+    isDisabled: {
+      type: Boolean,
+      default: false
+    }
   },
   computed: {
     iconClasses () {

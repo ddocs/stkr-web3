@@ -1,17 +1,17 @@
 <template>
   <div
-    ref="convstooltip"
-    class="con-vs-tooltip"
-    @mouseleave="mouseleavex"
-    @mouseenter="mouseenterx"
-    @mouseup="destroy"  >
+      ref="convstooltip"
+      class="con-vs-tooltip"
+      @mouseenter="mouseenterx"
+      @mouseleave="mouseleavex"
+      @mouseup="destroy">
     <transition name="tooltip-fade">
       <div
-        v-show="active"
-        ref="vstooltip"
-        :class="[`vs-tooltip-${positionx || position}`,`vs-tooltip-${color}`, {'after-none': noneAfter}]"
-        :style="style"
-        class="vs-tooltip">
+          v-show="active"
+          ref="vstooltip"
+          :class="[`vs-tooltip-${positionx || position}`,`vs-tooltip-${color}`, {'after-none': noneAfter}]"
+          :style="style"
+          class="vs-tooltip">
         <h4 v-if="title">{{ title }}</h4>
         {{ text }}
       </div>
@@ -22,49 +22,50 @@
 <script>
 import utils from '@/assets/utils'
 import _color from '@/assets/utils/color.js'
+
 export default {
-  name:'vx-tooltip',
-  props:{
-    title:{
-      default:null,
-      type:[String, Number]
+  name: 'vx-tooltip',
+  props: {
+    title: {
+      default: null,
+      type: [String, Number]
     },
-    text:{
-      default:null,
-      type:[String, Number]
+    text: {
+      default: null,
+      type: [String, Number]
     },
-    color:{
-      default:null,
-      type:String
+    color: {
+      default: null,
+      type: String
     },
-    position:{
-      default:'top',
-      type:String
+    position: {
+      default: 'top',
+      type: String
     },
-    delay:{
-      default:'0s',
-      type:[Number, String]
+    delay: {
+      default: '0s',
+      type: [Number, String]
     }
   },
-  data:() => ({
-    cords:{},
-    active:false,
+  data: () => ({
+    cords: {},
+    active: false,
     widthx: 'auto',
     positionx: null,
     noneAfter: false
   }),
-  computed:{
+  computed: {
     style () {
       return {
-        left:this.cords.left,
-        top:this.cords.top,
+        left: this.cords.left,
+        top: this.cords.top,
         transitionDelay: this.active ? this.delay : '0s',
-        background:_color.getColor(this.color, 1),
+        background: _color.getColor(this.color, 1),
         width: this.widthx
       }
     }
   },
-  methods:{
+  methods: {
     mouseenterx () {
       this.active = true
       this.$nextTick(() => {

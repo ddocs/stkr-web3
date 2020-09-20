@@ -39,7 +39,7 @@ export default {
       axisBorder: {
         show: false
       },
-      labels: { show: false }
+      labels: {show: false}
     },
     yaxis: [
       {
@@ -53,7 +53,7 @@ export default {
       }
     ],
     tooltip: {
-      x: { show: false }
+      x: {show: false}
     }
   },
   lineChartOptions: {
@@ -107,7 +107,7 @@ export default {
       }
     },
     tooltip: {
-      x: { show: false }
+      x: {show: false}
     }
   }
 

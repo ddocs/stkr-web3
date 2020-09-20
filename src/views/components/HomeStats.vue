@@ -5,11 +5,12 @@
         <div>
           <div class="p-6 text-center"><span
               class="p-3 inline-flex rounded-full feather-icon select-none relative text-primary mb-4"
-              style="background: rgba(var(--vs-primary),0.15);"><svg xmlns="http://www.w3.org/2000/svg" width="24px"
-                                                                     height="24px" viewBox="0 0 24 24" fill="none"
-                                                                     stroke="currentColor" stroke-width="2"
-                                                                     stroke-linecap="round" stroke-linejoin="round"
-                                                                     class="feather feather-eye "><path
+              style="background: rgba(var(--vs-primary),0.15);"><svg class="feather feather-eye " fill="none"
+                                                                     height="24px" stroke="currentColor"
+                                                                     stroke-linecap="round"
+                                                                     stroke-linejoin="round" stroke-width="2"
+                                                                     viewBox="0 0 24 24" width="24px"
+                                                                     xmlns="http://www.w3.org/2000/svg"><path
               d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12"
                                                                               r="3"></circle></svg></span>
             <div class="truncate"><h2 class="mb-1 font-bold">
@@ -26,11 +27,12 @@
         <div>
           <div class="p-6 text-center"><span
               class="p-3 inline-flex rounded-full feather-icon select-none relative text-primary mb-4"
-              style="background: rgba(var(--vs-primary),0.15);"><svg xmlns="http://www.w3.org/2000/svg" width="24px"
-                                                                     height="24px" viewBox="0 0 24 24" fill="none"
-                                                                     stroke="currentColor" stroke-width="2"
-                                                                     stroke-linecap="round" stroke-linejoin="round"
-                                                                     class="feather feather-eye "><path
+              style="background: rgba(var(--vs-primary),0.15);"><svg class="feather feather-eye " fill="none"
+                                                                     height="24px" stroke="currentColor"
+                                                                     stroke-linecap="round"
+                                                                     stroke-linejoin="round" stroke-width="2"
+                                                                     viewBox="0 0 24 24" width="24px"
+                                                                     xmlns="http://www.w3.org/2000/svg"><path
               d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12"
                                                                               r="3"></circle></svg></span>
             <div class="truncate"><h2 class="mb-1 font-bold">
@@ -47,11 +49,12 @@
         <div>
           <div class="p-6 text-center"><span
               class="p-3 inline-flex rounded-full feather-icon select-none relative text-primary mb-4"
-              style="background: rgba(var(--vs-primary),0.15);"><svg xmlns="http://www.w3.org/2000/svg" width="24px"
-                                                                     height="24px" viewBox="0 0 24 24" fill="none"
-                                                                     stroke="currentColor" stroke-width="2"
-                                                                     stroke-linecap="round" stroke-linejoin="round"
-                                                                     class="feather feather-eye "><path
+              style="background: rgba(var(--vs-primary),0.15);"><svg class="feather feather-eye " fill="none"
+                                                                     height="24px" stroke="currentColor"
+                                                                     stroke-linecap="round"
+                                                                     stroke-linejoin="round" stroke-width="2"
+                                                                     viewBox="0 0 24 24" width="24px"
+                                                                     xmlns="http://www.w3.org/2000/svg"><path
               d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12"
                                                                               r="3"></circle></svg></span>
             <div class="truncate"><h2 class="mb-1 font-bold">
@@ -68,11 +71,12 @@
         <div>
           <div class="p-6 text-center"><span
               class="p-3 inline-flex rounded-full feather-icon select-none relative text-primary mb-4"
-              style="background: rgba(var(--vs-primary),0.15);"><svg xmlns="http://www.w3.org/2000/svg" width="24px"
-                                                                     height="24px" viewBox="0 0 24 24" fill="none"
-                                                                     stroke="currentColor" stroke-width="2"
-                                                                     stroke-linecap="round" stroke-linejoin="round"
-                                                                     class="feather feather-eye "><path
+              style="background: rgba(var(--vs-primary),0.15);"><svg class="feather feather-eye " fill="none"
+                                                                     height="24px" stroke="currentColor"
+                                                                     stroke-linecap="round"
+                                                                     stroke-linejoin="round" stroke-width="2"
+                                                                     viewBox="0 0 24 24" width="24px"
+                                                                     xmlns="http://www.w3.org/2000/svg"><path
               d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12"
                                                                               r="3"></circle></svg></span>
             <div class="truncate"><h2 class="mb-1 font-bold">
@@ -87,7 +91,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import {mapState} from 'vuex'
 
 export default {
   name: 'HomeStats',

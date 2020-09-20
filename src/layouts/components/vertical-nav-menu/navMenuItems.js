@@ -33,4 +33,10 @@ export default [
     slug: 'staking',
     icon: 'staking'
   },
+  {
+    url: '/nodes',
+    name: 'Nodes',
+    slug: 'nodes',
+    icon: 'nodes'
+  }
 ]

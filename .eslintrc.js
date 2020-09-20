@@ -16,7 +16,7 @@ module.exports = {
     'eqeqeq': 'error',
     'no-invalid-this': 'error',
     'no-return-assign': 'error',
-    'no-unused-expressions': ['error', { 'allowTernary': true }],
+    'no-unused-expressions': ['error', {'allowTernary': true}],
     'no-useless-concat': 'error',
     'no-useless-return': 'error',
 
@@ -30,7 +30,7 @@ module.exports = {
       'minItems': null
     }],
     'array-bracket-spacing': 'error',
-    'brace-style': ['error', '1tbs', { 'allowSingleLine': true }],
+    'brace-style': ['error', '1tbs', {'allowSingleLine': true}],
     'block-spacing': 'error',
     'comma-dangle': 'error',
     'comma-spacing': 'error',
@@ -47,12 +47,12 @@ module.exports = {
       'max': 2,
       'maxEOF': 1
     }],
-    'max-len': ['error', { 'code': 80 }],
+    'max-len': ['error', {'code': 90}],
     'no-tabs': 'error',
     'no-unneeded-ternary': 'error',
     'no-whitespace-before-property': 'error',
     'nonblock-statement-body-position': 'error',
-    'object-property-newline': ['error', { 'allowAllPropertiesOnSameLine': true }],
+    'object-property-newline': ['error', {'allowAllPropertiesOnSameLine': true}],
     'quote-props': ['error', 'consistent'],
     'quotes': ['error', 'single'],
     'semi': ['error', 'never'],

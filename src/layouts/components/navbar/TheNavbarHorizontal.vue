@@ -12,11 +12,11 @@
 <template>
   <div class="relative">
     <div class="vx-navbar-wrapper navbar-full p-0">
-      <vs-navbar class="navbar-custom navbar-skelton" :class="navbarClasses" :style="navbarStyle" :color="navbarColor">
+      <vs-navbar :class="navbarClasses" :color="navbarColor" :style="navbarStyle" class="navbar-custom navbar-skelton">
 
-        <bookmarks :navbarColor="navbarColor" v-if="windowWidth >= 992"/>
+        <bookmarks v-if="windowWidth >= 992" :navbarColor="navbarColor"/>
 
-        <router-link tag="div" to="/" class="vx-logo cursor-pointer mx-auto flex items-center">
+        <router-link class="vx-logo cursor-pointer mx-auto flex items-center" tag="div" to="/">
           <logo class="w-10 mr-4 fill-current text-primary"/>
           <span class="vx-logo-text text-primary">Stkr</span>
         </router-link>

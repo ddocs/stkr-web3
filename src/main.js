@@ -15,13 +15,8 @@ import App from './App.vue'
 import Vuesax from 'vuesax'
 import 'material-icons/iconfont/material-icons.css' //Material Icons
 import 'vuesax/dist/vuesax.css' // Vuesax
-Vue.use(Vuesax)
-
-
 // axios
 import axios from './axios.js'
-Vue.prototype.$http = axios
-
 // Filters
 import './filters/filters.js'
 
@@ -51,13 +46,18 @@ import store from './store/store'
 
 
 // Vuejs - Vue wrapper for hammerjs
-import { VueHammer } from 'vue2-hammer'
-Vue.use(VueHammer)
-
-
+import {VueHammer} from 'vue2-hammer'
 // PrismJS
 import 'prismjs'
 import 'prismjs/themes/prism-tomorrow.css'
+
+Vue.use(Vuesax)
+
+
+Vue.prototype.$http = axios
+
+
+Vue.use(VueHammer)
 
 
 // Feather font icon
