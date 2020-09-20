@@ -12,7 +12,7 @@ import MicroPool from './contracts/MicroPool.json'
 export default {
   Provider: {
     abi: Provider.abi,
-    address: '0x49E30ff1a6c7D475df145D2E89ba7F132823FCB4'
+    address: '0xC9B554198D8bf8511bC76cBa0FB2e7d747637d97'
   },
   Auctions: {
     abi: Auctions.abi,
@@ -20,26 +20,26 @@ export default {
   },
   Staking: {
     abi: Staking.abi,
-    address: '0xC399EF521d8126a617e120b38f65792cE6175024'
+    address: '0x77062aa2ea21dDe267AB06e39F2B2BFB7a5B8eC9'
   },
   AETH: {
     abi: AETH.abi,
-    address: '0x12Bc974D7237a959aF99d1ea1880D0da087e67Ff'
+    address: '0x791DcF7011ddF4F56d6D136F9C8a2eE57C531bd4'
   },
   Governance: {
     abi: Governance.abi,
-    address: '0x59996f3BebDE610Ba4842f772092Eb70a684891f'
+    address: '0x7bAc682E5269485a7e21835041016623306B5f50'
   },
   Micropool: {
     abi: MicroPool.abi,
-    address: '0xDE89A016C94CdE0c8C4877b957F448f38e4D3BFc'
+    address: '0x12831656aD8A00F1d02eF377D7a58cf1bAe3a982'
   },
   ANKR: {
     abi: ANKR.abi,
-    address: '0x3abc17C411aDAFf9ec2191D47A273bD32D83561a'
+    address: '0x6fa1B565F7E9C1490deBD57971cd8405C95749d7'
   },
   Node: {
     abi: Node.abi,
-    address: '0x88E5BAF59c28cb39928119719FaaCf509fa3e581'
+    address: '0xaaE82b78C159765aFdFfd69eCbf3a15D338B82C4'
   }
 }
