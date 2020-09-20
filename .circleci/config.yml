@@ -1,0 +1,55 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: tarampampam/node:13-alpine
+    steps:
+      - checkout
+      - setup_remote_docker
+      - attach_workspace:
+          at: '.'
+      - run:
+          name: "Build the production code"
+          command: |
+            node --version
+            npm --version
+            yarn install
+            yarn build
+      - persist_to_workspace:
+          root: '.'
+          paths:
+            - '.'
+  upload:  
+    docker:
+      - image: bigbadalien/awscli-node-kops-kubectl:0.3
+    steps:
+      - setup_remote_docker
+      - attach_workspace:
+          at: '.'
+      - run:
+          name: "Uploading assets to strk.ankr.com"
+          command: |
+            pwd
+            aws s3 cp ./dist/ s3://stkr.ankr.com/ --acl bucket-owner-full-control --recursive --cache-control "public,max-age=600,s-maxage=3600"
+      - run:
+          name: "Invalidating CDN network"
+          command: |
+            INVALIDATION_ID=`aws cloudfront create-invalidation --distribution-id EMPBFTV79PLW8 --paths '/*' | jq -r '.Invalidation.Id'`
+            echo "Invalidation ID is $INVALIDATION_ID"
+            echo "CDN Invalidation request is sent."
+workflows:
+  version: 2
+  stkr_web3:
+    jobs:
+      - build:
+          context: cicd
+          filters: &prod_only
+            branches:
+              only:
+                - master
+      - upload:
+          context: cicd
+          requires:
+            - build
+          filters:
+            <<: *prod_only
