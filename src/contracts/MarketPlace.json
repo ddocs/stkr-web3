@@ -1,0 +1,1220 @@
+{
+  "contractName": "MarketPlace",
+  "abi": [
+    {
+      "inputs": [],
+      "name": "governanceContract",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "addr",
+          "type": "address"
+        }
+      ],
+      "name": "updateGovernanceContract",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "ethUsd",
+          "type": "uint256"
+        }
+      ],
+      "name": "updateEthUsdRate",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "ankrEth",
+          "type": "uint256"
+        }
+      ],
+      "name": "updateAnkrEthRate",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "ethUsdRate",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "ankrEthRate",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.6.8+commit.0bbfe453\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"ankrEthRate\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"ethUsdRate\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"governanceContract\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"ankrEth\",\"type\":\"uint256\"}],\"name\":\"updateAnkrEthRate\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"ethUsd\",\"type\":\"uint256\"}],\"name\":\"updateEthUsdRate\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"addr\",\"type\":\"address\"}],\"name\":\"updateGovernanceContract\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/anilkucukrecep/Code/Personal/st/contracts/contracts/MarketPlace.sol\":\"MarketPlace\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/anilkucukrecep/Code/Personal/st/contracts/contracts/MarketPlace.sol\":{\"keccak256\":\"0x7b6a33cc0b168328bc0148d088a10778eaab99cb8ac73789a7a71f515d1b379d\",\"license\":\"UNLICENSED\",\"urls\":[\"bzz-raw://52bf7ad4362a9b19027483b1c2332a040e4f4df2623c7d5bb4746d00e96e26b6\",\"dweb:/ipfs/QmfWRJUJX7BgRT2MHy5n1ugHk6f5tWfSaf3a3JsSeqFjY5\"]},\"/Users/anilkucukrecep/Code/Personal/st/contracts/contracts/core/OwnedByGovernor.sol\":{\"keccak256\":\"0xfbe8459299ebf79a927114b5044ad8e74fd4097c9a9e111c7cccee577582d4c7\",\"license\":\"UNLICENSED\",\"urls\":[\"bzz-raw://fd7c47ff2690027aca96de0d4844b34f32f9db09a5ba3edf043f1fde8343d49b\",\"dweb:/ipfs/QmTW2P3a38JWKyjsBigxT2YQoU5bBEWnr3xdebBZxG7GGi\"]}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b50610257806100206000396000f3fe608060405234801561001057600080fd5b50600436106100625760003560e01c80631031e6da146100675780633b478fc51461009557806353b65153146100b35780636faf60a0146100d157806373c4abcb14610115578063b172b22214610143575b600080fd5b6100936004803603602081101561007d57600080fd5b810190808035906020019092919050505061018d565b005b61009d610197565b6040518082815260200191505060405180910390f35b6100bb6101a1565b6040518082815260200191505060405180910390f35b610113600480360360208110156100e757600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff1690602001909291905050506101ab565b005b6101416004803603602081101561012b57600080fd5b81019080803590602001909291905050506101ee565b005b61014b6101f8565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b8060018190555050565b6000600154905090565b6000600254905090565b806000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555050565b8060028190555050565b60008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1690509056fea264697066735822122089c95e42b217d77aad5bc123b0628ab35ca4e95a58e638d0decb4d516f955c8f64736f6c63430006080033",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100625760003560e01c80631031e6da146100675780633b478fc51461009557806353b65153146100b35780636faf60a0146100d157806373c4abcb14610115578063b172b22214610143575b600080fd5b6100936004803603602081101561007d57600080fd5b810190808035906020019092919050505061018d565b005b61009d610197565b6040518082815260200191505060405180910390f35b6100bb6101a1565b6040518082815260200191505060405180910390f35b610113600480360360208110156100e757600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff1690602001909291905050506101ab565b005b6101416004803603602081101561012b57600080fd5b81019080803590602001909291905050506101ee565b005b61014b6101f8565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b8060018190555050565b6000600154905090565b6000600254905090565b806000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555050565b8060028190555050565b60008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1690509056fea264697066735822122089c95e42b217d77aad5bc123b0628ab35ca4e95a58e638d0decb4d516f955c8f64736f6c63430006080033",
+  "immutableReferences": {},
+  "sourceMap": "101:523:5:-:0;;;;5:9:-1;2:2;;;27:1;24;17:12;2:2;101:523:5;;;;;;;",
+  "deployedSourceMap": "101:523:5:-:0;;;;5:9:-1;2:2;;;27:1;24;17:12;2:2;101:523:5;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;12:1:-1;9;2:12;238:97:5;;;;;;15:2:-1;10:3;7:11;4:2;;;31:1;28;21:12;4:2;238:97:5;;;;;;;;;;;;;;;;;:::i;:::-;;448:83;;;:::i;:::-;;;;;;;;;;;;;;;;;;;537:85;;;:::i;:::-;;;;;;;;;;;;;;;;;;;241:100:13;;;;;;15:2:-1;10:3;7:11;4:2;;;31:1;28;21:12;4:2;241:100:13;;;;;;;;;;;;;;;;;;;:::i;:::-;;341:101:5;;;;;;15:2:-1;10:3;7:11;4:2;;;31:1;28;21:12;4:2;341:101:5;;;;;;;;;;;;;;;;;:::i;:::-;;347:104:13;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;238:97:5;322:6:::1;312:7;:16;;;;238:97:::0;:::o;448:83::-;491:7;517;;510:14;;448:83;:::o;537:85::-;581:7;607:8;;600:15;;537:85;:::o;241:100:13:-;330:4;308:19;;:26;;;;;;;;;;;;;;;;;;241:100;:::o;341:101:5:-;428:7:::1;417:8;:18;;;;341:101:::0;:::o;347:104:13:-;399:7;425:19;;;;;;;;;;;418:26;;347:104;:::o",
+  "source": "//SPDX-License-Identifier: UNLICENSED\npragma solidity ^0.6.8;\n\nimport \"./core/OwnedByGovernor.sol\";\n\ncontract MarketPlace is OwnedByGovernor {\n    // ETH-USD\n    // ANKR-ETH\n    uint256 private _ethUsd;\n    uint256 private _ankrEth;\n\n    function updateEthUsdRate(uint256 ethUsd) external onlyGovernor {\n        _ethUsd = ethUsd;\n    }\n\n    function updateAnkrEthRate(uint256 ankrEth) external onlyGovernor {\n        _ankrEth = ankrEth;\n    }\n\n    function ethUsdRate() public view returns (uint256) {\n        return _ethUsd;\n    }\n\n    function ankrEthRate() public view returns (uint256) {\n        return _ankrEth;\n    }\n}\n",
+  "sourcePath": "/Users/anilkucukrecep/Code/Personal/st/contracts/contracts/MarketPlace.sol",
+  "ast": {
+    "absolutePath": "/Users/anilkucukrecep/Code/Personal/st/contracts/contracts/MarketPlace.sol",
+    "exportedSymbols": {
+      "MarketPlace": [
+        1580
+      ]
+    },
+    "id": 1581,
+    "license": "UNLICENSED",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 1532,
+        "literals": [
+          "solidity",
+          "^",
+          "0.6",
+          ".8"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "38:23:5"
+      },
+      {
+        "absolutePath": "/Users/anilkucukrecep/Code/Personal/st/contracts/contracts/core/OwnedByGovernor.sol",
+        "file": "./core/OwnedByGovernor.sol",
+        "id": 1533,
+        "nodeType": "ImportDirective",
+        "scope": 1581,
+        "sourceUnit": 3471,
+        "src": "63:36:5",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "abstract": false,
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 1534,
+              "name": "OwnedByGovernor",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 3470,
+              "src": "125:15:5",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_OwnedByGovernor_$3470",
+                "typeString": "contract OwnedByGovernor"
+              }
+            },
+            "id": 1535,
+            "nodeType": "InheritanceSpecifier",
+            "src": "125:15:5"
+          }
+        ],
+        "contractDependencies": [
+          3470
+        ],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 1580,
+        "linearizedBaseContracts": [
+          1580,
+          3470
+        ],
+        "name": "MarketPlace",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "constant": false,
+            "id": 1537,
+            "mutability": "mutable",
+            "name": "_ethUsd",
+            "nodeType": "VariableDeclaration",
+            "overrides": null,
+            "scope": 1580,
+            "src": "178:23:5",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            },
+            "typeName": {
+              "id": 1536,
+              "name": "uint256",
+              "nodeType": "ElementaryTypeName",
+              "src": "178:7:5",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "value": null,
+            "visibility": "private"
+          },
+          {
+            "constant": false,
+            "id": 1539,
+            "mutability": "mutable",
+            "name": "_ankrEth",
+            "nodeType": "VariableDeclaration",
+            "overrides": null,
+            "scope": 1580,
+            "src": "207:24:5",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            },
+            "typeName": {
+              "id": 1538,
+              "name": "uint256",
+              "nodeType": "ElementaryTypeName",
+              "src": "207:7:5",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "value": null,
+            "visibility": "private"
+          },
+          {
+            "body": {
+              "id": 1550,
+              "nodeType": "Block",
+              "src": "302:33:5",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 1548,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "id": 1546,
+                      "name": "_ethUsd",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 1537,
+                      "src": "312:7:5",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "id": 1547,
+                      "name": "ethUsd",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 1541,
+                      "src": "322:6:5",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "src": "312:16:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 1549,
+                  "nodeType": "ExpressionStatement",
+                  "src": "312:16:5"
+                }
+              ]
+            },
+            "documentation": null,
+            "functionSelector": "1031e6da",
+            "id": 1551,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [
+              {
+                "arguments": null,
+                "id": 1544,
+                "modifierName": {
+                  "argumentTypes": null,
+                  "id": 1543,
+                  "name": "onlyGovernor",
+                  "nodeType": "Identifier",
+                  "overloadedDeclarations": [],
+                  "referencedDeclaration": 3469,
+                  "src": "289:12:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_modifier$__$",
+                    "typeString": "modifier ()"
+                  }
+                },
+                "nodeType": "ModifierInvocation",
+                "src": "289:12:5"
+              }
+            ],
+            "name": "updateEthUsdRate",
+            "nodeType": "FunctionDefinition",
+            "overrides": null,
+            "parameters": {
+              "id": 1542,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1541,
+                  "mutability": "mutable",
+                  "name": "ethUsd",
+                  "nodeType": "VariableDeclaration",
+                  "overrides": null,
+                  "scope": 1551,
+                  "src": "264:14:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1540,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "264:7:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "263:16:5"
+            },
+            "returnParameters": {
+              "id": 1545,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "302:0:5"
+            },
+            "scope": 1580,
+            "src": "238:97:5",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "body": {
+              "id": 1562,
+              "nodeType": "Block",
+              "src": "407:35:5",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 1560,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "id": 1558,
+                      "name": "_ankrEth",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 1539,
+                      "src": "417:8:5",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "id": 1559,
+                      "name": "ankrEth",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 1553,
+                      "src": "428:7:5",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "src": "417:18:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 1561,
+                  "nodeType": "ExpressionStatement",
+                  "src": "417:18:5"
+                }
+              ]
+            },
+            "documentation": null,
+            "functionSelector": "73c4abcb",
+            "id": 1563,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [
+              {
+                "arguments": null,
+                "id": 1556,
+                "modifierName": {
+                  "argumentTypes": null,
+                  "id": 1555,
+                  "name": "onlyGovernor",
+                  "nodeType": "Identifier",
+                  "overloadedDeclarations": [],
+                  "referencedDeclaration": 3469,
+                  "src": "394:12:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_modifier$__$",
+                    "typeString": "modifier ()"
+                  }
+                },
+                "nodeType": "ModifierInvocation",
+                "src": "394:12:5"
+              }
+            ],
+            "name": "updateAnkrEthRate",
+            "nodeType": "FunctionDefinition",
+            "overrides": null,
+            "parameters": {
+              "id": 1554,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1553,
+                  "mutability": "mutable",
+                  "name": "ankrEth",
+                  "nodeType": "VariableDeclaration",
+                  "overrides": null,
+                  "scope": 1563,
+                  "src": "368:15:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1552,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "368:7:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "367:17:5"
+            },
+            "returnParameters": {
+              "id": 1557,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "407:0:5"
+            },
+            "scope": 1580,
+            "src": "341:101:5",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "body": {
+              "id": 1570,
+              "nodeType": "Block",
+              "src": "500:31:5",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 1568,
+                    "name": "_ethUsd",
+                    "nodeType": "Identifier",
+                    "overloadedDeclarations": [],
+                    "referencedDeclaration": 1537,
+                    "src": "517:7:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "functionReturnParameters": 1567,
+                  "id": 1569,
+                  "nodeType": "Return",
+                  "src": "510:14:5"
+                }
+              ]
+            },
+            "documentation": null,
+            "functionSelector": "3b478fc5",
+            "id": 1571,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "ethUsdRate",
+            "nodeType": "FunctionDefinition",
+            "overrides": null,
+            "parameters": {
+              "id": 1564,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "467:2:5"
+            },
+            "returnParameters": {
+              "id": 1567,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1566,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "overrides": null,
+                  "scope": 1571,
+                  "src": "491:7:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1565,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "491:7:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "490:9:5"
+            },
+            "scope": 1580,
+            "src": "448:83:5",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 1578,
+              "nodeType": "Block",
+              "src": "590:32:5",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 1576,
+                    "name": "_ankrEth",
+                    "nodeType": "Identifier",
+                    "overloadedDeclarations": [],
+                    "referencedDeclaration": 1539,
+                    "src": "607:8:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "functionReturnParameters": 1575,
+                  "id": 1577,
+                  "nodeType": "Return",
+                  "src": "600:15:5"
+                }
+              ]
+            },
+            "documentation": null,
+            "functionSelector": "53b65153",
+            "id": 1579,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "ankrEthRate",
+            "nodeType": "FunctionDefinition",
+            "overrides": null,
+            "parameters": {
+              "id": 1572,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "557:2:5"
+            },
+            "returnParameters": {
+              "id": 1575,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1574,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "overrides": null,
+                  "scope": 1579,
+                  "src": "581:7:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1573,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "581:7:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "580:9:5"
+            },
+            "scope": 1580,
+            "src": "537:85:5",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "public"
+          }
+        ],
+        "scope": 1581,
+        "src": "101:523:5"
+      }
+    ],
+    "src": "38:587:5"
+  },
+  "legacyAST": {
+    "absolutePath": "/Users/anilkucukrecep/Code/Personal/st/contracts/contracts/MarketPlace.sol",
+    "exportedSymbols": {
+      "MarketPlace": [
+        1580
+      ]
+    },
+    "id": 1581,
+    "license": "UNLICENSED",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 1532,
+        "literals": [
+          "solidity",
+          "^",
+          "0.6",
+          ".8"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "38:23:5"
+      },
+      {
+        "absolutePath": "/Users/anilkucukrecep/Code/Personal/st/contracts/contracts/core/OwnedByGovernor.sol",
+        "file": "./core/OwnedByGovernor.sol",
+        "id": 1533,
+        "nodeType": "ImportDirective",
+        "scope": 1581,
+        "sourceUnit": 3471,
+        "src": "63:36:5",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "abstract": false,
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 1534,
+              "name": "OwnedByGovernor",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 3470,
+              "src": "125:15:5",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_OwnedByGovernor_$3470",
+                "typeString": "contract OwnedByGovernor"
+              }
+            },
+            "id": 1535,
+            "nodeType": "InheritanceSpecifier",
+            "src": "125:15:5"
+          }
+        ],
+        "contractDependencies": [
+          3470
+        ],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 1580,
+        "linearizedBaseContracts": [
+          1580,
+          3470
+        ],
+        "name": "MarketPlace",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "constant": false,
+            "id": 1537,
+            "mutability": "mutable",
+            "name": "_ethUsd",
+            "nodeType": "VariableDeclaration",
+            "overrides": null,
+            "scope": 1580,
+            "src": "178:23:5",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            },
+            "typeName": {
+              "id": 1536,
+              "name": "uint256",
+              "nodeType": "ElementaryTypeName",
+              "src": "178:7:5",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "value": null,
+            "visibility": "private"
+          },
+          {
+            "constant": false,
+            "id": 1539,
+            "mutability": "mutable",
+            "name": "_ankrEth",
+            "nodeType": "VariableDeclaration",
+            "overrides": null,
+            "scope": 1580,
+            "src": "207:24:5",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            },
+            "typeName": {
+              "id": 1538,
+              "name": "uint256",
+              "nodeType": "ElementaryTypeName",
+              "src": "207:7:5",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "value": null,
+            "visibility": "private"
+          },
+          {
+            "body": {
+              "id": 1550,
+              "nodeType": "Block",
+              "src": "302:33:5",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 1548,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "id": 1546,
+                      "name": "_ethUsd",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 1537,
+                      "src": "312:7:5",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "id": 1547,
+                      "name": "ethUsd",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 1541,
+                      "src": "322:6:5",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "src": "312:16:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 1549,
+                  "nodeType": "ExpressionStatement",
+                  "src": "312:16:5"
+                }
+              ]
+            },
+            "documentation": null,
+            "functionSelector": "1031e6da",
+            "id": 1551,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [
+              {
+                "arguments": null,
+                "id": 1544,
+                "modifierName": {
+                  "argumentTypes": null,
+                  "id": 1543,
+                  "name": "onlyGovernor",
+                  "nodeType": "Identifier",
+                  "overloadedDeclarations": [],
+                  "referencedDeclaration": 3469,
+                  "src": "289:12:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_modifier$__$",
+                    "typeString": "modifier ()"
+                  }
+                },
+                "nodeType": "ModifierInvocation",
+                "src": "289:12:5"
+              }
+            ],
+            "name": "updateEthUsdRate",
+            "nodeType": "FunctionDefinition",
+            "overrides": null,
+            "parameters": {
+              "id": 1542,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1541,
+                  "mutability": "mutable",
+                  "name": "ethUsd",
+                  "nodeType": "VariableDeclaration",
+                  "overrides": null,
+                  "scope": 1551,
+                  "src": "264:14:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1540,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "264:7:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "263:16:5"
+            },
+            "returnParameters": {
+              "id": 1545,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "302:0:5"
+            },
+            "scope": 1580,
+            "src": "238:97:5",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "body": {
+              "id": 1562,
+              "nodeType": "Block",
+              "src": "407:35:5",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 1560,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "id": 1558,
+                      "name": "_ankrEth",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 1539,
+                      "src": "417:8:5",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "id": 1559,
+                      "name": "ankrEth",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 1553,
+                      "src": "428:7:5",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "src": "417:18:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 1561,
+                  "nodeType": "ExpressionStatement",
+                  "src": "417:18:5"
+                }
+              ]
+            },
+            "documentation": null,
+            "functionSelector": "73c4abcb",
+            "id": 1563,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [
+              {
+                "arguments": null,
+                "id": 1556,
+                "modifierName": {
+                  "argumentTypes": null,
+                  "id": 1555,
+                  "name": "onlyGovernor",
+                  "nodeType": "Identifier",
+                  "overloadedDeclarations": [],
+                  "referencedDeclaration": 3469,
+                  "src": "394:12:5",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_modifier$__$",
+                    "typeString": "modifier ()"
+                  }
+                },
+                "nodeType": "ModifierInvocation",
+                "src": "394:12:5"
+              }
+            ],
+            "name": "updateAnkrEthRate",
+            "nodeType": "FunctionDefinition",
+            "overrides": null,
+            "parameters": {
+              "id": 1554,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1553,
+                  "mutability": "mutable",
+                  "name": "ankrEth",
+                  "nodeType": "VariableDeclaration",
+                  "overrides": null,
+                  "scope": 1563,
+                  "src": "368:15:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1552,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "368:7:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "367:17:5"
+            },
+            "returnParameters": {
+              "id": 1557,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "407:0:5"
+            },
+            "scope": 1580,
+            "src": "341:101:5",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "body": {
+              "id": 1570,
+              "nodeType": "Block",
+              "src": "500:31:5",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 1568,
+                    "name": "_ethUsd",
+                    "nodeType": "Identifier",
+                    "overloadedDeclarations": [],
+                    "referencedDeclaration": 1537,
+                    "src": "517:7:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "functionReturnParameters": 1567,
+                  "id": 1569,
+                  "nodeType": "Return",
+                  "src": "510:14:5"
+                }
+              ]
+            },
+            "documentation": null,
+            "functionSelector": "3b478fc5",
+            "id": 1571,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "ethUsdRate",
+            "nodeType": "FunctionDefinition",
+            "overrides": null,
+            "parameters": {
+              "id": 1564,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "467:2:5"
+            },
+            "returnParameters": {
+              "id": 1567,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1566,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "overrides": null,
+                  "scope": 1571,
+                  "src": "491:7:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1565,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "491:7:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "490:9:5"
+            },
+            "scope": 1580,
+            "src": "448:83:5",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 1578,
+              "nodeType": "Block",
+              "src": "590:32:5",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 1576,
+                    "name": "_ankrEth",
+                    "nodeType": "Identifier",
+                    "overloadedDeclarations": [],
+                    "referencedDeclaration": 1539,
+                    "src": "607:8:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "functionReturnParameters": 1575,
+                  "id": 1577,
+                  "nodeType": "Return",
+                  "src": "600:15:5"
+                }
+              ]
+            },
+            "documentation": null,
+            "functionSelector": "53b65153",
+            "id": 1579,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "ankrEthRate",
+            "nodeType": "FunctionDefinition",
+            "overrides": null,
+            "parameters": {
+              "id": 1572,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "557:2:5"
+            },
+            "returnParameters": {
+              "id": 1575,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1574,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "overrides": null,
+                  "scope": 1579,
+                  "src": "581:7:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1573,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "581:7:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "580:9:5"
+            },
+            "scope": 1580,
+            "src": "537:85:5",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "public"
+          }
+        ],
+        "scope": 1581,
+        "src": "101:523:5"
+      }
+    ],
+    "src": "38:587:5"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.6.8+commit.0bbfe453.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.2.5",
+  "updatedAt": "2020-09-19T05:29:45.525Z",
+  "devdoc": {
+    "methods": {}
+  },
+  "userdoc": {
+    "methods": {}
+  }
+}

@@ -1,11 +1,11 @@
-import Provider from '../../build/contracts/Provider.json'
-import Auctions from '../../build/contracts/Auctions.json'
-import AETH from '../../build/contracts/AETH.json'
-import ANKR from '../../build/contracts/ANKR.json'
-import Governance from '../../build/contracts/Governance.json'
-import Staking from '../../build/contracts/Staking.json'
-import Node from '../../build/contracts/Node.json'
-import MicroPool from '../../build/contracts/MicroPool.json'
+import Provider from './contracts/Provider.json'
+import Auctions from './contracts/Auctions.json'
+import AETH from './contracts/AETH.json'
+import ANKR from './contracts/ANKR.json'
+import Governance from './contracts/Governance.json'
+import Staking from './contracts/Staking.json'
+import Node from './contracts/Node.json'
+import MicroPool from './contracts/MicroPool.json'
 
 // TODO: Implement drizzle asap
 
