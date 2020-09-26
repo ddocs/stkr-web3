@@ -49,7 +49,25 @@ const actions = {
   // User/Account
   // /////////////////////////////////////////////
 
-  updateUserInfo ({commit}, payload) {
+  async updateUserInfo ({commit, dispatch}) {
+    const providerContract = await dispatch('getContract', 'Provider')
+    const payload = {
+      displayName: window.ethereum.selectedAddress,
+      providerInfo: {}
+    }
+    const info = await providerContract.methods.getProviderInfo(window.ethereum.selectedAddress).call()
+
+    if (String(info.addr).toLowerCase() == String(window.ethereum.selectedAddress).toLowerCase()) {
+      console.log("info", info)
+      payload.providerInfo = {
+        addr: info.addr,
+        email: web3.utils.hexToAscii(info.email),
+        name: web3.utils.hexToAscii(info.name),
+        iconUrl: web3.utils.hexToAscii(info.iconUrl),
+        status: Number(info.status) === 0 ? 'Active' : 'Blocked',
+      }
+    }
+
     commit('UPDATE_USER_INFO', payload)
   },
 
@@ -64,10 +82,11 @@ const actions = {
     } else {
       alert('Please install MetaMask to use this dApp!')
     }
-
-    commit('UPDATE_USER_INFO', {displayName: window.ethereum.selectedAddress})
+    console.log("here")
+    dispatch('updateUserInfo')
+    dispatch('getMicropools')
     dispatch('getProviders')
-    dispatch('stakeStats')
+    dispatch('getStakeStats')
   },
 
   async allowance ({commit}, amount) {
@@ -76,45 +95,10 @@ const actions = {
     provider.allowance(artifacts.Staking.address, window.web3.utils.toWei(amount)).send()
   },
 
-  async updatePools ({commit}) {
-
-    // if (state.pools.length && !force) return true
-
-    const pools = [
-      {
-        name: 'Ankr Pool 3',
-        provider: 'Ankr',
-        status: 'Pending',
-        totalStake: 12,
-        fee: 10
-      },
-      {
-        name: 'Ankr Pool 2',
-        provider: 'Ankr',
-        status: 'Pending',
-        totalStake: 30,
-        reward: 0,
-        fee: 10
-      },
-      {
-        name: 'Ankr Pool 1',
-        provider: 'Ankr',
-        status: 'Ongoing',
-        totalStake: 32,
-        reward: 1,
-        fee: 10
-      }
-    ]
-
-    commit('UPDATE_POOLS', pools)
-  },
-
-  async stakeStats ({commit, dispatch}) {
+  async getStakeStats ({commit, dispatch}) {
     const stakingContract = await dispatch('getContract', 'Staking')
     const ankrContract = await dispatch('getContract', 'ANKR')
     const userTotal = await stakingContract.methods.totalStakes().call()
-    window.ankr = ankrContract
-    window.staking = stakingContract
     const total = await ankrContract.methods.balanceOf(stakingContract._address).call()
     commit('UPDATE_STAKE_STATS', {
       userTotal,
@@ -125,38 +109,28 @@ const actions = {
   async getProviders ({commit, dispatch}) {
     const providerContract = await dispatch('getContract', 'Provider')
     const stakingContract = await dispatch('getContract', 'Staking')
+    window.provider = providerContract
     const appliedEvents = await providerContract.getPastEvents('Applied')
     const statusChangeEvents = await providerContract.getPastEvents('StatusChanged')
     const providers = []
     for (const event of appliedEvents) {
       const data = {}
-
-      if (await providerContract.methods.isProvider(await event.returnValues.provider).call())
-        continue
-
+      // TODO: this will be taken from backend
+      const provider = await event.returnValues.provider;
+      const info = await providerContract.methods.getProviderInfo(provider).call()
+      
       providers.push({
-        address: await event.returnValues.provider,
+        name: web3.utils.hexToAscii(info.name),
+        address: provider,
         stakes: await stakingContract.methods._stakes(event.returnValues.provider).call(),
-        status: 'PENDING'
+        status: Number(info.status) === 0 ? 'Active' : 'Blocked'
       })
     }
-
-    for (const event of statusChangeEvents) {
-      const data = {}
-      providers.push({
-        address: await event.returnValues.provider,
-        stakes: await stakingContract.methods._stakes(event.returnValues.provider).call(),
-        status: 'APPLIED'
-      })
-
-    }
-
-    console.log(providers)
     commit('UPDATE_PROVIDERS', providers)
   },
 
-  async getContract ({commit}, contract) {
-    const contractData = new window.web3.eth.Contract(artifacts[contract].abi, artifacts[contract].address, {from: window.ethereum.selectedAddress})
+  async getContract ({commit, dispatch}, contract) {
+    let contractData = new window.web3.eth.Contract(artifacts[contract].abi, artifacts[contract].address, {from: window.ethereum.selectedAddress})
     window.contracts[contract] = contractData
     return contractData
   },
@@ -169,14 +143,23 @@ const actions = {
 
   async getMicropools ({commit, dispatch}) {
     const contract = await dispatch('getContract', 'Micropool')
-    const nodes = await contract.getPastEvents('NodeStatus')
-
+    const poolEvents = await contract.getPastEvents('PoolCreated')
+    window.micropool = contract
+    const pools = []
+    for (const event of poolEvents) {
+      const data = {}
+      // TODO: this will be taken from backend
+      const index = await event.returnValues.poolIndex;
+      const info = await contract.methods.poolDetails(index).call()
+      
+      info.stakeable = Number(info.status) === 0
+      info.poolIndex = index
+      info.userStakes
+      pools.push(info)
+    }
+    console.log(pools)
+    commit('UPDATE_POOLS', pools)
   },
-
-  async nodes() {
-    const contract = await dispatch('getContract', 'Node')
-
-  }
 }
 
 export default actions

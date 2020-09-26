@@ -38,5 +38,11 @@ export default [
     name: 'Nodes',
     slug: 'nodes',
     icon: 'nodes'
+  },
+  {
+    url: '/swap',
+    name: 'Swap AETH Tokens',
+    slug: 'swap',
+    icon: 'swap'
   }
 ]

@@ -74,7 +74,9 @@ const state = {
   stakeStats: {
     total: 0,
     userTotal: 0
-  }
+  },
+
+  user: {}
 }
 
 export default state

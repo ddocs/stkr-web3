@@ -91,17 +91,17 @@ export default {
 
   },
   methods: {
-    ...mapActions(['stakeStats', 'getContract']),
+    ...mapActions(['getContract']),
     async stake () {
       const contract = await this.getContract('Staking')
       await contract.methods.stake(this.stakeAmount).send()
-      this.$store.dispatch('stakeStats')
+      this.$store.dispatch('getStakeStats')
     },
 
     async unstake () {
       const contract = await this.getContract('Staking')
       await contract.methods.unstake(this.unstakeAmount).send()
-      this.$store.dispatch('stakeStats')
+      this.$store.dispatch('getStakeStats')
     }
   },
   computed: {

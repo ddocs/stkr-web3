@@ -47,6 +47,10 @@ const getters = {
 
   appliedProviders: state => {
     return state.providers.filter(provider => provider.status === 'APPLIED')
+  },
+
+  userIsProvider(state) {
+    return Boolean(state.AppActiveUser.providerInfo && state.AppActiveUser.providerInfo.addr)
   }
 }
 
