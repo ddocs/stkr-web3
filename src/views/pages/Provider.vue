@@ -1,68 +1,69 @@
 <template>
-  <!--eslint-disable-->
   <div class="vx-row vs-align-center">
-    <vs-card class="vx-col vs-lg-3 mr-2">
-      <div class="vx-row mb-2">
-        <div class="vx-col w-full">
-          <vs-input
-              v-model="providerName"
-              class="w-full"
-              label-placeholder="Provider Name"
-          />
+    <div class="vx-col vs-lg-3 mr-2">
+      <vs-card>
+        <div class="vx-row mb-2">
+          <div class="vx-col w-full">
+            <vs-input
+                v-model="providerName"
+                class="w-full"
+                label-placeholder="Provider Name"
+            />
+          </div>
         </div>
-      </div>
-      <div class="vx-row mb-2">
-        <div class="vx-col w-full">
-          <vs-input
-              v-model="website"
-              class="w-full"
-              label-placeholder="Website"
-              type="text"
-          />
+        <div class="vx-row">
+          <div class="vx-col w-full">
+            <vs-button
+                :disabled="!activeUserInfo.displayName || userIsProvider"
+                class="mr-3 mb-2"
+                @click="apply"
+            > {{ userIsProvider ? 'You are a provider' : 'Become a provider' }}
+            </vs-button
+            >
+          </div>
         </div>
-      </div>
-      <div class="vx-row mb-2">
-        <div class="vx-col w-full">
-          <vs-input
-              v-model="iconUrl"
-              class="w-full"
-              label-placeholder="Icon URL"
-          />
+      </vs-card>
+
+      <vs-card>
+        <div class="vx-row mb-2">
+          <div class="vx-col w-full">
+            <vs-input
+                v-model="poolFee"
+                class="w-full"
+                title="Pool Fee"
+                label-placeholder="Pool Fee"
+            />
+          </div>
         </div>
-      </div>
-      <div class="vx-row mb-6">
-        <div class="vx-col w-full">
-          <vs-input
-              v-model="email"
-              class="w-full"
-              label-placeholder="Email"
-              type="email"
-          />
+        <div class="vx-row">
+          <div class="vx-col w-full">
+            <vs-button
+                :disabled="!activeUserInfo.displayName || !userIsProvider"
+                class="mr-3 mb-2"
+                @click="createPool"
+            >Create a pool
+            </vs-button
+            >
+          </div>
         </div>
-      </div>
-      <div class="vx-row">
-        <div class="vx-col w-full">
-          <vs-button
-              :disabled="!activeUserInfo.displayName"
-              class="mr-3 mb-2"
-              @click="apply"
-          >Submit
-          </vs-button
-          >
-        </div>
-      </div>
-    </vs-card>
+      </vs-card>
+    </div>
     <vs-card class="vx-col vs-lg-8">
-      <vs-navbar-title>Approved Providers</vs-navbar-title>
-      <vs-table :data="appliedProviders">
+      <vs-navbar-title>Providers</vs-navbar-title>
+      <vs-table :data="providers">
         <template slot="thead">
-          <vs-th sort-key="name">Address</vs-th>
+          <vs-th sort-key="name">Name</vs-th>
+          <vs-th sort-key="address">Address</vs-th>
           <vs-th sort-key="totalStake">Total Stake</vs-th>
           <vs-th sort-key="status">Status</vs-th>
         </template>
 
         <template slot-scope="{ data }">
-          <vs-tr v-for="(tr, indextr) in appliedProviders" :key="indextr">
+          <vs-tr v-for="(tr, indextr) in providers" :key="indextr">
+            <vs-td :data="data[indextr].name">
+              {{ data[indextr].name }}
+            </vs-td>
+
             <vs-td :data="data[indextr].address">
               {{ data[indextr].address }}
             </vs-td>
@@ -84,27 +85,43 @@
 <script>
 /* eslint-disable */
 import artifacts from '@/artifacts'
-import {mapGetters} from 'vuex'
+import {mapState, mapGetters} from 'vuex'
 
 export default {
   name: 'provider',
   data () {
     return {
-      providerName: 'test name',
-      website: 'test website',
-      iconUrl: 'test icon url',
-      email: 'test email'
+      providerName: '',
+      pool: '',
+      poolFee: 0,
+    }
+  },
+  watch: {
+    poolFee() {
+      if (this.poolFee && this.poolFee > 10) {
+        this.poolFee = 10
+      }
+      else if (this.poolFee && this.poolFee < 1) {
+        this.poolFee = 1
+      }
     }
   },
   computed: {
     activeUserInfo () {
       return this.$store.state.AppActiveUser
     },
-    ...mapGetters(['appliedProviders'])
+    ...mapGetters(['userIsProvider']),
+    ...mapState(['providers'])
   },
   methods: {
     stringToBytes (data) {
       return web3.utils.padRight(web3.utils.asciiToHex(data), 64)
+    },
+
+    async createPool() {
+      const micropoolContract = await this.$store.dispatch('getContract', 'Micropool')
+      console.log("micropool", micropoolContract)
+      await micropoolContract.methods.initializePool(this.activeUserInfo.displayName, this.poolFee).send()
     },
 
     async apply () {
@@ -117,12 +134,8 @@ export default {
       )
 
       await contract.methods
-          .applyToBeProvider(
-              this.stringToBytes(this.providerName),
-              this.stringToBytes(this.website),
-              this.stringToBytes(this.iconUrl),
-              this.stringToBytes(this.email),
-              1000
+          .saveProvider(
+              this.stringToBytes(this.providerName)
           )
           .send({
             gasLimit: 300000

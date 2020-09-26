@@ -17,10 +17,9 @@ export default {
     HomeStats
   },
   mounted () {
-    this.providers()
+    
   },
   methods: {
-    ...mapActions(['providers'])
   }
 }
 </script>
