@@ -56,7 +56,7 @@ const actions = {
       providerInfo: {}
     }
     const info = await providerContract.methods.getProviderInfo(window.ethereum.selectedAddress).call()
-
+    window.provider = providerContract
     if (String(info.addr).toLowerCase() == String(window.ethereum.selectedAddress).toLowerCase()) {
       console.log("info", info)
       payload.providerInfo = {
@@ -130,6 +130,7 @@ const actions = {
   },
 
   async getContract ({commit, dispatch}, contract) {
+    // const infura = new Web3(new Web3.providers.HttpProvider('https://goerli.infura.io/v3/167ee585da3c42e4a2a9c42476f9000f'));
     let contractData = new window.web3.eth.Contract(artifacts[contract].abi, artifacts[contract].address, {from: window.ethereum.selectedAddress})
     window.contracts[contract] = contractData
     return contractData

@@ -3,8 +3,8 @@
     <vs-table :data="pools" search>
 
       <template slot="thead">
-        <vs-th sort-key="name">Name</vs-th>
         <vs-th sort-key="provider">Provider</vs-th>
+        <vs-th sort-key="name">Validator</vs-th>
         <vs-th sort-key="status">Status</vs-th>
         <vs-th sort-key="totalStake">Total Stake</vs-th>
         <vs-th sort-key="fee">Fee</vs-th>
@@ -48,9 +48,7 @@
             <vs-button :disabled="!Number(data[indextr].stakeable)" @click="poolModal = true; modalData = data[indextr]">
               Stake
             </vs-button>
-            <vs-button :disabled="!Number(data[indextr].stakeable)" @click="poolModal = true; modalData = data[indextr]">
-              Unstake
-            </vs-button>
+            
           </vs-td>
 
         </vs-tr>
@@ -60,7 +58,7 @@
     <vs-popup
         :active.sync="poolModal"
         :button-accept="false"
-        :title="`You are joining to: ${modalData.name}`"
+        title="Staking"
         color="primary"
         @close="modalData = {}"
     >
