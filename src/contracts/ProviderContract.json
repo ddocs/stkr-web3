@@ -21,16 +21,16 @@
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.6.8+commit.0bbfe453\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"addr\",\"type\":\"address\"}],\"name\":\"isProvider\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/anilkucukrecep/Code/Personal/st/contracts/contracts/MicroPool.sol\":\"ProviderContract\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/anilkucukrecep/Code/Personal/st/contracts/contracts/MicroPool.sol\":{\"keccak256\":\"0x529be7ff0ca5998162fd0a667223c893f4c90d23f11866a829d6e04c0f79974d\",\"license\":\"UNLICENSED\",\"urls\":[\"bzz-raw://e5b8a6d4a3b5b379fe6ba647a99a560c896054c667a279e6c73cbcf6e819d22e\",\"dweb:/ipfs/QmWQR3aKWhGn9qnr23bEwQTMasYNpqa98vPCwouVivWi7b\"]},\"/Users/anilkucukrecep/Code/Personal/st/contracts/contracts/core/OwnedByGovernor.sol\":{\"keccak256\":\"0xfbe8459299ebf79a927114b5044ad8e74fd4097c9a9e111c7cccee577582d4c7\",\"license\":\"UNLICENSED\",\"urls\":[\"bzz-raw://fd7c47ff2690027aca96de0d4844b34f32f9db09a5ba3edf043f1fde8343d49b\",\"dweb:/ipfs/QmTW2P3a38JWKyjsBigxT2YQoU5bBEWnr3xdebBZxG7GGi\"]},\"/Users/anilkucukrecep/Code/Personal/st/contracts/contracts/lib/SafeMath.sol\":{\"keccak256\":\"0xbf62930407bf4a810fd68d677235ee59909de9a9c39eeb81d30805b5cd72ebdd\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://60e27e94f59f7dbc119968232d8b74f6e02cc8e4a6194cb82507e46dbddb00bc\",\"dweb:/ipfs/QmeVNyFVwo1ikqsQdy6ZqSXtpMCFtwtdFtWA8R8E7abwzn\"]}},\"version\":1}",
+  "metadata": "{\"compiler\":{\"version\":\"0.6.8+commit.0bbfe453\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"addr\",\"type\":\"address\"}],\"name\":\"isProvider\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/mehmet/Code/Temple/ankr/contracts/MicroPool.sol\":\"ProviderContract\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/mehmet/Code/Temple/ankr/contracts/MicroPool.sol\":{\"keccak256\":\"0x529be7ff0ca5998162fd0a667223c893f4c90d23f11866a829d6e04c0f79974d\",\"license\":\"UNLICENSED\",\"urls\":[\"bzz-raw://e5b8a6d4a3b5b379fe6ba647a99a560c896054c667a279e6c73cbcf6e819d22e\",\"dweb:/ipfs/QmWQR3aKWhGn9qnr23bEwQTMasYNpqa98vPCwouVivWi7b\"]},\"/Users/mehmet/Code/Temple/ankr/contracts/core/OwnedByGovernor.sol\":{\"keccak256\":\"0xfbe8459299ebf79a927114b5044ad8e74fd4097c9a9e111c7cccee577582d4c7\",\"license\":\"UNLICENSED\",\"urls\":[\"bzz-raw://fd7c47ff2690027aca96de0d4844b34f32f9db09a5ba3edf043f1fde8343d49b\",\"dweb:/ipfs/QmTW2P3a38JWKyjsBigxT2YQoU5bBEWnr3xdebBZxG7GGi\"]},\"/Users/mehmet/Code/Temple/ankr/contracts/lib/SafeMath.sol\":{\"keccak256\":\"0xbf62930407bf4a810fd68d677235ee59909de9a9c39eeb81d30805b5cd72ebdd\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://60e27e94f59f7dbc119968232d8b74f6e02cc8e4a6194cb82507e46dbddb00bc\",\"dweb:/ipfs/QmeVNyFVwo1ikqsQdy6ZqSXtpMCFtwtdFtWA8R8E7abwzn\"]}},\"version\":1}",
   "bytecode": "0x",
   "deployedBytecode": "0x",
   "immutableReferences": {},
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "// SPDX-License-Identifier: UNLICENSED\npragma solidity ^0.6.8;\n\nimport \"./lib/SafeMath.sol\";\nimport \"./core/OwnedByGovernor.sol\";\n\ninterface TokenContract {\n    function mint(address account, uint256 amount) external;\n    function updateMicroPoolContract(address microPoolContract) external;\n}\n\ninterface ProviderContract {\n    function isProvider(address addr) external view returns (bool);\n}\n\ncontract MicroPool is OwnedByGovernor {\n    using SafeMath for uint256;\n\n    enum PoolStatus {Pending, OnGoing, Completed, Canceled}\n\n    struct PoolStake {\n        uint256 amount;\n        uint256 fee;\n        bool isClaimed;\n    }\n\n    struct Pool {\n        PoolStatus status;\n        uint256 startTime; // init time\n        uint256 endTime; // canceled or completed time\n        uint256 rewardBalance; // total balance after rewarded\n        uint256 claimedBalance; // pool members' claimed amount\n        uint256 compensatedBalance; // TODO: is required?\n        uint256 providerOwe; // TODO: who will decide it? governor, this contract, etc.\n        uint256 nodeFee; // eth price\n        uint256 totalStakedAmount; // total amount of user stakes\n        uint256 numberOfSlashing;\n        uint256 totalSlashedAmount;\n        // TODO: last slashing check time (as block number)\n        address payable provider; // provider address\n        address payable validator; // validator address\n        // address payable[] members; // pool members\n        mapping(address => PoolStake) stakes; // stakes of a pool members\n    }\n\n    Pool[] private _pools;\n    bool private _claimable = false; // governors will make it true after ETH 2.0\n    address private _tokenContract;\n    address _insuranceContract;\n\n    event PoolCreated(\n        uint256 indexed poolIndex,\n        address payable indexed provider,\n        address payable indexed validator,\n        address creator\n    );\n    event UserStaked(\n        uint256 indexed poolIndex,\n        address indexed user,\n        uint256 stakeAmount\n    );\n    event UserUnstaked(\n        uint256 indexed poolIndex,\n        address indexed user,\n        uint256 unstakeAmount\n    );\n\n    constructor(\n        address tokenContract\n    ) public {\n        _tokenContract = tokenContract;\n        TokenContract(tokenContract).updateMicroPoolContract(address(this));\n    }\n\n    /**\n        Governor can call this function to create a new pool for given provider.\n        @param validator address\n    */\n    function initializePool(\n        address payable validator,\n        uint256 nodeFee\n    ) external {\n        // TODO: validations\n        // TODO: _nodeFee usd to eth\n        Pool memory pool;\n        pool.provider = msg.sender;\n        pool.validator = validator;\n        pool.nodeFee = nodeFee;\n        // pool.providerOwe = providerOwe;\n        pool.startTime = block.timestamp;\n        _pools.push(pool);\n        emit PoolCreated(_pools.length.sub(1), msg.sender, validator, msg.sender);\n    }\n\n    /**\n        Users can call to stake to given pool\n        @param poolIndex uint256\n    */\n    // TODO: not mint AETH directly, wait for pool reach 32 eth.\n    function stake(uint256 poolIndex) external payable {\n\n        Pool storage pool = _pools[poolIndex];\n        uint256 fee = msg.value.div(32 ether).mul(pool.nodeFee);\n        uint256 stakeAmount = msg.value.sub(fee);\n        // TODO: min. stake amount\n        require(stakeAmount > 0, \"You don't have enough balance.\");\n\n        uint256 newTotalAmount = stakeAmount.add(pool.totalStakedAmount);\n        if (newTotalAmount >= 32 ether) {\n            pool.status = PoolStatus.OnGoing;\n            uint256 excessAmount = newTotalAmount.sub(32 ether);\n            if (excessAmount > 0) {\n                stakeAmount = stakeAmount.sub(excessAmount);\n                msg.sender.transfer(excessAmount);\n            }\n        }\n        pool.totalStakedAmount = pool.totalStakedAmount.add(stakeAmount);\n\n        PoolStake storage userStake = pool.stakes[msg.sender];\n\n        userStake.amount = userStake.amount.add(stakeAmount);\n        userStake.fee = userStake.fee.add(fee);\n        pool.stakes[msg.sender] = userStake;\n\n        emit UserStaked(poolIndex, msg.sender, stakeAmount);\n\n        // Mint AEth for user\n        // TokenContract(_tokenContract).mint(msg.sender, stakeAmount.div(2));\n    }\n\n    /**\n        Users can call to unstake from given pool\n        until pool start\n        @param poolIndex uint256\n    */\n    function unstake(uint256 poolIndex) external payable {\n        Pool storage pool = _pools[poolIndex];\n        // TODO: validations\n        require(\n            pool.status == PoolStatus.Pending,\n            \"You can only cancel your stake from a pending pool.\"\n        );\n        require(\n            pool.stakes[msg.sender].amount > 0,\n            \"You don't have staked balance in this pool\"\n        );\n        // require(\n        //     TokenContract(_tokenContract).burnFrom(\n        //         msg.sender,\n        //         pool.stakes[msg.sender].amount.div(2)\n        //     ),\n        //     \"You need to approve this contract first.\"\n        // );\n\n        uint256 unstakeAmount = pool.stakes[msg.sender].amount.add(\n            pool.stakes[msg.sender].fee\n        );\n\n        msg.sender.transfer(unstakeAmount);\n        pool.totalStakedAmount = pool.totalStakedAmount.sub(pool.stakes[msg.sender].amount);\n        delete pool.stakes[msg.sender];\n\n        emit UserStaked(poolIndex, msg.sender, unstakeAmount);\n    }\n\n    // TODO: only Insurance contract can call this\n    function updateSlashingOfAPool(uint256 poolIndex, uint256 compensatedAmount) public returns(bool) {\n        // TODO: validations\n\n        Pool storage pool = _pools[poolIndex];\n        pool.compensatedBalance = pool.compensatedBalance.add(compensatedAmount);\n\n        return true;\n    }\n\n    /**\n        Governer calls this function to change aEth token contract address\n        @param tokenContract address\n    */\n    function updateTokenContract(address tokenContract)\n        external\n        onlyGovernor\n    {\n        _tokenContract = tokenContract;\n    }\n\n    /**\n        Get pool details for given pool array index\n\n        @param poolIndex uint256\n    */\n    function poolDetails(uint256 poolIndex)\n        public\n        view\n        returns (\n            PoolStatus status,\n            uint256 startTime,\n            uint256 endTime,\n            uint256 rewardBalance,\n            uint256 claimedBalance,\n            uint256 providerOwe,\n            uint256 nodeFee,\n            uint256 totalStakedAmount,\n            address payable provider,\n            address payable validator\n        )\n    //address payable[] memory members\n    {\n        Pool memory pool = _pools[poolIndex];\n        status = pool.status;\n        startTime = pool.startTime;\n        endTime = pool.endTime;\n        rewardBalance = pool.rewardBalance;\n        claimedBalance = pool.claimedBalance;\n        providerOwe = pool.providerOwe;\n        nodeFee = pool.nodeFee;\n        totalStakedAmount = pool.totalStakedAmount;\n        provider = pool.provider;\n        validator = pool.validator;\n        //members = pool.members;\n    }\n\n    function updateInsuranceContract(address addr) public onlyGovernor {\n        _insuranceContract = addr;\n    }\n\n    function claimable() public view returns (bool) {\n        return _claimable;\n    }\n}\n",
-  "sourcePath": "/Users/anilkucukrecep/Code/Personal/st/contracts/contracts/MicroPool.sol",
+  "sourcePath": "/Users/mehmet/Code/Temple/ankr/contracts/MicroPool.sol",
   "ast": {
-    "absolutePath": "/Users/anilkucukrecep/Code/Personal/st/contracts/contracts/MicroPool.sol",
+    "absolutePath": "/Users/mehmet/Code/Temple/ankr/contracts/MicroPool.sol",
     "exportedSymbols": {
       "MicroPool": [
         2140
@@ -58,23 +58,23 @@
         "src": "39:23:6"
       },
       {
-        "absolutePath": "/Users/anilkucukrecep/Code/Personal/st/contracts/contracts/lib/SafeMath.sol",
+        "absolutePath": "/Users/mehmet/Code/Temple/ankr/contracts/lib/SafeMath.sol",
         "file": "./lib/SafeMath.sol",
         "id": 1583,
         "nodeType": "ImportDirective",
         "scope": 2141,
-        "sourceUnit": 3751,
+        "sourceUnit": 3741,
         "src": "64:28:6",
         "symbolAliases": [],
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/anilkucukrecep/Code/Personal/st/contracts/contracts/core/OwnedByGovernor.sol",
+        "absolutePath": "/Users/mehmet/Code/Temple/ankr/contracts/core/OwnedByGovernor.sol",
         "file": "./core/OwnedByGovernor.sol",
         "id": 1584,
         "nodeType": "ImportDirective",
         "scope": 2141,
-        "sourceUnit": 3278,
+        "sourceUnit": 3268,
         "src": "93:36:6",
         "symbolAliases": [],
         "unitAlias": ""
@@ -359,10 +359,10 @@
               "id": 1606,
               "name": "OwnedByGovernor",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 3277,
+              "referencedDeclaration": 3267,
               "src": "417:15:6",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_OwnedByGovernor_$3277",
+                "typeIdentifier": "t_contract$_OwnedByGovernor_$3267",
                 "typeString": "contract OwnedByGovernor"
               }
             },
@@ -372,7 +372,7 @@
           }
         ],
         "contractDependencies": [
-          3277
+          3267
         ],
         "contractKind": "contract",
         "documentation": null,
@@ -380,7 +380,7 @@
         "id": 2140,
         "linearizedBaseContracts": [
           2140,
-          3277
+          3267
         ],
         "name": "MicroPool",
         "nodeType": "ContractDefinition",
@@ -392,10 +392,10 @@
               "id": 1608,
               "name": "SafeMath",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 3750,
+              "referencedDeclaration": 3740,
               "src": "445:8:6",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_SafeMath_$3750",
+                "typeIdentifier": "t_contract$_SafeMath_$3740",
                 "typeString": "library SafeMath"
               }
             },
@@ -2184,7 +2184,7 @@
                           "lValueRequested": false,
                           "memberName": "sub",
                           "nodeType": "MemberAccess",
-                          "referencedDeclaration": 3600,
+                          "referencedDeclaration": 3590,
                           "src": "2874:17:6",
                           "typeDescriptions": {
                             "typeIdentifier": "t_function_internal_pure$_t_uint256_$_t_uint256_$returns$_t_uint256_$bound_to$_t_uint256_$",
@@ -2645,7 +2645,7 @@
                           "lValueRequested": false,
                           "memberName": "div",
                           "nodeType": "MemberAccess",
-                          "referencedDeclaration": 3680,
+                          "referencedDeclaration": 3670,
                           "src": "3225:13:6",
                           "typeDescriptions": {
                             "typeIdentifier": "t_function_internal_pure$_t_uint256_$_t_uint256_$returns$_t_uint256_$bound_to$_t_uint256_$",
@@ -2674,7 +2674,7 @@
                       "lValueRequested": false,
                       "memberName": "mul",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 3663,
+                      "referencedDeclaration": 3653,
                       "src": "3225:27:6",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_pure$_t_uint256_$_t_uint256_$returns$_t_uint256_$bound_to$_t_uint256_$",
@@ -2794,7 +2794,7 @@
                       "lValueRequested": false,
                       "memberName": "sub",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 3600,
+                      "referencedDeclaration": 3590,
                       "src": "3298:13:6",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_pure$_t_uint256_$_t_uint256_$returns$_t_uint256_$bound_to$_t_uint256_$",
@@ -3031,7 +3031,7 @@
                       "lValueRequested": false,
                       "memberName": "add",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 3583,
+                      "referencedDeclaration": 3573,
                       "src": "3455:15:6",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_pure$_t_uint256_$_t_uint256_$returns$_t_uint256_$bound_to$_t_uint256_$",
@@ -3278,7 +3278,7 @@
                             "lValueRequested": false,
                             "memberName": "sub",
                             "nodeType": "MemberAccess",
-                            "referencedDeclaration": 3600,
+                            "referencedDeclaration": 3590,
                             "src": "3619:18:6",
                             "typeDescriptions": {
                               "typeIdentifier": "t_function_internal_pure$_t_uint256_$_t_uint256_$returns$_t_uint256_$bound_to$_t_uint256_$",
@@ -3430,7 +3430,7 @@
                                     "lValueRequested": false,
                                     "memberName": "sub",
                                     "nodeType": "MemberAccess",
-                                    "referencedDeclaration": 3600,
+                                    "referencedDeclaration": 3590,
                                     "src": "3715:15:6",
                                     "typeDescriptions": {
                                       "typeIdentifier": "t_function_internal_pure$_t_uint256_$_t_uint256_$returns$_t_uint256_$bound_to$_t_uint256_$",
@@ -3654,7 +3654,7 @@
                         "lValueRequested": false,
                         "memberName": "add",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 3583,
+                        "referencedDeclaration": 3573,
                         "src": "3854:26:6",
                         "typeDescriptions": {
                           "typeIdentifier": "t_function_internal_pure$_t_uint256_$_t_uint256_$returns$_t_uint256_$bound_to$_t_uint256_$",
@@ -3897,7 +3897,7 @@
                         "lValueRequested": false,
                         "memberName": "add",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 3583,
+                        "referencedDeclaration": 3573,
                         "src": "3987:20:6",
                         "typeDescriptions": {
                           "typeIdentifier": "t_function_internal_pure$_t_uint256_$_t_uint256_$returns$_t_uint256_$bound_to$_t_uint256_$",
@@ -4028,7 +4028,7 @@
                         "lValueRequested": false,
                         "memberName": "add",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 3583,
+                        "referencedDeclaration": 3573,
                         "src": "4046:17:6",
                         "typeDescriptions": {
                           "typeIdentifier": "t_function_internal_pure$_t_uint256_$_t_uint256_$returns$_t_uint256_$bound_to$_t_uint256_$",
@@ -4984,7 +4984,7 @@
                       "lValueRequested": false,
                       "memberName": "add",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 3583,
+                      "referencedDeclaration": 3573,
                       "src": "5112:34:6",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_pure$_t_uint256_$_t_uint256_$returns$_t_uint256_$bound_to$_t_uint256_$",
@@ -5270,7 +5270,7 @@
                         "lValueRequested": false,
                         "memberName": "sub",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 3600,
+                        "referencedDeclaration": 3590,
                         "src": "5277:26:6",
                         "typeDescriptions": {
                           "typeIdentifier": "t_function_internal_pure$_t_uint256_$_t_uint256_$returns$_t_uint256_$bound_to$_t_uint256_$",
@@ -5748,7 +5748,7 @@
                         "lValueRequested": false,
                         "memberName": "add",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 3583,
+                        "referencedDeclaration": 3573,
                         "src": "5714:27:6",
                         "typeDescriptions": {
                           "typeIdentifier": "t_function_internal_pure$_t_uint256_$_t_uint256_$returns$_t_uint256_$bound_to$_t_uint256_$",
@@ -5993,7 +5993,7 @@
                   "name": "onlyGovernor",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 3276,
+                  "referencedDeclaration": 3266,
                   "src": "5999:12:6",
                   "typeDescriptions": {
                     "typeIdentifier": "t_modifier$__$",
@@ -7178,7 +7178,7 @@
                   "name": "onlyGovernor",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 3276,
+                  "referencedDeclaration": 3266,
                   "src": "7177:12:6",
                   "typeDescriptions": {
                     "typeIdentifier": "t_modifier$__$",
@@ -7331,7 +7331,7 @@
     "src": "39:7284:6"
   },
   "legacyAST": {
-    "absolutePath": "/Users/anilkucukrecep/Code/Personal/st/contracts/contracts/MicroPool.sol",
+    "absolutePath": "/Users/mehmet/Code/Temple/ankr/contracts/MicroPool.sol",
     "exportedSymbols": {
       "MicroPool": [
         2140
@@ -7359,23 +7359,23 @@
         "src": "39:23:6"
       },
       {
-        "absolutePath": "/Users/anilkucukrecep/Code/Personal/st/contracts/contracts/lib/SafeMath.sol",
+        "absolutePath": "/Users/mehmet/Code/Temple/ankr/contracts/lib/SafeMath.sol",
         "file": "./lib/SafeMath.sol",
         "id": 1583,
         "nodeType": "ImportDirective",
         "scope": 2141,
-        "sourceUnit": 3751,
+        "sourceUnit": 3741,
         "src": "64:28:6",
         "symbolAliases": [],
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/anilkucukrecep/Code/Personal/st/contracts/contracts/core/OwnedByGovernor.sol",
+        "absolutePath": "/Users/mehmet/Code/Temple/ankr/contracts/core/OwnedByGovernor.sol",
         "file": "./core/OwnedByGovernor.sol",
         "id": 1584,
         "nodeType": "ImportDirective",
         "scope": 2141,
-        "sourceUnit": 3278,
+        "sourceUnit": 3268,
         "src": "93:36:6",
         "symbolAliases": [],
         "unitAlias": ""
@@ -7660,10 +7660,10 @@
               "id": 1606,
               "name": "OwnedByGovernor",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 3277,
+              "referencedDeclaration": 3267,
               "src": "417:15:6",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_OwnedByGovernor_$3277",
+                "typeIdentifier": "t_contract$_OwnedByGovernor_$3267",
                 "typeString": "contract OwnedByGovernor"
               }
             },
@@ -7673,7 +7673,7 @@
           }
         ],
         "contractDependencies": [
-          3277
+          3267
         ],
         "contractKind": "contract",
         "documentation": null,
@@ -7681,7 +7681,7 @@
         "id": 2140,
         "linearizedBaseContracts": [
           2140,
-          3277
+          3267
         ],
         "name": "MicroPool",
         "nodeType": "ContractDefinition",
@@ -7693,10 +7693,10 @@
               "id": 1608,
               "name": "SafeMath",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 3750,
+              "referencedDeclaration": 3740,
               "src": "445:8:6",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_SafeMath_$3750",
+                "typeIdentifier": "t_contract$_SafeMath_$3740",
                 "typeString": "library SafeMath"
               }
             },
@@ -9485,7 +9485,7 @@
                           "lValueRequested": false,
                           "memberName": "sub",
                           "nodeType": "MemberAccess",
-                          "referencedDeclaration": 3600,
+                          "referencedDeclaration": 3590,
                           "src": "2874:17:6",
                           "typeDescriptions": {
                             "typeIdentifier": "t_function_internal_pure$_t_uint256_$_t_uint256_$returns$_t_uint256_$bound_to$_t_uint256_$",
@@ -9946,7 +9946,7 @@
                           "lValueRequested": false,
                           "memberName": "div",
                           "nodeType": "MemberAccess",
-                          "referencedDeclaration": 3680,
+                          "referencedDeclaration": 3670,
                           "src": "3225:13:6",
                           "typeDescriptions": {
                             "typeIdentifier": "t_function_internal_pure$_t_uint256_$_t_uint256_$returns$_t_uint256_$bound_to$_t_uint256_$",
@@ -9975,7 +9975,7 @@
                       "lValueRequested": false,
                       "memberName": "mul",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 3663,
+                      "referencedDeclaration": 3653,
                       "src": "3225:27:6",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_pure$_t_uint256_$_t_uint256_$returns$_t_uint256_$bound_to$_t_uint256_$",
@@ -10095,7 +10095,7 @@
                       "lValueRequested": false,
                       "memberName": "sub",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 3600,
+                      "referencedDeclaration": 3590,
                       "src": "3298:13:6",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_pure$_t_uint256_$_t_uint256_$returns$_t_uint256_$bound_to$_t_uint256_$",
@@ -10332,7 +10332,7 @@
                       "lValueRequested": false,
                       "memberName": "add",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 3583,
+                      "referencedDeclaration": 3573,
                       "src": "3455:15:6",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_pure$_t_uint256_$_t_uint256_$returns$_t_uint256_$bound_to$_t_uint256_$",
@@ -10579,7 +10579,7 @@
                             "lValueRequested": false,
                             "memberName": "sub",
                             "nodeType": "MemberAccess",
-                            "referencedDeclaration": 3600,
+                            "referencedDeclaration": 3590,
                             "src": "3619:18:6",
                             "typeDescriptions": {
                               "typeIdentifier": "t_function_internal_pure$_t_uint256_$_t_uint256_$returns$_t_uint256_$bound_to$_t_uint256_$",
@@ -10731,7 +10731,7 @@
                                     "lValueRequested": false,
                                     "memberName": "sub",
                                     "nodeType": "MemberAccess",
-                                    "referencedDeclaration": 3600,
+                                    "referencedDeclaration": 3590,
                                     "src": "3715:15:6",
                                     "typeDescriptions": {
                                       "typeIdentifier": "t_function_internal_pure$_t_uint256_$_t_uint256_$returns$_t_uint256_$bound_to$_t_uint256_$",
@@ -10955,7 +10955,7 @@
                         "lValueRequested": false,
                         "memberName": "add",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 3583,
+                        "referencedDeclaration": 3573,
                         "src": "3854:26:6",
                         "typeDescriptions": {
                           "typeIdentifier": "t_function_internal_pure$_t_uint256_$_t_uint256_$returns$_t_uint256_$bound_to$_t_uint256_$",
@@ -11198,7 +11198,7 @@
                         "lValueRequested": false,
                         "memberName": "add",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 3583,
+                        "referencedDeclaration": 3573,
                         "src": "3987:20:6",
                         "typeDescriptions": {
                           "typeIdentifier": "t_function_internal_pure$_t_uint256_$_t_uint256_$returns$_t_uint256_$bound_to$_t_uint256_$",
@@ -11329,7 +11329,7 @@
                         "lValueRequested": false,
                         "memberName": "add",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 3583,
+                        "referencedDeclaration": 3573,
                         "src": "4046:17:6",
                         "typeDescriptions": {
                           "typeIdentifier": "t_function_internal_pure$_t_uint256_$_t_uint256_$returns$_t_uint256_$bound_to$_t_uint256_$",
@@ -12285,7 +12285,7 @@
                       "lValueRequested": false,
                       "memberName": "add",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 3583,
+                      "referencedDeclaration": 3573,
                       "src": "5112:34:6",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_pure$_t_uint256_$_t_uint256_$returns$_t_uint256_$bound_to$_t_uint256_$",
@@ -12571,7 +12571,7 @@
                         "lValueRequested": false,
                         "memberName": "sub",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 3600,
+                        "referencedDeclaration": 3590,
                         "src": "5277:26:6",
                         "typeDescriptions": {
                           "typeIdentifier": "t_function_internal_pure$_t_uint256_$_t_uint256_$returns$_t_uint256_$bound_to$_t_uint256_$",
@@ -13049,7 +13049,7 @@
                         "lValueRequested": false,
                         "memberName": "add",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 3583,
+                        "referencedDeclaration": 3573,
                         "src": "5714:27:6",
                         "typeDescriptions": {
                           "typeIdentifier": "t_function_internal_pure$_t_uint256_$_t_uint256_$returns$_t_uint256_$bound_to$_t_uint256_$",
@@ -13294,7 +13294,7 @@
                   "name": "onlyGovernor",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 3276,
+                  "referencedDeclaration": 3266,
                   "src": "5999:12:6",
                   "typeDescriptions": {
                     "typeIdentifier": "t_modifier$__$",
@@ -14479,7 +14479,7 @@
                   "name": "onlyGovernor",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 3276,
+                  "referencedDeclaration": 3266,
                   "src": "7177:12:6",
                   "typeDescriptions": {
                     "typeIdentifier": "t_modifier$__$",
@@ -14636,8 +14636,8 @@
     "version": "0.6.8+commit.0bbfe453.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "3.2.5",
-  "updatedAt": "2020-09-26T06:19:40.839Z",
+  "schemaVersion": "3.2.3",
+  "updatedAt": "2020-09-28T19:41:48.547Z",
   "devdoc": {
     "methods": {}
   },

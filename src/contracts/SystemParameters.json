@@ -1,27 +1,27 @@
 {
   "contractName": "SystemParameters",
   "abi": [],
-  "metadata": "{\"compiler\":{\"version\":\"0.6.8+commit.0bbfe453\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/anilkucukrecep/Code/Personal/st/contracts/contracts/SystemParameters.sol\":\"SystemParameters\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/anilkucukrecep/Code/Personal/st/contracts/contracts/SystemParameters.sol\":{\"keccak256\":\"0xe93265e44a26ee2f56a90b63186b057ddd4655175ecc0480c983f5a9919d4f57\",\"license\":\"UNLICENSED\",\"urls\":[\"bzz-raw://943c73750b756b37d050f753c26faa4d79aacea2a5f7d8633eab08c539cd2a37\",\"dweb:/ipfs/QmcHj1U5RRJ8g34P9LgpMTHBrHxLETbDnZ3beiuuzv6NCZ\"]}},\"version\":1}",
-  "bytecode": "0x60806040526000805560c86001556040518060400160405280606461ffff16815260200161012c61ffff168152506002906002603b9291906065565b5060c8600455633b9aca006005556706f05b59d3b20000600655348015606057600080fd5b5060c8565b82600281019282156097579160200282015b828111156096578251829061ffff169055916020019190600101906077565b5b50905060a2919060a6565b5090565b60c591905b8082111560c157600081600090555060010160ab565b5090565b90565b603f806100d66000396000f3fe6080604052600080fdfea2646970667358221220612003df4adf3c9df685bc26223e22514c692050faa9205049237725c9a82aac64736f6c63430006080033",
-  "deployedBytecode": "0x6080604052600080fdfea2646970667358221220612003df4adf3c9df685bc26223e22514c692050faa9205049237725c9a82aac64736f6c63430006080033",
+  "metadata": "{\"compiler\":{\"version\":\"0.6.8+commit.0bbfe453\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/mehmet/Code/Temple/ankr/contracts/SystemParameters.sol\":\"SystemParameters\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/mehmet/Code/Temple/ankr/contracts/SystemParameters.sol\":{\"keccak256\":\"0xe93265e44a26ee2f56a90b63186b057ddd4655175ecc0480c983f5a9919d4f57\",\"license\":\"UNLICENSED\",\"urls\":[\"bzz-raw://943c73750b756b37d050f753c26faa4d79aacea2a5f7d8633eab08c539cd2a37\",\"dweb:/ipfs/QmcHj1U5RRJ8g34P9LgpMTHBrHxLETbDnZ3beiuuzv6NCZ\"]}},\"version\":1}",
+  "bytecode": "0x60806040526000805560c86001556040518060400160405280606461ffff16815260200161012c61ffff168152506002906002603b9291906065565b5060c8600455633b9aca006005556706f05b59d3b20000600655348015606057600080fd5b5060c8565b82600281019282156097579160200282015b828111156096578251829061ffff169055916020019190600101906077565b5b50905060a2919060a6565b5090565b60c591905b8082111560c157600081600090555060010160ab565b5090565b90565b603f806100d66000396000f3fe6080604052600080fdfea2646970667358221220a2d63bb81883f6193ea83b9f5b3a434c610fb8a066bc5b909813f4b9062c147464736f6c63430006080033",
+  "deployedBytecode": "0x6080604052600080fdfea2646970667358221220a2d63bb81883f6193ea83b9f5b3a434c610fb8a066bc5b909813f4b9062c147464736f6c63430006080033",
   "immutableReferences": {},
   "sourceMap": "63:849:12:-:0;;;334:1;307:28;;419:3;388:34;;494:46;;;;;;;;531:3;494:46;;;;;;536:3;494:46;;;;;;;;;;;;;:::i;:::-;;629:3;589:43;;719:3;684:38;;899:10;856:53;;63:849;5:9:-1;2:2;;;27:1;24;17:12;2:2;63:849:12;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;:::o;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o;:::-;;;;;;;",
   "deployedSourceMap": "63:849:12:-:0;;;12:1:-1;9;2:12",
   "source": "//SPDX-License-Identifier: UNLICENSED\npragma solidity ^0.6.8;\n\ncontract SystemParameters {\n\n    // TODO: Discuss, variables or mapping? Are parameters static?\n    // If variable, should we update per parameter with different function\n    // or with assembly in a single function ?\n\n    // User usdt fee\n    uint256 private _poolFee = 0; \n    \n    // Fee for applying to be a provider\n    uint256 private _providerFee = 200; \n    \n    // Minimum and maximum that providers offers to auction\n    uint256[2] private _auctionLimits = [100, 300]; \n    \n    // ANKR Stakng to be a provider \n    uint256 private _providerMinimumStake = 200; \n\n    // users can pay fee with ankr staking.\n    uint256 private _ankrStakePerWei = 1e9; \n\n    // Maximum slashings allowed for a pool\n    // TODO: if reached to limit provider needs to be changed with a trusted node\n    uint256 private _maximumSlashingsAllowed = 500 finney;\n}",
-  "sourcePath": "/Users/anilkucukrecep/Code/Personal/st/contracts/contracts/SystemParameters.sol",
+  "sourcePath": "/Users/mehmet/Code/Temple/ankr/contracts/SystemParameters.sol",
   "ast": {
-    "absolutePath": "/Users/anilkucukrecep/Code/Personal/st/contracts/contracts/SystemParameters.sol",
+    "absolutePath": "/Users/mehmet/Code/Temple/ankr/contracts/SystemParameters.sol",
     "exportedSymbols": {
       "SystemParameters": [
-        3242
+        3232
       ]
     },
-    "id": 3243,
+    "id": 3233,
     "license": "UNLICENSED",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 3219,
+        "id": 3209,
         "literals": [
           "solidity",
           "^",
@@ -38,21 +38,21 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 3242,
+        "id": 3232,
         "linearizedBaseContracts": [
-          3242
+          3232
         ],
         "name": "SystemParameters",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "constant": false,
-            "id": 3222,
+            "id": 3212,
             "mutability": "mutable",
             "name": "_poolFee",
             "nodeType": "VariableDeclaration",
             "overrides": null,
-            "scope": 3242,
+            "scope": 3232,
             "src": "307:28:12",
             "stateVariable": true,
             "storageLocation": "default",
@@ -61,7 +61,7 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 3220,
+              "id": 3210,
               "name": "uint256",
               "nodeType": "ElementaryTypeName",
               "src": "307:7:12",
@@ -73,7 +73,7 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "30",
-              "id": 3221,
+              "id": 3211,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
@@ -92,12 +92,12 @@
           },
           {
             "constant": false,
-            "id": 3225,
+            "id": 3215,
             "mutability": "mutable",
             "name": "_providerFee",
             "nodeType": "VariableDeclaration",
             "overrides": null,
-            "scope": 3242,
+            "scope": 3232,
             "src": "388:34:12",
             "stateVariable": true,
             "storageLocation": "default",
@@ -106,7 +106,7 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 3223,
+              "id": 3213,
               "name": "uint256",
               "nodeType": "ElementaryTypeName",
               "src": "388:7:12",
@@ -118,7 +118,7 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "323030",
-              "id": 3224,
+              "id": 3214,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
@@ -137,12 +137,12 @@
           },
           {
             "constant": false,
-            "id": 3232,
+            "id": 3222,
             "mutability": "mutable",
             "name": "_auctionLimits",
             "nodeType": "VariableDeclaration",
             "overrides": null,
-            "scope": 3242,
+            "scope": 3232,
             "src": "494:46:12",
             "stateVariable": true,
             "storageLocation": "default",
@@ -152,7 +152,7 @@
             },
             "typeName": {
               "baseType": {
-                "id": 3226,
+                "id": 3216,
                 "name": "uint256",
                 "nodeType": "ElementaryTypeName",
                 "src": "494:7:12",
@@ -161,11 +161,11 @@
                   "typeString": "uint256"
                 }
               },
-              "id": 3228,
+              "id": 3218,
               "length": {
                 "argumentTypes": null,
                 "hexValue": "32",
-                "id": 3227,
+                "id": 3217,
                 "isConstant": false,
                 "isLValue": false,
                 "isPure": true,
@@ -193,7 +193,7 @@
                 {
                   "argumentTypes": null,
                   "hexValue": "313030",
-                  "id": 3229,
+                  "id": 3219,
                   "isConstant": false,
                   "isLValue": false,
                   "isPure": true,
@@ -211,7 +211,7 @@
                 {
                   "argumentTypes": null,
                   "hexValue": "333030",
-                  "id": 3230,
+                  "id": 3220,
                   "isConstant": false,
                   "isLValue": false,
                   "isPure": true,
@@ -227,7 +227,7 @@
                   "value": "300"
                 }
               ],
-              "id": 3231,
+              "id": 3221,
               "isConstant": false,
               "isInlineArray": true,
               "isLValue": false,
@@ -244,12 +244,12 @@
           },
           {
             "constant": false,
-            "id": 3235,
+            "id": 3225,
             "mutability": "mutable",
             "name": "_providerMinimumStake",
             "nodeType": "VariableDeclaration",
             "overrides": null,
-            "scope": 3242,
+            "scope": 3232,
             "src": "589:43:12",
             "stateVariable": true,
             "storageLocation": "default",
@@ -258,7 +258,7 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 3233,
+              "id": 3223,
               "name": "uint256",
               "nodeType": "ElementaryTypeName",
               "src": "589:7:12",
@@ -270,7 +270,7 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "323030",
-              "id": 3234,
+              "id": 3224,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
@@ -289,12 +289,12 @@
           },
           {
             "constant": false,
-            "id": 3238,
+            "id": 3228,
             "mutability": "mutable",
             "name": "_ankrStakePerWei",
             "nodeType": "VariableDeclaration",
             "overrides": null,
-            "scope": 3242,
+            "scope": 3232,
             "src": "684:38:12",
             "stateVariable": true,
             "storageLocation": "default",
@@ -303,7 +303,7 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 3236,
+              "id": 3226,
               "name": "uint256",
               "nodeType": "ElementaryTypeName",
               "src": "684:7:12",
@@ -315,7 +315,7 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "316539",
-              "id": 3237,
+              "id": 3227,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
@@ -334,12 +334,12 @@
           },
           {
             "constant": false,
-            "id": 3241,
+            "id": 3231,
             "mutability": "mutable",
             "name": "_maximumSlashingsAllowed",
             "nodeType": "VariableDeclaration",
             "overrides": null,
-            "scope": 3242,
+            "scope": 3232,
             "src": "856:53:12",
             "stateVariable": true,
             "storageLocation": "default",
@@ -348,7 +348,7 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 3239,
+              "id": 3229,
               "name": "uint256",
               "nodeType": "ElementaryTypeName",
               "src": "856:7:12",
@@ -360,7 +360,7 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "353030",
-              "id": 3240,
+              "id": 3230,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
@@ -378,25 +378,25 @@
             "visibility": "private"
           }
         ],
-        "scope": 3243,
+        "scope": 3233,
         "src": "63:849:12"
       }
     ],
     "src": "38:874:12"
   },
   "legacyAST": {
-    "absolutePath": "/Users/anilkucukrecep/Code/Personal/st/contracts/contracts/SystemParameters.sol",
+    "absolutePath": "/Users/mehmet/Code/Temple/ankr/contracts/SystemParameters.sol",
     "exportedSymbols": {
       "SystemParameters": [
-        3242
+        3232
       ]
     },
-    "id": 3243,
+    "id": 3233,
     "license": "UNLICENSED",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 3219,
+        "id": 3209,
         "literals": [
           "solidity",
           "^",
@@ -413,21 +413,21 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 3242,
+        "id": 3232,
         "linearizedBaseContracts": [
-          3242
+          3232
         ],
         "name": "SystemParameters",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "constant": false,
-            "id": 3222,
+            "id": 3212,
             "mutability": "mutable",
             "name": "_poolFee",
             "nodeType": "VariableDeclaration",
             "overrides": null,
-            "scope": 3242,
+            "scope": 3232,
             "src": "307:28:12",
             "stateVariable": true,
             "storageLocation": "default",
@@ -436,7 +436,7 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 3220,
+              "id": 3210,
               "name": "uint256",
               "nodeType": "ElementaryTypeName",
               "src": "307:7:12",
@@ -448,7 +448,7 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "30",
-              "id": 3221,
+              "id": 3211,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
@@ -467,12 +467,12 @@
           },
           {
             "constant": false,
-            "id": 3225,
+            "id": 3215,
             "mutability": "mutable",
             "name": "_providerFee",
             "nodeType": "VariableDeclaration",
             "overrides": null,
-            "scope": 3242,
+            "scope": 3232,
             "src": "388:34:12",
             "stateVariable": true,
             "storageLocation": "default",
@@ -481,7 +481,7 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 3223,
+              "id": 3213,
               "name": "uint256",
               "nodeType": "ElementaryTypeName",
               "src": "388:7:12",
@@ -493,7 +493,7 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "323030",
-              "id": 3224,
+              "id": 3214,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
@@ -512,12 +512,12 @@
           },
           {
             "constant": false,
-            "id": 3232,
+            "id": 3222,
             "mutability": "mutable",
             "name": "_auctionLimits",
             "nodeType": "VariableDeclaration",
             "overrides": null,
-            "scope": 3242,
+            "scope": 3232,
             "src": "494:46:12",
             "stateVariable": true,
             "storageLocation": "default",
@@ -527,7 +527,7 @@
             },
             "typeName": {
               "baseType": {
-                "id": 3226,
+                "id": 3216,
                 "name": "uint256",
                 "nodeType": "ElementaryTypeName",
                 "src": "494:7:12",
@@ -536,11 +536,11 @@
                   "typeString": "uint256"
                 }
               },
-              "id": 3228,
+              "id": 3218,
               "length": {
                 "argumentTypes": null,
                 "hexValue": "32",
-                "id": 3227,
+                "id": 3217,
                 "isConstant": false,
                 "isLValue": false,
                 "isPure": true,
@@ -568,7 +568,7 @@
                 {
                   "argumentTypes": null,
                   "hexValue": "313030",
-                  "id": 3229,
+                  "id": 3219,
                   "isConstant": false,
                   "isLValue": false,
                   "isPure": true,
@@ -586,7 +586,7 @@
                 {
                   "argumentTypes": null,
                   "hexValue": "333030",
-                  "id": 3230,
+                  "id": 3220,
                   "isConstant": false,
                   "isLValue": false,
                   "isPure": true,
@@ -602,7 +602,7 @@
                   "value": "300"
                 }
               ],
-              "id": 3231,
+              "id": 3221,
               "isConstant": false,
               "isInlineArray": true,
               "isLValue": false,
@@ -619,12 +619,12 @@
           },
           {
             "constant": false,
-            "id": 3235,
+            "id": 3225,
             "mutability": "mutable",
             "name": "_providerMinimumStake",
             "nodeType": "VariableDeclaration",
             "overrides": null,
-            "scope": 3242,
+            "scope": 3232,
             "src": "589:43:12",
             "stateVariable": true,
             "storageLocation": "default",
@@ -633,7 +633,7 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 3233,
+              "id": 3223,
               "name": "uint256",
               "nodeType": "ElementaryTypeName",
               "src": "589:7:12",
@@ -645,7 +645,7 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "323030",
-              "id": 3234,
+              "id": 3224,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
@@ -664,12 +664,12 @@
           },
           {
             "constant": false,
-            "id": 3238,
+            "id": 3228,
             "mutability": "mutable",
             "name": "_ankrStakePerWei",
             "nodeType": "VariableDeclaration",
             "overrides": null,
-            "scope": 3242,
+            "scope": 3232,
             "src": "684:38:12",
             "stateVariable": true,
             "storageLocation": "default",
@@ -678,7 +678,7 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 3236,
+              "id": 3226,
               "name": "uint256",
               "nodeType": "ElementaryTypeName",
               "src": "684:7:12",
@@ -690,7 +690,7 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "316539",
-              "id": 3237,
+              "id": 3227,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
@@ -709,12 +709,12 @@
           },
           {
             "constant": false,
-            "id": 3241,
+            "id": 3231,
             "mutability": "mutable",
             "name": "_maximumSlashingsAllowed",
             "nodeType": "VariableDeclaration",
             "overrides": null,
-            "scope": 3242,
+            "scope": 3232,
             "src": "856:53:12",
             "stateVariable": true,
             "storageLocation": "default",
@@ -723,7 +723,7 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 3239,
+              "id": 3229,
               "name": "uint256",
               "nodeType": "ElementaryTypeName",
               "src": "856:7:12",
@@ -735,7 +735,7 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "353030",
-              "id": 3240,
+              "id": 3230,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
@@ -753,7 +753,7 @@
             "visibility": "private"
           }
         ],
-        "scope": 3243,
+        "scope": 3233,
         "src": "63:849:12"
       }
     ],
@@ -764,8 +764,8 @@
     "version": "0.6.8+commit.0bbfe453.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "3.2.5",
-  "updatedAt": "2020-09-26T06:19:40.869Z",
+  "schemaVersion": "3.2.3",
+  "updatedAt": "2020-09-28T19:41:48.590Z",
   "devdoc": {
     "methods": {}
   },

@@ -1,7 +1,6 @@
 <template>
   <div>
     <vs-table :data="pools" search>
-
       <template slot="thead">
         <vs-th sort-key="provider">Provider</vs-th>
         <vs-th sort-key="name">Validator</vs-th>
@@ -13,9 +12,8 @@
         <vs-th sort-key="">Action</vs-th>
       </template>
 
-      <template slot-scope="{data}">
+      <template slot-scope="{ data }">
         <vs-tr v-for="(tr, indextr) in pools" :key="indextr">
-
           <vs-td :data="data[indextr].provider">
             {{ data[indextr].provider }}
           </vs-td>
@@ -25,7 +23,7 @@
           </vs-td>
 
           <vs-td :data="data[indextr].status">
-            {{ Number(data[indextr].stakeable) ? 'Staking' : 'Ongoing' }}
+            {{ Number(data[indextr].stakeable) ? "Staking" : "Ongoing" }}
           </vs-td>
 
           <vs-td :data="data[indextr].totalStakedAmount">
@@ -45,30 +43,41 @@
           </vs-td>
 
           <vs-td>
-            <vs-button :disabled="!Number(data[indextr].stakeable)" @click="poolModal = true; modalData = data[indextr]">
+            <vs-button
+              :disabled="!Number(data[indextr].stakeable)"
+              @click="
+                poolModal = true;
+                modalData = data[indextr];
+              "
+            >
               Stake
             </vs-button>
-            
           </vs-td>
-
         </vs-tr>
       </template>
     </vs-table>
 
     <vs-popup
-        :active.sync="poolModal"
-        :button-accept="false"
-        title="Staking"
-        color="primary"
-        @close="modalData = {}"
+      :active.sync="poolModal"
+      :button-accept="false"
+      title="Staking"
+      color="primary"
+      @close="modalData = {}"
     >
-      <p class="ml-3 text-danger text-large">Fee: {{ modalData.nodeFee }} USDT </p>
+      <p class="ml-3 text-danger text-large">
+        Fee: {{ modalData.nodeFee }} USDT
+      </p>
 
       <vs-tabs alignment="fixed">
         <vs-tab label="Pay with eth">
-          <p class="con-tab-ejemplo">
+          <p class="con-tab-ejemplo"></p>
           <p class="mb-5">
-            <vs-input class="mb-6" disabled="true" :value="modalData.nodeFee" title="Ether Value"></vs-input>
+            <vs-input
+              class="mb-6"
+              disabled="true"
+              :value="modalData.nodeFee"
+              title="Ether Value"
+            ></vs-input>
             <vs-input title="Stake Amount" v-model="stakeValEth"></vs-input>
           </p>
           <vs-button @click="stakeWithEth">Stake</vs-button>
@@ -84,42 +93,38 @@
           </div>
         </vs-tab>
       </vs-tabs>
-
     </vs-popup>
   </div>
 </template>
 
 <script>
-import {mapState} from 'vuex'
+import { mapState } from "vuex";
+import Web3 from "web3";
 
 export default {
-  name: 'Pools',
-  data () {
+  name: "Pools",
+  data() {
     return {
       poolModal: false,
       modalData: {},
       stakeValEth: 0.5
-    }
+    };
   },
-  mounted () {
-    
-  },
+  mounted() {},
   computed: {
-    ...mapState(['pools'])
+    ...mapState(["pools"])
   },
   methods: {
-    async stakeWithEth (index) {
-      const contract = await this.$store.dispatch('getContract', 'Micropool')
-      console.log("mi", contract)
+    async stakeWithEth(index) {
+      const contract = await this.$store.dispatch("getContract", "Micropool");
+      console.log("mi", contract);
       await contract.methods.stake(this.modalData.poolIndex).send({
         value: web3.utils.toWei(this.stakeValEth.toString())
-      })
-      this.$store.dispatch('getMicropools')
+      });
+      this.$store.dispatch("getMicropools");
     }
   }
-}
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
