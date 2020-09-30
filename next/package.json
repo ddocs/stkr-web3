@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^4.11.0",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
@@ -13,7 +14,33 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.3",
-    "typescript": "~3.7.2"
+    "typescript": "~3.7.2",
+    "react-router": "^5.2.0",
+    "react-router-dom": "^5.2.0",
+    "@loadable/component": "^5.13.2",
+    "react-intl-universal": "^2.4.1"
+  },
+  "devDependencies": {
+    "prettier": "^2.1.2",
+    "husky": "^4.3.0",
+    "lint-staged": "^10.4.0",
+    "react-app-rewired": "^2.1.6",
+    "env-cmd": "^10.1.0",
+    "@typescript-eslint/eslint-plugin": "^4.3.0",
+    "@types/loadable__component": "^5.13.1",
+    "@types/react-router": "^5.1.8",
+    "@types/react-router-dom": "^5.1.5"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "scripts": {
     "start": "react-scripts start",
@@ -22,7 +49,32 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": [
+      "react-app",
+      "plugin:@typescript-eslint/recommended"
+    ],
+    "rules": {
+      "@typescript-eslint/interface-name-prefix": [
+        "error",
+        {
+          "prefixWithI": "always"
+        }
+      ],
+      "@typescript-eslint/ban-types": [
+        "error",
+        {
+          "types": {
+            "React.FC": {
+              "message": "In favor of unification use the form \"(props: IComponentNameProp) => ReactNode\""
+            }
+          }
+        }
+      ],
+      "@typescript-eslint/ban-ts-ignore": "off",
+      "@typescript-eslint/no-empty-interface": "off",
+      "@typescript-eslint/explicit-function-return-type": "off",
+      "@typescript-eslint/no-explicit-any": "off"
+    }
   },
   "browserslist": {
     "production": [
