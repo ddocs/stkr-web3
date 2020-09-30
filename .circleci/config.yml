@@ -27,14 +27,20 @@ jobs:
       - attach_workspace:
           at: '.'
       - run:
-          name: "Uploading assets to strk.ankr.com"
+          name: "Uploading assets to strk website"
           command: |
             pwd
-            aws s3 cp ./dist/ s3://stkr.ankr.com/ --acl bucket-owner-full-control --recursive --cache-control "public,max-age=600,s-maxage=3600"
-      - run:
-          name: "Invalidating CDN network"
-          command: |
-            INVALIDATION_ID=`aws cloudfront create-invalidation --distribution-id EMPBFTV79PLW8 --paths '/*' | jq -r '.Invalidation.Id'`
+            # DOMAIN="stkr.ankr.com"
+            # DISTRIBUTION_ID="EMPBFTV79PLW8"
+
+            DOMAIN="stkr-goerli.ankr.com"
+            DISTRIBUTION_ID="E1LG75GWDIK2Z8"
+
+            echo "Uploading assets to $DOMAIN"
+            aws s3 cp ./dist/ s3://$DOMAIN/ --acl bucket-owner-full-control --recursive --cache-control "public,max-age=600,s-maxage=3600"
+
+            echo "Invalidating CDN network"
+            INVALIDATION_ID=`aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths '/*' | jq -r '.Invalidation.Id'`
             echo "Invalidation ID is $INVALIDATION_ID"
             echo "CDN Invalidation request is sent."
 workflows:
