@@ -49,13 +49,11 @@ workflows:
     jobs:
       - build:
           context: cicd
-          filters: &prod_only
-            branches:
-              only:
-                - master
       - upload:
           context: cicd
           requires:
             - build
-          filters:
-            <<: *prod_only
+          filters: &prod_only
+            branches:
+              only:
+                - master
