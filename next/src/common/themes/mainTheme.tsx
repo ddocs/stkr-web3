@@ -52,6 +52,7 @@ const selection = {
 const mainTheme = createMuiTheme({
   typography: {
     fontFamily: DEFAULT_FONT,
+    color: PALETTE.text.primary,
   },
 
   palette: PALETTE as PaletteOptions,
@@ -149,8 +150,8 @@ const mainTheme = createMuiTheme({
         padding: 0,
       },
 
-      contained: {
-        color: PALETTE.text.primary,
+      containedPrimary: {
+        color: PALETTE.primary.contrastText,
         backgroundColor: PALETTE.primary.main,
 
         transitionDuration: '300ms',
@@ -164,7 +165,22 @@ const mainTheme = createMuiTheme({
         '&$disabled': {},
       },
 
-      outlined: {
+      containedSecondary: {
+        color: PALETTE.primary.contrastText,
+        backgroundColor: PALETTE.text.primary,
+
+        transitionDuration: '300ms',
+        transitionProperty: 'color, background-color',
+        transitionTimingFunction: 'linear',
+
+        '&:hover, &:focus, &:active': {
+          backgroundColor: fade(PALETTE.text.primary, 0.8),
+        },
+
+        '&$disabled': {},
+      },
+
+      outlinedPrimary: {
         color: PALETTE.primary.main,
         border: `1px solid ${PALETTE.primary.main}`,
 
@@ -177,6 +193,28 @@ const mainTheme = createMuiTheme({
         '&:hover, &:focus, &:active': {
           color: PALETTE.primary.dark,
           borderColor: PALETTE.primary.dark,
+
+          backgroundColor: 'transparent',
+        },
+
+        '&$disabled': {},
+      },
+
+      outlinedSecondary: {
+        color: PALETTE.text.primary,
+        border: `1px solid ${PALETTE.text.primary}`,
+
+        backgroundColor: 'transparent',
+
+        transitionDuration: '300ms',
+        transitionProperty: 'color, border-color, background-color',
+        transitionTimingFunction: 'linear',
+
+        '&:hover, &:focus, &:active': {
+          color: fade(PALETTE.text.primary, 0.8),
+          borderColor: fade(PALETTE.text.primary, 0.8),
+
+          backgroundColor: 'transparent',
         },
 
         '&$disabled': {},
@@ -221,6 +259,24 @@ const mainTheme = createMuiTheme({
 
         '&$disabled': {},
       },
+
+      textSecondary: {
+        color: PALETTE.text.primary,
+
+        backgroundColor: 'transparent',
+
+        transitionDuration: '300ms',
+        transitionProperty: 'color',
+        transitionTimingFunction: 'linear',
+
+        '&:hover, &:focus, &:active': {
+          color: fade(PALETTE.text.primary, 0.8),
+
+          backgroundColor: 'transparent',
+        },
+
+        '&$disabled': {},
+      },
     },
 
     MuiTypography: {
@@ -228,7 +284,6 @@ const mainTheme = createMuiTheme({
         fontSize: 48,
         fontWeight: 700,
         lineHeight: 1.2,
-        color: PALETTE.primary.dark,
 
         '&::selection': selection,
 
@@ -239,20 +294,26 @@ const mainTheme = createMuiTheme({
         fontSize: 38,
         fontWeight: 700,
         lineHeight: 1.2,
-        color: PALETTE.primary.dark,
 
         '&::selection': selection,
 
         '& *::selection': selection,
       },
 
-      h3: {},
+      h3: {
+        fontSize: 32,
+        fontWeight: 700,
+        lineHeight: 1.2,
+
+        '&::selection': selection,
+
+        '& *::selection': selection,
+      },
 
       h4: {
         fontSize: 28,
         fontWeight: 700,
         lineHeight: 1.2,
-        color: PALETTE.primary.dark,
 
         '&::selection': selection,
 
@@ -264,10 +325,9 @@ const mainTheme = createMuiTheme({
       h6: {},
 
       subtitle1: {
-        fontSize: 28,
+        fontSize: 14,
         fontWeight: 700,
         lineHeight: 1.2,
-        color: PALETTE.primary.dark,
 
         '&::selection': selection,
 
@@ -278,7 +338,6 @@ const mainTheme = createMuiTheme({
         fontSize: 14,
         fontWeight: 700,
         lineHeight: 1.2,
-        color: PALETTE.primary.dark,
 
         '&::selection': selection,
 
@@ -289,16 +348,29 @@ const mainTheme = createMuiTheme({
         fontSize: 16,
         fontWeight: 400,
         lineHeight: 1.5,
-        color: PALETTE.primary.dark,
 
         '&::selection': selection,
 
         '& *::selection': selection,
       },
 
-      body2: {},
+      body2: {
+        fontSize: 14,
+        fontWeight: 400,
+        lineHeight: 1.5,
 
-      caption: {},
+        '&::selection': selection,
+
+        '& *::selection': selection,
+      },
+
+      colorPrimary: {
+        color: PALETTE.primary.main,
+      },
+
+      colorSecondary: {
+        color: PALETTE.text.secondary,
+      },
     },
   },
 } as ThemeOptions);

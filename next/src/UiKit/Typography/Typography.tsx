@@ -22,13 +22,13 @@ export const Headline3 = elementFactory('h3');
 
 export const Headline4 = elementFactory('h4');
 
-export const Headline5 = elementFactory('h5');
-
-export const Headline6 = elementFactory('h6');
+// export const Headline5 = elementFactory('h5');
+//
+// export const Headline6 = elementFactory('h6');
 
 export const SubTitle1 = elementFactory('subtitle1');
 
-export const SmallTitle = elementFactory('subtitle2');
+// export const SmallTitle = elementFactory('subtitle2');
 
 export const Body1 = elementFactory('body1');
 

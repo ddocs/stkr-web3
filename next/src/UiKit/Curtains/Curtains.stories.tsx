@@ -16,10 +16,6 @@ const useStyles = makeStyles<Theme>(() => ({
     width: '100%',
     height: '100%',
   },
-
-  content: {
-    backgroundColor: 'red',
-  },
 }));
 
 const CurtainsStory = () => {
@@ -27,7 +23,15 @@ const CurtainsStory = () => {
 
   return (
     <div className={classes.block}>
-      <Curtains className={classes.content}>Hello world!</Curtains>
+      <Curtains className={classes.content}>
+        <div
+          style={{
+            width: '100%',
+            height: '100%',
+            boxShadow: '0 0 0 1px #FFB800',
+          }}
+        />
+      </Curtains>
     </div>
   );
 };

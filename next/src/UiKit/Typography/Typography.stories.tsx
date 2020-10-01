@@ -8,19 +8,21 @@ import {
   Headline2,
   Headline3,
   Headline4,
-  Headline5,
-  Headline6,
-  SmallTitle,
   Body1,
   SubTitle1,
 } from './Typography';
 
-const useStyles = makeStyles<Theme>(() => ({
+const useStyles = makeStyles<Theme>(theme => ({
   block: {
-    padding: 16,
+    '& hr': {
+      display: 'block',
+      margin: '16px 0',
+      borderColor: theme.palette.text.secondary,
+    },
   },
 
   title: {
+    margin: 0,
     marginBottom: 16,
   },
 }));
@@ -41,18 +43,9 @@ const TypographyStory = () => {
       <Headline4 className={classes.title} component="h4">
         Headline4
       </Headline4>
-      <Headline5 className={classes.title} component="h5">
-        Headline5
-      </Headline5>
-      <Headline6 className={classes.title} component="h6">
-        Headline6
-      </Headline6>
-      <SubTitle1 className={classes.title} component="h6">
-        Headline6
+      <SubTitle1 className={classes.title} component="h5">
+        SubTitle
       </SubTitle1>
-      <SmallTitle className={classes.title} component="span">
-        SmallTitle
-      </SmallTitle>
       <Body1 className={classes.title} component="p">
         Ankr is the blockchain infrastructure platform and marketplace
         connecting everyone from end-users, developers to enterprises.
@@ -61,6 +54,17 @@ const TypographyStory = () => {
         Ankr is the blockchain infrastructure platform and marketplace
         connecting everyone from end-users, developers to enterprises.
       </Body2>
+      <hr />
+      Color
+      <Headline1 className={classes.title} component="h1">
+        Default
+      </Headline1>
+      <Headline1 className={classes.title} component="h1" color="primary">
+        Color Primary
+      </Headline1>
+      <Headline1 className={classes.title} component="h1" color="secondary">
+        Color Secondary
+      </Headline1>
     </div>
   );
 };
