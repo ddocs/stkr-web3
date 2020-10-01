@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { t } from '../../../common/utils/intl';
+import { t } from '../../../../common/utils/intl';
 import { Typography, withStyles } from '@material-ui/core';
 import { WithStyles } from '@material-ui/core/styles/withStyles';
 import { lobbyStyles } from './LobbyStyles';

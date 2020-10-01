@@ -3,11 +3,13 @@ import intl from 'react-intl-universal';
 import { CssBaseline } from '@material-ui/core';
 import { AppContext } from './AppContext';
 import { MuiThemeProvider } from '@material-ui/core/styles';
-import { locales } from '../../locales';
-import { mainTheme } from '../../themes/mainTheme';
+import { locales } from '../../common/locales';
+import { mainTheme } from '../../common/themes/mainTheme';
 import { AppLoading } from '../AppLoading/AppLoading';
 import { Router } from 'react-router';
-import { historyInstance } from '../../utils/historyInstance';
+import { historyInstance } from '../../common/utils/historyInstance';
+
+import '../../common/fonts/stylesheet.css';
 
 interface IAppBaseProps {}
 
