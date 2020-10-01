@@ -1,9 +1,9 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import loadable, { LoadableComponent } from '@loadable/component';
-import { withDefaultLayout } from './modules/layout/components/DefautLayout/DefautLayout';
 import { AppLoading } from './components/AppLoading/AppLoading';
 import { PageNotFound } from './components/PageNotFound/PageNotFound';
+import { withDefaultLayout } from './modules/layout';
 
 const LoadableOverviewContainer = withDefaultLayout(
   loadable(

@@ -16,6 +16,9 @@ const PALETTE = {
     primary: '#ffffff',
     secondary: fade('#ffffff', 0.5),
   },
+  grey: {
+    100: '#C4C4C4',
+  },
   error: {
     main: '#F1534C',
   },

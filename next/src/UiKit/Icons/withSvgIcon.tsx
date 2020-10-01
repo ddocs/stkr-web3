@@ -1,11 +1,22 @@
 import React, { forwardRef, memo, ReactNode } from 'react';
-import { SvgIcon, Theme, withTheme } from '@material-ui/core';
+import { SvgIcon, Theme, useTheme } from '@material-ui/core';
 import { SvgIconProps } from '@material-ui/core/SvgIcon/SvgIcon';
 import { CSSProperties, makeStyles } from '@material-ui/styles';
 
-type Size = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+export type IconSize =
+  | 'xxs'
+  | 'xs'
+  | 'sm'
+  | 'md'
+  | 'xmd'
+  | 'lg'
+  | 'xl'
+  | number;
 
-const styles: { [key in Size]: CSSProperties } = {
+const styles: { [key in IconSize]: CSSProperties } = {
+  xxs: {
+    fontSize: 12,
+  },
   xs: {
     fontSize: 16,
   },
@@ -15,49 +26,47 @@ const styles: { [key in Size]: CSSProperties } = {
   md: {
     fontSize: 32,
   },
+  xmd: {
+    fontSize: 48,
+  },
   lg: {
     fontSize: 64,
   },
   xl: {
-    fontSize: 128,
+    fontSize: 88,
   },
 };
 
 const useStyles = makeStyles<Theme, ISvgIconProps>(() => ({
-  root: ({ size = 'sm' }) => ({
-    ...styles[size],
-  }),
+  root: ({ size = 'sm' }) =>
+    ({
+      ...(typeof size === 'number' ? { fontSize: size } : styles[size]),
+    } as any),
 }));
 
 export interface ISvgIconProps extends SvgIconProps {
-  size?: Size;
-  theme: Theme;
+  size?: IconSize;
 }
 
 export const withSvgIcon = (element: ReactNode, extraProps?: SvgIconProps) => {
   return memo(
-    withTheme(
-      forwardRef((props: ISvgIconProps, ref) => {
-        const {
-          theme,
-          htmlColor = props.theme.palette.grey['700'],
-          ...rest
-        } = props;
+    forwardRef((props: ISvgIconProps, ref) => {
+      const theme = useTheme();
+      const { htmlColor = theme.palette.grey['700'], ...rest } = props;
 
-        const classes = useStyles(props);
+      const classes = useStyles(props);
 
-        return (
-          <SvgIcon
-            classes={{ root: classes.root }}
-            htmlColor={htmlColor}
-            innerRef={ref}
-            {...extraProps}
-            {...rest}
-          >
-            {element}
-          </SvgIcon>
-        );
-      }),
-    ),
+      return (
+        <SvgIcon
+          classes={{ root: classes.root }}
+          htmlColor={htmlColor}
+          innerRef={ref}
+          {...extraProps}
+          {...rest}
+        >
+          {element}
+        </SvgIcon>
+      );
+    }),
   );
 };

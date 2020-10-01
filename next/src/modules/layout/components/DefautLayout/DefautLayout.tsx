@@ -1,22 +1,28 @@
 import React from 'react';
-import { defaultLayoutStyles } from './DefaultLayoutStyles';
-import { createWithLayout } from '../../utils/createWithLayout';
-import withStyles, { WithStyles } from '@material-ui/core/styles/withStyles';
+import classNames from 'classnames';
+import { useDefaultLayoutStyles } from './DefaultLayoutStyles';
+import { Header } from '../Header';
 
-export interface IDefaultLayoutConfigurationProps {}
-
-export interface IDefaultLayoutProps
-  extends WithStyles<typeof defaultLayoutStyles>,
-    IDefaultLayoutConfigurationProps {
-  children: React.ReactNode;
+export interface ILayoutProps {
+  className?: string;
+  isAuth?: boolean;
+  children?: React.ReactNode;
 }
 
-function DefaultLayoutComponent({ children, classes }: IDefaultLayoutProps) {
-  return <div className={classes.root}>{children}</div>;
-}
+export const DefaultLayoutComponent = ({
+  className,
+  isAuth,
+  children,
+}: ILayoutProps) => {
+  const classes = useDefaultLayoutStyles();
+  return (
+    <div className={classNames(classes.component, className)}>
+      <Header isAuth={isAuth} />
+      <main>{children}</main>
+    </div>
+  );
+};
 
-const DefaultLayout = withStyles(defaultLayoutStyles)(DefaultLayoutComponent);
-
-export const withDefaultLayout = createWithLayout<IDefaultLayoutConfigurationProps>()(
-  DefaultLayout,
+export const DefaultLayout = (props: ILayoutProps) => (
+  <DefaultLayoutComponent {...props} />
 );
