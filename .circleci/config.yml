@@ -1,4 +1,4 @@
-version: 2
+version: 2.1
 jobs:
   build:
     docker:
@@ -19,7 +19,7 @@ jobs:
           root: '.'
           paths:
             - '.'
-  upload:  
+  app_deploy_cdn: &app_deploy_cdn
     docker:
       - image: bigbadalien/awscli-node-kops-kubectl:0.3
     steps:
@@ -30,11 +30,6 @@ jobs:
           name: "Uploading assets to strk website"
           command: |
             pwd
-            # DOMAIN="stkr.ankr.com"
-            # DISTRIBUTION_ID="EMPBFTV79PLW8"
-
-            DOMAIN="stkr-goerli.ankr.com"
-            DISTRIBUTION_ID="E1LG75GWDIK2Z8"
 
             echo "Uploading assets to $DOMAIN"
             aws s3 cp ./dist/ s3://$DOMAIN/ --acl bucket-owner-full-control --recursive --cache-control "public,max-age=600,s-maxage=3600"
@@ -43,17 +38,33 @@ jobs:
             INVALIDATION_ID=`aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths '/*' | jq -r '.Invalidation.Id'`
             echo "Invalidation ID is $INVALIDATION_ID"
             echo "CDN Invalidation request is sent."
+  app_deploy_goerli:
+    <<: *app_deploy_cdn
+  app_deploy_dev:
+    <<: *app_deploy_cdn
+    
 workflows:
-  version: 2
   stkr_web3:
     jobs:
       - build:
           context: cicd
-      - upload:
-          context: cicd
+      - app_deploy_goerli:
+          context:
+            - cicd
+            - stkr-goerli
           requires:
             - build
           filters: &prod_only
             branches:
               only:
                 - master
+      - app_deploy_dev:
+          context: 
+            - cicd
+            - stkr-dev
+          requires:
+            - build
+          filters: &dev_only
+            branches:
+              only:
+              - develop
