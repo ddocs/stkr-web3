@@ -4,7 +4,6 @@ import classNames from 'classnames';
 import { NavLink } from '../../../../../UiKit/Link';
 import { INDEX_PATH } from '../../../../../common/const';
 import { t } from '../../../../../common/utils/intl';
-import { useMemo } from 'react';
 
 interface ITotalProps {
   className?: string;
@@ -12,9 +11,7 @@ interface ITotalProps {
   total: number;
 }
 export const Total = ({ className, reward, total }: ITotalProps) => {
-  const active = useMemo(() => {
-    return (reward * 100) / total;
-  }, [reward, total]);
+  const active = (reward * 100) / total;
 
   const classes = useTotalStyles({ width: active });
 
