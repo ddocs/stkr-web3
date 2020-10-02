@@ -1,15 +1,14 @@
 import * as React from 'react';
-import { t } from '../../../../common/utils/intl';
-import { Typography, withStyles } from '@material-ui/core';
-import { WithStyles } from '@material-ui/core/styles/withStyles';
-import { lobbyStyles } from './LobbyStyles';
+import { useLobbyStyles } from './LobbyStyles';
+import { Promo } from '../../components/Promo';
 
-interface IMainProps extends WithStyles<typeof lobbyStyles> {}
+interface ILobbyProps {}
 
-export const Main = withStyles(lobbyStyles)(({ classes }: IMainProps) => {
+export const Lobby = () => {
+  const classes = useLobbyStyles();
   return (
     <div className={classes.root}>
-      <Typography variant="h1">{t('translated-foobar')}</Typography>
+      <Promo />
     </div>
   );
-});
+};

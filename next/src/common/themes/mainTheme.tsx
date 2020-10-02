@@ -47,7 +47,7 @@ const defaultTheme = createMuiTheme({
   breakpoints: BREAKPOINTS,
 });
 
-const selection = {
+export const selection = {
   color: PALETTE.primary.contrastText,
   backgroundColor: PALETTE.primary.main,
 };

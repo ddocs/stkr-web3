@@ -9,7 +9,9 @@ import { INDEX_PATH } from './common/const';
 const LoadableOverviewContainer = withDefaultLayout(
   loadable(
     async () =>
-      import('./modules/lobby/screens/Lobby/Lobby').then(module => module.Main),
+      import('./modules/lobby/screens/Lobby/Lobby').then(
+        module => module.Lobby,
+      ),
     {
       fallback: <AppLoading />,
     },

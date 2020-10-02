@@ -8,5 +8,12 @@
     "about": "About STKR",
     "whitepaper-en": "Whitepaper (En)",
     "whitepaper-ch": "Whitepaper (Ch)"
+  },
+  "about": {
+    "title": "Staking. <br /> Reimagined.",
+    "text": "Stkr is a decentralized protocol \nand platform that combines staking and DeFi, implementing elements from traditional staking with non-custodial staking, Micropools and decentralized governance.",
+    "distributed": "Distributed ETH",
+    "providers": "Providers",
+    "total": "Total Requesters"
   }
 }

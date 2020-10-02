@@ -51,7 +51,13 @@ export const HeaderComponent = ({ className, isAuth }: IHeaderProps) => {
   ];
 
   return (
-    <header className={classNames(classes.component, className)}>
+    <header
+      className={classNames(
+        classes.component,
+        !isAuth && classes.outerComponent,
+        className,
+      )}
+    >
       <Curtains className={isAuth ? classes.inner : classes.outer}>
         <Logotype className={classes.logo} />
         {isAuth ? (
