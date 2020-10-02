@@ -114,6 +114,7 @@ const mainTheme = createMuiTheme({
         backgroundColor: '#1D1D1D',
 
         transition: 'none',
+        overflow: 'initial',
       },
     },
 

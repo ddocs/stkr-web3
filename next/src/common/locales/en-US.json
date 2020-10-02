@@ -7,7 +7,9 @@
     "unlock-wallet": "Unlock wallet",
     "about": "About STKR",
     "whitepaper-en": "Whitepaper (En)",
-    "whitepaper-ch": "Whitepaper (Ch)"
+    "whitepaper-ch": "Whitepaper (Ch)",
+    "join": "Join",
+    "unlock-your-wallet": "Unlock your wallet"
   },
   "about": {
     "title": "Staking. <br /> Reimagined.",
@@ -15,5 +17,16 @@
     "distributed": "Distributed ETH",
     "providers": "Providers",
     "total": "Total Requesters"
+  },
+  "pool": {
+    "title": "Staking pools",
+    "note": "Start staking today with STKR"
+  },
+  "pool-table": {
+    "name": "Name",
+    "provider": "Provider",
+    "status": "Status",
+    "fee": "Fee",
+    "total": "Total Stake"
   }
 }

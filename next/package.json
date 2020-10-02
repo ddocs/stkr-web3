@@ -40,7 +40,8 @@
     "react-focus-on": "^3.5.0",
     "resolve-from": "^5.0.0",
     "storybook": "^5.3.19",
-    "react-uid": "^2.3.0"
+    "react-uid": "^2.3.0",
+    "react-stroller": "^1.6.7"
   },
   "husky": {
     "hooks": {

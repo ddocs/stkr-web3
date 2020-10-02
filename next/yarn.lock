@@ -5708,6 +5708,11 @@ detect-node@^2.0.4:
   resolved "https://registry.yarnpkg.com/detect-node/-/detect-node-2.0.4.tgz#014ee8f8f669c5c58023da64b8179c083a28c46c"
   integrity sha512-ZIzRpLJrOj7jjP2miAtgqIfmzbxa4ZOr5jJc601zklsfEx9oTzmmj2nVpIPRpNlRTIh8lc1kyViIY7BWSGNmKw==
 
+detect-passive-events@^1.0.4:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/detect-passive-events/-/detect-passive-events-1.0.5.tgz#ce324db665123bef9e368b8059ff95d95217cc05"
+  integrity sha512-foW7Q35wwOCxVzW0xLf5XeB5Fhe7oyRgvkBYdiP9IWgLMzjqUqTvsJv9ymuEWGjY6AoDXD3OC294+Z9iuOw0QA==
+
 detect-port-alt@1.1.6:
   version "1.1.6"
   resolved "https://registry.yarnpkg.com/detect-port-alt/-/detect-port-alt-1.1.6.tgz#24707deabe932d4a3cf621302027c2b266568275"
@@ -6749,6 +6754,13 @@ fast-levenshtein@~2.0.6:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/fast-levenshtein/-/fast-levenshtein-2.0.6.tgz#3d8a5c66883a16a30ca8643e851f19baa7797917"
   integrity sha1-PYpcZog6FqMMqGQ+hR8Zuqd5eRc=
+
+faste@^1.0.3:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/faste/-/faste-1.1.1.tgz#20c7d8ec7be0d5204f94ffe268d4743c753253da"
+  integrity sha512-Cnrr3pgESFNy+WaSyhKwIcWEJ6iIjBHhcsrsvVOKPcScE5oqfD1krjpXX/JdUupD9/eE1cOHstc1hMHrTSg30Q==
+  dependencies:
+    tslib "^1.9.3"
 
 fastq@^1.6.0:
   version "1.8.0"
@@ -12985,6 +12997,15 @@ react-sizeme@^2.6.7:
     invariant "^2.2.4"
     shallowequal "^1.1.0"
     throttle-debounce "^2.1.0"
+
+react-stroller@^1.6.7:
+  version "1.6.7"
+  resolved "https://registry.yarnpkg.com/react-stroller/-/react-stroller-1.6.7.tgz#e2ae0709c21c93ff43532401e35ef5adf2bc9f78"
+  integrity sha512-rBAmiMWoJyW3A+PHeO03wv9i9ZDsAGcCrgMCnwtkCSS4leEdvHmcW89OdoU5BtiN4FMYaEMucDgiOGWsPJN9bA==
+  dependencies:
+    detect-passive-events "^1.0.4"
+    faste "^1.0.3"
+    tslib "^1.0.0"
 
 react-style-singleton@^2.1.0:
   version "2.1.0"

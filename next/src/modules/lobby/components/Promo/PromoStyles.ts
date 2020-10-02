@@ -21,6 +21,7 @@ export const usePromoStyles = makeStyles<Theme, { count: number }>(theme => ({
 
     fontSize: 120,
     lineHeight: 1,
+    fontWeight: 500,
 
     '&::selection': selection,
 

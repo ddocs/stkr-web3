@@ -13,8 +13,6 @@ const useStyles = makeStyles<Theme>(theme => ({
 const TabsStory = () => {
   const classes = useStyles();
 
-  const nothing = () => null;
-
   const TABS = [
     { label: 'navigation.staker', value: 'staker', href: '/staker' },
     { label: 'navigation.provider', value: 'provider', href: '/' },
