@@ -6,8 +6,7 @@ import { MuiThemeProvider } from '@material-ui/core/styles';
 import { locales } from '../../common/locales';
 import { mainTheme } from '../../common/themes/mainTheme';
 import { AppLoading } from '../AppLoading/AppLoading';
-import { Router } from 'react-router';
-import { historyInstance } from '../../common/utils/historyInstance';
+import { BrowserRouter } from 'react-router-dom';
 
 import '../../common/fonts/stylesheet.css';
 
@@ -33,9 +32,9 @@ export class AppBase extends React.Component<IAppBaseProps, IAppBaseState> {
       <AppContext.Provider value={{ locale: this.state.locale }}>
         <MuiThemeProvider theme={mainTheme}>
           <CssBaseline />
-          <Router history={historyInstance}>
+          <BrowserRouter>
             {!this.state.initDone ? <AppLoading /> : this.props.children}
-          </Router>
+          </BrowserRouter>
         </MuiThemeProvider>
       </AppContext.Provider>
     );

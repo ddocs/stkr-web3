@@ -1,4 +1,12 @@
 {
   "translated-foobar": "Translated Foobar",
-  "by-ankr": "By Ankr"
+  "by-ankr": "By Ankr",
+  "navigation": {
+    "staker": "Staker",
+    "provider": "Provider",
+    "unlock-wallet": "Unlock wallet",
+    "about": "About STKR",
+    "whitepaper-en": "Whitepaper (En)",
+    "whitepaper-ch": "Whitepaper (Ch)"
+  }
 }

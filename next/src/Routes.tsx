@@ -4,6 +4,7 @@ import loadable, { LoadableComponent } from '@loadable/component';
 import { AppLoading } from './components/AppLoading/AppLoading';
 import { PageNotFound } from './components/PageNotFound/PageNotFound';
 import { withDefaultLayout } from './modules/layout';
+import { INDEX_PATH } from './common/const';
 
 const LoadableOverviewContainer = withDefaultLayout(
   loadable(
@@ -18,7 +19,11 @@ const LoadableOverviewContainer = withDefaultLayout(
 export function Routes() {
   return (
     <Switch>
-      <Route path={'/'} exact={true} component={LoadableOverviewContainer} />
+      <Route
+        path={INDEX_PATH}
+        exact={true}
+        component={LoadableOverviewContainer}
+      />
       <Route component={PageNotFound} />
     </Switch>
   );

@@ -2,24 +2,23 @@ import React from 'react';
 
 import { makeStyles } from '@material-ui/styles';
 import { Theme } from '@material-ui/core';
-import { HeaderComponent } from './Header';
+import { Logotype } from './Logotype';
 
 const useStyles = makeStyles<Theme>(theme => ({
   block: {},
 }));
 
-const HeaderStory = () => {
+const LogotypeStory = () => {
   const classes = useStyles();
   return (
     <div className={classes.block}>
-      <HeaderComponent />
-      <HeaderComponent isAuth={true} />
+      <Logotype />
     </div>
   );
 };
 
-export const HeaderExample = () => <HeaderStory />;
+export const LogotypeExample = () => <LogotypeStory />;
 
 export default {
-  title: 'modules/Layout/Header',
+  title: 'modules/Layout/Logotype',
 };

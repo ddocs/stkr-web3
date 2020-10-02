@@ -68,7 +68,6 @@ const mainTheme = createMuiTheme({
     },
 
     MuiButton: {
-      color: 'primary',
       disableRipple: true,
       variant: 'contained',
       size: 'medium',
@@ -85,12 +84,12 @@ const mainTheme = createMuiTheme({
       root: {
         '&&': {
           maxWidth: MAX_WIDTH,
-          padding: defaultTheme.spacing(0, 20),
+          padding: defaultTheme.spacing(0, 12),
 
           boxSizing: 'border-box',
 
           [defaultTheme.breakpoints.down('lg')]: {
-            padding: defaultTheme.spacing(0, 10),
+            padding: defaultTheme.spacing(0, 8),
           },
 
           [defaultTheme.breakpoints.down('md')]: {
@@ -149,8 +148,33 @@ const mainTheme = createMuiTheme({
         fontSize: 16,
       },
 
+      textSizeLarge: {
+        '&&': {
+          height: 'auto',
+          padding: 0,
+        },
+      },
+
       textSizeSmall: {
-        padding: 0,
+        '&&': {
+          height: 'auto',
+          padding: 0,
+        },
+      },
+
+      contained: {
+        color: PALETTE.primary.contrastText,
+        backgroundColor: PALETTE.text.primary,
+
+        transitionDuration: '300ms',
+        transitionProperty: 'color, background-color',
+        transitionTimingFunction: 'linear',
+
+        '&:hover, &:focus, &:active': {
+          backgroundColor: PALETTE.text.secondary,
+        },
+
+        '&$disabled': {},
       },
 
       containedPrimary: {
@@ -170,14 +194,34 @@ const mainTheme = createMuiTheme({
 
       containedSecondary: {
         color: PALETTE.primary.contrastText,
-        backgroundColor: PALETTE.text.primary,
+        backgroundColor: PALETTE.text.secondary,
 
         transitionDuration: '300ms',
         transitionProperty: 'color, background-color',
         transitionTimingFunction: 'linear',
 
         '&:hover, &:focus, &:active': {
-          backgroundColor: fade(PALETTE.text.primary, 0.8),
+          backgroundColor: PALETTE.text.primary,
+        },
+
+        '&$disabled': {},
+      },
+
+      outlined: {
+        color: PALETTE.text.primary,
+        border: `1px solid ${PALETTE.text.primary}`,
+
+        backgroundColor: 'transparent',
+
+        transitionDuration: '300ms',
+        transitionProperty: 'color, border-color, background-color',
+        transitionTimingFunction: 'linear',
+
+        '&:hover, &:focus, &:active': {
+          color: PALETTE.text.secondary,
+          borderColor: PALETTE.text.secondary,
+
+          backgroundColor: 'transparent',
         },
 
         '&$disabled': {},
@@ -204,8 +248,8 @@ const mainTheme = createMuiTheme({
       },
 
       outlinedSecondary: {
-        color: PALETTE.text.primary,
-        border: `1px solid ${PALETTE.text.primary}`,
+        color: PALETTE.text.secondary,
+        border: `1px solid ${PALETTE.text.secondary}`,
 
         backgroundColor: 'transparent',
 
@@ -214,8 +258,8 @@ const mainTheme = createMuiTheme({
         transitionTimingFunction: 'linear',
 
         '&:hover, &:focus, &:active': {
-          color: fade(PALETTE.text.primary, 0.8),
-          borderColor: fade(PALETTE.text.primary, 0.8),
+          color: PALETTE.text.primary,
+          borderColor: PALETTE.text.primary,
 
           backgroundColor: 'transparent',
         },
@@ -229,6 +273,7 @@ const mainTheme = createMuiTheme({
         minWidth: 0,
 
         color: PALETTE.text.primary,
+        fontWeight: 400,
 
         backgroundColor: 'transparent',
 
@@ -237,7 +282,7 @@ const mainTheme = createMuiTheme({
         transitionTimingFunction: 'linear',
 
         '&:hover, &:focus, &:active': {
-          color: fade(PALETTE.text.primary, 0.5),
+          color: PALETTE.text.secondary,
 
           backgroundColor: 'transparent',
         },
@@ -264,7 +309,7 @@ const mainTheme = createMuiTheme({
       },
 
       textSecondary: {
-        color: PALETTE.text.primary,
+        color: PALETTE.text.secondary,
 
         backgroundColor: 'transparent',
 
@@ -273,7 +318,7 @@ const mainTheme = createMuiTheme({
         transitionTimingFunction: 'linear',
 
         '&:hover, &:focus, &:active': {
-          color: fade(PALETTE.text.primary, 0.8),
+          color: PALETTE.text.primary,
 
           backgroundColor: 'transparent',
         },

@@ -9,47 +9,44 @@ export const useHeaderStyles = makeStyles<Theme>(theme => ({
     borderBottom: `1px solid ${fade(theme.palette.grey[100], 0.1)}`,
   },
 
-  wrapper: {
+  outer: {
+    display: 'grid',
+    gridTemplateColumns: 'auto 1fr 180px',
+    gridColumnGap: theme.spacing(8),
+  },
+
+  inner: {
     display: 'grid',
     gridTemplateColumns: '1fr 190px 240px',
     gridColumnGap: theme.spacing(4),
   },
 
-  logo: {
-    display: 'grid',
-    gridTemplateColumns: 'auto auto auto',
-    gridTemplateAreas: '"link divider company"',
-    gridColumnGap: theme.spacing(2.5),
+  tabs: {
+    width: '100%',
+  },
+
+  wallet: {},
+
+  list: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
     alignItems: 'center',
 
     margin: 0,
-    marginRight: 'auto',
+    padding: 0,
 
-    '&::before': {
-      position: 'relative',
-      content: '""',
-
-      gridArea: 'divider',
-
-      display: 'block',
-      width: 1,
-      height: theme.spacing(4.5),
-
-      backgroundColor: fade(theme.palette.text.primary, 0.1),
-    },
+    listStyle: 'none',
   },
 
-  link: {
-    gridArea: 'link',
-    width: 103,
-
-    '& svg': {
-      width: '100%',
-      height: 'auto',
-    },
+  item: {
+    marginRight: theme.spacing(5),
   },
 
-  tabs: {},
+  link: {},
 
-  wallet: {},
+  active: {
+    color: theme.palette.primary.main,
+    pointerEvents: 'none',
+  },
 }));
