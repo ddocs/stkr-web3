@@ -1,4 +1,0 @@
-```
-yarn install
-yarn serve
-```
