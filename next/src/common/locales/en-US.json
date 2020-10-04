@@ -1,0 +1,32 @@
+{
+  "translated-foobar": "Translated Foobar",
+  "by-ankr": "By Ankr",
+  "navigation": {
+    "staker": "Staker",
+    "provider": "Provider",
+    "unlock-wallet": "Unlock wallet",
+    "about": "About STKR",
+    "whitepaper-en": "Whitepaper (En)",
+    "whitepaper-ch": "Whitepaper (Ch)",
+    "join": "Join",
+    "unlock-your-wallet": "Unlock your wallet"
+  },
+  "about": {
+    "title": "Staking. <br /> Reimagined.",
+    "text": "Stkr is a decentralized protocol \nand platform that combines staking and DeFi, implementing elements from traditional staking with non-custodial staking, Micropools and decentralized governance.",
+    "distributed": "Distributed ETH",
+    "providers": "Providers",
+    "total": "Total Requesters"
+  },
+  "pool": {
+    "title": "Staking pools",
+    "note": "Start staking today with STKR"
+  },
+  "pool-table": {
+    "name": "Name",
+    "provider": "Provider",
+    "status": "Status",
+    "fee": "Fee",
+    "total": "Total Stake"
+  }
+}
