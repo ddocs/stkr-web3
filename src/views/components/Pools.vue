@@ -4,6 +4,7 @@
 
       <template slot="thead">
         <vs-th sort-key="poolIndex">Index</vs-th>
+        <vs-th sort-key="name">Name</vs-th>
         <vs-th sort-key="provider">Provider</vs-th>
         <vs-th sort-key="status">Status</vs-th>
         <vs-th sort-key="totalStake">Total Stake</vs-th>
@@ -18,6 +19,10 @@
 
           <vs-td :data="data[indextr].poolIndex">
             {{ data[indextr].poolIndex }}
+          </vs-td>
+
+          <vs-td :data="data[indextr].name">
+            {{ data[indextr].name }}
           </vs-td>
 
           <vs-td :data="data[indextr].provider">

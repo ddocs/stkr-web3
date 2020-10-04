@@ -156,8 +156,8 @@ const actions = {
       const info = await contract.methods.poolDetails(index).call()
       
       info.stakeable = Number(info.status) === 0
+      info.name = web3.utils.hexToAscii(info.name)
       info.poolIndex = index
-      info.userStakes
       info.totalStakedAmount = web3.utils.fromWei(info.totalStakedAmount + '')
       pools.push(info)
     }
