@@ -48,6 +48,10 @@
             <vs-button :disabled="!Number(data[indextr].stakeable)" @click="poolModal = true; modalData = data[indextr]">
               Stake
             </vs-button>
+
+            <vs-button v-if="Number(data[indextr].totalStakedAmount) >= 32" @click="pushToBeacon(data[indextr].poolIndex)">
+              Push
+            </vs-button>
             
           </vs-td>
 
@@ -108,6 +112,13 @@ export default {
     ...mapState(['pools'])
   },
   methods: {
+    async pushToBeacon(poolIndex) {
+      const contract = await this.$store.dispatch('getContract', 'Micropool')
+      console.log("mi", contract)
+      console.log(poolIndex)
+      await contract.methods.pushToBeacon(poolIndex).send()
+      this.$store.dispatch('getMicropools')
+    },
     async stakeWithEth (index) {
       const contract = await this.$store.dispatch('getContract', 'Micropool')
       console.log("mi", contract)

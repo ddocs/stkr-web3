@@ -111,9 +111,9 @@ const actions = {
     const stakingContract = await dispatch('getContract', 'Staking')
     window.provider = providerContract
     
-    const appliedEvents = await providerContract.getPastEvents('Applied')
+    const appliedEvents = await providerContract.getPastEvents('Applied', {fromBlock: 0})
 
-    const statusChangeEvents = await providerContract.getPastEvents('StatusChanged')
+    const statusChangeEvents = await providerContract.getPastEvents('StatusChanged', {fromBlock: 0})
     const providers = []
     for (const event of appliedEvents) {
       const data = {}
@@ -146,7 +146,7 @@ const actions = {
 
   async getMicropools ({commit, dispatch}) {
     const contract = await dispatch('getContract', 'Micropool')
-    const poolEvents = await contract.getPastEvents('PoolCreated')
+    const poolEvents = await contract.getPastEvents('PoolCreated', {fromBlock: 0})
     window.micropool = contract
     const pools = []
     for (const event of poolEvents) {
@@ -158,9 +158,9 @@ const actions = {
       info.stakeable = Number(info.status) === 0
       info.poolIndex = index
       info.userStakes
+      info.totalStakedAmount = web3.utils.fromWei(info.totalStakedAmount + '')
       pools.push(info)
     }
-    console.log(pools)
     commit('UPDATE_POOLS', pools)
   }
 }

@@ -13,15 +13,15 @@
     "absolutePath": "/Users/anilkucukrecep/Code/Personal/st/contracts/contracts/SystemParameters.sol",
     "exportedSymbols": {
       "SystemParameters": [
-        3421
+        3438
       ]
     },
-    "id": 3422,
+    "id": 3439,
     "license": "UNLICENSED",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 3398,
+        "id": 3415,
         "literals": [
           "solidity",
           "^",
@@ -38,21 +38,21 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 3421,
+        "id": 3438,
         "linearizedBaseContracts": [
-          3421
+          3438
         ],
         "name": "SystemParameters",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "constant": false,
-            "id": 3401,
+            "id": 3418,
             "mutability": "mutable",
             "name": "_poolFee",
             "nodeType": "VariableDeclaration",
             "overrides": null,
-            "scope": 3421,
+            "scope": 3438,
             "src": "307:28:12",
             "stateVariable": true,
             "storageLocation": "default",
@@ -61,7 +61,7 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 3399,
+              "id": 3416,
               "name": "uint256",
               "nodeType": "ElementaryTypeName",
               "src": "307:7:12",
@@ -73,7 +73,7 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "30",
-              "id": 3400,
+              "id": 3417,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
@@ -92,12 +92,12 @@
           },
           {
             "constant": false,
-            "id": 3404,
+            "id": 3421,
             "mutability": "mutable",
             "name": "_providerFee",
             "nodeType": "VariableDeclaration",
             "overrides": null,
-            "scope": 3421,
+            "scope": 3438,
             "src": "388:34:12",
             "stateVariable": true,
             "storageLocation": "default",
@@ -106,7 +106,7 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 3402,
+              "id": 3419,
               "name": "uint256",
               "nodeType": "ElementaryTypeName",
               "src": "388:7:12",
@@ -118,7 +118,7 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "323030",
-              "id": 3403,
+              "id": 3420,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
@@ -137,12 +137,12 @@
           },
           {
             "constant": false,
-            "id": 3411,
+            "id": 3428,
             "mutability": "mutable",
             "name": "_auctionLimits",
             "nodeType": "VariableDeclaration",
             "overrides": null,
-            "scope": 3421,
+            "scope": 3438,
             "src": "494:46:12",
             "stateVariable": true,
             "storageLocation": "default",
@@ -152,7 +152,7 @@
             },
             "typeName": {
               "baseType": {
-                "id": 3405,
+                "id": 3422,
                 "name": "uint256",
                 "nodeType": "ElementaryTypeName",
                 "src": "494:7:12",
@@ -161,11 +161,11 @@
                   "typeString": "uint256"
                 }
               },
-              "id": 3407,
+              "id": 3424,
               "length": {
                 "argumentTypes": null,
                 "hexValue": "32",
-                "id": 3406,
+                "id": 3423,
                 "isConstant": false,
                 "isLValue": false,
                 "isPure": true,
@@ -193,7 +193,7 @@
                 {
                   "argumentTypes": null,
                   "hexValue": "313030",
-                  "id": 3408,
+                  "id": 3425,
                   "isConstant": false,
                   "isLValue": false,
                   "isPure": true,
@@ -211,7 +211,7 @@
                 {
                   "argumentTypes": null,
                   "hexValue": "333030",
-                  "id": 3409,
+                  "id": 3426,
                   "isConstant": false,
                   "isLValue": false,
                   "isPure": true,
@@ -227,7 +227,7 @@
                   "value": "300"
                 }
               ],
-              "id": 3410,
+              "id": 3427,
               "isConstant": false,
               "isInlineArray": true,
               "isLValue": false,
@@ -244,12 +244,12 @@
           },
           {
             "constant": false,
-            "id": 3414,
+            "id": 3431,
             "mutability": "mutable",
             "name": "_providerMinimumStake",
             "nodeType": "VariableDeclaration",
             "overrides": null,
-            "scope": 3421,
+            "scope": 3438,
             "src": "589:43:12",
             "stateVariable": true,
             "storageLocation": "default",
@@ -258,7 +258,7 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 3412,
+              "id": 3429,
               "name": "uint256",
               "nodeType": "ElementaryTypeName",
               "src": "589:7:12",
@@ -270,7 +270,7 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "323030",
-              "id": 3413,
+              "id": 3430,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
@@ -289,12 +289,12 @@
           },
           {
             "constant": false,
-            "id": 3417,
+            "id": 3434,
             "mutability": "mutable",
             "name": "_ankrStakePerWei",
             "nodeType": "VariableDeclaration",
             "overrides": null,
-            "scope": 3421,
+            "scope": 3438,
             "src": "684:38:12",
             "stateVariable": true,
             "storageLocation": "default",
@@ -303,7 +303,7 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 3415,
+              "id": 3432,
               "name": "uint256",
               "nodeType": "ElementaryTypeName",
               "src": "684:7:12",
@@ -315,7 +315,7 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "316539",
-              "id": 3416,
+              "id": 3433,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
@@ -334,12 +334,12 @@
           },
           {
             "constant": false,
-            "id": 3420,
+            "id": 3437,
             "mutability": "mutable",
             "name": "_maximumSlashingsAllowed",
             "nodeType": "VariableDeclaration",
             "overrides": null,
-            "scope": 3421,
+            "scope": 3438,
             "src": "856:53:12",
             "stateVariable": true,
             "storageLocation": "default",
@@ -348,7 +348,7 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 3418,
+              "id": 3435,
               "name": "uint256",
               "nodeType": "ElementaryTypeName",
               "src": "856:7:12",
@@ -360,7 +360,7 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "353030",
-              "id": 3419,
+              "id": 3436,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
@@ -378,7 +378,7 @@
             "visibility": "private"
           }
         ],
-        "scope": 3422,
+        "scope": 3439,
         "src": "63:849:12"
       }
     ],
@@ -388,15 +388,15 @@
     "absolutePath": "/Users/anilkucukrecep/Code/Personal/st/contracts/contracts/SystemParameters.sol",
     "exportedSymbols": {
       "SystemParameters": [
-        3421
+        3438
       ]
     },
-    "id": 3422,
+    "id": 3439,
     "license": "UNLICENSED",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 3398,
+        "id": 3415,
         "literals": [
           "solidity",
           "^",
@@ -413,21 +413,21 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 3421,
+        "id": 3438,
         "linearizedBaseContracts": [
-          3421
+          3438
         ],
         "name": "SystemParameters",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "constant": false,
-            "id": 3401,
+            "id": 3418,
             "mutability": "mutable",
             "name": "_poolFee",
             "nodeType": "VariableDeclaration",
             "overrides": null,
-            "scope": 3421,
+            "scope": 3438,
             "src": "307:28:12",
             "stateVariable": true,
             "storageLocation": "default",
@@ -436,7 +436,7 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 3399,
+              "id": 3416,
               "name": "uint256",
               "nodeType": "ElementaryTypeName",
               "src": "307:7:12",
@@ -448,7 +448,7 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "30",
-              "id": 3400,
+              "id": 3417,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
@@ -467,12 +467,12 @@
           },
           {
             "constant": false,
-            "id": 3404,
+            "id": 3421,
             "mutability": "mutable",
             "name": "_providerFee",
             "nodeType": "VariableDeclaration",
             "overrides": null,
-            "scope": 3421,
+            "scope": 3438,
             "src": "388:34:12",
             "stateVariable": true,
             "storageLocation": "default",
@@ -481,7 +481,7 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 3402,
+              "id": 3419,
               "name": "uint256",
               "nodeType": "ElementaryTypeName",
               "src": "388:7:12",
@@ -493,7 +493,7 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "323030",
-              "id": 3403,
+              "id": 3420,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
@@ -512,12 +512,12 @@
           },
           {
             "constant": false,
-            "id": 3411,
+            "id": 3428,
             "mutability": "mutable",
             "name": "_auctionLimits",
             "nodeType": "VariableDeclaration",
             "overrides": null,
-            "scope": 3421,
+            "scope": 3438,
             "src": "494:46:12",
             "stateVariable": true,
             "storageLocation": "default",
@@ -527,7 +527,7 @@
             },
             "typeName": {
               "baseType": {
-                "id": 3405,
+                "id": 3422,
                 "name": "uint256",
                 "nodeType": "ElementaryTypeName",
                 "src": "494:7:12",
@@ -536,11 +536,11 @@
                   "typeString": "uint256"
                 }
               },
-              "id": 3407,
+              "id": 3424,
               "length": {
                 "argumentTypes": null,
                 "hexValue": "32",
-                "id": 3406,
+                "id": 3423,
                 "isConstant": false,
                 "isLValue": false,
                 "isPure": true,
@@ -568,7 +568,7 @@
                 {
                   "argumentTypes": null,
                   "hexValue": "313030",
-                  "id": 3408,
+                  "id": 3425,
                   "isConstant": false,
                   "isLValue": false,
                   "isPure": true,
@@ -586,7 +586,7 @@
                 {
                   "argumentTypes": null,
                   "hexValue": "333030",
-                  "id": 3409,
+                  "id": 3426,
                   "isConstant": false,
                   "isLValue": false,
                   "isPure": true,
@@ -602,7 +602,7 @@
                   "value": "300"
                 }
               ],
-              "id": 3410,
+              "id": 3427,
               "isConstant": false,
               "isInlineArray": true,
               "isLValue": false,
@@ -619,12 +619,12 @@
           },
           {
             "constant": false,
-            "id": 3414,
+            "id": 3431,
             "mutability": "mutable",
             "name": "_providerMinimumStake",
             "nodeType": "VariableDeclaration",
             "overrides": null,
-            "scope": 3421,
+            "scope": 3438,
             "src": "589:43:12",
             "stateVariable": true,
             "storageLocation": "default",
@@ -633,7 +633,7 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 3412,
+              "id": 3429,
               "name": "uint256",
               "nodeType": "ElementaryTypeName",
               "src": "589:7:12",
@@ -645,7 +645,7 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "323030",
-              "id": 3413,
+              "id": 3430,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
@@ -664,12 +664,12 @@
           },
           {
             "constant": false,
-            "id": 3417,
+            "id": 3434,
             "mutability": "mutable",
             "name": "_ankrStakePerWei",
             "nodeType": "VariableDeclaration",
             "overrides": null,
-            "scope": 3421,
+            "scope": 3438,
             "src": "684:38:12",
             "stateVariable": true,
             "storageLocation": "default",
@@ -678,7 +678,7 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 3415,
+              "id": 3432,
               "name": "uint256",
               "nodeType": "ElementaryTypeName",
               "src": "684:7:12",
@@ -690,7 +690,7 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "316539",
-              "id": 3416,
+              "id": 3433,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
@@ -709,12 +709,12 @@
           },
           {
             "constant": false,
-            "id": 3420,
+            "id": 3437,
             "mutability": "mutable",
             "name": "_maximumSlashingsAllowed",
             "nodeType": "VariableDeclaration",
             "overrides": null,
-            "scope": 3421,
+            "scope": 3438,
             "src": "856:53:12",
             "stateVariable": true,
             "storageLocation": "default",
@@ -723,7 +723,7 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 3418,
+              "id": 3435,
               "name": "uint256",
               "nodeType": "ElementaryTypeName",
               "src": "856:7:12",
@@ -735,7 +735,7 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "353030",
-              "id": 3419,
+              "id": 3436,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
@@ -753,7 +753,7 @@
             "visibility": "private"
           }
         ],
-        "scope": 3422,
+        "scope": 3439,
         "src": "63:849:12"
       }
     ],
@@ -765,7 +765,7 @@
   },
   "networks": {},
   "schemaVersion": "3.2.5",
-  "updatedAt": "2020-10-04T19:40:28.054Z",
+  "updatedAt": "2020-10-04T20:41:06.722Z",
   "devdoc": {
     "methods": {}
   },

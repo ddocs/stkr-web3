@@ -40,18 +40,18 @@
     "absolutePath": "/Users/anilkucukrecep/Code/Personal/st/contracts/contracts/core/OwnedByGovernor.sol",
     "exportedSymbols": {
       "GovernanceContract": [
-        3431
+        3448
       ],
       "OwnedByGovernor": [
-        3456
+        3473
       ]
     },
-    "id": 3457,
+    "id": 3474,
     "license": "UNLICENSED",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 3423,
+        "id": 3440,
         "literals": [
           "solidity",
           "^",
@@ -68,9 +68,9 @@
         "contractKind": "interface",
         "documentation": null,
         "fullyImplemented": false,
-        "id": 3431,
+        "id": 3448,
         "linearizedBaseContracts": [
-          3431
+          3448
         ],
         "name": "GovernanceContract",
         "nodeType": "ContractDefinition",
@@ -79,7 +79,7 @@
             "body": null,
             "documentation": null,
             "functionSelector": "e43581b8",
-            "id": 3430,
+            "id": 3447,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
@@ -87,17 +87,17 @@
             "nodeType": "FunctionDefinition",
             "overrides": null,
             "parameters": {
-              "id": 3426,
+              "id": 3443,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 3425,
+                  "id": 3442,
                   "mutability": "mutable",
                   "name": "addr",
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
-                  "scope": 3430,
+                  "scope": 3447,
                   "src": "119:12:13",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -106,7 +106,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 3424,
+                    "id": 3441,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "119:7:13",
@@ -123,17 +123,17 @@
               "src": "118:14:13"
             },
             "returnParameters": {
-              "id": 3429,
+              "id": 3446,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 3428,
+                  "id": 3445,
                   "mutability": "mutable",
                   "name": "",
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
-                  "scope": 3430,
+                  "scope": 3447,
                   "src": "158:4:13",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -142,7 +142,7 @@
                     "typeString": "bool"
                   },
                   "typeName": {
-                    "id": 3427,
+                    "id": 3444,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
                     "src": "158:4:13",
@@ -157,14 +157,14 @@
               ],
               "src": "157:6:13"
             },
-            "scope": 3431,
+            "scope": 3448,
             "src": "99:65:13",
             "stateMutability": "nonpayable",
             "virtual": true,
             "visibility": "external"
           }
         ],
-        "scope": 3457,
+        "scope": 3474,
         "src": "64:102:13"
       },
       {
@@ -174,21 +174,21 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 3456,
+        "id": 3473,
         "linearizedBaseContracts": [
-          3456
+          3473
         ],
         "name": "OwnedByGovernor",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "constant": false,
-            "id": 3433,
+            "id": 3450,
             "mutability": "mutable",
             "name": "_governanceContract",
             "nodeType": "VariableDeclaration",
             "overrides": null,
-            "scope": 3456,
+            "scope": 3473,
             "src": "199:35:13",
             "stateVariable": true,
             "storageLocation": "default",
@@ -197,7 +197,7 @@
               "typeString": "address"
             },
             "typeName": {
-              "id": 3432,
+              "id": 3449,
               "name": "address",
               "nodeType": "ElementaryTypeName",
               "src": "199:7:13",
@@ -212,25 +212,25 @@
           },
           {
             "body": {
-              "id": 3442,
+              "id": 3459,
               "nodeType": "Block",
               "src": "298:43:13",
               "statements": [
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 3440,
+                    "id": 3457,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
                       "argumentTypes": null,
-                      "id": 3438,
+                      "id": 3455,
                       "name": "_governanceContract",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 3433,
+                      "referencedDeclaration": 3450,
                       "src": "308:19:13",
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
@@ -241,11 +241,11 @@
                     "operator": "=",
                     "rightHandSide": {
                       "argumentTypes": null,
-                      "id": 3439,
+                      "id": 3456,
                       "name": "addr",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 3435,
+                      "referencedDeclaration": 3452,
                       "src": "330:4:13",
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
@@ -258,7 +258,7 @@
                       "typeString": "address"
                     }
                   },
-                  "id": 3441,
+                  "id": 3458,
                   "nodeType": "ExpressionStatement",
                   "src": "308:26:13"
                 }
@@ -266,7 +266,7 @@
             },
             "documentation": null,
             "functionSelector": "6faf60a0",
-            "id": 3443,
+            "id": 3460,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
@@ -274,17 +274,17 @@
             "nodeType": "FunctionDefinition",
             "overrides": null,
             "parameters": {
-              "id": 3436,
+              "id": 3453,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 3435,
+                  "id": 3452,
                   "mutability": "mutable",
                   "name": "addr",
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
-                  "scope": 3443,
+                  "scope": 3460,
                   "src": "275:12:13",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -293,7 +293,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 3434,
+                    "id": 3451,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "275:7:13",
@@ -310,12 +310,12 @@
               "src": "274:14:13"
             },
             "returnParameters": {
-              "id": 3437,
+              "id": 3454,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "298:0:13"
             },
-            "scope": 3456,
+            "scope": 3473,
             "src": "241:100:13",
             "stateMutability": "nonpayable",
             "virtual": false,
@@ -323,26 +323,26 @@
           },
           {
             "body": {
-              "id": 3450,
+              "id": 3467,
               "nodeType": "Block",
               "src": "408:43:13",
               "statements": [
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 3448,
+                    "id": 3465,
                     "name": "_governanceContract",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
-                    "referencedDeclaration": 3433,
+                    "referencedDeclaration": 3450,
                     "src": "425:19:13",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
                       "typeString": "address"
                     }
                   },
-                  "functionReturnParameters": 3447,
-                  "id": 3449,
+                  "functionReturnParameters": 3464,
+                  "id": 3466,
                   "nodeType": "Return",
                   "src": "418:26:13"
                 }
@@ -350,7 +350,7 @@
             },
             "documentation": null,
             "functionSelector": "b172b222",
-            "id": 3451,
+            "id": 3468,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
@@ -358,23 +358,23 @@
             "nodeType": "FunctionDefinition",
             "overrides": null,
             "parameters": {
-              "id": 3444,
+              "id": 3461,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "374:2:13"
             },
             "returnParameters": {
-              "id": 3447,
+              "id": 3464,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 3446,
+                  "id": 3463,
                   "mutability": "mutable",
                   "name": "",
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
-                  "scope": 3451,
+                  "scope": 3468,
                   "src": "399:7:13",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -383,7 +383,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 3445,
+                    "id": 3462,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "399:7:13",
@@ -399,7 +399,7 @@
               ],
               "src": "398:9:13"
             },
-            "scope": 3456,
+            "scope": 3473,
             "src": "347:104:13",
             "stateMutability": "view",
             "virtual": false,
@@ -407,24 +407,24 @@
           },
           {
             "body": {
-              "id": 3454,
+              "id": 3471,
               "nodeType": "Block",
               "src": "481:184:13",
               "statements": [
                 {
-                  "id": 3453,
+                  "id": 3470,
                   "nodeType": "PlaceholderStatement",
                   "src": "657:1:13"
                 }
               ]
             },
             "documentation": null,
-            "id": 3455,
+            "id": 3472,
             "name": "onlyGovernor",
             "nodeType": "ModifierDefinition",
             "overrides": null,
             "parameters": {
-              "id": 3452,
+              "id": 3469,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "478:2:13"
@@ -434,7 +434,7 @@
             "visibility": "internal"
           }
         ],
-        "scope": 3457,
+        "scope": 3474,
         "src": "168:499:13"
       }
     ],
@@ -444,18 +444,18 @@
     "absolutePath": "/Users/anilkucukrecep/Code/Personal/st/contracts/contracts/core/OwnedByGovernor.sol",
     "exportedSymbols": {
       "GovernanceContract": [
-        3431
+        3448
       ],
       "OwnedByGovernor": [
-        3456
+        3473
       ]
     },
-    "id": 3457,
+    "id": 3474,
     "license": "UNLICENSED",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 3423,
+        "id": 3440,
         "literals": [
           "solidity",
           "^",
@@ -472,9 +472,9 @@
         "contractKind": "interface",
         "documentation": null,
         "fullyImplemented": false,
-        "id": 3431,
+        "id": 3448,
         "linearizedBaseContracts": [
-          3431
+          3448
         ],
         "name": "GovernanceContract",
         "nodeType": "ContractDefinition",
@@ -483,7 +483,7 @@
             "body": null,
             "documentation": null,
             "functionSelector": "e43581b8",
-            "id": 3430,
+            "id": 3447,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
@@ -491,17 +491,17 @@
             "nodeType": "FunctionDefinition",
             "overrides": null,
             "parameters": {
-              "id": 3426,
+              "id": 3443,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 3425,
+                  "id": 3442,
                   "mutability": "mutable",
                   "name": "addr",
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
-                  "scope": 3430,
+                  "scope": 3447,
                   "src": "119:12:13",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -510,7 +510,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 3424,
+                    "id": 3441,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "119:7:13",
@@ -527,17 +527,17 @@
               "src": "118:14:13"
             },
             "returnParameters": {
-              "id": 3429,
+              "id": 3446,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 3428,
+                  "id": 3445,
                   "mutability": "mutable",
                   "name": "",
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
-                  "scope": 3430,
+                  "scope": 3447,
                   "src": "158:4:13",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -546,7 +546,7 @@
                     "typeString": "bool"
                   },
                   "typeName": {
-                    "id": 3427,
+                    "id": 3444,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
                     "src": "158:4:13",
@@ -561,14 +561,14 @@
               ],
               "src": "157:6:13"
             },
-            "scope": 3431,
+            "scope": 3448,
             "src": "99:65:13",
             "stateMutability": "nonpayable",
             "virtual": true,
             "visibility": "external"
           }
         ],
-        "scope": 3457,
+        "scope": 3474,
         "src": "64:102:13"
       },
       {
@@ -578,21 +578,21 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 3456,
+        "id": 3473,
         "linearizedBaseContracts": [
-          3456
+          3473
         ],
         "name": "OwnedByGovernor",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "constant": false,
-            "id": 3433,
+            "id": 3450,
             "mutability": "mutable",
             "name": "_governanceContract",
             "nodeType": "VariableDeclaration",
             "overrides": null,
-            "scope": 3456,
+            "scope": 3473,
             "src": "199:35:13",
             "stateVariable": true,
             "storageLocation": "default",
@@ -601,7 +601,7 @@
               "typeString": "address"
             },
             "typeName": {
-              "id": 3432,
+              "id": 3449,
               "name": "address",
               "nodeType": "ElementaryTypeName",
               "src": "199:7:13",
@@ -616,25 +616,25 @@
           },
           {
             "body": {
-              "id": 3442,
+              "id": 3459,
               "nodeType": "Block",
               "src": "298:43:13",
               "statements": [
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 3440,
+                    "id": 3457,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
                       "argumentTypes": null,
-                      "id": 3438,
+                      "id": 3455,
                       "name": "_governanceContract",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 3433,
+                      "referencedDeclaration": 3450,
                       "src": "308:19:13",
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
@@ -645,11 +645,11 @@
                     "operator": "=",
                     "rightHandSide": {
                       "argumentTypes": null,
-                      "id": 3439,
+                      "id": 3456,
                       "name": "addr",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 3435,
+                      "referencedDeclaration": 3452,
                       "src": "330:4:13",
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
@@ -662,7 +662,7 @@
                       "typeString": "address"
                     }
                   },
-                  "id": 3441,
+                  "id": 3458,
                   "nodeType": "ExpressionStatement",
                   "src": "308:26:13"
                 }
@@ -670,7 +670,7 @@
             },
             "documentation": null,
             "functionSelector": "6faf60a0",
-            "id": 3443,
+            "id": 3460,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
@@ -678,17 +678,17 @@
             "nodeType": "FunctionDefinition",
             "overrides": null,
             "parameters": {
-              "id": 3436,
+              "id": 3453,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 3435,
+                  "id": 3452,
                   "mutability": "mutable",
                   "name": "addr",
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
-                  "scope": 3443,
+                  "scope": 3460,
                   "src": "275:12:13",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -697,7 +697,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 3434,
+                    "id": 3451,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "275:7:13",
@@ -714,12 +714,12 @@
               "src": "274:14:13"
             },
             "returnParameters": {
-              "id": 3437,
+              "id": 3454,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "298:0:13"
             },
-            "scope": 3456,
+            "scope": 3473,
             "src": "241:100:13",
             "stateMutability": "nonpayable",
             "virtual": false,
@@ -727,26 +727,26 @@
           },
           {
             "body": {
-              "id": 3450,
+              "id": 3467,
               "nodeType": "Block",
               "src": "408:43:13",
               "statements": [
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 3448,
+                    "id": 3465,
                     "name": "_governanceContract",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
-                    "referencedDeclaration": 3433,
+                    "referencedDeclaration": 3450,
                     "src": "425:19:13",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
                       "typeString": "address"
                     }
                   },
-                  "functionReturnParameters": 3447,
-                  "id": 3449,
+                  "functionReturnParameters": 3464,
+                  "id": 3466,
                   "nodeType": "Return",
                   "src": "418:26:13"
                 }
@@ -754,7 +754,7 @@
             },
             "documentation": null,
             "functionSelector": "b172b222",
-            "id": 3451,
+            "id": 3468,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
@@ -762,23 +762,23 @@
             "nodeType": "FunctionDefinition",
             "overrides": null,
             "parameters": {
-              "id": 3444,
+              "id": 3461,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "374:2:13"
             },
             "returnParameters": {
-              "id": 3447,
+              "id": 3464,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 3446,
+                  "id": 3463,
                   "mutability": "mutable",
                   "name": "",
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
-                  "scope": 3451,
+                  "scope": 3468,
                   "src": "399:7:13",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -787,7 +787,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 3445,
+                    "id": 3462,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "399:7:13",
@@ -803,7 +803,7 @@
               ],
               "src": "398:9:13"
             },
-            "scope": 3456,
+            "scope": 3473,
             "src": "347:104:13",
             "stateMutability": "view",
             "virtual": false,
@@ -811,24 +811,24 @@
           },
           {
             "body": {
-              "id": 3454,
+              "id": 3471,
               "nodeType": "Block",
               "src": "481:184:13",
               "statements": [
                 {
-                  "id": 3453,
+                  "id": 3470,
                   "nodeType": "PlaceholderStatement",
                   "src": "657:1:13"
                 }
               ]
             },
             "documentation": null,
-            "id": 3455,
+            "id": 3472,
             "name": "onlyGovernor",
             "nodeType": "ModifierDefinition",
             "overrides": null,
             "parameters": {
-              "id": 3452,
+              "id": 3469,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "478:2:13"
@@ -838,7 +838,7 @@
             "visibility": "internal"
           }
         ],
-        "scope": 3457,
+        "scope": 3474,
         "src": "168:499:13"
       }
     ],
@@ -850,7 +850,7 @@
   },
   "networks": {},
   "schemaVersion": "3.2.5",
-  "updatedAt": "2020-10-04T19:40:28.055Z",
+  "updatedAt": "2020-10-04T20:41:06.725Z",
   "devdoc": {
     "methods": {}
   },

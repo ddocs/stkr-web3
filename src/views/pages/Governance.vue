@@ -40,10 +40,12 @@ export default {
   methods: {
     ...mapActions(['approveProvider']),
     async send(index, validatorData) {
-      const [ pubkey, withdrawalInfo, signature, depositData ] = web3.eth.abi.decodeParameters(['bytes', 'bytes', 'bytes', 'bytes32'], validatorData.depositData)
+      const vd = JSON.parse(validatorData);
+      console.log(vd)
+      const res = web3.eth.abi.decodeParameters(['bytes', 'bytes', 'bytes', 'bytes32'], vd.depositData.slice(8))
 
       const micropoolContract = await this.$store.dispatch('getContract', 'Micropool')
-      await micropoolContract.methods.updatePoolData(index, validatorData.validatorId, pubkey, withdrawalInfo, signature, depositData)
+      await micropoolContract.methods.updatePoolData(index, vd.validatorId, res[0], res[1], res[2], res[3]).send()
     }
   },
   computed: {

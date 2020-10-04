@@ -47,8 +47,7 @@
                 class="mr-3 mb-2"
                 @click="createNodeCertificate"
             >Create a node certificate
-            </vs-button
-            >
+            </vs-button>
           </div>
         </div>
       </vs-card>
