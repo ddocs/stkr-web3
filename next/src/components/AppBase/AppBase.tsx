@@ -1,4 +1,5 @@
 import React from 'react';
+import { ConnectedRouter } from 'connected-react-router';
 import intl from 'react-intl-universal';
 import { CssBaseline } from '@material-ui/core';
 import { AppContext } from './AppContext';
@@ -6,9 +7,11 @@ import { MuiThemeProvider } from '@material-ui/core/styles';
 import { locales } from '../../common/locales';
 import { mainTheme } from '../../common/themes/mainTheme';
 import { AppLoading } from '../AppLoading/AppLoading';
-import { BrowserRouter } from 'react-router-dom';
-
+import { Provider, ReactReduxContext } from 'react-redux';
+import { persistor, store } from '../../store';
 import '../../common/fonts/stylesheet.css';
+import { PersistGate } from 'redux-persist/integration/react';
+import { historyInstance } from '../../common/utils/historyInstance';
 
 interface IAppBaseProps {}
 
@@ -30,12 +33,19 @@ export class AppBase extends React.Component<IAppBaseProps, IAppBaseState> {
   public render() {
     return (
       <AppContext.Provider value={{ locale: this.state.locale }}>
-        <MuiThemeProvider theme={mainTheme}>
-          <CssBaseline />
-          <BrowserRouter>
-            {!this.state.initDone ? <AppLoading /> : this.props.children}
-          </BrowserRouter>
-        </MuiThemeProvider>
+        <Provider store={store} context={ReactReduxContext}>
+          <MuiThemeProvider theme={mainTheme}>
+            <CssBaseline />
+            <PersistGate loading={<AppLoading />} persistor={persistor}>
+              <ConnectedRouter
+                history={historyInstance}
+                context={ReactReduxContext}
+              >
+                {!this.state.initDone ? <AppLoading /> : this.props.children}
+              </ConnectedRouter>
+            </PersistGate>
+          </MuiThemeProvider>
+        </Provider>
       </AppContext.Provider>
     );
   }

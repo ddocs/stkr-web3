@@ -1,1 +1,1 @@
-export { PoolTable } from './PoolTable';
+export * from './PoolTable';
