@@ -110,7 +110,9 @@ const actions = {
     const providerContract = await dispatch('getContract', 'Provider')
     const stakingContract = await dispatch('getContract', 'Staking')
     window.provider = providerContract
+    
     const appliedEvents = await providerContract.getPastEvents('Applied')
+
     const statusChangeEvents = await providerContract.getPastEvents('StatusChanged')
     const providers = []
     for (const event of appliedEvents) {
@@ -160,7 +162,7 @@ const actions = {
     }
     console.log(pools)
     commit('UPDATE_POOLS', pools)
-  },
+  }
 }
 
 export default actions

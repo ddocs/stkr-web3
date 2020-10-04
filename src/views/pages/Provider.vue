@@ -25,16 +25,6 @@
       </vs-card>
 
       <vs-card>
-        <div class="vx-row mb-2">
-          <div class="vx-col w-full">
-            <vs-input
-                v-model="poolFee"
-                class="w-full"
-                title="Pool Fee"
-                label-placeholder="Pool Fee"
-            />
-          </div>
-        </div>
         <div class="vx-row">
           <div class="vx-col w-full">
             <vs-button
@@ -42,6 +32,21 @@
                 class="mr-3 mb-2"
                 @click="createPool"
             >Create a pool
+            </vs-button
+            >
+          </div>
+        </div>
+      </vs-card>
+
+      <vs-card>
+
+        <div class="vx-row">
+          <div class="vx-col w-full">
+            <vs-button
+                :disabled="!activeUserInfo.displayName || !userIsProvider"
+                class="mr-3 mb-2"
+                @click="createNodeCertificate"
+            >Create a node certificate
             </vs-button
             >
           </div>
@@ -86,6 +91,8 @@
 /* eslint-disable */
 import artifacts from '@/artifacts'
 import {mapState, mapGetters} from 'vuex'
+import axios from '@/axios'
+import beacon from "@/beacon.abi"
 
 export default {
   name: 'provider',
@@ -114,6 +121,35 @@ export default {
     ...mapState(['providers'])
   },
   methods: {
+    
+    decodeBeaconData(data) {
+      const [ pubkey, withdrawalInfo, signature, depositData ] = web3.eth.abi.decodeParameters(['bytes', 'bytes', 'bytes', 'bytes32'], data)
+      return { pubkey, withdrawalInfo, signature, depositData }
+    },
+    createNodeCertificate() {
+      const nodeId = web3.eth.accounts.create().address
+      axios.post('/node', {
+        providerId: this.activeUserInfo.displayName,
+        nodeId
+      }).then(r => {
+        this.forceFileDownload(r, 'node_cert' + nodeId + '.json')
+        const validatorId = web3.eth.accounts.create().address
+        axios.post('/node/validator', {
+          providerId: this.activeUserInfo.displayName,
+          nodeId,
+          validatorId
+        }).then(r => this.forceFileDownload(r, 'validator_data_' + validatorId + '.json'))
+      })
+    },
+    forceFileDownload(response, filename){
+      const url = window.URL.createObjectURL(new Blob([JSON.stringify(response.data)]))
+      const link = document.createElement('a')
+      link.href = url
+      link.setAttribute('download', filename) //or any other extension
+      document.body.appendChild(link)
+      link.click()
+    },
+
     stringToBytes (data) {
       return web3.utils.padRight(web3.utils.asciiToHex(data), 64)
     },
@@ -121,7 +157,8 @@ export default {
     async createPool() {
       const micropoolContract = await this.$store.dispatch('getContract', 'Micropool')
       console.log("micropool", micropoolContract)
-      await micropoolContract.methods.initializePool(this.activeUserInfo.displayName, this.poolFee).send()
+      
+      await micropoolContract.methods.initializePool().send()
     },
 
     async apply () {

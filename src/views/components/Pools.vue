@@ -3,8 +3,8 @@
     <vs-table :data="pools" search>
 
       <template slot="thead">
+        <vs-th sort-key="poolIndex">Index</vs-th>
         <vs-th sort-key="provider">Provider</vs-th>
-        <vs-th sort-key="name">Validator</vs-th>
         <vs-th sort-key="status">Status</vs-th>
         <vs-th sort-key="totalStake">Total Stake</vs-th>
         <vs-th sort-key="fee">Fee</vs-th>
@@ -16,12 +16,12 @@
       <template slot-scope="{data}">
         <vs-tr v-for="(tr, indextr) in pools" :key="indextr">
 
-          <vs-td :data="data[indextr].provider">
-            {{ data[indextr].provider }}
+          <vs-td :data="data[indextr].poolIndex">
+            {{ data[indextr].poolIndex }}
           </vs-td>
 
-          <vs-td :data="data[indextr].validator">
-            {{ data[indextr].validator }}
+          <vs-td :data="data[indextr].provider">
+            {{ data[indextr].provider }}
           </vs-td>
 
           <vs-td :data="data[indextr].status">
