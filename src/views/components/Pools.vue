@@ -113,9 +113,6 @@ export default {
       stakeValEth: 0.5
     }
   },
-  mounted () {
-    
-  },
   mounted() {},
   computed: {
     ...mapState(["pools"])
