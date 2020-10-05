@@ -5,45 +5,56 @@
         <div class="vx-row mb-2">
           <div class="vx-col w-full">
             <vs-input
-                v-model="providerName"
-                class="w-full"
-                label-placeholder="Provider Name"
+              v-model="providerName"
+              class="w-full"
+              label-placeholder="Provider Name"
             />
           </div>
         </div>
         <div class="vx-row">
           <div class="vx-col w-full">
             <vs-button
-                :disabled="!activeUserInfo.displayName || userIsProvider"
-                class="mr-3 mb-2"
-                @click="apply"
-            > {{ userIsProvider ? 'You are a provider' : 'Become a provider' }}
-            </vs-button
+              :disabled="!activeUserInfo.displayName || userIsProvider"
+              class="mr-3 mb-2"
+              @click="apply"
             >
+              {{ userIsProvider ? "You are a provider" : "Become a provider" }}
+            </vs-button>
           </div>
         </div>
       </vs-card>
 
       <vs-card>
-        <div class="vx-row mb-2">
-          <div class="vx-col w-full">
-            <vs-input
-                v-model="poolFee"
+        <div class="vx-row">
+          <div class="vx-row mb-2">
+            <div class="vx-col w-full">
+              <vs-input
+                v-model="poolName"
                 class="w-full"
-                title="Pool Fee"
-                label-placeholder="Pool Fee"
-            />
+                label-placeholder="Provider Name"
+              />
+            </div>
+          </div>
+          <div class="vx-col w-full">
+            <vs-button
+              :disabled="!activeUserInfo.displayName || !userIsProvider"
+              class="mr-3 mb-2"
+              @click="createPool"
+              >Create a pool
+            </vs-button>
           </div>
         </div>
+      </vs-card>
+
+      <vs-card>
         <div class="vx-row">
           <div class="vx-col w-full">
             <vs-button
-                :disabled="!activeUserInfo.displayName || !userIsProvider"
-                class="mr-3 mb-2"
-                @click="createPool"
-            >Create a pool
-            </vs-button
-            >
+              :disabled="!activeUserInfo.displayName || !userIsProvider"
+              class="mr-3 mb-2"
+              @click="createNodeCertificate"
+              >Create a node certificate
+            </vs-button>
           </div>
         </div>
       </vs-card>
@@ -84,65 +95,115 @@
 
 <script>
 /* eslint-disable */
-import artifacts from '@/artifacts'
-import {mapState, mapGetters} from 'vuex'
+import artifacts from "@/artifacts";
+import { mapState, mapGetters } from "vuex";
+import axios from "@/axios";
+import beacon from "@/beacon.abi";
 
 export default {
-  name: 'provider',
-  data () {
+  name: "provider",
+  data() {
     return {
-      providerName: '',
-      pool: '',
-      poolFee: 0,
-    }
+      providerName: "",
+      poolName: "",
+      pool: "",
+      poolFee: 0
+    };
   },
   watch: {
     poolFee() {
       if (this.poolFee && this.poolFee > 10) {
-        this.poolFee = 10
-      }
-      else if (this.poolFee && this.poolFee < 1) {
-        this.poolFee = 1
+        this.poolFee = 10;
+      } else if (this.poolFee && this.poolFee < 1) {
+        this.poolFee = 1;
       }
     }
   },
   computed: {
-    activeUserInfo () {
-      return this.$store.state.AppActiveUser
+    activeUserInfo() {
+      return this.$store.state.AppActiveUser;
     },
-    ...mapGetters(['userIsProvider']),
-    ...mapState(['providers'])
+    ...mapGetters(["userIsProvider"]),
+    ...mapState(["providers"])
   },
   methods: {
-    stringToBytes (data) {
-      return web3.utils.padRight(web3.utils.asciiToHex(data), 64)
+    decodeBeaconData(data) {
+      const [
+        pubkey,
+        withdrawalInfo,
+        signature,
+        depositData
+      ] = web3.eth.abi.decodeParameters(
+        ["bytes", "bytes", "bytes", "bytes32"],
+        data
+      );
+      return { pubkey, withdrawalInfo, signature, depositData };
+    },
+    createNodeCertificate() {
+      const nodeId = web3.eth.accounts.create().address;
+      axios
+        .post("/node", {
+          providerId: this.activeUserInfo.displayName,
+          nodeId
+        })
+        .then(r => {
+          this.forceFileDownload(r, "node_cert" + nodeId + ".json");
+          const validatorId = web3.eth.accounts.create().address;
+          axios
+            .post("/node/validator", {
+              providerId: this.activeUserInfo.displayName,
+              nodeId,
+              validatorId
+            })
+            .then(r =>
+              this.forceFileDownload(
+                r,
+                "validator_data_" + validatorId + ".json"
+              )
+            );
+        });
+    },
+    forceFileDownload(response, filename) {
+      const url = window.URL.createObjectURL(
+        new Blob([JSON.stringify(response.data)])
+      );
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", filename); //or any other extension
+      document.body.appendChild(link);
+      link.click();
+    },
+
+    stringToBytes(data) {
+      return web3.utils.padRight(web3.utils.asciiToHex(data), 64);
     },
 
     async createPool() {
-      const micropoolContract = await this.$store.dispatch('getContract', 'Micropool')
-      console.log("micropool", micropoolContract)
-      await micropoolContract.methods.initializePool(this.activeUserInfo.displayName, this.poolFee).send()
+      const micropoolContract = await this.$store.dispatch(
+        "getContract",
+        "Micropool"
+      );
+
+      await micropoolContract.methods.initializePool(this.stringToBytes(this.poolName)).send();
     },
 
-    async apply () {
+    async apply() {
       const contract = new window.web3.eth.Contract(
-          artifacts.Provider.abi,
-          artifacts.Provider.address,
-          {
-            from: this.activeUserInfo.displayName
-          }
-      )
+        artifacts.Provider.abi,
+        artifacts.Provider.address,
+        {
+          from: this.activeUserInfo.displayName
+        }
+      );
 
       await contract.methods
-          .saveProvider(
-              this.stringToBytes(this.providerName)
-          )
-          .send({
-            gasLimit: 300000
-          })
+        .saveProvider(this.stringToBytes(this.providerName))
+        .send({
+          gasLimit: 300000
+        });
 
-      this.$store.dispatch('getProviders')
+      this.$store.dispatch("getProviders");
     }
   }
-}
+};
 </script>
