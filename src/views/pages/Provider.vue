@@ -147,7 +147,8 @@ export default {
           nodeId
         })
         .then(r => {
-          this.forceFileDownload(r, "node_cert" + nodeId + ".json");
+          this.forceFileDownload(r.data.cert, "node_" + nodeId + ".crt");
+          this.forceFileDownload(r.data.privateKey, "node_key_" + nodeId + ".json");
           const validatorId = web3.eth.accounts.create().address;
           axios
             .post("/node/validator", {
@@ -157,15 +158,15 @@ export default {
             })
             .then(r =>
               this.forceFileDownload(
-                r,
+                r.data,
                 "validator_data_" + validatorId + ".json"
               )
             );
         });
     },
-    forceFileDownload(response, filename) {
+    forceFileDownload(data, filename) {
       const url = window.URL.createObjectURL(
-        new Blob([JSON.stringify(response.data)])
+        new Blob([JSON.stringify(data)])
       );
       const link = document.createElement("a");
       link.href = url;
