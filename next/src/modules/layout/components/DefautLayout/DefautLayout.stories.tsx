@@ -12,7 +12,7 @@ const DefaultLayoutStory = () => {
   const classes = useStyles();
   return (
     <div className={classes.block}>
-      <DefaultLayoutComponent></DefaultLayoutComponent>
+      <DefaultLayoutComponent signIn={() => null as any} />
     </div>
   );
 };

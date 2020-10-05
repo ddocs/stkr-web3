@@ -17,6 +17,8 @@ import { Logotype } from '../Logotype';
 export interface IHeaderProps {
   className?: string;
   isAuth?: boolean;
+  onUnlockWallet?: () => void;
+  displayName?: string;
 }
 
 const TABS: ITab[] = [
@@ -32,7 +34,12 @@ const TABS: ITab[] = [
   },
 ];
 
-export const HeaderComponent = ({ className, isAuth }: IHeaderProps) => {
+export const HeaderComponent = ({
+  className,
+  isAuth,
+  onUnlockWallet,
+  displayName,
+}: IHeaderProps) => {
   const classes = useHeaderStyles();
 
   const LINKS = [
@@ -64,6 +71,7 @@ export const HeaderComponent = ({ className, isAuth }: IHeaderProps) => {
           <>
             <Tabs className={classes.tabs} values={TABS} />
             <div className={classes.wallet} />
+            <div>{displayName}</div>
           </>
         ) : (
           <>
@@ -82,7 +90,12 @@ export const HeaderComponent = ({ className, isAuth }: IHeaderProps) => {
                 </li>
               ))}
             </ul>
-            <Button className={classes.button} color="primary" size="large">
+            <Button
+              onClick={onUnlockWallet}
+              className={classes.button}
+              color="primary"
+              size="large"
+            >
               {t('navigation.unlock-wallet')}
             </Button>
           </>

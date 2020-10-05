@@ -12,7 +12,7 @@ const PoolTableStory = () => {
   const classes = useStyles();
   return (
     <div className={classes.block}>
-      <PoolTableComponent data={POOL_DATA} signIn={() => null as any} />
+      <PoolTableComponent data={POOL_DATA} />
     </div>
   );
 };

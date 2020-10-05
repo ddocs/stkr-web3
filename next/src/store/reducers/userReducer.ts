@@ -5,20 +5,39 @@ import {
 } from '../../common/utils/requestStatus';
 import { createReducer } from '../../common/utils/createReducer';
 import { createAPIReducer } from '../../common/utils/createAPIReducer';
+import { IUserInfo } from '../apiMappers/userApi';
+
+export function isAuthenticated(state: IUserState) {
+  return !!state.userInfo?.displayName;
+}
 
 export interface ISignInResponse {}
 
 export interface IUserState {
-  loginStatus: RequestStatus;
+  signInStatus: RequestStatus;
+
+  userUpdateInfoStatus: RequestStatus;
+  userInfo?: IUserInfo;
 }
 
 const initialState: IUserState = {
-  loginStatus: requestInactive(),
+  signInStatus: requestInactive(),
+
+  userUpdateInfoStatus: requestInactive(),
 };
 
 export const userReducer = createReducer(initialState, {
   ...createAPIReducer<IUserState, ISignInResponse>(
     UserActionTypes.SIGN_IN,
-    'loginStatus',
+    'signInStatus',
+  ),
+  ...createAPIReducer<IUserState, IUserInfo>(
+    UserActionTypes.UPDATE_USER_INFO,
+    'userUpdateInfoStatus',
+    {
+      onSuccess: (state, action) => {
+        return { ...state, userInfo: action.payload };
+      },
+    },
   ),
 });

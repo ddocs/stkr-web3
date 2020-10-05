@@ -1,14 +1,15 @@
 import * as React from 'react';
-import { useEffect } from 'react';
 import { usePoolTableStyles } from './PoolTableStyles';
 import classNames from 'classnames';
 import { t } from '../../../../common/utils/intl';
 import { Table } from '../../../../components/TableComponents';
 import { useLocaleMemo } from '../../../../common/hooks/useLocaleMemo';
-import { ITablesCaptionProps, ITablesRowProps, } from '../../../../components/TableComponents/types';
+import {
+  ITablesCaptionProps,
+  ITablesRowProps,
+} from '../../../../components/TableComponents/types';
 import { POOL_DATA } from './mock';
 import { connect } from 'react-redux';
-import { UserActions } from '../../../../store/actions/UserActions';
 import { IStoreState } from '../../../../store/reducers';
 
 interface IPoolTableStoreProps {
@@ -17,7 +18,6 @@ interface IPoolTableStoreProps {
 
 interface IPoolTableProps extends IPoolTableStoreProps {
   className?: string;
-  signIn: typeof UserActions.signIn;
 }
 
 const useCaptions = (): ITablesCaptionProps[] =>
@@ -47,17 +47,9 @@ const useCaptions = (): ITablesCaptionProps[] =>
     [],
   );
 
-export const PoolTableComponent = ({
-  className,
-  data,
-  signIn,
-}: IPoolTableProps) => {
+export const PoolTableComponent = ({ className, data }: IPoolTableProps) => {
   const classes = usePoolTableStyles();
   const captions = useCaptions();
-
-  useEffect(() => {
-    signIn();
-  }, [signIn]);
 
   return (
     <Table
@@ -69,13 +61,8 @@ export const PoolTableComponent = ({
   );
 };
 
-export const PoolTable = connect(
-  (state: IStoreState): IPoolTableStoreProps => {
-    return {
-      data: POOL_DATA,
-    };
-  },
-  {
-    signIn: UserActions.signIn,
-  },
-)(PoolTableComponent);
+export const PoolTable = connect((state: IStoreState): IPoolTableStoreProps => {
+  return {
+    data: POOL_DATA,
+  };
+}, {})(PoolTableComponent);

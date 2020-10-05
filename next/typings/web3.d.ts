@@ -5,5 +5,7 @@ declare global {
     web3: Web3;
     ethereum: any;
     contracts: any;
+    provider: any;
+    micropool: any;
   }
 }
