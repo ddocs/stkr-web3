@@ -1,7 +1,7 @@
 // axios
 import axios from 'axios'
 
-const baseURL = 'http://monitor.stkr-dev.ankr.com:5555'
+const baseURL = 'https://monitor.stkr-dev.ankr.com'
 
 export default axios.create({
   baseURL
