@@ -31,7 +31,7 @@
               <vs-input
                 v-model="poolName"
                 class="w-full"
-                label-placeholder="Provider Name"
+                label-placeholder="Pool Name"
               />
             </div>
           </div>
