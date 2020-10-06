@@ -372,7 +372,15 @@ const mainTheme = createMuiTheme({
 
       h5: {},
 
-      h6: {},
+      h6: {
+        fontSize: 18,
+        fontWeight: 700,
+        lineHeight: 1.2,
+
+        '&::selection': selection,
+
+        '& *::selection': selection,
+      },
 
       subtitle1: {
         fontSize: 14,

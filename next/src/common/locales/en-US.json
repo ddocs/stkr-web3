@@ -42,7 +42,7 @@
     "create": {
       "stage-1": {
         "introduction": "You are not provider yet",
-        "three-steps": "3 simple steps to be Stkr provider",
+        "three-steps": "3 simple steps<br /> to be Stkr provider",
         "three-steps-description": "Stkr is a decentralized protocol and platform that combines staking and DeFi, implementing elements from traditional staking with non-custodial staking, Micropools and decentralized governance."
       }
     }

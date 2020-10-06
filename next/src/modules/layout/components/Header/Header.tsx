@@ -13,6 +13,7 @@ import {
   STAKER_PATH,
 } from '../../../../common/const';
 import { Logotype } from '../Logotype';
+import { useLocation } from 'react-router';
 
 export interface IHeaderProps {
   className?: string;
@@ -57,6 +58,8 @@ export const HeaderComponent = ({
     },
   ];
 
+  const location = useLocation();
+
   return (
     <header
       className={classNames(
@@ -69,9 +72,10 @@ export const HeaderComponent = ({
         <Logotype className={classes.logo} />
         {isAuth ? (
           <>
-            <Tabs className={classes.tabs} values={TABS} />
-            <div className={classes.wallet} />
-            <div>{displayName}</div>
+            {[STAKER_PATH, PROVIDER_PATH].includes(location.pathname) && (
+              <Tabs className={classes.tabs} values={TABS} />
+            )}
+            <div className={classes.wallet}>{displayName}</div>
           </>
         ) : (
           <>

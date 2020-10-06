@@ -11,24 +11,6 @@ export const useInputFieldStyles = makeStyles((theme: Theme) =>
       gridTemplateColumns: '100%',
     },
 
-    label: {
-      position: 'absolute',
-      top: 0,
-      left: 0,
-
-      width: 1,
-      height: 1,
-      padding: 0,
-      overflow: 'hidden',
-
-      whiteSpace: 'nowrap',
-
-      border: 0,
-
-      clip: 'rect(0 0 0 0)',
-      clipPath: 'inset(100%)',
-    },
-
     wrapper: {
       position: 'relative',
     },

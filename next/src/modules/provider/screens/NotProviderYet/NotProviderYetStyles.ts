@@ -68,5 +68,17 @@ export const useNotProviderYetStyles = makeStyles<Theme>(theme => ({
     },
   },
 
-  content: {},
+  content: {
+    padding: theme.spacing(5, 0),
+
+    boxSizing: 'border-box',
+  },
+
+  wrapper: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+
+    height: '100%',
+  },
 }));

@@ -86,7 +86,9 @@ export const NotProviderYet = ({ className }: INotProviderYetProps) => {
                   </ul>
                 </Curtains>
               </div>
-              <Curtains className={classes.content}>{body!}</Curtains>
+              <div className={classes.content}>
+                <Curtains className={classes.wrapper}>{body!}</Curtains>
+              </div>
             </>
           );
         }}

@@ -4,7 +4,7 @@ export {
   Headline3,
   Headline4,
   // Headline5,
-  // Headline6,
+  Headline6,
   SubTitle1,
   // SmallTitle,
   Body1,

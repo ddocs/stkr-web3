@@ -5,13 +5,15 @@ export const useTextFieldStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       height: '100%',
-      padding: theme.spacing(1.5, 2),
+      padding: theme.spacing(1.5, 0),
       boxSizing: 'border-box',
 
-      color: theme.palette.text.primary,
+      fontSize: 18,
+      color: theme.palette.primary.main,
 
-      borderRadius: 4,
-      border: '1px solid #E1E4EB',
+      borderRadius: 0,
+      border: 'none',
+      borderBottom: `1px solid ${theme.palette.primary.main}`,
 
       backgroundColor: 'transparent',
 
