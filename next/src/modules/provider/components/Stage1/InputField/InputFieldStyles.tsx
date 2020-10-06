@@ -17,7 +17,7 @@ export const useInputFieldStyles = makeStyles((theme: Theme) =>
 
     message: {
       position: 'absolute',
-      top: theme.spacing(0.25),
+      top: theme.spacing(0.75),
 
       color: theme.palette.error.main,
       fontSize: 12,

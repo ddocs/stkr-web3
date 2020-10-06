@@ -36,6 +36,10 @@ export const useNotProviderYetStyles = makeStyles<Theme>(theme => ({
     color: fade(theme.palette.text.primary, 0.3),
     counterIncrement: 'breadcrumbs',
 
+    transitionTimingFunction: 'linaer',
+    transitionDuration: '300ms',
+    transitionProperty: 'color',
+
     '&::before': {
       position: 'relative',
       content: '"0" counter(breadcrumbs)". "',
@@ -60,6 +64,10 @@ export const useNotProviderYetStyles = makeStyles<Theme>(theme => ({
     '&::before': {
       display: 'none',
     },
+  },
+
+  finishedStage: {
+    color: fade(theme.palette.primary.main, 0.3),
   },
 
   lastStage: {

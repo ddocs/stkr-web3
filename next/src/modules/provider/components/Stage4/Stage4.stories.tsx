@@ -12,7 +12,7 @@ const Stage4Story = () => {
   const classes = useStyles();
   return (
     <div className={classes.block}>
-      <Stage4Component nextStep={() => alert('to next stage')} />
+      <Stage4Component />
     </div>
   );
 };

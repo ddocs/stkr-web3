@@ -73,7 +73,8 @@ export const NotProviderYet = ({ className }: INotProviderYetProps) => {
                           key={uid(step)}
                           className={classNames(
                             classes.item,
-                            currentStep === index && classes.activeStage,
+                            index === currentStep && classes.activeStage,
+                            index < currentStep && classes.finishedStage,
                             isLastStage && classes.lastStage,
                             isLoadingStage && classes.loadingStage,
                           )}

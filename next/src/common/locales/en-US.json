@@ -15,7 +15,8 @@
     "create-micropool": "Create micropool",
     "become-provider": "Become a Provider",
     "email": "Enter your name",
-    "next": "Next"
+    "next": "Next",
+    "create": "Create"
   },
   "validation": {
     "email-error": "Not a valid email address"
@@ -44,6 +45,18 @@
         "introduction": "You are not provider yet",
         "three-steps": "3 simple steps<br /> to be Stkr provider",
         "three-steps-description": "Stkr is a decentralized protocol and platform that combines staking and DeFi, implementing elements from traditional staking with non-custodial staking, Micropools and decentralized governance."
+      },
+      "stage-2": {
+        "confirmation": "Confirmation <br />of your data in progress",
+        "note": "The process might take a while"
+      },
+      "stage-3": {
+        "create-node": "Create a beacon<br /> chain node",
+        "create-node-description": "Stkr is a decentralized protocol and platform that combines staking and DeFi, implementing elements from traditional staking with non-custodial staking, Micropools and decentralized governance."
+      },
+      "stage-4": {
+        "generation": "Data is being generated",
+        "note": "The process might take a while"
       }
     }
   }
