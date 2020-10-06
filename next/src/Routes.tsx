@@ -7,15 +7,9 @@ import { withDefaultLayout } from './modules/layout';
 import { INDEX_PATH } from './common/const';
 
 const LoadableOverviewContainer = withDefaultLayout(
-  loadable(
-    async () =>
-      import('./modules/lobby/screens/Lobby/Lobby').then(
-        module => module.Lobby,
-      ),
-    {
-      fallback: <AppLoading />,
-    },
-  ) as LoadableComponent<any>,
+  loadable(async () => import('./modules/lobby').then(module => module.Lobby), {
+    fallback: <AppLoading />,
+  }) as LoadableComponent<any>,
 );
 
 export function Routes() {

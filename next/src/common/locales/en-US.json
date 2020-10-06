@@ -13,7 +13,12 @@
     "apply-as-provider": "Apply as a provider",
     "create-beacon-chain": "Create Beacon chain",
     "create-micropool": "Create micropool",
-    "become-provider": "Become a Provider"
+    "become-provider": "Become a Provider",
+    "email": "Enter your name",
+    "next": "Next"
+  },
+  "validation": {
+    "email-error": "Not a valid email address"
   },
   "about": {
     "title": "Staking. <br /> Reimagined.",
@@ -32,5 +37,14 @@
     "status": "Status",
     "fee": "Fee",
     "total": "Total Stake"
+  },
+  "provider": {
+    "create": {
+      "stage-1": {
+        "introduction": "You are not provider yet",
+        "three-steps": "3 simple steps to be Stkr provider",
+        "three-steps-description": "Stkr is a decentralized protocol and platform that combines staking and DeFi, implementing elements from traditional staking with non-custodial staking, Micropools and decentralized governance."
+      }
+    }
   }
 }
