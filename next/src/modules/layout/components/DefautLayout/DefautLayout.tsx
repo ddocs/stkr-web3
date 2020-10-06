@@ -13,7 +13,7 @@ interface ILayoutStoreProps {
 
 export interface ILayoutProps extends ILayoutStoreProps {
   className?: string;
-  isAuth?: boolean;
+  isAuth: boolean;
   children?: React.ReactNode;
   displayName?: string;
 }

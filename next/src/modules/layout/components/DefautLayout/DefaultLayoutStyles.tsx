@@ -4,13 +4,16 @@ import { DEFAULT_FONT } from '../../../../common/themes/mainTheme';
 
 export const useDefaultLayoutStyles = makeStyles<Theme>(theme => ({
   component: {
+    display: 'grid',
+    gridTemplateRows: 'auto 1fr',
+
     minHeight: '100vh',
     width: '100%',
 
     fontFamily: DEFAULT_FONT,
     fontWeight: 400,
 
-    backgroundColor: theme.palette.primary.contrastText,
+    backgroundColor: '#0F0F0F',
 
     '-webkit-backface-visibility': 'hidden',
     '-moz-backface-visibility': 'hidden',

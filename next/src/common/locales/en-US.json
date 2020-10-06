@@ -9,7 +9,11 @@
     "whitepaper-en": "Whitepaper (En)",
     "whitepaper-ch": "Whitepaper (Ch)",
     "join": "Join",
-    "unlock-your-wallet": "Unlock your wallet"
+    "unlock-your-wallet": "Unlock your wallet",
+    "apply-as-provider": "Apply as a provider",
+    "create-beacon-chain": "Create Beacon chain",
+    "create-micropool": "Create micropool",
+    "become-provider": "Become a Provider"
   },
   "about": {
     "title": "Staking. <br /> Reimagined.",

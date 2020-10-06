@@ -5,7 +5,9 @@ import { Theme } from '@material-ui/core';
 import { Logotype } from './Logotype';
 
 const useStyles = makeStyles<Theme>(theme => ({
-  block: {},
+  block: {
+    display: 'inline-block',
+  },
 }));
 
 const LogotypeStory = () => {

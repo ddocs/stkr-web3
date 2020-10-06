@@ -8,8 +8,6 @@ export interface INavLinkProps {
   component?: string | React.ComponentType;
   href: string;
   variant?: LinksVariant;
-  target?: string;
-  rel?: string;
   onClick?: (e: React.MouseEvent<Element, MouseEvent>) => void;
   style?: React.CSSProperties;
   activeClassName?: string;
@@ -27,10 +25,6 @@ export const NavLink = React.forwardRef<
       href.startsWith('http') ||
       href.startsWith('mailto') ||
       href.startsWith('tel');
-    // const location = useLocation();
-    // if(isLink && href===location) {
-    //   class
-    // }
 
     return (
       <Button
@@ -43,8 +37,8 @@ export const NavLink = React.forwardRef<
         variant={variant}
         onClick={onClick}
         role="link"
-        rel={isLink && 'noopener noreferrer'}
-        target={isLink && '_blank'}
+        rel={isLink ? 'noopener noreferrer' : undefined}
+        target={isLink ? '_blank' : false}
         ref={ref}
         {...props}
       />

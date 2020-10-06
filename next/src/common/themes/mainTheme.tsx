@@ -275,6 +275,7 @@ const mainTheme = createMuiTheme({
 
         color: PALETTE.text.primary,
         fontWeight: 400,
+        whiteSpace: 'nowrap',
 
         backgroundColor: 'transparent',
 

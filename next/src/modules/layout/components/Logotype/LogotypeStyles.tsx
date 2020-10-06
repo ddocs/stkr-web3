@@ -24,6 +24,10 @@ export const useLogotypeStyles = makeStyles<Theme>(theme => ({
 
       backgroundColor: fade(theme.palette.text.primary, 0.1),
     },
+
+    '& > span': {
+      whiteSpace: 'nowrap',
+    },
   },
 
   link: {

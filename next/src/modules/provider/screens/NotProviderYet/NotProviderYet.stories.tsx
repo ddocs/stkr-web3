@@ -2,23 +2,23 @@ import React from 'react';
 
 import { makeStyles } from '@material-ui/styles';
 import { Theme } from '@material-ui/core';
-import { DefaultLayoutComponent } from './DefautLayout';
+import { NotProviderYet } from './NotProviderYet';
 
 const useStyles = makeStyles<Theme>(theme => ({
   block: {},
 }));
 
-const DefaultLayoutStory = () => {
+const NotProviderYetStory = () => {
   const classes = useStyles();
   return (
     <div className={classes.block}>
-      <DefaultLayoutComponent signIn={() => null as any} isAuth={false} />
+      <NotProviderYet />
     </div>
   );
 };
 
-export const DefaultLayoutExample = () => <DefaultLayoutStory />;
+export const NotProviderYetExample = () => <NotProviderYetStory />;
 
 export default {
-  title: 'modules/Layout/DefaultLayout',
+  title: 'modules/provider/NotProviderYet',
 };

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useLobbyStyles } from './LobbyStyles';
-import { Promo } from '../../components/Promo';
-import { Pool } from '../../components/Pool';
+import { Promo } from './components/Promo';
+import { Pool } from './components/Pool';
 
 interface ILobbyProps {}
 

@@ -17,8 +17,8 @@ import { Logotype } from '../Logotype';
 export interface IHeaderProps {
   className?: string;
   isAuth?: boolean;
-  onUnlockWallet?: () => void;
   displayName?: string;
+  onUnlockWallet?: () => void;
 }
 
 const TABS: ITab[] = [

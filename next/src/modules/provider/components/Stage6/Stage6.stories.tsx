@@ -2,23 +2,23 @@ import React from 'react';
 
 import { makeStyles } from '@material-ui/styles';
 import { Theme } from '@material-ui/core';
-import { DefaultLayoutComponent } from './DefautLayout';
+import { Stage6Component } from './Stage6';
 
 const useStyles = makeStyles<Theme>(theme => ({
   block: {},
 }));
 
-const DefaultLayoutStory = () => {
+const Stage6Story = () => {
   const classes = useStyles();
   return (
     <div className={classes.block}>
-      <DefaultLayoutComponent signIn={() => null as any} isAuth={false} />
+      <Stage6Component nextStep={() => alert('finish')} />
     </div>
   );
 };
 
-export const DefaultLayoutExample = () => <DefaultLayoutStory />;
+export const Stage6Example = () => <Stage6Story />;
 
 export default {
-  title: 'modules/Layout/DefaultLayout',
+  title: 'modules/provider/component/Stage6',
 };

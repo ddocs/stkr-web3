@@ -2,23 +2,23 @@ import React from 'react';
 
 import { makeStyles } from '@material-ui/styles';
 import { Theme } from '@material-ui/core';
-import { Lobby } from './Lobby';
+import { Stage3Component } from './Stage3';
 
 const useStyles = makeStyles<Theme>(theme => ({
   block: {},
 }));
 
-const LobbyStory = () => {
+const Stage3Story = () => {
   const classes = useStyles();
   return (
     <div className={classes.block}>
-      <Lobby />
+      <Stage3Component nextStep={() => alert('to next stage')} />
     </div>
   );
 };
 
-export const LobbyExample = () => <LobbyStory />;
+export const Stage3Example = () => <Stage3Story />;
 
 export default {
-  title: 'modules/Lobby',
+  title: 'modules/provider/component/Stage3',
 };

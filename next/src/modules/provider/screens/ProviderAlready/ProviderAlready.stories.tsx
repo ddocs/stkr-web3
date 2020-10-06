@@ -2,23 +2,23 @@ import React from 'react';
 
 import { makeStyles } from '@material-ui/styles';
 import { Theme } from '@material-ui/core';
-import { DefaultLayoutComponent } from './DefautLayout';
+import { ProviderAlready } from './ProviderAlready';
 
 const useStyles = makeStyles<Theme>(theme => ({
   block: {},
 }));
 
-const DefaultLayoutStory = () => {
+const ProviderAlreadyStory = () => {
   const classes = useStyles();
   return (
     <div className={classes.block}>
-      <DefaultLayoutComponent signIn={() => null as any} isAuth={false} />
+      <ProviderAlready />
     </div>
   );
 };
 
-export const DefaultLayoutExample = () => <DefaultLayoutStory />;
+export const ProviderAlreadyExample = () => <ProviderAlreadyStory />;
 
 export default {
-  title: 'modules/Layout/DefaultLayout',
+  title: 'modules/provider/ProviderAlready',
 };
