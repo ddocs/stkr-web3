@@ -16,7 +16,11 @@
     "become-provider": "Become a Provider",
     "email": "Enter your name",
     "next": "Next",
-    "create": "Create"
+    "create": "Create",
+    "edit": "Edit",
+    "load": "Download",
+    "micropool-list": "My micropool list",
+    "beacon-list": "Beacon chain list"
   },
   "validation": {
     "email-error": "Not a valid email address"
@@ -28,6 +32,9 @@
     "providers": "Providers",
     "total": "Total Requesters"
   },
+  "dashboard": {
+    "hi": "Hi, {name}"
+  },
   "pool": {
     "title": "Staking pools",
     "note": "Start staking today with STKR"
@@ -38,6 +45,20 @@
     "status": "Status",
     "fee": "Fee",
     "total": "Total Stake"
+  },
+  "micro-pool-table": {
+    "name": "Name",
+    "status": "Status",
+    "fee": "Fee",
+    "duration": "Staking duration",
+    "total": "ETH in the pool",
+    "empty": "Create your first micropool node"
+  },
+  "beacon-node-table": {
+    "name": "Name",
+    "uptime": "Uptime",
+    "date": "Creation Date",
+    "certificate": "Certificate"
   },
   "provider": {
     "create": {

@@ -42,8 +42,11 @@ export const useTotalStyles = makeStyles<Theme, { width: number }>(theme => ({
     },
   },
 
-  button: {
-    minWidth: 100,
+  extension: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+
     marginLeft: 'auto',
   },
 }));

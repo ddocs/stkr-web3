@@ -1,0 +1,1 @@
+export { BeaconList } from './BeaconList';

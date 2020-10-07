@@ -40,6 +40,7 @@ export const NavLink = React.forwardRef<
         rel={isLink ? 'noopener noreferrer' : undefined}
         target={isLink ? '_blank' : false}
         ref={ref}
+        style={style}
         {...props}
       />
     );

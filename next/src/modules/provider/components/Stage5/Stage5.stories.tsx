@@ -12,7 +12,12 @@ const Stage5Story = () => {
   const classes = useStyles();
   return (
     <div className={classes.block}>
-      <Stage5Component nextStep={() => alert('to next stage')} />
+      <Stage5Component
+        nextStep={() => alert('to next stage')}
+        displayName="Alexander"
+        onCreateBeaconNode={() => alert('Create another beacon chain node')}
+        micropool={undefined}
+      />
     </div>
   );
 };
