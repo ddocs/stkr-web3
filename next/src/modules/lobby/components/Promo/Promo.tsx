@@ -12,9 +12,9 @@ interface IPromoProps {
 
 export const Promo = ({ className }: IPromoProps) => {
   const LIST: Record<string, string> = {
-    distributed: '200k',
-    providers: '25',
-    total: '2500',
+    total: '$1,233,234',
+    providers: '342',
+    stakers: '2500',
   };
 
   const keys = Object.keys(LIST);

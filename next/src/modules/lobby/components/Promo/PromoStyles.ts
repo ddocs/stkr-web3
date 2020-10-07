@@ -26,6 +26,15 @@ export const usePromoStyles = makeStyles<Theme, { count: number }>(theme => ({
     '&::selection': selection,
 
     '& *::selection': selection,
+
+    '& span': {
+      display: 'flex',
+      flexDirection: 'column',
+    },
+
+    '& span span': {
+      color: theme.palette.primary.main,
+    },
   },
 
   text: {

@@ -29,17 +29,17 @@
     "email-error": "Not a valid email address"
   },
   "about": {
-    "title": "Staking. <br /> Reimagined.",
+    "title": "<span>Staking.</span>Reimagined.",
     "text": "Stkr is a decentralized protocol \nand platform that combines staking and DeFi, implementing elements from traditional staking with non-custodial staking, Micropools and decentralized governance.",
-    "distributed": "Distributed ETH",
+    "stakers": "Stakers",
     "providers": "Providers",
-    "total": "Total Requesters"
+    "total": "Total Value Staked"
   },
   "dashboard": {
     "hi": "Hi, {name}"
   },
   "pool": {
-    "title": "Staking pools",
+    "title": "250 staking pools",
     "note": "Start staking today with STKR"
   },
   "pool-table": {

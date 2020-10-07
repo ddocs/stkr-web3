@@ -17,6 +17,7 @@ const PALETTE = {
     secondary: fade('#ffffff', 0.5),
   },
   grey: {
+    900: '#1D1D1D',
     100: '#C4C4C4',
   },
   error: {
@@ -111,7 +112,7 @@ const mainTheme = createMuiTheme({
     MuiPaper: {
       root: {
         color: PALETTE.text.primary,
-        backgroundColor: '#1D1D1D',
+        backgroundColor: PALETTE.grey[900],
 
         transition: 'none',
         overflow: 'initial',

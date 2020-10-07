@@ -11,18 +11,19 @@ export const usePoolStyles = makeStyles<Theme>(theme => ({
   },
 
   title: {
+    width: '100%',
     margin: 0,
+    padding: theme.spacing(2.5, 3.75),
 
-    fontSize: 36,
-    lineHeight: 1.25,
-    fontWeight: 500,
+    boxSizing: 'border-box',
+
+    backgroundColor: theme.palette.grey[900],
   },
 
   table: {
     position: 'relative',
 
     width: '100%',
-    marginTop: theme.spacing(3),
 
     pointerEvents: 'none',
 
