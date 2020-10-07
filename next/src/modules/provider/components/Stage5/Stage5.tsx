@@ -16,6 +16,7 @@ import { Button } from '../../../../UiKit/Button';
 interface IStage4StoreProps {
   displayName: string;
   micropool: ITablesRowProps[] | undefined;
+
   onCreateBeaconNode?(x: any): void;
 }
 
@@ -52,33 +53,48 @@ export const Stage5Component = ({
 
   return (
     <div className={classNames(classes.component, className)}>
-      <Headline1>{tHTML('dashboard.hi', { name: displayName })}</Headline1>
-      <div>
-        <ul>
-          {TABS.map(tab => (
-            <li>
-              <button
-                onClick={() => setValue(tab.value)}
-                disabled={tab.value === value}
-              >
-                {t(tab.label)}
-              </button>
-            </li>
-          ))}
+      <Headline1 className={classes.title}>
+        {tHTML('dashboard.hi', { name: displayName })}
+      </Headline1>
+      <div className={classes.navigation}>
+        <ul className={classes.list}>
+          {TABS.map(tab => {
+            const active = tab.value === value;
+            return (
+              <li className={classes.item}>
+                <button
+                  className={classNames(
+                    classes.tab,
+                    active && classes.activeTab,
+                  )}
+                  onClick={() => setValue(tab.value)}
+                  disabled={active}
+                >
+                  {t(tab.label)}
+                </button>
+              </li>
+            );
+          })}
         </ul>
         {value === Tabs.beacon && (
-          <Button onClick={onCreateBeaconNode}>{t('navigation.create')}</Button>
+          <Button
+            className={classes.create}
+            onClick={onCreateBeaconNode}
+            size="small"
+            color="primary"
+          >
+            {t('navigation.create')}
+          </Button>
         )}
       </div>
-      <div>
-        {value === Tabs.micropool && (
-          <MicropoolListComponent
-            onCreateMicropool={nextStep}
-            data={micropool}
-          />
-        )}
-        {value === Tabs.beacon && <BeaconList />}
-      </div>
+      {value === Tabs.micropool && (
+        <MicropoolListComponent
+          className={classes.table}
+          onCreateMicropool={nextStep}
+          data={micropool}
+        />
+      )}
+      {value === Tabs.beacon && <BeaconList className={classes.table} />}
     </div>
   );
 };

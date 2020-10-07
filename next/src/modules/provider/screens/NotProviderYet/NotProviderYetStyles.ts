@@ -71,13 +71,21 @@ export const useNotProviderYetStyles = makeStyles<Theme>(theme => ({
   },
 
   lastStage: {
+    counterIncrement: 'none',
+
+    '&::before': {
+      display: 'none',
+    },
+  },
+
+  subStage: {
     '&::before': {
       display: 'none',
     },
   },
 
   content: {
-    padding: theme.spacing(5, 0),
+    padding: theme.spacing(10, 0),
 
     boxSizing: 'border-box',
   },

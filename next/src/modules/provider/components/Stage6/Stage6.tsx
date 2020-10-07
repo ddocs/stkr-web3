@@ -12,7 +12,7 @@ interface IStage6Props extends IStageProps {
 export const Stage6Component = ({ className, nextStep }: IStage6Props) => {
   const classes = useStage6Styles();
 
-  return <div className={classNames(classes.component, className)} />;
+  return <div className={classNames(classes.component, className)}></div>;
 };
 
 const Stage6Imp = ({ className }: IStageProps) => {

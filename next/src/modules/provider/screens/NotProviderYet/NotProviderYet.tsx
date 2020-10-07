@@ -14,6 +14,7 @@ import classNames from 'classnames';
 import { Curtains } from '../../../../UiKit/Curtains';
 import { t } from '../../../../common/utils/intl';
 import { SubTitle1 } from '../../../../UiKit/Typography';
+import { Stage8 } from '../../components/Stage8';
 
 interface INotProviderYetProps {
   className?: string;
@@ -34,6 +35,8 @@ const getCaptionByStage = (stage: number) => {
     case 6:
       return undefined;
     case 7:
+      return undefined;
+    case 8:
       return 'navigation.become-provider';
   }
   return undefined;
@@ -47,6 +50,7 @@ const STEPS = defineFlow(
   Stage5,
   Stage6,
   Stage7,
+  Stage8,
 );
 
 export const NotProviderYet = ({ className }: INotProviderYetProps) => {
@@ -66,17 +70,25 @@ export const NotProviderYet = ({ className }: INotProviderYetProps) => {
                     {steps.map((step, index) => {
                       const caption = getCaptionByStage(index + 1);
                       const isLoadingStage =
-                        index === 1 || index === 3 || index === 5;
+                        index === 1 || index === 3 || index === 6;
                       const isLastStage = index === steps.length - 1;
+                      const isSubStage = index === 5;
+                      const isActive =
+                        index === currentStep ||
+                        (currentStep === 5 && index === 4);
+                      const isFinishedStage =
+                        index < currentStep &&
+                        !(currentStep === 5 && index === 4);
                       return (
                         <SubTitle1
                           key={uid(step)}
                           className={classNames(
                             classes.item,
-                            index === currentStep && classes.activeStage,
-                            index < currentStep && classes.finishedStage,
+                            isActive && classes.activeStage,
+                            isFinishedStage && classes.finishedStage,
                             isLastStage && classes.lastStage,
                             isLoadingStage && classes.loadingStage,
+                            isSubStage && classes.subStage,
                           )}
                           component="li"
                         >

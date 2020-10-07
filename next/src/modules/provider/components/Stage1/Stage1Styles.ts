@@ -60,6 +60,6 @@ export const useStage1Styles = makeStyles<Theme>(theme => ({
     gridRow: '-1/1',
     gridColumn: '1/2',
 
-    margin: 'auto',
+    placeSelf: 'center',
   },
 }));

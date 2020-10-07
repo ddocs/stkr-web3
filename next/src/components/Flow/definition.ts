@@ -32,7 +32,9 @@ export function defineFlow<
   in6 extends object,
   out6 extends object,
   in7 extends object,
-  out7 extends object
+  out7 extends object,
+  in8 extends object,
+  out8 extends object
 >(
   step1: FlowStep<FlowRequirements<{}, in1>, out1, FlowProps>,
   step2?: FlowStep<FlowRequirements<out1, in2>, out2, FlowProps>,
@@ -51,6 +53,11 @@ export function defineFlow<
   step7?: FlowStep<
     FlowRequirements<out1 & out2 & out3 & out4 & out5 & out6, in7>,
     out7,
+    FlowProps
+  >,
+  step8?: FlowStep<
+    FlowRequirements<out1 & out2 & out3 & out4 & out5 & out6 & out7, in8>,
+    out8,
     FlowProps
   >,
 ): Array<FlowStep<{}, {}, FlowProps>> {

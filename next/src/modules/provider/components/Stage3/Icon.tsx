@@ -2,7 +2,7 @@ import React from 'react';
 
 export const Icon = (props: React.SVGAttributes<SVGElement>) => {
   return (
-    <svg width={190} height={165} viewBox="0 0 379 329" fill="none" {...props}>
+    <svg width={379} height={329} viewBox="0 0 379 329" fill="none" {...props}>
       <g
         opacity={0.4}
         strokeWidth={0.5}

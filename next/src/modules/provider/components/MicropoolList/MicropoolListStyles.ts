@@ -10,6 +10,7 @@ export const useMicropoolListStyles = makeStyles<Theme>(theme => ({
     justifyContent: 'center',
     alignItems: 'center',
 
+    height: '100%',
     padding: theme.spacing(5, 0),
 
     boxSizing: 'border-box',

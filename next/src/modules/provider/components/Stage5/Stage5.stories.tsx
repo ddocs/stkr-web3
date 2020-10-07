@@ -5,7 +5,9 @@ import { Theme } from '@material-ui/core';
 import { Stage5Component } from './Stage5';
 
 const useStyles = makeStyles<Theme>(theme => ({
-  block: {},
+  block: {
+    height: '80vh',
+  },
 }));
 
 const Stage5Story = () => {
