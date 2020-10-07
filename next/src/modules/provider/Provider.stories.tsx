@@ -13,7 +13,7 @@ const ProviderStory = () => {
   const classes = useStyles();
   return (
     <div className={classes.block}>
-      <DefaultLayoutComponent signIn={() => null as any} isAuth={true}>
+      <DefaultLayoutComponent isAuth={true}>
         <ProviderComponent isProvider={false} />
       </DefaultLayoutComponent>
     </div>

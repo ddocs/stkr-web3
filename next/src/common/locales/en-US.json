@@ -20,7 +20,10 @@
     "edit": "Edit",
     "load": "Download",
     "micropool-list": "My micropool list",
-    "beacon-list": "Beacon chain list"
+    "beacon-list": "Beacon chain list",
+    "select-wallet-provider": "Select a wallet provider",
+    "connect": "Connect",
+    "install": "Install"
   },
   "validation": {
     "email-error": "Not a valid email address"
@@ -80,5 +83,9 @@
         "note": "The process might take a while"
       }
     }
+  },
+  "providers": {
+    "metamask": "Metamask",
+    "wallet": "WalletConnect"
   }
 }

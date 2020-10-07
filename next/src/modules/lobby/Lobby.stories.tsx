@@ -13,7 +13,7 @@ const LobbyStory = () => {
   const classes = useStyles();
   return (
     <div className={classes.block}>
-      <DefaultLayoutComponent signIn={() => null as any} isAuth={false}>
+      <DefaultLayoutComponent isAuth={false}>
         <Lobby />
       </DefaultLayoutComponent>
     </div>

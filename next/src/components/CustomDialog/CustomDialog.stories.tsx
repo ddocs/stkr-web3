@@ -1,25 +1,26 @@
 import React from 'react';
-
 import { makeStyles } from '@material-ui/styles';
 import { Theme } from '@material-ui/core';
-import { HeaderComponent } from './Header';
+import { CustomDialog } from './CustomDialog';
 
 const useStyles = makeStyles<Theme>(theme => ({
-  block: {},
+  block: {
+    margin: 16,
+  },
 }));
 
-const HeaderStory = () => {
+const CustomDialogStory = () => {
   const classes = useStyles();
+
   return (
     <div className={classes.block}>
-      <HeaderComponent signIn={() => null as any} />
-      <HeaderComponent isAuth={true} signIn={() => null as any} />
+      <CustomDialog open={true} onClose={() => alert('Close')} />
     </div>
   );
 };
 
-export const HeaderExample = () => <HeaderStory />;
+export const CustomDialogExample = () => <CustomDialogStory />;
 
 export default {
-  title: 'modules/Layout/Header',
+  title: 'Components/CustomDialog',
 };
