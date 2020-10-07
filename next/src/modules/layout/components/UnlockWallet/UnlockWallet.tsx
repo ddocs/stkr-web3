@@ -4,6 +4,7 @@ import { Button } from '../../../../UiKit/Button';
 import { CustomDialog } from '../../../../components/CustomDialog';
 import React from 'react';
 import { useUnlockWalletStyles } from './UnlockWalletStyles';
+import classNames from 'classnames';
 
 enum Providers {
   metamask = 'metamask',
@@ -46,13 +47,20 @@ export const UnlockWallet = ({
       maxWidth="sm"
     >
       <div className={classes.content}>
-        <Headline2 className={classes.title}>
+        <Headline2 className={classes.title} component="h2">
           {t('navigation.select-wallet-provider')}
         </Headline2>
         <ul className={classes.list}>
           {providersKeys.map(key => {
             return (
-              <li key={key} className={classes.item}>
+              <li
+                key={key}
+                className={classNames(
+                  classes.item,
+                  key === Providers.metamask && classes.itemMetaMask,
+                  key === Providers.wallet && classes.itemConnectWallet,
+                )}
+              >
                 {t(PROVIDERS[key])}
                 <Button
                   className={classes.button}
