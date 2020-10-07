@@ -1,88 +1,35 @@
-import { Headline2 } from '../../../../UiKit/Typography';
-import { t } from '../../../../common/utils/intl';
-import { Button } from '../../../../UiKit/Button';
 import { CustomDialog } from '../../../../components/CustomDialog';
 import React from 'react';
-import { useUnlockWalletStyles } from './UnlockWalletStyles';
-import classNames from 'classnames';
+import { connect } from 'react-redux';
+import { IStoreState } from '../../../../store/reducers';
+import { getOpenedModal } from '../../../../store/modals/selectors';
+import { closeModalAction, KnownModal } from '../../../../store/modals/actions';
+import { UnlockWalletContent } from './UnlockWalletContent';
 
-enum Providers {
-  metamask = 'metamask',
-  wallet = 'wallet',
-}
-
-interface IUnlockWalletProps {
-  open: boolean;
-  onClose(): void;
-  onConnectMetamask?(): void;
-  onConnectWallet?(): void;
-  onInstallMetamask?(): void;
-}
-
-const PROVIDERS: Record<string, string> = {
-  metamask: 'providers.metamask',
-  wallet: 'providers.wallet',
-};
-
-const metaMaskAvailable = () => typeof window.ethereum !== 'undefined';
-
-export const UnlockWallet = ({
-  open,
-  onClose,
-  onConnectMetamask,
-  onInstallMetamask,
-  onConnectWallet,
-}: IUnlockWalletProps) => {
-  const classes = useUnlockWalletStyles();
-
-  const hasMetaMask = metaMaskAvailable();
-
-  const providersKeys = Object.keys(PROVIDERS);
-
+const UnlockWalletComponent = ({
+  openedModal,
+  closeModal,
+}: {
+  openedModal: KnownModal | undefined;
+  closeModal(): any;
+}) => {
   return (
     <CustomDialog
-      open={open}
-      onClose={onClose}
+      open={openedModal === 'unlock-wallet'}
+      onClose={closeModal}
       transitionOpacity={true}
       maxWidth="sm"
     >
-      <div className={classes.content}>
-        <Headline2 className={classes.title} component="h2">
-          {t('navigation.select-wallet-provider')}
-        </Headline2>
-        <ul className={classes.list}>
-          {providersKeys.map(key => {
-            return (
-              <li
-                key={key}
-                className={classNames(
-                  classes.item,
-                  key === Providers.metamask && classes.itemMetaMask,
-                  key === Providers.wallet && classes.itemConnectWallet,
-                )}
-              >
-                {t(PROVIDERS[key])}
-                <Button
-                  className={classes.button}
-                  onClick={
-                    key === Providers.metamask
-                      ? !hasMetaMask
-                        ? onConnectMetamask
-                        : onInstallMetamask
-                      : onConnectWallet
-                  }
-                  color="primary"
-                  size="large"
-                >
-                  {key === Providers.metamask && !hasMetaMask
-                    ? t('navigation.install')
-                    : t('navigation.connect')}
-                </Button>
-              </li>
-            );
-          })}
-        </ul>
-      </div>
+      <UnlockWalletContent />
     </CustomDialog>
   );
 };
+
+export const UnlockWallet = connect(
+  (state: IStoreState) => ({
+    openedModal: getOpenedModal(state),
+  }),
+  {
+    closeModal: closeModalAction,
+  },
+)(UnlockWalletComponent);

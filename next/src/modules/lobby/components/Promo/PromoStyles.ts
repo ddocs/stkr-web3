@@ -7,7 +7,7 @@ export const usePromoStyles = makeStyles<Theme, { count: number }>(theme => ({
 
   wrapper: {
     display: 'grid',
-    gridTemplateColumns: '1fr 290px',
+    gridTemplateColumns: '1fr 340px',
     gridTemplateAreas: '"title text" "list list"',
     gridRowGap: theme.spacing(8),
 

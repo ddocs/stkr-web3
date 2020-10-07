@@ -5,6 +5,7 @@ import { Header } from '../Header';
 import { connect } from 'react-redux';
 import { IStoreState } from '../../../../store/reducers';
 import { isAuthenticated } from '../../../../store/reducers/userReducer';
+import { UnlockWallet } from '../UnlockWallet';
 
 interface ILayoutStoreProps {
   isAuth: boolean;
@@ -22,10 +23,13 @@ export const DefaultLayoutComponent = ({
   const classes = useDefaultLayoutStyles();
 
   return (
-    <div className={classNames(classes.component, className)}>
-      <Header />
-      <main>{children}</main>
-    </div>
+    <>
+      <div className={classNames(classes.component, className)}>
+        <Header />
+        <main>{children}</main>
+      </div>
+      <UnlockWallet />
+    </>
   );
 };
 

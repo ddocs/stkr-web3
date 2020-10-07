@@ -33,14 +33,13 @@
     "text": "Stkr is a decentralized protocol \nand platform that combines staking and DeFi, implementing elements from traditional staking with non-custodial staking, Micropools and decentralized governance.",
     "stakers": "Stakers",
     "providers": "Providers",
-    "total": "Total Value Staked"
+    "total": "Total Value Staked",
+    "pool-title": "250 staking pools",
+    "pool-note": "Start staking today with STKR",
+    "calculate-title": "Calculate your <span>earnings</span>"
   },
   "dashboard": {
     "hi": "Hi, {name}"
-  },
-  "pool": {
-    "title": "250 staking pools",
-    "note": "Start staking today with STKR"
   },
   "pool-table": {
     "name": "Name",

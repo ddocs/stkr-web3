@@ -2,24 +2,23 @@ import React from 'react';
 
 import { makeStyles } from '@material-ui/styles';
 import { Theme } from '@material-ui/core';
-import { HeaderComponent } from './Header';
+import { Calculate } from './Calculate';
 
 const useStyles = makeStyles<Theme>(theme => ({
   block: {},
 }));
 
-const HeaderStory = () => {
+const CalculateStory = () => {
   const classes = useStyles();
   return (
     <div className={classes.block}>
-      <HeaderComponent />
-      <HeaderComponent isAuth={true} />
+      <Calculate />
     </div>
   );
 };
 
-export const HeaderExample = () => <HeaderStory />;
+export const CalculateExample = () => <CalculateStory />;
 
 export default {
-  title: 'modules/Layout/Header',
+  title: 'modules/Lobby/component/Calculate',
 };

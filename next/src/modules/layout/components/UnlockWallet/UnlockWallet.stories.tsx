@@ -2,7 +2,8 @@ import React from 'react';
 
 import { makeStyles } from '@material-ui/styles';
 import { Theme } from '@material-ui/core';
-import { UnlockWallet } from './UnlockWallet';
+import { UnlockWalletContentComponent } from './UnlockWalletContent';
+import { CustomDialog } from '../../../../components/CustomDialog';
 
 const useStyles = makeStyles<Theme>(theme => ({
   block: {},
@@ -12,13 +13,18 @@ const UnlockWalletStory = () => {
   const classes = useStyles();
   return (
     <div className={classes.block}>
-      <UnlockWallet
+      <CustomDialog
         open={true}
         onClose={() => alert('Close')}
-        onConnectMetamask={() => alert('Connect metamask')}
-        onInstallMetamask={() => alert('Install metamask')}
-        onConnectWallet={() => alert('Connect wallet')}
-      />
+        transitionOpacity={true}
+        maxWidth="sm"
+      >
+        <UnlockWalletContentComponent
+          onConnectMetamask={() => alert('Connect metamask')}
+          onInstallMetamask={() => alert('Install metamask')}
+          onConnectWallet={() => alert('Connect wallet')}
+        />
+      </CustomDialog>
     </div>
   );
 };

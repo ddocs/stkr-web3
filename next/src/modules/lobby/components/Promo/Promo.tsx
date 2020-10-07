@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { usePromoStyles } from './PromoStyles';
 import { Curtains } from '../../../../UiKit/Curtains';
 import { Headline1 } from '../../../../UiKit/Typography';
@@ -10,13 +10,13 @@ interface IPromoProps {
   className?: string;
 }
 
-export const Promo = ({ className }: IPromoProps) => {
-  const LIST: Record<string, string> = {
-    total: '$1,233,234',
-    providers: '342',
-    stakers: '2500',
-  };
+const LIST: Record<string, string> = {
+  total: '$1,233,234',
+  providers: '342',
+  stakers: '2500',
+};
 
+export const Promo = ({ className }: IPromoProps) => {
   const keys = Object.keys(LIST);
 
   const classes = usePromoStyles({ count: keys.length });
