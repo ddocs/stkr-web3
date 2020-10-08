@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSubscribeStyles } from './SubscribeStyles';
-import { Headline3 } from '../../../../UiKit/Typography';
+import { Headline2 } from '../../../../UiKit/Typography';
 import { useFlowControl } from '../../../../components/Flow/hooks';
 import { isRequestInProgress } from '../../../../common/utils/requestStatus';
 import { defineFlowStep } from '../../../../components/Flow/definition';
@@ -22,10 +22,11 @@ export const SubscribeComponent = ({
 
   return (
     <div className={classes.component}>
-      <Headline3 component="h2" className={classes.title}>
+      <Headline2 component="h2" className={classes.title}>
         Subscribe for our updates
-      </Headline3>
+      </Headline2>
       <SubscribeForm
+        className={classes.form}
         buttonCaption={t('navigation.submit')}
         onSubmit={onSubmit}
         disabled={disabled}

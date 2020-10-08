@@ -21,7 +21,7 @@ export const Pool = ({ className }: IPoolProps) => {
   return (
     <section className={classNames(classes.component, className)}>
       <Curtains className={classes.wrapper}>
-        <Headline1 className={classes.title} color="primary" component="h2">
+        <Headline1 className={classes.title} component="h2">
           {t('about.pool-title')}
         </Headline1>
         <PoolTable className={classes.table} />

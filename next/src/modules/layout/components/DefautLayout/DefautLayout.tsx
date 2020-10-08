@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { IStoreState } from '../../../../store/reducers';
 import { isAuthenticated } from '../../../../store/reducers/userReducer';
 import { UnlockWallet } from '../UnlockWallet';
+import { Footer } from '../Footer';
 
 interface ILayoutStoreProps {
   isAuth: boolean;
@@ -27,6 +28,7 @@ export const DefaultLayoutComponent = ({
       <div className={classNames(classes.component, className)}>
         <Header />
         <main>{children}</main>
+        <Footer />
       </div>
       <UnlockWallet />
     </>

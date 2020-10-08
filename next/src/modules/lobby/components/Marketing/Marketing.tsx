@@ -7,27 +7,28 @@ import { Subscribe } from '../Subscribe';
 import { defineFlow } from '../../../../components/Flow/definition';
 import { BackgroundColorProvider } from '../../../../UiKit/BackgroundColorProvider';
 import { Flow } from '../../../../components/Flow';
+import { Curtains } from '../../../../UiKit/Curtains';
 
 interface IMarketingProps {
   className?: string;
-  enterprise?: boolean;
 }
 
 const STEPS = defineFlow(Subscribe, Success);
 
-export const Marketing = ({ className, enterprise }: IMarketingProps) => {
+export const Marketing = ({ className }: IMarketingProps) => {
   const classes = useMarketingStyles();
 
   const [steps] = useState(STEPS);
 
   return (
-    <BackgroundColorProvider
-      className={classNames(classes.component, className)}
-      component="div"
-    >
-      <Flow key={uid(steps)} steps={steps} onComplete={() => null}>
-        {body => body}
-      </Flow>
-    </BackgroundColorProvider>
+    <section className={classNames(classes.component, className)}>
+      <Curtains component="div" className={classes.wrapper}>
+        <BackgroundColorProvider component="div" className={classes.content}>
+          <Flow key={uid(steps)} steps={steps} onComplete={() => null}>
+            {body => body}
+          </Flow>
+        </BackgroundColorProvider>
+      </Curtains>
+    </section>
   );
 };

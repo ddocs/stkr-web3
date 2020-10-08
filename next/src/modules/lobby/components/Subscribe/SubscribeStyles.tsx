@@ -5,30 +5,20 @@ export const useSubscribeStyles = makeStyles<Theme>(theme => ({
   component: {
     '&&': {
       display: 'grid',
-      gridTemplateColumns: '1fr auto',
+      gridTemplateColumns: '260px 620px',
       gridColumnGap: theme.spacing(3),
 
-      [theme.breakpoints.down('md')]: {
-        gridTemplateColumns: 'auto 1fr',
-      },
-
-      [theme.breakpoints.down('xs')]: {
-        gridTemplateColumns: '100%',
-        gridRowGap: theme.spacing(3.5),
-      },
+      justifyContent: 'space-between',
     },
   },
 
   title: {
     '&&': {
-      [theme.breakpoints.down('md')]: {
-        fontSize: 22,
-      },
-
-      [theme.breakpoints.down('xs')]: {
-        fontSize: 28,
-        textAlign: 'center',
-      },
+      fontWeight: 400,
     },
+  },
+
+  form: {
+    alignSelf: 'center',
   },
 }));

@@ -21,5 +21,5 @@ const HeaderStory = () => {
 export const HeaderExample = () => <HeaderStory />;
 
 export default {
-  title: 'modules/Layout/Header',
+  title: 'modules/Layout/components/Header',
 };

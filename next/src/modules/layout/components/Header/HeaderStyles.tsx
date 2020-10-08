@@ -15,8 +15,8 @@ export const useHeaderStyles = makeStyles<Theme>(theme => ({
 
   outer: {
     display: 'grid',
-    gridTemplateColumns: 'auto 1fr 180px',
-    gridColumnGap: theme.spacing(8),
+    gridTemplateColumns: 'auto 180px',
+    justifyContent: 'space-between',
   },
 
   inner: {
@@ -30,27 +30,4 @@ export const useHeaderStyles = makeStyles<Theme>(theme => ({
   },
 
   wallet: {},
-
-  list: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-
-    margin: 0,
-    padding: 0,
-
-    listStyle: 'none',
-  },
-
-  item: {
-    marginRight: theme.spacing(5),
-  },
-
-  link: {},
-
-  active: {
-    color: theme.palette.primary.main,
-    pointerEvents: 'none',
-  },
 }));

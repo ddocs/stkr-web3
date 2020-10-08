@@ -13,4 +13,8 @@ export const useLobbyStyles = makeStyles<Theme>(theme => ({
   calculate: {
     marginTop: theme.spacing(18),
   },
+
+  marketing: {
+    marginTop: theme.spacing(20),
+  },
 }));

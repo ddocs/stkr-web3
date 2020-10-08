@@ -3,16 +3,14 @@ import { makeStyles } from '@material-ui/styles';
 
 export const useMarketingStyles = makeStyles<Theme>(theme => ({
   component: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-
-    minHeight: 176,
+    minHeight: 208,
 
     overflow: 'hidden',
+  },
 
-    [theme.breakpoints.down('xs')]: {
-      minHeight: 254,
-    },
+  wrapper: {},
+
+  content: {
+    padding: theme.spacing(6.75, 7.5),
   },
 }));

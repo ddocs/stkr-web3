@@ -2,25 +2,23 @@ import React from 'react';
 
 import { makeStyles } from '@material-ui/styles';
 import { Theme } from '@material-ui/core';
-import { Logotype } from './Logotype';
+import { FooterComponent } from './Footer';
 
 const useStyles = makeStyles<Theme>(theme => ({
-  block: {
-    display: 'inline-block',
-  },
+  block: {},
 }));
 
-const LogotypeStory = () => {
+const FooterStory = () => {
   const classes = useStyles();
   return (
     <div className={classes.block}>
-      <Logotype />
+      <FooterComponent isAuth={false} />
     </div>
   );
 };
 
-export const LogotypeExample = () => <LogotypeStory />;
+export const FooterExample = () => <FooterStory />;
 
 export default {
-  title: 'modules/Layout/components/Logotype',
+  title: 'modules/Layout/components/Footer',
 };

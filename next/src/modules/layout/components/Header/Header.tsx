@@ -1,17 +1,12 @@
 import React from 'react';
 import classNames from 'classnames';
 import { useHeaderStyles } from './HeaderStyles';
-import { NavLink } from '../../../../UiKit/Link';
 import { t } from '../../../../common/utils/intl';
 import { Curtains } from '../../../../UiKit/Curtains';
 import { ITab, NavTab } from '../types';
 import { Button } from '../../../../UiKit/Button';
 import { Tabs } from '../Tabs';
-import {
-  INDEX_PATH,
-  PROVIDER_PATH,
-  STAKER_PATH,
-} from '../../../../common/const';
+import { PROVIDER_PATH, STAKER_PATH } from '../../../../common/const';
 import { Logotype } from '../Logotype';
 import { useLocation } from 'react-router';
 import { connect } from 'react-redux';
@@ -19,7 +14,6 @@ import { IStoreState } from '../../../../store/reducers';
 import { isAuthenticated } from '../../../../store/reducers/userReducer';
 import { openUnlockWalletAction } from '../../../../store/modals/actions';
 import { useAction } from '../../../../store/redux';
-import { uid } from 'react-uid';
 
 interface IHeaderStoreProps {
   isAuth?: boolean;
@@ -40,21 +34,6 @@ const TABS: ITab[] = [
     label: 'navigation.provider',
     value: NavTab.provider,
     href: PROVIDER_PATH,
-  },
-];
-
-const LINKS = [
-  {
-    label: 'navigation.about',
-    href: INDEX_PATH,
-  },
-  {
-    label: 'navigation.whitepaper-en',
-    href: 'https://assets.ankr.com/files/stkr_whitepaper.pdf',
-  },
-  {
-    label: 'navigation.whitepaper-ch',
-    href: 'https://assets.ankr.com/files/stkr_whitepaper_cn.pdf',
   },
 ];
 
@@ -87,31 +66,14 @@ export const HeaderComponent = ({
             <div className={classes.wallet}>{displayName}</div>
           </>
         ) : (
-          <>
-            <ul className={classes.list}>
-              {LINKS.map(link => (
-                <li className={classes.item} key={uid(link)}>
-                  <NavLink
-                    className={classes.link}
-                    activeClassName={classes.active}
-                    href={link.href}
-                    size="large"
-                    color="secondary"
-                  >
-                    {t(link.label)}
-                  </NavLink>
-                </li>
-              ))}
-            </ul>
-            <Button
-              onClick={openUnlockWallet}
-              className={classes.button}
-              color="primary"
-              size="large"
-            >
-              {t('navigation.unlock-wallet')}
-            </Button>
-          </>
+          <Button
+            onClick={openUnlockWallet}
+            className={classes.button}
+            color="primary"
+            size="large"
+          >
+            {t('navigation.unlock-wallet')}
+          </Button>
         )}
       </Curtains>
     </header>

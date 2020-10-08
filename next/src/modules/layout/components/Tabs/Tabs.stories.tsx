@@ -28,5 +28,5 @@ const TabsStory = () => {
 export const TabsExample = () => <TabsStory />;
 
 export default {
-  title: 'modules/Layout/Tabs',
+  title: 'modules/Layout/components/Tabs',
 };

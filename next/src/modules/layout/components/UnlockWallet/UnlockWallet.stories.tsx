@@ -32,5 +32,5 @@ const UnlockWalletStory = () => {
 export const UnlockWalletExample = () => <UnlockWalletStory />;
 
 export default {
-  title: 'modules/Layout/UnlockWallet',
+  title: 'modules/Layout/components/UnlockWallet',
 };

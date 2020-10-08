@@ -63,7 +63,7 @@ export const useCalculateStyles = makeStyles<Theme>(theme => ({
 
   list: {
     display: 'grid',
-    gridTemplateColumns: 'auto auto',
+    gridTemplateColumns: 'repeat(2, minmax(auto, 220px))',
     justifyContent: 'space-between',
 
     margin: 0,

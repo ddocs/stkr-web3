@@ -24,7 +24,9 @@
     "select-wallet-provider": "Select a wallet provider",
     "connect": "Connect",
     "install": "Install",
-    "submit": "Submit"
+    "submit": "Submit",
+    "copyright": "© {year} Strk All rights reserved | <a href=\"mailto: info@stkr.com\" rel=\"noopener noreferrer\">info@stkr.com</a>",
+    "share": "Share via social"
   },
   "validation": {
     "email-error": "Not a valid email address"
