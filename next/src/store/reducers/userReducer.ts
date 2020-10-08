@@ -8,7 +8,7 @@ import { createAPIReducer } from '../../common/utils/createAPIReducer';
 import { IUserInfo } from '../apiMappers/userApi';
 
 export function isAuthenticated(state: IUserState) {
-  return false; // until its not working
+  return true; // until its not working
   // return !!state.userInfo?.displayName;
 }
 

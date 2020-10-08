@@ -14,6 +14,8 @@ import { IStoreState } from '../../../../store/reducers';
 import { isAuthenticated } from '../../../../store/reducers/userReducer';
 import { openUnlockWalletAction } from '../../../../store/modals/actions';
 import { useAction } from '../../../../store/redux';
+import { useIsXSDown } from '../../../../common/hooks/useTheme';
+import { Toggle } from '../Toggle';
 
 interface IHeaderStoreProps {
   isAuth?: boolean;
@@ -48,6 +50,8 @@ export const HeaderComponent = ({
 
   const openUnlockWallet = useAction(openUnlockWalletAction);
 
+  const isXSDown = useIsXSDown();
+
   return (
     <header
       className={classNames(
@@ -59,12 +63,16 @@ export const HeaderComponent = ({
       <Curtains className={isAuth ? classes.inner : classes.outer}>
         <Logotype className={classes.logo} />
         {isAuth ? (
-          <>
-            {[STAKER_PATH, PROVIDER_PATH].includes(location.pathname) && (
-              <Tabs className={classes.tabs} values={TABS} />
-            )}
-            <div className={classes.wallet}>{displayName}</div>
-          </>
+          isXSDown ? (
+            <Toggle />
+          ) : (
+            <>
+              {[STAKER_PATH, PROVIDER_PATH].includes(location.pathname) && (
+                <Tabs className={classes.tabs} values={TABS} />
+              )}
+              <div className={classes.wallet}>{displayName}</div>
+            </>
+          )
         ) : (
           <Button
             onClick={openUnlockWallet}

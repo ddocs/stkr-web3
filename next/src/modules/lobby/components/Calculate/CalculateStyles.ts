@@ -53,7 +53,7 @@ export const useCalculateStyles = makeStyles<Theme>(theme => ({
       fontSize: 24,
       lineHeight: 1.5,
       fontWeight: 500,
-      color: theme.palette.text.secondary,
+      color: theme.palette.primary.main,
     },
   },
 

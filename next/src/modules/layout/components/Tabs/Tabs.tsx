@@ -16,7 +16,7 @@ export const Tabs = ({ className, values }: ITabsProps) => {
   const classes = useTabsStyles({ count: values.length });
 
   return (
-    <div className={classNames(className, classes.tabs)}>
+    <div className={classNames(classes.component, className)}>
       <ul className={classes.list}>
         {values.map(value => (
           <li className={classes.item} key={uid(value)}>

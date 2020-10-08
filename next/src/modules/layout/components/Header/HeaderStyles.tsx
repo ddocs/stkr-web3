@@ -23,6 +23,11 @@ export const useHeaderStyles = makeStyles<Theme>(theme => ({
     display: 'grid',
     gridTemplateColumns: '1fr 190px 240px',
     gridColumnGap: theme.spacing(4),
+
+    [theme.breakpoints.down('xs')]: {
+      gridTemplateColumns: 'auto auto',
+      justifyContent: 'space-between',
+    },
   },
 
   tabs: {
