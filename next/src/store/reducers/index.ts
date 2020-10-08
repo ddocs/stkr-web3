@@ -1,5 +1,5 @@
 import { History } from 'history';
-import { combineReducers } from 'redux';
+import { combineReducers, Reducer } from 'redux';
 import { connectRouter, RouterState } from 'connected-react-router';
 import { userPersistConfig } from './webStorageConfigs';
 import { persistReducer } from 'redux-persist';
@@ -12,10 +12,11 @@ export interface IStoreState extends ModalState {
   user: IUserState;
 }
 
-const createRootReducer = (history: History) =>
+const createRootReducer = (history: History, requestsReducer: Reducer) =>
   combineReducers({
     router: connectRouter(history),
     user: persistReducer(userPersistConfig, userReducer),
+    requests: requestsReducer,
 
     modals,
   });

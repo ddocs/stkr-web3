@@ -6,7 +6,7 @@ import { AppContext } from './AppContext';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import { locales } from '../../common/locales';
 import { mainTheme } from '../../common/themes/mainTheme';
-import { AppLoading } from '../AppLoading/AppLoading';
+import { QueryLoading } from '../QueryLoading/QueryLoading';
 import { Provider, ReactReduxContext } from 'react-redux';
 import { persistor, store } from '../../store';
 import '../../common/fonts/stylesheet.css';
@@ -36,12 +36,12 @@ export class AppBase extends React.Component<IAppBaseProps, IAppBaseState> {
         <Provider store={store} context={ReactReduxContext}>
           <MuiThemeProvider theme={mainTheme}>
             <CssBaseline />
-            <PersistGate loading={<AppLoading />} persistor={persistor}>
+            <PersistGate loading={<QueryLoading />} persistor={persistor}>
               <ConnectedRouter
                 history={historyInstance}
                 context={ReactReduxContext}
               >
-                {!this.state.initDone ? <AppLoading /> : this.props.children}
+                {!this.state.initDone ? <QueryLoading /> : this.props.children}
               </ConnectedRouter>
             </PersistGate>
           </MuiThemeProvider>

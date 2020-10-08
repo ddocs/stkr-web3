@@ -16,7 +16,7 @@ function getContract(contract: keyof typeof artifacts) {
   return contractData;
 }
 
-function* getMicropools() {
+function* getUserMicropools() {
   const contract = yield getContract('Micropool');
   const poolEvents = yield contract.getPastEvents('PoolCreated', {
     fromBlock: 0,
@@ -31,7 +31,6 @@ function* getMicropools() {
     info.stakeable = Number(info.status) === 0;
     info.poolIndex = index;
     info.totalStakedAmount = Web3.utils.fromWei(info.totalStakedAmount);
-    // info.userStakes; // ???
     pools.push(info);
   }
 
@@ -133,7 +132,7 @@ function* onSignIn(action: Action<null>) {
       alert('Please install MetaMask to use this dApp!');
     }
 
-    const getMicropoolsPayload = yield getMicropools();
+    const getMicropoolsPayload = yield getUserMicropools();
     const getProvidersPayload = yield getProviders();
     const getStakeStatsPayload = yield getStakeStats();
 

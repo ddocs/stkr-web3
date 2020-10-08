@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/styles';
-import { fade, Theme } from '@material-ui/core';
 import { DEFENSE_HEADER_HEIGHT, HEADER_HEIGHT } from '../const';
+import { Theme } from "@material-ui/core";
 
 export const useCellStyles = makeStyles<
   Theme,
@@ -50,17 +50,6 @@ export const useCellStyles = makeStyles<
     fontSize: 12,
     lineHeight: 1.5,
     color: theme.palette.text.secondary,
-  },
-
-  bodyCell: {
-    paddingTop: props =>
-      props.defense ? theme.spacing(0.75) : theme.spacing(3.5),
-    paddingBottom: props =>
-      props.defense ? theme.spacing(0.75) : theme.spacing(3.5),
-
-    fontSize: 16,
-    lineHeight: 1.3,
-    color: fade(theme.palette.text.secondary, 0.7),
   },
 
   centerCell: {},

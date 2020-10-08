@@ -20,7 +20,6 @@ export interface ITablesCaptionProps {
 export type IDataProps = Record<string, any>;
 
 export interface ITableRowProps {
-  href?: string;
   data: IDataProps;
 }
 

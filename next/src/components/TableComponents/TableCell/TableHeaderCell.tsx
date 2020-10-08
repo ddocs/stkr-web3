@@ -1,15 +1,16 @@
 import React from 'react';
 import { AlignType, IStyleProps } from '../types';
 import classNames from 'classnames';
-import { useCellStyles } from './TableCellStyles';
+import { useCellStyles } from './TableHeaderCellStyles';
 import { BackgroundColorProvider } from '../../../UiKit/BackgroundColorProvider';
+import { TableContext } from '../Table';
 
 interface IHeaderCellProps {
   label: React.ReactNode;
   align?: AlignType;
 }
 
-export const HeaderCell = ({
+const HeaderCellComponent = ({
   alignCell,
   align,
   label,
@@ -29,9 +30,18 @@ export const HeaderCell = ({
       )}
       role="cell"
       component="div"
-      // scope="col"
     >
       <div className={classes.cellWrapper}>{label}</div>
     </BackgroundColorProvider>
+  );
+};
+
+export const HeaderCell = (props: IHeaderCellProps) => {
+  return (
+    <TableContext.Consumer>
+      {context => {
+        return <HeaderCellComponent {...context} {...props} />;
+      }}
+    </TableContext.Consumer>
   );
 };

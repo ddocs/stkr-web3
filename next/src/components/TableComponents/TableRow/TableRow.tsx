@@ -1,69 +1,42 @@
-import {
-  ICustomProps,
-  IDataProps,
-  IStyleProps,
-  ITablesCaptionProps,
-} from '../types';
-import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { ICustomProps, IStyleProps } from '../types';
+import React, { ReactNode } from 'react';
 import classNames from 'classnames';
-import { BodyCell } from '../TableCell';
-import { useRowStyles } from './TableRowStyles';
+import { useTableRowStyles } from './TableRowStyles';
+import { TableContext } from '../Table';
 
-interface IBodyRowProps {
+interface ITableRowProps {
   className?: string;
-  captions: ITablesCaptionProps[];
-  tableWidth: number;
-  href?: string;
-  data: IDataProps;
+  hover?: boolean;
+  children: ReactNode;
 }
 
-export const BodyRow = ({
+export const TableRowComponent = ({
   className,
-  captions,
-  href,
-  data,
-  customCell,
-  tableWidth,
-  paddingCollapse,
-  ...props
-}: IBodyRowProps & ICustomProps & IStyleProps) => {
-  const count = captions.length;
+  hover,
+  children,
+}: ITableRowProps & ICustomProps & IStyleProps) => {
+  const classes = useTableRowStyles();
 
-  const classes = useRowStyles({
-    count,
-    customCell,
-    tableWidth,
-    paddingCollapse,
-  });
-
-  const content = (data: IDataProps) =>
-    captions.map(cell => (
-      <BodyCell
-        className={classes.cell}
-        key={cell.key}
-        align={cell.align}
-        paddingCollapse={paddingCollapse}
-        {...props}
-      >
-        {data[cell.key]}
-      </BodyCell>
-    ));
-  const Component = href ? <NavLink to={href} /> : <div />;
   return (
-    <>
-      {React.cloneElement(
-        Component,
-        {
-          className: classNames(
-            className,
-            classes.row,
-            href && classes.rowHovered,
-          ),
-          role: 'row',
-        },
-        content(data),
+    <div
+      className={classNames(
+        className,
+        classes.row,
+        hover && classes.rowHovered,
       )}
-    </>
+      role="row"
+    >
+      {children}
+    </div>
+  );
+};
+
+export const TableRow = (props: Omit<ITableRowProps, 'tableWidth'>) => {
+  return (
+    <TableContext.Consumer>
+      {context => {
+        return <TableRowComponent {...context} {...props} />;
+      }}
+    </TableContext.Consumer>
   );
 };

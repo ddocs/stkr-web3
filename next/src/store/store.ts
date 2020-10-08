@@ -5,6 +5,14 @@ import { persistStore } from 'redux-persist';
 import { rootSaga } from './effects';
 import { createRootReducer } from './reducers';
 import { historyInstance } from '../common/utils/historyInstance';
+import { handleRequests } from '@redux-requests/core';
+import { createDriver } from '@redux-requests/promise';
+
+const { requestsReducer, requestsMiddleware } = handleRequests({
+  driver: createDriver({
+    processResponse: response => ({ data: response.data }),
+  }),
+});
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -19,12 +27,16 @@ const composeEnhancers =
 
 const enhancer = composeEnhancers(
   applyMiddleware(
+    ...requestsMiddleware,
     routerMiddleware(historyInstance),
     sagaMiddleware,
   ),
 );
 
-const store = createStore(createRootReducer(historyInstance), enhancer);
+const store = createStore(
+  createRootReducer(historyInstance, requestsReducer),
+  enhancer,
+);
 const persistor = persistStore(store);
 
 sagaMiddleware.run(rootSaga);

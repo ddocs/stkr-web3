@@ -110,7 +110,6 @@ export const DATA_4: ITablesRowProps[] = [
     },
   },
   {
-    href: '/',
     data: {
       id: 2,
       name: 'My Auto Service',
@@ -120,7 +119,6 @@ export const DATA_4: ITablesRowProps[] = [
     },
   },
   {
-    href: '/',
     data: {
       id: 3,
       name: 'Repair Service',

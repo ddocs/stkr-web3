@@ -19,12 +19,16 @@ export interface IUserState {
 
   userUpdateInfoStatus: RequestStatus;
   userInfo?: IUserInfo;
+
+  getMicropoolsStatus: RequestStatus;
 }
 
 const initialState: IUserState = {
   signInStatus: requestInactive(),
 
   userUpdateInfoStatus: requestInactive(),
+
+  getMicropoolsStatus: requestInactive(),
 };
 
 export const userReducer = createReducer(initialState, {
@@ -40,5 +44,14 @@ export const userReducer = createReducer(initialState, {
         return { ...state, userInfo: action.payload };
       },
     },
+  ),
+  ...createAPIReducer<IUserState, IUserInfo>(
+      UserActionTypes.FETCH_MICROPOOLS,
+      'getMicropoolsStatus',
+      {
+        onSuccess: (state, action) => {
+          return { ...state, userInfo: action.payload };
+        },
+      },
   ),
 });

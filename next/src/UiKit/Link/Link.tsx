@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, ButtonProps } from '@material-ui/core';
-import { NavLink as RouterLink } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 
 type LinksVariant = 'contained' | 'outlined' | 'text';
 
