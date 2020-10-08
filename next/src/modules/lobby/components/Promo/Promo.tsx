@@ -1,7 +1,7 @@
 import React from 'react';
 import { usePromoStyles } from './PromoStyles';
 import { Curtains } from '../../../../UiKit/Curtains';
-import { Headline1 } from '../../../../UiKit/Typography';
+import { Body1, Headline1 } from '../../../../UiKit/Typography';
 import { tHTML, t } from '../../../../common/utils/intl';
 import classNames from 'classnames';
 import { BackgroundColorProvider } from '../../../../UiKit/BackgroundColorProvider';
@@ -25,7 +25,9 @@ export const Promo = ({ className }: IPromoProps) => {
     <section className={classNames(classes.component, className)}>
       <Curtains className={classes.wrapper}>
         <h2 className={classes.title}>{tHTML('about.title')}</h2>
-        <p className={classes.text}>{t('about.text')}</p>
+        <Body1 className={classes.text} component="p">
+          {t('about.text')}
+        </Body1>
         <ul className={classes.list}>
           {keys.map(key => {
             const item = LIST[key];

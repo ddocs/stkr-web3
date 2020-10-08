@@ -78,6 +78,10 @@ const mainTheme = createMuiTheme({
       elevation: 0,
       square: true,
     },
+
+    MuiSlider: {
+      color: 'primary',
+    },
   },
 
   overrides: {
@@ -116,6 +120,22 @@ const mainTheme = createMuiTheme({
 
         transition: 'none',
         overflow: 'initial',
+      },
+    },
+
+    MuiSlider: {
+      rail: {
+        backgroundColor: '#555555',
+      },
+
+      track: {},
+
+      thumb: {
+        width: 20,
+        height: 20,
+
+        marginTop: -9,
+        marginLeft: -10,
       },
     },
 
@@ -404,7 +424,7 @@ const mainTheme = createMuiTheme({
       },
 
       body1: {
-        fontSize: 16,
+        fontSize: 18,
         fontWeight: 400,
         lineHeight: 1.5,
 
@@ -414,7 +434,7 @@ const mainTheme = createMuiTheme({
       },
 
       body2: {
-        fontSize: 14,
+        fontSize: 16,
         fontWeight: 400,
         lineHeight: 1.5,
 

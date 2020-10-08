@@ -15,8 +15,6 @@ export const usePromoStyles = makeStyles<Theme, { count: number }>(theme => ({
   },
 
   title: {
-    display: 'flex',
-    flexDirection: 'column',
     margin: 0,
 
     fontSize: 120,

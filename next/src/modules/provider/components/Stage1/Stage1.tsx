@@ -4,16 +4,14 @@ import classNames from 'classnames';
 import { useFlowControl } from '../../../../components/Flow/hooks';
 import { defineFlowStep } from '../../../../components/Flow/definition';
 import { IStageProps } from '../../types';
-import { Body1, Headline1, Headline6 } from '../../../../UiKit/Typography';
+import { Body2, Headline1, Headline6 } from '../../../../UiKit/Typography';
 import { t, tHTML } from '../../../../common/utils/intl';
-import { Button } from '../../../../UiKit/Button';
 import { isRequestInProgress } from '../../../../common/utils/requestStatus';
-import { Form, Field, FormRenderProps } from 'react-final-form';
 import { useTrackedOperation } from '../../../../common/hooks/useTrackedOperation';
-import { InputField } from './InputField';
 import { Icon } from './Icon';
-import { IEmailPayload } from './types';
-import { apiPostEmail, validation } from './utils';
+import { apiPostEmail } from './utils';
+import { SubscribeForm } from '../../../../components/SubscribeForm';
+import { IEmailPayload } from '../../../../common/types';
 
 interface IStage1Props extends IStageProps {
   disabled?: boolean;
@@ -21,35 +19,8 @@ interface IStage1Props extends IStageProps {
   onSubmit(x: IEmailPayload): void;
 }
 
-export const Stage1Component = ({
-  className,
-  onSubmit,
-  disabled,
-}: IStage1Props) => {
+export const Stage1Component = ({ className, onSubmit }: IStage1Props) => {
   const classes = useStage1Styles();
-
-  const renderForm = ({ handleSubmit }: FormRenderProps<any>) => {
-    return (
-      <form className={classes.form} onSubmit={handleSubmit}>
-        <Field
-          className={classes.input}
-          component={InputField}
-          name="email"
-          type="email"
-          placeholder={t('navigation.email')}
-        />
-        <Button
-          className={classes.submit}
-          color="primary"
-          size="large"
-          submit={true}
-          disabled={disabled}
-        >
-          {t('navigation.next')}
-        </Button>
-      </form>
-    );
-  };
 
   return (
     <div className={classNames(classes.component, className)}>
@@ -59,10 +30,15 @@ export const Stage1Component = ({
       <Headline1 className={classes.title} color="primary" component="span">
         {tHTML('provider.create.stage-1.three-steps')}
       </Headline1>
-      <Body1 className={classes.text} color="secondary" component="p">
+      <Body2 className={classes.text} color="secondary" component="p">
         {t('provider.create.stage-1.three-steps-description')}
-      </Body1>
-      <Form render={renderForm} onSubmit={onSubmit} validate={validation} />
+      </Body2>
+      <SubscribeForm
+        className={classes.form}
+        onSubmit={onSubmit}
+        buttonCaption={t('navigation.next')}
+        buttonSize={170}
+      />
       <Icon className={classes.image} />
     </div>
   );

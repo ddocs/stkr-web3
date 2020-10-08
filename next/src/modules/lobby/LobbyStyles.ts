@@ -9,4 +9,8 @@ export const useLobbyStyles = makeStyles<Theme>(theme => ({
   pool: {
     marginTop: theme.spacing(10),
   },
+
+  calculate: {
+    marginTop: theme.spacing(18),
+  },
 }));

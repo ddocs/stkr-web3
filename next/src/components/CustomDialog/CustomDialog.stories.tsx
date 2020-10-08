@@ -14,7 +14,9 @@ const CustomDialogStory = () => {
 
   return (
     <div className={classes.block}>
-      <CustomDialog open={true} onClose={() => alert('Close')} />
+      <CustomDialog open={true} onClose={() => alert('Close')}>
+        <div style={{ width: 300, height: 200 }} />
+      </CustomDialog>
     </div>
   );
 };

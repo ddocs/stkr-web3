@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { IStageProps } from '../../types';
 import { useFlowControl } from '../../../../components/Flow/hooks';
 import { defineFlowStep } from '../../../../components/Flow/definition';
-import { Body1, Headline2 } from '../../../../UiKit/Typography';
+import { Body2, Headline2 } from '../../../../UiKit/Typography';
 import { t, tHTML } from '../../../../common/utils/intl';
 import { Icon } from './Icon';
 import { ProgressBar } from '../ProgressBar/ProgressBar';
@@ -20,9 +20,9 @@ export const Stage2Component = ({ className }: IStage2Props) => {
         {tHTML('provider.create.stage-2.confirmation')}
       </Headline2>
       <ProgressBar className={classes.bar} />
-      <Body1 component="span" color="secondary" className={classes.text}>
+      <Body2 component="span" color="secondary" className={classes.text}>
         {t('provider.create.stage-2.note')}
-      </Body1>
+      </Body2>
       <Icon className={classes.icon} />
     </div>
   );

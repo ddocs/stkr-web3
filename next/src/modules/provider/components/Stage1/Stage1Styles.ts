@@ -44,17 +44,9 @@ export const useStage1Styles = makeStyles<Theme>(theme => ({
   },
 
   form: {
-    display: 'grid',
-    gridTemplateColumns: '1fr 170px',
-    gridColumnGap: theme.spacing(2),
-
     maxWidth: 490,
     marginTop: theme.spacing(11),
   },
-
-  input: {},
-
-  submit: {},
 
   image: {
     gridRow: '-1/1',

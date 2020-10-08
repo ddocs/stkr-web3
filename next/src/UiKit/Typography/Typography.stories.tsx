@@ -44,10 +44,10 @@ const TypographyStory = () => {
       <Headline4 className={classes.title} component="h4">
         Headline4
       </Headline4>
-      <Headline6 className={classes.title} component="h4">
+      <Headline6 className={classes.title} component="h6">
         Headline6
       </Headline6>
-      <SubTitle1 className={classes.title} component="h5">
+      <SubTitle1 className={classes.title} component="h6">
         SubTitle
       </SubTitle1>
       <Body1 className={classes.title} component="p">

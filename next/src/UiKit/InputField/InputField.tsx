@@ -8,18 +8,16 @@ import React, { ReactElement, ReactNode } from 'react';
 import { FieldRenderProps } from 'react-final-form';
 import { useInputFieldStyles } from './InputFieldStyles';
 import { useTextFieldStyles } from './TextFieldStyles';
-import { getErrorText, hasError } from '../../../../../common/utils/form';
+import { getErrorText, hasError } from '../../common/utils/form';
 
 interface IFieldProps extends FieldRenderProps<string> {
   className?: string;
-  multiline?: boolean;
   children: ReactElement<{ value: string; children: ReactNode }>[];
   placeholder?: string;
 }
 
 export const InputField = ({
   className,
-  multiline,
   input: { name, onChange, value },
   meta,
   placeholder,
@@ -38,7 +36,6 @@ export const InputField = ({
         InputProps={
           { classes, disableUnderline: true } as Partial<OutlinedInputProps>
         }
-        color="primary"
         {...props}
       />
       <div className={componentStyles.wrapper}>

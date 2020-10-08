@@ -4,7 +4,7 @@ import { IStageProps } from '../../types';
 import { useFlowControl } from '../../../../components/Flow/hooks';
 import { defineFlowStep } from '../../../../components/Flow/definition';
 import { useStage3Styles } from './Stage3Styles';
-import { Body1, Headline2 } from '../../../../UiKit/Typography';
+import { Body2, Headline2 } from '../../../../UiKit/Typography';
 import { t, tHTML } from '../../../../common/utils/intl';
 import { Icon } from './Icon';
 import { Button } from '../../../../UiKit/Button';
@@ -21,9 +21,9 @@ export const Stage3Component = ({ className, nextStep }: IStage3Props) => {
       <Headline2 component="span" color="primary" className={classes.title}>
         {tHTML('provider.create.stage-3.create-node')}
       </Headline2>
-      <Body1 component="span" color="secondary" className={classes.text}>
+      <Body2 component="span" color="secondary" className={classes.text}>
         {t('provider.create.stage-3.create-node-description')}
-      </Body1>
+      </Body2>
       <Button
         className={classes.button}
         color="primary"

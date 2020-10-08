@@ -9,21 +9,11 @@ export const useTextFieldStyles = makeStyles((theme: Theme) =>
       boxSizing: 'border-box',
 
       fontSize: 18,
-      color: theme.palette.primary.main,
 
       borderRadius: 0,
       border: 'none',
-      borderBottom: `1px solid ${theme.palette.primary.main}`,
 
       backgroundColor: 'transparent',
-
-      '&:hover': {
-        borderColor: theme.palette.primary.main,
-      },
-
-      '&$focused': {
-        borderColor: theme.palette.primary.main,
-      },
 
       '&$error': {
         borderColor: theme.palette.error.main,
@@ -49,6 +39,22 @@ export const useTextFieldStyles = makeStyles((theme: Theme) =>
       '&:-moz-ui-invalid': {
         boxShadow: 'none',
       },
+    },
+
+    colorPrimary: {
+      color: theme.palette.primary.main,
+
+      borderBottom: `1px solid ${theme.palette.primary.main}`,
+
+      '&:$focused': {},
+    },
+
+    colorSecondary: {
+      color: theme.palette.text.secondary,
+
+      borderBottom: `1px solid ${theme.palette.text.secondary}`,
+
+      '&:$focused': {},
     },
 
     focused: {},
