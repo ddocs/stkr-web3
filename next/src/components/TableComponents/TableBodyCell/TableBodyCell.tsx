@@ -3,16 +3,16 @@ import React from 'react';
 import classNames from 'classnames';
 import { BackgroundColorProvider } from '../../../UiKit/BackgroundColorProvider';
 import { useTableBodyCellStyles } from './TableBodyCellStyles';
-import { TableContext } from '../DataTable';
+import { TableContext } from '../DataTable/DataTable';
 
-interface IBodyCellProps {
+interface ITableBodyCellProps {
   className?: string;
   align?: AlignType;
   children: React.ReactNode;
   tableWidth: number;
 }
 
-export const BodyCellComponent = ({
+export const TableBodyCellComponent = ({
   className,
   alignCell,
   align,
@@ -21,7 +21,7 @@ export const BodyCellComponent = ({
   children,
   tableWidth,
   ...rest
-}: IBodyCellProps & IStyleProps) => {
+}: ITableBodyCellProps & IStyleProps) => {
   const classes = useTableBodyCellStyles({
     defense,
     paddingCollapse,
@@ -47,11 +47,11 @@ export const BodyCellComponent = ({
   );
 };
 
-export const BodyCell = (props: Omit<IBodyCellProps, 'tableWidth'>) => {
+export const TableBodyCell = (props: Omit<ITableBodyCellProps, 'tableWidth'>) => {
   return (
     <TableContext.Consumer>
       {context => {
-        return <BodyCellComponent {...context} {...props} />;
+        return <TableBodyCellComponent {...context} {...props} />;
       }}
     </TableContext.Consumer>
   );

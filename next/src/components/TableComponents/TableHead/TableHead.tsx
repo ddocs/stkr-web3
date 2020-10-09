@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 import { useTableHeadStyles } from './TableHeadStyles';
-import { TableContext } from '../DataTable';
+import { TableContext } from '../DataTable/DataTable';
 import { ICustomProps, IStyleProps } from '../types';
 
 interface ITableHeadProps {

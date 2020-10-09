@@ -1,22 +1,22 @@
 import React from 'react';
 import { AlignType, IStyleProps } from '../types';
 import classNames from 'classnames';
-import { useCellStyles } from './TableHeaderCellStyles';
+import { useCellStyles } from './TableHeadCellStyles';
 import { BackgroundColorProvider } from '../../../UiKit/BackgroundColorProvider';
-import { TableContext } from '../DataTable';
+import { TableContext } from '../DataTable/DataTable';
 
-interface IHeaderCellProps {
+interface ITableHeadCellProps {
   label: React.ReactNode;
   align?: AlignType;
 }
 
-const HeaderCellComponent = ({
+const TableHeadCellComponent = ({
   alignCell,
   align,
   label,
   defense,
   paddingCollapse,
-}: IHeaderCellProps & IStyleProps) => {
+}: ITableHeadCellProps & IStyleProps) => {
   const classes = useCellStyles({ defense, paddingCollapse });
 
   return (
@@ -36,11 +36,11 @@ const HeaderCellComponent = ({
   );
 };
 
-export const HeaderCell = (props: IHeaderCellProps) => {
+export const TableHeadCell = (props: ITableHeadCellProps) => {
   return (
     <TableContext.Consumer>
       {context => {
-        return <HeaderCellComponent {...context} {...props} />;
+        return <TableHeadCellComponent {...context} {...props} />;
       }}
     </TableContext.Consumer>
   );

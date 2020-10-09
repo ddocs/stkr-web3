@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 import { ICustomProps, IStyleProps } from '../types';
 import { ScrollBar, VerticalScrollIndicator } from '../../StrollerComponents';
 import { StrollableContainer } from 'react-stroller';
-import { TableContext } from '../DataTable';
+import { TableContext } from '../DataTable/DataTable';
 import { useTableBodyStyles } from './TableBodyStyles';
 
 interface ITableBodyProps {

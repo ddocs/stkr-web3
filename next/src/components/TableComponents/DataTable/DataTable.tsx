@@ -1,13 +1,14 @@
 import classNames from 'classnames';
 import React, { useCallback, useState } from 'react';
-import { AlignType, ITablesCaptionProps, ITablesRowProps } from './types';
-import { useTableStyles } from './TableStyles';
+import { AlignType, ITablesCaptionProps, ITablesRowProps } from '../types';
+import { useTableStyles } from './DataTableStyles';
 import { uid } from 'react-uid';
-import { BodyCell, HeaderCell } from './TableCell';
-import { TableRow } from './TableRow';
-import { useResizeObserver } from '../../common/hooks/useResizeObserver';
-import { TableHead } from './TableHead';
-import { TableBody } from './TableBody';
+import { TableBodyCell } from '../TableBodyCell';
+import { TableRow } from '../TableRow';
+import { useResizeObserver } from '../../../common/hooks/useResizeObserver';
+import { TableHead } from '../TableHead';
+import { TableBody } from '../TableBody';
+import { TableHeadCell } from "../TableHeadCell/TableHeadCell";
 
 type TableContextType = {
   tableWidth: number;
@@ -81,7 +82,7 @@ export const DataTableComponent = ({
       <div className={classes.table} role="grid" ref={setTableRef}>
         <TableHead>
           {captions.map(cell => (
-            <HeaderCell key={cell.key} label={cell.label} align={cell.align} />
+            <TableHeadCell key={cell.key} label={cell.label} align={cell.align} />
           ))}
         </TableHead>
         {rows && (
@@ -89,9 +90,9 @@ export const DataTableComponent = ({
             {rows.map(row => (
               <TableRow className={classes.row} key={uid(row)}>
                 {captions.map(cell => (
-                  <BodyCell key={cell.key} align={cell.align}>
+                  <TableBodyCell key={cell.key} align={cell.align}>
                     {row.data[cell.key]}
-                  </BodyCell>
+                  </TableBodyCell>
                 ))}
               </TableRow>
             ))}
