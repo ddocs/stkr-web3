@@ -6,18 +6,31 @@ import { LogoIcon } from '../../../../UiKit/Icons/LogoIcon';
 import { Body2 } from '../../../../UiKit/Typography';
 import { t } from '../../../../common/utils/intl';
 import { INDEX_PATH } from '../../../../common/const';
+import { useIsSMDown } from '../../../../common/hooks/useTheme';
+import { connect } from 'react-redux';
+import { IStoreState } from '../../../../store/reducers';
+import { isAuthenticated } from '../../../../store/reducers/userReducer';
+import { HeaderComponent } from '../Header/Header';
 
-export interface IHeaderProps {
+export interface ILogotypeProps {
   className?: string;
   isAuth?: boolean;
 }
 
-export const Logotype = ({ className, isAuth }: IHeaderProps) => {
+export const LogotypeComponent = ({ className, isAuth }: ILogotypeProps) => {
   const classes = useLogotypeStyles();
+
+  const isSMDown = useIsSMDown();
+
+  const visibleCaption = isAuth || !isSMDown;
 
   return (
     <Body2
-      className={classNames(classes.component, className)}
+      className={classNames(
+        classes.component,
+        visibleCaption && classes.withDivider,
+        className,
+      )}
       component="div"
       color="secondary"
     >
@@ -29,7 +42,14 @@ export const Logotype = ({ className, isAuth }: IHeaderProps) => {
       >
         <LogoIcon />
       </NavLink>
-      <span>{t('by-ankr')}</span>
+      {visibleCaption && <span>{t('by-ankr')}</span>}
     </Body2>
   );
 };
+
+export const Logotype = connect(
+  (state: IStoreState) => ({
+    isAuth: isAuthenticated(state.user),
+  }),
+  {},
+)(LogotypeComponent);

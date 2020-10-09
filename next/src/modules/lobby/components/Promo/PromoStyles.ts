@@ -12,6 +12,12 @@ export const usePromoStyles = makeStyles<Theme, { count: number }>(theme => ({
     gridRowGap: theme.spacing(8),
 
     fontFamily: DEFAULT_FONT,
+
+    [theme.breakpoints.down('sm')]: {
+      gridTemplateColumns: '100%',
+      gridTemplateAreas: '"title" "text" "list"',
+      gridRowGap: theme.spacing(0.5),
+    },
   },
 
   title: {
@@ -20,6 +26,10 @@ export const usePromoStyles = makeStyles<Theme, { count: number }>(theme => ({
     fontSize: 120,
     lineHeight: 1,
     fontWeight: 500,
+
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 53,
+    },
 
     '&::selection': selection,
 
