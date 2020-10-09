@@ -11,8 +11,8 @@ import { Field, Form, FormRenderProps } from 'react-final-form';
 import { InputField } from '../../../../UiKit/InputField';
 import { t, tHTML } from '../../../../common/utils/intl';
 import { RangeField } from '../../../../UiKit/RangeField';
-import { Select, SelectField } from '../../../../UiKit/SelectField';
-import { ISelectOption } from '../../../../UiKit/SelectField/Select';
+import { SelectField } from '../../../../UiKit/SelectField';
+import { ISelectOption } from '../../../../UiKit/SelectField/SelectField';
 import { Body2, Headline2 } from '../../../../UiKit/Typography';
 import { connect } from 'react-redux';
 import { IStoreState } from '../../../../store/reducers';
@@ -82,7 +82,7 @@ export const Stage6Component = ({
           />
           <Field
             className={classes.input}
-            component={Select}
+            component={SelectField}
             name="beacon-node"
             label={t('navigation.beacon-name-node')}
             values={beacon}
