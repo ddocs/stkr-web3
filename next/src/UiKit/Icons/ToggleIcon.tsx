@@ -1,5 +1,4 @@
 import React from 'react';
-import { withSvgIcon } from './withSvgIcon';
 
 export const ToggleIcon = (props: React.SVGAttributes<SVGElement>) => {
   return (

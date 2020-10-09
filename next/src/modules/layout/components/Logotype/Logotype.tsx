@@ -10,7 +10,6 @@ import { useIsSMDown } from '../../../../common/hooks/useTheme';
 import { connect } from 'react-redux';
 import { IStoreState } from '../../../../store/reducers';
 import { isAuthenticated } from '../../../../store/reducers/userReducer';
-import { HeaderComponent } from '../Header/Header';
 
 export interface ILogotypeProps {
   className?: string;
