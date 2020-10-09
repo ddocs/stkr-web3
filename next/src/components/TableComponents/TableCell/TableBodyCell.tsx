@@ -1,28 +1,38 @@
 import { AlignType, IStyleProps } from '../types';
 import React from 'react';
 import classNames from 'classnames';
-import { useCellStyles } from './TableCellStyles';
 import { BackgroundColorProvider } from '../../../UiKit/BackgroundColorProvider';
+import { useTableBodyCellStyles } from './TableBodyCellStyles';
+import { TableContext } from '../Table';
 
 interface IBodyCellProps {
   className?: string;
   align?: AlignType;
   children: React.ReactNode;
+  tableWidth: number;
 }
 
-export const BodyCell = ({
+export const BodyCellComponent = ({
   className,
   alignCell,
   align,
   defense,
   paddingCollapse,
   children,
+  tableWidth,
+  ...rest
 }: IBodyCellProps & IStyleProps) => {
-  const classes = useCellStyles({ defense, paddingCollapse });
+  const classes = useTableBodyCellStyles({
+    defense,
+    paddingCollapse,
+    tableWidth,
+    ...rest,
+  });
   return (
     <BackgroundColorProvider
       className={classNames(
         className,
+        classes.tableCell,
         classes.cell,
         classes.bodyCell,
         (alignCell === 'center' || align === 'center') && classes.centerCell,
@@ -34,5 +44,15 @@ export const BodyCell = ({
     >
       <div className={classes.cellWrapper}>{children}</div>
     </BackgroundColorProvider>
+  );
+};
+
+export const BodyCell = (props: Omit<IBodyCellProps, 'tableWidth'>) => {
+  return (
+    <TableContext.Consumer>
+      {context => {
+        return <BodyCellComponent {...context} {...props} />;
+      }}
+    </TableContext.Consumer>
   );
 };

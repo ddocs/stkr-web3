@@ -3,11 +3,26 @@ import React, { useCallback, useState } from 'react';
 import { AlignType, ITablesCaptionProps, ITablesRowProps } from './types';
 import { useTableStyles } from './TableStyles';
 import { uid } from 'react-uid';
-import { HeaderCell } from './TableCell';
-import { BodyRow } from './TableRow';
+import { BodyCell, HeaderCell } from './TableCell';
+import { TableRow } from './TableRow';
 import { useResizeObserver } from '../../common/hooks/useResizeObserver';
-import { ScrollBar, VerticalScrollIndicator } from '../StrollerComponents';
-import { StrollableContainer } from 'react-stroller';
+import { TableHead } from './TableHead';
+import { TableBody } from './TableBody';
+
+type TableContextType = {
+  tableWidth: number;
+  setTableWidth: (value: number) => void;
+  count: number;
+} & Pick<
+  ITableProps,
+  'defense' | 'paddingCollapse' | 'customCell' | 'alignCell'
+>;
+
+export const TableContext = React.createContext<TableContextType>({
+  tableWidth: 0,
+  setTableWidth: () => {},
+  count: 0,
+} as TableContextType);
 
 interface ITableProps {
   className?: string;
@@ -17,29 +32,31 @@ interface ITableProps {
   defense?: boolean;
   paddingCollapse?: boolean;
   alignCell?: AlignType;
+  tableWidth: number;
+  setTableWidth: (value: number) => void;
 }
 
-export const Table = ({
+export const TableComponent = ({
   className,
   captions,
   rows,
   defense,
   paddingCollapse,
-  alignCell,
   customCell,
+  setTableWidth,
 }: ITableProps) => {
   const count = captions.length;
 
-  const TableScrollBar = () => <ScrollBar />;
-
-  const [tableWidth, setTableWidth] = useState(0);
   const [tableRef, setTableRef] = useState<HTMLElement | null>(null);
 
   useResizeObserver(
     tableRef,
-    useCallback(ref => {
-      setTableWidth(ref.clientWidth);
-    }, []),
+    useCallback(
+      ref => {
+        setTableWidth(ref.clientWidth);
+      },
+      [setTableWidth],
+    ),
   );
 
   const classes = useTableStyles({
@@ -62,52 +79,51 @@ export const Table = ({
   return (
     <div className={classNames(classes.container, className)}>
       <div className={classes.table} role="grid" ref={setTableRef}>
-        <div className={classes.head} role="rowgroup">
-          <div className={classes.row} role="row">
-            {captions.map(cell => (
-              <HeaderCell
-                key={cell.key}
-                label={cell.label}
-                align={cell.align}
-                alignCell={alignCell}
-                defense={defense}
-                paddingCollapse={paddingCollapse}
-              />
-            ))}
-          </div>
-        </div>
+        <TableHead>
+          {captions.map(cell => (
+            <HeaderCell key={cell.key} label={cell.label} align={cell.align} />
+          ))}
+        </TableHead>
         {rows && (
-          <div className={classes.bodyWrapper}>
-            <StrollableContainer
-              bar={TableScrollBar}
-              draggable={true}
-              inBetween={<VerticalScrollIndicator />}
-              scrollKey={`${uid(rows)}${tableHeight}`}
-            >
-              <div
-                className={classes.body}
-                role="rowgroup"
-                ref={setTableBodyRef}
-              >
-                {rows.map(row => (
-                  <BodyRow
-                    className={classes.row}
-                    captions={captions}
-                    href={row.href}
-                    key={uid(row)}
-                    data={row.data}
-                    customCell={customCell}
-                    tableWidth={tableWidth}
-                    alignCell={alignCell}
-                    defense={defense}
-                    paddingCollapse={paddingCollapse}
-                  />
+          <TableBody ref={setTableBodyRef}>
+            {rows.map(row => (
+              <TableRow className={classes.row} key={uid(row)}>
+                {captions.map(cell => (
+                  <BodyCell key={cell.key} align={cell.align}>
+                    {row.data[cell.key]}
+                  </BodyCell>
                 ))}
-              </div>
-            </StrollableContainer>
-          </div>
+              </TableRow>
+            ))}
+          </TableBody>
         )}
       </div>
     </div>
+  );
+};
+
+export const Table = (
+  props: Omit<ITableProps, 'tableWidth' | 'setTableWidth'>,
+) => {
+  const [tableWidth, setTableWidth] = useState(0);
+
+  return (
+    <TableContext.Provider
+      value={{
+        tableWidth,
+        setTableWidth,
+        defense: props.defense,
+        paddingCollapse: props.paddingCollapse,
+        customCell: props.customCell,
+        alignCell: props.alignCell,
+        count: props.captions.length,
+      }}
+    >
+      <TableComponent
+        {...props}
+        tableWidth={tableWidth}
+        setTableWidth={setTableWidth}
+      />
+    </TableContext.Provider>
   );
 };

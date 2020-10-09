@@ -88,17 +88,14 @@ export const UnlockWalletContentImp = ({
   signIn,
 }: IUnlockWalletContentStoreProps) => {
   const handleConnectWallet = useCallback(() => {
-    alert('Connect wallet');
     signIn();
   }, [signIn]);
 
   const handleConnectMetamask = useCallback(() => {
-    alert('Connect metamask');
     signIn();
   }, [signIn]);
 
   const handleInstallMetamask = useCallback(() => {
-    alert('Install wallet');
     signIn();
   }, [signIn]);
 
