@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useStage1Styles } from './Stage1Styles';
 import classNames from 'classnames';
 import { useFlowControl } from '../../../../components/Flow/hooks';
@@ -6,10 +6,7 @@ import { defineFlowStep } from '../../../../components/Flow/definition';
 import { IStageProps } from '../../types';
 import { Body2, Headline1, Headline6 } from '../../../../UiKit/Typography';
 import { t, tHTML } from '../../../../common/utils/intl';
-import { isRequestInProgress } from '../../../../common/utils/requestStatus';
-import { useTrackedOperation } from '../../../../common/hooks/useTrackedOperation';
 import { Icon } from './Icon';
-import { apiPostEmail } from './utils';
 import { SubscribeForm } from '../../../../components/SubscribeForm';
 import { IEmailPayload } from '../../../../common/types';
 
@@ -47,19 +44,12 @@ export const Stage1Component = ({ className, onSubmit }: IStage1Props) => {
 const Stage1Imp = ({ className }: IStageProps) => {
   const { moveForward } = useFlowControl();
 
-  const { submit, status } = useTrackedOperation(apiPostEmail, moveForward);
+  const handleNextStep = useCallback(() => {
+    // TODO: add function
+    moveForward();
+  }, [moveForward]);
 
-  const handleSubmit = (data: IEmailPayload) => {
-    return submit(data);
-  };
-
-  return (
-    <Stage1Component
-      className={className}
-      onSubmit={handleSubmit}
-      disabled={isRequestInProgress(status)}
-    />
-  );
+  return <Stage1Component className={className} onSubmit={handleNextStep} />;
 };
 
 export const Stage1 = defineFlowStep<{}, {}, IStageProps>({

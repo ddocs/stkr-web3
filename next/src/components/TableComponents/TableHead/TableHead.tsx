@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import { useTableHeadStyles } from './TableHeadStyles';
-import { TableContext } from './Table';
-import { ICustomProps, IStyleProps } from './types';
+import { TableContext } from '../Table';
+import { ICustomProps, IStyleProps } from '../types';
 
 interface ITableHeadProps {
   children: ReactNode;

@@ -1,6 +1,6 @@
 import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import { DEFENSE_HEADER_HEIGHT, HEADER_HEIGHT } from './const';
+import { DEFENSE_HEADER_HEIGHT, HEADER_HEIGHT } from '../const';
 
 export const useTableBodyStyles = makeStyles<
   Theme,

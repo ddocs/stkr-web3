@@ -12,7 +12,14 @@ const Stage6Story = () => {
   const classes = useStyles();
   return (
     <div className={classes.block}>
-      <Stage6Component nextStep={() => alert('finish')} />
+      <Stage6Component
+        nextStep={() => alert('to next stage')}
+        prevStep={() => alert('to prev stage')}
+        balance={100}
+        amount={100000}
+        price={32}
+        beacon={[{}, {}]}
+      />
     </div>
   );
 };

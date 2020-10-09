@@ -2,40 +2,24 @@ import React from 'react';
 
 import { makeStyles } from '@material-ui/styles';
 import { Theme } from '@material-ui/core';
-import { InputField } from './InputField';
+import { RangeField } from './RangeField';
 import { Field, Form, FormRenderProps } from 'react-final-form';
 
 const useStyles = makeStyles<Theme>(theme => ({
   block: {},
-
-  input: {
-    marginBottom: 16,
-  },
 }));
 
-const InputFieldStory = () => {
+const RangeFieldStory = () => {
   const classes = useStyles();
 
   const renderForm = ({ handleSubmit }: FormRenderProps<any>) => {
     return (
       <form onSubmit={handleSubmit}>
         <Field
-          id={1}
           className={classes.input}
-          component={InputField}
+          component={RangeField}
           name="email"
-          type="email"
           label="Your email address"
-          color="primary"
-        />
-        <Field
-          id={1}
-          className={classes.input}
-          component={InputField}
-          name="email2"
-          type="email"
-          label="Your email address"
-          color="secondary"
         />
       </form>
     );
@@ -48,8 +32,8 @@ const InputFieldStory = () => {
   );
 };
 
-export const InputFieldExample = () => <InputFieldStory />;
+export const RangeFieldExample = () => <RangeFieldStory />;
 
 export default {
-  title: 'UiKit/InputField',
+  title: 'UiKit/RangeField',
 };

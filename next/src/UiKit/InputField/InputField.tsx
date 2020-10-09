@@ -4,45 +4,49 @@ import {
   TextField,
   TextFieldProps,
 } from '@material-ui/core';
-import React, { ReactElement, ReactNode } from 'react';
+import React from 'react';
 import { FieldRenderProps } from 'react-final-form';
 import { useInputFieldStyles } from './InputFieldStyles';
-import { useTextFieldStyles } from './TextFieldStyles';
 import { getErrorText, hasError } from '../../common/utils/form';
 
 interface IFieldProps extends FieldRenderProps<string> {
   className?: string;
-  children: ReactElement<{ value: string; children: ReactNode }>[];
-  placeholder?: string;
+  color?: 'primary' | 'secondary';
+  disabled?: boolean;
 }
 
 export const InputField = ({
   className,
   input: { name, onChange, value },
   meta,
-  placeholder,
+  color,
+  disabled,
   ...props
 }: IFieldProps & TextFieldProps) => {
-  const componentStyles = useInputFieldStyles();
-  const classes = useTextFieldStyles();
+  const classes = useInputFieldStyles();
+
   return (
-    <label className={classNames(componentStyles.component, className)}>
+    <div className={classNames(classes.component, className)}>
       <TextField
+        className={classNames(
+          classes.input,
+          color === 'primary' && classes.inputPrimary,
+          color === 'secondary' && classes.inputSecondary,
+          disabled && classes.inputDisabled,
+        )}
         name={name}
         error={hasError(meta)}
         value={value}
         onChange={onChange}
-        placeholder={placeholder}
-        InputProps={
-          { classes, disableUnderline: true } as Partial<OutlinedInputProps>
-        }
+        InputProps={{ disableUnderline: true } as Partial<OutlinedInputProps>}
+        disabled={disabled}
         {...props}
       />
-      <div className={componentStyles.wrapper}>
+      <div className={classes.wrapper}>
         {hasError(meta) && (
-          <div className={componentStyles.message}>{getErrorText(meta)}</div>
+          <div className={classes.message}>{getErrorText(meta)}</div>
         )}
       </div>
-    </label>
+    </div>
   );
 };

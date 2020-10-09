@@ -1,9 +1,9 @@
 import React, { ReactNode } from 'react';
-import { ICustomProps, IStyleProps } from './types';
-import { ScrollBar, VerticalScrollIndicator } from '../StrollerComponents';
+import { ICustomProps, IStyleProps } from '../types';
+import { ScrollBar, VerticalScrollIndicator } from '../../StrollerComponents';
 import { StrollableContainer } from 'react-stroller';
-import { TableContext } from './Table';
-import { useTableBodyStyles } from "./TableBodyStyles";
+import { TableContext } from '../Table';
+import { useTableBodyStyles } from './TableBodyStyles';
 
 interface ITableBodyProps {
   children: ReactNode;
