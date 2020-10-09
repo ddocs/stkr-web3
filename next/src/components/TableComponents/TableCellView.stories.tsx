@@ -2,7 +2,7 @@ import React from 'react';
 
 import { makeStyles } from '@material-ui/styles';
 import { Theme } from '@material-ui/core';
-import { Table } from './Table';
+import { DataTable } from './DataTable';
 import { CAPTIONS, CAPTIONS_2, DATA } from './mocks';
 
 const useStyles = makeStyles<Theme>(theme => ({
@@ -32,13 +32,13 @@ const TableStory = () => {
       <h3 className={classes.title}>
         Table with cell, which content display on left side
       </h3>
-      <Table className={classes.table} captions={CAPTIONS} rows={DATA} />
+      <DataTable className={classes.table} captions={CAPTIONS} rows={DATA} />
       <hr className={classes.divider} />
 
       <h3 className={classes.title}>
         Table with cell, which content display on right side
       </h3>
-      <Table
+      <DataTable
         className={classes.table}
         captions={CAPTIONS}
         rows={DATA}
@@ -49,7 +49,7 @@ const TableStory = () => {
       <h3 className={classes.title}>
         Table with cell, which content display on center
       </h3>
-      <Table
+      <DataTable
         className={classes.table}
         captions={CAPTIONS}
         rows={DATA}
@@ -60,7 +60,7 @@ const TableStory = () => {
       <h3 className={classes.title}>
         Table with cell, which content display on different side
       </h3>
-      <Table className={classes.table} captions={CAPTIONS_2} rows={DATA} />
+      <DataTable className={classes.table} captions={CAPTIONS_2} rows={DATA} />
       <hr className={classes.divider} />
     </div>
   );

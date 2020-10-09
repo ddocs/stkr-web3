@@ -2,7 +2,7 @@ import * as React from 'react';
 import { usePoolTableStyles } from './PoolTableStyles';
 import classNames from 'classnames';
 import { t } from '../../../../common/utils/intl';
-import { Table } from '../../../../components/TableComponents';
+import { DataTable } from '../../../../components/TableComponents';
 import { useLocaleMemo } from '../../../../common/hooks/useLocaleMemo';
 import {
   ITablesCaptionProps,
@@ -52,7 +52,7 @@ export const PoolTableComponent = ({ className, data }: IPoolTableProps) => {
   const captions = useCaptions();
 
   return (
-    <Table
+    <DataTable
       className={classNames(classes.component, className)}
       captions={captions}
       rows={data}

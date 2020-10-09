@@ -2,7 +2,7 @@ import React from 'react';
 
 import { makeStyles } from '@material-ui/styles';
 import { Theme } from '@material-ui/core';
-import { Table } from './Table';
+import { DataTable } from './DataTable';
 import { CAPTIONS, DATA } from './mocks';
 
 const useStyles = makeStyles<Theme>(theme => ({
@@ -30,11 +30,11 @@ const TableStory = () => {
   return (
     <div className={classes.block}>
       <h3 className={classes.title}>Simple Table</h3>
-      <Table className={classes.table} captions={CAPTIONS} rows={DATA} />
+      <DataTable className={classes.table} captions={CAPTIONS} rows={DATA} />
       <hr className={classes.divider} />
 
       <h3 className={classes.title}>Defense simple table</h3>
-      <Table
+      <DataTable
         className={classes.table}
         captions={CAPTIONS}
         rows={DATA}
@@ -43,12 +43,12 @@ const TableStory = () => {
       <hr className={classes.divider} />
 
       <h3 className={classes.title}>Table with fixed sticky header</h3>
-      <Table className={classes.limitHeight} captions={CAPTIONS} rows={DATA} />
+      <DataTable className={classes.limitHeight} captions={CAPTIONS} rows={DATA} />
       <p>Just add limit height for Simple Table</p>
       <hr className={classes.divider} />
 
       <h3 className={classes.title}>Table with custom cell's size</h3>
-      <Table
+      <DataTable
         className={classes.table}
         captions={CAPTIONS}
         rows={DATA}

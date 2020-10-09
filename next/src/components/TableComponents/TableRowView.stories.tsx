@@ -2,7 +2,7 @@ import React from 'react';
 
 import { makeStyles } from '@material-ui/styles';
 import { Theme } from '@material-ui/core';
-import { Table } from './Table';
+import { DataTable } from './DataTable';
 import { CAPTIONS, DATA_4 } from './mocks';
 
 const useStyles = makeStyles<Theme>(theme => ({
@@ -30,7 +30,7 @@ const TableStory = () => {
   return (
     <div className={classes.block}>
       <h3 className={classes.title}>Table with link instead row</h3>
-      <Table className={classes.table} captions={CAPTIONS} rows={DATA_4} />
+      <DataTable className={classes.table} captions={CAPTIONS} rows={DATA_4} />
       <hr className={classes.divider} />
     </div>
   );

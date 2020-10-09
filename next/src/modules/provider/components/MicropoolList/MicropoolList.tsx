@@ -7,7 +7,7 @@ import {
   ITablesCaptionProps,
   ITablesRowProps,
 } from '../../../../components/TableComponents/types';
-import { Table } from '../../../../components/TableComponents';
+import { DataTable } from '../../../../components/TableComponents';
 import { useLocaleMemo } from '../../../../common/hooks/useLocaleMemo';
 import { t } from '../../../../common/utils/intl';
 import { MICRO_POOL_DATA } from './mock';
@@ -77,7 +77,7 @@ export const MicropoolListComponent = ({
           </Button>
         </BackgroundColorProvider>
       ) : (
-        <Table
+        <DataTable
           className={classes.table}
           captions={captions}
           rows={data}

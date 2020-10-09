@@ -3,7 +3,7 @@ import React from 'react';
 import classNames from 'classnames';
 import { BackgroundColorProvider } from '../../../UiKit/BackgroundColorProvider';
 import { useTableBodyCellStyles } from './TableBodyCellStyles';
-import { TableContext } from '../Table';
+import { TableContext } from '../DataTable';
 
 interface IBodyCellProps {
   className?: string;

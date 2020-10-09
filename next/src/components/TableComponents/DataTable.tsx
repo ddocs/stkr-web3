@@ -14,7 +14,7 @@ type TableContextType = {
   setTableWidth: (value: number) => void;
   count: number;
 } & Pick<
-  ITableProps,
+  IDataTableProps,
   'defense' | 'paddingCollapse' | 'customCell' | 'alignCell'
 >;
 
@@ -24,7 +24,7 @@ export const TableContext = React.createContext<TableContextType>({
   count: 0,
 } as TableContextType);
 
-interface ITableProps {
+interface IDataTableProps {
   className?: string;
   captions: ITablesCaptionProps[];
   rows: ITablesRowProps[];
@@ -36,7 +36,7 @@ interface ITableProps {
   setTableWidth: (value: number) => void;
 }
 
-export const TableComponent = ({
+export const DataTableComponent = ({
   className,
   captions,
   rows,
@@ -44,7 +44,7 @@ export const TableComponent = ({
   paddingCollapse,
   customCell,
   setTableWidth,
-}: ITableProps) => {
+}: IDataTableProps) => {
   const count = captions.length;
 
   const [tableRef, setTableRef] = useState<HTMLElement | null>(null);
@@ -102,8 +102,8 @@ export const TableComponent = ({
   );
 };
 
-export const Table = (
-  props: Omit<ITableProps, 'tableWidth' | 'setTableWidth'>,
+export const DataTable = (
+  props: Omit<IDataTableProps, 'tableWidth' | 'setTableWidth'>,
 ) => {
   const [tableWidth, setTableWidth] = useState(0);
 
@@ -119,7 +119,7 @@ export const Table = (
         count: props.captions.length,
       }}
     >
-      <TableComponent
+      <DataTableComponent
         {...props}
         tableWidth={tableWidth}
         setTableWidth={setTableWidth}

@@ -7,7 +7,7 @@ import {
   ITablesCaptionProps,
   ITablesRowProps,
 } from '../../../../components/TableComponents/types';
-import { Table } from '../../../../components/TableComponents';
+import { DataTable } from '../../../../components/TableComponents';
 import { useLocaleMemo } from '../../../../common/hooks/useLocaleMemo';
 import { t } from '../../../../common/utils/intl';
 import { BEACON_NODE_DATA } from './mock';
@@ -50,7 +50,7 @@ export const BeaconListComponent = ({ className, data }: IBeaconListProps) => {
 
   return (
     <div className={classNames(classes.component, className)}>
-      <Table
+      <DataTable
         className={classes.table}
         captions={captions}
         rows={data}
