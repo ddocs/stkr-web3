@@ -1,32 +1,30 @@
 import React from 'react';
 import { FieldRenderProps } from 'react-final-form';
 import { ISelectOption, Select } from './Select';
-import { FormControlProps } from '@material-ui/core/FormControl';
 import { getErrorText, hasError } from '../../common/utils/form';
 
 interface ISelectFieldProps extends FieldRenderProps<any> {
   values: ISelectOption[];
-  formControlProps?: FormControlProps;
-  placeholder?: string;
+  className?: string;
 }
 
 const SelectField = ({
   input: { name, onChange, value },
   values,
   meta,
+  className,
   ...rest
 }: ISelectFieldProps & any) => {
-  const showError = hasError(meta);
-
   return (
     <Select
-      {...rest}
+      className={className}
       name={name}
       helperText={getErrorText(meta)}
-      error={!!showError}
+      error={hasError(meta)}
       onChange={onChange}
       value={value}
       values={values}
+      {...rest}
     />
   );
 };

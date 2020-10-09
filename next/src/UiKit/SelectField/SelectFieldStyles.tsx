@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/styles';
 import { createStyles, Theme } from '@material-ui/core';
 
-export const useInputFieldStyles = makeStyles((theme: Theme) =>
+export const useSelectFieldStyles = makeStyles((theme: Theme) =>
   createStyles({
     component: {
       position: 'relative',
@@ -49,6 +49,11 @@ export const useInputFieldStyles = makeStyles((theme: Theme) =>
 
       '& label.Mui-focused': {
         color: 'inherit',
+      },
+
+      '& .MuiSelect-select': {
+        paddingTop: theme.spacing(1),
+        paddingBottom: 0,
       },
 
       '& input': {

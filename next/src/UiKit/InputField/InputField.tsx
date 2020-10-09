@@ -13,6 +13,7 @@ interface IFieldProps extends FieldRenderProps<string> {
   className?: string;
   color?: 'primary' | 'secondary';
   disabled?: boolean;
+  readOnly?: boolean;
 }
 
 export const InputField = ({
@@ -21,6 +22,7 @@ export const InputField = ({
   meta,
   color,
   disabled,
+  readOnly,
   ...props
 }: IFieldProps & TextFieldProps) => {
   const classes = useInputFieldStyles();
@@ -32,13 +34,17 @@ export const InputField = ({
           classes.input,
           color === 'primary' && classes.inputPrimary,
           color === 'secondary' && classes.inputSecondary,
-          disabled && classes.inputDisabled,
+          (readOnly || disabled) && classes.inputDisabled,
         )}
         name={name}
         error={hasError(meta)}
         value={value}
         onChange={onChange}
-        InputProps={{ disableUnderline: true } as Partial<OutlinedInputProps>}
+        InputProps={
+          { disableUnderline: true, readOnly: readOnly } as Partial<
+            OutlinedInputProps
+          >
+        }
         disabled={disabled}
         {...props}
       />

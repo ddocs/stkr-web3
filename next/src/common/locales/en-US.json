@@ -94,7 +94,7 @@
         "generation": "Data is being generated",
         "note": "The process might take a while"
       },
-      "stage-5": {
+      "stage-6": {
         "title": "Create Your<br /> Staking Pools",
         "note": "Secure deposit",
         "text": "To provide users with assurance that your resources will provide consistently high uptime and performance, we require a deposit of Ankr tokens to be made. Note that if you provide a good service, these tokens will also earn you additional rewards, however if you fail to meet a minimum level of service, your deposited tokens will be used to compensate any losses incurred by Micropool participants.",

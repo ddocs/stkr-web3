@@ -2,6 +2,13 @@ import React, { ReactNode, Ref } from 'react';
 import TextField, { OutlinedTextFieldProps } from '@material-ui/core/TextField';
 import { memo, useMemo } from 'react';
 import MenuItem, { MenuItemProps } from '@material-ui/core/MenuItem';
+import { OutlinedInputProps } from '@material-ui/core';
+import classNames from 'classnames';
+import { getErrorText, hasError } from '../../common/utils/form';
+import { useSelectFieldStyles } from './SelectFieldStyles';
+import { uid } from 'react-uid';
+import { FormControlProps } from '@material-ui/core/FormControl';
+import { FieldRenderProps } from 'react-final-form';
 
 const MenuItemMemoized = memo(
   React.forwardRef((props: Omit<MenuItemProps, 'button'>, ref: Ref<any>) => {
@@ -17,18 +24,14 @@ export interface ISelectOption {
   disabled?: boolean;
 }
 
-export interface INamespaceSelectOption {
-  value?: string | number;
-  key?: string | number;
-  label?: string;
-  clusterId?: string | React.ReactChild;
-}
-
-interface ISelectComponent extends OutlinedTextFieldProps {
-  label?: ReactNode;
+interface ISelectComponent
+  extends OutlinedTextFieldProps,
+    FieldRenderProps<any> {
+  className?: string;
   values: ISelectOption[];
-  placeholder?: string;
-  defaultValue?: string;
+  readOnly?: boolean;
+  disabled?: boolean;
+  color?: 'primary' | 'secondary';
 }
 
 const SHRINK = { shrink: true };
@@ -36,49 +39,63 @@ const SELECT_PROPS = {
   MenuProps: { keepMounted: true },
 };
 
-const Select = (props: ISelectComponent) => {
-  const {
-    label,
-    values,
-    value = undefined,
-    fullWidth = true,
-    variant = 'outlined',
-    defaultValue = '',
-    SelectProps,
-    ...rest
-  } = props;
+export const Select = ({
+  input: { name, onChange, value },
+  meta,
+  values,
+  readOnly,
+  disabled,
+  className,
+  SelectProps,
+  helperText,
+  error,
+  color,
+  ...rest
+}: ISelectComponent) => {
   const items = useMemo(() => {
-    return values.map(option => {
-      return (
-        <MenuItemMemoized
-          key={option.key || option.value || ''}
-          value={
-            typeof option.value === 'number'
-              ? option.value
-              : option.value || defaultValue
-          }
-          disabled={option.disabled}
-        >
-          {option.label}
-        </MenuItemMemoized>
-      );
-    });
-  }, [values, defaultValue]);
+    return values.map(option => (
+      <MenuItemMemoized
+        key={uid(option)}
+        value={option.value}
+        disabled={option.disabled}
+      >
+        {option.label}
+      </MenuItemMemoized>
+    ));
+  }, [values]);
+
+  const classes = useSelectFieldStyles();
 
   return (
-    <TextField
-      variant={variant}
-      select={true}
-      label={label}
-      InputLabelProps={SHRINK}
-      value={typeof value === 'number' ? value : value || defaultValue}
-      fullWidth={fullWidth}
-      SelectProps={{ ...SELECT_PROPS, ...SelectProps }}
-      {...rest}
-    >
-      {items}
-    </TextField>
+    <div className={classNames(classes.component, className)}>
+      <TextField
+        className={classNames(
+          classes.input,
+          color === 'primary' && classes.inputPrimary,
+          color === 'secondary' && classes.inputSecondary,
+          (readOnly || disabled) && classes.inputDisabled,
+        )}
+        select={true}
+        InputLabelProps={SHRINK}
+        value={value}
+        InputProps={
+          { disableUnderline: true, readOnly: readOnly } as Partial<
+            OutlinedInputProps
+          >
+        }
+        SelectProps={{ ...SELECT_PROPS, ...SelectProps }}
+        disabled={disabled}
+        name={name}
+        onChange={onChange}
+        {...rest}
+      >
+        {items}
+      </TextField>
+      <div className={classes.wrapper}>
+        {hasError(meta) && (
+          <div className={classes.message}>{getErrorText(meta)}</div>
+        )}
+      </div>
+    </div>
   );
 };
-
-export { Select };

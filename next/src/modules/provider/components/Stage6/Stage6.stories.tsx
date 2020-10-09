@@ -18,7 +18,7 @@ const Stage6Story = () => {
         balance={100}
         amount={100000}
         price={32}
-        beacon={[{}, {}]}
+        beacon={[{ value: '1', label: 'Alex_Beacon_Node' }]}
       />
     </div>
   );

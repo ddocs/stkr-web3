@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useStage6Styles } from './Stage6Styles';
 import classNames from 'classnames';
 import { IStageProps } from '../../types';
@@ -11,7 +11,7 @@ import { Field, Form, FormRenderProps } from 'react-final-form';
 import { InputField } from '../../../../UiKit/InputField';
 import { t, tHTML } from '../../../../common/utils/intl';
 import { RangeField } from '../../../../UiKit/RangeField';
-import { SelectField } from '../../../../UiKit/SelectField';
+import { Select, SelectField } from '../../../../UiKit/SelectField';
 import { ISelectOption } from '../../../../UiKit/SelectField/Select';
 import { Body2, Headline2 } from '../../../../UiKit/Typography';
 import { connect } from 'react-redux';
@@ -48,19 +48,16 @@ export const Stage6Component = ({
 
   const renderForm = ({ handleSubmit }: FormRenderProps<any>) => {
     return (
-      <form
-        onSubmit={handleSubmit}
-        className={classNames(classes.form, className)}
-      >
+      <form onSubmit={handleSubmit} className={classes.form}>
         <h2 className={classes.title}>
-          {tHTML('provider.create.stage5.title')}
+          {tHTML('provider.create.stage-6.title')}
         </h2>
-        <fieldset>
+        <div className={classes.fieldset}>
           <Field
             className={classes.input}
             component={InputField}
             name="email"
-            type="email"
+            type="text"
             label={t('navigation.micropool-name')}
           />
           <Field
@@ -81,23 +78,22 @@ export const Stage6Component = ({
             name="price"
             type="number"
             label={t('navigation.price')}
-            defaultValue={price}
-            disabled={true}
+            readOnly={true}
           />
           <Field
             className={classes.input}
-            component={SelectField}
+            component={Select}
             name="beacon-node"
-            label={t('beacon-name-node')}
+            label={t('navigation.beacon-name-node')}
             values={beacon}
           />
-        </fieldset>
-        <div>
-          <Headline2 component="h3" color="primary">
-            {t('provider.create.stage5.title')}
+        </div>
+        <div className={classes.balance}>
+          <Headline2 className={classes.note} component="h3" color="primary">
+            {t('provider.create.stage-6.note')}
           </Headline2>
-          <Body2 component="p" color="secondary">
-            {t('provider.create.stage5.note')}
+          <Body2 className={classes.text} component="p" color="secondary">
+            {t('provider.create.stage-6.text')}
           </Body2>
           <div>
             <p>{balance}</p>
@@ -119,6 +115,14 @@ export const Stage6Component = ({
     );
   };
 
+  const initialValues = useMemo(
+    () => ({
+      price: price,
+      'beacon-node': beacon[0].value,
+    }),
+    [price],
+  );
+
   return (
     <BackgroundColorProvider
       className={classNames(classes.component, className)}
@@ -131,7 +135,11 @@ export const Stage6Component = ({
       >
         <CancelIcon />
       </Button>
-      <Form render={renderForm} onSubmit={nextStep} />
+      <Form
+        render={renderForm}
+        onSubmit={nextStep}
+        initialValues={initialValues}
+      />
     </BackgroundColorProvider>
   );
 };
@@ -162,7 +170,7 @@ const Step6Connected = connect(
     balance: 0,
     amount: 1000000,
     price: 32,
-    beacon: [{}, {}],
+    beacon: [{ value: '1', label: 'Alex_Beacon_Node' }],
   }),
   {},
 )(Stage6Imp);
