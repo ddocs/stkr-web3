@@ -5,9 +5,11 @@ import { StrollableContainer } from 'react-stroller';
 import { useTableBodyStyles } from './TableBodyStyles';
 import { useResizeObserver } from '../../../common/hooks/useResizeObserver';
 import { TableContext } from '../Table/Table';
+import { uid } from 'react-uid';
 
 interface ITableBodyProps {
   children: ReactNode;
+  rowsCount: number;
 }
 
 export const TableBodyComponent = React.forwardRef<
@@ -16,11 +18,12 @@ export const TableBodyComponent = React.forwardRef<
 >(
   (
     {
+      children,
       count,
       customCell,
-      paddingCollapse,
       defense,
-      children,
+      paddingCollapse,
+      rowsCount,
     }: ITableBodyProps & ICustomProps & IStyleProps & { count: number },
     ref,
   ) => {
@@ -49,8 +52,7 @@ export const TableBodyComponent = React.forwardRef<
           bar={TableScrollBar}
           draggable={true}
           inBetween={<VerticalScrollIndicator />}
-          // TODO Revert
-          // scrollKey={`${uid(rows)}${tableHeight}`}
+          scrollKey={`${uid(rowsCount)}${tableHeight}`}
         >
           <div className={classes.body} role="rowgroup" ref={setTableBodyRef}>
             {children}

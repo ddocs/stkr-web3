@@ -32,7 +32,7 @@ export const DataTableComponent = ({
         ))}
       </TableHead>
       {rows && (
-        <TableBody>
+        <TableBody rowsCount={rows.length}>
           {rows.map(row => (
             <TableRow key={uid(row)}>
               {captions.map(cell => (

@@ -69,7 +69,7 @@ export const PoolTableComponent = ({ className, data }: IPoolTableProps) => {
         ))}
       </TableHead>
       {data && (
-        <TableBody>
+        <TableBody rowsCount={data.length}>
           {data.map(row => (
             <TableRow className={classes.row} key={uid(row)}>
               {captions.map(cell => (
