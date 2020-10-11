@@ -17,9 +17,14 @@ import { useAction } from '../../../../store/redux';
 import { useIsSMDown } from '../../../../common/hooks/useTheme';
 import { Toggle } from '../Toggle';
 import { useQuery } from '@redux-requests/react';
-import { UserActions, UserActionTypes, } from '../../../../store/actions/UserActions';
+import {
+  UserActions,
+  UserActionTypes,
+} from '../../../../store/actions/UserActions';
 import { IUserInfo } from '../../../../store/apiMappers/userApi';
 import { useInitEffect } from '../../../../common/hooks/useInitEffect';
+
+const SHOW_SWITCHER_ON_ALL_PAGES = true;
 
 interface IHeaderStoreProps {
   isAuth?: boolean;
@@ -81,7 +86,8 @@ export const HeaderComponent = ({
             <Toggle />
           ) : (
             <>
-              {[STAKER_PATH, PROVIDER_PATH].includes(location.pathname) && (
+              {([STAKER_PATH, PROVIDER_PATH].includes(location.pathname) ||
+                SHOW_SWITCHER_ON_ALL_PAGES) && (
                 <Tabs className={classes.tabs} values={TABS} />
               )}
               <div className={classes.wallet}>{data?.address}</div>
