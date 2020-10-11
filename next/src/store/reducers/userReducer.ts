@@ -1,5 +1,8 @@
 import { UserActionTypes } from '../actions/UserActions';
-import { requestInactive, RequestStatus, } from '../../common/utils/requestStatus';
+import {
+  requestInactive,
+  RequestStatus,
+} from '../../common/utils/requestStatus';
 import { createReducer } from '../../common/utils/createReducer';
 import { createAPIReducer } from '../../common/utils/createAPIReducer';
 
@@ -16,6 +19,7 @@ export interface IUserState {
 
 const initialState: IUserState = {
   signInStatus: requestInactive(),
+  isAuthenticated: false,
 };
 
 export const userReducer = createReducer(initialState, {
