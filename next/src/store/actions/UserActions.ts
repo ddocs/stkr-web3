@@ -1,5 +1,5 @@
 import fetchMicropoolsData from '../../mocks/pools.json';
-import { IUserInfo } from "../apiMappers/userApi";
+import { IUserInfo } from '../apiMappers/userApi';
 
 export const UserActionTypes = {
   SIGN_IN: 'SIGN_IN',
@@ -8,6 +8,8 @@ export const UserActionTypes = {
   FETCH_USER_INFO: 'FETCH_USER_INFO',
 
   FETCH_MICROPOOLS: 'FETCH_MICROPOOLS',
+
+  APPLY_FOR_PROVIDER: 'APPLY_FOR_PROVIDER',
 };
 
 export const UserActions = {
@@ -30,6 +32,16 @@ export const UserActions = {
       promise: new Promise(resolve => {
         setTimeout(() => {
           resolve(fetchMicropoolsData);
+        }, 1000);
+      }),
+    },
+  }),
+  applyForProvider: () => ({
+    type: UserActionTypes.APPLY_FOR_PROVIDER,
+    request: {
+      promise: new Promise(resolve => {
+        setTimeout(() => {
+          resolve(null);
         }, 1000);
       }),
     },
