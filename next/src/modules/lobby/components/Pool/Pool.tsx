@@ -8,15 +8,14 @@ import { Button } from '../../../../UiKit/Button';
 import { Headline1 } from '../../../../UiKit/Typography';
 import { useAction } from '../../../../store/redux';
 import { openUnlockWalletAction } from '../../../../store/modals/actions';
-import { useAuthentication } from '../../../../common/utils/useAuthentications';
 
 interface IPoolProps {
   className?: string;
+  isAuthenticated: boolean;
 }
 
-export const Pool = ({ className }: IPoolProps) => {
+export const Pool = ({ className, isAuthenticated }: IPoolProps) => {
   const classes = usePoolStyles();
-  const { isAuthenticated } = useAuthentication();
 
   const openUnlockWallet = useAction(openUnlockWalletAction);
 

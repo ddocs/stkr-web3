@@ -12,11 +12,12 @@ import { Body1 } from '../../../../UiKit/Typography';
 
 interface IPromoProps {
   className?: string;
+  isAuthenticated: boolean;
 }
 
 const savers = ['monthly', 'yearly'];
 
-export const Calculate = ({ className }: IPromoProps) => {
+export const Calculate = ({ className, isAuthenticated }: IPromoProps) => {
   const classes = useCalculateStyles();
 
   const openUnlockWallet = useAction(openUnlockWalletAction);
@@ -62,14 +63,16 @@ export const Calculate = ({ className }: IPromoProps) => {
             })}
           </ul>
         </BackgroundColorProvider>
-        <Button
-          className={classes.unlock}
-          onClick={openUnlockWallet}
-          color="primary"
-          size="large"
-        >
-          {t('navigation.unlock-your-wallet')}
-        </Button>
+        {!isAuthenticated && (
+          <Button
+            className={classes.unlock}
+            onClick={openUnlockWallet}
+            color="primary"
+            size="large"
+          >
+            {t('navigation.unlock-your-wallet')}
+          </Button>
+        )}
       </Curtains>
     </section>
   );

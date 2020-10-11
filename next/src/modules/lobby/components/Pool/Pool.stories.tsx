@@ -12,7 +12,7 @@ const PoolStory = () => {
   const classes = useStyles();
   return (
     <div className={classes.block}>
-      <Pool />
+      <Pool isAuthenticated={false} />
     </div>
   );
 };

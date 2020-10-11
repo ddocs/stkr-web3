@@ -12,7 +12,7 @@ const CalculateStory = () => {
   const classes = useStyles();
   return (
     <div className={classes.block}>
-      <Calculate />
+      <Calculate isAuthenticated={false} />
     </div>
   );
 };
