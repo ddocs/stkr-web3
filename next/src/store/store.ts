@@ -10,7 +10,7 @@ import { createDriver } from '@redux-requests/promise';
 
 const { requestsReducer, requestsMiddleware } = handleRequests({
   driver: createDriver({
-    processResponse: response => ({ data: response.data }),
+    processResponse: response => ({ data: response }),
   }),
 });
 

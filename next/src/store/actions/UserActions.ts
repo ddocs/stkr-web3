@@ -19,7 +19,11 @@ export const UserActions = {
   fetchMicropools: () => ({
     type: UserActionTypes.FETCH_MICROPOOLS,
     request: {
-      promise: Promise.resolve(fetchMicropoolsData),
+      promise: new Promise(resolve => {
+        setTimeout(() => {
+          resolve(fetchMicropoolsData);
+        });
+      }),
     },
   }),
 };

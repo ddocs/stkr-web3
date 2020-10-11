@@ -1,15 +1,13 @@
 import * as React from 'react';
 import { useTotalStyles } from './TotalStyles';
 import classNames from 'classnames';
+import { t } from '../../common/utils/intl';
 
-export interface ITotalStoreProps {
-  reward: number;
-  total: number;
-}
-
-interface ITotalProps extends ITotalStoreProps {
+export interface ITotalProps {
   className?: string;
   children?: React.ReactNode;
+  reward: number;
+  total: number;
 }
 
 export const Total = ({ className, reward, total, children }: ITotalProps) => {
@@ -19,7 +17,7 @@ export const Total = ({ className, reward, total, children }: ITotalProps) => {
 
   return (
     <div className={classNames(classes.component, className)}>
-      {`${reward} / ${total}`}
+      {t('total.out-of', { value: reward, of: total })}
       <span className={classes.range} />
       <div className={classes.extension}>{children}</div>
     </div>

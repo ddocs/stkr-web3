@@ -17,7 +17,6 @@ const createRootReducer = (history: History, requestsReducer: Reducer) =>
     router: connectRouter(history),
     user: persistReducer(userPersistConfig, userReducer),
     requests: requestsReducer,
-
     modals,
   });
 

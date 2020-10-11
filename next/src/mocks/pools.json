@@ -3,96 +3,108 @@
     "name": "Ankr Pool 12",
     "provider": "Ankr",
     "period": 1,
-    "comissions": 10,
-    "balance": 3.5,
-    "total": 32
+    "fee": 10,
+    "currentStake": 13.5,
+    "totalStake": 32,
+    "status": "pending"
   },
   {
     "name": "Ankr Pool 11",
     "provider": "Ankr",
     "period": 1,
-    "comissions": 10,
-    "balance": 3.5,
-    "total": 32
+    "fee": 10,
+    "currentStake": 2,
+    "totalStake": 32,
+    "status": "ongoing"
   },
   {
     "name": "Ankr Pool 10",
     "provider": "Ankr",
     "period": 1,
-    "comissions": 10,
-    "balance": 3.5,
-    "total": 32
+    "fee": 10,
+    "currentStake": 11,
+    "totalStake": 32,
+    "status": "ongoing"
   },
   {
     "name": "Ankr Pool 9",
     "provider": "Ankr",
     "period": 1,
-    "comissions": 10,
-    "balance": 3.5,
-    "total": 32
+    "fee": 10,
+    "currentStake": 5,
+    "totalStake": 32,
+    "status": "ongoing"
   },
   {
     "name": "Ankr Pool 8",
     "provider": "Ankr",
     "period": 1,
-    "comissions": 10,
-    "balance": 3.5,
-    "total": 32
+    "fee": 10,
+    "currentStake": 3.5,
+    "totalStake": 32,
+    "status": "ongoing"
   },
   {
     "name": "Ankr Pool 7",
     "provider": "Ankr",
     "period": 1,
-    "comissions": 10,
-    "balance": 3.5,
-    "total": 32
+    "fee": 10,
+    "currentStake": 3.5,
+    "totalStake": 32,
+    "status": "ongoing"
   },
   {
     "name": "Ankr Pool 6",
     "provider": "Ankr",
     "period": 1,
-    "comissions": 10,
-    "balance": 3.5,
-    "total": 32
+    "fee": 10,
+    "currentStake": 3.5,
+    "totalStake": 32,
+    "status": "ongoing"
   },
   {
     "name": "Ankr Pool 5",
     "provider": "Ankr",
     "period": 1,
-    "comissions": 10,
-    "balance": 3.5,
-    "total": 32
+    "fee": 10,
+    "currentStake": 3.5,
+    "totalStake": 32,
+    "status": "ongoing"
   },
   {
     "name": "Ankr Pool 4",
     "provider": "Ankr",
     "period": 1,
-    "comissions": 10,
-    "balance": 3.5,
-    "total": 32
+    "fee": 10,
+    "currentStake": 3.5,
+    "totalStake": 32,
+    "status": "ongoing"
   },
   {
     "name": "Ankr Pool 3",
     "provider": "Ankr",
     "period": 1,
-    "comissions": 10,
-    "balance": 3.5,
-    "total": 32
+    "fee": 10,
+    "currentStake": 3.5,
+    "totalStake": 32,
+    "status": "ongoing"
   },
   {
     "name": "Ankr Pool 2",
     "provider": "Ankr",
     "period": 1,
-    "comissions": 10,
-    "balance": 3.5,
-    "total": 32
+    "fee": 10,
+    "currentStake": 3.5,
+    "totalStake": 32,
+    "status": "ongoing"
   },
   {
     "name": "Ankr Pool 1",
     "provider": "Ankr",
     "period": 1,
-    "comissions": 10,
-    "balance": 3.5,
-    "total": 32
+    "fee": 10,
+    "currentStake": 3.5,
+    "totalStake": 32,
+    "status": "ongoing"
   }
 ]

@@ -1,11 +1,11 @@
 import React from 'react';
 import { ITablesRowProps } from '../../../../components/TableComponents/types';
 import { Total as RangeTotal } from '../../../../components/Total';
-import { ITotalStoreProps } from '../../../../components/Total/Total';
+import { ITotalProps } from '../../../../components/Total/Total';
 import { t } from '../../../../common/utils/intl';
 import { Button } from '../../../../UiKit/Button';
 
-const Total = (props: ITotalStoreProps) => (
+const Total = (props: ITotalProps) => (
   <RangeTotal {...props}>
     <Button variant="text" size="medium" color="secondary">
       {t('navigation.edit')}

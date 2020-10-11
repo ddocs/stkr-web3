@@ -106,5 +106,8 @@
   "providers": {
     "metamask": "Metamask",
     "wallet": "WalletConnect"
+  },
+  "total": {
+    "out-of": "{value} / {of}"
   }
 }

@@ -2,7 +2,8 @@ export interface IPool {
   name: string;
   provider: string;
   period: number;
-  comissions: number;
-  balance: number;
-  total: number;
+  fee: number;
+  currentStake: number;
+  totalStake: number;
+  status: 'pending' | 'ongoing';
 }

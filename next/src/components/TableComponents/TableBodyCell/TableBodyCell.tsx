@@ -22,7 +22,6 @@ export const TableBodyCellComponent = ({
   tableWidth,
   ...rest
 }: ITableBodyCellProps & IStyleProps) => {
-  console.log('tableWidth', tableWidth);
   const classes = useTableBodyCellStyles({
     defense,
     paddingCollapse,
