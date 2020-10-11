@@ -3,28 +3,13 @@ import { makeStyles } from '@material-ui/styles';
 
 export const TABLE_MIN_WIDTH = 808;
 
-export const useTableStyles = makeStyles<
-  Theme,
-  {
-    count: number;
-    customCell?: string;
-    paddingCollapse?: boolean;
-    defense?: boolean;
-  }
->(theme => ({
+export const useTableStyles = makeStyles<Theme>(() => ({
   container: {},
-
   table: {
     position: 'relative',
-
     minWidth: TABLE_MIN_WIDTH,
     height: '100%',
     boxSizing: 'border-box',
-
     overflow: 'hidden',
-  },
-
-  row: {
-    display: 'contents',
   },
 }));

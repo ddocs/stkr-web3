@@ -3,7 +3,7 @@ import { AlignType, IStyleProps } from '../types';
 import classNames from 'classnames';
 import { useCellStyles } from './TableHeadCellStyles';
 import { BackgroundColorProvider } from '../../../UiKit/BackgroundColorProvider';
-import { TableContext } from '../DataTable/DataTable';
+import { TableContext } from "../Table/Table";
 
 interface ITableHeadCellProps {
   label: React.ReactNode;

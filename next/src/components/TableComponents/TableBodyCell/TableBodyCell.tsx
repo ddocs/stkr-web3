@@ -3,7 +3,7 @@ import React from 'react';
 import classNames from 'classnames';
 import { BackgroundColorProvider } from '../../../UiKit/BackgroundColorProvider';
 import { useTableBodyCellStyles } from './TableBodyCellStyles';
-import { TableContext } from '../DataTable/DataTable';
+import { TableContext } from '../Table/Table';
 
 interface ITableBodyCellProps {
   className?: string;
@@ -22,6 +22,7 @@ export const TableBodyCellComponent = ({
   tableWidth,
   ...rest
 }: ITableBodyCellProps & IStyleProps) => {
+  console.log('tableWidth', tableWidth);
   const classes = useTableBodyCellStyles({
     defense,
     paddingCollapse,
@@ -47,7 +48,9 @@ export const TableBodyCellComponent = ({
   );
 };
 
-export const TableBodyCell = (props: Omit<ITableBodyCellProps, 'tableWidth'>) => {
+export const TableBodyCell = (
+  props: Omit<ITableBodyCellProps, 'tableWidth'>,
+) => {
   return (
     <TableContext.Consumer>
       {context => {

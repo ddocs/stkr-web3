@@ -2,7 +2,7 @@ import { ICustomProps, IStyleProps } from '../types';
 import React, { ReactNode } from 'react';
 import classNames from 'classnames';
 import { useTableRowStyles } from './TableRowStyles';
-import { TableContext } from '../DataTable/DataTable';
+import { TableContext } from '../Table/Table';
 
 interface ITableRowProps {
   className?: string;
