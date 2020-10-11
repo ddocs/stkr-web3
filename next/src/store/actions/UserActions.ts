@@ -1,10 +1,11 @@
 import fetchMicropoolsData from '../../mocks/pools.json';
+import { IUserInfo } from "../apiMappers/userApi";
 
 export const UserActionTypes = {
   SIGN_IN: 'SIGN_IN',
   SIGN_IN_SUCCESS: 'SIGN_IN_SUCCESS',
 
-  UPDATE_USER_INFO: 'UPDATE_USER_INFO',
+  FETCH_USER_INFO: 'FETCH_USER_INFO',
 
   FETCH_MICROPOOLS: 'FETCH_MICROPOOLS',
 };
@@ -13,8 +14,15 @@ export const UserActions = {
   signIn: () => ({
     type: UserActionTypes.SIGN_IN,
   }),
-  updateUserInfo: () => ({
-    type: UserActionTypes.UPDATE_USER_INFO,
+  fetchUserInfo: () => ({
+    type: UserActionTypes.FETCH_USER_INFO,
+    request: {
+      promise: new Promise<IUserInfo>(resolve => {
+        setTimeout(() => {
+          resolve({ address: '0x603366e08380EceB2E334621A27eeD36F34A9D50' });
+        }, 1000);
+      }),
+    },
   }),
   fetchMicropools: () => ({
     type: UserActionTypes.FETCH_MICROPOOLS,
@@ -22,7 +30,7 @@ export const UserActions = {
       promise: new Promise(resolve => {
         setTimeout(() => {
           resolve(fetchMicropoolsData);
-        });
+        }, 1000);
       }),
     },
   }),

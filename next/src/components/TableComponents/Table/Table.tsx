@@ -27,7 +27,7 @@ interface ITableComponentProps extends ICustomProps, IStyleProps {
   children: ReactNode;
 }
 
-export const DataTableComponent = ({
+export const TableComponent = ({
   className,
   setTableWidth,
   children,
@@ -75,7 +75,7 @@ export const Table = (props: ITableProps) => {
         count: props.columnsCount,
       }}
     >
-      <DataTableComponent
+      <TableComponent
         {...props}
         tableWidth={tableWidth}
         setTableWidth={setTableWidth}

@@ -16,14 +16,18 @@ import { openUnlockWalletAction } from '../../../../store/modals/actions';
 import { useAction } from '../../../../store/redux';
 import { useIsSMDown } from '../../../../common/hooks/useTheme';
 import { Toggle } from '../Toggle';
+import { useQuery } from '@redux-requests/react';
+import { UserActions, UserActionTypes, } from '../../../../store/actions/UserActions';
+import { IUserInfo } from '../../../../store/apiMappers/userApi';
+import { useInitEffect } from '../../../../common/hooks/useInitEffect';
 
 interface IHeaderStoreProps {
   isAuth?: boolean;
-  displayName?: string;
 }
 
 export interface IHeaderProps extends IHeaderStoreProps {
   className?: string;
+  fetchUserInfo: typeof UserActions.fetchUserInfo;
 }
 
 const TABS: ITab[] = [
@@ -42,15 +46,25 @@ const TABS: ITab[] = [
 export const HeaderComponent = ({
   className,
   isAuth,
-  displayName,
+  fetchUserInfo,
 }: IHeaderProps) => {
   const classes = useHeaderStyles();
+
+  useInitEffect(() => {
+    if (isAuth) {
+      fetchUserInfo();
+    }
+  });
 
   const location = useLocation();
 
   const openUnlockWallet = useAction(openUnlockWalletAction);
 
   const isSMDown = useIsSMDown();
+
+  const { data } = useQuery<IUserInfo | undefined>({
+    type: UserActionTypes.FETCH_USER_INFO,
+  });
 
   return (
     <header
@@ -70,7 +84,7 @@ export const HeaderComponent = ({
               {[STAKER_PATH, PROVIDER_PATH].includes(location.pathname) && (
                 <Tabs className={classes.tabs} values={TABS} />
               )}
-              <div className={classes.wallet}>{displayName}</div>
+              <div className={classes.wallet}>{data?.address}</div>
             </>
           )
         ) : (
@@ -91,7 +105,8 @@ export const HeaderComponent = ({
 export const Header = connect(
   (state: IStoreState) => ({
     isAuth: isAuthenticated(state.user),
-    displayName: state.user.userInfo?.displayName,
   }),
-  {},
+  {
+    fetchUserInfo: UserActions.fetchUserInfo,
+  },
 )(HeaderComponent);

@@ -8,6 +8,7 @@ import { Button } from '../../../../UiKit/Button';
 import { Headline1 } from '../../../../UiKit/Typography';
 import { useAction } from '../../../../store/redux';
 import { openUnlockWalletAction } from '../../../../store/modals/actions';
+import { useAuthentication } from '../../../../common/utils/useAuthentications';
 
 interface IPoolProps {
   className?: string;
@@ -15,6 +16,7 @@ interface IPoolProps {
 
 export const Pool = ({ className }: IPoolProps) => {
   const classes = usePoolStyles();
+  const { isAuthenticated } = useAuthentication();
 
   const openUnlockWallet = useAction(openUnlockWalletAction);
 
@@ -24,16 +26,25 @@ export const Pool = ({ className }: IPoolProps) => {
         <Headline1 className={classes.title} component="h2">
           {t('about.pool-title')}
         </Headline1>
-        <PoolTable className={classes.table} />
-        <span className={classes.note}>{t('about.pool-note')}</span>
-        <Button
-          className={classes.button}
-          color="primary"
-          size="large"
-          onClick={openUnlockWallet}
-        >
-          {t('navigation.unlock-your-wallet')}
-        </Button>
+        <PoolTable
+          className={classNames(
+            classes.table,
+            !isAuthenticated && classes.disabled,
+          )}
+        />
+        {!isAuthenticated && (
+          <>
+            <span className={classes.note}>{t('about.pool-note')}</span>
+            <Button
+              className={classes.button}
+              color="primary"
+              size="large"
+              onClick={openUnlockWallet}
+            >
+              {t('navigation.unlock-your-wallet')}
+            </Button>
+          </>
+        )}
       </Curtains>
     </section>
   );

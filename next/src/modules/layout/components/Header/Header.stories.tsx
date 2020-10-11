@@ -3,6 +3,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/styles';
 import { Theme } from '@material-ui/core';
 import { HeaderComponent } from './Header';
+import { UserActions } from '../../../../store/actions/UserActions';
 
 const useStyles = makeStyles<Theme>(theme => ({
   block: {},
@@ -12,8 +13,11 @@ const HeaderStory = () => {
   const classes = useStyles();
   return (
     <div className={classes.block}>
-      <HeaderComponent />
-      <HeaderComponent isAuth={true} />
+      <HeaderComponent fetchUserInfo={UserActions.fetchUserInfo} />
+      <HeaderComponent
+        isAuth={true}
+        fetchUserInfo={UserActions.fetchUserInfo}
+      />
     </div>
   );
 };
