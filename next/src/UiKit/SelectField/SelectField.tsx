@@ -1,13 +1,11 @@
-import React, { ReactNode, Ref } from 'react';
+import React, { memo, Ref, useMemo } from 'react';
 import TextField, { OutlinedTextFieldProps } from '@material-ui/core/TextField';
-import { memo, useMemo } from 'react';
 import MenuItem, { MenuItemProps } from '@material-ui/core/MenuItem';
 import { OutlinedInputProps } from '@material-ui/core';
 import classNames from 'classnames';
 import { getErrorText, hasError } from '../../common/utils/form';
 import { useSelectFieldStyles } from './SelectFieldStyles';
 import { uid } from 'react-uid';
-import { FormControlProps } from '@material-ui/core/FormControl';
 import { FieldRenderProps } from 'react-final-form';
 
 const MenuItemMemoized = memo(

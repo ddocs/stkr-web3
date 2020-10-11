@@ -120,7 +120,7 @@ export const Stage6Component = ({
       price: price,
       'beacon-node': beacon[0].value,
     }),
-    [price],
+    [price, beacon],
   );
 
   return (
