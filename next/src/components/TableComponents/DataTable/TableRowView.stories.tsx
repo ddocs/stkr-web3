@@ -7,18 +7,14 @@ import { CAPTIONS, DATA_4 } from '../mocks';
 
 const useStyles = makeStyles<Theme>(theme => ({
   block: {},
-
   title: {
     marginTop: 0,
   },
-
   divider: {
     marginTop: 32,
     marginBottom: 16,
-
     backgroundColor: theme.palette.grey[100],
   },
-
   limitHeight: {
     maxHeight: '200px',
   },
