@@ -1,11 +1,10 @@
-import React, { ReactNode, useCallback, useState } from 'react';
+import React, { ReactNode, useCallback, useContext, useState } from 'react';
 import { ICustomProps, IStyleProps } from '../types';
 import { ScrollBar, VerticalScrollIndicator } from '../../StrollerComponents';
 import { StrollableContainer } from 'react-stroller';
 import { useTableBodyStyles } from './TableBodyStyles';
 import { useResizeObserver } from '../../../common/hooks/useResizeObserver';
 import { TableContext } from '../Table/Table';
-import { uid } from 'react-uid';
 
 interface ITableBodyProps {
   children: ReactNode;
@@ -45,7 +44,7 @@ export const TableBodyComponent = ({
         bar={TableScrollBar}
         draggable={true}
         inBetween={<VerticalScrollIndicator />}
-        scrollKey={`${uid(rowsCount)}${tableHeight}`}
+        scrollKey={`${rowsCount}${tableHeight}`}
       >
         <div className={classes.body} role="rowgroup" ref={setTableBodyRef}>
           {children}
@@ -56,11 +55,6 @@ export const TableBodyComponent = ({
 };
 
 export const TableBody = (props: ITableBodyProps) => {
-  return (
-    <TableContext.Consumer>
-      {context => {
-        return <TableBodyComponent {...context} {...props} />;
-      }}
-    </TableContext.Consumer>
-  );
+  const context = useContext(TableContext);
+  return <TableBodyComponent {...context} {...props} />;
 };

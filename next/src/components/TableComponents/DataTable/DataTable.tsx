@@ -10,8 +10,8 @@ import { TableBodyCell } from '../TableBodyCell';
 import { TableRow } from '../TableRow';
 import { TableHead } from '../TableHead';
 import { TableBody } from '../TableBody';
-import { TableHeadCell } from '../TableHeadCell/TableHeadCell';
-import { Table } from '../Table/Table';
+import { TableHeadCell } from '../TableHeadCell';
+import { Table } from '../Table';
 
 interface IDataTableProps extends ICustomProps, IStyleProps {
   className?: string;

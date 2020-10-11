@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { ReactNode, useCallback, useState } from 'react';
+import React, { ReactNode, useCallback, useMemo, useState } from 'react';
 import { ICustomProps, IStyleProps } from '../types';
 import { useTableStyles } from './TableStyles';
 import { useResizeObserver } from '../../../common/hooks/useResizeObserver';

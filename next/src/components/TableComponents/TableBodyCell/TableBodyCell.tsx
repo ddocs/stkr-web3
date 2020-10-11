@@ -1,5 +1,5 @@
 import { AlignType, IStyleProps } from '../types';
-import React from 'react';
+import React, { useContext } from 'react';
 import classNames from 'classnames';
 import { BackgroundColorProvider } from '../../../UiKit/BackgroundColorProvider';
 import { useTableBodyCellStyles } from './TableBodyCellStyles';
@@ -50,11 +50,6 @@ export const TableBodyCellComponent = ({
 export const TableBodyCell = (
   props: Omit<ITableBodyCellProps, 'tableWidth'>,
 ) => {
-  return (
-    <TableContext.Consumer>
-      {context => {
-        return <TableBodyCellComponent {...context} {...props} />;
-      }}
-    </TableContext.Consumer>
-  );
+  const context = useContext(TableContext);
+  return <TableBodyCellComponent {...context} {...props} />;
 };

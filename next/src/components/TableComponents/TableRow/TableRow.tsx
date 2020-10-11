@@ -1,5 +1,5 @@
 import { ICustomProps, IStyleProps } from '../types';
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useContext } from 'react';
 import classNames from 'classnames';
 import { useTableRowStyles } from './TableRowStyles';
 import { TableContext } from '../Table/Table';
@@ -32,11 +32,6 @@ export const TableRowComponent = ({
 };
 
 export const TableRow = (props: Omit<ITableRowProps, 'tableWidth'>) => {
-  return (
-    <TableContext.Consumer>
-      {context => {
-        return <TableRowComponent {...context} {...props} />;
-      }}
-    </TableContext.Consumer>
-  );
+  const context = useContext(TableContext);
+  return <TableRowComponent {...context} {...props} />;
 };

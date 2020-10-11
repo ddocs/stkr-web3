@@ -1,7 +1,7 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useContext } from 'react';
 import { useTableHeadStyles } from './TableHeadStyles';
 import { ICustomProps, IStyleProps } from '../types';
-import { TableContext } from "../Table/Table";
+import { TableContext } from '../Table/Table';
 
 interface ITableHeadProps {
   children: ReactNode;
@@ -29,11 +29,6 @@ export const TableHeadComponent = ({
 };
 
 export const TableHead = (props: ITableHeadProps) => {
-  return (
-    <TableContext.Consumer>
-      {context => {
-        return <TableHeadComponent {...context} {...props} />;
-      }}
-    </TableContext.Consumer>
-  );
+  const context = useContext(TableContext);
+  return <TableHeadComponent {...context} {...props} />;
 };

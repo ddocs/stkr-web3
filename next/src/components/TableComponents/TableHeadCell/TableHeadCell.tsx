@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { AlignType, IStyleProps } from '../types';
 import classNames from 'classnames';
 import { useCellStyles } from './TableHeadCellStyles';
 import { BackgroundColorProvider } from '../../../UiKit/BackgroundColorProvider';
-import { TableContext } from "../Table/Table";
+import { TableContext } from '../Table/Table';
 
 interface ITableHeadCellProps {
   label: React.ReactNode;
@@ -37,11 +37,6 @@ const TableHeadCellComponent = ({
 };
 
 export const TableHeadCell = (props: ITableHeadCellProps) => {
-  return (
-    <TableContext.Consumer>
-      {context => {
-        return <TableHeadCellComponent {...context} {...props} />;
-      }}
-    </TableContext.Consumer>
-  );
+  const context = useContext(TableContext);
+  return <TableHeadCellComponent {...context} {...props} />;
 };
