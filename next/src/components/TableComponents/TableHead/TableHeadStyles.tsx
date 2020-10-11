@@ -14,23 +14,18 @@ export const useTableHeadStyles = makeStyles<
     gridTemplateColumns: props =>
       props.customCell ? props.customCell : `repeat(${props.count}, 1fr)`,
     alignItems: 'stretch',
-
     paddingLeft: props => (props.paddingCollapse ? theme.spacing(4) : 0),
     paddingRight: props => (props.paddingCollapse ? theme.spacing(4) : 0),
-
     boxSizing: 'border-box',
-
     [theme.breakpoints.down('md')]: {
       paddingLeft: props => (props.paddingCollapse ? theme.spacing(3) : 0),
       paddingRight: props => (props.paddingCollapse ? theme.spacing(3) : 0),
     },
-
     [theme.breakpoints.down('xs')]: {
       paddingLeft: props => (props.paddingCollapse ? theme.spacing(2) : 0),
       paddingRight: props => (props.paddingCollapse ? theme.spacing(2) : 0),
     },
   },
-
   row: {
     display: 'contents',
   },
