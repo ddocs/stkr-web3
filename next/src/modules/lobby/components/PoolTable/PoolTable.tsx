@@ -6,14 +6,19 @@ import { t } from '../../../../common/utils/intl';
 import { useLocaleMemo } from '../../../../common/hooks/useLocaleMemo';
 import { ITablesCaptionProps } from '../../../../components/TableComponents/types';
 import { connect } from 'react-redux';
-import { Table } from '../../../../components/TableComponents/Table/Table';
-import { TableHead } from '../../../../components/TableComponents/TableHead';
-import { TableHeadCell } from '../../../../components/TableComponents/TableHeadCell/TableHeadCell';
-import { TableBody } from '../../../../components/TableComponents/TableBody';
-import { TableRow } from '../../../../components/TableComponents/TableRow';
+import {
+  Table,
+  TableHead,
+  TableHeadCell,
+  TableBody,
+  TableBodyCell,
+  TableRow,
+} from '../../../../components/TableComponents';
 import { uid } from 'react-uid';
-import { TableBodyCell } from '../../../../components/TableComponents/TableBodyCell';
-import { UserActions, UserActionTypes, } from '../../../../store/actions/UserActions';
+import {
+  UserActions,
+  UserActionTypes,
+} from '../../../../store/actions/UserActions';
 import { QueryError } from '../../../../components/QueryError/QueryError';
 import { QueryLoading } from '../../../../components/QueryLoading/QueryLoading';
 import { QueryEmpty } from '../../../../components/QueryEmpty/QueryEmpty';
