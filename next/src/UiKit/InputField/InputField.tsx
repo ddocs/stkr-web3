@@ -40,13 +40,15 @@ export const InputField = ({
         error={hasError(meta)}
         value={value}
         onChange={onChange}
-        InputProps={
-          { disableUnderline: true, readOnly: readOnly } as Partial<
-            OutlinedInputProps
-          >
-        }
         disabled={disabled}
         {...props}
+        InputProps={
+          {
+            disableUnderline: true,
+            readOnly: readOnly,
+            ...props.InputProps,
+          } as Partial<OutlinedInputProps>
+        }
       />
       <div className={classes.wrapper}>
         {hasError(meta) && (

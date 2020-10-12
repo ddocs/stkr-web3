@@ -15,8 +15,9 @@ import { BackgroundColorProvider } from '../../UiKit/BackgroundColorProvider';
 import { Range } from '../../components/Range/Range';
 import { TwitterIcon } from '../../UiKit/Icons/TwitterIcon';
 import { CopyIcon } from '../../UiKit/Icons/CopyIcon';
-import { Form, FormRenderProps } from 'react-final-form';
+import { Field, Form, FormRenderProps } from 'react-final-form';
 import { QuestionIcon } from '../../UiKit/Icons/QuestionIcon';
+import { InputField } from '../../UiKit/InputField';
 
 export const Stake = () => {
   const classes = useStakeStyles({});
@@ -48,8 +49,16 @@ export const Stake = () => {
           <Box mb={6}>
             <Range value={50} />
           </Box>
-          <Box mb={7.5}>
+          <Box mb={7.5} display="flex" justifyContent="space-between">
             <Headline1>{t('stake.i-want')}</Headline1>
+            <Field
+              InputProps={{
+                classes: { input: classes.input },
+              }}
+              component={InputField}
+              name="number"
+              color="primary"
+            />
           </Box>
           <Box mb={7.5} display="flex" justifyContent="space-between">
             <Headline6>

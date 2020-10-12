@@ -60,5 +60,12 @@ export const useStakeStyles = makeStyles<Theme, { icon?: string }>(theme => {
     question: {
       padding: theme.spacing(1),
     },
+    input: {
+      '&&': {
+        fontSize: 48,
+        fontWeight: 'bold',
+        maxWidth: 200,
+      },
+    },
   };
 });
