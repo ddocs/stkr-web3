@@ -21,11 +21,7 @@ export const Total = ({ className, reward, total, children }: ITotalProps) => {
   return (
     <div className={classNames(classes.component, className)}>
       {t('total.out-of', { value: reward, of: total })}
-      <Range
-        value={active}
-        width={RANGE_WIDTH}
-        classes={{ root: classes.range }}
-      />
+      <Range className={classes.range} value={active} width={RANGE_WIDTH} />
       <div className={classes.extension}>{children}</div>
     </div>
   );
