@@ -1,8 +1,9 @@
 import classNames from 'classnames';
-import React, { ReactNode, useCallback, useMemo, useState } from 'react';
+import React, { ReactNode, useCallback, useState } from 'react';
 import { ICustomProps, IStyleProps } from '../types';
 import { useTableStyles } from './TableStyles';
 import { useResizeObserver } from '../../../common/hooks/useResizeObserver';
+import { createPureContext } from 'react-shallow-context';
 
 type TableContextType = {
   tableWidth: number;
@@ -13,7 +14,7 @@ type TableContextType = {
   'defense' | 'paddingCollapse' | 'customCell' | 'alignCell'
 >;
 
-export const TableContext = React.createContext<TableContextType>({
+export const TableContext = createPureContext<TableContextType>({
   tableWidth: 0,
   setTableWidth: () => {},
   count: 0,

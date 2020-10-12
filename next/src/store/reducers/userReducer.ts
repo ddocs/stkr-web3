@@ -19,7 +19,7 @@ export interface IUserState {
 
 const initialState: IUserState = {
   signInStatus: requestInactive(),
-  isAuthenticated: false,
+  isAuthenticated: true,
 };
 
 export const userReducer = createReducer(initialState, {

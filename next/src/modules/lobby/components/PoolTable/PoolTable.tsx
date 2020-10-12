@@ -6,14 +6,6 @@ import { t } from '../../../../common/utils/intl';
 import { useLocaleMemo } from '../../../../common/hooks/useLocaleMemo';
 import { ITablesCaptionProps } from '../../../../components/TableComponents/types';
 import { connect } from 'react-redux';
-import {
-  Table,
-  TableHead,
-  TableHeadCell,
-  TableBody,
-  TableBodyCell,
-  TableRow,
-} from '../../../../components/TableComponents';
 import { uid } from 'react-uid';
 import {
   UserActions,
@@ -27,6 +19,14 @@ import { Total } from '../../../../components/Total';
 import { IPool } from '../../../../store/apiMappers/poolsApi';
 import { NavLink } from '../../../../UiKit/Link';
 import { INDEX_PATH } from '../../../../common/const';
+import {
+  Table,
+  TableHead,
+  TableHeadCell,
+  TableBody,
+  TableRow,
+  TableBodyCell,
+} from '../../../../components/TableComponents';
 
 const TABLE_LIMIT = 4;
 

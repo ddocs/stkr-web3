@@ -13682,6 +13682,13 @@ react-scripts@3.4.3:
   optionalDependencies:
     fsevents "2.1.2"
 
+react-shallow-context@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/react-shallow-context/-/react-shallow-context-1.0.1.tgz#fbcd82d0fe59fe67c7e68e94e6c231845ca3188d"
+  integrity sha512-dSxNvL7eG4WIj4U8iWYJUZOiZKWH/6bupu1YMnyklH53I0WrehuU5PkJJMX5gE1VIRxwLFmIvvi3rBpWbvE6uQ==
+  dependencies:
+    shallow-equal "^1.0.0"
+
 react-sizeme@^2.6.7:
   version "2.6.12"
   resolved "https://registry.yarnpkg.com/react-sizeme/-/react-sizeme-2.6.12.tgz#ed207be5476f4a85bf364e92042520499455453e"
@@ -14721,7 +14728,7 @@ shallow-clone@^3.0.0:
   dependencies:
     kind-of "^6.0.2"
 
-shallow-equal@^1.1.0:
+shallow-equal@^1.0.0, shallow-equal@^1.1.0:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/shallow-equal/-/shallow-equal-1.2.1.tgz#4c16abfa56043aa20d050324efa68940b0da79da"
   integrity sha512-S4vJDjHHMBaiZuT9NPb616CSmLf618jawtv3sufLl6ivK8WocjAo58cXwbRV1cgqxH0Qbv+iUt6m05eqEa2IRA==

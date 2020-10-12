@@ -8,13 +8,12 @@ import { mainTheme } from '../../src/common/themes/mainTheme';
 import { locales } from '../../src/common/locales';
 import { ReactReduxContext, Provider } from 'react-redux';
 import { createMemoryHistory } from 'history';
-import { createRootReducer } from '../../src/store/reducers';
-import { createStore } from 'redux';
+import { createApplicationStore } from '../../src/store/createStore';
 
 const history = createMemoryHistory();
 
 // create dead store (reducers only)
-const store = createStore(createRootReducer(history));
+const { store } = createApplicationStore({ history });
 
 const init = (locale, translations = locales) =>
   intl.init({
