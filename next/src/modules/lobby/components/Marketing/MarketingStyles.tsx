@@ -3,14 +3,26 @@ import { makeStyles } from '@material-ui/styles';
 
 export const useMarketingStyles = makeStyles<Theme>(theme => ({
   component: {
-    minHeight: 208,
-
     overflow: 'hidden',
   },
 
-  wrapper: {},
+  wrapper: {
+    display: 'grid',
+    gridTemplateColumns: '100%',
+    gridTemplateRows: '100%',
+
+    minHeight: 208,
+    height: '100%',
+  },
 
   content: {
-    padding: theme.spacing(6.75, 7.5),
+    display: 'grid',
+    gridTemplateColumns: '100%',
+    gridTemplateRows: '100%',
+
+    height: '100%',
+    padding: theme.spacing(2, 7.5),
+
+    boxSizing: 'border-box',
   },
 }));

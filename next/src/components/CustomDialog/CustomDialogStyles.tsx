@@ -63,7 +63,7 @@ export const useCustomDialogStyles = makeStyles<
     right: 0,
 
     '& svg': {
-      fontSize: props => (props.largeCloseIcon ? '36px' : '24px'),
+      fontSize: 24,
     },
   },
 }));

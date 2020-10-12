@@ -15,7 +15,6 @@ export interface ICustomDialogProps {
   onClose: () => void;
   maxWidth?: MaxWidthType;
   minHeight?: number;
-  largeCloseIcon?: boolean;
   overflowHidden?: boolean;
   withoutCloseButton?: boolean;
   transitionOpacity?: boolean;
@@ -41,7 +40,6 @@ export const CustomDialog = ({
   open,
   maxWidth = 'sm',
   minHeight,
-  largeCloseIcon,
   overflowHidden,
   withoutCloseButton,
   transitionOpacity,
@@ -52,7 +50,6 @@ export const CustomDialog = ({
   const classes = useCustomDialogStyles({
     maxWidth: width,
     minHeight,
-    largeCloseIcon,
   });
 
   const isXSDown = useIsXSDown();

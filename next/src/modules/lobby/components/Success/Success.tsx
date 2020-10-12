@@ -10,7 +10,7 @@ export const SuccessComponent = () => {
   return (
     <div className={classes.component}>
       <Headline3 className={classes.title}>
-        {t('common.marketing.success')}
+        {t('about.marketing-success')}
       </Headline3>
     </div>
   );

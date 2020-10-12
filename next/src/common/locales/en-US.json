@@ -38,7 +38,7 @@
     "email-error": "Not a valid email address"
   },
   "about": {
-    "title": "<span>Staking.</span>Reimagined.",
+    "title": "<span>Staking.</span>Simplified.",
     "text": "Stkr is a decentralized protocol \nand platform that combines staking and DeFi, implementing elements from traditional staking with non-custodial staking, Micropools and decentralized governance.",
     "stakers": "Stakers",
     "providers": "Providers",
@@ -48,7 +48,8 @@
     "calculate-title": "Calculate<br /> your <span>earnings</span>",
     "calculate-note": "Enter your ETH amount",
     "monthly": "Monthly Earning",
-    "yearly": "Yearly Earning"
+    "yearly": "Yearly Earning",
+    "marketing-success": "Thanks! We are glad that you are with us"
   },
   "dashboard": {
     "hi": "Hi, {name}"

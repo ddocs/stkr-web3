@@ -13,7 +13,7 @@ export const Toggle = ({ className }: IToggleProps) => {
 
   return (
     <Button className={classNames(classes.component, className)} variant="text">
-      <ToggleIcon />
+      <ToggleIcon size="md" />
     </Button>
   );
 };

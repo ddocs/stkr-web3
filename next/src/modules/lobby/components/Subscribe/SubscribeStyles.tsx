@@ -9,6 +9,7 @@ export const useSubscribeStyles = makeStyles<Theme>(theme => ({
       gridColumnGap: theme.spacing(3),
 
       justifyContent: 'space-between',
+      alignItems: 'center',
     },
   },
 
@@ -18,7 +19,5 @@ export const useSubscribeStyles = makeStyles<Theme>(theme => ({
     },
   },
 
-  form: {
-    alignSelf: 'center',
-  },
+  form: {},
 }));

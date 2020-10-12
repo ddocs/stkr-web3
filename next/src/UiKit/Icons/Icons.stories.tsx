@@ -17,6 +17,7 @@ const IconsStory = () => {
     <div className={classes.wrapper}>
       <CancelIcon size="sm" />
       <ToggleIcon size="sm" />
+      <ToggleIcon size="md" />
     </div>
   );
 };

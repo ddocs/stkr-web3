@@ -5,6 +5,7 @@ export const useSuccessStyles = makeStyles<Theme>(theme => ({
   component: {
     display: 'flex',
     flexDirection: 'column',
+    justifyContent: 'center',
     alignItems: 'center',
   },
 
@@ -13,6 +14,8 @@ export const useSuccessStyles = makeStyles<Theme>(theme => ({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+
+    margin: 0,
 
     fontSize: 34,
     textAlign: 'center',
