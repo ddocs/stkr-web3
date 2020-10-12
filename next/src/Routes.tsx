@@ -4,7 +4,7 @@ import loadable, { LoadableComponent } from '@loadable/component';
 import { QueryLoading } from './components/QueryLoading/QueryLoading';
 import { PageNotFound } from './components/PageNotFound/PageNotFound';
 import { withDefaultLayout } from './modules/layout';
-import { INDEX_PATH, PROVIDER_PATH } from './common/const';
+import { INDEX_PATH, PICKER_PATH, PROVIDER_PATH } from './common/const';
 
 const LoadableOverviewContainer = withDefaultLayout(
   loadable(async () => import('./modules/lobby').then(module => module.Lobby), {
@@ -21,6 +21,15 @@ const ProviderContainer = withDefaultLayout(
   ) as LoadableComponent<any>,
 );
 
+const PickerContainer = withDefaultLayout(
+  loadable(
+    async () => import('./modules/picker').then(module => module.Picker),
+    {
+      fallback: <QueryLoading />,
+    },
+  ) as LoadableComponent<any>,
+);
+
 export function Routes() {
   return (
     <Switch>
@@ -30,6 +39,7 @@ export function Routes() {
         component={LoadableOverviewContainer}
       />
       <Route path={PROVIDER_PATH} component={ProviderContainer} />
+      <Route path={PICKER_PATH} component={PickerContainer} />
       <Route component={PageNotFound} />
     </Switch>
   );

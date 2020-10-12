@@ -7,7 +7,8 @@ import { createReducer } from '../../common/utils/createReducer';
 import { createAPIReducer } from '../../common/utils/createAPIReducer';
 
 export function isAuthenticated(state: IUserState) {
-  return !!state.isAuthenticated;
+  return true;
+  // return !!state.isAuthenticated;
 }
 
 export interface ISignInResponse {}
@@ -19,7 +20,7 @@ export interface IUserState {
 
 const initialState: IUserState = {
   signInStatus: requestInactive(),
-  isAuthenticated: true,
+  isAuthenticated: false,
 };
 
 export const userReducer = createReducer(initialState, {

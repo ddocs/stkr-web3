@@ -7,6 +7,8 @@ export const useHeaderStyles = makeStyles<Theme>(theme => ({
     boxSizing: 'border-box',
 
     borderBottom: `1px solid ${fade(theme.palette.grey[100], 0.1)}`,
+
+    overflow: 'hidden',
   },
 
   outerComponent: {

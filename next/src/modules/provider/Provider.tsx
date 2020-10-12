@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { NotProviderYet } from './screens/NotProviderYet';
 import { ProviderAlready } from './screens/ProviderAlready';
 import { connect } from 'react-redux';

@@ -1,6 +1,7 @@
 export const INDEX_PATH = '/';
 export const STAKER_PATH = '/staker';
 export const PROVIDER_PATH = '/provider';
+export const PICKER_PATH = '/picker';
 
 export const SOCIAL_LINK = {
   twitter: '',

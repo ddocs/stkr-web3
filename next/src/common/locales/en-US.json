@@ -74,6 +74,18 @@
     "date": "Creation Date",
     "certificate": "Certificate"
   },
+  "picker": {
+    "staker": {
+      "title": "I want to<br />Stake tokens",
+      "text": "The lower fees for staking eth<br />Stable providers",
+      "link": "Stake tokens"
+    },
+    "provider": {
+      "title": "I want to be<br />a Provider",
+      "text": "Stkr is a decentralized protocol and platform that combines staking and DeFi, implementing elements from traditional staking with non-custodial staking, Micropools and decentralized governance.",
+      "link": "Start as a provider"
+    }
+  },
   "provider": {
     "create": {
       "stage-1": {
