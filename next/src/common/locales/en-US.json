@@ -125,5 +125,26 @@
   },
   "total": {
     "out-of": "{value} / {of}"
+  },
+  "stake": {
+    "ankr": "Ankr",
+    "range-name": "Pool fullness",
+    "out-of-ETH": "{value} / {of} ETH",
+    "i-want": "I want to stake",
+    "staking-period": "Staking period:",
+    "staking-period-tooltip": "This is Staking period",
+    "yearly-earning": "Yearly Earning:",
+    "yearly-earning-tooltip": "This is Yearly yearning",
+    "yearly-earning-tip": "Including commission: 10%",
+    "note": "Your staking pool will only start running when all 32 ETH have been collected. You can ask your friend(s) to pool with you or wait for other people to join. ",
+    "tweet": "Tweet",
+    "copy": "Copy",
+    "stake": "Stake"
+  },
+  "units": {
+    "eth": "{value} ETH",
+    "~eth": "~ {value} ETH",
+    "months": "{value} mo",
+    "~months": "~ {value} mo"
   }
 }

@@ -82,6 +82,10 @@ const mainTheme = createMuiTheme({
     MuiSlider: {
       color: 'primary',
     },
+
+    MuiIconButton: {
+      disableRipple: true,
+    },
   },
 
   overrides: {
@@ -449,6 +453,20 @@ const mainTheme = createMuiTheme({
 
       colorSecondary: {
         color: PALETTE.text.secondary,
+      },
+    },
+    MuiIconButton: {
+      root: {
+        '& svg': {
+          transition: 'color 100ms cubic-bezier(0.47, 0, 0.75, 0.72)',
+        },
+        '&:hover': {
+          backgroundColor: 'transparent',
+
+          '& svg': {
+            color: '#fff',
+          },
+        },
       },
     },
   },

@@ -2,6 +2,9 @@ import * as React from 'react';
 import { useTotalStyles } from './TotalStyles';
 import classNames from 'classnames';
 import { t } from '../../common/utils/intl';
+import { Range } from '../Range/Range';
+
+const RANGE_WIDTH = 115;
 
 export interface ITotalProps {
   className?: string;
@@ -18,7 +21,11 @@ export const Total = ({ className, reward, total, children }: ITotalProps) => {
   return (
     <div className={classNames(classes.component, className)}>
       {t('total.out-of', { value: reward, of: total })}
-      <span className={classes.range} />
+      <Range
+        value={active}
+        width={RANGE_WIDTH}
+        classes={{ root: classes.range }}
+      />
       <div className={classes.extension}>{children}</div>
     </div>
   );
