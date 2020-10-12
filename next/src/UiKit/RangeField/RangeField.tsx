@@ -3,7 +3,7 @@ import { Slider, SliderProps } from '@material-ui/core';
 import React from 'react';
 import { FieldRenderProps } from 'react-final-form';
 import { useRangeFieldStyles } from './RangeFieldStyles';
-import { Body1 } from '../Typography';
+import { Body2 } from '../Typography';
 
 interface IRangeProps extends FieldRenderProps<HTMLElement>, SliderProps {
   label?: string;
@@ -26,9 +26,9 @@ export const RangeField = ({
 
   return (
     <label className={classNames(classes.component, className)}>
-      <Body1 component="p" className={classes.label}>
+      <Body2 component="p" className={classes.label}>
         {label}
-      </Body1>
+      </Body2>
       <span className={classes.value}>{value}</span>
       <Slider
         className={classes.range}

@@ -30,9 +30,8 @@
     "micropool-name": "Micropool name",
     "duration": "Duration",
     "fee": "Fee range",
-    "price": "Price",
     "beacon-name-node": "Beacon name node",
-    "Create pool": "Create pool",
+    "create-pool": "Create pool",
     "buy": "Buy"
   },
   "validation": {
@@ -99,7 +98,12 @@
         "note": "Secure deposit",
         "text": "To provide users with assurance that your resources will provide consistently high uptime and performance, we require a deposit of Ankr tokens to be made. Note that if you provide a good service, these tokens will also earn you additional rewards, however if you fail to meet a minimum level of service, your deposited tokens will be used to compensate any losses incurred by Micropool participants.",
         "balance": "Your ANKR balance",
-        "amount": "Needed amount"
+        "amount": "Needed amount",
+        "price": "Price <span id=price>{value} ETH</span>"
+      },
+      "stage-7": {
+        "generation": "Micropool is being generated",
+        "note": "The process might take a while"
       }
     }
   },

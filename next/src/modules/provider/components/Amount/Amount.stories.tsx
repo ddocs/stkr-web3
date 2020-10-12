@@ -2,23 +2,23 @@ import React from 'react';
 
 import { makeStyles } from '@material-ui/styles';
 import { Theme } from '@material-ui/core';
-import { Stage7Component } from './Stage7';
+import { Amount } from './Amount';
 
 const useStyles = makeStyles<Theme>(theme => ({
   block: {},
 }));
 
-const Stage7Story = () => {
+const AmountStory = () => {
   const classes = useStyles();
   return (
     <div className={classes.block}>
-      <Stage7Component />
+      <Amount caption="Your ANKR balance" value={100000} />
     </div>
   );
 };
 
-export const Stage7Example = () => <Stage7Story />;
+export const AmountExample = () => <AmountStory />;
 
 export default {
-  title: 'modules/provider/component/Stage7',
+  title: 'modules/provider/component/Amount',
 };

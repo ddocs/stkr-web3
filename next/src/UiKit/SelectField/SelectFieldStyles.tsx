@@ -44,7 +44,7 @@ export const useSelectFieldStyles = makeStyles((theme: Theme) =>
 
       '& label.MuiInputLabel-shrink': {
         top: 0,
-        transform: 'translateY(0) scale(0.65)',
+        transform: 'translateY(0) scale(0.78)',
       },
 
       '& label.Mui-focused': {
