@@ -8,8 +8,8 @@ import { Dropdown } from '../Dropdown';
 
 interface IWalletProps {
   className?: string;
-  ethereumBalance: number | undefined;
-  ankrBalance: number | undefined;
+  ethereumBalance: string | undefined;
+  ankrBalance: string | undefined;
   address: string | undefined;
   provider: Providers | undefined;
 }

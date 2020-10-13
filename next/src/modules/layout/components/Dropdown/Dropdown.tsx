@@ -12,6 +12,8 @@ import { NavLink } from '../../../../UiKit/Link';
 import { CopyIcon } from '../../../../UiKit/Icons/CopyIcon';
 import { ViewIcon } from '../../../../UiKit/Icons/ViewIcon';
 
+const ENABLE_DISCONNECT = false;
+
 interface IItemProps {
   caption: string;
   reference: string;
@@ -86,14 +88,16 @@ export const Dropdown = ({
             {t(PROVIDERS[provider])}
           </SubTitle>
           <span className={classes.address}>{walletConversion(address)}</span>
-          <Button
-            className={classes.disconnect}
-            onClick={handleDisconnect}
-            variant="text"
-            color="secondary"
-          >
-            {t('navigation.disconnect')}
-          </Button>
+          {ENABLE_DISCONNECT && (
+            <Button
+              className={classes.disconnect}
+              onClick={handleDisconnect}
+              variant="text"
+              color="secondary"
+            >
+              {t('navigation.disconnect')}
+            </Button>
+          )}
           <div className={classes.navigation}>
             <Button
               className={classes.copy}

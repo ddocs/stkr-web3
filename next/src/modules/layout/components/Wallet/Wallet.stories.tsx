@@ -20,8 +20,8 @@ const WalletStory = () => {
       <Wallet
         address="0x603366e08380EceB2E334621A27eeD36F34A9D50"
         provider={Providers.metamask}
-        ethereumBalance={23}
-        ankrBalance={10500}
+        ethereumBalance={'23'}
+        ankrBalance={'10500'}
       />
     </div>
   );

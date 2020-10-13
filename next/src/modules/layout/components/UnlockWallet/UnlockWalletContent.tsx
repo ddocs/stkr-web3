@@ -9,31 +9,23 @@ import { IStoreState } from '../../../../store/reducers';
 import { UserActions } from '../../../../store/actions/UserActions';
 import { Providers } from '../../../../common/types';
 
+const ENABLE_WALLET_CONNECT = false;
+
 interface IUnlockWalletContentProps {
-  onConnectMetamask?(): void;
-
-  onConnectWallet?(): void;
-
-  onInstallMetamask?(): void;
+  onConnect?(): void;
 }
 
 export const PROVIDERS: Record<string, string> = {
   metamask: 'providers.metamask',
-  wallet: 'providers.wallet',
+  ...(ENABLE_WALLET_CONNECT ? { wallet: 'providers.wallet' } : {}),
 };
 
 export const providersKeys = Object.keys(PROVIDERS);
 
-const metaMaskAvailable = () => typeof window.ethereum !== 'undefined';
-
 export const UnlockWalletContentComponent = ({
-  onConnectMetamask,
-  onInstallMetamask,
-  onConnectWallet,
+  onConnect,
 }: IUnlockWalletContentProps) => {
   const classes = useUnlockWalletStyles();
-
-  const hasMetaMask = metaMaskAvailable();
 
   return (
     <div className={classes.content}>
@@ -54,19 +46,11 @@ export const UnlockWalletContentComponent = ({
               {t(PROVIDERS[key])}
               <Button
                 className={classes.button}
-                onClick={
-                  key === Providers.metamask
-                    ? !hasMetaMask
-                      ? onConnectMetamask
-                      : onInstallMetamask
-                    : onConnectWallet
-                }
+                onClick={onConnect}
                 color="primary"
                 size="large"
               >
-                {key === Providers.metamask && !hasMetaMask
-                  ? t('navigation.install')
-                  : t('navigation.connect')}
+                {t('navigation.connect')}
               </Button>
             </li>
           );
@@ -83,25 +67,11 @@ interface IUnlockWalletContentStoreProps {
 export const UnlockWalletContentImp = ({
   signIn,
 }: IUnlockWalletContentStoreProps) => {
-  const handleConnectWallet = useCallback(() => {
-    signIn();
-  }, [signIn]);
-
   const handleConnectMetamask = useCallback(() => {
     signIn();
   }, [signIn]);
 
-  const handleInstallMetamask = useCallback(() => {
-    signIn();
-  }, [signIn]);
-
-  return (
-    <UnlockWalletContentComponent
-      onConnectMetamask={handleConnectMetamask}
-      onInstallMetamask={handleInstallMetamask}
-      onConnectWallet={handleConnectWallet}
-    />
-  );
+  return <UnlockWalletContentComponent onConnect={handleConnectMetamask} />;
 };
 
 export const UnlockWalletContent = connect((state: IStoreState) => {}, {

@@ -1,8 +1,9 @@
 import { Providers } from '../../common/types';
+import BigNumber from "bignumber.js";
 
 export interface IUserInfo {
   address: string;
   walletType: Providers;
-  ethereumBalance: number;
-  ankrBalance: number;
+  ethereumBalance: BigNumber;
+  ankrBalance: BigNumber;
 }

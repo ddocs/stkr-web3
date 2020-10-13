@@ -12,6 +12,8 @@ import { persistor, store } from '../../store';
 import '../../common/fonts/stylesheet.css';
 import { PersistGate } from 'redux-persist/integration/react';
 import { historyInstance } from '../../common/utils/historyInstance';
+import { StkrSdk } from '../../modules/api';
+import { LOCAL_CONFIG } from '../../modules/api/config';
 
 interface IAppBaseProps {}
 
@@ -27,6 +29,7 @@ export class AppBase extends React.Component<IAppBaseProps, IAppBaseState> {
   }
 
   public componentDidMount(): void {
+    StkrSdk.factoryDefault(LOCAL_CONFIG);
     this.loadLocales();
   }
 

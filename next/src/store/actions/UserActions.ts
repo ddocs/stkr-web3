@@ -1,6 +1,9 @@
 import fetchMicropoolsData from '../../mocks/pools.json';
 import { IUserInfo } from '../apiMappers/userApi';
 import { Providers } from '../../common/types';
+import { StkrSdk } from '../../modules/api';
+import { t } from '../../common/utils/intl';
+import BigNumber from 'bignumber.js';
 
 export const UserActionTypes = {
   SIGN_IN: 'SIGN_IN',
@@ -20,16 +23,36 @@ export const UserActions = {
   fetchUserInfo: () => ({
     type: UserActionTypes.FETCH_USER_INFO,
     request: {
-      promise: new Promise<IUserInfo>(resolve => {
-        setTimeout(() => {
-          resolve({
-            address: '0x603366e08380EceB2E334621A27eeD36F34A9D50',
-            walletType: Providers.metamask,
-            ethereumBalance: 23.35,
-            ankrBalance: 10522,
-          });
-        }, 1000);
-      }),
+      promise: (async function () {
+        const stkrSdk = StkrSdk.getLastInstance();
+
+        if (!stkrSdk) {
+          throw t('user-actions.error.sdk-not-initialized');
+        }
+
+        const address = stkrSdk.getKeyProvider().currentAccount();
+
+        await stkrSdk.getApiGateway().getEtheremBalance(address);
+
+        return {
+          address,
+          walletType: Providers.metamask,
+          ethereumBalance: new BigNumber(
+            (
+              await stkrSdk
+                .getApiGateway()
+                .getEtheremBalance(stkrSdk.getKeyProvider().currentAccount())
+            ).available,
+          ),
+          ankrBalance: new BigNumber(
+            (
+              await stkrSdk
+                .getApiGateway()
+                .getAnkrBalance(stkrSdk.getKeyProvider().currentAccount())
+            ).available,
+          ),
+        } as IUserInfo;
+      })(),
     },
   }),
   fetchMicropools: () => ({

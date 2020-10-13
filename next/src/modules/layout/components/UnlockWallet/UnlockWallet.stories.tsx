@@ -19,11 +19,7 @@ const UnlockWalletStory = () => {
         transitionOpacity={true}
         maxWidth="sm"
       >
-        <UnlockWalletContentComponent
-          onConnectMetamask={() => alert('Connect metamask')}
-          onInstallMetamask={() => alert('Install metamask')}
-          onConnectWallet={() => alert('Connect wallet')}
-        />
+        <UnlockWalletContentComponent onConnect={() => alert('Connect')} />
       </CustomDialog>
     </div>
   );

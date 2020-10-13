@@ -151,5 +151,10 @@
     "~eth": "~ {value} ETH",
     "months": "{value} mo",
     "~months": "~ {value} mo"
+  },
+  "user-actions": {
+    "error": {
+      "sdk-not-initialized": "Sdk not initialized"
+    }
   }
 }

@@ -7,8 +7,8 @@ import { createReducer } from '../../common/utils/createReducer';
 import { createAPIReducer } from '../../common/utils/createAPIReducer';
 
 export function isAuthenticated(state: IUserState) {
-  return true;
-  // return !!state.isAuthenticated;
+  // return true;
+  return !!state.isAuthenticated;
 }
 
 export interface ISignInResponse {}
