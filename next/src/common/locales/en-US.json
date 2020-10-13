@@ -32,7 +32,11 @@
     "fee": "Fee range",
     "beacon-name-node": "Beacon name node",
     "create-pool": "Create pool",
-    "buy": "Buy"
+    "buy": "Buy",
+    "select": "Select",
+    "disconnect": "Disconnect",
+    "copy-address": "Copy Address",
+    "view-on-etherscan": "View on Etherscan"
   },
   "validation": {
     "email-error": "Not a valid email address"

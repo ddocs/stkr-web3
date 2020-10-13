@@ -13,7 +13,7 @@ import { Stage5 } from '../../components/Stage5';
 import classNames from 'classnames';
 import { Curtains } from '../../../../UiKit/Curtains';
 import { t } from '../../../../common/utils/intl';
-import { SubTitle1 } from '../../../../UiKit/Typography';
+import { SmallTitle } from '../../../../UiKit/Typography';
 import { Stage8 } from '../../components/Stage8';
 
 interface INotProviderYetProps {
@@ -80,7 +80,7 @@ export const NotProviderYet = ({ className }: INotProviderYetProps) => {
                         index < currentStep &&
                         !(currentStep === 5 && index === 4);
                       return (
-                        <SubTitle1
+                        <SmallTitle
                           key={uid(step)}
                           className={classNames(
                             classes.item,
@@ -93,7 +93,7 @@ export const NotProviderYet = ({ className }: INotProviderYetProps) => {
                           component="li"
                         >
                           {caption !== undefined && t(caption)}
-                        </SubTitle1>
+                        </SmallTitle>
                       );
                     })}
                   </ul>

@@ -7,8 +7,6 @@ export const useHeaderStyles = makeStyles<Theme>(theme => ({
     boxSizing: 'border-box',
 
     borderBottom: `1px solid ${fade(theme.palette.grey[100], 0.1)}`,
-
-    overflow: 'hidden',
   },
 
   outerComponent: {
@@ -33,7 +31,7 @@ export const useHeaderStyles = makeStyles<Theme>(theme => ({
 
   inner: {
     display: 'grid',
-    gridTemplateColumns: '1fr 190px minmax(315px, auto)',
+    gridTemplateColumns: '1fr 190px auto',
     gridColumnGap: theme.spacing(4),
     alignItems: 'center',
 
@@ -47,5 +45,7 @@ export const useHeaderStyles = makeStyles<Theme>(theme => ({
     width: '100%',
   },
 
-  wallet: {},
+  wallet: {
+    width: 'auto',
+  },
 }));

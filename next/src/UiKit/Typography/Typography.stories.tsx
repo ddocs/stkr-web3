@@ -9,7 +9,8 @@ import {
   Headline3,
   Headline4,
   Body1,
-  SubTitle1,
+  SubTitle,
+  SmallTitle,
   Headline6,
 } from './Typography';
 
@@ -47,9 +48,12 @@ const TypographyStory = () => {
       <Headline6 className={classes.title} component="h6">
         Headline6
       </Headline6>
-      <SubTitle1 className={classes.title} component="h6">
+      <SubTitle className={classes.title} component="p">
         SubTitle
-      </SubTitle1>
+      </SubTitle>
+      <SmallTitle className={classes.title} component="p">
+        SmallTitle
+      </SmallTitle>
       <Body1 className={classes.title} component="p">
         Ankr is the blockchain infrastructure platform and marketplace
         connecting everyone from end-users, developers to enterprises.

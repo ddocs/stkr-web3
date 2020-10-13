@@ -9,31 +9,29 @@ import {
   UserActionTypes,
 } from '../../../../store/actions/UserActions';
 import { IUserInfo } from '../../../../store/apiMappers/userApi';
-import { AuthorizedHeaderComponent } from './AuthorizedHeaderComponent';
+import { AuthorizedHeader } from './AuthorizedHeader';
 import { UnauthorizedHeader } from './UnauthorizedHeader';
 
-const HeaderImp = ({
-  isAuth,
-  className,
-  fetchUserInfo,
-}: {
+interface IHeaderProps {
   isAuth: boolean;
   className?: string;
   fetchUserInfo: typeof UserActions.fetchUserInfo;
-}) => {
-  const { data } = useQuery<IUserInfo>({
+}
+
+const HeaderImp = ({ isAuth, className, fetchUserInfo }: IHeaderProps) => {
+  const { data } = useQuery<IUserInfo | undefined>({
     type: UserActionTypes.FETCH_USER_INFO,
   });
 
   if (isAuth) {
     return (
-      <AuthorizedHeaderComponent
+      <AuthorizedHeader
         fetchUserInfo={fetchUserInfo}
         className={className}
-        walletAddress={data.address}
-        walletType={data.walletType}
-        ethereumBalance={data.ethereumBalance}
-        ankrBalance={data.ankrBalance}
+        walletAddress={data?.address}
+        walletType={data?.walletType}
+        ethereumBalance={data?.ethereumBalance}
+        ankrBalance={data?.ankrBalance}
       />
     );
   } else {

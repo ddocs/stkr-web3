@@ -161,10 +161,10 @@ const mainTheme = createMuiTheme({
       },
 
       sizeSmall: {
-        height: 34,
+        height: 28,
         padding: defaultTheme.spacing(1, 2),
 
-        fontSize: 12,
+        fontSize: 14,
       },
 
       sizeLarge: {
@@ -408,7 +408,7 @@ const mainTheme = createMuiTheme({
       },
 
       subtitle1: {
-        fontSize: 14,
+        fontSize: 16,
         fontWeight: 700,
         lineHeight: 1.2,
 

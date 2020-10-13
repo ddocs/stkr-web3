@@ -17,10 +17,12 @@ interface IUnlockWalletContentProps {
   onInstallMetamask?(): void;
 }
 
-const PROVIDERS: Record<string, string> = {
+export const PROVIDERS: Record<string, string> = {
   metamask: 'providers.metamask',
   wallet: 'providers.wallet',
 };
+
+export const providersKeys = Object.keys(PROVIDERS);
 
 const metaMaskAvailable = () => typeof window.ethereum !== 'undefined';
 
@@ -32,8 +34,6 @@ export const UnlockWalletContentComponent = ({
   const classes = useUnlockWalletStyles();
 
   const hasMetaMask = metaMaskAvailable();
-
-  const providersKeys = Object.keys(PROVIDERS);
 
   return (
     <div className={classes.content}>

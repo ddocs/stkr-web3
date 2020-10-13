@@ -5,22 +5,22 @@ import { useIsSMDown } from '../../../../common/hooks/useTheme';
 import { Toggle } from '../Toggle';
 import { PROVIDER_PATH, STAKER_PATH } from '../../../../common/const';
 import { Tabs } from '../Tabs';
-import { Address } from '../Address';
 import React from 'react';
 import { HeaderFrame } from './HeaderFrame';
 import { UserActions } from '../../../../store/actions/UserActions';
 import { Providers } from '../../../../common/types';
 import { ITab, NavTab } from '../types';
+import { Wallet } from '../Wallet';
 
 const SHOW_SWITCHER_ON_ALL_PAGES = true;
 
 export type IAuthorizedHeaderProps = {
   className?: string;
   fetchUserInfo: typeof UserActions.fetchUserInfo;
-  walletAddress: string;
-  walletType: Providers;
-  ethereumBalance: number;
-  ankrBalance: number;
+  walletAddress: string | undefined;
+  walletType: Providers | undefined;
+  ethereumBalance: number | undefined;
+  ankrBalance: number | undefined;
 };
 
 const TABS: ITab[] = [
@@ -36,7 +36,7 @@ const TABS: ITab[] = [
   },
 ];
 
-export const AuthorizedHeaderComponent = ({
+export const AuthorizedHeader = ({
   className,
   walletAddress,
   walletType,
@@ -64,13 +64,13 @@ export const AuthorizedHeaderComponent = ({
             SHOW_SWITCHER_ON_ALL_PAGES) && (
             <Tabs className={classes.tabs} values={TABS} />
           )}
-          <div className={classes.wallet}>
-            <span>{ethereumBalance}</span>
-            <span>{ankrBalance}</span>
-            {walletAddress && walletType && (
-              <Address address={walletAddress} type={walletType} />
-            )}
-          </div>
+          <Wallet
+            className={classes.wallet}
+            ethereumBalance={ethereumBalance}
+            ankrBalance={ankrBalance}
+            address={walletAddress}
+            provider={walletType}
+          />
         </>
       )}
     </HeaderFrame>

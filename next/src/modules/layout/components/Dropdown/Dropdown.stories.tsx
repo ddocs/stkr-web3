@@ -1,32 +1,33 @@
 import React from 'react';
 
-import { makeStyles } from '@material-ui/styles';
 import { Theme } from '@material-ui/core';
-import { Address } from './Address';
+import { makeStyles } from '@material-ui/styles';
+import { Dropdown } from './Dropdown';
 import { Providers } from '../../../../common/types';
 
 const useStyles = makeStyles<Theme>(theme => ({
-  block: {},
+  block: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
 }));
 
-const AddressStory = () => {
+const DropdownStory = () => {
   const classes = useStyles();
+
   return (
     <div className={classes.block}>
-      <Address
+      <Dropdown
+        visible={true}
         address="0x603366e08380EceB2E334621A27eeD36F34A9D50"
         provider={Providers.metamask}
-      />
-      <Address
-        address="0x603366e08380EceB2E334621A27eeD36F34A9D50"
-        provider={Providers.wallet}
       />
     </div>
   );
 };
 
-export const AddressExample = () => <AddressStory />;
+export const DropdownExample = () => <DropdownStory />;
 
 export default {
-  title: 'modules/Layout/components/Address',
+  title: 'modules/Layout/components/Dropdown',
 };
