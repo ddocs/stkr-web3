@@ -7,11 +7,7 @@ import classNames from 'classnames';
 import { connect } from 'react-redux';
 import { IStoreState } from '../../../../store/reducers';
 import { UserActions } from '../../../../store/actions/UserActions';
-
-enum Providers {
-  metamask = 'metamask',
-  wallet = 'wallet',
-}
+import { Providers } from '../../../../common/types';
 
 interface IUnlockWalletContentProps {
   onConnectMetamask?(): void;

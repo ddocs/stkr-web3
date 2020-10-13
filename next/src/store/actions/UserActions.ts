@@ -1,5 +1,6 @@
 import fetchMicropoolsData from '../../mocks/pools.json';
 import { IUserInfo } from '../apiMappers/userApi';
+import { Providers } from '../../common/types';
 
 export const UserActionTypes = {
   SIGN_IN: 'SIGN_IN',
@@ -21,7 +22,10 @@ export const UserActions = {
     request: {
       promise: new Promise<IUserInfo>(resolve => {
         setTimeout(() => {
-          resolve({ address: '0x603366e08380EceB2E334621A27eeD36F34A9D50' });
+          resolve({
+            address: '0x603366e08380EceB2E334621A27eeD36F34A9D50',
+            walletType: Providers.metamask,
+          });
         }, 1000);
       }),
     },

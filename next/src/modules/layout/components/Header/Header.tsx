@@ -23,6 +23,7 @@ import {
 } from '../../../../store/actions/UserActions';
 import { IUserInfo } from '../../../../store/apiMappers/userApi';
 import { useInitEffect } from '../../../../common/hooks/useInitEffect';
+import { Address } from '../Address';
 
 const SHOW_SWITCHER_ON_ALL_PAGES = true;
 
@@ -90,7 +91,13 @@ export const HeaderComponent = ({
                 SHOW_SWITCHER_ON_ALL_PAGES) && (
                 <Tabs className={classes.tabs} values={TABS} />
               )}
-              <div className={classes.wallet}>{data?.address}</div>
+              <div className={classes.wallet}>
+                <span></span>
+                <span></span>
+                {data?.address && data?.walletType && (
+                  <Address address={data.address} type={data.walletType} />
+                )}
+              </div>
             </>
           )
         ) : (
