@@ -18,6 +18,7 @@ const PALETTE = {
   },
   grey: {
     900: '#1D1D1D',
+    500: '#343434',
     100: '#C4C4C4',
   },
   error: {
@@ -185,6 +186,8 @@ const mainTheme = createMuiTheme({
         '&&': {
           height: 'auto',
           padding: 0,
+
+          fontSize: 12,
         },
       },
 

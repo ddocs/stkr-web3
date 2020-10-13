@@ -80,7 +80,6 @@ export const Stage5Component = ({
           <Button
             className={classes.create}
             onClick={onCreateBeaconNode}
-            size="small"
             color="primary"
           >
             {t('navigation.create')}

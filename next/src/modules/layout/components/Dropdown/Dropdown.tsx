@@ -9,24 +9,32 @@ import { Button } from '../../../../UiKit/Button';
 import { SubTitle } from '../../../../UiKit/Typography/Typography';
 import { walletConversion } from '../../../../common/utils/convertWallet';
 import { NavLink } from '../../../../UiKit/Link';
+import { CopyIcon } from '../../../../UiKit/Icons/CopyIcon';
+import { ViewIcon } from '../../../../UiKit/Icons/ViewIcon';
 
 interface IItemProps {
   caption: string;
   reference: string;
+  icon: string;
 
   onSelect(e: string): void;
 }
 
-const Item = ({ caption, reference, onSelect }: IItemProps) => {
+const Item = ({ caption, reference, icon, onSelect }: IItemProps) => {
+  const classes = useDropdownStyles({ provider: icon });
+
   const handleSelect = useCallback(() => onSelect(reference), [
     onSelect,
     reference,
   ]);
 
   return (
-    <li>
-      <SubTitle component="span">{caption}</SubTitle>
+    <li className={classes.item}>
+      <SubTitle className={classes.caption} component="span">
+        {caption}
+      </SubTitle>
       <Button
+        className={classes.select}
         variant="outlined"
         size="small"
         color="secondary"
@@ -51,7 +59,7 @@ export const Dropdown = ({
   provider,
   visible,
 }: IWalletProps) => {
-  const classes = useDropdownStyles();
+  const classes = useDropdownStyles({ currentProvider: provider });
 
   const providersList = providersKeys.filter(key => key !== provider);
 
@@ -73,25 +81,49 @@ export const Dropdown = ({
       component="div"
     >
       {address && provider && (
-        <div>
-          <SubTitle>{t(PROVIDERS[provider])}</SubTitle>
-          <span>{walletConversion(address)}</span>
-          <Button onClick={handleDisconnect} variant="text" color="secondary">
+        <div className={classes.info}>
+          <SubTitle className={classes.title}>
+            {t(PROVIDERS[provider])}
+          </SubTitle>
+          <span className={classes.address}>{walletConversion(address)}</span>
+          <Button
+            className={classes.disconnect}
+            onClick={handleDisconnect}
+            variant="text"
+            color="secondary"
+          >
             {t('navigation.disconnect')}
           </Button>
-          <Button variant="text" color="secondary">
-            {t('navigation.copy-address')}
-          </Button>
-          <NavLink href="#">{t('navigation.view-on-etherscan')}</NavLink>
+          <div className={classes.navigation}>
+            <Button
+              className={classes.copy}
+              variant="text"
+              color="secondary"
+              size="small"
+            >
+              <CopyIcon className={classes.icon} />
+              {t('navigation.copy-address')}
+            </Button>
+            <NavLink
+              className={classes.view}
+              color="secondary"
+              href="#"
+              size="small"
+            >
+              <ViewIcon className={classes.icon} />
+              {t('navigation.view-on-etherscan')}
+            </NavLink>
+          </div>
         </div>
       )}
-      <ul>
+      <ul className={classes.list}>
         {providersList.map(key => (
           <Item
             key={key}
             caption={t(PROVIDERS[key])}
             onSelect={handleSelect}
             reference={key}
+            icon={key}
           />
         ))}
       </ul>
