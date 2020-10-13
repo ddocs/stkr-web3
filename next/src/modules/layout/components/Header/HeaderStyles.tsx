@@ -35,6 +35,7 @@ export const useHeaderStyles = makeStyles<Theme>(theme => ({
     display: 'grid',
     gridTemplateColumns: '1fr 190px minmax(315px, auto)',
     gridColumnGap: theme.spacing(4),
+    alignItems: 'center',
 
     [theme.breakpoints.down('sm')]: {
       gridTemplateColumns: 'auto auto',

@@ -25,6 +25,8 @@ export const UserActions = {
           resolve({
             address: '0x603366e08380EceB2E334621A27eeD36F34A9D50',
             walletType: Providers.metamask,
+            ethereumBalance: 23.35,
+            ankrBalance: 10522,
           });
         }, 1000);
       }),

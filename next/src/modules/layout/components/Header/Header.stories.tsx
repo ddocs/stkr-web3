@@ -2,8 +2,10 @@ import React from 'react';
 
 import { makeStyles } from '@material-ui/styles';
 import { Theme } from '@material-ui/core';
-import { HeaderComponent } from './Header';
 import { UserActions } from '../../../../store/actions/UserActions';
+import { Providers } from '../../../../common/types';
+import { AuthorizedHeaderComponent } from './AuthorizedHeaderComponent';
+import { UnauthorizedHeader } from './UnauthorizedHeader';
 
 const useStyles = makeStyles<Theme>(theme => ({
   block: {},
@@ -13,10 +15,13 @@ const HeaderStory = () => {
   const classes = useStyles();
   return (
     <div className={classes.block}>
-      <HeaderComponent fetchUserInfo={UserActions.fetchUserInfo} />
-      <HeaderComponent
-        isAuth={true}
+      <UnauthorizedHeader />
+      <AuthorizedHeaderComponent
         fetchUserInfo={UserActions.fetchUserInfo}
+        walletAddress="0x603366e08380EceB2E334621A27eeD36F34A9D50"
+        walletType={Providers.metamask}
+        ethereumBalance={23}
+        ankrBalance={10500}
       />
     </div>
   );
