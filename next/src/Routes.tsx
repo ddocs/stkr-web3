@@ -4,7 +4,13 @@ import loadable, { LoadableComponent } from '@loadable/component';
 import { QueryLoading } from './components/QueryLoading/QueryLoading';
 import { PageNotFound } from './components/PageNotFound/PageNotFound';
 import { withDefaultLayout } from './modules/layout';
-import { INDEX_PATH, PICKER_PATH, PROVIDER_PATH } from './common/const';
+import {
+  INDEX_PATH,
+  PICKER_PATH,
+  PROVIDER_PATH,
+  STAKER_PATH,
+} from './common/const';
+import App from './modules/api/App';
 
 const LoadableOverviewContainer = withDefaultLayout(
   loadable(async () => import('./modules/lobby').then(module => module.Lobby), {
@@ -30,6 +36,12 @@ const PickerContainer = withDefaultLayout(
   ) as LoadableComponent<any>,
 );
 
+const StakerContainer = withDefaultLayout(
+  loadable(async () => import('./modules/stake').then(module => module.Stake), {
+    fallback: <QueryLoading />,
+  }) as LoadableComponent<any>,
+);
+
 export function Routes() {
   return (
     <Switch>
@@ -40,6 +52,8 @@ export function Routes() {
       />
       <Route path={PROVIDER_PATH} component={ProviderContainer} />
       <Route path={PICKER_PATH} component={PickerContainer} />
+      <Route path={STAKER_PATH} component={StakerContainer} />
+      <Route path="/sdk" exact={true} component={App} />
       <Route component={PageNotFound} />
     </Switch>
   );
