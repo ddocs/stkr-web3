@@ -3,11 +3,8 @@ import { connect } from 'react-redux';
 import { IStoreState } from '../../../../store/reducers';
 import { isAuthenticated } from '../../../../store/reducers/userReducer';
 
-import { Query, useQuery } from '@redux-requests/react';
-import {
-  UserActions,
-  UserActionTypes,
-} from '../../../../store/actions/UserActions';
+import { Query } from '@redux-requests/react';
+import { UserActionTypes } from '../../../../store/actions/UserActions';
 import { IUserInfo } from '../../../../store/apiMappers/userApi';
 import { AuthorizedHeader } from './AuthorizedHeader';
 import { UnauthorizedHeader } from './UnauthorizedHeader';

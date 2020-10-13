@@ -9,16 +9,6 @@ export const useHeaderStyles = makeStyles<Theme>(theme => ({
     borderBottom: `1px solid ${fade(theme.palette.grey[100], 0.1)}`,
   },
 
-  outerComponent: {
-    padding: theme.spacing(6.5, 0),
-
-    borderBottom: 0,
-
-    [theme.breakpoints.down('sm')]: {
-      padding: theme.spacing(3.5, 0),
-    },
-  },
-
   outer: {
     display: 'grid',
     gridTemplateColumns: 'auto 180px',

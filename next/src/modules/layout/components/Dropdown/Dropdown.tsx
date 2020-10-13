@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { useDropdownStyles } from './DropdownStyles';
 import { Providers } from '../../../../common/types';
 import { BackgroundColorProvider } from '../../../../UiKit/BackgroundColorProvider';
-import { PROVIDERS, providersKeys } from '../UnlockWallet/UnlockWalletContent';
+import { PROVIDERS } from '../UnlockWallet/UnlockWalletContent';
 import { t } from '../../../../common/utils/intl';
 import { Button } from '../../../../UiKit/Button';
 import { SubTitle } from '../../../../UiKit/Typography/Typography';
@@ -55,13 +55,16 @@ interface IWalletProps {
   provider: Providers | undefined;
 }
 
-export const Dropdown = ({
+export const DropdownComponent = ({
   className,
   address,
   provider,
   visible,
-}: IWalletProps) => {
+  providers,
+}: IWalletProps & { providers: Record<string, string> }) => {
   const classes = useDropdownStyles({ currentProvider: provider });
+
+  const providersKeys = Object.keys(providers);
 
   const providersList = providersKeys.filter(key => key !== provider);
 
@@ -85,7 +88,7 @@ export const Dropdown = ({
       {address && provider && (
         <div className={classes.info}>
           <SubTitle className={classes.title}>
-            {t(PROVIDERS[provider])}
+            {t(providers[provider])}
           </SubTitle>
           <span className={classes.address}>{walletConversion(address)}</span>
           {ENABLE_DISCONNECT && (
@@ -120,17 +123,23 @@ export const Dropdown = ({
           </div>
         </div>
       )}
-      <ul className={classes.list}>
-        {providersList.map(key => (
-          <Item
-            key={key}
-            caption={t(PROVIDERS[key])}
-            onSelect={handleSelect}
-            reference={key}
-            icon={key}
-          />
-        ))}
-      </ul>
+      {providersList.length !== 0 && (
+        <ul className={classes.list}>
+          {providersList.map(key => (
+            <Item
+              key={key}
+              caption={t(providers[key])}
+              onSelect={handleSelect}
+              reference={key}
+              icon={key}
+            />
+          ))}
+        </ul>
+      )}
     </BackgroundColorProvider>
   );
 };
+
+export const Dropdown = (props: IWalletProps) => (
+  <DropdownComponent providers={PROVIDERS} {...props} />
+);

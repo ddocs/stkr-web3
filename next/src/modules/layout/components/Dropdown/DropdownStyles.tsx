@@ -42,8 +42,6 @@ export const useDropdownStyles = makeStyles<
 
     boxSizing: 'border-box',
 
-    borderBottom: `1px solid ${theme.palette.grey[500]}`,
-
     '&::before': {
       position: 'relative',
       content: '""',
@@ -112,6 +110,8 @@ export const useDropdownStyles = makeStyles<
     padding: 0,
 
     listStyle: 'none',
+
+    borderTop: `1px solid ${theme.palette.grey[500]}`,
   },
 
   item: {
