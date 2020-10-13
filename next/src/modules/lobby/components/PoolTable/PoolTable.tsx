@@ -96,9 +96,12 @@ export const PoolTableComponent = ({
                     <TableBodyCell>{row.name}</TableBodyCell>
                     <TableBodyCell>{row.provider}</TableBodyCell>
                     <TableBodyCell>{row.status}</TableBodyCell>
-                    <TableBodyCell>{row.fee}</TableBodyCell>
+                    <TableBodyCell>{row.fee.toFormat()}</TableBodyCell>
                     <TableBodyCell>
-                      <Total total={row.totalStake} reward={row.currentStake}>
+                      <Total
+                        total={row.totalStake.toNumber()}
+                        reward={row.currentStake.toNumber()}
+                      >
                         <NavLink
                           style={{ minWidth: 100 }}
                           href={INDEX_PATH}

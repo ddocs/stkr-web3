@@ -47,7 +47,7 @@
     "stakers": "Stakers",
     "providers": "Providers",
     "total": "Total Value Staked",
-    "pool-title": "250 staking pools",
+    "pool-title": "{value} staking pools",
     "pool-note": "Start staking today with STKR",
     "calculate-title": "Calculate<br /> your <span>earnings</span>",
     "calculate-note": "Enter your ETH amount",

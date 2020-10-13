@@ -1,9 +1,12 @@
+import BigNumber from 'bignumber.js';
+import { MicroPoolStatus } from '../../modules/api/gateway';
+
 export interface IPool {
   name: string;
   provider: string;
   period: number;
-  fee: number;
-  currentStake: number;
-  totalStake: number;
-  status: 'pending' | 'ongoing';
+  fee: BigNumber;
+  currentStake: BigNumber;
+  totalStake: BigNumber;
+  status: MicroPoolStatus;
 }

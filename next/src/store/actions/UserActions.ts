@@ -1,9 +1,11 @@
-import fetchMicropoolsData from '../../mocks/pools.json';
 import { IUserInfo } from '../apiMappers/userApi';
 import { Providers } from '../../common/types';
 import { StkrSdk } from '../../modules/api';
 import { t } from '../../common/utils/intl';
 import BigNumber from 'bignumber.js';
+import { MicroPoolReply } from '../../modules/api/gateway';
+import { IPool } from '../apiMappers/poolsApi';
+import { differenceInCalendarMonths } from 'date-fns';
 
 export const UserActionTypes = {
   SIGN_IN: 'SIGN_IN',
@@ -58,11 +60,27 @@ export const UserActions = {
   fetchMicropools: () => ({
     type: UserActionTypes.FETCH_MICROPOOLS,
     request: {
-      promise: new Promise(resolve => {
-        setTimeout(() => {
-          resolve(fetchMicropoolsData);
-        }, 1000);
-      }),
+      promise: (async function () {
+        const stkrSdk = StkrSdk.getLastInstance();
+
+        if (!stkrSdk) {
+          throw t('user-actions.error.sdk-not-initialized');
+        }
+
+        return await stkrSdk.getApiGateway().getMicroPools();
+      })(),
+    },
+    meta: {
+      getData: (data: MicroPoolReply[]): IPool[] =>
+        data.map(item => ({
+          name: item.name,
+          provider: item.provider,
+          period: differenceInCalendarMonths(item.startTime, item.endTime),
+          fee: new BigNumber(item.nodeFee),
+          currentStake: new BigNumber(item.claimedBalance),
+          totalStake: new BigNumber(item.totalStakedAmount),
+          status: item.status,
+        })),
     },
   }),
   applyForProvider: () => ({

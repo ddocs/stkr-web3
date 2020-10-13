@@ -33,7 +33,9 @@
     "typescript": "~3.7.2",
     "react-shallow-context": "^1.0.1",
     "axios": "^0.20.0",
-    "bignumber.js": "^9.0.1"
+    "bignumber.js": "^9.0.1",
+    "date-fns": "^2.16.1",
+    "@date-io/date-fns": "^2.10.6"
   },
   "devDependencies": {
     "@storybook/cli": "^5.3.19",

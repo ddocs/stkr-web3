@@ -8,6 +8,8 @@ import { Button } from '../../../../UiKit/Button';
 import { Headline1 } from '../../../../UiKit/Typography';
 import { useAction } from '../../../../store/redux';
 import { openUnlockWalletAction } from '../../../../store/modals/actions';
+import { useQuery } from '@redux-requests/react';
+import { UserActionTypes } from '../../../../store/actions/UserActions';
 
 interface IPoolProps {
   className?: string;
@@ -18,12 +20,13 @@ export const Pool = ({ className, isAuthenticated }: IPoolProps) => {
   const classes = usePoolStyles();
 
   const openUnlockWallet = useAction(openUnlockWalletAction);
+  const { data } = useQuery({ type: UserActionTypes.FETCH_MICROPOOLS });
 
   return (
     <section className={classNames(classes.component, className)}>
       <Curtains className={classes.wrapper}>
         <Headline1 className={classes.title} component="h2">
-          {t('about.pool-title')}
+          {t('about.pool-title', { value: data?.length ?? 0 })}
         </Headline1>
         <PoolTable
           className={classNames(
