@@ -36,7 +36,8 @@
     "select": "Select",
     "disconnect": "Disconnect",
     "copy-address": "Copy Address",
-    "view-on-etherscan": "View on Etherscan"
+    "view-on-etherscan": "View on Etherscan",
+    "coming-soon": "Coming soon"
   },
   "validation": {
     "email-error": "Not a valid email address"
@@ -126,7 +127,8 @@
   },
   "providers": {
     "metamask": "Metamask",
-    "wallet": "WalletConnect"
+    "wallet": "WalletConnect",
+    "trust": "Trust Walet"
   },
   "total": {
     "out-of": "{value} / {of}"

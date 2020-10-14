@@ -38,14 +38,14 @@ const getMaxWidthComponent = (width: MaxWidthType) => {
 export const CustomDialog = ({
   onClose,
   open,
-  maxWidth = 'sm',
+  maxWidth,
   minHeight,
   overflowHidden,
   withoutCloseButton,
   transitionOpacity,
   children,
 }: ICustomDialogProps) => {
-  const width = getMaxWidthComponent(maxWidth);
+  const width = maxWidth && getMaxWidthComponent(maxWidth);
 
   const classes = useCustomDialogStyles({
     maxWidth: width,

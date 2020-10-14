@@ -9,6 +9,21 @@ const useStyles = makeStyles<Theme>(theme => ({
   block: {},
 }));
 
+const PROVIDERS = {
+  metamask: {
+    caption: 'providers.metamask',
+    available: true,
+  },
+  trust: {
+    caption: 'providers.trust',
+    available: false,
+  },
+  wallet: {
+    caption: 'providers.wallet',
+    available: true,
+  },
+};
+
 const UnlockWalletStory = () => {
   const classes = useStyles();
   return (
@@ -17,9 +32,11 @@ const UnlockWalletStory = () => {
         open={true}
         onClose={() => alert('Close')}
         transitionOpacity={true}
-        maxWidth="sm"
       >
-        <UnlockWalletContentComponent onConnect={() => alert('Connect')} />
+        <UnlockWalletContentComponent
+          providers={PROVIDERS}
+          onConnect={() => alert('Connect')}
+        />
       </CustomDialog>
     </div>
   );

@@ -18,7 +18,6 @@ const UnlockWalletComponent = ({
       open={openedModal === 'unlock-wallet'}
       onClose={closeModal}
       transitionOpacity={true}
-      maxWidth="sm"
     >
       <UnlockWalletContent />
     </CustomDialog>

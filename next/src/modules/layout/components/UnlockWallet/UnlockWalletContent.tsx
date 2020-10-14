@@ -3,29 +3,49 @@ import { t } from '../../../../common/utils/intl';
 import { Button } from '../../../../UiKit/Button';
 import React, { useCallback } from 'react';
 import { useUnlockWalletStyles } from './UnlockWalletStyles';
-import classNames from 'classnames';
 import { connect } from 'react-redux';
 import { IStoreState } from '../../../../store/reducers';
 import { UserActions } from '../../../../store/actions/UserActions';
-import { Providers } from '../../../../common/types';
+import { PROVIDERS } from '../const';
 
-const ENABLE_WALLET_CONNECT = false;
+interface IItemProps {
+  caption: string;
+  icon: string;
+  enable: boolean;
+
+  onConnect?(): void;
+}
+
+const Item = ({ onConnect, caption, icon, enable }: IItemProps) => {
+  const classes = useUnlockWalletStyles({ icon: icon });
+
+  return (
+    <li className={classes.item}>
+      {caption}
+      <Button
+        className={classes.button}
+        onClick={enable ? onConnect : () => null}
+        color="primary"
+        size="large"
+        disabled={!enable}
+      >
+        {enable ? t('navigation.connect') : t('navigation.coming-soon')}
+      </Button>
+    </li>
+  );
+};
 
 interface IUnlockWalletContentProps {
   onConnect?(): void;
 }
 
-export const PROVIDERS: Record<string, string> = {
-  metamask: 'providers.metamask',
-  ...(ENABLE_WALLET_CONNECT ? { wallet: 'providers.wallet' } : {}),
-};
-
-export const providersKeys = Object.keys(PROVIDERS);
-
 export const UnlockWalletContentComponent = ({
+  providers,
   onConnect,
-}: IUnlockWalletContentProps) => {
-  const classes = useUnlockWalletStyles();
+}: IUnlockWalletContentProps & { providers: Record<string, any> }) => {
+  const providersKeys = Object.keys(providers);
+
+  const classes = useUnlockWalletStyles({ count: providersKeys.length });
 
   return (
     <div className={classes.content}>
@@ -34,25 +54,15 @@ export const UnlockWalletContentComponent = ({
       </Headline2>
       <ul className={classes.list}>
         {providersKeys.map(key => {
+          const item = providers[key];
           return (
-            <li
+            <Item
               key={key}
-              className={classNames(
-                classes.item,
-                key === Providers.metamask && classes.itemMetaMask,
-                key === Providers.wallet && classes.itemConnectWallet,
-              )}
-            >
-              {t(PROVIDERS[key])}
-              <Button
-                className={classes.button}
-                onClick={onConnect}
-                color="primary"
-                size="large"
-              >
-                {t('navigation.connect')}
-              </Button>
-            </li>
+              enable={item.available}
+              caption={t(item.caption)}
+              onConnect={onConnect}
+              icon={key}
+            />
           );
         })}
       </ul>
@@ -71,7 +81,12 @@ export const UnlockWalletContentImp = ({
     signIn();
   }, [signIn]);
 
-  return <UnlockWalletContentComponent onConnect={handleConnectMetamask} />;
+  return (
+    <UnlockWalletContentComponent
+      onConnect={handleConnectMetamask}
+      providers={PROVIDERS}
+    />
+  );
 };
 
 export const UnlockWalletContent = connect((state: IStoreState) => {}, {

@@ -1,10 +1,14 @@
 import { fade, makeStyles } from '@material-ui/core/styles';
 import { Theme } from '@material-ui/core';
+import * as assetsReference from '../assets/assets';
+import { getImages } from '../../../../common/utils/getImages';
 
-import metaMask from './assets/meta.svg';
-import connectWallet from './assets/wallet.svg';
+const assets = getImages(assetsReference);
 
-export const useUnlockWalletStyles = makeStyles<Theme>(theme => ({
+export const useUnlockWalletStyles = makeStyles<
+  Theme,
+  { count?: number; icon?: string }
+>(theme => ({
   content: {
     display: 'flex',
     flexDirection: 'column',
@@ -19,7 +23,7 @@ export const useUnlockWalletStyles = makeStyles<Theme>(theme => ({
 
   list: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(2, 200px)',
+    gridTemplateColumns: props => `repeat(${props.count}, 200px)`,
     gridColumnGap: theme.spacing(4.5),
 
     margin: 0,
@@ -45,6 +49,7 @@ export const useUnlockWalletStyles = makeStyles<Theme>(theme => ({
 
     '&::before': {
       position: 'relative',
+      content: '""',
 
       display: 'grid',
       justifyContent: 'center',
@@ -58,18 +63,11 @@ export const useUnlockWalletStyles = makeStyles<Theme>(theme => ({
       borderRadius: '50%',
 
       backgroundColor: '#0F0F0F',
-    },
-  },
-
-  itemMetaMask: {
-    '&::before': {
-      content: `url("${metaMask}")`,
-    },
-  },
-
-  itemConnectWallet: {
-    '&::before': {
-      content: `url("${connectWallet}")`,
+      backgroundImage: props =>
+        props.icon ? `url(${assets[props.icon.toLowerCase()]})` : undefined,
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat',
+      backgroundSize: 'contain',
     },
   },
 

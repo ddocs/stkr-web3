@@ -3,7 +3,6 @@ import classNames from 'classnames';
 import { useDropdownStyles } from './DropdownStyles';
 import { Providers } from '../../../../common/types';
 import { BackgroundColorProvider } from '../../../../UiKit/BackgroundColorProvider';
-import { PROVIDERS } from '../UnlockWallet/UnlockWalletContent';
 import { t } from '../../../../common/utils/intl';
 import { Button } from '../../../../UiKit/Button';
 import { SubTitle } from '../../../../UiKit/Typography/Typography';
@@ -11,6 +10,7 @@ import { walletConversion } from '../../../../common/utils/convertWallet';
 import { NavLink } from '../../../../UiKit/Link';
 import { CopyIcon } from '../../../../UiKit/Icons/CopyIcon';
 import { ViewIcon } from '../../../../UiKit/Icons/ViewIcon';
+import { PROVIDERS } from '../const';
 
 const ENABLE_DISCONNECT = false;
 
@@ -61,12 +61,14 @@ export const DropdownComponent = ({
   provider,
   visible,
   providers,
-}: IWalletProps & { providers: Record<string, string> }) => {
+}: IWalletProps & { providers: Record<string, any> }) => {
   const classes = useDropdownStyles({ currentProvider: provider });
 
   const providersKeys = Object.keys(providers);
 
-  const providersList = providersKeys.filter(key => key !== provider);
+  const providersList = providersKeys.filter(
+    key => key !== provider && providers[key].available,
+  );
 
   const handleSelect = useCallback((selectedItem: string) => {
     alert(`selected ${selectedItem}`);
@@ -88,7 +90,7 @@ export const DropdownComponent = ({
       {address && provider && (
         <div className={classes.info}>
           <SubTitle className={classes.title}>
-            {t(providers[provider])}
+            {t(providers[provider].caption)}
           </SubTitle>
           <span className={classes.address}>{walletConversion(address)}</span>
           {ENABLE_DISCONNECT && (
@@ -125,15 +127,18 @@ export const DropdownComponent = ({
       )}
       {providersList.length !== 0 && (
         <ul className={classes.list}>
-          {providersList.map(key => (
-            <Item
-              key={key}
-              caption={t(providers[key])}
-              onSelect={handleSelect}
-              reference={key}
-              icon={key}
-            />
-          ))}
+          {providersList.map(key => {
+            const item = providers[key];
+            return (
+              <Item
+                key={key}
+                caption={t(item.caption)}
+                onSelect={handleSelect}
+                reference={key}
+                icon={key}
+              />
+            );
+          })}
         </ul>
       )}
     </BackgroundColorProvider>

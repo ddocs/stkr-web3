@@ -17,17 +17,49 @@ const useStyles = makeStyles<Theme>(theme => ({
   },
 }));
 
-const PROVIDERS_1 = {
-  metamask: 'providers.metamask',
+const PROVIDERS_1: Record<string, any> = {
+  metamask: {
+    caption: 'providers.metamask',
+    available: true,
+  },
+  trust: {
+    caption: 'providers.trust',
+    available: false,
+  },
+  wallet: {
+    caption: 'providers.wallet',
+    available: false,
+  },
 };
 
-const PROVIDERS_2 = {
-  metamask: 'providers.metamask',
-  wallet: 'providers.wallet',
+const PROVIDERS_3: Record<string, any> = {
+  metamask: {
+    caption: 'providers.metamask',
+    available: false,
+  },
+  trust: {
+    caption: 'providers.trust',
+    available: false,
+  },
+  wallet: {
+    caption: 'providers.wallet',
+    available: true,
+  },
 };
 
-const PROVIDERS_3 = {
-  wallet: 'providers.wallet',
+const PROVIDERS_2: Record<string, any> = {
+  metamask: {
+    caption: 'providers.metamask',
+    available: true,
+  },
+  trust: {
+    caption: 'providers.trust',
+    available: true,
+  },
+  wallet: {
+    caption: 'providers.wallet',
+    available: true,
+  },
 };
 
 const DropdownStory = () => {

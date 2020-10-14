@@ -10,7 +10,7 @@ export const useCustomDialogStyles = makeStyles<
     gridTemplateColumns: '100%',
     gridTemplateRows: '100%',
 
-    width: 'calc(100% - 64px)',
+    width: 'auto',
     maxWidth: props => props.maxWidth,
     maxHeight: '80vh',
 

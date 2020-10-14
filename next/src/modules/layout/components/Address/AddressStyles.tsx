@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/core/styles';
 import { Theme } from '@material-ui/core';
+import * as assetsReference from '../assets/assets';
 import { getImages } from '../../../../common/utils/getImages';
-import * as assetsReference from './assets';
 
 const assets = getImages(assetsReference);
 
