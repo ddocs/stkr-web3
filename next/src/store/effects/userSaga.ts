@@ -11,8 +11,8 @@ import { REHYDRATE } from 'redux-persist/es/constants';
 
 function* onSignIn(action: Action<null>) {
   try {
-    const stkrSdk = StkrSdk.getLastInstance();
-    yield stkrSdk?.connectMetaMask();
+    // const stkrSdk = StkrSdk.getLastInstance();
+    // yield stkrSdk?.connectMetaMask();
 
     yield put(createSuccessAction(UserActionTypes.SIGN_IN));
     yield put(UserActions.fetchUserInfo());
