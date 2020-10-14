@@ -20,6 +20,11 @@ export class MetaMaskProvider extends KeyProvider {
     return !!window.ethereum || !!window.web3
   }
 
+  constructor(providerConfig: ProviderConfig) {
+    super(providerConfig)
+    console.log('constructor');
+  }
+
   private async unlockAccounts(ethereum: any): Promise<string[]> {
     let unlockedAccounts: string[] = []
     try {
