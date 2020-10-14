@@ -1,25 +1,32 @@
 import React from 'react';
 import { usePromoStyles } from './PromoStyles';
 import { Curtains } from '../../../../UiKit/Curtains';
-import { Body1, Headline1 } from '../../../../UiKit/Typography';
+import { Body1 } from '../../../../UiKit/Typography';
 import { tHTML, t } from '../../../../common/utils/intl';
 import classNames from 'classnames';
-import { BackgroundColorProvider } from '../../../../UiKit/BackgroundColorProvider';
+import { Info } from '../../../../components/Info';
 
 interface IPromoProps {
   className?: string;
 }
 
-const LIST: Record<string, string> = {
-  total: '$1,233,234',
-  providers: '342',
-  stakers: '2500',
-};
+const LIST = [
+  {
+    caption: 'about.total',
+    value: '$1,233,234',
+  },
+  {
+    caption: 'about.providers',
+    value: '342',
+  },
+  {
+    caption: 'about.stakers',
+    value: '2500',
+  },
+];
 
 export const Promo = ({ className }: IPromoProps) => {
-  const keys = Object.keys(LIST);
-
-  const classes = usePromoStyles({ count: keys.length });
+  const classes = usePromoStyles({ count: LIST.length });
 
   return (
     <section className={classNames(classes.component, className)}>
@@ -28,27 +35,7 @@ export const Promo = ({ className }: IPromoProps) => {
         <Body1 className={classes.text} component="p">
           {t('about.text')}
         </Body1>
-        <ul className={classes.list}>
-          {keys.map(key => {
-            const item = LIST[key];
-            return (
-              <BackgroundColorProvider
-                key={key}
-                className={classes.item}
-                component="li"
-              >
-                {t(`about.${key}`)}
-                <Headline1
-                  className={classes.value}
-                  component="span"
-                  color="primary"
-                >
-                  {item}
-                </Headline1>
-              </BackgroundColorProvider>
-            );
-          })}
-        </ul>
+        <Info className={classes.info} data={LIST} />
       </Curtains>
     </section>
   );

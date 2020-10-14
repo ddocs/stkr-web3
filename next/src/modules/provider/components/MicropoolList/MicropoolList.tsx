@@ -10,7 +10,7 @@ import {
 import { DataTable } from '../../../../components/TableComponents';
 import { useLocaleMemo } from '../../../../common/hooks/useLocaleMemo';
 import { t } from '../../../../common/utils/intl';
-import { MICRO_POOL_DATA } from './mock';
+import { MICRO_POOL_DATA } from '../../mock';
 import { Headline4 } from '../../../../UiKit/Typography';
 import { Button } from '../../../../UiKit/Button';
 import { BackgroundColorProvider } from '../../../../UiKit/BackgroundColorProvider';
@@ -38,10 +38,6 @@ const useCaptions = (): ITablesCaptionProps[] =>
       {
         key: 'fee',
         label: t('micro-pool-table.fee'),
-      },
-      {
-        key: 'duration',
-        label: t('micro-pool-table.duration'),
       },
       {
         key: 'total',
@@ -81,7 +77,7 @@ export const MicropoolListComponent = ({
           className={classes.table}
           captions={captions}
           rows={data}
-          customCell="1fr 1fr 1fr 1.2fr 2.3fr"
+          customCell="1fr 1fr 1fr 1.5fr"
         />
       )}
     </div>

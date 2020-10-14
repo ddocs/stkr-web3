@@ -50,7 +50,10 @@ export function Routes() {
         exact={true}
         component={LoadableOverviewContainer}
       />
-      <Route path={PROVIDER_PATH} component={ProviderContainer} />
+      <Route
+        path={[PROVIDER_PATH, `${PROVIDER_PATH}/:tab`]}
+        component={ProviderContainer}
+      />
       <Route path={PICKER_PATH} component={PickerContainer} />
       <Route path={STAKER_PATH} component={StakerContainer} />
       <Route path="/sdk" exact={true} component={App} />

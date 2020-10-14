@@ -18,7 +18,7 @@
     "next": "Next",
     "create": "Create",
     "edit": "Edit",
-    "load": "Download",
+    "download": "Download",
     "micropool-list": "My micropool list",
     "beacon-list": "Beacon chain list",
     "select-wallet-provider": "Select a wallet provider",
@@ -123,6 +123,11 @@
         "generation": "Micropool is being generated",
         "note": "The process might take a while"
       }
+    },
+    "info": {
+      "totalStakersInEthereum": "My total Staked ETH",
+      "totalStakers": "Total Stakers",
+      "score": "My score rate"
     }
   },
   "providers": {

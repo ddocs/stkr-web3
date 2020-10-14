@@ -9,7 +9,7 @@ export const BEACON_NODE_DATA: ITablesRowProps[] = [
       name: 'Alex_Beacon_Node',
       uptime: '20 min ago',
       date: '30 Sep 2020 19:30',
-      certificate: <Button>{t('navigation.load')}</Button>,
+      certificate: <Button>{t('navigation.download')}</Button>,
     },
   },
 ];

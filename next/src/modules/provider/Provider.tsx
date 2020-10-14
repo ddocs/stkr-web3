@@ -16,6 +16,6 @@ export const ProviderComponent = ({ isProvider }: IProviderProps) => {
 
 export const Provider = connect((state: IStoreState): IProviderStoreProps => {
   return {
-    isProvider: false,
+    isProvider: true,
   };
 }, {})(ProviderComponent);

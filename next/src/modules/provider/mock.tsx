@@ -1,9 +1,9 @@
 import React from 'react';
-import { ITablesRowProps } from '../../../../components/TableComponents/types';
-import { Total as RangeTotal } from '../../../../components/Total';
-import { ITotalProps } from '../../../../components/Total/Total';
-import { t } from '../../../../common/utils/intl';
-import { Button } from '../../../../UiKit/Button';
+import { ITablesRowProps } from '../../components/TableComponents/types';
+import { Total as RangeTotal } from '../../components/Total';
+import { ITotalProps } from '../../components/Total/Total';
+import { t } from '../../common/utils/intl';
+import { Button } from '../../UiKit/Button';
 
 const Total = (props: ITotalProps) => (
   <RangeTotal {...props}>
@@ -19,7 +19,6 @@ export const MICRO_POOL_DATA: ITablesRowProps[] = [
       name: 'Eth 2.0 Pool',
       status: 'Live',
       fee: '0.5 ETH',
-      duration: '2 mo',
       total: <Total total={32} reward={29.5} />,
     },
   },
@@ -28,7 +27,6 @@ export const MICRO_POOL_DATA: ITablesRowProps[] = [
       name: 'Eth 2.0 Pool',
       status: 'Live',
       fee: '0.5 ETH',
-      duration: '2 mo',
       total: <Total total={32} reward={29} />,
     },
   },
@@ -37,7 +35,6 @@ export const MICRO_POOL_DATA: ITablesRowProps[] = [
       name: 'Eth 2.0 Pool',
       status: 'Live',
       fee: '0.5 ETH',
-      duration: '2 mo',
       total: <Total total={32} reward={3.5} />,
     },
   },

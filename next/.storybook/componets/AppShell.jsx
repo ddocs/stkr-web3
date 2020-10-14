@@ -9,6 +9,8 @@ import { locales } from '../../src/common/locales';
 import { ReactReduxContext, Provider } from 'react-redux';
 import { createMemoryHistory } from 'history';
 import { createApplicationStore } from '../../src/store/createStore';
+import { StkrSdk } from '../../src/modules/api';
+import { LOCAL_CONFIG } from '../../src/modules/api/config';
 
 const history = createMemoryHistory();
 
@@ -21,6 +23,8 @@ const init = (locale, translations = locales) =>
     locales: translations,
     commonLocaleDataUrls: {},
   });
+
+StkrSdk.factoryDefault(LOCAL_CONFIG);
 
 export const AppShell = ({ children, locale = 'en-US' }) => {
   const [enabled, setEnabled] = useState(false);
