@@ -57,4 +57,4 @@ workflows:
           filters: &prod_only
             branches:
               only:
-                - master
+                - FD-2895_stkr
