@@ -1,7 +1,5 @@
 import { IUserInfo } from '../apiMappers/userApi';
 import { Providers } from '../../common/types';
-import { StkrSdk } from '../../modules/api';
-import { t } from '../../common/utils/intl';
 import BigNumber from 'bignumber.js';
 import { MicroPoolReply } from '../../modules/api/gateway';
 import { IPool } from '../apiMappers/poolsApi';

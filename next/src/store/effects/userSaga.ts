@@ -1,9 +1,8 @@
-import { put, takeEvery, select } from 'redux-saga/effects';
+import { put, select, takeEvery } from 'redux-saga/effects';
 import { Action } from 'redux-actions';
 import { UserActions, UserActionTypes } from '../actions/UserActions';
 import { createErrorAction } from '../../common/utils/createErrorAction';
 import { createSuccessAction } from '../../common/utils/createSuccessAction';
-import { StkrSdk } from '../../modules/api';
 import { IStoreState } from '../reducers';
 import { isAuthenticated } from '../reducers/userReducer';
 import { closeModalAction } from '../modals/actions';

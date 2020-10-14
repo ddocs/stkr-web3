@@ -20,10 +20,6 @@ export class MetaMaskProvider extends KeyProvider {
     return !!window.ethereum || !!window.web3
   }
 
-  constructor(providerConfig: ProviderConfig) {
-    super(providerConfig)
-  }
-
   private async unlockAccounts(ethereum: any): Promise<string[]> {
     let unlockedAccounts: string[] = []
     try {
@@ -63,7 +59,7 @@ export class MetaMaskProvider extends KeyProvider {
         }
         if (newAccount?.toLowerCase() !== this._currentAccount?.toLowerCase()) {
           console.log(
-            `You\'ve changed MetaMask account, reloading page (${this._currentAccount} != ${newAccount})`
+            `You've changed MetaMask account, reloading page (${this._currentAccount} != ${newAccount})`
           )
           window.location.reload()
         }
