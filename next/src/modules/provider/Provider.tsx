@@ -19,9 +19,3 @@ export const Provider = connect((state: IStoreState): IProviderStoreProps => {
     isProvider: true,
   };
 }, {})(ProviderComponent);
-
-export const ProviderNotYet = connect((state: IStoreState): IProviderStoreProps => {
-  return {
-    isProvider: false,
-  };
-}, {})(ProviderComponent);

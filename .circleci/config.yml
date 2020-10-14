@@ -13,7 +13,6 @@ jobs:
           command: |
             node --version
             npm --version
-            cd next
             yarn install
             yarn build
       - persist_to_workspace:
@@ -38,7 +37,7 @@ jobs:
             DISTRIBUTION_ID="E1LG75GWDIK2Z8"
 
             echo "Uploading assets to $DOMAIN"
-            aws s3 cp ./next/build s3://$DOMAIN/ --acl bucket-owner-full-control --recursive --cache-control "public,max-age=600,s-maxage=3600"
+            aws s3 cp ./dist/ s3://$DOMAIN/ --acl bucket-owner-full-control --recursive --cache-control "public,max-age=600,s-maxage=3600"
 
             echo "Invalidating CDN network"
             INVALIDATION_ID=`aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths '/*' | jq -r '.Invalidation.Id'`
@@ -57,4 +56,4 @@ workflows:
           filters: &prod_only
             branches:
               only:
-                - FD-2895_stkr
+                - master

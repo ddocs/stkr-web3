@@ -27,15 +27,6 @@ const ProviderContainer = withDefaultLayout(
   ) as LoadableComponent<any>,
 );
 
-const ProviderNotYetContainer = withDefaultLayout(
-  loadable(
-    async () => import('./modules/provider').then(module => module.ProviderNotYet),
-    {
-      fallback: <QueryLoading />,
-    },
-  ) as LoadableComponent<any>,
-);
-
 const PickerContainer = withDefaultLayout(
   loadable(
     async () => import('./modules/picker').then(module => module.Picker),
@@ -62,13 +53,6 @@ export function Routes() {
       <Route
         path={[PROVIDER_PATH, `${PROVIDER_PATH}/:tab`]}
         component={ProviderContainer}
-      />
-      <Route
-        path={[
-          PROVIDER_PATH + '_not_yet',
-          `${PROVIDER_PATH + '_not_yet'}/:tab`,
-        ]}
-        component={ProviderNotYetContainer}
       />
       <Route path={PICKER_PATH} component={PickerContainer} />
       <Route path={STAKER_PATH} component={StakerContainer} />

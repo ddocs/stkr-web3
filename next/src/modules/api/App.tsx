@@ -25,7 +25,9 @@ interface State {
 // }
 
 class App extends React.Component<Props, State> {
-
+  constructor(props: Props) {
+    super(props);
+  }
 
   componentDidMount() {
     setInterval(() => {

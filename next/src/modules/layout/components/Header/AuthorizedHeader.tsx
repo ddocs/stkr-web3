@@ -47,7 +47,7 @@ export const AuthorizedHeader = ({
   const isSMDown = useIsSMDown();
 
   return (
-    <HeaderFrame classes={{ root: className ?? '', curtains: classes.inner }}>
+    <HeaderFrame outerClassName={className} innerClassName={classes.inner}>
       {isSMDown ? (
         <Toggle />
       ) : (
