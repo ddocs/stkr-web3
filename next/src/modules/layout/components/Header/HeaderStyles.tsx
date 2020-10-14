@@ -20,10 +20,12 @@ export const useHeaderStyles = makeStyles<Theme>(theme => ({
   },
 
   inner: {
-    display: 'grid',
-    gridTemplateColumns: '1fr 190px auto',
-    gridColumnGap: theme.spacing(4),
-    alignItems: 'center',
+    '&&': {
+      display: 'grid',
+      gridTemplateColumns: '1fr 190px auto',
+      gridColumnGap: theme.spacing(4),
+      alignItems: 'center',
+    },
 
     [theme.breakpoints.down('sm')]: {
       gridTemplateColumns: 'auto auto',
