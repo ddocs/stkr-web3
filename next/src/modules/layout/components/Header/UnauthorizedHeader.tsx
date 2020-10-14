@@ -13,7 +13,7 @@ export const UnauthorizedHeader = ({ className }: { className?: string }) => {
 
   const isSMDown = useIsSMDown();
   return (
-    <HeaderFrame outerClassName={className} innerClassName={classes.outer}>
+    <HeaderFrame classes={{ root: className ?? '', curtains: classes.outer }}>
       <Button
         onClick={openUnlockWallet}
         className={classes.button}
