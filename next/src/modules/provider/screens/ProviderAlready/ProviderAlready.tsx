@@ -57,7 +57,7 @@ export const ProviderAlreadyComponent = ({
 
   return (
     <section className={classes.component}>
-      <Curtains className={classes.wrapper}>
+      <Curtains classes={{ root: classes.wrapper }}>
         <Info className={classes.info} data={info} />
         <div className={classes.navigation}>
           <ProviderTabs className={classes.tabs} />

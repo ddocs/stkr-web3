@@ -38,7 +38,7 @@ export const FooterComponent = ({ className, isAuth }: IFooterProps) => {
 
   return !isAuth ? (
     <footer className={classNames(classes.component, className)}>
-      <Curtains className={classes.wrapper}>
+      <Curtains classes={{ root: classes.wrapper }}>
         <Body2 className={classes.copyright} component="p" color="secondary">
           {tHTML('navigation.copyright', { year: year })}
         </Body2>

@@ -16,7 +16,7 @@ export const HeaderFrame = ({
 
   return (
     <header className={classNames(classes.component, outerClassName)}>
-      <Curtains className={innerClassName}>
+      <Curtains classes={{ root: innerClassName }}>
         <Logotype className={classes.logo} />
         {children}
       </Curtains>

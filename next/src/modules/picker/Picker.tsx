@@ -49,7 +49,7 @@ export const Picker = () => {
   const keys: string[] = Object.keys(LIST);
   return (
     <section className={classes.component}>
-      <Curtains className={classes.wrapper}>
+      <Curtains classes={{ root: classes.wrapper }}>
         <ul className={classes.list}>
           {keys.map((key: string) => {
             const item = LIST[key];
