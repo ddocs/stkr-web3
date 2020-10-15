@@ -65,7 +65,7 @@ export const NotProviderYet = ({ className }: INotProviderYetProps) => {
           return (
             <>
               <div className={classes.header}>
-                <Curtains className={classes.breadcrumbs}>
+                <Curtains classes={{ root: classes.breadcrumbs }}>
                   <ul className={classes.list}>
                     {steps.map((step, index) => {
                       const caption = getCaptionByStage(index + 1);
@@ -100,7 +100,7 @@ export const NotProviderYet = ({ className }: INotProviderYetProps) => {
                 </Curtains>
               </div>
               <div className={classes.content}>
-                <Curtains className={classes.wrapper}>{body!}</Curtains>
+                <Curtains classes={{ root: classes.wrapper }}>{body!}</Curtains>
               </div>
             </>
           );

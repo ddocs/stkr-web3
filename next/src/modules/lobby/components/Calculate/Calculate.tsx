@@ -32,7 +32,7 @@ export const Calculate = ({ className, isAuthenticated }: IPromoProps) => {
 
   return (
     <section className={classNames(classes.component, className)}>
-      <Curtains className={classes.wrapper}>
+      <Curtains classes={{ root: classes.wrapper }}>
         <h2 className={classes.title}>{tHTML('about.calculate-title')}</h2>
         <BackgroundColorProvider className={classes.form}>
           <Body1 className={classes.label} component="p">

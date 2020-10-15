@@ -30,7 +30,7 @@ export const Promo = ({ className }: IPromoProps) => {
 
   return (
     <section className={classNames(classes.component, className)}>
-      <Curtains className={classes.wrapper}>
+      <Curtains classes={{ root: classes.wrapper }}>
         <h2 className={classes.title}>{tHTML('about.title')}</h2>
         <Body1 className={classes.text} component="p">
           {t('about.text')}

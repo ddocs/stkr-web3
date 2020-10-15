@@ -22,7 +22,7 @@ export const Marketing = ({ className }: IMarketingProps) => {
 
   return (
     <section className={classNames(classes.component, className)}>
-      <Curtains component="div" className={classes.wrapper}>
+      <Curtains classes={{ root: classes.wrapper }}>
         <BackgroundColorProvider component="div" className={classes.content}>
           <Flow key={uid(steps)} steps={steps} onComplete={() => null}>
             {body => body}

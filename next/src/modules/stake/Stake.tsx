@@ -124,7 +124,7 @@ export const Stake = () => {
 
   return (
     <section className={classes.component}>
-      <Curtains className={classes.wrapper}>
+      <Curtains classes={{ root: classes.wrapper }}>
         <Form onSubmit={() => alert('Submit')} render={renderForm} />
       </Curtains>
     </section>

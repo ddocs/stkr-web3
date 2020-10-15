@@ -24,7 +24,7 @@ export const Pool = ({ className, isAuthenticated }: IPoolProps) => {
 
   return (
     <section className={classNames(classes.component, className)}>
-      <Curtains className={classes.wrapper}>
+      <Curtains classes={{ root: classes.wrapper }}>
         <Headline1 className={classes.title} component="h2">
           {t('about.pool-title', { value: data?.length ?? 0 })}
         </Headline1>
