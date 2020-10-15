@@ -163,5 +163,10 @@
     "error": {
       "sdk-not-initialized": "Sdk not initialized"
     }
+  },
+  "what-is": {
+    "title": "What is <span class=\"WhatIs__title_yellow\">Ethereum<br/>2.0?</span>",
+    "note1": "Ethereum 2.0 is an ambitious multi-year network upgrade of Ethereum that will achieve better scalability, security and decentralization. Take a read through the design goals outlined in Ethereum 2.0’s official spec or Vitalik’s write-up on Serenity’s design rationale to learn more about the guiding principles of Ethereum 2.0's design.",
+    "note2": "In the upcoming Phase 0 of Ethereum 2.0, the Beacon Chain will be launched. The Beacon Chain relies on Proof of Stake for network security. Anyone with 32 ETH can participate as a validator and receive rewards for contributing to Ethereum 2.0’s security. Learn more about Ethereum 2.0 in our beginner's guide."
   }
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import { usePromoStyles } from './PromoStyles';
 import { Curtains } from '../../../../UiKit/Curtains';
 import { Body1 } from '../../../../UiKit/Typography';
-import { tHTML, t } from '../../../../common/utils/intl';
+import { t, tHTML } from '../../../../common/utils/intl';
 import classNames from 'classnames';
 import { Info } from '../../../../components/Info';
 
