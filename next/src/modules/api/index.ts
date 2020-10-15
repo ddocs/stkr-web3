@@ -10,6 +10,10 @@ interface MicroPoolEntity {}
 
 export class StkrSdk {
   private static instance: StkrSdk | undefined = undefined;
+  private keyProvider: KeyProvider | null = null;
+  private contractManager: ContractManager | null = null;
+
+  constructor(private stkrConfig: StkrConfig, private apiGateway: ApiGateway) {}
 
   static factoryDefault(stkrConfig: StkrConfig): StkrSdk {
     const apiGateway = new ApiGateway(stkrConfig.gatewayConfig);
@@ -20,11 +24,6 @@ export class StkrSdk {
   static getLastInstance() {
     return StkrSdk.instance;
   }
-
-  private keyProvider: KeyProvider | null = null;
-  private contractManager: ContractManager | null = null;
-
-  constructor(private stkrConfig: StkrConfig, private apiGateway: ApiGateway) {}
 
   public async connectMetaMask() {
     const metaMaskProvider = new MetaMaskProvider(
