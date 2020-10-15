@@ -1,8 +1,8 @@
 import React from 'react';
-import { NotProviderYet } from './screens/NotProviderYet';
-import { ProviderAlready } from './screens/ProviderAlready';
 import { connect } from 'react-redux';
 import { IStoreState } from '../../store/reducers';
+import { CreateBeaconChain } from './screens/CreateBeaconChain';
+import { ProviderDashboard } from './screens/ProviderDashboard';
 
 interface IProviderStoreProps {
   isProvider: boolean;
@@ -11,7 +11,7 @@ interface IProviderStoreProps {
 interface IProviderProps extends IProviderStoreProps {}
 
 export const ProviderComponent = ({ isProvider }: IProviderProps) => {
-  return isProvider ? <ProviderAlready /> : <NotProviderYet />;
+  return isProvider ? <ProviderDashboard /> : <CreateBeaconChain />;
 };
 
 export const Provider = connect((state: IStoreState): IProviderStoreProps => {

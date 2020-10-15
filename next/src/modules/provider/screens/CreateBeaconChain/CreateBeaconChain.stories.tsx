@@ -2,23 +2,23 @@ import React from 'react';
 
 import { makeStyles } from '@material-ui/styles';
 import { Theme } from '@material-ui/core';
-import { Stage1Component } from './Stage1';
+import { CreateBeaconChain } from './CreateBeaconChain';
 
 const useStyles = makeStyles<Theme>(theme => ({
   block: {},
 }));
 
-const Stage1Story = () => {
+const CreateBeaconChainStory = () => {
   const classes = useStyles();
   return (
     <div className={classes.block}>
-      <Stage1Component onSubmit={() => alert('to next stage')} />
+      <CreateBeaconChain />
     </div>
   );
 };
 
-export const Stage1Example = () => <Stage1Story />;
+export const CreateBeaconChainExample = () => <CreateBeaconChainStory />;
 
 export default {
-  title: 'modules/provider/component/Stage1',
+  title: 'modules/provider/CreateBeaconChain',
 };

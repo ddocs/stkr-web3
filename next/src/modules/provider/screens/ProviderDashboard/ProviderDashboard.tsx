@@ -1,17 +1,21 @@
 import * as React from 'react';
-import { useProviderAlreadyStyles } from './ProviderAlreadyStyles';
+import { useProviderDashboardStyles } from './ProviderDashboardStyles';
 import { MicropoolList } from '../../components/MicropoolList';
 import { BeaconList } from '../../components/BeaconList';
-import { PROVIDER_PATH } from '../../../../common/const';
+import {
+  PROVIDER_BEACON_CHAIN_PATH,
+  PROVIDER_PATH,
+  CREATE_PROVIDERS_MICROPOOL_PATH,
+  CREATE_PROVIDERS_BEACON_CHAIN_PATH,
+} from '../../../../common/const';
 import { useLocation } from 'react-router';
 import { connect } from 'react-redux';
 import { IStoreState } from '../../../../store/reducers';
 import { ProviderTabs } from '../../components/ProviderTabs';
-import { Button } from '../../../../UiKit/Button';
 import { t } from '../../../../common/utils/intl';
-import { useCallback } from 'react';
 import { Curtains } from '../../../../UiKit/Curtains';
 import { Info } from '../../../../components/Info';
+import { NavLink } from '../../../../UiKit/Link';
 
 interface IProviderAlreadyStoreProps {
   totalStakersInEthereum: number;
@@ -28,17 +32,9 @@ export const ProviderAlreadyComponent = ({
   totalStakers,
   score,
 }: IProviderAlreadyProps) => {
-  const classes = useProviderAlreadyStyles();
+  const classes = useProviderDashboardStyles();
 
   const location = useLocation();
-
-  const handleCreateMicropool = useCallback(() => {
-    alert('create micropool');
-  }, []);
-
-  const handleBeaconNode = useCallback(() => {
-    alert('create beacon node');
-  }, []);
 
   const info = [
     {
@@ -61,23 +57,23 @@ export const ProviderAlreadyComponent = ({
         <Info className={classes.info} data={info} />
         <div className={classes.navigation}>
           <ProviderTabs className={classes.tabs} />
-          <Button
+          <NavLink
             className={classes.create}
-            onClick={
+            href={
               location.pathname === PROVIDER_PATH
-                ? handleCreateMicropool
-                : handleBeaconNode
+                ? CREATE_PROVIDERS_MICROPOOL_PATH
+                : CREATE_PROVIDERS_BEACON_CHAIN_PATH
             }
             variant="outlined"
             color="primary"
           >
             {t('navigation.create')}
-          </Button>
+          </NavLink>
         </div>
         {location.pathname === PROVIDER_PATH && (
           <MicropoolList className={classes.table} />
         )}
-        {location.pathname === `${PROVIDER_PATH}/beacon` && (
+        {location.pathname === PROVIDER_BEACON_CHAIN_PATH && (
           <BeaconList className={classes.table} />
         )}
       </Curtains>
@@ -85,7 +81,7 @@ export const ProviderAlreadyComponent = ({
   );
 };
 
-export const ProviderAlready = connect(
+export const ProviderDashboard = connect(
   (state: IStoreState): IProviderAlreadyStoreProps => {
     return {
       totalStakersInEthereum: 64,

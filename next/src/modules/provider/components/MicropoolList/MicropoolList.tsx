@@ -14,6 +14,8 @@ import { MICRO_POOL_DATA } from '../../mock';
 import { Headline4 } from '../../../../UiKit/Typography';
 import { Button } from '../../../../UiKit/Button';
 import { BackgroundColorProvider } from '../../../../UiKit/BackgroundColorProvider';
+import { NavLink } from '../../../../UiKit/Link';
+import { CREATE_PROVIDERS_BEACON_CHAIN_PATH } from '../../../../common/const';
 
 interface IMicropoolListStoreProps {
   data: ITablesRowProps[] | undefined;
@@ -50,7 +52,6 @@ const useCaptions = (): ITablesCaptionProps[] =>
 export const MicropoolListComponent = ({
   className,
   data,
-  onCreateMicropool,
 }: IMicropoolListProps) => {
   const classes = useMicropoolListStyles();
 
@@ -63,14 +64,15 @@ export const MicropoolListComponent = ({
           <Headline4 className={classes.caption} color="primary">
             {t('micro-pool-table.empty')}
           </Headline4>
-          <Button
+          <NavLink
             className={classes.create}
+            variant="contained"
             color="primary"
             size="large"
-            onClick={onCreateMicropool}
+            href={CREATE_PROVIDERS_BEACON_CHAIN_PATH}
           >
             {t('navigation.create')}
-          </Button>
+          </NavLink>
         </BackgroundColorProvider>
       ) : (
         <DataTable

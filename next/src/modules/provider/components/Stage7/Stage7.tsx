@@ -7,7 +7,7 @@ import { defineFlowStep } from '../../../../components/Flow/definition';
 import { Body2, Headline2 } from '../../../../UiKit/Typography';
 import { t, tHTML } from '../../../../common/utils/intl';
 import { ProgressBar } from '../ProgressBar/ProgressBar';
-import { Icon } from '../Stage4/Icon';
+import { Icon } from '../CreateBeaconChainStage2/Icon';
 
 interface IStage7Props extends IStageProps {}
 

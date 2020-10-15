@@ -5,8 +5,10 @@ import { QueryLoading } from './components/QueryLoading/QueryLoading';
 import { PageNotFound } from './components/PageNotFound/PageNotFound';
 import { withDefaultLayout } from './modules/layout';
 import {
+  CREATE_PROVIDERS_BEACON_CHAIN_PATH,
   INDEX_PATH,
   PICKER_PATH,
+  PROVIDER_BEACON_CHAIN_PATH,
   PROVIDER_PATH,
   STAKER_PATH,
 } from './common/const';
@@ -21,6 +23,18 @@ const LoadableOverviewContainer = withDefaultLayout(
 const ProviderContainer = withDefaultLayout(
   loadable(
     async () => import('./modules/provider').then(module => module.Provider),
+    {
+      fallback: <QueryLoading />,
+    },
+  ) as LoadableComponent<any>,
+);
+
+const CreateBeaconChainContainer = withDefaultLayout(
+  loadable(
+    async () =>
+      import('./modules/provider/screens/CreateBeaconChain').then(
+        module => module.CreateBeaconChain,
+      ),
     {
       fallback: <QueryLoading />,
     },
@@ -51,8 +65,14 @@ export function Routes() {
         component={LoadableOverviewContainer}
       />
       <Route
-        path={[PROVIDER_PATH, `${PROVIDER_PATH}/:tab`]}
+        path={[PROVIDER_PATH, PROVIDER_BEACON_CHAIN_PATH]}
         component={ProviderContainer}
+        exact={true}
+      />
+      <Route
+        path={CREATE_PROVIDERS_BEACON_CHAIN_PATH}
+        component={CreateBeaconChainContainer}
+        exact={true}
       />
       <Route path={PICKER_PATH} component={PickerContainer} />
       <Route path={STAKER_PATH} component={StakerContainer} />

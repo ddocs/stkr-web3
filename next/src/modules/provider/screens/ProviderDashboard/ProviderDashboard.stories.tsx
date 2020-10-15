@@ -2,13 +2,13 @@ import React from 'react';
 
 import { makeStyles } from '@material-ui/styles';
 import { Theme } from '@material-ui/core';
-import { ProviderAlreadyComponent } from './ProviderAlready';
+import { ProviderAlreadyComponent } from './ProviderDashboard';
 
 const useStyles = makeStyles<Theme>(theme => ({
   block: {},
 }));
 
-const ProviderAlreadyStory = () => {
+const ProviderDashboardStory = () => {
   const classes = useStyles();
   return (
     <div className={classes.block}>
@@ -21,8 +21,8 @@ const ProviderAlreadyStory = () => {
   );
 };
 
-export const ProviderAlreadyExample = () => <ProviderAlreadyStory />;
+export const ProviderDashboardExample = () => <ProviderDashboardStory />;
 
 export default {
-  title: 'modules/provider/ProviderAlready',
+  title: 'modules/provider/ProviderDashboard',
 };

@@ -1,0 +1,1 @@
+export { CreateBeaconChain } from './CreateBeaconChain';

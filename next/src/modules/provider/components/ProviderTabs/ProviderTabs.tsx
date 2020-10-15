@@ -3,7 +3,10 @@ import { useProviderTabsStyles } from './ProviderTabsStyles';
 import classNames from 'classnames';
 import { t } from '../../../../common/utils/intl';
 import { NavLink } from 'react-router-dom';
-import { PROVIDER_PATH } from '../../../../common/const';
+import {
+  PROVIDER_BEACON_CHAIN_PATH,
+  PROVIDER_PATH,
+} from '../../../../common/const';
 import { connect } from 'react-redux';
 import { IStoreState } from '../../../../store/reducers';
 import { MICRO_POOL_DATA } from '../../mock';
@@ -29,12 +32,12 @@ const TABS = [
   {
     value: Tabs.micropool,
     label: 'navigation.micropool-list',
-    link: `${PROVIDER_PATH}`,
+    link: PROVIDER_PATH,
   },
   {
     value: Tabs.beacon,
     label: 'navigation.beacon-list',
-    link: `${PROVIDER_PATH}/beacon`,
+    link: PROVIDER_BEACON_CHAIN_PATH,
   },
 ];
 
