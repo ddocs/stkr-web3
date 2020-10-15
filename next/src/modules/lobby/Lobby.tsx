@@ -6,6 +6,7 @@ import { Marketing } from './components/Marketing';
 import { WhatIs } from './components/WhatIs';
 import BigNumber from 'bignumber.js';
 import { useAuthentication } from '../../common/utils/useAuthentications';
+import { StayTuned } from './components/StayTuned';
 
 export const Lobby = () => {
   const classes = useLobbyStyles();
@@ -19,6 +20,7 @@ export const Lobby = () => {
         ethPrice={new BigNumber('374.94')}
         isAuthenticated={isAuthenticated}
       />
+      <StayTuned className={classes.stayTuned} />
       <Marketing className={classes.marketing} />
     </div>
   );

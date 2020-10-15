@@ -169,5 +169,18 @@
     "title": "What is <span>Ethereum<br/>2.0?</span>",
     "note1": "Ethereum 2.0 is an ambitious multi-year network upgrade of Ethereum that will achieve better scalability, security and decentralization. Take a read through the design goals outlined in Ethereum 2.0’s official spec or Vitalik’s write-up on Serenity’s design rationale to learn more about the guiding principles of Ethereum 2.0's design.",
     "note2": "In the upcoming Phase 0 of Ethereum 2.0, the Beacon Chain will be launched. The Beacon Chain relies on Proof of Stake for network security. Anyone with 32 ETH can participate as a validator and receive rewards for contributing to Ethereum 2.0’s security. Learn more about Ethereum 2.0 in our beginner's guide."
+  },
+  "stay-tuned": {
+    "title": "Stay tuned for updates",
+    "subheader": {
+      "1": "We are happy to present ETH 2.0 stake possibility",
+      "2": "We are happy to present ETH 2.0 stake possibility",
+      "3": "We are happy to present ETH 2.0 stake possibility"
+    },
+    "date": {
+      "1": "2 days ago  |  Community",
+      "2": "21 May  |  Community",
+      "3": "21 May  |  Community"
+    }
   }
 }
