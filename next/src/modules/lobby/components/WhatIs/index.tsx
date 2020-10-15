@@ -1,1 +1,0 @@
-export { WhatIs } from './WhatIs';

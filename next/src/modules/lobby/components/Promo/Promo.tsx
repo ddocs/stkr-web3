@@ -1,10 +1,11 @@
 import React from 'react';
 import { usePromoStyles } from './PromoStyles';
 import { Curtains } from '../../../../UiKit/Curtains';
-import { Body1 } from '../../../../UiKit/Typography';
+import { Body1, Headline1 } from '../../../../UiKit/Typography';
 import { t, tHTML } from '../../../../common/utils/intl';
 import classNames from 'classnames';
 import { Info } from '../../../../components/Info';
+import { BackgroundColorProvider } from '../../../../UiKit/BackgroundColorProvider';
 
 interface IPromoProps {
   className?: string;
@@ -36,6 +37,17 @@ export const Promo = ({ className }: IPromoProps) => {
           {t('about.text')}
         </Body1>
         <Info className={classes.info} data={LIST} />
+        <BackgroundColorProvider className={classes.whatIs}>
+          <Headline1 className={classes.caption} component="h3">
+            {tHTML('what-is.title')}
+          </Headline1>
+          <Body1 className={classes.note} component="p">
+            {t('what-is.note1')}
+          </Body1>
+          <Body1 className={classes.note} component="p" color="textSecondary">
+            {t('what-is.note2')}
+          </Body1>
+        </BackgroundColorProvider>
       </Curtains>
     </section>
   );
