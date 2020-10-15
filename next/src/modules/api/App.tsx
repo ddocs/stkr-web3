@@ -1,8 +1,9 @@
 import React from 'react';
 import './App.css';
-import { BalanceReply, MicroPoolReply, ProviderReply } from './gateway';
+
 import { StkrSdk } from './index';
 import { LOCAL_CONFIG } from './config';
+import { BalanceReply, MicroPoolReply, ProviderReply } from './gateway';
 
 interface Props {}
 
@@ -13,6 +14,7 @@ interface State {
   providers?: ProviderReply[] | null;
   myEth?: BalanceReply | null;
   myAnkr?: BalanceReply | null;
+  downloadLink?: string | null;
 }
 
 //{
@@ -25,6 +27,10 @@ interface State {
 // }
 
 class App extends React.Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+  }
+
   componentDidMount() {
     setInterval(() => {
       // noinspection JSIgnoredPromiseFromCall
@@ -128,6 +134,32 @@ class App extends React.Component<Props, State> {
           >
             CONNECT
           </button>
+          <br />
+          <button
+            onClick={async () => {
+              await this.state?.sdk?.authorize();
+              await this.loadData();
+            }}
+          >
+            LOGIN
+          </button>
+          <br />
+          <button
+            onClick={async () => {
+              const id = prompt('Sidecar ID: ');
+              const downloadLink = this.state?.sdk?.getSidecarDownloadLink(
+                `${id}`,
+              );
+              this.setState((prev, props) => ({
+                downloadLink,
+              }));
+            }}
+          >
+            DOWNLOAD SIDECAR
+          </button>
+          <a href={`${this?.state?.downloadLink}`}>
+            {this?.state?.downloadLink}
+          </a>
           <hr />
           <div>
             <h5>All providers</h5>
