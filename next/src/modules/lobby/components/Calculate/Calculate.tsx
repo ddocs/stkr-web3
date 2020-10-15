@@ -1,79 +1,119 @@
 import React, { useState } from 'react';
 import { Curtains } from '../../../../UiKit/Curtains';
-import { tHTML, t } from '../../../../common/utils/intl';
+import { t, tHTML } from '../../../../common/utils/intl';
 import classNames from 'classnames';
 import { useCalculateStyles } from './CalculateStyles';
 import { BackgroundColorProvider } from '../../../../UiKit/BackgroundColorProvider';
 import { Button } from '../../../../UiKit/Button';
-import { Slider } from '@material-ui/core';
+import {
+  Box,
+  Divider,
+  MuiThemeProvider,
+  Slider,
+  Typography,
+} from '@material-ui/core';
 import { useAction } from '../../../../store/redux';
 import { openUnlockWalletAction } from '../../../../store/modals/actions';
-import { Body1 } from '../../../../UiKit/Typography';
+import { Headline1, Headline4 } from '../../../../UiKit/Typography';
+import { invertTheme } from '../../../../common/themes/invertTheme';
+import BigNumber from 'bignumber.js';
+import { Headline5 } from '../../../../UiKit/Typography/Typography';
+
+const DEFAULT_VALUE = 10;
+const FIXED_DECIMAL_PLACES = 2;
 
 interface IPromoProps {
   className?: string;
+  ethPrice?: BigNumber;
   isAuthenticated: boolean;
 }
 
 const savers = ['monthly', 'yearly'];
 
-export const Calculate = ({ className, isAuthenticated }: IPromoProps) => {
+export const Calculate = ({
+  className,
+  ethPrice,
+  isAuthenticated,
+}: IPromoProps) => {
   const classes = useCalculateStyles();
-
   const openUnlockWallet = useAction(openUnlockWalletAction);
 
-  const defaultValue = 10;
-
-  const [value, setValue] = useState<number>(defaultValue);
+  const [value, setValue] = useState<number>(DEFAULT_VALUE);
 
   const handleSliderChange = (event: any, newValue: any) => {
     setValue(newValue);
   };
 
   return (
-    <section className={classNames(classes.component, className)}>
-      <Curtains classes={{ root: classes.wrapper }}>
-        <h2 className={classes.title}>{tHTML('about.calculate-title')}</h2>
-        <BackgroundColorProvider className={classes.form}>
-          <Body1 className={classes.label} component="p">
-            {t('about.calculate-note')}
-            <span>{`${value} ETH`}</span>
-          </Body1>
-          <Slider
-            className={classes.range}
-            value={value}
-            onChange={handleSliderChange}
-            aria-labelledby="calculator"
-            step={0.5}
-            min={0}
-          />
-          <ul className={classes.list}>
-            {savers.map(item => {
-              const monthlySaver = (value * 1.2).toFixed(2);
-              const yearlySaver = (value * 10).toFixed(2);
-              return (
-                <li key={item} className={classes.item}>
-                  <Body1 className={classes.caption} component="span">
-                    {t(`about.${item}`)}
-                  </Body1>
-                  <span className={classes.value}>{`${value} ETH`}</span>
-                  {`$${item === 'monthly' ? monthlySaver : yearlySaver}`}
-                </li>
-              );
-            })}
-          </ul>
-        </BackgroundColorProvider>
-        {!isAuthenticated && (
-          <Button
-            className={classes.unlock}
-            onClick={openUnlockWallet}
-            color="primary"
-            size="large"
-          >
-            {t('navigation.unlock-your-wallet')}
-          </Button>
-        )}
-      </Curtains>
-    </section>
+    <MuiThemeProvider theme={invertTheme}>
+      <section className={classNames(classes.component, className)}>
+        <Curtains className={classes.curtains}>
+          <Headline1 align="center" className={classes.title}>
+            {tHTML('about.calculate-title')}
+          </Headline1>
+          <BackgroundColorProvider className={classes.form}>
+            <Headline4 className={classes.label} component="p">
+              {t('about.calculate-note')}
+              <Typography className={classes.ethPrice}>
+                {t('units.eth', { value })}
+              </Typography>
+            </Headline4>
+            <Typography className={classes.usdPrice}>
+              {ethPrice &&
+                t('units.$', { value: ethPrice.multipliedBy(value) })}
+            </Typography>
+            <Slider
+              className={classes.range}
+              value={value}
+              onChange={handleSliderChange}
+              aria-labelledby="calculator"
+              step={0.5}
+              min={0}
+            />
+            <ul className={classes.list}>
+              {savers.map(item => {
+                const monthlySaver = ethPrice
+                  ?.multipliedBy(value * 1.2)
+                  .toFixed(FIXED_DECIMAL_PLACES);
+                const yearlySaver = ethPrice
+                  ?.multipliedBy(value * 10)
+                  .toFixed(FIXED_DECIMAL_PLACES);
+                return (
+                  <li key={item} className={classes.item}>
+                    <Headline5 className={classes.caption}>
+                      {t(`about.${item}`)}
+                    </Headline5>
+                    <div className={classes.value}>
+                      <span className={classes.earningValue}>
+                        {t('units.eth', { value })}
+                      </span>
+                      <Divider
+                        orientation="vertical"
+                        className={classes.divider}
+                      />
+                      <span className={classes.earningConvertedValue}>
+                        {`$${item === 'monthly' ? monthlySaver : yearlySaver}`}
+                      </span>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+            {!isAuthenticated && (
+              <Box display="flex" justifyContent="center">
+                <Button
+                  className={classes.unlock}
+                  onClick={openUnlockWallet}
+                  color="primary"
+                  size="large"
+                >
+                  {t('navigation.unlock-your-wallet')}
+                </Button>
+              </Box>
+            )}
+          </BackgroundColorProvider>
+        </Curtains>
+      </section>
+    </MuiThemeProvider>
   );
 };

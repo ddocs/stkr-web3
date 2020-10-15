@@ -1,45 +1,22 @@
 import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { DEFAULT_FONT, selection } from '../../../../common/themes/mainTheme';
 
 export const useCalculateStyles = makeStyles<Theme>(theme => ({
   component: {},
-
-  wrapper: {
-    display: 'grid',
-    gridTemplateColumns: '1fr 1.05fr',
-    gridTemplateRows: 'auto auto',
-    gridRowGap: theme.spacing(6.25),
-    gridColumnGap: theme.spacing(9),
-
-    fontFamily: DEFAULT_FONT,
-  },
-
   title: {
-    alignSelf: 'flex-end',
-    margin: 0,
-
-    fontSize: 77,
-    lineHeight: 1.2,
-    fontWeight: 500,
-
-    '&::selection': selection,
-
-    '& *::selection': selection,
-
+    marginBottom: theme.spacing(9),
     '& span span': {
       color: theme.palette.primary.main,
     },
   },
+  curtains: {
+    '&&': {
+      maxWidth: 1048,
+    },
+  },
 
   form: {
-    gridColumn: '2/3',
-    gridRow: '-1/1',
-    placeSelf: 'center',
-
-    width: '100%',
-    padding: theme.spacing(7.5),
-
+    padding: theme.spacing(12, 13, 8.5, 13),
     boxSizing: 'border-box',
   },
 
@@ -48,74 +25,63 @@ export const useCalculateStyles = makeStyles<Theme>(theme => ({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-
-    '& span': {
-      fontSize: 24,
-      lineHeight: 1.5,
-      fontWeight: 500,
-      color: theme.palette.primary.main,
-    },
+  },
+  ethPrice: {
+    fontSize: 34,
+    fontWeight: 700,
+  },
+  usdPrice: {
+    fontSize: 20,
+    fontWeight: 400,
+    display: 'flex',
+    justifyContent: 'flex-end',
+    marginBottom: theme.spacing(1),
   },
 
   range: {
-    marginTop: theme.spacing(5),
+    marginBottom: theme.spacing(5),
   },
 
   list: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(2, minmax(auto, 220px))',
+    gridTemplateColumns: 'repeat(2, minmax(auto, 260px))',
     justifyContent: 'space-between',
-
     margin: 0,
-    marginTop: theme.spacing(7.5),
     padding: 0,
-
     listStyle: 'none',
   },
 
   item: {
-    display: 'grid',
-    gridTemplateColumns: 'auto auto',
-    gridRowGap: theme.spacing(3),
-
-    fontSize: 24,
-    lineHeight: 1.5,
-    fontWeight: 500,
-
-    color: theme.palette.primary.main,
+    marginBottom: theme.spacing(8.5),
   },
 
   caption: {
-    gridColumn: '-1/1',
-
-    color: theme.palette.text.primary,
+    marginBottom: theme.spacing(2),
   },
 
   value: {
     display: 'flex',
-    flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
+  },
 
+  earningValue: {
+    fontSize: 27,
+    fontWeight: 700,
+  },
+
+  divider: {
+    height: 26,
+  },
+
+  earningConvertedValue: {
     fontSize: 24,
-    lineHeight: 1.5,
-    fontWeight: 500,
-    color: theme.palette.text.secondary,
-
-    '&::after': {
-      position: 'relative',
-      content: '""',
-
-      display: 'block',
-      width: 1,
-      height: 26,
-      margin: theme.spacing(0, 2),
-
-      backgroundColor: 'currentColor',
-    },
+    fontWeight: 400,
   },
 
   unlock: {
-    minWidth: 218,
-    placeSelf: 'flex-start',
+    minWidth: 648,
+    height: 60,
+    placeSelf: 'center',
   },
 }));

@@ -1,22 +1,21 @@
-import { createMuiTheme, fade } from '@material-ui/core';
 import { ThemeOptions } from '@material-ui/core/styles/createMuiTheme';
+import { DEFAULT_FONT, defaultTheme, mainTheme } from './mainTheme';
+import { createMuiTheme, fade } from '@material-ui/core';
 import { PaletteOptions } from '@material-ui/core/styles/createPalette';
-
-export const DEFAULT_FONT = '"Helvetica Neue", sans-serif';
 
 const PALETTE = {
   type: 'dark',
   primary: {
     light: '',
-    main: '#FFE819',
-    dark: '#FFB800',
-    contrastText: '#000000',
+    main: '#0F0F0F',
+    dark: '#0F0F0F',
+    contrastText: '#FFE819',
   },
   background: {
-    paper: '#1D1D1D',
+    paper: '#FFE819',
   },
   text: {
-    primary: '#ffffff',
+    primary: '#0F0F0F',
     secondary: fade('#ffffff', 0.5),
   },
   grey: {
@@ -36,123 +35,22 @@ const PALETTE = {
   divider: '#E1E4EB',
 };
 
-const BREAKPOINTS = {
-  values: {
-    xs: 0,
-    sm: 768,
-    md: 960,
-    lg: 1280,
-    xl: 1440,
-  },
-};
-
-const MAX_WIDTH = 1620;
-
-export const defaultTheme = createMuiTheme({
-  breakpoints: BREAKPOINTS,
-});
-
-export const selection = {
-  color: PALETTE.primary.contrastText,
-  backgroundColor: PALETTE.primary.main,
-};
-
-const mainTheme = createMuiTheme({
+export const invertTheme = createMuiTheme({
+  ...mainTheme,
   typography: {
     fontFamily: DEFAULT_FONT,
     color: PALETTE.text.primary,
   },
-
   palette: PALETTE as PaletteOptions,
-
-  breakpoints: BREAKPOINTS,
-
-  props: {
-    MuiUseMediaQuery: {
-      noSsr: true,
-    },
-
-    MuiButton: {
-      disableRipple: true,
-      variant: 'contained',
-      size: 'medium',
-    },
-
-    MuiPaper: {
-      elevation: 0,
-      square: true,
-    },
-
-    MuiSlider: {
-      color: 'primary',
-    },
-
-    MuiIconButton: {
-      disableRipple: true,
-    },
-  },
-
   overrides: {
-    MuiCssBaseline: {
-      '@global': {
-        '::selection': {
-          ...selection,
-        },
-      },
-    },
-    MuiContainer: {
-      root: {
-        '&&': {
-          maxWidth: MAX_WIDTH,
-          padding: defaultTheme.spacing(0, 12),
-
-          boxSizing: 'border-box',
-
-          [defaultTheme.breakpoints.down('lg')]: {
-            padding: defaultTheme.spacing(0, 8),
-          },
-
-          [defaultTheme.breakpoints.down('md')]: {
-            padding: defaultTheme.spacing(0, 5),
-          },
-
-          [defaultTheme.breakpoints.down('xs')]: {
-            padding: defaultTheme.spacing(0, 3),
-          },
-        },
-      },
-      maxWidthLg: {
-        '&&': {
-          maxWidth: MAX_WIDTH,
-        },
-      },
-    },
-
+    ...mainTheme.overrides,
     MuiPaper: {
       root: {
         color: PALETTE.text.primary,
-
         transition: 'none',
         overflow: 'initial',
       },
     },
-
-    MuiSlider: {
-      rail: {
-        backgroundColor: '#555555',
-      },
-
-      track: {},
-
-      thumb: {
-        width: 20,
-        height: 20,
-
-        marginTop: -9,
-        marginLeft: -10,
-      },
-    },
-
     MuiButton: {
       root: {
         height: 36,
@@ -365,91 +263,10 @@ const mainTheme = createMuiTheme({
         '&$disabled': {},
       },
     },
-
-    MuiTypography: {
-      h1: {
-        fontSize: 48,
-        fontWeight: 700,
-        lineHeight: 1.2,
-      },
-
-      h2: {
-        fontSize: 38,
-        fontWeight: 700,
-        lineHeight: 1.2,
-      },
-
-      h3: {
-        fontSize: 32,
-        fontWeight: 700,
-        lineHeight: 1.2,
-      },
-
-      h4: {
-        fontSize: 28,
-        fontWeight: 700,
-        lineHeight: 1.2,
-      },
-
-      h5: {
-        fontSize: 18,
-        fontWeight: 700,
-        lineHeight: 1.2,
-      },
-
-      h6: {
-        fontSize: 18,
-        fontWeight: 700,
-        lineHeight: 1.2,
-      },
-
-      subtitle1: {
-        fontSize: 16,
-        fontWeight: 700,
-        lineHeight: 1.2,
-      },
-
-      subtitle2: {
-        fontSize: 14,
-        fontWeight: 700,
-        lineHeight: 1.2,
-      },
-
-      body1: {
-        fontSize: 18,
-        fontWeight: 400,
-        lineHeight: 1.5,
-      },
-
-      body2: {
-        fontSize: 16,
-        fontWeight: 400,
-        lineHeight: 1.5,
-      },
-
-      colorPrimary: {
-        color: PALETTE.primary.main,
-      },
-
-      colorSecondary: {
-        color: PALETTE.text.secondary,
-      },
-    },
-    MuiIconButton: {
+    MuiDivider: {
       root: {
-        '& svg': {
-          transition: 'color 100ms cubic-bezier(0.47, 0, 0.75, 0.72)',
-        },
-        '&:hover': {
-          backgroundColor: 'transparent',
-
-          '& svg': {
-            color: '#fff',
-          },
-        },
+        backgroundColor: '#0F0F0F',
       },
     },
   },
 } as ThemeOptions);
-
-export { mainTheme };

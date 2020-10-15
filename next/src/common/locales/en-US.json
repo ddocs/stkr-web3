@@ -9,7 +9,7 @@
     "whitepaper-en": "Whitepaper (En)",
     "whitepaper-ch": "Whitepaper (Ch)",
     "join": "Join",
-    "unlock-your-wallet": "Unlock your wallet",
+    "unlock-your-wallet": "Connect your wallet",
     "apply-as-provider": "Apply as a provider",
     "create-beacon-chain": "Create Beacon chain",
     "create-micropool": "Create micropool",
@@ -50,8 +50,8 @@
     "total": "Total Value Staked",
     "pool-title": "{value} staking pools",
     "pool-note": "Start staking today with STKR",
-    "calculate-title": "Calculate<br /> your <span>earnings</span>",
-    "calculate-note": "Enter your ETH amount",
+    "calculate-title": "Calculate your <span>earnings</span>",
+    "calculate-note": "Your ETH amount",
     "monthly": "Monthly Earning",
     "yearly": "Yearly Earning",
     "marketing-success": "Thanks! We are glad that you are with us"
@@ -154,6 +154,7 @@
     "stake": "Stake"
   },
   "units": {
+    "$": "${value}",
     "eth": "{value} ETH",
     "~eth": "~ {value} ETH",
     "months": "{value} mo",
@@ -165,7 +166,7 @@
     }
   },
   "what-is": {
-    "title": "What is <span class=\"WhatIs__title_yellow\">Ethereum<br/>2.0?</span>",
+    "title": "What is <span>Ethereum<br/>2.0?</span>",
     "note1": "Ethereum 2.0 is an ambitious multi-year network upgrade of Ethereum that will achieve better scalability, security and decentralization. Take a read through the design goals outlined in Ethereum 2.0’s official spec or Vitalik’s write-up on Serenity’s design rationale to learn more about the guiding principles of Ethereum 2.0's design.",
     "note2": "In the upcoming Phase 0 of Ethereum 2.0, the Beacon Chain will be launched. The Beacon Chain relies on Proof of Stake for network security. Anyone with 32 ETH can participate as a validator and receive rewards for contributing to Ethereum 2.0’s security. Learn more about Ethereum 2.0 in our beginner's guide."
   }

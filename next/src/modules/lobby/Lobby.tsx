@@ -3,8 +3,9 @@ import { useLobbyStyles } from './LobbyStyles';
 import { Promo } from './components/Promo';
 import { Calculate } from './components/Calculate';
 import { Marketing } from './components/Marketing';
-import { useAuthentication } from '../../common/utils/useAuthentications';
 import { WhatIs } from './components/WhatIs';
+import BigNumber from 'bignumber.js';
+import { useAuthentication } from '../../common/utils/useAuthentications';
 
 export const Lobby = () => {
   const classes = useLobbyStyles();
@@ -12,10 +13,11 @@ export const Lobby = () => {
   return (
     <div className={classes.component}>
       <Promo />
-      <WhatIs />
+      <WhatIs className={classes.whatIs} />
       <Calculate
-        isAuthenticated={isAuthenticated}
         className={classes.calculate}
+        ethPrice={new BigNumber('374.94')}
+        isAuthenticated={isAuthenticated}
       />
       <Marketing className={classes.marketing} />
     </div>
