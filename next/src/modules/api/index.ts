@@ -8,8 +8,9 @@ interface ProviderEntity {}
 
 interface MicroPoolEntity {}
 
+const LOCAL_STORAGE_AUTHORIZATION_TOKEN_KEY = '__stkr_authorization_token';
+
 export class StkrSdk {
-  private static instance: StkrSdk | undefined = undefined;
   private keyProvider: KeyProvider | null = null;
   private contractManager: ContractManager | null = null;
 
@@ -20,6 +21,8 @@ export class StkrSdk {
     StkrSdk.instance = new StkrSdk(stkrConfig, apiGateway);
     return StkrSdk.instance;
   }
+
+  private static instance: StkrSdk | undefined = undefined;
 
   static getLastInstance() {
     return StkrSdk.instance;
@@ -43,6 +46,37 @@ export class StkrSdk {
   }
 
   public async disconnect() {}
+
+  public async authorize(ttl: number = 60 * 60 * 1000): Promise<void> {
+    if (!this.keyProvider) throw new Error('Key provider must be connected');
+    if (await this.isAuthorized()) return;
+    const token = await this.keyProvider.signLoginData(ttl);
+    const {
+      status,
+      statusText,
+    } = await this.apiGateway.authorizeWithSignedData(token);
+    if (status !== 200)
+      throw new Error(`Unable to authenticate user (#${status}) ${statusText}`);
+    localStorage[LOCAL_STORAGE_AUTHORIZATION_TOKEN_KEY] = token;
+  }
+
+  public getSidecarDownloadLink(sidecar: string): string {
+    return this.apiGateway.createSidecarDownloadLink(sidecar);
+  }
+
+  public async isAuthorized(): Promise<boolean> {
+    if (this.apiGateway.isAuthorized()) return true;
+    const existingToken = localStorage[LOCAL_STORAGE_AUTHORIZATION_TOKEN_KEY];
+    if (!existingToken) return false;
+    const { status } = await this.apiGateway.authorizeWithSignedData(
+      existingToken,
+    );
+    if (status === 200) {
+      return true;
+    }
+    delete localStorage[LOCAL_STORAGE_AUTHORIZATION_TOKEN_KEY];
+    return false;
+  }
 
   public async getProviders(): Promise<ProviderEntity[]> {
     return [];

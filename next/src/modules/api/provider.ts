@@ -18,7 +18,7 @@ export abstract class KeyProvider {
   protected _currentAccount: string | null = null;
   protected _web3: Web3 | null = null;
 
-  constructor(protected providerConfig: ProviderConfig) {}
+  protected constructor(protected providerConfig: ProviderConfig) {}
 
   createContract(abi: AbiItem[] | AbiItem, address: string): Contract {
     if (!this._web3) throw new Error('Web3 must be initialized');
@@ -70,4 +70,13 @@ export abstract class KeyProvider {
     to: string,
     sendOptions: SendOptions,
   ): Promise<JsonRpcResponse>;
+
+  async signLoginData(ttl: number): Promise<string> {
+    const currentTime = Math.floor(new Date().getTime()),
+      expiresAfter = currentTime + ttl;
+    const data = `Stkr Login Message:\n${expiresAfter}`,
+      signature = await this.sign(data, this.currentAccount());
+    const formData = `signature=${signature}&address=${this.currentAccount()}&expires=${expiresAfter}`;
+    return new Buffer(formData, 'utf-8').toString('base64');
+  }
 }
