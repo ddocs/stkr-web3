@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 
 import { StkrSdk } from './index';
-import { GOERLI_CONFIG, LOCAL_CONFIG } from './config';
+import { GOERLI_CONFIG } from './config';
 import { BalanceReply, MicroPoolReply, ProviderReply } from './gateway';
 
 interface Props {}
