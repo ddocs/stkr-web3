@@ -8,7 +8,7 @@ import { isConnected } from '../reducers/userReducer';
 import { closeModalAction } from '../modals/actions';
 import { REHYDRATE } from 'redux-persist/es/constants';
 import { replace } from 'connected-react-router';
-import { INDEX_PATH, PICKER_PATH } from '../../common/const';
+import { INDEX_PATH, PICKER_PATH, SDK_PATH } from '../../common/const';
 import { resetRequests } from '@redux-requests/core';
 
 function* onConnect() {
@@ -33,9 +33,11 @@ function* onDisconnectSuccess() {
 function* init() {
   const state = yield select((store: IStoreState) => ({
     isConnected: isConnected(store.user),
+    isSDK: store.router.location.pathname === SDK_PATH,
   }));
 
-  if (state.isConnected) {
+  // TODO Remove isSDK expression
+  if (state.isConnected && !state.isSDK) {
     yield put(UserActions.connect());
   }
 }
