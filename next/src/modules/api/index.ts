@@ -52,7 +52,7 @@ export class StkrSdk {
     delete localStorage[LOCAL_STORAGE_AUTHORIZATION_TOKEN_KEY];
   }
 
-  public async authorize(ttl: number = 60 * 60 * 1000): Promise<void> {
+  public async authorizeProvider(ttl: number = 60 * 60 * 1000): Promise<void> {
     if (!this.keyProvider) throw new Error('Key provider must be connected');
     if (await this.isAuthorized()) return;
     const token = await this.keyProvider.signLoginData(ttl);

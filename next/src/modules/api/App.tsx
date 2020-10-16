@@ -133,7 +133,7 @@ class App extends React.Component<Props, State> {
           <br />
           <button
             onClick={async () => {
-              await this.state?.sdk?.authorize();
+              await this.state?.sdk?.authorizeProvider();
               await this.loadData();
             }}
           >
