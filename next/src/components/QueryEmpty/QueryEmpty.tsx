@@ -3,5 +3,5 @@ import * as React from 'react';
 interface ILoadingProps {}
 
 export const QueryEmpty = (props: ILoadingProps) => {
-  return <div>Loading...</div>;
+  return <div>Empty...</div>;
 };
