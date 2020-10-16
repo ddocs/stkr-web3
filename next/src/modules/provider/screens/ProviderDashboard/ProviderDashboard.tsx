@@ -3,10 +3,10 @@ import { useProviderDashboardStyles } from './ProviderDashboardStyles';
 import { MicropoolList } from '../../components/MicropoolList';
 import { BeaconList } from '../../components/BeaconList';
 import {
+  CREATE_PROVIDERS_BEACON_CHAIN_PATH,
+  CREATE_PROVIDERS_MICROPOOL_PATH,
   PROVIDER_BEACON_CHAIN_PATH,
   PROVIDER_PATH,
-  CREATE_PROVIDERS_MICROPOOL_PATH,
-  CREATE_PROVIDERS_BEACON_CHAIN_PATH,
 } from '../../../../common/const';
 import { useLocation } from 'react-router';
 import { connect } from 'react-redux';
@@ -79,7 +79,7 @@ export const ProviderDashboardComponent = ({
           )}
         </div>
         {location.pathname === PROVIDER_PATH && (
-          <MicropoolList className={classes.table} data={micropool} />
+          <MicropoolList className={classes.table} />
         )}
         {location.pathname === PROVIDER_BEACON_CHAIN_PATH && (
           <BeaconList className={classes.table} />
