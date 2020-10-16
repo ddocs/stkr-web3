@@ -73,6 +73,10 @@ export class StkrSdk {
     return this.apiGateway.createSidecar();
   }
 
+  public async getProviderSidecars(): Promise<SidecarReply[]> {
+    return this.apiGateway.getProviderSidecars();
+  }
+
   public async isAuthorized(): Promise<boolean> {
     if (this.apiGateway.isAuthorized()) return true;
     const existingToken = localStorage[LOCAL_STORAGE_AUTHORIZATION_TOKEN_KEY];
@@ -89,12 +93,18 @@ export class StkrSdk {
     return false;
   }
 
-  public async getProviders(): Promise<ProviderEntity[]> {
-    return [];
+  public async getProviders(
+    page: number = 0,
+    size: number = 100,
+  ): Promise<ProviderEntity[]> {
+    return this.apiGateway.getProviders(page, size);
   }
 
-  public async getMicroPools(): Promise<MicroPoolEntity[]> {
-    return [];
+  public async getMicroPools(
+    page: number = 0,
+    size: number = 100,
+  ): Promise<MicroPoolEntity[]> {
+    return this.apiGateway.getMicroPools(page, size);
   }
 
   public async createMicroPool(name: string): Promise<string> {

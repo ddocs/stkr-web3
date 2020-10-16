@@ -140,6 +140,15 @@ export class ApiGateway {
     return data;
   }
 
+  public async getProviderSidecars(): Promise<SidecarReply[]> {
+    const { status, data, statusText } = await this.api.get<SidecarReply[]>(
+      `/v1alpha/sidecar`,
+    );
+    if (status !== 200)
+      throw new Error(`Unable to fetch ethereum balance: ${statusText}`);
+    return data;
+  }
+
   public async getEtheremBalance(address: string): Promise<BalanceReply> {
     const { status, data, statusText } = await this.api.get<BalanceReply>(
       `/v1alpha/balance/${address}/ethereum`,
