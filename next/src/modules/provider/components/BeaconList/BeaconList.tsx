@@ -10,14 +10,13 @@ import {
 import { DataTable } from '../../../../components/TableComponents';
 import { useLocaleMemo } from '../../../../common/hooks/useLocaleMemo';
 import { t } from '../../../../common/utils/intl';
-import { BEACON_NODE_DATA } from './mock';
+import { Button } from '../../../../UiKit/Button';
+import { IBeaconListItem } from './types';
+import { BEACON_NODE_DATA } from '../../mock';
 
-interface IBeaconListStoreProps {
-  data: ITablesRowProps[];
-}
-
-interface IBeaconListProps extends IBeaconListStoreProps {
+interface IBeaconListProps {
   className?: string;
+  data?: ITablesRowProps[];
 }
 
 const useCaptions = (): ITablesCaptionProps[] =>
@@ -50,21 +49,42 @@ export const BeaconListComponent = ({ className, data }: IBeaconListProps) => {
 
   return (
     <div className={classNames(classes.component, className)}>
-      <DataTable
-        className={classes.table}
-        captions={captions}
-        rows={data}
-        customCell="1fr 1fr 1fr 0.7fr"
-      />
+      {data && (
+        <DataTable
+          className={classes.table}
+          captions={captions}
+          rows={data}
+          customCell="1fr 1fr 1fr 0.7fr"
+        />
+      )}
     </div>
   );
 };
 
-export const BeaconList = connect(
-  (state: IStoreState): IBeaconListStoreProps => {
-    return {
-      data: BEACON_NODE_DATA,
-    };
-  },
-  {},
-)(BeaconListComponent);
+export const BeaconListImp = ({
+  className,
+  data,
+}: {
+  className?: string;
+  data: IBeaconListItem[];
+}) => {
+  const convertedData =
+    data &&
+    data.map(item => {
+      return {
+        data: {
+          name: item.name,
+          uptime: item.uptime,
+          date: item.date,
+          certificate: <Button>{t('navigation.download')}</Button>,
+        },
+      };
+    });
+  return <BeaconListComponent className={className} data={convertedData} />;
+};
+
+export const BeaconList = connect((state: IStoreState) => {
+  return {
+    data: BEACON_NODE_DATA,
+  };
+}, {})(BeaconListImp);

@@ -10,13 +10,11 @@ import { useLocaleMemo } from '../../../../common/hooks/useLocaleMemo';
 import { t } from '../../../../common/utils/intl';
 import { MicropoolListTotal } from './MicropoolListTotal';
 import { EmptyList } from '../EmptyList';
+import { IMicropoolListItemProps } from './types';
 
-interface IMicropoolListStoreProps {
-  data: ITablesRowProps[] | undefined;
-}
-
-interface IMicropoolListProps extends IMicropoolListStoreProps {
+interface IMicropoolListProps {
   className?: string;
+  data: ITablesRowProps[] | undefined;
   onCreateMicropool?(x: any): void;
 }
 
@@ -67,20 +65,11 @@ export const MicropoolListComponent = ({
   );
 };
 
-interface IItemProps {
-  id: any;
-  name: string;
-  status: string;
-  fee: number;
-  total: number;
-  reward: number;
-}
-
 export const MicropoolList = ({
   className,
   data,
 }: {
-  data?: IItemProps[];
+  data?: IMicropoolListItemProps[];
   className?: string;
 }) => {
   const convertedData =

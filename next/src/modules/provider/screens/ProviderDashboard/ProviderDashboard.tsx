@@ -12,7 +12,7 @@ import { useLocation } from 'react-router';
 import { connect } from 'react-redux';
 import { IStoreState } from '../../../../store/reducers';
 import { ProviderTabs } from '../../components/ProviderTabs';
-import { t } from '../../../../common/utils/intl';
+import { t, tHTML } from '../../../../common/utils/intl';
 import { Curtains } from '../../../../UiKit/Curtains';
 import { Info } from '../../../../components/Info';
 import { NavLink } from '../../../../UiKit/Link';
@@ -41,7 +41,7 @@ export const ProviderDashboardComponent = ({
   const info = [
     {
       caption: 'provider.info.totalStakersInEthereum',
-      value: `${totalStakersInEthereum} ETH`,
+      value: tHTML('units.small-eth', { value: totalStakersInEthereum }),
     },
     {
       caption: 'provider.info.totalStakers',
