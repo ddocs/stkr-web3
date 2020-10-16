@@ -66,9 +66,12 @@ export interface SidecarReply {
 }
 
 export interface StatsReply {
-  totalValueStaked: string;
-  stakersCount: number;
-  providersCount: number;
+  totalEthereumStaked: string;
+  totalProviders: number;
+  totalMicroPools: number;
+  totalStakers: number;
+  monthlyEarnings: string;
+  yearlyEarnings: string;
 }
 
 export class ApiGateway {
@@ -211,6 +214,12 @@ export class ApiGateway {
     );
     if (status !== 200)
       throw new Error(`Unable to fetch providers: ${statusText}`);
+    return data;
+  }
+
+  public async getStats(): Promise<StatsReply> {
+    const { status, data } = await this.api.get<StatsReply>(`/v1alpha/stats`);
+    if (status !== 200) throw new Error("Can't fetch statistics");
     return data;
   }
 }

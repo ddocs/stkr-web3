@@ -147,11 +147,7 @@ export class StkrSdk {
   }
 
   public async getStats(): Promise<StatsReply> {
-    return {
-      totalValueStaked: '1233000',
-      stakersCount: 111,
-      providersCount: 23,
-    };
+    return this.apiGateway.getStats();
   }
 
   public getKeyProvider(): KeyProvider {
