@@ -32,6 +32,6 @@ export const GOERLI_CONFIG: StkrConfig = {
     ankrContract: '',
   },
   gatewayConfig: {
-    baseUrl: 'http://localhost:8000',
+    baseUrl: 'https://api.stkr-dev.ankr.com/',
   },
 };
