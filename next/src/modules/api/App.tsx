@@ -147,7 +147,7 @@ class App extends React.Component<Props, State> {
           <button
             onClick={async () => {
               const id = prompt('Sidecar ID: ');
-              const downloadLink = this.state?.sdk?.getSidecarDownloadLink(
+              const downloadLink = this.state?.sdk?.createSidecarDownloadLink(
                 `${id}`,
               );
               this.setState((prev, props) => ({
