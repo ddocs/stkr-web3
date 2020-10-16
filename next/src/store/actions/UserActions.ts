@@ -34,25 +34,18 @@ export const UserActions = {
 
         const address = stkrSdk.getKeyProvider().currentAccount();
 
-        await stkrSdk.getApiGateway().getEtheremBalance(address);
+        const ankrBalance = await stkrSdk
+          .getApiGateway()
+          .getAnkrBalance(stkrSdk.getKeyProvider().currentAccount());
+        const ethereumBalance = await stkrSdk
+          .getApiGateway()
+          .getEtheremBalance(address);
 
         return {
           address,
           walletType: Providers.metamask,
-          ethereumBalance: new BigNumber(
-            (
-              await stkrSdk
-                .getApiGateway()
-                .getEtheremBalance(stkrSdk.getKeyProvider().currentAccount())
-            ).available,
-          ),
-          ankrBalance: new BigNumber(
-            (
-              await stkrSdk
-                .getApiGateway()
-                .getAnkrBalance(stkrSdk.getKeyProvider().currentAccount())
-            ).available,
-          ),
+          ethereumBalance: new BigNumber(ethereumBalance.available),
+          ankrBalance: new BigNumber(ankrBalance.available),
         } as IUserInfo;
       })(),
     },

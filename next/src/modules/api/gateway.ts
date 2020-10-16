@@ -69,6 +69,12 @@ export interface SidecarReply {
   activated: number;
 }
 
+export interface StatsReply {
+  totalValueStaked: string;
+  stakersCount: number;
+  providersCount: number;
+}
+
 export class ApiGateway {
   private readonly defaultConfig: AxiosRequestConfig;
   private api: AxiosInstance;

@@ -1,7 +1,7 @@
 import { MetaMaskProvider } from './metamask';
 import { KeyProvider } from './provider';
 import { ContractManager } from './contract';
-import { ApiGateway, SidecarReply } from './gateway';
+import { ApiGateway, SidecarReply, StatsReply } from './gateway';
 import { StkrConfig } from './config';
 
 interface ProviderEntity {}
@@ -72,11 +72,13 @@ export class StkrSdk {
     if (this.apiGateway.isAuthorized()) return true;
     const existingToken = localStorage[LOCAL_STORAGE_AUTHORIZATION_TOKEN_KEY];
     if (!existingToken) return false;
-    const { status } = await this.apiGateway.authorizeWithSignedData(
-      existingToken,
-    );
-    if (status === 200) {
-      return true;
+    try {
+      const { status } = await this.apiGateway.authorizeWithSignedData(
+        existingToken,
+      );
+      return status === 200;
+    } catch (e) {
+      console.warn(`unable to verify token: ${e.message}`);
     }
     delete localStorage[LOCAL_STORAGE_AUTHORIZATION_TOKEN_KEY];
     return false;
@@ -111,9 +113,21 @@ export class StkrSdk {
     return this.keyProvider?.currentAccount();
   }
 
+  public async getStats(): Promise<StatsReply> {
+    return {
+      totalValueStaked: '1233000',
+      stakersCount: 111,
+      providersCount: 23,
+    };
+  }
+
   public getKeyProvider(): KeyProvider {
     if (!this.keyProvider) throw new Error('Key provider must be connected');
     return this.keyProvider;
+  }
+
+  public async getTotalValueStaked(): Promise<string> {
+    return Promise.resolve('1000');
   }
 
   public getContractManager(): ContractManager {
