@@ -2,6 +2,7 @@ import { JsonRpcResponse } from 'web3-core-helpers/types';
 import Web3 from 'web3';
 import { AbiItem } from 'web3-utils';
 import { Contract } from 'web3-eth-contract';
+import { BigNumber } from 'bignumber.js';
 
 export interface ProviderConfig {
   networkId: string;
@@ -82,7 +83,10 @@ export abstract class KeyProvider {
 
   public async ethereumBalance(address: string): Promise<string> {
     if (!this._web3) throw new Error('Web3 must be initialized');
-    return this._web3.eth.getBalance(address);
+    const balance = await this._web3.eth.getBalance(address);
+    return new BigNumber(`${balance}`)
+      .dividedBy(new BigNumber(10).pow(18))
+      .toString();
   }
 
   public async erc20Balance(
@@ -90,6 +94,10 @@ export abstract class KeyProvider {
     address: string,
   ): Promise<string> {
     if (!this._web3) throw new Error('Web3 must be initialized');
-    return contract.methods.balanceOf(address).request();
+    const balance = await contract.methods.balanceOf(address).call(),
+      decimals = await contract.methods.decimals().call();
+    return new BigNumber(`${balance}`)
+      .dividedBy(new BigNumber(10).pow(decimals || 18))
+      .toString();
   }
 }

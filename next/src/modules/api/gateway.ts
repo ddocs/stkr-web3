@@ -126,7 +126,10 @@ export class ApiGateway {
     return this.authorized;
   }
 
-  public async logout(): Promise<void> {}
+  public async logout(): Promise<void> {
+    this.authorized = false;
+    this.token = null;
+  }
 
   public async createSidecar(): Promise<SidecarReply> {
     const { status, data, statusText } = await this.api.post<SidecarReply>(
