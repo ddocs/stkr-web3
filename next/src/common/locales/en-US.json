@@ -73,7 +73,11 @@
     "fee": "Fee",
     "duration": "Staking duration",
     "total": "ETH in the pool",
-    "empty": "Create your first micropool node"
+    "empty": {
+      "title": "Create your first micropool node",
+      "paragraph-1": "By creating a Micropool, you will be spinning up an Ethereum 2.0 node. The Micropool then becomes available for people to stake their ETH into. The more Micropools you run, the more rewards you can generate!",
+      "paragraph-2": "You can create multiple Micropools (and therefore Ethereum nodes) on your host, however be aware that too many nodes may degrade performance and cause slashing to occur on your existing nodes, so be careful to remain within the constraints your hardware permits."
+    }
   },
   "beacon-node-table": {
     "name": "Name",
@@ -119,7 +123,7 @@
     "info": {
       "totalStakersInEthereum": "My total Staked ETH",
       "totalStakers": "Total Stakers",
-      "score": "My score rate"
+      "micropools": "My micropools"
     }
   },
   "providers": {

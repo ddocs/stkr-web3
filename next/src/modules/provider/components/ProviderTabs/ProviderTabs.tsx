@@ -7,19 +7,10 @@ import {
   PROVIDER_BEACON_CHAIN_PATH,
   PROVIDER_PATH,
 } from '../../../../common/const';
-import { connect } from 'react-redux';
-import { IStoreState } from '../../../../store/reducers';
-import { MICRO_POOL_DATA } from '../../mock';
-import { ITablesRowProps } from '../../../../components/TableComponents/types';
-import { BEACON_NODE_DATA } from '../BeaconList/mock';
 import { useState } from 'react';
+import { useLocation } from 'react-router';
 
-interface IProviderTabsStoreProps {
-  micropool?: ITablesRowProps[] | undefined;
-  beacon?: ITablesRowProps[] | undefined;
-}
-
-interface IProviderTabsProps extends IProviderTabsStoreProps {
+interface IProviderTabsProps {
   className?: string;
 }
 
@@ -41,14 +32,20 @@ const TABS = [
   },
 ];
 
-export const ProviderTabsComponent = ({
-  className,
-  micropool,
-  beacon,
-}: IProviderTabsProps) => {
+export const ProviderTabs = ({ className }: IProviderTabsProps) => {
   const classes = useProviderTabsStyles();
 
-  const [value, setValue] = useState(Tabs.micropool);
+  const location = useLocation();
+
+  const recognizeDefaultValue = () => {
+    if (location.pathname === PROVIDER_BEACON_CHAIN_PATH) {
+      return Tabs.beacon;
+    } else return Tabs.micropool;
+  };
+
+  const defaultValue = recognizeDefaultValue();
+
+  const [value, setValue] = useState(defaultValue);
 
   return (
     <div className={classNames(classes.component, className)}>
@@ -64,15 +61,6 @@ export const ProviderTabsComponent = ({
               onClick={() => setValue(tab.value)}
             >
               {t(tab.label)}
-              {'\u00A0'}
-              {tab.value === Tabs.micropool &&
-                micropool !== undefined &&
-                micropool.length > 0 &&
-                `(${micropool.length})`}
-              {tab.value === Tabs.beacon &&
-                beacon !== undefined &&
-                beacon.length > 0 &&
-                `(${beacon.length})`}
             </NavLink>
           </li>
         ))}
@@ -80,13 +68,3 @@ export const ProviderTabsComponent = ({
     </div>
   );
 };
-
-export const ProviderTabs = connect(
-  (state: IStoreState): IProviderTabsStoreProps => {
-    return {
-      micropool: MICRO_POOL_DATA,
-      beacon: BEACON_NODE_DATA,
-    };
-  },
-  {},
-)(ProviderTabsComponent);

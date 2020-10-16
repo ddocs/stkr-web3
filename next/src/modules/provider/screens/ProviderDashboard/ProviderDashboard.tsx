@@ -16,21 +16,23 @@ import { t } from '../../../../common/utils/intl';
 import { Curtains } from '../../../../UiKit/Curtains';
 import { Info } from '../../../../components/Info';
 import { NavLink } from '../../../../UiKit/Link';
+import { MICRO_POOL_DATA } from '../../mock';
+import { IMicropoolListItemProps } from '../../components/MicropoolList/types';
 
 interface IProviderAlreadyStoreProps {
   totalStakersInEthereum: number;
   totalStakers: number;
-  score: number;
+  micropool?: IMicropoolListItemProps[];
 }
 
 interface IProviderAlreadyProps extends IProviderAlreadyStoreProps {
   onCreateMicropool?(): void;
 }
 
-export const ProviderAlreadyComponent = ({
+export const ProviderDashboardComponent = ({
   totalStakersInEthereum,
   totalStakers,
-  score,
+  micropool,
 }: IProviderAlreadyProps) => {
   const classes = useProviderDashboardStyles();
 
@@ -46,32 +48,38 @@ export const ProviderAlreadyComponent = ({
       value: totalStakers,
     },
     {
-      caption: 'provider.info.score',
-      value: score,
+      caption: 'provider.info.micropools',
+      value: micropool ? micropool.length : 0,
     },
   ];
 
   return (
     <section className={classes.component}>
       <Curtains classes={{ root: classes.wrapper }}>
-        <Info className={classes.info} data={info} />
+        {micropool && micropool.length !== 0 && (
+          <Info className={classes.info} data={info} small={true} />
+        )}
         <div className={classes.navigation}>
           <ProviderTabs className={classes.tabs} />
-          <NavLink
-            className={classes.create}
-            href={
-              location.pathname === PROVIDER_PATH
-                ? CREATE_PROVIDERS_MICROPOOL_PATH
-                : CREATE_PROVIDERS_BEACON_CHAIN_PATH
-            }
-            variant="outlined"
-            color="primary"
-          >
-            {t('navigation.create')}
-          </NavLink>
+          {location.pathname === PROVIDER_PATH && !micropool ? (
+            <></>
+          ) : (
+            <NavLink
+              className={classes.create}
+              href={
+                location.pathname === PROVIDER_PATH
+                  ? CREATE_PROVIDERS_MICROPOOL_PATH
+                  : CREATE_PROVIDERS_BEACON_CHAIN_PATH
+              }
+              variant="outlined"
+              color="primary"
+            >
+              {t('navigation.create')}
+            </NavLink>
+          )}
         </div>
         {location.pathname === PROVIDER_PATH && (
-          <MicropoolList className={classes.table} />
+          <MicropoolList className={classes.table} data={micropool} />
         )}
         {location.pathname === PROVIDER_BEACON_CHAIN_PATH && (
           <BeaconList className={classes.table} />
@@ -86,8 +94,8 @@ export const ProviderDashboard = connect(
     return {
       totalStakersInEthereum: 64,
       totalStakers: 2,
-      score: 58,
+      micropool: MICRO_POOL_DATA,
     };
   },
   {},
-)(ProviderAlreadyComponent);
+)(ProviderDashboardComponent);

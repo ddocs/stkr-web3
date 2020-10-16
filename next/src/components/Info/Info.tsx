@@ -14,10 +14,11 @@ interface IItemProps {
 export interface IInfoProps {
   className?: string;
   data: IItemProps[];
+  small?: boolean;
 }
 
-export const Info = ({ className, data }: IInfoProps) => {
-  const classes = useInfoStyles({ count: data.length });
+export const Info = ({ className, data, small }: IInfoProps) => {
+  const classes = useInfoStyles({ count: data.length, small: small });
 
   return (
     <div className={classNames(classes.component, className)}>

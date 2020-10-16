@@ -2,7 +2,10 @@ import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { selection } from '../../common/themes/mainTheme';
 
-export const useInfoStyles = makeStyles<Theme, { count: number }>(theme => ({
+export const useInfoStyles = makeStyles<
+  Theme,
+  { count: number; small?: boolean }
+>(theme => ({
   component: {},
 
   list: {
@@ -20,7 +23,8 @@ export const useInfoStyles = makeStyles<Theme, { count: number }>(theme => ({
     display: 'flex',
     flexDirection: 'column',
 
-    padding: theme.spacing(2.5, 4.5, 3),
+    padding: props =>
+      !props.small ? theme.spacing(2.5, 4.5, 3) : theme.spacing(2.5, 4.5, 1),
 
     fontSize: 18,
     lineHeight: 1.2,
@@ -31,6 +35,6 @@ export const useInfoStyles = makeStyles<Theme, { count: number }>(theme => ({
   },
 
   value: {
-    marginTop: theme.spacing(10),
+    marginTop: props => (!props.small ? theme.spacing(10) : theme.spacing(0.5)),
   },
 }));

@@ -1,8 +1,6 @@
 import React from 'react';
 import { useMicropoolListStyles } from './MicropoolListStyles';
 import classNames from 'classnames';
-import { connect } from 'react-redux';
-import { IStoreState } from '../../../../store/reducers';
 import {
   ITablesCaptionProps,
   ITablesRowProps,
@@ -10,12 +8,8 @@ import {
 import { DataTable } from '../../../../components/TableComponents';
 import { useLocaleMemo } from '../../../../common/hooks/useLocaleMemo';
 import { t } from '../../../../common/utils/intl';
-import { MICRO_POOL_DATA } from '../../mock';
-import { Headline4 } from '../../../../UiKit/Typography';
-import { Button } from '../../../../UiKit/Button';
-import { BackgroundColorProvider } from '../../../../UiKit/BackgroundColorProvider';
-import { NavLink } from '../../../../UiKit/Link';
-import { CREATE_PROVIDERS_BEACON_CHAIN_PATH } from '../../../../common/const';
+import { MicropoolListTotal } from './MicropoolListTotal';
+import { EmptyList } from '../EmptyList';
 
 interface IMicropoolListStoreProps {
   data: ITablesRowProps[] | undefined;
@@ -60,20 +54,7 @@ export const MicropoolListComponent = ({
   return (
     <div className={classNames(classes.component, className)}>
       {data === undefined ? (
-        <BackgroundColorProvider className={classes.empty}>
-          <Headline4 className={classes.caption} color="primary">
-            {t('micro-pool-table.empty')}
-          </Headline4>
-          <NavLink
-            className={classes.create}
-            variant="contained"
-            color="primary"
-            size="large"
-            href={CREATE_PROVIDERS_BEACON_CHAIN_PATH}
-          >
-            {t('navigation.create')}
-          </NavLink>
-        </BackgroundColorProvider>
+        <EmptyList className={classes.empty} />
       ) : (
         <DataTable
           className={classes.table}
@@ -86,11 +67,40 @@ export const MicropoolListComponent = ({
   );
 };
 
-export const MicropoolList = connect(
-  (state: IStoreState): IMicropoolListStoreProps => {
-    return {
-      data: MICRO_POOL_DATA,
-    };
-  },
-  {},
-)(MicropoolListComponent);
+interface IItemProps {
+  id: any;
+  name: string;
+  status: string;
+  fee: number;
+  total: number;
+  reward: number;
+}
+
+export const MicropoolList = ({
+  className,
+  data,
+}: {
+  data?: IItemProps[];
+  className?: string;
+}) => {
+  const convertedData =
+    data &&
+    data.map(item => {
+      return {
+        data: {
+          name: item.name,
+          status: item.status,
+          fee: t('units.eth', { value: item.fee }),
+          total: (
+            <MicropoolListTotal
+              total={item.total}
+              reward={item.reward}
+              onChange={() => alert('Edit')}
+              reference={item}
+            />
+          ),
+        },
+      };
+    });
+  return <MicropoolListComponent className={className} data={convertedData} />;
+};
