@@ -1,5 +1,7 @@
 {
-  "translated-foobar": "Translated Foobar",
+  "error": {
+    "unknown": "Unknown error"
+  },
   "by-ankr": "By Ankr",
   "navigation": {
     "staker": "Staker",
@@ -184,7 +186,7 @@
       "3": "We are happy to present ETH 2.0 stake possibility"
     },
     "date": {
-      "11": "2 days ago  |  Community",
+      "1": "2 days ago  |  Community",
       "2": "21 May  |  Community",
       "3": "21 May  |  Community"
     }

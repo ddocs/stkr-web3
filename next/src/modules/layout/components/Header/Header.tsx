@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { IStoreState } from '../../../../store/reducers';
-import { isAuthenticated } from '../../../../store/reducers/userReducer';
+import { isConnected } from '../../../../store/reducers/userReducer';
 
 import { Query } from '@redux-requests/react';
 import { UserActionTypes } from '../../../../store/actions/UserActions';
@@ -20,7 +20,7 @@ interface IHeaderProps {
 const HeaderImp = ({ isAuth, className }: IHeaderProps) => {
   return isAuth ? (
     <Query<IUserInfo | undefined>
-      type={UserActionTypes.FETCH_USER_INFO}
+      type={UserActionTypes.FETCH_ACCOUNT_DATA}
       errorComponent={QueryError}
       loadingComponent={QueryLoading}
       noDataMessage={<QueryEmpty />}
@@ -41,5 +41,5 @@ const HeaderImp = ({ isAuth, className }: IHeaderProps) => {
 };
 
 export const Header = connect((state: IStoreState) => ({
-  isAuth: isAuthenticated(state.user),
+  isAuth: isConnected(state.user),
 }))(HeaderImp);

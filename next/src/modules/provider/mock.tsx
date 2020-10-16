@@ -1,6 +1,4 @@
 import { IMicropoolListItemProps } from './components/MicropoolList/types';
-import { ITablesRowProps } from '../../components/TableComponents/types';
-import React from 'react';
 import { IBeaconListItem } from './components/BeaconList/types';
 
 export const MICRO_POOL_DATA: IMicropoolListItemProps[] = [

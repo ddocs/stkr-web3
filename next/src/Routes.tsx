@@ -11,6 +11,7 @@ import {
   PICKER_PATH,
   PROVIDER_BEACON_CHAIN_PATH,
   PROVIDER_PATH,
+  SDK_PATH,
   STAKER_PATH,
 } from './common/const';
 import App from './modules/api/App';
@@ -94,7 +95,7 @@ export function Routes() {
       />
       <Route path={PICKER_PATH} component={PickerContainer} />
       <Route path={STAKER_PATH} component={StakerContainer} />
-      <Route path="/sdk" exact={true} component={App} />
+      <Route path={SDK_PATH} exact={true} component={App} />
       <Route component={PageNotFound} />
     </Switch>
   );

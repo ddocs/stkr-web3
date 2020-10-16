@@ -9,7 +9,7 @@ import { INDEX_PATH } from '../../../../common/const';
 import { useIsSMDown } from '../../../../common/hooks/useTheme';
 import { connect } from 'react-redux';
 import { IStoreState } from '../../../../store/reducers';
-import { isAuthenticated } from '../../../../store/reducers/userReducer';
+import { isConnected } from '../../../../store/reducers/userReducer';
 
 export interface ILogotypeProps {
   className?: string;
@@ -48,7 +48,7 @@ export const LogotypeComponent = ({ className, isAuth }: ILogotypeProps) => {
 
 export const Logotype = connect(
   (state: IStoreState) => ({
-    isAuth: isAuthenticated(state.user),
+    isAuth: isConnected(state.user),
   }),
   {},
 )(LogotypeComponent);

@@ -6,29 +6,38 @@ import {
 import { createReducer } from '../../common/utils/createReducer';
 import { createAPIReducer } from '../../common/utils/createAPIReducer';
 
-export function isAuthenticated(state: IUserState) {
-  // return true;
-  return !!state.isAuthenticated;
+export function isConnected(state: IUserState) {
+  return !!state.isConnected;
 }
 
-export interface ISignInResponse {}
+export interface IConnectResponse {}
 
 export interface IUserState {
-  signInStatus: RequestStatus;
-  isAuthenticated?: boolean;
+  connectStatus: RequestStatus;
+  disconnectStatus: RequestStatus;
+  isConnected?: boolean;
 }
 
 const initialState: IUserState = {
-  signInStatus: requestInactive(),
-  isAuthenticated: false,
+  connectStatus: requestInactive(),
+  disconnectStatus: requestInactive(),
+  isConnected: false,
 };
 
 export const userReducer = createReducer(initialState, {
-  ...createAPIReducer<IUserState, ISignInResponse>(
-    UserActionTypes.SIGN_IN,
-    'signInStatus',
+  ...createAPIReducer<IUserState, IConnectResponse>(
+    UserActionTypes.CONNECT,
+    'connectStatus',
     {
-      onSuccess: (state, action) => ({ ...state, isAuthenticated: true }),
+      onSuccess: state => ({ ...state, isConnected: true }),
+    },
+  ),
+  // TODO Positive expectation response
+  ...createAPIReducer<IUserState, IConnectResponse>(
+    UserActionTypes.DISCONNECT,
+    'disconnectStatus',
+    {
+      onSuccess: state => ({ ...state, isConnected: false }),
     },
   ),
 });

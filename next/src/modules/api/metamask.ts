@@ -1,7 +1,7 @@
 import Web3 from 'web3';
 import { bytesToHex, numberToHex } from 'web3-utils';
 import { JsonRpcResponse } from 'web3-core-helpers/types';
-import { KeyProvider, ProviderConfig, SendOptions } from './provider';
+import { KeyProvider, SendOptions } from './provider';
 
 interface ProviderRpcError extends Error {
   message: string;
@@ -15,10 +15,6 @@ interface ProviderMessage {
 }
 
 export class MetaMaskProvider extends KeyProvider {
-  constructor(providerConfig: ProviderConfig) {
-    super(providerConfig);
-  }
-
   static hasInPageSupport() {
     // @ts-ignore
     return !!window.ethereum || !!window.web3;
@@ -48,7 +44,7 @@ export class MetaMaskProvider extends KeyProvider {
         }
         if (newAccount?.toLowerCase() !== this._currentAccount?.toLowerCase()) {
           console.log(
-            `You\'ve changed MetaMask account, reloading page (${this._currentAccount} != ${newAccount})`,
+            `You've changed MetaMask account, reloading page (${this._currentAccount} != ${newAccount})`,
           );
           window.location.reload();
         }
@@ -95,7 +91,7 @@ export class MetaMaskProvider extends KeyProvider {
     try {
       if (typeof data === 'object') {
         // @ts-ignore
-        data = bytesToHex(data);
+        data = bytesToHex(data as any);
       }
       return this._web3.eth.personal.sign(data, address, '');
     } catch (e) {

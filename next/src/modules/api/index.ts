@@ -3,6 +3,7 @@ import { KeyProvider } from './provider';
 import { ContractManager } from './contract';
 import { ApiGateway, BalanceReply, SidecarReply, StatsReply } from './gateway';
 import { StkrConfig } from './config';
+import { t } from '../../common/utils/intl';
 
 interface ProviderEntity {}
 
@@ -25,6 +26,9 @@ export class StkrSdk {
   private static instance: StkrSdk | undefined = undefined;
 
   static getLastInstance() {
+    if (!StkrSdk.instance) {
+      throw t('user-actions.error.sdk-not-initialized');
+    }
     return StkrSdk.instance;
   }
 
@@ -52,17 +56,23 @@ export class StkrSdk {
     delete localStorage[LOCAL_STORAGE_AUTHORIZATION_TOKEN_KEY];
   }
 
-  public async authorizeProvider(ttl: number = 60 * 60 * 1000): Promise<void> {
-    if (!this.keyProvider) throw new Error('Key provider must be connected');
-    if (await this.isAuthorized()) return;
+  public async authorizeProvider(
+    ttl: number = 60 * 60 * 1000,
+  ): Promise<{ token: string }> {
+    if (!this.keyProvider) {
+      throw new Error('Key provider must be connected');
+    }
     const token = await this.keyProvider.signLoginData(ttl);
     const {
       status,
       statusText,
     } = await this.apiGateway.authorizeWithSignedData(token);
-    if (status !== 200)
+    if (status !== 200) {
       throw new Error(`Unable to authenticate user (#${status}) ${statusText}`);
+    }
+    // TODO Remove
     localStorage[LOCAL_STORAGE_AUTHORIZATION_TOKEN_KEY] = token;
+    return { token };
   }
 
   public createSidecarDownloadLink(sidecar: string): string {
@@ -123,8 +133,10 @@ export class StkrSdk {
     return result;
   }
 
-  public currentAccount(): string {
-    if (!this.keyProvider) return '';
+  public currentAccount(): string | undefined {
+    if (!this.keyProvider) {
+      return '';
+    }
     return this.keyProvider?.currentAccount();
   }
 

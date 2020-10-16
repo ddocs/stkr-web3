@@ -8,6 +8,7 @@ export const openModalAction = (modal: KnownModal) => ({
   type: OPEN_MODAL_ACTION,
   payload: modal,
 });
+
 export const closeModalAction = () => ({ type: CLOSE_MODAL_ACTION });
 
 export const openUnlockWalletAction = () => openModalAction('unlock-wallet');

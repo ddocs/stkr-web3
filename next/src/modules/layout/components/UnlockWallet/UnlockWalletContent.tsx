@@ -71,7 +71,7 @@ export const UnlockWalletContentComponent = ({
 };
 
 interface IUnlockWalletContentStoreProps {
-  signIn: typeof UserActions.signIn;
+  signIn: typeof UserActions.connect;
 }
 
 export const UnlockWalletContentImp = ({
@@ -90,5 +90,5 @@ export const UnlockWalletContentImp = ({
 };
 
 export const UnlockWalletContent = connect((state: IStoreState) => {}, {
-  signIn: UserActions.signIn,
+  signIn: UserActions.connect,
 })(UnlockWalletContentImp);

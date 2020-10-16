@@ -2,7 +2,7 @@ import React from 'react';
 import { Calculate } from './Calculate';
 
 const CalculateStory = () => {
-  return <Calculate isAuthenticated={true} />;
+  return <Calculate isConnected={true} />;
 };
 
 export const CalculateExample = () => <CalculateStory />;
