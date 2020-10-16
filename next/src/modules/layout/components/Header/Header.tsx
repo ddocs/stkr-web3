@@ -25,15 +25,17 @@ const HeaderImp = ({ isAuth, className }: IHeaderProps) => {
       loadingComponent={QueryLoading}
       noDataMessage={<QueryEmpty />}
     >
-      {({ data }) => (
-        <AuthorizedHeader
-          className={className}
-          walletAddress={data?.address}
-          walletType={data?.walletType}
-          ethereumBalance={data?.ethereumBalance.toFormat()}
-          ankrBalance={data?.ankrBalance.toFormat()}
-        />
-      )}
+      {({ data }) => {
+        return (
+          <AuthorizedHeader
+            className={className}
+            walletAddress={data?.address}
+            walletType={data?.walletType}
+            ethereumBalance={data?.ethereumBalance.toFormat()}
+            ankrBalance={data?.ankrBalance.toFormat()}
+          />
+        );
+      }}
     </Query>
   ) : (
     <UnauthorizedHeader className={className} />

@@ -17,15 +17,19 @@ export const UserActionTypes = {
 
   FETCH_MICROPOOLS: 'FETCH_MICROPOOLS',
 
+  FETCH_CURRENT_PROVIDER_MICROPOOLS: 'FETCH_CURRENT_PROVIDER_MICROPOOLS',
+
   APPLY_FOR_PROVIDER: 'APPLY_FOR_PROVIDER',
 
   AUTHORIZE_PROVIDER: 'AUTHORIZE_PROVIDER',
+  AUTHORIZE_PROVIDER_SUCCESS: 'AUTHORIZE_PROVIDER_SUCCESS',
 };
 
 export const UserActions = {
   connect: () => ({
     type: UserActionTypes.CONNECT,
   }),
+  // TODO Positive expectation response
   disconnect: () => ({
     type: UserActionTypes.DISCONNECT,
     request: {
@@ -93,6 +97,30 @@ export const UserActions = {
         const stkrSdk = StkrSdk.getLastInstance();
         return await stkrSdk.authorizeProvider();
       })(),
+    },
+  }),
+  fetchCurrentProviderMicropools: () => ({
+    type: UserActionTypes.FETCH_CURRENT_PROVIDER_MICROPOOLS,
+    request: {
+      promise: (async function () {
+        const stkrSdk = StkrSdk.getLastInstance();
+        return await stkrSdk
+          ?.getApiGateway()
+          .getMicroPoolsByProvider(stkrSdk.getKeyProvider().currentAccount());
+      })(),
+    },
+    meta: {
+      getData: (data: MicroPoolReply[]): IPool[] => {
+        return data.map(item => ({
+          name: item.name,
+          provider: item.provider,
+          period: differenceInCalendarMonths(item.startTime, item.endTime),
+          fee: new BigNumber(item.nodeFee),
+          currentStake: new BigNumber(item.claimedBalance),
+          totalStake: new BigNumber(item.totalStakedAmount),
+          status: item.status,
+        }));
+      },
     },
   }),
 };

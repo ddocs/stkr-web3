@@ -5,6 +5,9 @@ import {
 } from '../../common/utils/requestStatus';
 import { createReducer } from '../../common/utils/createReducer';
 import { createAPIReducer } from '../../common/utils/createAPIReducer';
+import { success } from '@redux-requests/core';
+import { SuccessResponseAction } from '../apiMappers/successResponseAction';
+import { IAuthorizeProviderResponse } from '../apiMappers/authorizeProvider';
 
 export function isConnected(state: IUserState) {
   return !!state.isConnected;
@@ -16,6 +19,7 @@ export interface IUserState {
   connectStatus: RequestStatus;
   disconnectStatus: RequestStatus;
   isConnected?: boolean;
+  providerAccessToken?: string;
 }
 
 const initialState: IUserState = {
@@ -32,12 +36,13 @@ export const userReducer = createReducer(initialState, {
       onSuccess: state => ({ ...state, isConnected: true }),
     },
   ),
-  // TODO Positive expectation response
-  ...createAPIReducer<IUserState, IConnectResponse>(
-    UserActionTypes.DISCONNECT,
-    'disconnectStatus',
-    {
-      onSuccess: state => ({ ...state, isConnected: false }),
-    },
-  ),
+  [success(UserActionTypes.DISCONNECT)]: state => {
+    return { ...state, isConnected: false, providerAccessToken: undefined };
+  },
+  [success(UserActionTypes.AUTHORIZE_PROVIDER)]: (
+    state,
+    action: SuccessResponseAction<IAuthorizeProviderResponse>,
+  ) => {
+    return { ...state, providerAccessToken: action.response.data.token };
+  },
 });

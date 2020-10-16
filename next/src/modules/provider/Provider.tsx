@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { IStoreState } from '../../store/reducers';
 import { CreateBeaconChain } from './screens/CreateBeaconChain';
@@ -32,9 +32,9 @@ export const ProviderComponent = ({
     }
   });
 
-  const render = useCallback(() => {
+  if (isProviderAuthenticated) {
     return isProvider ? <ProviderDashboard /> : <CreateBeaconChain />;
-  }, []);
+  }
 
   return (
     <Query<IAuthorizeProviderResponse>
@@ -42,9 +42,7 @@ export const ProviderComponent = ({
       errorComponent={QueryError}
       loadingComponent={QueryLoading}
       noDataMessage={<QueryEmpty />}
-    >
-      {render}
-    </Query>
+    />
   );
 };
 

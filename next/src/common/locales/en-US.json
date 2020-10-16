@@ -190,5 +190,13 @@
       "2": "21 May  |  Community",
       "3": "21 May  |  Community"
     }
+  },
+  "micropool-list": {
+    "status": {
+      "MICRO_POOL_STATUS_PENDING": "Pendig",
+      "MICRO_POOL_STATUS_ONGOING": "Ongoing",
+      "MICRO_POOL_STATUS_COMPLETED": "Completed",
+      "MICRO_POOL_STATUS_CANCELED": "Canceled"
+    }
   }
 }
