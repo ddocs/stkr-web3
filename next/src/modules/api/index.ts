@@ -1,7 +1,7 @@
 import { MetaMaskProvider } from './metamask';
 import { KeyProvider } from './provider';
 import { ContractManager } from './contract';
-import { ApiGateway } from './gateway';
+import { ApiGateway, SidecarReply } from './gateway';
 import { StkrConfig } from './config';
 
 interface ProviderEntity {}
@@ -60,8 +60,12 @@ export class StkrSdk {
     localStorage[LOCAL_STORAGE_AUTHORIZATION_TOKEN_KEY] = token;
   }
 
-  public getSidecarDownloadLink(sidecar: string): string {
+  public createSidecarDownloadLink(sidecar: string): string {
     return this.apiGateway.createSidecarDownloadLink(sidecar);
+  }
+
+  public async createSidecar(): Promise<SidecarReply> {
+    return this.apiGateway.createSidecar();
   }
 
   public async isAuthorized(): Promise<boolean> {

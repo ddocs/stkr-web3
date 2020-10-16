@@ -53,6 +53,22 @@ export interface ProviderReply {
   banned?: number;
 }
 
+export type SidecarStatus =
+  | 'SIDECAR_STATUS_CREATED'
+  | 'SIDECAR_STATUS_REGISTERED'
+  | 'SIDECAR_STATUS_ACTIVATED'
+  | 'SIDECAR_STATUS_DELETED';
+
+export interface SidecarReply {
+  id: string;
+  provider: string;
+  status: SidecarStatus;
+  isOnline: boolean;
+  created: number;
+  registered: number;
+  activated: number;
+}
+
 export class ApiGateway {
   private readonly defaultConfig: AxiosRequestConfig;
   private api: AxiosInstance;
@@ -100,26 +116,20 @@ export class ApiGateway {
     return Object.assign({}, data, { status, statusText });
   }
 
-  public async login(
-    loginData: string,
-    address: string,
-    ttl: number,
-  ): Promise<void> {
-    if (this.authorized) throw new Error("You're already authorized");
-    const { status, statusText } = await this.api.post(`/v1alpha/auth/login`, {
-      signature: loginData,
-      address,
-      ttl,
-    });
-    if (status !== 200) throw new Error(`Unable to login: ${statusText}`);
-    this.authorized = true;
-  }
-
   public isAuthorized(): boolean {
     return this.authorized;
   }
 
   public async logout(): Promise<void> {}
+
+  public async createSidecar(): Promise<SidecarReply> {
+    const { status, data, statusText } = await this.api.post<SidecarReply>(
+      `/v1alpha/sidecar`,
+    );
+    if (status !== 200)
+      throw new Error(`Unable to fetch ethereum balance: ${statusText}`);
+    return data;
+  }
 
   public async getEtheremBalance(address: string): Promise<BalanceReply> {
     const { status, data, statusText } = await this.api.get<BalanceReply>(
