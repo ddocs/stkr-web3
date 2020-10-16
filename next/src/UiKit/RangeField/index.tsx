@@ -1,1 +1,1 @@
-export { RangeField } from './RangeField';
+export { SliderField } from './SliderField';

@@ -2,7 +2,7 @@ import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
 export const useStakeStyles = makeStyles<Theme, { icon?: string }>(theme => {
-  const contentPadding = theme.spacing(6, 22.5, 7, 22.5);
+  const contentPadding = theme.spacing(6, 22.5, 8.5, 22.5);
 
   return {
     component: {
@@ -31,28 +31,25 @@ export const useStakeStyles = makeStyles<Theme, { icon?: string }>(theme => {
     },
     header: {
       position: 'relative',
-    },
-    brand: {
-      position: 'absolute',
-      top: 7,
-      right: -52,
+      marginBottom: theme.spacing(12),
     },
     footer: {
       width: '100%',
       padding: contentPadding,
-      backgroundColor: '#191919',
+      paddingTop: theme.spacing(5),
+      paddingBottom: theme.spacing(5),
+      marginBottom: theme.spacing(3),
+      display: 'flex',
+      justifyContent: 'flex-end',
     },
     submit: {
-      maxWidth: 180,
+      maxWidth: 230,
+      height: 54,
     },
     note: {
-      maxWidth: 560,
-    },
-    socials: {
-      display: 'grid',
-      gridGap: 20,
-      justifyContent: 'flex-start',
-      gridTemplateColumns: 'auto auto',
+      fontSize: 14,
+      fontWeight: 400,
+      alignSelf: 'flex-start',
     },
     form: {
       width: '100%',
@@ -60,12 +57,12 @@ export const useStakeStyles = makeStyles<Theme, { icon?: string }>(theme => {
     question: {
       padding: theme.spacing(1),
     },
-    input: {
-      '&&': {
-        fontSize: 48,
-        fontWeight: 'bold',
-        maxWidth: 200,
-      },
+    amountError: {
+      textAlign: 'right',
+    },
+    label: {
+      fontSize: 20,
+      fontWeight: 400,
     },
   };
 });

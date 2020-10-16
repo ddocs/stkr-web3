@@ -25,7 +25,7 @@ const PALETTE = {
     100: '#C4C4C4',
   },
   error: {
-    main: '#F1534C',
+    main: '#FE2222',
   },
   warning: {
     main: '#FFB63C',
@@ -447,6 +447,17 @@ const mainTheme = createMuiTheme({
             color: '#fff',
           },
         },
+      },
+    },
+    MuiDivider: {
+      root: {
+        backgroundColor: fade('#fff', 0.2),
+      },
+    },
+    MuiFormHelperText: {
+      root: {
+        fontSize: 14,
+        marginTop: 0,
       },
     },
   },
