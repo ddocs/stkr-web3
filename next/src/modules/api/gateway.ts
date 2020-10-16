@@ -114,7 +114,7 @@ export class ApiGateway {
     const { status, statusText, data } = await this.api.get<AuthorizationReply>(
       `/v1alpha/auth`,
     );
-    if (status != 200) {
+    if (status !== 200) {
       return { status, statusText };
     }
     this.authorized = true;

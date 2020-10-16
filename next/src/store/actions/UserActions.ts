@@ -1,36 +1,45 @@
 import { IUserInfo } from '../apiMappers/userApi';
 import { Providers } from '../../common/types';
 import { StkrSdk } from '../../modules/api';
-import { t } from '../../common/utils/intl';
 import BigNumber from 'bignumber.js';
 import { MicroPoolReply } from '../../modules/api/gateway';
 import { IPool } from '../apiMappers/poolsApi';
 import { differenceInCalendarMonths } from 'date-fns';
 
 export const UserActionTypes = {
-  SIGN_IN: 'SIGN_IN',
-  SIGN_IN_SUCCESS: 'SIGN_IN_SUCCESS',
+  CONNECT: 'CONNECT',
+  CONNECT_SUCCESS: 'CONNECT_SUCCESS',
 
-  FETCH_USER_INFO: 'FETCH_USER_INFO',
+  DISCONNECT: 'DISCONNECT',
+  DISCONNECT_SUCCESS: 'DISCONNECT_SUCCESS',
+
+  FETCH_ACCOUNT_DATA: 'FETCH_ACCOUNT_DATA',
 
   FETCH_MICROPOOLS: 'FETCH_MICROPOOLS',
 
   APPLY_FOR_PROVIDER: 'APPLY_FOR_PROVIDER',
+
+  AUTHORIZE_PROVIDER: 'AUTHORIZE_PROVIDER',
 };
 
 export const UserActions = {
-  signIn: () => ({
-    type: UserActionTypes.SIGN_IN,
+  connect: () => ({
+    type: UserActionTypes.CONNECT,
   }),
-  fetchUserInfo: () => ({
-    type: UserActionTypes.FETCH_USER_INFO,
+  disconnect: () => ({
+    type: UserActionTypes.DISCONNECT,
     request: {
       promise: (async function () {
         const stkrSdk = StkrSdk.getLastInstance();
-
-        if (!stkrSdk) {
-          throw t('user-actions.error.sdk-not-initialized');
-        }
+        return await stkrSdk.disconnect();
+      })(),
+    },
+  }),
+  fetchAccountData: () => ({
+    type: UserActionTypes.FETCH_ACCOUNT_DATA,
+    request: {
+      promise: (async function () {
+        const stkrSdk = StkrSdk.getLastInstance();
 
         const address = stkrSdk.getKeyProvider().currentAccount();
         const ankrBalance = await stkrSdk.getAnkrBalance();
@@ -50,10 +59,6 @@ export const UserActions = {
     request: {
       promise: (async function () {
         const stkrSdk = StkrSdk.getLastInstance();
-
-        if (!stkrSdk) {
-          throw t('user-actions.error.sdk-not-initialized');
-        }
 
         return await stkrSdk.getApiGateway().getMicroPools();
       })(),
@@ -79,6 +84,15 @@ export const UserActions = {
           resolve(null);
         }, 1000);
       }),
+    },
+  }),
+  authorizeProvider: () => ({
+    type: UserActionTypes.AUTHORIZE_PROVIDER,
+    request: {
+      promise: (async function () {
+        const stkrSdk = StkrSdk.getLastInstance();
+        return await stkrSdk.authorizeProvider();
+      })(),
     },
   }),
 };

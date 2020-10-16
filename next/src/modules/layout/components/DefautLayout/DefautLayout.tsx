@@ -4,7 +4,7 @@ import { useDefaultLayoutStyles } from './DefaultLayoutStyles';
 import { Header } from '../Header';
 import { connect } from 'react-redux';
 import { IStoreState } from '../../../../store/reducers';
-import { isAuthenticated } from '../../../../store/reducers/userReducer';
+import { isConnected } from '../../../../store/reducers/userReducer';
 import { UnlockWallet } from '../UnlockWallet';
 import { Footer } from '../Footer';
 
@@ -37,7 +37,7 @@ export const DefaultLayoutComponent = ({
 
 export const DefaultLayout = connect(
   (state: IStoreState) => ({
-    isAuth: isAuthenticated(state.user),
+    isAuth: isConnected(state.user),
   }),
   {},
 )(DefaultLayoutComponent);

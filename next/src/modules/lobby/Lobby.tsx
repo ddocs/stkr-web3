@@ -9,14 +9,14 @@ import { StayTuned } from './components/StayTuned';
 
 export const Lobby = () => {
   const classes = useLobbyStyles();
-  const { isAuthenticated } = useAuthentication();
+  const { isConnected } = useAuthentication();
   return (
     <div className={classes.component}>
       <Promo />
       <Calculate
         className={classes.calculate}
         ethPrice={new BigNumber('374.94')}
-        isAuthenticated={isAuthenticated}
+        isConnected={isConnected}
       />
       <StayTuned className={classes.stayTuned} />
       <Marketing className={classes.marketing} />

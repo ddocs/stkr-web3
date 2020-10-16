@@ -3,6 +3,7 @@ import { KeyProvider } from './provider';
 import { ContractManager } from './contract';
 import { ApiGateway, BalanceReply, SidecarReply, StatsReply } from './gateway';
 import { StkrConfig } from './config';
+import { t } from '../../common/utils/intl';
 
 interface ProviderEntity {}
 
@@ -25,6 +26,10 @@ export class StkrSdk {
   private static instance: StkrSdk | undefined = undefined;
 
   static getLastInstance() {
+    if (!StkrSdk.instance) {
+      throw t('user-actions.error.sdk-not-initialized');
+    }
+
     return StkrSdk.instance;
   }
 
@@ -49,20 +54,33 @@ export class StkrSdk {
     await this.apiGateway.logout();
     this.keyProvider = null;
     this.contractManager = null;
+    // TODO Delete
     delete localStorage[LOCAL_STORAGE_AUTHORIZATION_TOKEN_KEY];
   }
 
-  public async authorizeProvider(ttl: number = 60 * 60 * 1000): Promise<void> {
-    if (!this.keyProvider) throw new Error('Key provider must be connected');
-    if (await this.isAuthorized()) return;
+  public async authorizeProvider(
+    ttl: number = 60 * 60 * 1000,
+  ): Promise<{ token: string }> {
+    if (!this.keyProvider) {
+      throw new Error('Key provider must be connected');
+    }
+
+    // if (await this.isAuthorized()) return;
     const token = await this.keyProvider.signLoginData(ttl);
+
     const {
       status,
       statusText,
     } = await this.apiGateway.authorizeWithSignedData(token);
-    if (status !== 200)
+
+    if (status !== 200) {
       throw new Error(`Unable to authenticate user (#${status}) ${statusText}`);
+    }
+
+    // TODO Remove
     localStorage[LOCAL_STORAGE_AUTHORIZATION_TOKEN_KEY] = token;
+
+    return { token };
   }
 
   public createSidecarDownloadLink(sidecar: string): string {
@@ -73,10 +91,20 @@ export class StkrSdk {
     return this.apiGateway.createSidecar();
   }
 
-  public async isAuthorized(): Promise<boolean> {
-    if (this.apiGateway.isAuthorized()) return true;
-    const existingToken = localStorage[LOCAL_STORAGE_AUTHORIZATION_TOKEN_KEY];
-    if (!existingToken) return false;
+  // TODO Move to the app model
+  public async isAuthorized(token?: string): Promise<boolean> {
+    if (this.apiGateway.isAuthorized()) {
+      return true;
+    }
+
+    // TODO Delete localStorage
+    const existingToken =
+      token ?? localStorage[LOCAL_STORAGE_AUTHORIZATION_TOKEN_KEY];
+
+    if (!existingToken) {
+      return false;
+    }
+
     try {
       const { status } = await this.apiGateway.authorizeWithSignedData(
         existingToken,
@@ -84,9 +112,9 @@ export class StkrSdk {
       return status === 200;
     } catch (e) {
       console.warn(`unable to verify token: ${e.message}`);
+      delete localStorage[LOCAL_STORAGE_AUTHORIZATION_TOKEN_KEY];
+      return false;
     }
-    delete localStorage[LOCAL_STORAGE_AUTHORIZATION_TOKEN_KEY];
-    return false;
   }
 
   public async getProviders(): Promise<ProviderEntity[]> {
@@ -113,8 +141,11 @@ export class StkrSdk {
     return result;
   }
 
-  public currentAccount(): string {
-    if (!this.keyProvider) return '';
+  public currentAccount(): string | undefined {
+    if (!this.keyProvider) {
+      return '';
+    }
+
     return this.keyProvider?.currentAccount();
   }
 

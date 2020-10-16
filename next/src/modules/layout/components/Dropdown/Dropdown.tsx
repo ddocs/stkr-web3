@@ -11,8 +11,8 @@ import { NavLink } from '../../../../UiKit/Link';
 import { CopyIcon } from '../../../../UiKit/Icons/CopyIcon';
 import { ViewIcon } from '../../../../UiKit/Icons/ViewIcon';
 import { PROVIDERS } from '../const';
-
-const ENABLE_DISCONNECT = false;
+import { useAction } from '../../../../store/redux';
+import { UserActions } from '../../../../store/actions/UserActions';
 
 interface IItemProps {
   caption: string;
@@ -63,6 +63,7 @@ export const DropdownComponent = ({
   providers,
 }: IWalletProps & { providers: Record<string, any> }) => {
   const classes = useDropdownStyles({ currentProvider: provider });
+  const dispatchDisconnect = useAction(UserActions.disconnect);
 
   const providersKeys = Object.keys(providers);
 
@@ -72,10 +73,6 @@ export const DropdownComponent = ({
 
   const handleSelect = useCallback((selectedItem: string) => {
     alert(`selected ${selectedItem}`);
-  }, []);
-
-  const handleDisconnect = useCallback(() => {
-    alert('Disconnect');
   }, []);
 
   return (
@@ -93,16 +90,14 @@ export const DropdownComponent = ({
             {t(providers[provider].caption)}
           </SubTitle>
           <span className={classes.address}>{walletConversion(address)}</span>
-          {ENABLE_DISCONNECT && (
-            <Button
-              className={classes.disconnect}
-              onClick={handleDisconnect}
-              variant="text"
-              color="secondary"
-            >
-              {t('navigation.disconnect')}
-            </Button>
-          )}
+          <Button
+            className={classes.disconnect}
+            onClick={dispatchDisconnect}
+            variant="text"
+            color="secondary"
+          >
+            {t('navigation.disconnect')}
+          </Button>
           <div className={classes.navigation}>
             <Button
               className={classes.copy}

@@ -6,7 +6,7 @@ import { t, tHTML } from '../../../../common/utils/intl';
 import { Curtains } from '../../../../UiKit/Curtains';
 import { connect } from 'react-redux';
 import { IStoreState } from '../../../../store/reducers';
-import { isAuthenticated } from '../../../../store/reducers/userReducer';
+import { isConnected } from '../../../../store/reducers/userReducer';
 import { uid } from 'react-uid';
 import { Body2 } from '../../../../UiKit/Typography';
 import { Social } from '../Social';
@@ -65,7 +65,7 @@ export const FooterComponent = ({ className, isAuth }: IFooterProps) => {
 
 export const Footer = connect(
   (state: IStoreState) => ({
-    isAuth: isAuthenticated(state.user),
+    isAuth: isConnected(state.user),
   }),
   {},
 )(FooterComponent);

@@ -19,7 +19,7 @@ export abstract class KeyProvider {
   protected _currentAccount: string | null = null;
   protected _web3: Web3 | null = null;
 
-  protected constructor(protected providerConfig: ProviderConfig) {}
+  constructor(protected providerConfig: ProviderConfig) {}
 
   public createContract(abi: AbiItem[] | AbiItem, address: string): Contract {
     if (!this._web3) throw new Error('Web3 must be initialized');

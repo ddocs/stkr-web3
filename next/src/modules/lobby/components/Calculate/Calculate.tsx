@@ -25,7 +25,7 @@ const FIXED_DECIMAL_PLACES = 2;
 interface IPromoProps {
   className?: string;
   ethPrice?: BigNumber;
-  isAuthenticated: boolean;
+  isConnected: boolean;
 }
 
 const savers = ['monthly', 'yearly'];
@@ -33,7 +33,7 @@ const savers = ['monthly', 'yearly'];
 export const Calculate = ({
   className,
   ethPrice,
-  isAuthenticated,
+  isConnected,
 }: IPromoProps) => {
   const classes = useCalculateStyles();
   const openUnlockWallet = useAction(openUnlockWalletAction);
@@ -99,7 +99,7 @@ export const Calculate = ({
                 );
               })}
             </ul>
-            {!isAuthenticated && (
+            {!isConnected && (
               <Box display="flex" justifyContent="center">
                 <Button
                   className={classes.unlock}
