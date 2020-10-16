@@ -27,17 +27,13 @@ export interface MicroPoolReply {
   id: string;
   status: MicroPoolStatus;
   provider: string;
+  poolIndex: number;
   name: string;
   startTime: number;
   endTime: number;
-  rewardBalance: string;
-  claimedBalance: string;
-  compensatedBalance: string;
-  providerOwe: string;
-  totalStakedAmount: string;
-  numberOfSlashing: number;
-  nodeFee: string;
-  totalSlashedAmount: string;
+  lastReward: string;
+  lastSlashing: string;
+  balance: string;
   validator: string;
   created: number;
 }
@@ -124,6 +120,11 @@ export class ApiGateway {
 
   public isAuthorized(): boolean {
     return this.authorized;
+  }
+
+  public getToken(): string {
+    if (!this.token) throw new Error('Not authorized');
+    return this.token;
   }
 
   public async logout(): Promise<void> {
