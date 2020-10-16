@@ -3,6 +3,7 @@ import { Contract } from 'web3-eth-contract';
 import { stringToHex } from 'web3-utils';
 
 const ABI_MICRO_POOL = require('./contract/MicroPool.json');
+const ABI_ANKR = require('./contract/ANKR.json');
 
 export interface ContractConfig {
   microPoolContract: string;
@@ -10,9 +11,10 @@ export interface ContractConfig {
 }
 
 export class ContractManager {
-  private microPoolContract: Contract;
+  private readonly microPoolContract: Contract;
+  private readonly ankrContract: Contract;
 
-  constructor(
+  public constructor(
     private keyProvider: KeyProvider,
     private contractConfig: ContractConfig,
   ) {
@@ -20,9 +22,13 @@ export class ContractManager {
       ABI_MICRO_POOL,
       contractConfig.microPoolContract,
     );
+    this.ankrContract = this.keyProvider.createContract(
+      ABI_ANKR,
+      contractConfig.ankrContract,
+    );
   }
 
-  async initializePool(name: string): Promise<string> {
+  public async initializePool(name: string): Promise<string> {
     const encodedName = stringToHex(name);
     if (encodedName.length > 32) {
       throw new Error("Encoded pool name can't be greater than 32 bytes");
@@ -42,7 +48,7 @@ export class ContractManager {
     return receipt.result;
   }
 
-  async poolDetails(poolIndex: string): Promise<any> {
+  public async poolDetails(poolIndex: string): Promise<any> {
     const encodedPoolIndex = stringToHex(poolIndex);
     const data: string = this.microPoolContract.methods
       .poolDetails(encodedPoolIndex)
@@ -59,7 +65,7 @@ export class ContractManager {
     return receipt.result;
   }
 
-  async stake(poolIndex: number): Promise<string> {
+  public async stake(poolIndex: number): Promise<string> {
     const data: string = this.microPoolContract.methods
       .stake(poolIndex)
       .encodeABI();
@@ -74,7 +80,7 @@ export class ContractManager {
     return receipt.result;
   }
 
-  async unstake(poolIndex: number): Promise<string> {
+  public async unstake(poolIndex: number): Promise<string> {
     const data: string = this.microPoolContract.methods
       .unstake(poolIndex)
       .encodeABI();
@@ -87,5 +93,9 @@ export class ContractManager {
       },
     );
     return receipt.result;
+  }
+
+  public async ankrBalance(address: string): Promise<string> {
+    return this.keyProvider.erc20Balance(this.ankrContract, address);
   }
 }

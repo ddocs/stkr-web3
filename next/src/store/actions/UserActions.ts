@@ -33,13 +33,8 @@ export const UserActions = {
         }
 
         const address = stkrSdk.getKeyProvider().currentAccount();
-
-        const ankrBalance = await stkrSdk
-          .getApiGateway()
-          .getAnkrBalance(stkrSdk.getKeyProvider().currentAccount());
-        const ethereumBalance = await stkrSdk
-          .getApiGateway()
-          .getEtheremBalance(address);
+        const ankrBalance = await stkrSdk.getAnkrBalance();
+        const ethereumBalance = await stkrSdk.getEtheremBalance();
 
         return {
           address,

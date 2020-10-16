@@ -20,31 +20,31 @@ export abstract class KeyProvider {
 
   protected constructor(protected providerConfig: ProviderConfig) {}
 
-  createContract(abi: AbiItem[] | AbiItem, address: string): Contract {
+  public createContract(abi: AbiItem[] | AbiItem, address: string): Contract {
     if (!this._web3) throw new Error('Web3 must be initialized');
     return new this._web3.eth.Contract(abi, address);
   }
 
-  abstract connect(): Promise<void>;
+  public abstract connect(): Promise<void>;
 
-  abstract close(): Promise<void>;
+  public abstract close(): Promise<void>;
 
-  currentAccount(): string {
+  public currentAccount(): string {
     if (!this._currentAccount) throw new Error('MetaMask is not activated');
     return this._currentAccount;
   }
 
-  currentChain(): string {
+  public currentChain(): string {
     return this.providerConfig.chainId;
   }
 
-  currentNetwork(): string {
+  public currentNetwork(): string {
     return this.providerConfig.networkId;
   }
 
-  abstract findAccounts(): Promise<string[]>;
+  public abstract findAccounts(): Promise<string[]>;
 
-  async isGranted(address: string | undefined = undefined) {
+  public async isGranted(address: string | undefined = undefined) {
     const accounts = await this.findAccounts();
     if (!Array.isArray(accounts)) {
       throw new Error('Accounts should have array type');
@@ -54,29 +54,42 @@ export abstract class KeyProvider {
     return accounts.indexOf(address) >= 0;
   }
 
-  abstract sign(
+  public abstract sign(
     data: Buffer | string | object,
     address: string,
   ): Promise<string>;
 
-  abstract invoke(
+  public abstract invoke(
     from: string,
     to: string,
     sendOptions: SendOptions,
   ): Promise<JsonRpcResponse>;
 
-  abstract send(
+  public abstract send(
     from: string,
     to: string,
     sendOptions: SendOptions,
   ): Promise<JsonRpcResponse>;
 
-  async signLoginData(ttl: number): Promise<string> {
+  public async signLoginData(ttl: number): Promise<string> {
     const currentTime = Math.floor(new Date().getTime()),
       expiresAfter = currentTime + ttl;
     const data = `Stkr Login Message:\n${expiresAfter}`,
       signature = await this.sign(data, this.currentAccount());
     const formData = `signature=${signature}&address=${this.currentAccount()}&expires=${expiresAfter}`;
     return new Buffer(formData, 'utf-8').toString('base64');
+  }
+
+  public async ethereumBalance(address: string): Promise<string> {
+    if (!this._web3) throw new Error('Web3 must be initialized');
+    return this._web3.eth.getBalance(address);
+  }
+
+  public async erc20Balance(
+    contract: Contract,
+    address: string,
+  ): Promise<string> {
+    if (!this._web3) throw new Error('Web3 must be initialized');
+    return contract.methods.balanceOf(address).request();
   }
 }

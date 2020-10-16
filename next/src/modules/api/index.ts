@@ -1,7 +1,7 @@
 import { MetaMaskProvider } from './metamask';
 import { KeyProvider } from './provider';
 import { ContractManager } from './contract';
-import { ApiGateway, SidecarReply, StatsReply } from './gateway';
+import { ApiGateway, BalanceReply, SidecarReply, StatsReply } from './gateway';
 import { StkrConfig } from './config';
 
 interface ProviderEntity {}
@@ -134,6 +134,18 @@ export class StkrSdk {
     if (!this.contractManager)
       throw new Error('Key provider must be connected');
     return this.contractManager;
+  }
+
+  public async getEtheremBalance(): Promise<BalanceReply> {
+    const currentAccount = this.getKeyProvider().currentAccount(),
+      balanceOf = await this.getKeyProvider().ethereumBalance(currentAccount);
+    return { available: balanceOf, timestamp: new Date().getTime() };
+  }
+
+  public async getAnkrBalance(): Promise<BalanceReply> {
+    const currentAccount = this.getKeyProvider().currentAccount(),
+      balanceOf = await this.getContractManager().ankrBalance(currentAccount);
+    return { available: balanceOf, timestamp: new Date().getTime() };
   }
 
   public getApiGateway(): ApiGateway {
