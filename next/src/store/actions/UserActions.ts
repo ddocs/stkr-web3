@@ -115,9 +115,9 @@ export const UserActions = {
           name: item.name,
           provider: item.provider,
           period: differenceInCalendarMonths(item.startTime, item.endTime),
-          fee: new BigNumber(item.nodeFee),
-          currentStake: new BigNumber(item.claimedBalance),
-          totalStake: new BigNumber(item.totalStakedAmount),
+          fee: new BigNumber(0),
+          currentStake: new BigNumber(0),
+          totalStake: new BigNumber(0),
           status: item.status,
         }));
       },
