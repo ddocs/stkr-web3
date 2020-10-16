@@ -71,11 +71,11 @@ export class StkrSdk {
     const { status } = await this.apiGateway.authorizeWithSignedData(
       existingToken,
     );
-    if (status !== 200) {
-      delete localStorage[LOCAL_STORAGE_AUTHORIZATION_TOKEN_KEY];
-      return false;
+    if (status === 200) {
+      return true;
     }
-    return true;
+    delete localStorage[LOCAL_STORAGE_AUTHORIZATION_TOKEN_KEY];
+    return false;
   }
 
   public async getProviders(): Promise<ProviderEntity[]> {
