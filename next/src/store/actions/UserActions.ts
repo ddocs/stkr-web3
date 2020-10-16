@@ -19,6 +19,8 @@ export const UserActionTypes = {
 
   FETCH_CURRENT_PROVIDER_MICROPOOLS: 'FETCH_CURRENT_PROVIDER_MICROPOOLS',
 
+  FETCH_CURRENT_PROVIDER_SIDECARS: 'FETCH_SIDECARS',
+
   APPLY_FOR_PROVIDER: 'APPLY_FOR_PROVIDER',
 
   AUTHORIZE_PROVIDER: 'AUTHORIZE_PROVIDER',
@@ -110,6 +112,28 @@ export const UserActions = {
         return await stkrSdk
           ?.getApiGateway()
           .getMicroPoolsByProvider(stkrSdk.getKeyProvider().currentAccount());
+      })(),
+    },
+    meta: {
+      getData: (data: MicroPoolReply[]): IPool[] => {
+        return data.map(item => ({
+          name: item.name,
+          provider: item.provider,
+          period: differenceInCalendarMonths(item.startTime, item.endTime),
+          fee: new BigNumber(0),
+          currentStake: new BigNumber(0),
+          totalStake: new BigNumber(0),
+          status: item.status,
+        }));
+      },
+    },
+  }),
+  fetchCurrentProviderSidecars: () => ({
+    type: UserActionTypes.FETCH_CURRENT_PROVIDER_SIDECARS,
+    request: {
+      promise: (async function () {
+        const stkrSdk = StkrSdk.getLastInstance();
+        return await stkrSdk?.getProviderSidecars();
       })(),
     },
     meta: {

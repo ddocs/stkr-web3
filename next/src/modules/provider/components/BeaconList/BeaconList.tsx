@@ -13,6 +13,8 @@ import { t } from '../../../../common/utils/intl';
 import { Button } from '../../../../UiKit/Button';
 import { IBeaconListItem } from './types';
 import { BEACON_NODE_DATA } from '../../mock';
+import { UserActions } from '../../../../store/actions/UserActions';
+import { useInitEffect } from '../../../../common/hooks/useInitEffect';
 
 interface IBeaconListProps {
   className?: string;
@@ -64,10 +66,16 @@ export const BeaconListComponent = ({ className, data }: IBeaconListProps) => {
 export const BeaconListImp = ({
   className,
   data,
+  fetchCurrentProviderSidecars,
 }: {
   className?: string;
   data: IBeaconListItem[];
+  fetchCurrentProviderSidecars: typeof UserActions.fetchCurrentProviderSidecars;
 }) => {
+  useInitEffect(() => {
+    fetchCurrentProviderSidecars();
+  });
+
   const convertedData =
     data &&
     data.map(item => {
@@ -83,8 +91,11 @@ export const BeaconListImp = ({
   return <BeaconListComponent className={className} data={convertedData} />;
 };
 
-export const BeaconList = connect((state: IStoreState) => {
-  return {
-    data: BEACON_NODE_DATA,
-  };
-}, {})(BeaconListImp);
+export const BeaconList = connect(
+  (state: IStoreState) => {
+    return {
+      data: BEACON_NODE_DATA,
+    };
+  },
+  { fetchCurrentProviderSidecars: UserActions.fetchCurrentProviderSidecars },
+)(BeaconListImp);
