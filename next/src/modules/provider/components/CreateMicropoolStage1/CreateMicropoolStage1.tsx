@@ -1,43 +1,36 @@
 import React, { useCallback, useMemo } from 'react';
-import { useStage6Styles } from './Stage6Styles';
+import { useStage6Styles } from './CreateMicropoolStage1Styles';
 import classNames from 'classnames';
 import { IStageProps } from '../../types';
 import { useFlowControl } from '../../../../components/Flow/hooks';
 import { defineFlowStep } from '../../../../components/Flow/definition';
-import { BackgroundColorProvider } from '../../../../UiKit/BackgroundColorProvider';
-import { Button } from '../../../../UiKit/Button';
 import { CancelIcon } from '../../../../UiKit/Icons/CancelIcon';
 import { Form } from 'react-final-form';
 import { ISelectOption } from '../../../../UiKit/SelectField/SelectField';
 import { connect } from 'react-redux';
 import { IStoreState } from '../../../../store/reducers';
 import { RenderForm } from './RenderForm';
+import { NavLink } from '../../../../UiKit/Link';
+import { PROVIDER_PATH } from '../../../../common/const';
 
-interface IStage6StoreProps {
-  balance: number;
-  amount: number;
-  price?: number | string;
+export interface ICreateMicropoolStage1StoreProps {
   beacon: ISelectOption[];
 }
 
-interface IStage6Props extends IStage6StoreProps, IStageProps {
+interface ICreateMicropoolStage1Props
+  extends ICreateMicropoolStage1StoreProps,
+    IStageProps {
   disabled?: boolean;
 
   nextStep(x: any): void;
-
-  prevStep(x: any): void;
 }
 
-export const Stage6Component = ({
+export const CreateMicropoolStage1Component = ({
   className,
-  balance,
-  amount = 1000000,
-  price,
   beacon,
   disabled,
-  prevStep,
   nextStep,
-}: IStage6Props) => {
+}: ICreateMicropoolStage1Props) => {
   const classes = useStage6Styles();
 
   const initialValues = useMemo(
@@ -48,40 +41,26 @@ export const Stage6Component = ({
   );
 
   return (
-    <BackgroundColorProvider
-      className={classNames(classes.component, className)}
-    >
-      <Button
-        className={classes.close}
-        onClick={prevStep}
-        color="primary"
-        variant="text"
-      >
+    <div className={classNames(classes.component, className)}>
+      <NavLink className={classes.close} color="primary" href={PROVIDER_PATH}>
         <CancelIcon />
-      </Button>
+      </NavLink>
       <Form
         render={formProps => (
-          <RenderForm
-            disabled={disabled}
-            balance={balance}
-            amount={amount}
-            price={price}
-            beacon={beacon}
-            {...formProps}
-          />
+          <RenderForm disabled={disabled} beacon={beacon} {...formProps} />
         )}
         onSubmit={nextStep}
         initialValues={initialValues}
       />
-    </BackgroundColorProvider>
+    </div>
   );
 };
 
 const Stage6Imp = ({
   className,
   ...props
-}: IStageProps & IStage6StoreProps) => {
-  const { moveForward, moveBack } = useFlowControl();
+}: ICreateMicropoolStage1StoreProps & IStageProps) => {
+  const { moveForward } = useFlowControl();
 
   const handleNextStep = useCallback(() => {
     // TODO: add function
@@ -89,25 +68,21 @@ const Stage6Imp = ({
   }, [moveForward]);
 
   return (
-    <Stage6Component
+    <CreateMicropoolStage1Component
       className={className}
       nextStep={handleNextStep}
-      prevStep={moveBack}
       {...props}
     />
   );
 };
 
-const Step6Connected = connect(
+const CreateMicropoolStage1Connected = connect(
   (state: IStoreState) => ({
-    balance: 1000000,
-    amount: 1000000,
-    price: 32,
     beacon: [{ value: '1', label: 'Alex_Beacon_Node' }],
   }),
   {},
 )(Stage6Imp);
 
-export const Stage6 = defineFlowStep<{}, {}, IStageProps>({
-  Body: Step6Connected,
+export const CreateMicropoolStage1 = defineFlowStep<{}, {}, IStageProps>({
+  Body: CreateMicropoolStage1Connected,
 });

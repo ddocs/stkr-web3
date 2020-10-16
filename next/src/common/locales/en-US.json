@@ -32,7 +32,7 @@
     "fee": "Fee range",
     "beacon-name-node": "Beacon name node",
     "create-pool": "Create pool",
-    "buy": "Buy",
+    "buy": "Buy 100,000 ANKR",
     "select": "Select",
     "disconnect": "Disconnect",
     "copy-address": "Copy Address",
@@ -107,13 +107,19 @@
         "title": "Data is being generated",
         "note": "The process might take a while"
       },
-      "stage-6": {
-        "title": "Create Your<br /> Staking Pools",
-        "note": "Secure deposit",
-        "text": "To provide users with assurance that your resources will provide consistently high uptime and performance, we require a deposit of Ankr tokens to be made. Note that if you provide a good service, these tokens will also earn you additional rewards, however if you fail to meet a minimum level of service, your deposited tokens will be used to compensate any losses incurred by Micropool participants.",
-        "balance": "Your ANKR balance",
-        "amount": "Needed amount",
-        "price": "Price <span id=price>{value} ETH</span>"
+      "create-micropool-stage-1": {
+        "title": "Create Your Staking Pool",
+        "form": {
+          "step-1": {
+            "count": "Step 1",
+            "caption": "Select beacon chain node"
+          },
+          "step-2": {
+            "count": "Step 2",
+            "caption": "Deposit ANKR tokens",
+            "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+          }
+        }
       },
       "stage-7": {
         "generation": "Micropool is being generated",

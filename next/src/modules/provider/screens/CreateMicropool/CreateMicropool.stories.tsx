@@ -2,23 +2,23 @@ import React from 'react';
 
 import { makeStyles } from '@material-ui/styles';
 import { Theme } from '@material-ui/core';
-import { Amount } from './Amount';
+import { CreateMicropool } from './CreateMicropool';
 
 const useStyles = makeStyles<Theme>(theme => ({
   block: {},
 }));
 
-const AmountStory = () => {
+const CreateMicropoolStory = () => {
   const classes = useStyles();
   return (
     <div className={classes.block}>
-      <Amount caption="Your ANKR balance" value={100000} />
+      <CreateMicropool />
     </div>
   );
 };
 
-export const AmountExample = () => <AmountStory />;
+export const CreateMicropoolExample = () => <CreateMicropoolStory />;
 
 export default {
-  title: 'modules/provider/component/Amount',
+  title: 'modules/provider/CreateMicropool',
 };

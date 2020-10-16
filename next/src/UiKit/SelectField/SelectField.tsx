@@ -30,6 +30,7 @@ interface ISelectComponent
   readOnly?: boolean;
   disabled?: boolean;
   color?: 'primary' | 'secondary';
+  withoutUnderline?: boolean;
 }
 
 const SHRINK = { shrink: true };
@@ -48,6 +49,7 @@ export const SelectField = ({
   helperText,
   error,
   color,
+  withoutUnderline,
   ...rest
 }: ISelectComponent) => {
   const items = useMemo(() => {
@@ -71,6 +73,7 @@ export const SelectField = ({
           classes.input,
           color === 'primary' && classes.inputPrimary,
           color === 'secondary' && classes.inputSecondary,
+          withoutUnderline && classes.inputWithoutUnderline,
           (readOnly || disabled) && classes.inputDisabled,
         )}
         select={true}

@@ -6,6 +6,7 @@ import { PageNotFound } from './components/PageNotFound/PageNotFound';
 import { withDefaultLayout } from './modules/layout';
 import {
   CREATE_PROVIDERS_BEACON_CHAIN_PATH,
+  CREATE_PROVIDERS_MICROPOOL_PATH,
   INDEX_PATH,
   PICKER_PATH,
   PROVIDER_BEACON_CHAIN_PATH,
@@ -34,6 +35,18 @@ const CreateBeaconChainContainer = withDefaultLayout(
     async () =>
       import('./modules/provider/screens/CreateBeaconChain').then(
         module => module.CreateBeaconChain,
+      ),
+    {
+      fallback: <QueryLoading />,
+    },
+  ) as LoadableComponent<any>,
+);
+
+const CreateMicropoolContainer = withDefaultLayout(
+  loadable(
+    async () =>
+      import('./modules/provider/screens/CreateMicropool').then(
+        module => module.CreateMicropool,
       ),
     {
       fallback: <QueryLoading />,
@@ -72,6 +85,11 @@ export function Routes() {
       <Route
         path={CREATE_PROVIDERS_BEACON_CHAIN_PATH}
         component={CreateBeaconChainContainer}
+        exact={true}
+      />
+      <Route
+        path={CREATE_PROVIDERS_MICROPOOL_PATH}
+        component={CreateMicropoolContainer}
         exact={true}
       />
       <Route path={PICKER_PATH} component={PickerContainer} />

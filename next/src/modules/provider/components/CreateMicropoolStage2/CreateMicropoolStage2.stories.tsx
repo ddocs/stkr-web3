@@ -2,23 +2,25 @@ import React from 'react';
 
 import { makeStyles } from '@material-ui/styles';
 import { Theme } from '@material-ui/core';
-import { Stage3Component } from './Stage3';
+import { CreateMicropoolStage2Component } from './CreateMicropoolStage2';
 
 const useStyles = makeStyles<Theme>(theme => ({
   block: {},
 }));
 
-const Stage3Story = () => {
+const CreateMicropoolStage2Story = () => {
   const classes = useStyles();
   return (
     <div className={classes.block}>
-      <Stage3Component nextStep={() => alert('to next stage')} />
+      <CreateMicropoolStage2Component />
     </div>
   );
 };
 
-export const Stage3Example = () => <Stage3Story />;
+export const CreateMicropoolStage2Example = () => (
+  <CreateMicropoolStage2Story />
+);
 
 export default {
-  title: 'modules/provider/component/Stage3',
+  title: 'modules/provider/component/CreateMicropoolStage2',
 };

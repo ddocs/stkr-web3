@@ -90,6 +90,19 @@ export const useSelectFieldStyles = makeStyles((theme: Theme) =>
       },
     },
 
+    inputWithoutUnderline: {
+      borderBottom: 0,
+
+      '& .MuiSelect-select': {
+        paddingTop: 0,
+        paddingBottom: 0,
+      },
+
+      '& input': {
+        padding: 0,
+      },
+    },
+
     inputPrimary: {
       color: theme.palette.primary.main,
 
