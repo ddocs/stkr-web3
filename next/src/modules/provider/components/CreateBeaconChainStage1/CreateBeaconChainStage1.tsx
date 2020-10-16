@@ -7,15 +7,25 @@ import { IStageProps } from '../../types';
 import { Body2, Headline2 } from '../../../../UiKit/Typography';
 import { t } from '../../../../common/utils/intl';
 import { Icon } from './Icon';
-import { IEmailPayload } from '../../../../common/types';
 import { Field, Form, FormRenderProps } from 'react-final-form';
 import { InputField } from '../../../../UiKit/InputField';
 import { Button } from '../../../../UiKit/Button';
+import { useAction } from '../../../../store/redux';
+import {
+  UserActions,
+  UserActionTypes,
+} from '../../../../store/actions/UserActions';
+import { useQuery } from '@redux-requests/react';
+import { CreateBeaconChainStage2Component } from '../CreateBeaconChainStage2/CreateBeaconChainStage2';
+
+interface ICreateNodePayload {
+  name: string;
+}
 
 interface ICreateBeaconChainStage1Props extends IStageProps {
   disabled?: boolean;
 
-  onSubmit(x: IEmailPayload): void;
+  onSubmit(x: ICreateNodePayload): void;
 }
 
 export const CreateBeaconChainStage1Component = ({
@@ -34,7 +44,7 @@ export const CreateBeaconChainStage1Component = ({
         <Field
           className={classes.input}
           component={InputField}
-          name="name-beacon-chain-node"
+          name="name"
           type="text"
           label={t('navigation.node-name')}
         />
@@ -56,6 +66,12 @@ export const CreateBeaconChainStage1Component = ({
     );
   };
 
+  const { loading } = useQuery({ type: UserActionTypes.CREATE_SIDECAR });
+
+  if (loading) {
+    return <CreateBeaconChainStage2Component />;
+  }
+
   return (
     <div className={classNames(classes.component, className)}>
       <Form render={renderForm} onSubmit={onSubmit} />
@@ -67,9 +83,12 @@ export const CreateBeaconChainStage1Component = ({
 const CreateBeaconChainStage1Imp = ({ className }: IStageProps) => {
   const { moveForward } = useFlowControl();
 
+  const dispatchCreateSidecar = useAction(UserActions.createSidecar);
+
   const handleNextStep = useCallback(() => {
     // TODO: add function
-    moveForward();
+    // moveForward();
+    dispatchCreateSidecar();
   }, [moveForward]);
 
   return (

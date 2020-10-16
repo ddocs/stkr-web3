@@ -22,7 +22,10 @@ export const UserActionTypes = {
   APPLY_FOR_PROVIDER: 'APPLY_FOR_PROVIDER',
 
   AUTHORIZE_PROVIDER: 'AUTHORIZE_PROVIDER',
-  AUTHORIZE_PROVIDER_SUCCESS: 'AUTHORIZE_PROVIDER_SUCCESS',
+
+  CREATE_SIDECAR: 'CREATE_SIDECAR',
+
+  CREATE_MICROPOOL: 'CREATE_MICROPOOL',
 };
 
 export const UserActions = {
@@ -121,6 +124,24 @@ export const UserActions = {
           status: item.status,
         }));
       },
+    },
+  }),
+  createSidecar: () => ({
+    type: UserActionTypes.CREATE_SIDECAR,
+    request: {
+      promise: (async function () {
+        const stkrSdk = StkrSdk.getLastInstance();
+        return await stkrSdk.createSidecar();
+      })(),
+    },
+  }),
+  createMicropool: ({ name }: { name: string }) => ({
+    type: UserActionTypes.CREATE_SIDECAR,
+    request: {
+      promise: (async function () {
+        const stkrSdk = StkrSdk.getLastInstance();
+        return await stkrSdk.createMicroPool(name);
+      })(),
     },
   }),
 };

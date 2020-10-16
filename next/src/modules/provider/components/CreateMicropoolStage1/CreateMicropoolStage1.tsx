@@ -12,6 +12,10 @@ import { IStoreState } from '../../../../store/reducers';
 import { RenderForm } from './RenderForm';
 import { NavLink } from '../../../../UiKit/Link';
 import { PROVIDER_PATH } from '../../../../common/const';
+import { useAction } from '../../../../store/redux';
+import { UserActions, UserActionTypes, } from '../../../../store/actions/UserActions';
+import { useQuery } from '@redux-requests/react';
+import { CreateMicropoolStage2Component } from '../CreateMicropoolStage2/CreateMicropoolStage2';
 
 export interface ICreateMicropoolStage1StoreProps {
   beacon: ISelectOption[];
@@ -62,10 +66,23 @@ const Stage6Imp = ({
 }: ICreateMicropoolStage1StoreProps & IStageProps) => {
   const { moveForward } = useFlowControl();
 
-  const handleNextStep = useCallback(() => {
-    // TODO: add function
-    moveForward();
-  }, [moveForward]);
+  const dispatchCreateMicropool = useAction(UserActions.createMicropool);
+
+  const handleNextStep = useCallback(
+    (props: any) => {
+      // Update name
+      dispatchCreateMicropool({ name: 'Foobar' });
+      // TODO: add function
+      // moveForward();
+    },
+    [moveForward],
+  );
+
+  const { loading } = useQuery({ type: UserActionTypes.CREATE_MICROPOOL });
+
+  if (loading) {
+    return <CreateMicropoolStage2Component />;
+  }
 
   return (
     <CreateMicropoolStage1Component
