@@ -27,17 +27,13 @@ export interface MicroPoolReply {
   id: string;
   status: MicroPoolStatus;
   provider: string;
+  poolIndex: number;
   name: string;
   startTime: number;
   endTime: number;
-  rewardBalance: string;
-  claimedBalance: string;
-  compensatedBalance: string;
-  providerOwe: string;
-  totalStakedAmount: string;
-  numberOfSlashing: number;
-  nodeFee: string;
-  totalSlashedAmount: string;
+  lastReward: string;
+  lastSlashing: string;
+  balance: string;
   validator: string;
   created: number;
 }
@@ -126,6 +122,11 @@ export class ApiGateway {
     return this.authorized;
   }
 
+  public getToken(): string {
+    if (!this.token) throw new Error('Not authorized');
+    return this.token;
+  }
+
   public async logout(): Promise<void> {
     this.authorized = false;
     this.token = null;
@@ -133,6 +134,15 @@ export class ApiGateway {
 
   public async createSidecar(): Promise<SidecarReply> {
     const { status, data, statusText } = await this.api.post<SidecarReply>(
+      `/v1alpha/sidecar`,
+    );
+    if (status !== 200)
+      throw new Error(`Unable to fetch ethereum balance: ${statusText}`);
+    return data;
+  }
+
+  public async getProviderSidecars(): Promise<SidecarReply[]> {
+    const { status, data, statusText } = await this.api.get<SidecarReply[]>(
       `/v1alpha/sidecar`,
     );
     if (status !== 200)

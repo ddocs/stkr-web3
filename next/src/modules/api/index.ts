@@ -1,13 +1,16 @@
 import { MetaMaskProvider } from './metamask';
 import { KeyProvider } from './provider';
 import { ContractManager } from './contract';
-import { ApiGateway, BalanceReply, SidecarReply, StatsReply } from './gateway';
+import {
+  ApiGateway,
+  BalanceReply,
+  MicroPoolReply,
+  ProviderReply,
+  SidecarReply,
+  StatsReply,
+} from './gateway';
 import { StkrConfig } from './config';
 import { t } from '../../common/utils/intl';
-
-interface ProviderEntity {}
-
-interface MicroPoolEntity {}
 
 const LOCAL_STORAGE_AUTHORIZATION_TOKEN_KEY = '__stkr_authorization_token';
 
@@ -29,7 +32,6 @@ export class StkrSdk {
     if (!StkrSdk.instance) {
       throw t('user-actions.error.sdk-not-initialized');
     }
-
     return StkrSdk.instance;
   }
 
@@ -54,7 +56,6 @@ export class StkrSdk {
     await this.apiGateway.logout();
     this.keyProvider = null;
     this.contractManager = null;
-    // TODO Delete
     delete localStorage[LOCAL_STORAGE_AUTHORIZATION_TOKEN_KEY];
   }
 
@@ -64,22 +65,19 @@ export class StkrSdk {
     if (!this.keyProvider) {
       throw new Error('Key provider must be connected');
     }
-
-    // if (await this.isAuthorized()) return;
+    if (await this.isAuthorized()) {
+      return { token: this.apiGateway.getToken() };
+    }
     const token = await this.keyProvider.signLoginData(ttl);
-
     const {
       status,
       statusText,
     } = await this.apiGateway.authorizeWithSignedData(token);
-
     if (status !== 200) {
       throw new Error(`Unable to authenticate user (#${status}) ${statusText}`);
     }
-
     // TODO Remove
     localStorage[LOCAL_STORAGE_AUTHORIZATION_TOKEN_KEY] = token;
-
     return { token };
   }
 
@@ -91,20 +89,14 @@ export class StkrSdk {
     return this.apiGateway.createSidecar();
   }
 
-  // TODO Move to the app model
-  public async isAuthorized(token?: string): Promise<boolean> {
-    if (this.apiGateway.isAuthorized()) {
-      return true;
-    }
+  public async getProviderSidecars(): Promise<SidecarReply[]> {
+    return this.apiGateway.getProviderSidecars();
+  }
 
-    // TODO Delete localStorage
-    const existingToken =
-      token ?? localStorage[LOCAL_STORAGE_AUTHORIZATION_TOKEN_KEY];
-
-    if (!existingToken) {
-      return false;
-    }
-
+  public async isAuthorized(): Promise<boolean> {
+    if (this.apiGateway.isAuthorized()) return true;
+    const existingToken = localStorage[LOCAL_STORAGE_AUTHORIZATION_TOKEN_KEY];
+    if (!existingToken) return false;
     try {
       const { status } = await this.apiGateway.authorizeWithSignedData(
         existingToken,
@@ -112,17 +104,23 @@ export class StkrSdk {
       return status === 200;
     } catch (e) {
       console.warn(`unable to verify token: ${e.message}`);
-      delete localStorage[LOCAL_STORAGE_AUTHORIZATION_TOKEN_KEY];
-      return false;
     }
+    delete localStorage[LOCAL_STORAGE_AUTHORIZATION_TOKEN_KEY];
+    return false;
   }
 
-  public async getProviders(): Promise<ProviderEntity[]> {
-    return [];
+  public async getProviders(
+    page: number = 0,
+    size: number = 100,
+  ): Promise<ProviderReply[]> {
+    return this.apiGateway.getProviders(page, size);
   }
 
-  public async getMicroPools(): Promise<MicroPoolEntity[]> {
-    return [];
+  public async getMicroPools(
+    page: number = 0,
+    size: number = 100,
+  ): Promise<MicroPoolReply[]> {
+    return this.apiGateway.getMicroPools(page, size);
   }
 
   public async createMicroPool(name: string): Promise<string> {
@@ -145,7 +143,6 @@ export class StkrSdk {
     if (!this.keyProvider) {
       return '';
     }
-
     return this.keyProvider?.currentAccount();
   }
 
