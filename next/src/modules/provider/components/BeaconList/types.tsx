@@ -3,4 +3,5 @@ export interface IBeaconListItem {
   name: string;
   uptime: string;
   date: string;
+  status: string;
 }

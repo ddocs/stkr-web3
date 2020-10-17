@@ -85,7 +85,8 @@
     "name": "Name",
     "uptime": "Uptime",
     "date": "Creation Date",
-    "certificate": "Certificate"
+    "certificate": "Certificate",
+    "status": "Status"
   },
   "picker": {
     "staker": {

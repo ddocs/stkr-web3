@@ -32,6 +32,10 @@ const useCaptions = (): ITablesCaptionProps[] =>
         label: t('beacon-node-table.name'),
       },
       {
+        key: 'status',
+        label: t('beacon-node-table.status'),
+      },
+      {
         key: 'uptime',
         label: t('beacon-node-table.uptime'),
       },
@@ -59,7 +63,7 @@ export const BeaconListComponent = ({ className, data }: IBeaconListProps) => {
           className={classes.table}
           captions={captions}
           rows={data}
-          customCell="1fr 1fr 1fr 0.7fr"
+          customCell="1fr 1fr 1fr 1fr 0.7fr"
         />
       )}
     </div>
@@ -87,6 +91,7 @@ export const BeaconListImp = ({
           name: item.name,
           uptime: item.uptime,
           date: item.date,
+          status: item.status,
           certificate: (
             <Button
               onClick={() => {
@@ -120,6 +125,7 @@ export const BeaconList = connect(
             sidecar.activated,
           ),
           date: new Date(sidecar.created).toLocaleString(),
+          status: String(sidecar.status).substr('SIDECAR_STATUS_'.length),
         };
       }),
     };
