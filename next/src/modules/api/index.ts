@@ -86,10 +86,12 @@ export class StkrSdk {
   }
 
   public async createSidecar(): Promise<SidecarReply> {
+    if (!(await this.isAuthorized())) throw new Error('Not authorized');
     return this.apiGateway.createSidecar();
   }
 
   public async getProviderSidecars(): Promise<SidecarReply[]> {
+    if (!(await this.isAuthorized())) throw new Error('Not authorized');
     return this.apiGateway.getProviderSidecars();
   }
 
@@ -153,10 +155,6 @@ export class StkrSdk {
   public getKeyProvider(): KeyProvider {
     if (!this.keyProvider) throw new Error('Key provider must be connected');
     return this.keyProvider;
-  }
-
-  public async getTotalValueStaked(): Promise<string> {
-    return Promise.resolve('1000');
   }
 
   public getContractManager(): ContractManager {

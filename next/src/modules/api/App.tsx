@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 
 import { StkrSdk } from './index';
-import { GOERLI_CONFIG } from './config';
+import { GOERLI_CONFIG, LOCAL_CONFIG } from './config';
 import { BalanceReply, MicroPoolReply, ProviderReply } from './gateway';
 
 interface Props {}
@@ -30,11 +30,11 @@ class App extends React.Component<Props, State> {
   componentDidMount() {
     setInterval(() => {
       // noinspection JSIgnoredPromiseFromCall
-      this.loadData();
+      // this.loadData();
     }, 10000);
 
     (async () => {
-      const stkr = StkrSdk.factoryDefault(GOERLI_CONFIG);
+      const stkr = StkrSdk.factoryDefault(LOCAL_CONFIG);
       this.setState((prev, props) => ({
         sdk: stkr,
       }));
@@ -130,7 +130,6 @@ class App extends React.Component<Props, State> {
           >
             CONNECT
           </button>
-          <br />
           <button
             onClick={async () => {
               await this.state?.sdk?.authorizeProvider();
@@ -139,7 +138,13 @@ class App extends React.Component<Props, State> {
           >
             LOGIN
           </button>
-          <br />
+          <button
+            onClick={async () => {
+              this.state?.sdk?.createSidecar();
+            }}
+          >
+            CREATE SIDECAR
+          </button>
           <button
             onClick={async () => {
               const id = prompt('Sidecar ID: ');

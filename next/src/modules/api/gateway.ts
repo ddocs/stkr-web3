@@ -122,7 +122,25 @@ export class ApiGateway {
   }
 
   public isAuthorized(): boolean {
-    return this.authorized;
+    if (!this.authorized || !this.token) return false;
+    const parsedToken = this.parseToken();
+    if (!parsedToken) return false;
+    const { expires } = parsedToken,
+      currentTime = new Date().getTime();
+    return currentTime < expires;
+  }
+
+  public parseToken(): {
+    signature: string;
+    address: string;
+    expires: number;
+  } | null {
+    if (!this.token) return null;
+    const decodedToken = new Buffer(this.token, 'base64').toString();
+    return decodedToken.split('&').reduce((r: any, v: string) => {
+      const [key, value] = v.split('=');
+      return { ...r, [key]: value };
+    }, {});
   }
 
   public getToken(): string {

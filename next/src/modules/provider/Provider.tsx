@@ -27,9 +27,9 @@ export const ProviderComponent = ({
   const { isProviderAuthenticated } = useAuthentication();
 
   useInitEffect(() => {
-    if (!isProviderAuthenticated) {
-      authorizeProvider();
-    }
+    /*if (!isProviderAuthenticated) {
+    }*/
+    authorizeProvider();
   });
 
   if (isProviderAuthenticated) {
