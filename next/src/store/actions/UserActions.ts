@@ -109,7 +109,7 @@ export const UserActions = {
     request: {
       promise: (async function () {
         const stkrSdk = StkrSdk.getLastInstance();
-        return await stkrSdk
+        return stkrSdk
           ?.getApiGateway()
           .getMicroPoolsByProvider(stkrSdk.getKeyProvider().currentAccount());
       })(),
@@ -133,12 +133,13 @@ export const UserActions = {
     request: {
       promise: (async function () {
         const stkrSdk = StkrSdk.getLastInstance();
-        return await stkrSdk?.getProviderSidecars();
+        return stkrSdk?.getProviderSidecars();
       })(),
     },
     meta: {
-      getData: (data: MicroPoolReply[]): IPool[] => {
-        return data.map(item => ({
+      getData: (data: MicroPoolReply[]): MicroPoolReply[] => {
+        return data;
+        /*return data.map(item => ({
           name: item.name,
           provider: item.provider,
           period: differenceInCalendarMonths(item.startTime, item.endTime),
@@ -146,7 +147,7 @@ export const UserActions = {
           currentStake: new BigNumber(0),
           totalStake: new BigNumber(0),
           status: item.status,
-        }));
+        }));*/
       },
     },
   }),

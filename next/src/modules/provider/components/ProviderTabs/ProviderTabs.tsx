@@ -51,7 +51,7 @@ export const ProviderTabs = ({ className }: IProviderTabsProps) => {
     <div className={classNames(classes.component, className)}>
       <ul className={classes.list}>
         {TABS.map(tab => (
-          <li className={classes.item}>
+          <li className={classes.item} key={tab.value}>
             <NavLink
               className={classNames(
                 classes.tab,

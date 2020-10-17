@@ -15,6 +15,9 @@ import { IBeaconListItem } from './types';
 import { BEACON_NODE_DATA } from '../../mock';
 import { UserActions } from '../../../../store/actions/UserActions';
 import { useInitEffect } from '../../../../common/hooks/useInitEffect';
+import { differenceInCalendarMonths } from 'date-fns';
+import { SidecarReply } from '../../../api/gateway';
+import { StkrSdk } from '../../../api';
 
 interface IBeaconListProps {
   className?: string;
@@ -84,7 +87,18 @@ export const BeaconListImp = ({
           name: item.name,
           uptime: item.uptime,
           date: item.date,
-          certificate: <Button>{t('navigation.download')}</Button>,
+          certificate: (
+            <Button
+              onClick={() => {
+                const downloadLink = StkrSdk.getLastInstance().createSidecarDownloadLink(
+                  item.id,
+                );
+                window.open(downloadLink, '_blank');
+              }}
+            >
+              {t('navigation.download')}
+            </Button>
+          ),
         },
       };
     });
@@ -93,8 +107,21 @@ export const BeaconListImp = ({
 
 export const BeaconList = connect(
   (state: IStoreState) => {
+    // @ts-ignore
+    const sidecars = state['requests'].queries['FETCH_SIDECARS']?.data || [];
+    // TODO: "i know that its wrong, fix me"
     return {
-      data: BEACON_NODE_DATA,
+      data: sidecars.map((sidecar: SidecarReply) => {
+        return {
+          id: sidecar.id,
+          name: sidecar.id,
+          uptime: differenceInCalendarMonths(
+            new Date().getTime(),
+            sidecar.activated,
+          ),
+          date: new Date(sidecar.created).toLocaleString(),
+        };
+      }),
     };
   },
   { fetchCurrentProviderSidecars: UserActions.fetchCurrentProviderSidecars },
