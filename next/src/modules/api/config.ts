@@ -28,8 +28,8 @@ export const GOERLI_CONFIG: StkrConfig = {
     chainId: '5',
   },
   contractConfig: {
-    microPoolContract: '0xb59a85d80049472C9d66Da52400770B368183B92',
-    ankrContract: '0xa46dd834953f51C57828f325D44B5B93A801168F',
+    microPoolContract: '0x3b2a3E894Bb62d254fF4B0584204Cb60744d4A32',
+    ankrContract: '0x147ca0f5BB0D2E1cBf69842E45D0748247784879',
   },
   gatewayConfig: {
     baseUrl: 'https://api.stkr-dev.ankr.com/',
