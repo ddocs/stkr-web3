@@ -3,6 +3,9 @@ import { Theme } from '@material-ui/core';
 
 export const useHeaderStyles = makeStyles<Theme>(theme => ({
   component: {
+    position: 'relative',
+    zIndex: 1,
+
     padding: theme.spacing(2.5, 0),
     boxSizing: 'border-box',
 
