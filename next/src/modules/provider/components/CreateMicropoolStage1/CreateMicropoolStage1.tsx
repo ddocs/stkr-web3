@@ -42,7 +42,7 @@ export const CreateMicropoolStage1Component = ({
 
   const initialValues = useMemo(
     () => ({
-      'beacon-node': beacon[0].value,
+      'beacon-node': beacon?.[0].value,
     }),
     [beacon],
   );
