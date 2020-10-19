@@ -1,24 +1,23 @@
 import React from 'react';
 import { useBeaconListStyles } from './BeaconListStyles';
 import classNames from 'classnames';
+import { ITablesCaptionProps } from '../../../../components/TableComponents/types';
 import {
-  ITablesCaptionProps,
-  ITablesRowProps,
-} from '../../../../components/TableComponents/types';
-import { DataTable } from '../../../../components/TableComponents';
+    Table,
+    TableBody,
+    TableBodyCell,
+    TableHead,
+    TableHeadCell,
+    TableRow,
+} from '../../../../components/TableComponents';
 import { useLocaleMemo } from '../../../../common/hooks/useLocaleMemo';
 import { t } from '../../../../common/utils/intl';
 import { Button } from '../../../../UiKit/Button';
 import { UserActionTypes } from '../../../../store/actions/UserActions';
-import { differenceInCalendarMonths } from 'date-fns';
-import { SidecarReply } from '../../../api/gateway';
 import { StkrSdk } from '../../../api';
 import { useQuery } from '@redux-requests/react';
-
-interface IBeaconListProps {
-  className?: string;
-  data?: ITablesRowProps[];
-}
+import { uid } from 'react-uid';
+import { ISidecar } from '../../../../store/apiMappers/sidecarsAPI';
 
 const useCaptions = (): ITablesCaptionProps[] =>
   useLocaleMemo(
@@ -47,6 +46,11 @@ const useCaptions = (): ITablesCaptionProps[] =>
     [],
   );
 
+interface IBeaconListProps {
+  className?: string;
+  data?: ISidecar[];
+}
+
 export const BeaconListComponent = ({ className, data }: IBeaconListProps) => {
   const classes = useBeaconListStyles();
 
@@ -54,14 +58,43 @@ export const BeaconListComponent = ({ className, data }: IBeaconListProps) => {
 
   return (
     <div className={classNames(classes.component, className)}>
-      {data && (
-        <DataTable
-          className={classes.table}
-          captions={captions}
-          rows={data}
-          customCell="1fr 1fr 1fr 1fr 0.7fr"
-        />
-      )}
+      <Table customCell="1fr 1fr 1fr 1fr 0.7fr" columnsCount={captions.length}>
+        <TableHead>
+          {captions.map(cell => (
+            <TableHeadCell
+              key={cell.key}
+              label={cell.label}
+              align={cell.align}
+            />
+          ))}
+        </TableHead>
+        {data && (
+          <TableBody rowsCount={data.length}>
+            {data.map(item => (
+              <TableRow key={uid(item)}>
+                <TableBodyCell>{item.id}</TableBodyCell>
+                <TableBodyCell>{item.period}</TableBodyCell>
+                <TableBodyCell>
+                  {new Date(item.created).toLocaleString()}
+                </TableBodyCell>
+                <TableBodyCell>{item.status}</TableBodyCell>
+                <TableBodyCell>
+                  <Button
+                    onClick={() => {
+                      const downloadLink = StkrSdk.getLastInstance().createSidecarDownloadLink(
+                        item.id,
+                      );
+                      window.open(downloadLink, '_blank');
+                    }}
+                  >
+                    {t('navigation.download')}
+                  </Button>
+                </TableBodyCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        )}
+      </Table>
     </div>
   );
 };
@@ -71,40 +104,13 @@ export const BeaconListImp = ({
   data,
 }: {
   className?: string;
-  data: SidecarReply[];
+  data: ISidecar[];
 }) => {
-  const convertedData =
-    data &&
-    data.map(item => {
-      return {
-        data: {
-          name: item.id,
-          uptime: differenceInCalendarMonths(
-            new Date().getTime(),
-            item.activated,
-          ),
-          date: new Date(item.created).toLocaleString(),
-          status: String(item.status).substr('SIDECAR_STATUS_'.length),
-          certificate: (
-            <Button
-              onClick={() => {
-                const downloadLink = StkrSdk.getLastInstance().createSidecarDownloadLink(
-                  item.id,
-                );
-                window.open(downloadLink, '_blank');
-              }}
-            >
-              {t('navigation.download')}
-            </Button>
-          ),
-        },
-      };
-    });
-  return <BeaconListComponent className={className} data={convertedData} />;
+  return <BeaconListComponent className={className} data={data} />;
 };
 
 export const BeaconList = ({ className }: { className?: string }) => {
-  const { data: sidecars } = useQuery<SidecarReply[]>({
+  const { data: sidecars } = useQuery<ISidecar[]>({
     type: UserActionTypes.FETCH_CURRENT_PROVIDER_SIDECARS,
   });
 
