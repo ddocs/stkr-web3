@@ -1,40 +1,33 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback } from 'react';
 import { useCreateMicropoolStyles } from './CreateMicropoolStyles';
 import classNames from 'classnames';
 import { CancelIcon } from '../../../../UiKit/Icons/CancelIcon';
 import { Form } from 'react-final-form';
-import { ISelectOption } from '../../../../UiKit/SelectField/SelectField';
 import { RenderForm } from './RenderForm';
 import { NavLink } from '../../../../UiKit/Link';
 import { PROVIDER_PATH } from '../../../../common/const';
 import { useAction } from '../../../../store/redux';
-import { UserActions, UserActionTypes, } from '../../../../store/actions/UserActions';
-import { Mutation, useQuery } from '@redux-requests/react';
-import { SidecarReply } from '../../../api/gateway';
+import {
+  UserActions,
+  UserActionTypes,
+} from '../../../../store/actions/UserActions';
+import { Mutation } from '@redux-requests/react';
 import { Curtains } from '../../../../UiKit/Curtains';
 import { BackgroundColorProvider } from '../../../../UiKit/BackgroundColorProvider';
 import { CreateMicropoolProgress } from './CreateMicropoolProgress';
 
-interface ICreateMicropoolStoreProps {
-  beacons: ISelectOption[];
+interface ICreateMicropoolPayload {
+  name: string;
 }
 
-interface ICreateMicropoolProps extends ICreateMicropoolStoreProps {
-  onSubmit(x: any): void;
+interface ICreateMicropoolProps {
+  onSubmit(x: ICreateMicropoolPayload): void;
 }
 
 export const CreateMicropoolComponent = ({
-  beacons,
   onSubmit,
 }: ICreateMicropoolProps) => {
   const classes = useCreateMicropoolStyles();
-
-  const initialValues = useMemo(
-    () => ({
-      'beacon-node': beacons?.[0].value,
-    }),
-    [beacons],
-  );
 
   return (
     <div className={classes.component}>
@@ -42,9 +35,8 @@ export const CreateMicropoolComponent = ({
         <CancelIcon />
       </NavLink>
       <Form
-        render={formProps => <RenderForm beacons={beacons} {...formProps} />}
+        render={formProps => <RenderForm {...formProps} />}
         onSubmit={onSubmit}
-        initialValues={initialValues}
       />
     </div>
   );
@@ -53,23 +45,10 @@ export const CreateMicropoolComponent = ({
 export const CreateMicropoolImp = () => {
   const classes = useCreateMicropoolStyles();
 
-  const { data: sidecars } = useQuery<SidecarReply[]>({
-    type: UserActionTypes.FETCH_CURRENT_PROVIDER_SIDECARS,
-  });
-
-  const beacons = useMemo(
-    () =>
-      (sidecars || []).map(b => ({
-        value: b.id,
-        label: b.id,
-      })),
-    [sidecars],
-  );
-
   const dispatchCreateMicropool = useAction(UserActions.createMicropool);
 
   const handleSubmit = useCallback(
-    ({ name }: Record<string, string>) => {
+    ({ name }: ICreateMicropoolPayload) => {
       // TODO: add name field to the form. Ask designers
       dispatchCreateMicropool({ name: name || 'micropool' });
     },
@@ -85,10 +64,7 @@ export const CreateMicropoolImp = () => {
               loading ? (
                 <CreateMicropoolProgress />
               ) : (
-                <CreateMicropoolComponent
-                  onSubmit={handleSubmit}
-                  beacons={beacons}
-                />
+                <CreateMicropoolComponent onSubmit={handleSubmit} />
               )
             }
           </Mutation>

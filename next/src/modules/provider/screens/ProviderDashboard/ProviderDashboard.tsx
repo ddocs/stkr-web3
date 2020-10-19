@@ -15,21 +15,18 @@ import { Curtains } from '../../../../UiKit/Curtains';
 import { Info } from '../../../../components/Info';
 import { NavLink } from '../../../../UiKit/Link';
 import { IPool } from '../../../../store/apiMappers/poolsApi';
-import {
-  UserActions,
-  UserActionTypes,
-} from '../../../../store/actions/UserActions';
+import { UserActions, UserActionTypes, } from '../../../../store/actions/UserActions';
 import { Query } from '@redux-requests/react';
-import { useAction } from '../../../../store/redux';
-import { useInitEffect } from '../../../../common/hooks/useInitEffect';
 import { QueryLoading } from '../../../../components/QueryLoading/QueryLoading';
 import { QueryError } from '../../../../components/QueryError/QueryError';
 import { Route } from 'react-router-dom';
+import { useAction } from "../../../../store/redux";
+import { useInitEffect } from "../../../../common/hooks/useInitEffect";
 
 interface IProviderDashboardStoreProps {
   totalStakersInEthereum: number;
   totalStakers: number;
-  micropool?: IPool[];
+  micropools?: IPool[];
 }
 
 interface IProviderDashboardProps extends IProviderDashboardStoreProps {
@@ -39,7 +36,7 @@ interface IProviderDashboardProps extends IProviderDashboardStoreProps {
 export const ProviderDashboardComponent = ({
   totalStakersInEthereum,
   totalStakers,
-  micropool,
+  micropools,
 }: IProviderDashboardProps) => {
   const classes = useProviderDashboardStyles();
 
@@ -56,19 +53,19 @@ export const ProviderDashboardComponent = ({
     },
     {
       caption: 'provider.info.micropools',
-      value: micropool ? micropool.length : 0,
+      value: micropools ? micropools.length : 0,
     },
   ];
 
   return (
     <section className={classes.component}>
       <Curtains classes={{ root: classes.wrapper }}>
-        {micropool && micropool.length !== 5 && (
+        {micropools && micropools.length !== 0 && (
           <Info className={classes.info} data={info} small={true} />
         )}
         <div className={classes.navigation}>
           <ProviderTabs className={classes.tabs} />
-          {location.pathname === PROVIDER_PATH && !micropool ? (
+          {location.pathname === PROVIDER_PATH && !micropools ? (
             <></>
           ) : (
             <NavLink
@@ -88,7 +85,7 @@ export const ProviderDashboardComponent = ({
         <Route
           path={[PROVIDER_PATH]}
           render={() => (
-            <MicropoolList className={classes.table} data={micropool} />
+            <MicropoolList className={classes.table} data={micropools} />
           )}
           exact={true}
         />
@@ -106,11 +103,15 @@ export const ProviderDashboardComponent = ({
 const alwaysFalse = () => false;
 
 export const ProviderDashboard = () => {
+  const dispatchFetchCurrentProviderSidecars = useAction(
+      UserActions.fetchCurrentProviderSidecars,
+  );
   const dispatchFetchCurrentProviderMicropools = useAction(
-    UserActions.fetchCurrentProviderMicropools,
+      UserActions.fetchCurrentProviderMicropools,
   );
 
   useInitEffect(() => {
+    dispatchFetchCurrentProviderSidecars();
     dispatchFetchCurrentProviderMicropools();
   });
 
@@ -125,7 +126,7 @@ export const ProviderDashboard = () => {
         <ProviderDashboardComponent
           totalStakersInEthereum={64}
           totalStakers={2}
-          micropool={data}
+          micropools={data}
         />
       )}
     </Query>

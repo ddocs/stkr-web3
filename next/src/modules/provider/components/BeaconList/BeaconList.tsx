@@ -3,22 +3,25 @@ import { useBeaconListStyles } from './BeaconListStyles';
 import classNames from 'classnames';
 import { ITablesCaptionProps } from '../../../../components/TableComponents/types';
 import {
-  Table,
-  TableBody,
-  TableBodyCell,
-  TableHead,
-  TableHeadCell,
-  TableRow,
+    Table,
+    TableBody,
+    TableBodyCell,
+    TableHead,
+    TableHeadCell,
+    TableRow,
 } from '../../../../components/TableComponents';
 import { useLocaleMemo } from '../../../../common/hooks/useLocaleMemo';
 import { t } from '../../../../common/utils/intl';
 import { Button } from '../../../../UiKit/Button';
 import { UserActionTypes } from '../../../../store/actions/UserActions';
 import { StkrSdk } from '../../../api';
-import { useQuery } from '@redux-requests/react';
+import { Query } from '@redux-requests/react';
 import { uid } from 'react-uid';
 import { ISidecar } from '../../../../store/apiMappers/sidecarsAPI';
 import { formatDistanceToNowStrict } from 'date-fns';
+import { QueryError } from '../../../../components/QueryError/QueryError';
+import { QueryLoading } from '../../../../components/QueryLoading/QueryLoading';
+import { CreateBeaconChain } from '../../screens/CreateBeaconChain';
 
 const useCaptions = (): ITablesCaptionProps[] =>
   useLocaleMemo(
@@ -115,9 +118,16 @@ export const BeaconListImp = ({
 };
 
 export const BeaconList = ({ className }: { className?: string }) => {
-  const { data: sidecars } = useQuery<ISidecar[]>({
-    type: UserActionTypes.FETCH_CURRENT_PROVIDER_SIDECARS,
-  });
-
-  return <BeaconListImp className={className} data={sidecars} />;
+  return (
+    <Query<ISidecar[]>
+      type={UserActionTypes.FETCH_CURRENT_PROVIDER_SIDECARS}
+      errorComponent={QueryError}
+      loadingComponent={QueryLoading}
+      noDataMessage={<CreateBeaconChain />}
+    >
+      {({ data: sidecars }) => (
+        <BeaconListImp className={className} data={sidecars} />
+      )}
+    </Query>
+  );
 };
