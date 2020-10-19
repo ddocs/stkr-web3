@@ -3,27 +3,19 @@ import { t } from '../../../../common/utils/intl';
 import { SelectField } from '../../../../UiKit/SelectField';
 import { Button } from '../../../../UiKit/Button';
 import React, { useCallback } from 'react';
-import { useStage6Styles } from './CreateMicropoolStage1Styles';
-import { ICreateMicropoolStage1StoreProps } from './CreateMicropoolStage1';
-import {
-  Body2,
-  Headline1,
-  Headline4,
-  Headline6,
-} from '../../../../UiKit/Typography';
+import { useCreateMicropoolStyles } from './CreateMicropoolStyles';
+import { Body2, Headline1, Headline4, Headline6, } from '../../../../UiKit/Typography';
+import { ISelectOption } from '../../../../UiKit/SelectField/SelectField';
 
-interface IRenderFormProps extends ICreateMicropoolStage1StoreProps {
-  disabled?: boolean;
-  error?: any;
+interface IRenderFormProps {
+  beacons: ISelectOption[];
 }
 
 export const RenderForm = ({
   handleSubmit,
-  disabled,
-  beacon,
-  error,
+  beacons,
 }: FormRenderProps<any> & IRenderFormProps) => {
-  const classes = useStage6Styles();
+  const classes = useCreateMicropoolStyles();
 
   const handleBuy = useCallback(() => {
     alert('You have bought 100,000 ANKR');
@@ -46,7 +38,7 @@ export const RenderForm = ({
             className={classes.input}
             component={SelectField}
             name="beacon-node"
-            values={beacon}
+            values={beacons}
             color="secondary"
             withoutUnderline={true}
           />
@@ -78,12 +70,10 @@ export const RenderForm = ({
         size="large"
         variant="contained"
         submit
-        disabled={disabled}
         aria-label="submit"
       >
         {t('navigation.create-pool')}
       </Button>
-      {error ? <div>Can't process your request</div> : null}
     </form>
   );
 };

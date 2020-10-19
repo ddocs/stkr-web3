@@ -47,7 +47,7 @@ const CreateMicropoolContainer = withDefaultLayout(
   loadable(
     async () =>
       import('./modules/provider/screens/CreateMicropool').then(
-        module => module.CreateMicropool,
+        module => module.CreateMicropoolImp,
       ),
     {
       fallback: <QueryLoading />,

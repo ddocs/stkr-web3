@@ -1,48 +1,99 @@
-import React, { useState } from 'react';
-import { useCreateBeaconChainStyles } from './CreateMicropoolStyles';
-import { uid } from 'react-uid';
-import { Flow } from '../../../../components/Flow';
-import { defineFlow } from '../../../../components/Flow/definition';
+import React, { useCallback, useMemo } from 'react';
+import { useCreateMicropoolStyles } from './CreateMicropoolStyles';
 import classNames from 'classnames';
+import { CancelIcon } from '../../../../UiKit/Icons/CancelIcon';
+import { Form } from 'react-final-form';
+import { ISelectOption } from '../../../../UiKit/SelectField/SelectField';
+import { RenderForm } from './RenderForm';
+import { NavLink } from '../../../../UiKit/Link';
+import { PROVIDER_PATH } from '../../../../common/const';
+import { useAction } from '../../../../store/redux';
+import { UserActions, UserActionTypes, } from '../../../../store/actions/UserActions';
+import { Mutation, useQuery } from '@redux-requests/react';
+import { SidecarReply } from '../../../api/gateway';
 import { Curtains } from '../../../../UiKit/Curtains';
 import { BackgroundColorProvider } from '../../../../UiKit/BackgroundColorProvider';
-import { CreateMicropoolStage1 } from '../../components/CreateMicropoolStage1';
-import { CreateMicropoolStage2 } from '../../components/CreateMicropoolStage2';
-import { useAction } from '../../../../store/redux';
-import { UserActions } from '../../../../store/actions/UserActions';
+import { CreateMicropoolProgress } from '../../components/CreateMicropoolProgress';
 
-interface ICreateMicropoolProps {
-  className?: string;
+interface ICreateMicropoolStoreProps {
+  beacons: ISelectOption[];
 }
 
-const STEPS = defineFlow(CreateMicropoolStage1, CreateMicropoolStage2);
+interface ICreateMicropoolProps extends ICreateMicropoolStoreProps {
+  onSubmit(x: any): void;
+}
 
-export const CreateMicropool = ({ className }: ICreateMicropoolProps) => {
-  const classes = useCreateBeaconChainStyles();
+export const CreateMicropoolComponent = ({
+  beacons,
+  onSubmit,
+}: ICreateMicropoolProps) => {
+  const classes = useCreateMicropoolStyles();
 
-  const [steps] = useState(STEPS);
-
-  const dispatchFetchCurrentProviderMicropools = useAction(
-    UserActions.fetchCurrentProviderMicropools,
+  const initialValues = useMemo(
+    () => ({
+      'beacon-node': beacons?.[0].value,
+    }),
+    [beacons],
   );
 
   return (
-    <section className={classNames(classes.component, className)}>
-      <Flow
-        key={uid(steps)}
-        steps={steps}
-        onComplete={dispatchFetchCurrentProviderMicropools}
-      >
-        {body => {
-          return (
-            <Curtains classes={{ root: classes.wrapper }}>
-              <BackgroundColorProvider className={classes.content}>
-                {body!}
-              </BackgroundColorProvider>
-            </Curtains>
-          );
-        }}
-      </Flow>
+    <div className={classes.component}>
+      <NavLink className={classes.close} color="primary" href={PROVIDER_PATH}>
+        <CancelIcon />
+      </NavLink>
+      <Form
+        render={formProps => <RenderForm beacons={beacons} {...formProps} />}
+        onSubmit={onSubmit}
+        initialValues={initialValues}
+      />
+    </div>
+  );
+};
+
+export const CreateMicropoolImp = () => {
+  const classes = useCreateMicropoolStyles();
+
+  const { data: sidecars } = useQuery<SidecarReply[]>({
+    type: UserActionTypes.FETCH_CURRENT_PROVIDER_SIDECARS,
+  });
+
+  const beacons = useMemo(
+    () =>
+      (sidecars || []).map(b => ({
+        value: b.id,
+        label: b.id,
+      })),
+    [sidecars],
+  );
+
+  const dispatchCreateMicropool = useAction(UserActions.createMicropool);
+
+  const handleSubmit = useCallback(
+    ({ name }: Record<string, string>) => {
+      // TODO: add name field to the form. Ask designers
+      dispatchCreateMicropool({ name: name || 'micropool' });
+    },
+    [dispatchCreateMicropool],
+  );
+
+  return (
+    <section className={classNames(classes.section)}>
+      <Curtains classes={{ root: classes.wrapper }}>
+        <BackgroundColorProvider className={classes.content}>
+          <Mutation type={UserActionTypes.CREATE_MICROPOOL}>
+            {({ loading }) =>
+              loading ? (
+                <CreateMicropoolProgress />
+              ) : (
+                <CreateMicropoolComponent
+                  onSubmit={handleSubmit}
+                  beacons={beacons}
+                />
+              )
+            }
+          </Mutation>
+        </BackgroundColorProvider>
+      </Curtains>
     </section>
   );
 };

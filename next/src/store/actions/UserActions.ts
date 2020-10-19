@@ -22,8 +22,6 @@ export const UserActionTypes = {
 
   FETCH_CURRENT_PROVIDER_SIDECARS: 'FETCH_SIDECARS',
 
-  APPLY_FOR_PROVIDER: 'APPLY_FOR_PROVIDER',
-
   AUTHORIZE_PROVIDER: 'AUTHORIZE_PROVIDER',
 
   CREATE_SIDECAR: 'CREATE_SIDECAR',
@@ -86,16 +84,6 @@ export const UserActions = {
         })),
     },
   }),
-  applyForProvider: () => ({
-    type: UserActionTypes.APPLY_FOR_PROVIDER,
-    request: {
-      promise: new Promise(resolve => {
-        setTimeout(() => {
-          resolve(null);
-        }, 1000);
-      }),
-    },
-  }),
   authorizeProvider: () => ({
     type: UserActionTypes.AUTHORIZE_PROVIDER,
     request: {
@@ -104,6 +92,7 @@ export const UserActions = {
         return await stkrSdk.authorizeProvider();
       })(),
     },
+    meta: { asMutation: true },
   }),
   fetchCurrentProviderMicropools: () => ({
     type: UserActionTypes.FETCH_CURRENT_PROVIDER_MICROPOOLS,
@@ -151,6 +140,7 @@ export const UserActions = {
         return await stkrSdk.createSidecar();
       })(),
     },
+    meta: { asMutation: true },
   }),
   createMicropool: ({ name }: { name: string }) => ({
     type: UserActionTypes.CREATE_MICROPOOL,
@@ -160,5 +150,6 @@ export const UserActions = {
         return await stkrSdk.createMicroPool(name);
       })(),
     },
+    meta: { asMutation: true },
   }),
 };
