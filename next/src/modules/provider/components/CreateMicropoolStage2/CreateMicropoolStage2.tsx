@@ -8,6 +8,8 @@ import { Body2, Headline2 } from '../../../../UiKit/Typography';
 import { t, tHTML } from '../../../../common/utils/intl';
 import { ProgressBar } from '../ProgressBar/ProgressBar';
 import { Icon } from '../CreateBeaconChainStage2/Icon';
+import { useQuery } from '@redux-requests/react';
+import { UserActionTypes } from '../../../../store/actions/UserActions';
 
 interface ICreateMicropoolStage2Props extends IStageProps {}
 
@@ -31,12 +33,26 @@ export const CreateMicropoolStage2Component = ({
 };
 
 const CreateMicropoolStage2Imp = ({ className }: IStageProps) => {
-  const { moveForward } = useFlowControl();
+  const { moveForward, moveBack, addData } = useFlowControl<{ error: any }>();
 
-  useEffect(() => {
-    // TODO: replace by real function
-    setTimeout(moveForward, 2000);
-  }, [moveForward]);
+  const { loading, error } = useQuery({
+    type: UserActionTypes.CREATE_MICROPOOL,
+  });
+
+  useEffect(
+    () => {
+      if (!loading) {
+        if (error) {
+          addData({ error });
+          moveBack();
+        } else {
+          moveForward();
+        }
+      }
+    },
+    // eslint-disable-next-line
+    [loading],
+  );
 
   return <CreateMicropoolStage2Component className={className} />;
 };

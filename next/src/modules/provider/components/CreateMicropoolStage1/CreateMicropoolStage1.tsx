@@ -7,15 +7,16 @@ import { defineFlowStep } from '../../../../components/Flow/definition';
 import { CancelIcon } from '../../../../UiKit/Icons/CancelIcon';
 import { Form } from 'react-final-form';
 import { ISelectOption } from '../../../../UiKit/SelectField/SelectField';
-import { connect } from 'react-redux';
-import { IStoreState } from '../../../../store/reducers';
 import { RenderForm } from './RenderForm';
 import { NavLink } from '../../../../UiKit/Link';
 import { PROVIDER_PATH } from '../../../../common/const';
 import { useAction } from '../../../../store/redux';
-import { UserActions, UserActionTypes, } from '../../../../store/actions/UserActions';
+import {
+  UserActions,
+  UserActionTypes,
+} from '../../../../store/actions/UserActions';
 import { useQuery } from '@redux-requests/react';
-import { CreateMicropoolStage2Component } from '../CreateMicropoolStage2/CreateMicropoolStage2';
+import { SidecarReply } from '../../../api/gateway';
 
 export interface ICreateMicropoolStage1StoreProps {
   beacon: ISelectOption[];
@@ -25,6 +26,7 @@ interface ICreateMicropoolStage1Props
   extends ICreateMicropoolStage1StoreProps,
     IStageProps {
   disabled?: boolean;
+  error?: any;
 
   nextStep(x: any): void;
 }
@@ -34,6 +36,7 @@ export const CreateMicropoolStage1Component = ({
   beacon,
   disabled,
   nextStep,
+  error,
 }: ICreateMicropoolStage1Props) => {
   const classes = useStage6Styles();
 
@@ -51,7 +54,12 @@ export const CreateMicropoolStage1Component = ({
       </NavLink>
       <Form
         render={formProps => (
-          <RenderForm disabled={disabled} beacon={beacon} {...formProps} />
+          <RenderForm
+            disabled={disabled}
+            beacon={beacon}
+            {...formProps}
+            error={error}
+          />
         )}
         onSubmit={nextStep}
         initialValues={initialValues}
@@ -60,46 +68,42 @@ export const CreateMicropoolStage1Component = ({
   );
 };
 
-const Stage6Imp = ({
-  className,
-  ...props
-}: ICreateMicropoolStage1StoreProps & IStageProps) => {
-  const { moveForward } = useFlowControl();
+const Stage6Imp = ({ className }: IStageProps) => {
+  const { moveForward, data } = useFlowControl<{ error: any }>();
+
+  const { data: sidecars } = useQuery<SidecarReply[]>({
+    type: UserActionTypes.FETCH_CURRENT_PROVIDER_SIDECARS,
+  });
+  const beacons = useMemo(
+    () =>
+      (sidecars || []).map(b => ({
+        value: b.id,
+        label: b.id,
+      })),
+    [sidecars],
+  );
 
   const dispatchCreateMicropool = useAction(UserActions.createMicropool);
 
   const handleNextStep = useCallback(
-    (props: any) => {
-      // Update name
-      dispatchCreateMicropool({ name: 'Foobar' });
-      // TODO: add function
-      // moveForward();
+    ({ name }: Record<string, string>) => {
+      // TODO: add name field to the form. Ask designers
+      dispatchCreateMicropool({ name: name || 'micropool' });
+      moveForward();
     },
-    [moveForward],
+    [moveForward, dispatchCreateMicropool],
   );
-
-  const { loading } = useQuery({ type: UserActionTypes.CREATE_MICROPOOL });
-
-  if (loading) {
-    return <CreateMicropoolStage2Component />;
-  }
 
   return (
     <CreateMicropoolStage1Component
       className={className}
       nextStep={handleNextStep}
-      {...props}
+      beacon={beacons}
+      error={data.error}
     />
   );
 };
 
-const CreateMicropoolStage1Connected = connect(
-  (state: IStoreState) => ({
-    beacon: [{ value: '1', label: 'Alex_Beacon_Node' }],
-  }),
-  {},
-)(Stage6Imp);
-
 export const CreateMicropoolStage1 = defineFlowStep<{}, {}, IStageProps>({
-  Body: CreateMicropoolStage1Connected,
+  Body: Stage6Imp,
 });

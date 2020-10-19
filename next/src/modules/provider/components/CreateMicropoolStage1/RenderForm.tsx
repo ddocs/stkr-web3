@@ -14,12 +14,14 @@ import {
 
 interface IRenderFormProps extends ICreateMicropoolStage1StoreProps {
   disabled?: boolean;
+  error?: any;
 }
 
 export const RenderForm = ({
   handleSubmit,
   disabled,
   beacon,
+  error,
 }: FormRenderProps<any> & IRenderFormProps) => {
   const classes = useStage6Styles();
 
@@ -81,6 +83,7 @@ export const RenderForm = ({
       >
         {t('navigation.create-pool')}
       </Button>
+      {error ? <div>Can't process your request</div> : null}
     </form>
   );
 };
