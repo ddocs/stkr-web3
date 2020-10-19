@@ -1,24 +1,12 @@
 import React from 'react';
-
-import { makeStyles } from '@material-ui/styles';
-import { Theme } from '@material-ui/core';
-import { CreateBeaconChain } from './CreateBeaconChain';
-
-const useStyles = makeStyles<Theme>(theme => ({
-  block: {},
-}));
+import { CreateBeaconChainComponent } from './CreateBeaconChain';
 
 const CreateBeaconChainStory = () => {
-  const classes = useStyles();
-  return (
-    <div className={classes.block}>
-      <CreateBeaconChain />
-    </div>
-  );
+  return <CreateBeaconChainComponent onSubmit={() => alert('to next stage')} />;
 };
 
 export const CreateBeaconChainExample = () => <CreateBeaconChainStory />;
 
 export default {
-  title: 'modules/provider/CreateBeaconChain',
+  title: 'modules/provider/component/CreateBeaconChainComponent',
 };

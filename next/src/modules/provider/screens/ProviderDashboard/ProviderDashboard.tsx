@@ -60,8 +60,6 @@ export const ProviderDashboardComponent = ({
     },
   ];
 
-  console.log('micropool', micropool);
-
   return (
     <section className={classes.component}>
       <Curtains classes={{ root: classes.wrapper }}>

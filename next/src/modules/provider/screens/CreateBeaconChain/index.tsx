@@ -1,1 +1,1 @@
-export { CreateBeaconChain } from './CreateBeaconChain';
+export * from './CreateBeaconChain';
