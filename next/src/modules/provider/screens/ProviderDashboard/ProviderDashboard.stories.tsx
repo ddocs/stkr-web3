@@ -2,9 +2,7 @@ import React from 'react';
 import { ProviderDashboardComponent } from './ProviderDashboard';
 
 const ProviderDashboardStory = () => {
-  return (
-    <ProviderDashboardComponent totalStakersInEthereum={64} totalStakers={2} />
-  );
+  return <ProviderDashboardComponent />;
 };
 
 export const ProviderDashboardExample = () => <ProviderDashboardStory />;

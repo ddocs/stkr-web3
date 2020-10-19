@@ -49,7 +49,7 @@ export const CreateMicropoolComponent = ({
 
 export const CreateMicropoolImp = () => {
   const classes = useCreateMicropoolStyles();
-
+  const history = useHistory();
   const dispatchCreateMicropool = useAction(UserActions.createMicropool);
 
   const handleSubmit = useCallback(
@@ -62,13 +62,12 @@ export const CreateMicropoolImp = () => {
         },
       );
     },
-    [dispatchCreateMicropool],
+    [dispatchCreateMicropool, history],
   );
 
-  const history = useHistory();
   const handleClose = useCallback(() => {
     history.goBack();
-  }, []);
+  }, [history]);
 
   return (
     <section className={classNames(classes.section)}>

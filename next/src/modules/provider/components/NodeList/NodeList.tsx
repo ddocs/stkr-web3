@@ -3,25 +3,30 @@ import { useNodeListStyles } from './NodeListStyles';
 import classNames from 'classnames';
 import { ITablesCaptionProps } from '../../../../components/TableComponents/types';
 import {
-    Table,
-    TableBody,
-    TableBodyCell,
-    TableHead,
-    TableHeadCell,
-    TableRow,
+  Table,
+  TableBody,
+  TableBodyCell,
+  TableHead,
+  TableHeadCell,
+  TableRow,
 } from '../../../../components/TableComponents';
 import { useLocaleMemo } from '../../../../common/hooks/useLocaleMemo';
 import { t } from '../../../../common/utils/intl';
 import { Button } from '../../../../UiKit/Button';
-import { UserActionTypes } from '../../../../store/actions/UserActions';
+import {
+  UserActions,
+  UserActionTypes,
+} from '../../../../store/actions/UserActions';
 import { StkrSdk } from '../../../api';
 import { Query } from '@redux-requests/react';
 import { uid } from 'react-uid';
-import { ISidecar } from '../../../../store/apiMappers/sidecarsAPI';
+import { ISidecar } from '../../../../store/apiMappers/sidecarsApi';
 import { formatDistanceToNowStrict } from 'date-fns';
 import { QueryError } from '../../../../components/QueryError/QueryError';
 import { QueryLoading } from '../../../../components/QueryLoading/QueryLoading';
 import { CreateNode } from '../../screens/CreateNode';
+import { useInitEffect } from '../../../../common/hooks/useInitEffect';
+import { useAction } from '../../../../store/redux';
 
 const useCaptions = (): ITablesCaptionProps[] =>
   useLocaleMemo(
@@ -118,6 +123,14 @@ export const NodeListImp = ({
 };
 
 export const NodeList = ({ className }: { className?: string }) => {
+  const dispatchFetchCurrentProviderSidecars = useAction(
+    UserActions.fetchCurrentProviderSidecars,
+  );
+
+  useInitEffect(() => {
+    dispatchFetchCurrentProviderSidecars();
+  });
+
   return (
     <Query<ISidecar[]>
       type={UserActionTypes.FETCH_CURRENT_PROVIDER_SIDECARS}

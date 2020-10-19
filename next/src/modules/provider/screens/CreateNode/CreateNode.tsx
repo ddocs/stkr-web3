@@ -67,7 +67,7 @@ export const CreateNode = () => {
         history.replace(PROVIDER_NODES_PATH);
       }
     });
-  }, [dispatchCreateSidecar]);
+  }, [dispatchCreateSidecar, history]);
 
   return (
     <section className={classes.section}>

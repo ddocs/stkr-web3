@@ -5,7 +5,8 @@ import BigNumber from 'bignumber.js';
 import { MicroPoolReply, SidecarReply } from '../../modules/api/gateway';
 import { IPool } from '../apiMappers/poolsApi';
 import { differenceInCalendarMonths } from 'date-fns';
-import { ISidecar, mapSidecar } from '../apiMappers/sidecarsAPI';
+import { ISidecar, mapSidecar } from '../apiMappers/sidecarsApi';
+import { mapStats } from '../apiMappers/statsApi';
 
 export const UserActionTypes = {
   CONNECT: 'CONNECT',
@@ -27,6 +28,8 @@ export const UserActionTypes = {
   CREATE_SIDECAR: 'CREATE_SIDECAR',
 
   CREATE_MICROPOOL: 'CREATE_MICROPOOL',
+
+  FETCH_STATS: 'FETCH_STATS',
 };
 
 export const UserActions = {
@@ -147,6 +150,7 @@ export const UserActions = {
     request: {
       promise: (async function () {
         const stkrSdk = StkrSdk.getLastInstance();
+        // TODO Remove log
         try {
           return await stkrSdk.createMicroPool(name);
         } catch (e) {
@@ -156,5 +160,17 @@ export const UserActions = {
       })(),
     },
     meta: { asMutation: true },
+  }),
+  fetchStats: () => ({
+    type: UserActionTypes.FETCH_STATS,
+    request: {
+      promise: (async function () {
+        const stkrSdk = StkrSdk.getLastInstance();
+        return await stkrSdk.getStats();
+      })(),
+    },
+    meta: {
+      getData: mapStats,
+    },
   }),
 };

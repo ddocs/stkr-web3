@@ -116,7 +116,7 @@
       }
     },
     "info": {
-      "totalStakersInEthereum": "My total Staked ETH",
+      "totalStaked": "My total Staked ETH",
       "totalStakers": "Total Stakers",
       "micropools": "My micropools"
     }
