@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { useCreateBeaconChainStyles } from './CreateBeaconChainStyles';
+import { useCreateNodeStyles } from './CreateNodeStyles';
 import { Body2, Headline2 } from '../../../../UiKit/Typography';
 import { t } from '../../../../common/utils/intl';
 import { Icon } from './Icon';
@@ -14,20 +14,20 @@ import {
 import { Curtains } from '../../../../UiKit/Curtains';
 import { BackgroundColorProvider } from '../../../../UiKit/BackgroundColorProvider';
 import { Mutation } from '@redux-requests/react';
-import { CreateBeaconChainProgress } from './CreateBeaconChainProgress';
+import { CreateNodeProgress } from './CreateNodeProgress';
 
 interface ICreateNodePayload {
   name: string;
 }
 
-interface ICreateBeaconChainProps {
+interface ICreateNodeProps {
   onSubmit(payload: ICreateNodePayload): void;
 }
 
-export const CreateBeaconChainComponent = ({
+export const CreateNodeComponent = ({
   onSubmit,
-}: ICreateBeaconChainProps) => {
-  const classes = useCreateBeaconChainStyles();
+}: ICreateNodeProps) => {
+  const classes = useCreateNodeStyles();
 
   const renderForm = ({ handleSubmit }: FormRenderProps<any>) => {
     return (
@@ -68,9 +68,9 @@ export const CreateBeaconChainComponent = ({
   );
 };
 
-export const CreateBeaconChain = () => {
+export const CreateNode = () => {
   const dispatchCreateSidecar = useAction(UserActions.createSidecar);
-  const classes = useCreateBeaconChainStyles();
+  const classes = useCreateNodeStyles();
 
   const handleSubmit = useCallback(() => {
     dispatchCreateSidecar();
@@ -83,9 +83,9 @@ export const CreateBeaconChain = () => {
           <Mutation type={UserActionTypes.CREATE_SIDECAR}>
             {({ loading }) =>
               loading ? (
-                <CreateBeaconChainProgress />
+                <CreateNodeProgress />
               ) : (
-                <CreateBeaconChainComponent onSubmit={handleSubmit} />
+                <CreateNodeComponent onSubmit={handleSubmit} />
               )
             }
           </Mutation>

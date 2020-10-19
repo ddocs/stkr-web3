@@ -3,7 +3,7 @@ import { useCreateMicropoolProgressStyles } from './CreateMicropoolProgressStyle
 import { Body2, Headline2 } from '../../../../../UiKit/Typography';
 import { t, tHTML } from '../../../../../common/utils/intl';
 import { ProgressBar } from '../../../components/ProgressBar/ProgressBar';
-import { Icon } from '../../CreateBeaconChain/CreateBeaconChainProgress/Icon';
+import { Icon } from '../../CreateNode/CreateNodeProgress/Icon';
 
 export const CreateMicropoolProgress = () => {
   const classes = useCreateMicropoolProgressStyles();

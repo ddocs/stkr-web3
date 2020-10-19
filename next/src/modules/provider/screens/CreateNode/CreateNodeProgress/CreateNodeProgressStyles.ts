@@ -1,7 +1,7 @@
 import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-export const useCreateBeaconChainProgressStyles = makeStyles<Theme>(theme => ({
+export const useCreateNodeProgressStyles = makeStyles<Theme>(theme => ({
   component: {
     display: 'flex',
     flexDirection: 'column',

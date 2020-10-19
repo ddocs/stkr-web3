@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { useProviderDashboardStyles } from './ProviderDashboardStyles';
 import { MicropoolList } from '../../components/MicropoolList';
-import { BeaconList } from '../../components/BeaconList';
+import { NodeList } from '../../components/NodeList';
 import {
-  CREATE_PROVIDERS_BEACON_CHAIN_PATH,
-  CREATE_PROVIDERS_MICROPOOL_PATH,
-  PROVIDER_BEACON_CHAIN_PATH,
+  PROVIDER_CREATE_NODE_PATH,
+  PROVIDER_CREATE_MICROPOOL_PATH,
+  PROVIDER_NODES_PATH,
   PROVIDER_PATH,
 } from '../../../../common/const';
 import { useLocation } from 'react-router';
@@ -72,8 +72,8 @@ export const ProviderDashboardComponent = ({
               className={classes.create}
               href={
                 location.pathname === PROVIDER_PATH
-                  ? CREATE_PROVIDERS_MICROPOOL_PATH
-                  : CREATE_PROVIDERS_BEACON_CHAIN_PATH
+                  ? PROVIDER_CREATE_MICROPOOL_PATH
+                  : PROVIDER_CREATE_NODE_PATH
               }
               variant="outlined"
               color="primary"
@@ -91,8 +91,8 @@ export const ProviderDashboardComponent = ({
         />
 
         <Route
-          path={[PROVIDER_BEACON_CHAIN_PATH]}
-          render={() => <BeaconList className={classes.table} />}
+          path={[PROVIDER_NODES_PATH]}
+          render={() => <NodeList className={classes.table} />}
           exact={true}
         />
       </Curtains>

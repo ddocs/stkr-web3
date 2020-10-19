@@ -1,5 +1,5 @@
 import React from 'react';
-import { useBeaconListStyles } from './BeaconListStyles';
+import { useNodeListStyles } from './NodeListStyles';
 import classNames from 'classnames';
 import { ITablesCaptionProps } from '../../../../components/TableComponents/types';
 import {
@@ -21,7 +21,7 @@ import { ISidecar } from '../../../../store/apiMappers/sidecarsAPI';
 import { formatDistanceToNowStrict } from 'date-fns';
 import { QueryError } from '../../../../components/QueryError/QueryError';
 import { QueryLoading } from '../../../../components/QueryLoading/QueryLoading';
-import { CreateBeaconChain } from '../../screens/CreateBeaconChain';
+import { CreateNode } from '../../screens/CreateNode';
 
 const useCaptions = (): ITablesCaptionProps[] =>
   useLocaleMemo(
@@ -50,13 +50,13 @@ const useCaptions = (): ITablesCaptionProps[] =>
     [],
   );
 
-interface IBeaconListProps {
+interface INodeListProps {
   className?: string;
   data?: ISidecar[];
 }
 
-export const BeaconListComponent = ({ className, data }: IBeaconListProps) => {
-  const classes = useBeaconListStyles();
+export const NodeListComponent = ({ className, data }: INodeListProps) => {
+  const classes = useNodeListStyles();
 
   const captions = useCaptions();
 
@@ -107,26 +107,26 @@ export const BeaconListComponent = ({ className, data }: IBeaconListProps) => {
   );
 };
 
-export const BeaconListImp = ({
+export const NodeListImp = ({
   className,
   data,
 }: {
   className?: string;
   data: ISidecar[];
 }) => {
-  return <BeaconListComponent className={className} data={data} />;
+  return <NodeListComponent className={className} data={data} />;
 };
 
-export const BeaconList = ({ className }: { className?: string }) => {
+export const NodeList = ({ className }: { className?: string }) => {
   return (
     <Query<ISidecar[]>
       type={UserActionTypes.FETCH_CURRENT_PROVIDER_SIDECARS}
       errorComponent={QueryError}
       loadingComponent={QueryLoading}
-      noDataMessage={<CreateBeaconChain />}
+      noDataMessage={<CreateNode />}
     >
       {({ data: sidecars }) => (
-        <BeaconListImp className={className} data={sidecars} />
+        <NodeListImp className={className} data={sidecars} />
       )}
     </Query>
   );

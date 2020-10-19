@@ -1,12 +1,12 @@
 import React from 'react';
-import { useCreateBeaconChainProgressStyles } from './CreateBeaconChainProgressStyles';
+import { useCreateNodeProgressStyles } from './CreateNodeProgressStyles';
 import { Body2, Headline2 } from '../../../../../UiKit/Typography';
 import { t, tHTML } from '../../../../../common/utils/intl';
 import { ProgressBar } from '../../../components/ProgressBar/ProgressBar';
 import { Icon } from './Icon';
 
-export const CreateBeaconChainProgress = () => {
-  const classes = useCreateBeaconChainProgressStyles();
+export const CreateNodeProgress = () => {
+  const classes = useCreateNodeProgressStyles();
 
   return (
     <div className={classes.component}>

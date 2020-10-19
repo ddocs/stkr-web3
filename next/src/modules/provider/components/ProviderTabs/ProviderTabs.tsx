@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { t } from '../../../../common/utils/intl';
 import { NavLink } from 'react-router-dom';
 import {
-  PROVIDER_BEACON_CHAIN_PATH,
+  PROVIDER_NODES_PATH,
   PROVIDER_PATH,
 } from '../../../../common/const';
 import { useState } from 'react';
@@ -28,7 +28,7 @@ const TABS = [
   {
     value: Tabs.beacon,
     label: 'navigation.beacon-list',
-    link: PROVIDER_BEACON_CHAIN_PATH,
+    link: PROVIDER_NODES_PATH,
   },
 ];
 
@@ -38,7 +38,7 @@ export const ProviderTabs = ({ className }: IProviderTabsProps) => {
   const location = useLocation();
 
   const recognizeDefaultValue = () => {
-    if (location.pathname === PROVIDER_BEACON_CHAIN_PATH) {
+    if (location.pathname === PROVIDER_NODES_PATH) {
       return Tabs.beacon;
     } else return Tabs.micropool;
   };
