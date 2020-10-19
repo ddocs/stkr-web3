@@ -8,21 +8,31 @@ import { Curtains } from '../../../../UiKit/Curtains';
 import { BackgroundColorProvider } from '../../../../UiKit/BackgroundColorProvider';
 import { CreateMicropoolStage1 } from '../../components/CreateMicropoolStage1';
 import { CreateMicropoolStage2 } from '../../components/CreateMicropoolStage2';
+import { useAction } from '../../../../store/redux';
+import { UserActions } from '../../../../store/actions/UserActions';
 
-interface INotProviderYetProps {
+interface ICreateMicropoolProps {
   className?: string;
 }
 
 const STEPS = defineFlow(CreateMicropoolStage1, CreateMicropoolStage2);
 
-export const CreateMicropool = ({ className }: INotProviderYetProps) => {
+export const CreateMicropool = ({ className }: ICreateMicropoolProps) => {
   const classes = useCreateBeaconChainStyles();
 
   const [steps] = useState(STEPS);
 
+  const dispatchFetchCurrentProviderMicropools = useAction(
+    UserActions.fetchCurrentProviderMicropools,
+  );
+
   return (
     <section className={classNames(classes.component, className)}>
-      <Flow key={uid(steps)} steps={steps} onComplete={() => null}>
+      <Flow
+        key={uid(steps)}
+        steps={steps}
+        onComplete={dispatchFetchCurrentProviderMicropools}
+      >
         {body => {
           return (
             <Curtains classes={{ root: classes.wrapper }}>

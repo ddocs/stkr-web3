@@ -8,21 +8,31 @@ import classNames from 'classnames';
 import { Curtains } from '../../../../UiKit/Curtains';
 import { CreateBeaconChainStage2 } from '../../components/CreateBeaconChainStage2';
 import { BackgroundColorProvider } from '../../../../UiKit/BackgroundColorProvider';
+import { useAction } from '../../../../store/redux';
+import { UserActions } from '../../../../store/actions/UserActions';
 
-interface INotProviderYetProps {
+interface ICreateBeaconChainProps {
   className?: string;
 }
 
 const STEPS = defineFlow(CreateBeaconChainStage1, CreateBeaconChainStage2);
 
-export const CreateBeaconChain = ({ className }: INotProviderYetProps) => {
+export const CreateBeaconChain = ({ className }: ICreateBeaconChainProps) => {
   const classes = useCreateBeaconChainStyles();
 
   const [steps] = useState(STEPS);
 
+  const dispatchFetchCurrentProviderSidecars = useAction(
+    UserActions.fetchCurrentProviderSidecars,
+  );
+
   return (
     <section className={classNames(classes.component, className)}>
-      <Flow key={uid(steps)} steps={steps} onComplete={() => null}>
+      <Flow
+        key={uid(steps)}
+        steps={steps}
+        onComplete={dispatchFetchCurrentProviderSidecars}
+      >
         {body => {
           return (
             <Curtains classes={{ root: classes.wrapper }}>
