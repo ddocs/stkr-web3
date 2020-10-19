@@ -4,17 +4,14 @@ import classNames from 'classnames';
 import { CancelIcon } from '../../../../UiKit/Icons/CancelIcon';
 import { Form } from 'react-final-form';
 import { RenderForm } from './RenderForm';
-import { NavLink } from '../../../../UiKit/Link';
-import { PROVIDER_PATH } from '../../../../common/const';
 import { useAction } from '../../../../store/redux';
-import {
-  UserActions,
-  UserActionTypes,
-} from '../../../../store/actions/UserActions';
+import { UserActions, UserActionTypes, } from '../../../../store/actions/UserActions';
 import { Mutation } from '@redux-requests/react';
 import { Curtains } from '../../../../UiKit/Curtains';
 import { BackgroundColorProvider } from '../../../../UiKit/BackgroundColorProvider';
 import { CreateMicropoolProgress } from './CreateMicropoolProgress';
+import { IconButton } from '@material-ui/core';
+import { useHistory } from 'react-router';
 
 interface ICreateMicropoolPayload {
   name: string;
@@ -28,12 +25,16 @@ export const CreateMicropoolComponent = ({
   onSubmit,
 }: ICreateMicropoolProps) => {
   const classes = useCreateMicropoolStyles();
+  const history = useHistory();
+  const handleClose = useCallback(() => {
+    history.goBack();
+  }, []);
 
   return (
     <div className={classes.component}>
-      <NavLink className={classes.close} color="primary" href={PROVIDER_PATH}>
+      <IconButton className={classes.close} onClick={handleClose}>
         <CancelIcon />
-      </NavLink>
+      </IconButton>
       <Form
         render={formProps => <RenderForm {...formProps} />}
         onSubmit={onSubmit}
