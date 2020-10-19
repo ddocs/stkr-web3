@@ -14,5 +14,6 @@ export function mapSidecar(item: SidecarReply): ISidecar {
     period: differenceInCalendarMonths(new Date().getTime(), item.activated),
     created: new Date(item.created),
     status: item.status,
+
   };
 }

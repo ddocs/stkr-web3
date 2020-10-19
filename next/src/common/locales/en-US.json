@@ -27,7 +27,7 @@
     "connect": "Connect",
     "install": "Install",
     "submit": "Submit",
-    "copyright": "© {year} Strk All rights reserved | <a href=\"mailto: info@stkr.com\" rel=\"noopener noreferrer\">info@stkr.com</a>",
+    "copyright": "© {year} Strk All rights reserved <a href=\"mailto: info@stkr.com\" rel=\"noopener noreferrer\">info@stkr.com</a>",
     "share": "Share via social",
     "micropool-name": "Micropool name",
     "duration": "Duration",
@@ -169,6 +169,9 @@
     "~months": "~ {value} mo",
     "small-eth": "{value} <span style=\"font-size: 16px\">ETH</span>"
   },
+  "format": {
+    "date": "{value, date, medium} {value, time, medium}"
+  },
   "user-actions": {
     "error": {
       "sdk-not-initialized": "Sdk not initialized"
@@ -187,9 +190,9 @@
       "3": "We are happy to present ETH 2.0 stake possibility"
     },
     "date": {
-      "1": "2 days ago  |  Community",
-      "2": "21 May  |  Community",
-      "3": "21 May  |  Community"
+      "1": "2 days ago   Community",
+      "2": "21 May   Community",
+      "3": "21 May   Community"
     }
   },
   "micropool-list": {
@@ -198,6 +201,14 @@
       "MICRO_POOL_STATUS_ONGOING": "Ongoing",
       "MICRO_POOL_STATUS_COMPLETED": "Completed",
       "MICRO_POOL_STATUS_CANCELED": "Canceled"
+    }
+  },
+  "beacon-list": {
+    "status": {
+      "SIDECAR_STATUS_CREATED": "Created",
+      "SIDECAR_STATUS_REGISTERED": "Registered",
+      "SIDECAR_STATUS_ACTIVATED": "Activated",
+      "SIDECAR_STATUS_DELETED": "Deleted"
     }
   }
 }

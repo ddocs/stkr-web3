@@ -3,12 +3,12 @@ import { useBeaconListStyles } from './BeaconListStyles';
 import classNames from 'classnames';
 import { ITablesCaptionProps } from '../../../../components/TableComponents/types';
 import {
-    Table,
-    TableBody,
-    TableBodyCell,
-    TableHead,
-    TableHeadCell,
-    TableRow,
+  Table,
+  TableBody,
+  TableBodyCell,
+  TableHead,
+  TableHeadCell,
+  TableRow,
 } from '../../../../components/TableComponents';
 import { useLocaleMemo } from '../../../../common/hooks/useLocaleMemo';
 import { t } from '../../../../common/utils/intl';
@@ -18,6 +18,7 @@ import { StkrSdk } from '../../../api';
 import { useQuery } from '@redux-requests/react';
 import { uid } from 'react-uid';
 import { ISidecar } from '../../../../store/apiMappers/sidecarsAPI';
+import { formatDistanceToNowStrict } from 'date-fns';
 
 const useCaptions = (): ITablesCaptionProps[] =>
   useLocaleMemo(
@@ -73,11 +74,15 @@ export const BeaconListComponent = ({ className, data }: IBeaconListProps) => {
             {data.map(item => (
               <TableRow key={uid(item)}>
                 <TableBodyCell>{item.id}</TableBodyCell>
-                <TableBodyCell>{item.period}</TableBodyCell>
                 <TableBodyCell>
-                  {new Date(item.created).toLocaleString()}
+                  {t(`beacon-list.status.${item.status}`)}
                 </TableBodyCell>
-                <TableBodyCell>{item.status}</TableBodyCell>
+                <TableBodyCell>
+                  {formatDistanceToNowStrict(item.created, { addSuffix: true })}
+                </TableBodyCell>
+                <TableBodyCell>
+                  {t('format.date', { value: item.created })}
+                </TableBodyCell>
                 <TableBodyCell>
                   <Button
                     onClick={() => {
