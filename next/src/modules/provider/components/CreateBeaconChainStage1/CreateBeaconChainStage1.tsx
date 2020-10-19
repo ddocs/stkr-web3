@@ -11,12 +11,7 @@ import { Field, Form, FormRenderProps } from 'react-final-form';
 import { InputField } from '../../../../UiKit/InputField';
 import { Button } from '../../../../UiKit/Button';
 import { useAction } from '../../../../store/redux';
-import {
-  UserActions,
-  UserActionTypes,
-} from '../../../../store/actions/UserActions';
-import { useQuery } from '@redux-requests/react';
-import { CreateBeaconChainStage2Component } from '../CreateBeaconChainStage2/CreateBeaconChainStage2';
+import { UserActions } from '../../../../store/actions/UserActions';
 
 interface ICreateNodePayload {
   name: string;
@@ -24,6 +19,7 @@ interface ICreateNodePayload {
 
 interface ICreateBeaconChainStage1Props extends IStageProps {
   disabled?: boolean;
+  error?: any;
 
   onSubmit(x: ICreateNodePayload): void;
 }
@@ -31,6 +27,7 @@ interface ICreateBeaconChainStage1Props extends IStageProps {
 export const CreateBeaconChainStage1Component = ({
   className,
   disabled,
+  error,
   onSubmit,
 }: ICreateBeaconChainStage1Props) => {
   const classes = useCreateBeaconChainStage1Styles();
@@ -44,6 +41,7 @@ export const CreateBeaconChainStage1Component = ({
         <Field
           className={classes.input}
           component={InputField}
+          required
           name="name"
           type="text"
           label={t('navigation.node-name')}
@@ -62,15 +60,10 @@ export const CreateBeaconChainStage1Component = ({
         >
           {t('navigation.create')}
         </Button>
+        {error ? <div>Can't process your request</div> : null}
       </form>
     );
   };
-
-  const { loading } = useQuery({ type: UserActionTypes.CREATE_SIDECAR });
-
-  if (loading) {
-    return <CreateBeaconChainStage2Component />;
-  }
 
   return (
     <div className={classNames(classes.component, className)}>
@@ -81,20 +74,20 @@ export const CreateBeaconChainStage1Component = ({
 };
 
 const CreateBeaconChainStage1Imp = ({ className }: IStageProps) => {
-  const { moveForward } = useFlowControl();
+  const { moveForward, data } = useFlowControl<{ error: any }>();
 
   const dispatchCreateSidecar = useAction(UserActions.createSidecar);
 
   const handleNextStep = useCallback(() => {
-    // TODO: add function
-    // moveForward();
     dispatchCreateSidecar();
-  }, [moveForward]);
+    moveForward();
+  }, [moveForward, dispatchCreateSidecar]);
 
   return (
     <CreateBeaconChainStage1Component
       className={className}
       onSubmit={handleNextStep}
+      error={data.error}
     />
   );
 };
