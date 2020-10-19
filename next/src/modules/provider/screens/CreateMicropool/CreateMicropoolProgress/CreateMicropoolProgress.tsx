@@ -1,9 +1,9 @@
 import React from 'react';
 import { useCreateMicropoolProgressStyles } from './CreateMicropoolProgressStyles';
-import { Body2, Headline2 } from '../../../../UiKit/Typography';
-import { t, tHTML } from '../../../../common/utils/intl';
-import { ProgressBar } from '../ProgressBar/ProgressBar';
-import { Icon } from '../CreateBeaconChainStage2/Icon';
+import { Body2, Headline2 } from '../../../../../UiKit/Typography';
+import { t, tHTML } from '../../../../../common/utils/intl';
+import { ProgressBar } from '../../../components/ProgressBar/ProgressBar';
+import { Icon } from '../../../components/CreateBeaconChainStage2/Icon';
 
 export const CreateMicropoolProgress = () => {
   const classes = useCreateMicropoolProgressStyles();

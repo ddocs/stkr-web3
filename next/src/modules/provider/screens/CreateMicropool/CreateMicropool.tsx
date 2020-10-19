@@ -13,7 +13,7 @@ import { Mutation, useQuery } from '@redux-requests/react';
 import { SidecarReply } from '../../../api/gateway';
 import { Curtains } from '../../../../UiKit/Curtains';
 import { BackgroundColorProvider } from '../../../../UiKit/BackgroundColorProvider';
-import { CreateMicropoolProgress } from '../../components/CreateMicropoolProgress';
+import { CreateMicropoolProgress } from './CreateMicropoolProgress';
 
 interface ICreateMicropoolStoreProps {
   beacons: ISelectOption[];
