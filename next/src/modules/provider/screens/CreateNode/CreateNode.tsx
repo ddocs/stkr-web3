@@ -3,8 +3,7 @@ import { useCreateNodeStyles } from './CreateNodeStyles';
 import { Body2, Headline2 } from '../../../../UiKit/Typography';
 import { t } from '../../../../common/utils/intl';
 import { Icon } from './Icon';
-import { Field, Form, FormRenderProps } from 'react-final-form';
-import { InputField } from '../../../../UiKit/InputField';
+import { Form, FormRenderProps } from 'react-final-form';
 import { Button } from '../../../../UiKit/Button';
 import { useAction } from '../../../../store/redux';
 import {
@@ -16,17 +15,13 @@ import { BackgroundColorProvider } from '../../../../UiKit/BackgroundColorProvid
 import { Mutation } from '@redux-requests/react';
 import { CreateNodeProgress } from './CreateNodeProgress';
 
-interface ICreateNodePayload {
-  name: string;
-}
+interface ICreateNodePayload {}
 
 interface ICreateNodeProps {
   onSubmit(payload: ICreateNodePayload): void;
 }
 
-export const CreateNodeComponent = ({
-  onSubmit,
-}: ICreateNodeProps) => {
+export const CreateNodeComponent = ({ onSubmit }: ICreateNodeProps) => {
   const classes = useCreateNodeStyles();
 
   const renderForm = ({ handleSubmit }: FormRenderProps<any>) => {
@@ -35,14 +30,6 @@ export const CreateNodeComponent = ({
         <Headline2 component="span" color="primary" className={classes.title}>
           {t('provider.create.create-beacon-chain-stage-1.title')}
         </Headline2>
-        <Field
-          className={classes.input}
-          component={InputField}
-          required
-          name="name"
-          type="text"
-          label={t('navigation.node-name')}
-        />
         <Body2 component="span" color="secondary" className={classes.text}>
           {t('provider.create.create-beacon-chain-stage-1.description')}
         </Body2>

@@ -50,9 +50,8 @@ export const CreateMicropoolImp = () => {
   const dispatchCreateMicropool = useAction(UserActions.createMicropool);
 
   const handleSubmit = useCallback(
-    ({ name }: ICreateMicropoolPayload) => {
-      // TODO: add name field to the form. Ask designers
-      dispatchCreateMicropool({ name: name || 'micropool' });
+    (payload: ICreateMicropoolPayload) => {
+      dispatchCreateMicropool(payload);
     },
     [dispatchCreateMicropool],
   );
