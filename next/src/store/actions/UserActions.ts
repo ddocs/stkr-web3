@@ -2,9 +2,10 @@ import { IUserInfo } from '../apiMappers/userApi';
 import { Providers } from '../../common/types';
 import { StkrSdk } from '../../modules/api';
 import BigNumber from 'bignumber.js';
-import { MicroPoolReply } from '../../modules/api/gateway';
+import { MicroPoolReply, SidecarReply } from '../../modules/api/gateway';
 import { IPool } from '../apiMappers/poolsApi';
 import { differenceInCalendarMonths } from 'date-fns';
+import { ISidecar, mapSidecar } from '../apiMappers/sidecarsAPI';
 
 export const UserActionTypes = {
   CONNECT: 'CONNECT',
@@ -137,17 +138,8 @@ export const UserActions = {
       })(),
     },
     meta: {
-      getData: (data: MicroPoolReply[]): MicroPoolReply[] => {
-        return data;
-        /*return data.map(item => ({
-          name: item.name,
-          provider: item.provider,
-          period: differenceInCalendarMonths(item.startTime, item.endTime),
-          fee: new BigNumber(0),
-          currentStake: new BigNumber(0),
-          totalStake: new BigNumber(0),
-          status: item.status,
-        }));*/
+      getData: (data: SidecarReply[]): ISidecar[] => {
+        return data.map(mapSidecar);
       },
     },
   }),

@@ -24,6 +24,7 @@ import { useAction } from '../../../../store/redux';
 import { useInitEffect } from '../../../../common/hooks/useInitEffect';
 import { QueryLoading } from '../../../../components/QueryLoading/QueryLoading';
 import { QueryError } from '../../../../components/QueryError/QueryError';
+import { Route } from 'react-router-dom';
 
 interface IProviderDashboardStoreProps {
   totalStakersInEthereum: number;
@@ -59,10 +60,12 @@ export const ProviderDashboardComponent = ({
     },
   ];
 
+  console.log('micropool', micropool);
+
   return (
     <section className={classes.component}>
       <Curtains classes={{ root: classes.wrapper }}>
-        {micropool && micropool.length !== 0 && (
+        {micropool && micropool.length !== 5 && (
           <Info className={classes.info} data={info} small={true} />
         )}
         <div className={classes.navigation}>
@@ -84,12 +87,19 @@ export const ProviderDashboardComponent = ({
             </NavLink>
           )}
         </div>
-        {location.pathname === PROVIDER_PATH && (
-          <MicropoolList className={classes.table} data={micropool} />
-        )}
-        {location.pathname === PROVIDER_BEACON_CHAIN_PATH && (
-          <BeaconList className={classes.table} />
-        )}
+        <Route
+          path={[PROVIDER_PATH]}
+          render={() => (
+            <MicropoolList className={classes.table} data={micropool} />
+          )}
+          exact={true}
+        />
+
+        <Route
+          path={[PROVIDER_BEACON_CHAIN_PATH]}
+          render={() => <BeaconList className={classes.table} />}
+          exact={true}
+        />
       </Curtains>
     </section>
   );

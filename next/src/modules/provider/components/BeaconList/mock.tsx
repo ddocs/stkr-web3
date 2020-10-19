@@ -1,16 +1,14 @@
 import React from 'react';
-import { ITablesRowProps } from '../../../../components/TableComponents/types';
-import { Button } from '../../../../UiKit/Button';
-import { t } from '../../../../common/utils/intl';
+import { SidecarReply } from '../../../api/gateway';
 
-export const BEACON_NODE_DATA: ITablesRowProps[] = [
+export const BEACON_NODE_DATA: SidecarReply[] = [
   {
-    data: {
-      name: 'Alex_Beacon_Node',
-      uptime: '20 min ago',
-      date: '30 Sep 2020 19:30',
-      status: 'None',
-      certificate: <Button>{t('navigation.download')}</Button>,
-    },
+    id: '48082446-56aa-4bf1-8451-83dec994fb20',
+    provider: '0xb827bca9cf96f58a7bed49d9b5cbd84fed72b03f',
+    status: 'SIDECAR_STATUS_CREATED',
+    isOnline: false,
+    created: 1603095306000,
+    registered: 0,
+    activated: 0,
   },
 ];
