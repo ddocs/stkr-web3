@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 
 import { StkrSdk } from './index';
-import { GOERLI_CONFIG } from './config';
+import { DEVELOP_CONFIG } from './config';
 import { BalanceReply, MicroPoolReply, ProviderReply } from './gateway';
 
 interface Props {}
@@ -34,7 +34,7 @@ class App extends React.Component<Props, State> {
     }, 10000);
 
     (async () => {
-      const stkr = StkrSdk.factoryDefault(GOERLI_CONFIG);
+      const stkr = StkrSdk.factoryDefault(DEVELOP_CONFIG);
       this.setState((prev, props) => ({
         sdk: stkr,
       }));

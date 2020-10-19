@@ -197,7 +197,7 @@
   },
   "micropool-list": {
     "status": {
-      "MICRO_POOL_STATUS_PENDING": "Pendig",
+      "MICRO_POOL_STATUS_PENDING": "Pending",
       "MICRO_POOL_STATUS_ONGOING": "Ongoing",
       "MICRO_POOL_STATUS_COMPLETED": "Completed",
       "MICRO_POOL_STATUS_CANCELED": "Canceled"

@@ -132,10 +132,10 @@ export class MetaMaskProvider extends KeyProvider {
       from: from,
       to: to,
     };
-    console.log('Calling transaction via Web3: ', tx);
+    console.log('Invoking transaction via Web3: ', tx);
     // @ts-ignore
     return await this._web3?.currentProvider?.request({
-      method: 'eth_sendTransaction',
+      method: 'eth_call',
       params: [tx],
       from: from,
     });
