@@ -1,8 +1,6 @@
 import React from 'react';
 import { useBeaconListStyles } from './BeaconListStyles';
 import classNames from 'classnames';
-import { connect } from 'react-redux';
-import { IStoreState } from '../../../../store/reducers';
 import {
   ITablesCaptionProps,
   ITablesRowProps,
@@ -11,13 +9,11 @@ import { DataTable } from '../../../../components/TableComponents';
 import { useLocaleMemo } from '../../../../common/hooks/useLocaleMemo';
 import { t } from '../../../../common/utils/intl';
 import { Button } from '../../../../UiKit/Button';
-import { IBeaconListItem } from './types';
-import { BEACON_NODE_DATA } from '../../mock';
-import { UserActions } from '../../../../store/actions/UserActions';
-import { useInitEffect } from '../../../../common/hooks/useInitEffect';
+import { UserActionTypes } from '../../../../store/actions/UserActions';
 import { differenceInCalendarMonths } from 'date-fns';
 import { SidecarReply } from '../../../api/gateway';
 import { StkrSdk } from '../../../api';
+import { useQuery } from '@redux-requests/react';
 
 interface IBeaconListProps {
   className?: string;
@@ -73,25 +69,22 @@ export const BeaconListComponent = ({ className, data }: IBeaconListProps) => {
 export const BeaconListImp = ({
   className,
   data,
-  fetchCurrentProviderSidecars,
 }: {
   className?: string;
-  data: IBeaconListItem[];
-  fetchCurrentProviderSidecars: typeof UserActions.fetchCurrentProviderSidecars;
+  data: SidecarReply[];
 }) => {
-  useInitEffect(() => {
-    fetchCurrentProviderSidecars();
-  });
-
   const convertedData =
     data &&
     data.map(item => {
       return {
         data: {
-          name: item.name,
-          uptime: item.uptime,
-          date: item.date,
-          status: item.status,
+          name: item.id,
+          uptime: differenceInCalendarMonths(
+            new Date().getTime(),
+            item.activated,
+          ),
+          date: new Date(item.created).toLocaleString(),
+          status: String(item.status).substr('SIDECAR_STATUS_'.length),
           certificate: (
             <Button
               onClick={() => {
@@ -110,25 +103,10 @@ export const BeaconListImp = ({
   return <BeaconListComponent className={className} data={convertedData} />;
 };
 
-export const BeaconList = connect(
-  (state: IStoreState) => {
-    // @ts-ignore
-    const sidecars = state['requests'].queries['FETCH_SIDECARS']?.data || [];
-    // TODO: "i know that its wrong, fix me"
-    return {
-      data: sidecars.map((sidecar: SidecarReply) => {
-        return {
-          id: sidecar.id,
-          name: sidecar.id,
-          uptime: differenceInCalendarMonths(
-            new Date().getTime(),
-            sidecar.activated,
-          ),
-          date: new Date(sidecar.created).toLocaleString(),
-          status: String(sidecar.status).substr('SIDECAR_STATUS_'.length),
-        };
-      }),
-    };
-  },
-  { fetchCurrentProviderSidecars: UserActions.fetchCurrentProviderSidecars },
-)(BeaconListImp);
+export const BeaconList = ({ className }: { className?: string }) => {
+  const { data: sidecars } = useQuery<SidecarReply[]>({
+    type: UserActionTypes.FETCH_CURRENT_PROVIDER_SIDECARS,
+  });
+
+  return <BeaconListImp className={className} data={sidecars} />;
+};

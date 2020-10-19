@@ -1,39 +1,32 @@
-import { IMicropoolListItemProps } from './components/MicropoolList/types';
-import { IBeaconListItem } from './components/BeaconList/types';
+import { IPool } from '../../store/apiMappers/poolsApi';
+import BigNumber from 'bignumber.js';
 
-export const MICRO_POOL_DATA: IMicropoolListItemProps[] = [
+export const MICRO_POOL_DATA: IPool[] = [
   {
-    id: 1,
+    provider: '',
+    period: 1,
     name: 'Eth 2.0 Pool',
-    status: 'Live',
-    fee: 0.000315,
-    total: 32,
-    reward: 29.5,
+    status: 'MICRO_POOL_STATUS_PENDING',
+    fee: new BigNumber(0.000315),
+    totalStake: new BigNumber(32),
+    currentStake: new BigNumber(29.5),
   },
   {
-    id: 1,
+    provider: '',
+    period: 2,
     name: 'Eth 2.0 Pool',
-    status: 'Live',
-    fee: 0.000315,
-    total: 32,
-    reward: 29,
+    status: 'MICRO_POOL_STATUS_PENDING',
+    fee: new BigNumber(0.000315),
+    totalStake: new BigNumber(32),
+    currentStake: new BigNumber(29),
   },
   {
-    id: 1,
+    provider: '',
+    period: 3,
     name: 'Eth 2.0 Pool',
-    status: 'Live',
-    fee: 0.000315,
-    total: 32,
-    reward: 3.5,
-  },
-];
-
-export const BEACON_NODE_DATA: IBeaconListItem[] = [
-  {
-    id: 1,
-    name: 'Alex_Beacon_Node',
-    uptime: '20 min ago',
-    date: '30 Sep 2020 19:30',
-    status: 'None',
+    status: 'MICRO_POOL_STATUS_PENDING',
+    fee: new BigNumber(0.000315),
+    totalStake: new BigNumber(32),
+    currentStake: new BigNumber(3.5),
   },
 ];

@@ -14,22 +14,13 @@ import { useLocaleMemo } from '../../../../common/hooks/useLocaleMemo';
 import { t } from '../../../../common/utils/intl';
 import { EmptyList } from '../EmptyList';
 import { uid } from 'react-uid';
-import { useInitEffect } from '../../../../common/hooks/useInitEffect';
-import { useAction } from '../../../../store/redux';
-import {
-  UserActions,
-  UserActionTypes,
-} from '../../../../store/actions/UserActions';
-import { Query } from '@redux-requests/react';
 import { IPool } from '../../../../store/apiMappers/poolsApi';
 import { Total } from '../../../../components/Total';
 import { Button } from '../../../../UiKit/Button';
-import { QueryError } from '../../../../components/QueryError/QueryError';
-import { QueryLoading } from '../../../../components/QueryLoading/QueryLoading';
 
 interface IMicropoolListProps {
   className?: string;
-  data: IPool[];
+  data?: IPool[];
   onCreateMicropool?(x: any): void;
 }
 
@@ -56,82 +47,60 @@ const useCaptions = (): ITablesCaptionProps[] =>
     [],
   );
 
-export const MicropoolListComponent = ({
-  className,
-  data,
-}: IMicropoolListProps) => {
+export const MicropoolList = ({ className, data }: IMicropoolListProps) => {
   const classes = useMicropoolListStyles();
 
   const captions = useCaptions();
 
   return (
     <div className={classNames(classes.component, className)}>
-      <Table
-        columnsCount={captions.length}
-        className={classes.table}
-        customCell="1fr 1fr 1fr 1.5fr"
-      >
-        <TableHead>
-          {captions.map(cell => (
-            <TableHeadCell
-              key={cell.key}
-              label={cell.label}
-              align={cell.align}
-            />
-          ))}
-        </TableHead>
-        {data && (
-          <TableBody rowsCount={data.length}>
-            {data.map(item => (
-              <TableRow key={uid(item)}>
-                <TableBodyCell>{item.name}</TableBodyCell>
-                <TableBodyCell>
-                  {t(`micropool-list.status.${item.status}`)}
-                </TableBodyCell>
-                <TableBodyCell>{item.fee.toFormat()}</TableBodyCell>
-                <TableBodyCell>
-                  <Total
-                    total={item.totalStake.toNumber()}
-                    reward={item.currentStake.toNumber()}
-                  >
-                    <Button
-                      variant="text"
-                      size="medium"
-                      color="secondary"
-                      onClick={() => alert()}
-                    >
-                      {t('navigation.edit')}
-                    </Button>
-                  </Total>
-                </TableBodyCell>
-              </TableRow>
+      {!data || !data.length ? (
+        <EmptyList />
+      ) : (
+        <Table
+          columnsCount={captions.length}
+          className={classes.table}
+          customCell="1fr 1fr 1fr 1.5fr"
+        >
+          <TableHead>
+            {captions.map(cell => (
+              <TableHeadCell
+                key={cell.key}
+                label={cell.label}
+                align={cell.align}
+              />
             ))}
-          </TableBody>
-        )}
-      </Table>
+          </TableHead>
+          {data && (
+            <TableBody rowsCount={data.length}>
+              {data.map(item => (
+                <TableRow key={uid(item)}>
+                  <TableBodyCell>{item.name}</TableBodyCell>
+                  <TableBodyCell>
+                    {t(`micropool-list.status.${item.status}`)}
+                  </TableBodyCell>
+                  <TableBodyCell>{item.fee.toFormat()}</TableBodyCell>
+                  <TableBodyCell>
+                    <Total
+                      total={item.totalStake.toNumber()}
+                      reward={item.currentStake.toNumber()}
+                    >
+                      <Button
+                        variant="text"
+                        size="medium"
+                        color="secondary"
+                        onClick={() => alert()}
+                      >
+                        {t('navigation.edit')}
+                      </Button>
+                    </Total>
+                  </TableBodyCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          )}
+        </Table>
+      )}
     </div>
-  );
-};
-
-export const MicropoolList = ({ className }: { className?: string }) => {
-  const dispatchFetchCurrentProviderMicropools = useAction(
-    UserActions.fetchCurrentProviderMicropools,
-  );
-
-  useInitEffect(() => {
-    dispatchFetchCurrentProviderMicropools();
-  });
-
-  return (
-    <Query<IPool[]>
-      errorComponent={QueryError}
-      loadingComponent={QueryLoading}
-      noDataMessage={<EmptyList />}
-      type={UserActionTypes.FETCH_CURRENT_PROVIDER_MICROPOOLS}
-    >
-      {({ data }) => {
-        return <MicropoolListComponent className={className} data={data} />;
-      }}
-    </Query>
   );
 };

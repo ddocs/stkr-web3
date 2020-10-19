@@ -9,23 +9,29 @@ import {
   PROVIDER_PATH,
 } from '../../../../common/const';
 import { useLocation } from 'react-router';
-import { connect } from 'react-redux';
-import { IStoreState } from '../../../../store/reducers';
 import { ProviderTabs } from '../../components/ProviderTabs';
 import { t, tHTML } from '../../../../common/utils/intl';
 import { Curtains } from '../../../../UiKit/Curtains';
 import { Info } from '../../../../components/Info';
 import { NavLink } from '../../../../UiKit/Link';
-import { MICRO_POOL_DATA } from '../../mock';
-import { IMicropoolListItemProps } from '../../components/MicropoolList/types';
+import { IPool } from '../../../../store/apiMappers/poolsApi';
+import {
+  UserActions,
+  UserActionTypes,
+} from '../../../../store/actions/UserActions';
+import { Query } from '@redux-requests/react';
+import { useAction } from '../../../../store/redux';
+import { useInitEffect } from '../../../../common/hooks/useInitEffect';
+import { QueryLoading } from '../../../../components/QueryLoading/QueryLoading';
+import { QueryError } from '../../../../components/QueryError/QueryError';
 
-interface IProviderAlreadyStoreProps {
+interface IProviderDashboardStoreProps {
   totalStakersInEthereum: number;
   totalStakers: number;
-  micropool?: IMicropoolListItemProps[];
+  micropool?: IPool[];
 }
 
-interface IProviderAlreadyProps extends IProviderAlreadyStoreProps {
+interface IProviderDashboardProps extends IProviderDashboardStoreProps {
   onCreateMicropool?(): void;
 }
 
@@ -33,7 +39,7 @@ export const ProviderDashboardComponent = ({
   totalStakersInEthereum,
   totalStakers,
   micropool,
-}: IProviderAlreadyProps) => {
+}: IProviderDashboardProps) => {
   const classes = useProviderDashboardStyles();
 
   const location = useLocation();
@@ -79,7 +85,7 @@ export const ProviderDashboardComponent = ({
           )}
         </div>
         {location.pathname === PROVIDER_PATH && (
-          <MicropoolList className={classes.table} />
+          <MicropoolList className={classes.table} data={micropool} />
         )}
         {location.pathname === PROVIDER_BEACON_CHAIN_PATH && (
           <BeaconList className={classes.table} />
@@ -89,13 +95,31 @@ export const ProviderDashboardComponent = ({
   );
 };
 
-export const ProviderDashboard = connect(
-  (state: IStoreState): IProviderAlreadyStoreProps => {
-    return {
-      totalStakersInEthereum: 64,
-      totalStakers: 2,
-      micropool: MICRO_POOL_DATA,
-    };
-  },
-  {},
-)(ProviderDashboardComponent);
+const alwaysFalse = () => false;
+
+export const ProviderDashboard = () => {
+  const dispatchFetchCurrentProviderMicropools = useAction(
+    UserActions.fetchCurrentProviderMicropools,
+  );
+
+  useInitEffect(() => {
+    dispatchFetchCurrentProviderMicropools();
+  });
+
+  return (
+    <Query<IPool[]>
+      errorComponent={QueryError}
+      loadingComponent={QueryLoading}
+      isDataEmpty={alwaysFalse}
+      type={UserActionTypes.FETCH_CURRENT_PROVIDER_MICROPOOLS}
+    >
+      {({ data }) => (
+        <ProviderDashboardComponent
+          totalStakersInEthereum={64}
+          totalStakers={2}
+          micropool={data}
+        />
+      )}
+    </Query>
+  );
+};

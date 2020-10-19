@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { IStoreState } from '../../store/reducers';
 import { CreateBeaconChain } from './screens/CreateBeaconChain';
 import { ProviderDashboard } from './screens/ProviderDashboard';
 import { UserActions, UserActionTypes } from '../../store/actions/UserActions';
@@ -11,29 +10,41 @@ import { useAuthentication } from '../../common/utils/useAuthentications';
 import { QueryError } from '../../components/QueryError/QueryError';
 import { QueryLoading } from '../../components/QueryLoading/QueryLoading';
 import { QueryEmpty } from '../../components/QueryEmpty/QueryEmpty';
+import { useAction } from '../../store/redux';
 
-interface IProviderStoreProps {
-  isProvider: boolean;
-}
-
-interface IProviderProps extends IProviderStoreProps {
+interface IProviderProps {
   authorizeProvider: typeof UserActions.authorizeProvider;
 }
 
-export const ProviderComponent = ({
-  isProvider,
-  authorizeProvider,
-}: IProviderProps) => {
+export const BeaconCheck = () => {
+  const dispatchFetchCurrentProviderSidecars = useAction(
+    UserActions.fetchCurrentProviderSidecars,
+  );
+  useInitEffect(() => {
+    dispatchFetchCurrentProviderSidecars();
+  });
+
+  return (
+    <Query<IAuthorizeProviderResponse>
+      type={UserActionTypes.FETCH_CURRENT_PROVIDER_SIDECARS}
+      errorComponent={QueryError}
+      loadingComponent={QueryLoading}
+      noDataMessage={<CreateBeaconChain />}
+    >
+      {() => <ProviderDashboard />}
+    </Query>
+  );
+};
+
+export const ProviderComponent = ({ authorizeProvider }: IProviderProps) => {
   const { isProviderAuthenticated } = useAuthentication();
 
   useInitEffect(() => {
-    /*if (!isProviderAuthenticated) {
-    }*/
     authorizeProvider();
   });
 
   if (isProviderAuthenticated) {
-    return isProvider ? <ProviderDashboard /> : <CreateBeaconChain />;
+    return <BeaconCheck />;
   }
 
   return (
@@ -46,13 +57,6 @@ export const ProviderComponent = ({
   );
 };
 
-export const Provider = connect(
-  (state: IStoreState): IProviderStoreProps => {
-    return {
-      isProvider: true,
-    };
-  },
-  {
-    authorizeProvider: UserActions.authorizeProvider,
-  },
-)(ProviderComponent);
+export const Provider = connect(() => {}, {
+  authorizeProvider: UserActions.authorizeProvider,
+})(ProviderComponent);

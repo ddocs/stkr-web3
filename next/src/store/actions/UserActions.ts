@@ -161,7 +161,7 @@ export const UserActions = {
     },
   }),
   createMicropool: ({ name }: { name: string }) => ({
-    type: UserActionTypes.CREATE_SIDECAR,
+    type: UserActionTypes.CREATE_MICROPOOL,
     request: {
       promise: (async function () {
         const stkrSdk = StkrSdk.getLastInstance();
