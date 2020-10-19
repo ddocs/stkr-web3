@@ -27,7 +27,7 @@ export const DefaultLayoutComponent = ({
     <>
       <div className={classNames(classes.component, className)}>
         <Header />
-        <main>{children}</main>
+        <main className={classes.content}>{children}</main>
         <Footer />
       </div>
       <UnlockWallet />

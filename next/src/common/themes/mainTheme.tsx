@@ -371,6 +371,10 @@ const mainTheme = createMuiTheme({
         fontSize: 48,
         fontWeight: 700,
         lineHeight: 1.2,
+
+        [defaultTheme.breakpoints.down('sm')]: {
+          fontSize: 38,
+        },
       },
 
       h2: {

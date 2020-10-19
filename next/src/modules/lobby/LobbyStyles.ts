@@ -1,8 +1,13 @@
 import { makeStyles } from '@material-ui/core/styles';
+import { Theme } from '@material-ui/core';
 
-export const useLobbyStyles = makeStyles(theme => ({
+export const useLobbyStyles = makeStyles<Theme>(theme => ({
   component: {
     padding: theme.spacing(8, 0),
+
+    [theme.breakpoints.down('xs')]: {
+      padding: theme.spacing(4.5, 0),
+    },
   },
   whatIs: {
     marginTop: theme.spacing(4.5),

@@ -16,7 +16,7 @@ export const usePromoStyles = makeStyles<Theme, { count: number }>(theme => ({
     [theme.breakpoints.down('sm')]: {
       gridTemplateColumns: '100%',
       gridTemplateAreas: '"title" "text" "list" "what-is"',
-      gridRowGap: theme.spacing(0.5),
+      gridRowGap: theme.spacing(1),
     },
   },
 
@@ -27,8 +27,9 @@ export const usePromoStyles = makeStyles<Theme, { count: number }>(theme => ({
     lineHeight: 1,
     fontWeight: 500,
 
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('xs')]: {
       fontSize: 53,
+      lineHeight: 1.2,
     },
 
     '&::selection': selection,
@@ -46,20 +47,26 @@ export const usePromoStyles = makeStyles<Theme, { count: number }>(theme => ({
   },
 
   text: {
+    alignSelf: 'flex-end',
+
     maxWidth: 379,
     margin: 0,
-    marginTop: 'auto',
 
-    fontSize: 18,
-    lineHeight: 1.46,
+    [theme.breakpoints.down('sm')]: {
+      maxWidth: 'none',
+    },
 
-    '&::selection': selection,
-
-    '& *::selection': selection,
+    [theme.breakpoints.down('xs')]: {
+      fontSize: 16,
+    },
   },
 
   info: {
     gridArea: 'list',
+
+    [theme.breakpoints.down('sm')]: {
+      marginTop: theme.spacing(2),
+    },
   },
 
   whatIs: {
@@ -71,6 +78,15 @@ export const usePromoStyles = makeStyles<Theme, { count: number }>(theme => ({
     gridColumnGap: theme.spacing(4),
 
     padding: theme.spacing(7.5, 0),
+
+    [theme.breakpoints.down('sm')]: {
+      gridTemplateColumns: '100%',
+      gridTemplateRows: 'auto auto auto',
+      gridRowGap: theme.spacing(4),
+      gridColumnGap: 0,
+
+      padding: theme.spacing(4),
+    },
   },
 
   caption: {
@@ -82,11 +98,30 @@ export const usePromoStyles = makeStyles<Theme, { count: number }>(theme => ({
     '& span span': {
       color: theme.palette.primary.main,
     },
+
+    [theme.breakpoints.down('sm')]: {
+      gridColumn: 'auto',
+      gridRow: 'auto',
+
+      padding: 0,
+    },
   },
 
   note: {
     gridColumn: '2/4',
 
     padding: theme.spacing(0, 4.5),
+
+    [theme.breakpoints.down('sm')]: {
+      gridColumn: 'auto',
+
+      padding: 0,
+    },
+
+    [theme.breakpoints.down('xs')]: {
+      '&&': {
+        fontSize: 16,
+      },
+    },
   },
 }));

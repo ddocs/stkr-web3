@@ -3,7 +3,7 @@ import { useInfoStyles } from './InfoStyles';
 import classNames from 'classnames';
 import { t } from '../../common/utils/intl';
 import { BackgroundColorProvider } from '../../UiKit/BackgroundColorProvider';
-import { Headline1 } from '../../UiKit/Typography';
+import { Body1, Headline1 } from '../../UiKit/Typography';
 import { uid } from 'react-uid';
 
 interface IItemProps {
@@ -30,7 +30,9 @@ export const Info = ({ className, data, small }: IInfoProps) => {
               className={classes.item}
               component="li"
             >
-              {t(item.caption)}
+              <Body1 className={classes.label} component="span">
+                {t(item.caption)}
+              </Body1>
               <Headline1
                 className={classes.value}
                 component="span"

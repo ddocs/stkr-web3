@@ -29,4 +29,8 @@ export const useDefaultLayoutStyles = makeStyles<Theme>(theme => ({
       },
     },
   },
+
+  content: {
+    maxWidth: '100vw',
+  },
 }));

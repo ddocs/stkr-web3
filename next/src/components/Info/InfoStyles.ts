@@ -1,6 +1,5 @@
 import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { selection } from '../../common/themes/mainTheme';
 
 export const useInfoStyles = makeStyles<
   Theme,
@@ -17,6 +16,15 @@ export const useInfoStyles = makeStyles<
     padding: 0,
 
     listStyle: 'none',
+
+    [theme.breakpoints.down('sm')]: {
+      '&&': {
+        gridTemplateColumns: '100%',
+        gridTemplateRows: props => `repeat(${props.count}, auto)`,
+        gridColumnGap: 0,
+        gridRowGap: theme.spacing(1),
+      },
+    },
   },
 
   item: {
@@ -26,15 +34,31 @@ export const useInfoStyles = makeStyles<
     padding: props =>
       !props.small ? theme.spacing(2.5, 4.5, 3) : theme.spacing(2.5, 4.5, 1),
 
-    fontSize: 18,
-    lineHeight: 1.2,
+    [theme.breakpoints.down('sm')]: {
+      '&&': {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
 
-    '&::selection': selection,
+        padding: theme.spacing(2.5, 2),
+      },
+    },
+  },
 
-    '& *::selection': selection,
+  label: {
+    [theme.breakpoints.down('xs')]: {
+      fontSize: 14,
+    },
   },
 
   value: {
     marginTop: props => (!props.small ? theme.spacing(10) : theme.spacing(0.5)),
+
+    [theme.breakpoints.down('xs')]: {
+      '&&': {
+        marginTop: 0,
+
+        fontSize: 22,
+      },
+    },
   },
 }));
