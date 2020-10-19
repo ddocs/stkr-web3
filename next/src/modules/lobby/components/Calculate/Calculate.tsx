@@ -6,7 +6,6 @@ import { useCalculateStyles } from './CalculateStyles';
 import { BackgroundColorProvider } from '../../../../UiKit/BackgroundColorProvider';
 import { Button } from '../../../../UiKit/Button';
 import {
-  Box,
   Divider,
   MuiThemeProvider,
   Slider,
@@ -14,15 +13,14 @@ import {
 } from '@material-ui/core';
 import { useAction } from '../../../../store/redux';
 import { openUnlockWalletAction } from '../../../../store/modals/actions';
-import { Headline1, Headline4 } from '../../../../UiKit/Typography';
+import { Headline1, Headline4, Headline6 } from '../../../../UiKit/Typography';
 import { invertTheme } from '../../../../common/themes/invertTheme';
 import BigNumber from 'bignumber.js';
-import { Headline5 } from '../../../../UiKit/Typography/Typography';
 
 const DEFAULT_VALUE = 10;
 const FIXED_DECIMAL_PLACES = 2;
 
-interface IPromoProps {
+interface ICalculateProps {
   className?: string;
   ethPrice?: BigNumber;
   isConnected: boolean;
@@ -34,7 +32,7 @@ export const Calculate = ({
   className,
   ethPrice,
   isConnected,
-}: IPromoProps) => {
+}: ICalculateProps) => {
   const classes = useCalculateStyles();
   const openUnlockWallet = useAction(openUnlockWalletAction);
 
@@ -53,15 +51,17 @@ export const Calculate = ({
           </Headline1>
           <BackgroundColorProvider className={classes.form}>
             <Headline4 className={classes.label} component="p">
-              {t('about.calculate-note')}
-              <Typography className={classes.ethPrice}>
+              <span className={classes.captionPrice}>
+                {t('about.calculate-note')}
+              </span>
+              <span className={classes.ethPrice}>
                 {t('units.eth', { value })}
-              </Typography>
+              </span>
+              <span className={classes.usdPrice}>
+                {ethPrice &&
+                  t('units.$', { value: ethPrice.multipliedBy(value) })}
+              </span>
             </Headline4>
-            <Typography className={classes.usdPrice}>
-              {ethPrice &&
-                t('units.$', { value: ethPrice.multipliedBy(value) })}
-            </Typography>
             <Slider
               className={classes.range}
               value={value}
@@ -80,10 +80,10 @@ export const Calculate = ({
                   .toFixed(FIXED_DECIMAL_PLACES);
                 return (
                   <li key={item} className={classes.item}>
-                    <Headline5 className={classes.caption}>
+                    <Headline6 className={classes.caption} component="span">
                       {t(`about.${item}`)}
-                    </Headline5>
-                    <div className={classes.value}>
+                    </Headline6>
+                    <Typography className={classes.value} component="div">
                       <span className={classes.earningValue}>
                         {t('units.eth', { value })}
                       </span>
@@ -94,22 +94,20 @@ export const Calculate = ({
                       <span className={classes.earningConvertedValue}>
                         {`$${item === 'monthly' ? monthlySaver : yearlySaver}`}
                       </span>
-                    </div>
+                    </Typography>
                   </li>
                 );
               })}
             </ul>
             {!isConnected && (
-              <Box display="flex" justifyContent="center">
-                <Button
-                  className={classes.unlock}
-                  onClick={openUnlockWallet}
-                  color="primary"
-                  size="large"
-                >
-                  {t('navigation.unlock-your-wallet')}
-                </Button>
-              </Box>
+              <Button
+                className={classes.unlock}
+                onClick={openUnlockWallet}
+                color="primary"
+                size="large"
+              >
+                {t('navigation.unlock-your-wallet')}
+              </Button>
             )}
           </BackgroundColorProvider>
         </Curtains>

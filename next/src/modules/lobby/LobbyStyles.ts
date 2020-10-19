@@ -9,11 +9,12 @@ export const useLobbyStyles = makeStyles<Theme>(theme => ({
       padding: theme.spacing(4.5, 0),
     },
   },
-  whatIs: {
-    marginTop: theme.spacing(4.5),
-  },
   calculate: {
     marginTop: theme.spacing(18),
+
+    [theme.breakpoints.down('xs')]: {
+      marginTop: theme.spacing(10),
+    },
   },
   stayTuned: {
     marginTop: theme.spacing(14),
