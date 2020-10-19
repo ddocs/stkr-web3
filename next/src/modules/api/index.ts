@@ -59,9 +59,8 @@ export class StkrSdk {
   }
 
   public async downloadContractDetails(): Promise<ContractDetails> {
-    // @ts-ignore
     const networkName: string =
-      NETWORK_NAMES[this.stkrConfig.providerConfig.networkId];
+      NETWORK_NAMES[Number(this.stkrConfig.providerConfig.networkId)];
     const {
       AETH,
       ANKR,

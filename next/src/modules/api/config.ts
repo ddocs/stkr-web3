@@ -8,9 +8,13 @@ export interface StkrConfig {
   gatewayConfig: GatewayConfig;
 }
 
-export const NETWORK_NAMES = {
-  '5': 'goerli',
-};
+// export const NETWORK_NAMES = {
+//   '5': 'goerli',
+// };
+
+export enum NETWORK_NAMES {
+  goerli = 5,
+}
 
 export const LOCAL_CONFIG: StkrConfig = {
   providerConfig: {
