@@ -5,7 +5,10 @@ import { CancelIcon } from '../../../../UiKit/Icons/CancelIcon';
 import { Form } from 'react-final-form';
 import { RenderForm } from './RenderForm';
 import { useAction } from '../../../../store/redux';
-import { UserActions, UserActionTypes, } from '../../../../store/actions/UserActions';
+import {
+  UserActions,
+  UserActionTypes,
+} from '../../../../store/actions/UserActions';
 import { Mutation } from '@redux-requests/react';
 import { Curtains } from '../../../../UiKit/Curtains';
 import { BackgroundColorProvider } from '../../../../UiKit/BackgroundColorProvider';
@@ -19,20 +22,18 @@ interface ICreateMicropoolPayload {
 
 interface ICreateMicropoolProps {
   onSubmit(x: ICreateMicropoolPayload): void;
+  onClose?(): void;
 }
 
 export const CreateMicropoolComponent = ({
   onSubmit,
+  onClose,
 }: ICreateMicropoolProps) => {
   const classes = useCreateMicropoolStyles();
-  const history = useHistory();
-  const handleClose = useCallback(() => {
-    history.goBack();
-  }, []);
 
   return (
     <div className={classes.component}>
-      <IconButton className={classes.close} onClick={handleClose}>
+      <IconButton className={classes.close} onClick={onClose}>
         <CancelIcon />
       </IconButton>
       <Form
@@ -56,6 +57,11 @@ export const CreateMicropoolImp = () => {
     [dispatchCreateMicropool],
   );
 
+  const history = useHistory();
+  const handleClose = useCallback(() => {
+    history.goBack();
+  }, []);
+
   return (
     <section className={classNames(classes.section)}>
       <Curtains classes={{ root: classes.wrapper }}>
@@ -65,7 +71,10 @@ export const CreateMicropoolImp = () => {
               loading ? (
                 <CreateMicropoolProgress />
               ) : (
-                <CreateMicropoolComponent onSubmit={handleSubmit} />
+                <CreateMicropoolComponent
+                  onSubmit={handleSubmit}
+                  onClose={handleClose}
+                />
               )
             }
           </Mutation>
