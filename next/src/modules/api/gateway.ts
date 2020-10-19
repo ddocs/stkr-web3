@@ -153,6 +153,11 @@ export class ApiGateway {
     this.token = null;
   }
 
+  public async downloadConfig(networkName: string): Promise<any> {
+    const { data } = await this.api.get(`/${networkName}.json`);
+    return data;
+  }
+
   public async createSidecar(): Promise<SidecarReply> {
     const { status, data, statusText } = await this.api.post<SidecarReply>(
       `/v1alpha/sidecar`,

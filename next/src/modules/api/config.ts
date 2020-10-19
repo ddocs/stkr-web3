@@ -8,28 +8,36 @@ export interface StkrConfig {
   gatewayConfig: GatewayConfig;
 }
 
+export const NETWORK_NAMES = {
+  '5': 'goerli',
+};
+
 export const LOCAL_CONFIG: StkrConfig = {
   providerConfig: {
     networkId: '5',
     chainId: '5',
   },
   contractConfig: {
-    microPoolContract: '0xa70aB3d531a0580c881eD37F1d8a24eaED6A1692',
-    ankrContract: '0xb5bb4478c8c5e6173214a033bdbe1467258d7c62',
+    microPoolContract: '0x93D11295a8Bff032763E4Df94De4Fb455803875E',
+    ankrContract: '0x73ec423A2Ca297b2F34d017B538e7B314E4e1e3b',
+    stakingContract: '0x570DED9A463fD20472153cEBa90a83C3A6c654CD',
+    systemContract: '0x2c924B3f094554d2F77f417f88993E894cb5924c',
   },
   gatewayConfig: {
     baseUrl: 'http://localhost:8000',
   },
 };
 
-export const GOERLI_CONFIG: StkrConfig = {
+export const DEVELOP_CONFIG: StkrConfig = {
   providerConfig: {
     networkId: '5',
     chainId: '5',
   },
   contractConfig: {
-    microPoolContract: '0x3b2a3E894Bb62d254fF4B0584204Cb60744d4A32',
-    ankrContract: '0x147ca0f5BB0D2E1cBf69842E45D0748247784879',
+    microPoolContract: '0x93D11295a8Bff032763E4Df94De4Fb455803875E',
+    ankrContract: '0x73ec423A2Ca297b2F34d017B538e7B314E4e1e3b',
+    stakingContract: '0x570DED9A463fD20472153cEBa90a83C3A6c654CD',
+    systemContract: '0x2c924B3f094554d2F77f417f88993E894cb5924c',
   },
   gatewayConfig: {
     baseUrl: 'https://api.stkr-dev.ankr.com/',

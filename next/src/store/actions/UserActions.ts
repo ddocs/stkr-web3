@@ -165,7 +165,12 @@ export const UserActions = {
     request: {
       promise: (async function () {
         const stkrSdk = StkrSdk.getLastInstance();
-        return await stkrSdk.createMicroPool(name);
+        try {
+          return await stkrSdk.createMicroPool(name);
+        } catch (e) {
+          console.error(e);
+          throw e;
+        }
       })(),
     },
   }),
