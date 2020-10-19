@@ -5,7 +5,7 @@ import { t } from '../../../../common/utils/intl';
 import { Body2, Headline4 } from '../../../../UiKit/Typography';
 import { BackgroundColorProvider } from '../../../../UiKit/BackgroundColorProvider';
 import { NavLink } from '../../../../UiKit/Link';
-import { CREATE_PROVIDERS_MICROPOOL_PATH } from '../../../../common/const';
+import { PROVIDER_CREATE_MICROPOOL_PATH } from '../../../../common/const';
 import { Icon } from './Icon';
 
 interface IEmptyListProps {
@@ -33,7 +33,7 @@ export const EmptyList = ({ className }: IEmptyListProps) => {
         variant="contained"
         color="primary"
         size="large"
-        href={CREATE_PROVIDERS_MICROPOOL_PATH}
+        href={PROVIDER_CREATE_MICROPOOL_PATH}
       >
         {t('navigation.create')}
       </NavLink>

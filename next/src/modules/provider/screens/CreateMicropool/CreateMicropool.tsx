@@ -1,48 +1,92 @@
-import React, { useState } from 'react';
-import { useCreateBeaconChainStyles } from './CreateMicropoolStyles';
-import { uid } from 'react-uid';
-import { Flow } from '../../../../components/Flow';
-import { defineFlow } from '../../../../components/Flow/definition';
+import React, { useCallback } from 'react';
+import { useCreateMicropoolStyles } from './CreateMicropoolStyles';
 import classNames from 'classnames';
+import { CancelIcon } from '../../../../UiKit/Icons/CancelIcon';
+import { Form } from 'react-final-form';
+import { RenderForm } from './RenderForm';
+import { useAction } from '../../../../store/redux';
+import {
+  UserActions,
+  UserActionTypes,
+} from '../../../../store/actions/UserActions';
+import { Mutation } from '@redux-requests/react';
 import { Curtains } from '../../../../UiKit/Curtains';
 import { BackgroundColorProvider } from '../../../../UiKit/BackgroundColorProvider';
-import { CreateMicropoolStage1 } from '../../components/CreateMicropoolStage1';
-import { CreateMicropoolStage2 } from '../../components/CreateMicropoolStage2';
-import { useAction } from '../../../../store/redux';
-import { UserActions } from '../../../../store/actions/UserActions';
+import { CreateMicropoolProgress } from './CreateMicropoolProgress';
+import { IconButton } from '@material-ui/core';
+import { useHistory } from 'react-router';
+import { IReduxRequestActionResponse } from '../../../../common/types';
+import { success } from '@redux-requests/core';
+import { PROVIDER_MICROPOOL_LIST_PATH } from '../../../../common/const';
 
-interface ICreateMicropoolProps {
-  className?: string;
+interface ICreateMicropoolPayload {
+  name: string;
 }
 
-const STEPS = defineFlow(CreateMicropoolStage1, CreateMicropoolStage2);
+interface ICreateMicropoolProps {
+  onSubmit(x: ICreateMicropoolPayload): void;
+  onClose?(): void;
+}
 
-export const CreateMicropool = ({ className }: ICreateMicropoolProps) => {
-  const classes = useCreateBeaconChainStyles();
-
-  const [steps] = useState(STEPS);
-
-  const dispatchFetchCurrentProviderMicropools = useAction(
-    UserActions.fetchCurrentProviderMicropools,
-  );
+export const CreateMicropoolComponent = ({
+  onSubmit,
+  onClose,
+}: ICreateMicropoolProps) => {
+  const classes = useCreateMicropoolStyles();
 
   return (
-    <section className={classNames(classes.component, className)}>
-      <Flow
-        key={uid(steps)}
-        steps={steps}
-        onComplete={dispatchFetchCurrentProviderMicropools}
-      >
-        {body => {
-          return (
-            <Curtains classes={{ root: classes.wrapper }}>
-              <BackgroundColorProvider className={classes.content}>
-                {body!}
-              </BackgroundColorProvider>
-            </Curtains>
-          );
-        }}
-      </Flow>
+    <div className={classes.component}>
+      <IconButton className={classes.close} onClick={onClose}>
+        <CancelIcon />
+      </IconButton>
+      <Form
+        render={formProps => <RenderForm {...formProps} />}
+        onSubmit={onSubmit}
+      />
+    </div>
+  );
+};
+
+export const CreateMicropoolImp = () => {
+  const classes = useCreateMicropoolStyles();
+  const history = useHistory();
+  const dispatchCreateMicropool = useAction(UserActions.createMicropool);
+
+  const handleSubmit = useCallback(
+    (payload: ICreateMicropoolPayload) => {
+      dispatchCreateMicropool(payload).then(
+        (data: IReduxRequestActionResponse) => {
+          if (data.action.type === success(UserActionTypes.CREATE_MICROPOOL)) {
+            history.replace(PROVIDER_MICROPOOL_LIST_PATH);
+          }
+        },
+      );
+    },
+    [dispatchCreateMicropool, history],
+  );
+
+  const handleClose = useCallback(() => {
+    history.goBack();
+  }, [history]);
+
+  return (
+    <section className={classNames(classes.section)}>
+      <Curtains classes={{ root: classes.wrapper }}>
+        <BackgroundColorProvider className={classes.content}>
+          <Mutation type={UserActionTypes.CREATE_MICROPOOL}>
+            {({ loading }) =>
+              loading ? (
+                <CreateMicropoolProgress />
+              ) : (
+                <CreateMicropoolComponent
+                  onSubmit={handleSubmit}
+                  onClose={handleClose}
+                />
+              )
+            }
+          </Mutation>
+        </BackgroundColorProvider>
+      </Curtains>
     </section>
   );
 };

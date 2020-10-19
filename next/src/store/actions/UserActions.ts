@@ -2,9 +2,11 @@ import { IUserInfo } from '../apiMappers/userApi';
 import { Providers } from '../../common/types';
 import { StkrSdk } from '../../modules/api';
 import BigNumber from 'bignumber.js';
-import { MicroPoolReply } from '../../modules/api/gateway';
+import { MicroPoolReply, SidecarReply } from '../../modules/api/gateway';
 import { IPool } from '../apiMappers/poolsApi';
 import { differenceInCalendarMonths } from 'date-fns';
+import { ISidecar, mapSidecar } from '../apiMappers/sidecarsApi';
+import { mapStats } from '../apiMappers/statsApi';
 
 export const UserActionTypes = {
   CONNECT: 'CONNECT',
@@ -21,13 +23,13 @@ export const UserActionTypes = {
 
   FETCH_CURRENT_PROVIDER_SIDECARS: 'FETCH_SIDECARS',
 
-  APPLY_FOR_PROVIDER: 'APPLY_FOR_PROVIDER',
-
   AUTHORIZE_PROVIDER: 'AUTHORIZE_PROVIDER',
 
   CREATE_SIDECAR: 'CREATE_SIDECAR',
 
   CREATE_MICROPOOL: 'CREATE_MICROPOOL',
+
+  FETCH_STATS: 'FETCH_STATS',
 };
 
 export const UserActions = {
@@ -85,16 +87,6 @@ export const UserActions = {
         })),
     },
   }),
-  applyForProvider: () => ({
-    type: UserActionTypes.APPLY_FOR_PROVIDER,
-    request: {
-      promise: new Promise(resolve => {
-        setTimeout(() => {
-          resolve(null);
-        }, 1000);
-      }),
-    },
-  }),
   authorizeProvider: () => ({
     type: UserActionTypes.AUTHORIZE_PROVIDER,
     request: {
@@ -103,6 +95,7 @@ export const UserActions = {
         return await stkrSdk.authorizeProvider();
       })(),
     },
+    meta: { asMutation: true },
   }),
   fetchCurrentProviderMicropools: () => ({
     type: UserActionTypes.FETCH_CURRENT_PROVIDER_MICROPOOLS,
@@ -137,17 +130,8 @@ export const UserActions = {
       })(),
     },
     meta: {
-      getData: (data: MicroPoolReply[]): MicroPoolReply[] => {
-        return data;
-        /*return data.map(item => ({
-          name: item.name,
-          provider: item.provider,
-          period: differenceInCalendarMonths(item.startTime, item.endTime),
-          fee: new BigNumber(0),
-          currentStake: new BigNumber(0),
-          totalStake: new BigNumber(0),
-          status: item.status,
-        }));*/
+      getData: (data: SidecarReply[]): ISidecar[] => {
+        return data.map(mapSidecar);
       },
     },
   }),
@@ -159,14 +143,34 @@ export const UserActions = {
         return await stkrSdk.createSidecar();
       })(),
     },
+    meta: { asMutation: true },
   }),
   createMicropool: ({ name }: { name: string }) => ({
     type: UserActionTypes.CREATE_MICROPOOL,
     request: {
       promise: (async function () {
         const stkrSdk = StkrSdk.getLastInstance();
-        return await stkrSdk.createMicroPool(name);
+        // TODO Remove log
+        try {
+          return await stkrSdk.createMicroPool(name);
+        } catch (e) {
+          console.error(e);
+          throw e;
+        }
       })(),
+    },
+    meta: { asMutation: true },
+  }),
+  fetchStats: () => ({
+    type: UserActionTypes.FETCH_STATS,
+    request: {
+      promise: (async function () {
+        const stkrSdk = StkrSdk.getLastInstance();
+        return await stkrSdk.getStats();
+      })(),
+    },
+    meta: {
+      getData: mapStats,
     },
   }),
 };

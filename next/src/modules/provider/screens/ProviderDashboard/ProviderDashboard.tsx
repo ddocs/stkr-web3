@@ -1,11 +1,12 @@
 import * as React from 'react';
+import { useCallback } from 'react';
 import { useProviderDashboardStyles } from './ProviderDashboardStyles';
 import { MicropoolList } from '../../components/MicropoolList';
-import { BeaconList } from '../../components/BeaconList';
+import { NodeList } from '../../components/NodeList';
 import {
-  CREATE_PROVIDERS_BEACON_CHAIN_PATH,
-  CREATE_PROVIDERS_MICROPOOL_PATH,
-  PROVIDER_BEACON_CHAIN_PATH,
+  PROVIDER_CREATE_MICROPOOL_PATH,
+  PROVIDER_CREATE_NODE_LIST_PATH,
+  PROVIDER_NODES_PATH,
   PROVIDER_PATH,
 } from '../../../../common/const';
 import { useLocation } from 'react-router';
@@ -15,20 +16,17 @@ import { Curtains } from '../../../../UiKit/Curtains';
 import { Info } from '../../../../components/Info';
 import { NavLink } from '../../../../UiKit/Link';
 import { IPool } from '../../../../store/apiMappers/poolsApi';
-import {
-  UserActions,
-  UserActionTypes,
-} from '../../../../store/actions/UserActions';
+import { UserActions, UserActionTypes, } from '../../../../store/actions/UserActions';
 import { Query } from '@redux-requests/react';
-import { useAction } from '../../../../store/redux';
-import { useInitEffect } from '../../../../common/hooks/useInitEffect';
 import { QueryLoading } from '../../../../components/QueryLoading/QueryLoading';
 import { QueryError } from '../../../../components/QueryError/QueryError';
+import { Route } from 'react-router-dom';
+import { useAction } from '../../../../store/redux';
+import { useInitEffect } from '../../../../common/hooks/useInitEffect';
+import { IStats } from '../../../../store/apiMappers/statsApi';
 
 interface IProviderDashboardStoreProps {
-  totalStakersInEthereum: number;
-  totalStakers: number;
-  micropool?: IPool[];
+  micropools?: IPool[];
 }
 
 interface IProviderDashboardProps extends IProviderDashboardStoreProps {
@@ -36,46 +34,62 @@ interface IProviderDashboardProps extends IProviderDashboardStoreProps {
 }
 
 export const ProviderDashboardComponent = ({
-  totalStakersInEthereum,
-  totalStakers,
-  micropool,
+  micropools,
 }: IProviderDashboardProps) => {
   const classes = useProviderDashboardStyles();
 
   const location = useLocation();
 
-  const info = [
-    {
-      caption: 'provider.info.totalStakersInEthereum',
-      value: tHTML('units.small-eth', { value: totalStakersInEthereum }),
-    },
-    {
-      caption: 'provider.info.totalStakers',
-      value: totalStakers,
-    },
-    {
-      caption: 'provider.info.micropools',
-      value: micropool ? micropool.length : 0,
-    },
-  ];
+  const renderNodeList = useCallback(
+    () => <NodeList className={classes.table} />,
+    [classes.table],
+  );
+
+  const renderMicropoolList = useCallback(
+    () => <MicropoolList className={classes.table} data={micropools} />,
+    [classes.table, micropools],
+  );
 
   return (
     <section className={classes.component}>
       <Curtains classes={{ root: classes.wrapper }}>
-        {micropool && micropool.length !== 0 && (
-          <Info className={classes.info} data={info} small={true} />
-        )}
+        <Query<IStats> type={UserActionTypes.FETCH_STATS}>
+          {({ data }) => {
+            const info = [
+              {
+                caption: 'provider.info.totalStaked',
+                value: tHTML('units.small-eth', {
+                  value: data.totalEthereumStaked.toFormat(),
+                }),
+              },
+              {
+                caption: 'provider.info.totalStakers',
+                value: data.totalStakers,
+              },
+              {
+                caption: 'provider.info.micropools',
+                value: data.totalMicroPools,
+              },
+            ];
+
+            return (
+              data.totalMicroPools && (
+                <Info className={classes.info} data={info} small={true} />
+              )
+            );
+          }}
+        </Query>
         <div className={classes.navigation}>
           <ProviderTabs className={classes.tabs} />
-          {location.pathname === PROVIDER_PATH && !micropool ? (
+          {location.pathname === PROVIDER_PATH && !micropools ? (
             <></>
           ) : (
             <NavLink
               className={classes.create}
               href={
                 location.pathname === PROVIDER_PATH
-                  ? CREATE_PROVIDERS_MICROPOOL_PATH
-                  : CREATE_PROVIDERS_BEACON_CHAIN_PATH
+                  ? PROVIDER_CREATE_MICROPOOL_PATH
+                  : PROVIDER_CREATE_NODE_LIST_PATH
               }
               variant="outlined"
               color="primary"
@@ -84,12 +98,17 @@ export const ProviderDashboardComponent = ({
             </NavLink>
           )}
         </div>
-        {location.pathname === PROVIDER_PATH && (
-          <MicropoolList className={classes.table} data={micropool} />
-        )}
-        {location.pathname === PROVIDER_BEACON_CHAIN_PATH && (
-          <BeaconList className={classes.table} />
-        )}
+        <Route
+          path={[PROVIDER_PATH]}
+          render={renderMicropoolList}
+          exact={true}
+        />
+
+        <Route
+          path={[PROVIDER_NODES_PATH]}
+          render={renderNodeList}
+          exact={true}
+        />
       </Curtains>
     </section>
   );
@@ -101,9 +120,11 @@ export const ProviderDashboard = () => {
   const dispatchFetchCurrentProviderMicropools = useAction(
     UserActions.fetchCurrentProviderMicropools,
   );
+  const dispatchFetchStats = useAction(UserActions.fetchStats);
 
   useInitEffect(() => {
     dispatchFetchCurrentProviderMicropools();
+    dispatchFetchStats();
   });
 
   return (
@@ -113,12 +134,8 @@ export const ProviderDashboard = () => {
       isDataEmpty={alwaysFalse}
       type={UserActionTypes.FETCH_CURRENT_PROVIDER_MICROPOOLS}
     >
-      {({ data }) => (
-        <ProviderDashboardComponent
-          totalStakersInEthereum={64}
-          totalStakers={2}
-          micropool={data}
-        />
+      {({ data: micropools }) => (
+        <ProviderDashboardComponent micropools={micropools} />
       )}
     </Query>
   );

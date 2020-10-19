@@ -9,10 +9,20 @@ import {
   SidecarReply,
   StatsReply,
 } from './gateway';
-import { StkrConfig } from './config';
+import { NETWORK_NAMES, StkrConfig } from './config';
 import { t } from '../../common/utils/intl';
+import BigNumber from 'bignumber.js';
 
 const LOCAL_STORAGE_AUTHORIZATION_TOKEN_KEY = '__stkr_authorization_token';
+
+export interface ContractDetails {
+  ankrEthContract: string;
+  ankrContract: string;
+  marketPlaceContract: string;
+  microPoolContract: string;
+  systemParametersContract: string;
+  stakingContract: string;
+}
 
 export class StkrSdk {
   private keyProvider: KeyProvider | null = null;
@@ -48,6 +58,27 @@ export class StkrSdk {
     this.contractManager = contractManage;
   }
 
+  public async downloadContractDetails(): Promise<ContractDetails> {
+    const networkName: string =
+      NETWORK_NAMES[Number(this.stkrConfig.providerConfig.networkId)];
+    const {
+      AETH,
+      ANKR,
+      MarketPlace,
+      MicroPool,
+      Staking,
+      SystemParameters,
+    } = await this.apiGateway.downloadConfig(networkName);
+    return {
+      ankrEthContract: AETH,
+      ankrContract: ANKR,
+      marketPlaceContract: MarketPlace,
+      microPoolContract: MicroPool,
+      systemParametersContract: SystemParameters,
+      stakingContract: Staking,
+    };
+  }
+
   public isConnected() {
     return this.keyProvider && this.contractManager;
   }
@@ -60,7 +91,7 @@ export class StkrSdk {
   }
 
   public async authorizeProvider(
-    ttl: number = 60 * 60 * 1000,
+    ttl: number = 12 * 60 * 60 * 1000,
   ): Promise<{ token: string }> {
     if (!this.keyProvider) {
       throw new Error('Key provider must be connected');
@@ -125,10 +156,37 @@ export class StkrSdk {
     return this.apiGateway.getMicroPools(page, size);
   }
 
-  public async createMicroPool(name: string): Promise<string> {
-    if (!this.contractManager)
-      throw new Error('Key provider must be connected');
-    const txHash = await this.contractManager.initializePool(name);
+  public async faucet(): Promise<void> {
+    const contractManager = this.getContractManager();
+    console.log(`calling faucet`);
+    await contractManager.faucet();
+  }
+
+  public async createMicroPool(
+    name: string,
+    stakingAmount: BigNumber = new BigNumber('100000'),
+  ): Promise<string> {
+    const contractManager = this.getContractManager(),
+      systemParams = await contractManager.getSystemContractParameters();
+    console.log(`checking allowance`);
+    const stakeAllowance = await contractManager.checkAnkrAllowance();
+    console.log(
+      `ankr staked allowance is ${stakeAllowance}, it should be greater than 100'000 ANKR`,
+    );
+    if (stakeAllowance.isLessThan(systemParams.providerMinimumStaking)) {
+      const requiredMoreTokens = systemParams.providerMinimumStaking.minus(
+        stakingAmount,
+      );
+      console.log(
+        `you don't have enough ANKR tokens, need to approve ${requiredMoreTokens.toString()} more`,
+      );
+      await contractManager.approveAnkrToStakingContract(requiredMoreTokens);
+      console.log(
+        `successfully approved ${requiredMoreTokens.toString()} ANKR tokens for micro pool contract`,
+      );
+    }
+    console.log(`initializing pool`);
+    const txHash = await contractManager.initializePool(name);
     console.log(`created new micro pool, tx hash is ${txHash}`);
     return txHash;
   }

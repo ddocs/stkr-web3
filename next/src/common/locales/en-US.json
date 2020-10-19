@@ -27,7 +27,7 @@
     "connect": "Connect",
     "install": "Install",
     "submit": "Submit",
-    "copyright": "© {year} Strk All rights reserved | <a href=\"mailto: info@stkr.com\" rel=\"noopener noreferrer\">info@stkr.com</a>",
+    "copyright": "© {year} Strk All rights reserved <a href=\"mailto: info@stkr.com\" rel=\"noopener noreferrer\">info@stkr.com</a>",
     "share": "Share via social",
     "micropool-name": "Micropool name",
     "duration": "Duration",
@@ -110,27 +110,13 @@
         "title": "Data is being generated",
         "note": "The process might take a while"
       },
-      "create-micropool-stage-1": {
-        "title": "Create Your Staking Pool",
-        "form": {
-          "step-1": {
-            "count": "Step 1",
-            "caption": "Select beacon chain node"
-          },
-          "step-2": {
-            "count": "Step 2",
-            "caption": "Deposit ANKR tokens",
-            "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-          }
-        }
-      },
       "stage-7": {
         "generation": "Micropool is being generated",
         "note": "The process might take a while"
       }
     },
     "info": {
-      "totalStakersInEthereum": "My total Staked ETH",
+      "totalStaked": "My total Staked ETH",
       "totalStakers": "Total Stakers",
       "micropools": "My micropools"
     }
@@ -169,6 +155,9 @@
     "~months": "~ {value} mo",
     "small-eth": "{value} <span style=\"font-size: 16px\">ETH</span>"
   },
+  "format": {
+    "date": "{value, date, medium} {value, time, medium}"
+  },
   "user-actions": {
     "error": {
       "sdk-not-initialized": "Sdk not initialized"
@@ -187,17 +176,40 @@
       "3": "We are happy to present ETH 2.0 stake possibility"
     },
     "date": {
-      "1": "2 days ago  |  Community",
-      "2": "21 May  |  Community",
-      "3": "21 May  |  Community"
+      "1": "2 days ago   Community",
+      "2": "21 May   Community",
+      "3": "21 May   Community"
     }
   },
   "micropool-list": {
     "status": {
-      "MICRO_POOL_STATUS_PENDING": "Pendig",
+      "MICRO_POOL_STATUS_PENDING": "Pending",
       "MICRO_POOL_STATUS_ONGOING": "Ongoing",
       "MICRO_POOL_STATUS_COMPLETED": "Completed",
       "MICRO_POOL_STATUS_CANCELED": "Canceled"
+    }
+  },
+  "beacon-list": {
+    "status": {
+      "SIDECAR_STATUS_CREATED": "Created",
+      "SIDECAR_STATUS_REGISTERED": "Registered",
+      "SIDECAR_STATUS_ACTIVATED": "Activated",
+      "SIDECAR_STATUS_DELETED": "Deleted"
+    }
+  },
+  "create-micropool": {
+    "title": "Create Your Staking Pool",
+    "form": {
+      "step-1": {
+        "count": "Step 1",
+        "caption": "Micropool name",
+        "name": "Micropool name"
+      },
+      "step-2": {
+        "count": "Step 2",
+        "caption": "Deposit ANKR tokens",
+        "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+      }
     }
   }
 }

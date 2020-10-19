@@ -1,24 +1,12 @@
 import React from 'react';
-
-import { makeStyles } from '@material-ui/styles';
-import { Theme } from '@material-ui/core';
-import { CreateMicropool } from './CreateMicropool';
-
-const useStyles = makeStyles<Theme>(theme => ({
-  block: {},
-}));
+import { CreateMicropoolComponent } from './CreateMicropool';
 
 const CreateMicropoolStory = () => {
-  const classes = useStyles();
-  return (
-    <div className={classes.block}>
-      <CreateMicropool />
-    </div>
-  );
+  return <CreateMicropoolComponent onSubmit={() => alert('to next stage')} />;
 };
 
 export const CreateMicropoolExample = () => <CreateMicropoolStory />;
 
 export default {
-  title: 'modules/provider/CreateMicropool',
+  title: 'modules/provider/component/CreateMicropool',
 };
