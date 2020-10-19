@@ -24,6 +24,8 @@ export interface SystemContractParameters {
 const ANKR_SCALE_FACTOR = 10 ** 18;
 const ETH_SCALE_FACTOR = 10 ** 18;
 
+console.log('Remove or use me', ETH_SCALE_FACTOR);
+
 export class ContractManager {
   private readonly microPoolContract: Contract;
   private readonly ankrContract: Contract;
