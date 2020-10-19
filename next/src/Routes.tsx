@@ -5,7 +5,7 @@ import { QueryLoading } from './components/QueryLoading/QueryLoading';
 import { PageNotFound } from './components/PageNotFound/PageNotFound';
 import { withDefaultLayout } from './modules/layout';
 import {
-  PROVIDER_CREATE_NODE_PATH,
+  PROVIDER_CREATE_NODE_LIST_PATH,
   PROVIDER_CREATE_MICROPOOL_PATH,
   INDEX_PATH,
   PICKER_PATH,
@@ -84,7 +84,7 @@ export function Routes() {
         exact={true}
       />
       <Route
-        path={PROVIDER_CREATE_NODE_PATH}
+        path={PROVIDER_CREATE_NODE_LIST_PATH}
         component={CreateBeaconChainContainer}
         exact={true}
       />

@@ -15,6 +15,9 @@ import { BackgroundColorProvider } from '../../../../UiKit/BackgroundColorProvid
 import { CreateMicropoolProgress } from './CreateMicropoolProgress';
 import { IconButton } from '@material-ui/core';
 import { useHistory } from 'react-router';
+import { IReduxRequestActionResponse } from '../../../../common/types';
+import { success } from '@redux-requests/core';
+import { PROVIDER_MICROPOOL_LIST_PATH } from '../../../../common/const';
 
 interface ICreateMicropoolPayload {
   name: string;
@@ -51,7 +54,13 @@ export const CreateMicropoolImp = () => {
 
   const handleSubmit = useCallback(
     (payload: ICreateMicropoolPayload) => {
-      dispatchCreateMicropool(payload);
+      dispatchCreateMicropool(payload).then(
+        (data: IReduxRequestActionResponse) => {
+          if (data.action.type === success(UserActionTypes.CREATE_MICROPOOL)) {
+            history.replace(PROVIDER_MICROPOOL_LIST_PATH);
+          }
+        },
+      );
     },
     [dispatchCreateMicropool],
   );

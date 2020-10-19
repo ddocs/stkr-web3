@@ -6,14 +6,15 @@ import { Icon } from './Icon';
 import { Form, FormRenderProps } from 'react-final-form';
 import { Button } from '../../../../UiKit/Button';
 import { useAction } from '../../../../store/redux';
-import {
-  UserActions,
-  UserActionTypes,
-} from '../../../../store/actions/UserActions';
+import { UserActions, UserActionTypes, } from '../../../../store/actions/UserActions';
 import { Curtains } from '../../../../UiKit/Curtains';
 import { BackgroundColorProvider } from '../../../../UiKit/BackgroundColorProvider';
 import { Mutation } from '@redux-requests/react';
 import { CreateNodeProgress } from './CreateNodeProgress';
+import { success } from '@redux-requests/core';
+import { useHistory } from 'react-router';
+import { PROVIDER_NODES_PATH } from '../../../../common/const';
+import { IReduxRequestActionResponse } from '../../../../common/types';
 
 interface ICreateNodePayload {}
 
@@ -58,9 +59,14 @@ export const CreateNodeComponent = ({ onSubmit }: ICreateNodeProps) => {
 export const CreateNode = () => {
   const dispatchCreateSidecar = useAction(UserActions.createSidecar);
   const classes = useCreateNodeStyles();
+  const history = useHistory();
 
   const handleSubmit = useCallback(() => {
-    dispatchCreateSidecar();
+    dispatchCreateSidecar().then((data: IReduxRequestActionResponse) => {
+      if (data.action.type === success(UserActionTypes.CREATE_SIDECAR)) {
+        history.replace(PROVIDER_NODES_PATH);
+      }
+    });
   }, [dispatchCreateSidecar]);
 
   return (

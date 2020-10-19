@@ -3,7 +3,7 @@ import { useProviderDashboardStyles } from './ProviderDashboardStyles';
 import { MicropoolList } from '../../components/MicropoolList';
 import { NodeList } from '../../components/NodeList';
 import {
-  PROVIDER_CREATE_NODE_PATH,
+  PROVIDER_CREATE_NODE_LIST_PATH,
   PROVIDER_CREATE_MICROPOOL_PATH,
   PROVIDER_NODES_PATH,
   PROVIDER_PATH,
@@ -73,7 +73,7 @@ export const ProviderDashboardComponent = ({
               href={
                 location.pathname === PROVIDER_PATH
                   ? PROVIDER_CREATE_MICROPOOL_PATH
-                  : PROVIDER_CREATE_NODE_PATH
+                  : PROVIDER_CREATE_NODE_LIST_PATH
               }
               variant="outlined"
               color="primary"
