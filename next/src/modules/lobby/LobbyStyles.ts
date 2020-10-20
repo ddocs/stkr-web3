@@ -18,6 +18,10 @@ export const useLobbyStyles = makeStyles<Theme>(theme => ({
   },
   stayTuned: {
     marginTop: theme.spacing(14),
+
+    [theme.breakpoints.down('xs')]: {
+      marginTop: theme.spacing(10),
+    },
   },
   marketing: {
     marginTop: theme.spacing(20),
