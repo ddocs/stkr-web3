@@ -16,45 +16,27 @@ export const useInputFieldStyles = makeStyles((theme: Theme) =>
       flexDirection: 'column',
       justifyContent: 'center',
 
-      padding: theme.spacing(1, 0),
-
-      color: theme.palette.text.primary,
-
-      borderBottom: `2px solid ${theme.palette.text.primary}`,
-
-      '& .MuiInputBase-root': {
-        color: 'inherit',
-      },
-
       '& .MuiInput-root': {
         marginTop: 0,
+        padding: theme.spacing(2, 0),
+
+        color: theme.palette.text.primary,
+
+        borderBottomWidth: 2,
+        borderBottomStyle: 'solid',
+
+        transitionTimingFunction: 'linear',
+        transitionDuration: '250ms',
+        transitionProperty: 'border-color, color',
       },
 
-      '& label': {
-        top: '50%',
-
-        color: 'inherit',
-        fontSize: 18,
-        lineHeight: 1.2,
-
-        transform: 'translateY(-45%) scale(1)',
-
-        transitionProperty: 'top, transform, color',
-      },
-
-      '& label.MuiInputLabel-shrink': {
-        top: 0,
-        transform: 'translateY(0) scale(0.78)',
-      },
-
-      '& label.Mui-focused': {
-        color: 'inherit',
+      '& .MuiInput-root.Mui-focused': {
+        borderColor: theme.palette.primary.main,
       },
 
       '& input': {
         height: '100%',
         padding: 0,
-        paddingTop: theme.spacing(1),
 
         boxSizing: 'border-box',
 
@@ -86,23 +68,25 @@ export const useInputFieldStyles = makeStyles((theme: Theme) =>
     },
 
     inputPrimary: {
-      color: theme.palette.primary.main,
-
-      borderColor: theme.palette.primary.main,
+      '& .MuiInput-root': {
+        color: theme.palette.primary.main,
+        borderColor: theme.palette.primary.main,
+      },
     },
 
     inputSecondary: {
-      color: theme.palette.text.secondary,
-
-      borderColor: theme.palette.text.secondary,
+      '& .MuiInput-root': {
+        color: theme.palette.text.secondary,
+        borderColor: theme.palette.text.secondary,
+      },
     },
 
     inputDisabled: {
-      color: theme.palette.text.secondary,
-
-      borderColor: theme.palette.text.secondary,
-
-      pointerEvents: 'none',
+      '& .MuiInput-root': {
+        color: theme.palette.text.secondary,
+        borderColor: theme.palette.text.secondary,
+        pointerEvents: 'none',
+      },
     },
 
     wrapper: {

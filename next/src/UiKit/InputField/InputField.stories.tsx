@@ -25,7 +25,7 @@ const InputFieldStory = () => {
           component={InputField}
           name="email"
           type="email"
-          label="Your email address"
+          placeholder="Your email address"
           color="primary"
         />
         <Field
@@ -34,7 +34,7 @@ const InputFieldStory = () => {
           component={InputField}
           name="email2"
           type="email"
-          label="Your email address"
+          placeholder="Your email address"
           color="secondary"
         />
       </form>

@@ -47,7 +47,7 @@ export const SubscribeForm = ({
           component={InputField}
           name="email"
           type="email"
-          label={t('navigation.email')}
+          placeholder={t('navigation.email')}
           color={color}
         />
         <Button

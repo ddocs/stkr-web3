@@ -41,7 +41,6 @@ export const InputField = ({
         value={value}
         onChange={onChange}
         disabled={disabled}
-        {...props}
         InputProps={
           {
             disableUnderline: true,
@@ -49,6 +48,7 @@ export const InputField = ({
             ...props.InputProps,
           } as Partial<OutlinedInputProps>
         }
+        {...props}
       />
       <div className={classes.wrapper}>
         {hasError(meta) && (
