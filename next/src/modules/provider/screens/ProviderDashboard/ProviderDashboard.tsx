@@ -73,7 +73,7 @@ export const ProviderDashboardComponent = ({
             ];
 
             return (
-              data.totalMicroPools && (
+              data.totalMicroPools > 0 && (
                 <Info className={classes.info} data={info} small={true} />
               )
             );
