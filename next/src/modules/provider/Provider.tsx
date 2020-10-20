@@ -35,6 +35,6 @@ export const ProviderComponent = ({ authorizeProvider }: IProviderProps) => {
   );
 };
 
-export const Provider = connect(() => {}, {
+export const Provider = connect(() => ({}), {
   authorizeProvider: UserActions.authorizeProvider,
 })(ProviderComponent);
