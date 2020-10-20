@@ -24,5 +24,10 @@ export const useMarketingStyles = makeStyles<Theme>(theme => ({
     padding: theme.spacing(2, 7.5),
 
     boxSizing: 'border-box',
+
+    [theme.breakpoints.down('sm')]: {
+      padding: 0,
+      backgroundColor: 'transparent',
+    },
   },
 }));

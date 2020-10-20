@@ -22,7 +22,7 @@ export const SubscribeComponent = ({
 
   return (
     <div className={classes.component}>
-      <Headline2 component="h2" className={classes.title}>
+      <Headline2 component="h2" classes={{ root: classes.title }}>
         Subscribe for our updates
       </Headline2>
       <SubscribeForm

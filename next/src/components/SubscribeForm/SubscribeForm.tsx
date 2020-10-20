@@ -12,7 +12,6 @@ interface ISubscribeFormProps {
   className?: string;
   color?: 'primary' | 'secondary';
   buttonCaption: string;
-  buttonSize?: number;
   disabled?: boolean;
   onSubmit(data: IEmailPayload): void;
 }
@@ -32,11 +31,10 @@ export const SubscribeForm = ({
   className,
   color = 'primary',
   buttonCaption,
-  buttonSize = 218,
   onSubmit,
   disabled,
 }: ISubscribeFormProps) => {
-  const classes = useSubscribeFormStyles({ width: buttonSize });
+  const classes = useSubscribeFormStyles();
 
   const renderForm = ({ handleSubmit }: FormRenderProps<any>) => {
     return (

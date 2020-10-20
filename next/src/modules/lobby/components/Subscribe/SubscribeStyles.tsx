@@ -3,21 +3,32 @@ import { makeStyles } from '@material-ui/styles';
 
 export const useSubscribeStyles = makeStyles<Theme>(theme => ({
   component: {
-    '&&': {
-      display: 'grid',
-      gridTemplateColumns: '260px 620px',
-      gridColumnGap: theme.spacing(3),
+    display: 'grid',
+    gridTemplateColumns: '260px 620px',
+    gridColumnGap: theme.spacing(3),
 
-      justifyContent: 'space-between',
-      alignItems: 'center',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+
+    [theme.breakpoints.down('sm')]: {
+      gridTemplateColumns: '100%',
+      gridTemplateRows: 'auto auto',
+      gridColumnGap: 0,
     },
   },
 
   title: {
-    '&&': {
-      fontWeight: 400,
+    fontWeight: 400,
+
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 32,
+      textAlign: 'center',
     },
   },
 
-  form: {},
+  form: {
+    [theme.breakpoints.down('sm')]: {
+      marginTop: theme.spacing(4.5),
+    },
+  },
 }));

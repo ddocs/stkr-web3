@@ -25,5 +25,9 @@ export const useLobbyStyles = makeStyles<Theme>(theme => ({
   },
   marketing: {
     marginTop: theme.spacing(20),
+
+    [theme.breakpoints.down('xs')]: {
+      marginTop: theme.spacing(6.5),
+    },
   },
 }));
