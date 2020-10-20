@@ -11,11 +11,11 @@ import {
 } from '../../../../UiKit/Typography';
 import { InputField } from '../../../../UiKit/InputField';
 
-interface IRenderFormProps {}
+interface ICreateMicropoolFormProps {}
 
-export const RenderForm = ({
+export const CreateMicropoolForm = ({
   handleSubmit,
-}: FormRenderProps<any> & IRenderFormProps) => {
+}: FormRenderProps<any> & ICreateMicropoolFormProps) => {
   const classes = useCreateMicropoolStyles();
 
   const handleBuy = useCallback(() => {

@@ -3,7 +3,7 @@ import { useCreateMicropoolStyles } from './CreateMicropoolStyles';
 import classNames from 'classnames';
 import { CancelIcon } from '../../../../UiKit/Icons/CancelIcon';
 import { Form } from 'react-final-form';
-import { RenderForm } from './RenderForm';
+import { CreateMicropoolForm } from './CreateMicropoolForm';
 import { useAction } from '../../../../store/redux';
 import {
   UserActions,
@@ -40,7 +40,7 @@ export const CreateMicropoolComponent = ({
         <CancelIcon />
       </IconButton>
       <Form
-        render={formProps => <RenderForm {...formProps} />}
+        render={formProps => <CreateMicropoolForm {...formProps} />}
         onSubmit={onSubmit}
       />
     </div>
