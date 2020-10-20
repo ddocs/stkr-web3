@@ -27,7 +27,7 @@ export const Info = ({ className, data, small }: IInfoProps) => {
           return (
             <BackgroundColorProvider
               key={uid(item)}
-              className={classes.item}
+              classes={{ root: classes.item }}
               component="li"
             >
               <Body1 className={classes.label} component="span">

@@ -39,16 +39,20 @@ export const useStayTunedStyles = makeStyles<Theme>(theme => ({
     padding: theme.spacing(5, 0),
 
     [theme.breakpoints.down('sm')]: {
-      gridTemplateColumns: '1fr 2fr',
+      gridTemplateColumns: '1fr 3fr',
       gridColumnGap: theme.spacing(1.5),
       gridRowGap: theme.spacing(1.5),
 
       padding: theme.spacing(3, 0),
     },
+
+    [theme.breakpoints.down('xs')]: {
+      gridTemplateColumns: '1fr 2fr',
+    },
   },
 
   mainNewsItem: {
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up('md')]: {
       gridColumn: '1/2',
       gridRow: '-1/1',
 
@@ -74,7 +78,7 @@ export const useStayTunedStyles = makeStyles<Theme>(theme => ({
   },
 
   mainNewsImage: {
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up('md')]: {
       gridColumn: 'auto',
       gridRow: 'auto',
 
@@ -89,13 +93,15 @@ export const useStayTunedStyles = makeStyles<Theme>(theme => ({
 
     [theme.breakpoints.down('sm')]: {
       paddingRight: theme.spacing(3),
+    },
 
+    [theme.breakpoints.down('xs')]: {
       fontSize: 14,
     },
   },
 
   mainNewsHeader: {
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up('md')]: {
       maxWidth: 450,
       marginBottom: theme.spacing(2),
       paddingRight: 0,
@@ -110,13 +116,15 @@ export const useStayTunedStyles = makeStyles<Theme>(theme => ({
 
     [theme.breakpoints.down('sm')]: {
       paddingRight: theme.spacing(3),
+    },
 
+    [theme.breakpoints.down('xs')]: {
       fontSize: 10,
     },
   },
 
   mainNewsText: {
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up('md')]: {
       paddingRight: 0,
     },
   },

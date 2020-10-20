@@ -38,6 +38,7 @@ export const useInfoStyles = makeStyles<
       '&&': {
         flexDirection: 'row',
         justifyContent: 'space-between',
+        alignItems: 'center',
 
         padding: theme.spacing(2.5, 2),
       },
@@ -53,12 +54,18 @@ export const useInfoStyles = makeStyles<
   value: {
     marginTop: props => (!props.small ? theme.spacing(10) : theme.spacing(0.5)),
 
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('md')]: {
+      fontSize: 38,
+    },
+
+    [theme.breakpoints.down('sm')]: {
       '&&': {
         marginTop: 0,
-
-        fontSize: 22,
       },
+    },
+
+    [theme.breakpoints.down('xs')]: {
+      fontSize: 22,
     },
   },
 }));

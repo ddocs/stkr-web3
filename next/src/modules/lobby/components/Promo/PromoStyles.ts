@@ -9,9 +9,7 @@ export const usePromoStyles = makeStyles<Theme, { count: number }>(theme => ({
     display: 'grid',
     gridTemplateColumns: '1fr 450px',
     gridTemplateAreas: '"title text" "list list" "what-is what-is"',
-    gridRowGap: theme.spacing(8),
-
-    fontFamily: DEFAULT_FONT,
+    gridRowGap: theme.spacing(4),
 
     [theme.breakpoints.down('sm')]: {
       gridTemplateColumns: '100%',
@@ -27,14 +25,18 @@ export const usePromoStyles = makeStyles<Theme, { count: number }>(theme => ({
     lineHeight: 1,
     fontWeight: 500,
 
-    [theme.breakpoints.down('xs')]: {
-      fontSize: 53,
+    [theme.breakpoints.down('md')]: {
+      fontSize: 90,
+    },
+
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 70,
       lineHeight: 1.2,
     },
 
-    '&::selection': selection,
-
-    '& *::selection': selection,
+    [theme.breakpoints.down('xs')]: {
+      fontSize: 53,
+    },
 
     '& span': {
       display: 'flex',
@@ -63,6 +65,10 @@ export const usePromoStyles = makeStyles<Theme, { count: number }>(theme => ({
 
   info: {
     gridArea: 'list',
+
+    [theme.breakpoints.up('md')]: {
+      marginTop: theme.spacing(6),
+    },
 
     [theme.breakpoints.down('sm')]: {
       marginTop: theme.spacing(2),
@@ -104,6 +110,10 @@ export const usePromoStyles = makeStyles<Theme, { count: number }>(theme => ({
       gridRow: 'auto',
 
       padding: 0,
+
+      '& br': {
+        display: 'none',
+      },
     },
   },
 

@@ -20,6 +20,10 @@ export const useCalculateStyles = makeStyles<Theme>(theme => ({
     padding: theme.spacing(12, 13, 8.5, 13),
     boxSizing: 'border-box',
 
+    [theme.breakpoints.down('md')]: {
+      padding: theme.spacing(12, 6.5, 8.5, 6.5),
+    },
+
     [theme.breakpoints.down('sm')]: {
       padding: theme.spacing(4),
     },

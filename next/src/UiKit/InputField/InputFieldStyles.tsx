@@ -17,8 +17,10 @@ export const useInputFieldStyles = makeStyles((theme: Theme) =>
       justifyContent: 'center',
 
       '& .MuiInput-root': {
+        height: '100%',
         marginTop: 0,
-        padding: theme.spacing(2, 0),
+        padding: theme.spacing(1, 0),
+        boxSizing: 'border-box',
 
         color: theme.palette.text.primary,
 

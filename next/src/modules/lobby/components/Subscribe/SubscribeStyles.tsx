@@ -10,6 +10,10 @@ export const useSubscribeStyles = makeStyles<Theme>(theme => ({
     justifyContent: 'space-between',
     alignItems: 'center',
 
+    [theme.breakpoints.down('md')]: {
+      gridTemplateColumns: '260px 1fr',
+    },
+
     [theme.breakpoints.down('sm')]: {
       gridTemplateColumns: '100%',
       gridTemplateRows: 'auto auto',
@@ -21,7 +25,8 @@ export const useSubscribeStyles = makeStyles<Theme>(theme => ({
     fontWeight: 400,
 
     [theme.breakpoints.down('sm')]: {
-      fontSize: 32,
+      fontSize: 38,
+      fontWeight: 700,
       textAlign: 'center',
     },
   },

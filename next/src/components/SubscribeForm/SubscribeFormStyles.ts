@@ -14,7 +14,13 @@ export const useSubscribeFormStyles = makeStyles<Theme>(theme => ({
     },
   },
 
-  input: {},
+  input: {
+    height: '100%',
+
+    [theme.breakpoints.down('xs')]: {
+      height: 48,
+    },
+  },
 
   submit: {},
 }));
