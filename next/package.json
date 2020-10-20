@@ -48,7 +48,6 @@
     "@types/react-router-dom": "^5.1.5",
     "@types/redux-actions": "^2.6.1",
     "@types/web3": "^1.2.2",
-    "@typescript-eslint/eslint-plugin": "^4.3.0",
     "babel-loader": "8.1.0",
     "classnames": "^2.2.6",
     "env-cmd": "^10.1.0",
@@ -62,8 +61,7 @@
     "react-stroller": "^1.6.7",
     "react-uid": "^2.3.0",
     "resolve-from": "^5.0.0",
-    "storybook": "^5.3.19",
-    "eslint-config-react-app": "^5.2.1"
+    "storybook": "^5.3.19"
   },
   "husky": {
     "hooks": {
@@ -77,39 +75,25 @@
     ]
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "storybook": "start-storybook -p 3000"
+    "start": "env-cmd react-scripts start",
+    "build": "env-cmd react-scripts build",
+    "test": "env-cmd react-scripts test",
+    "eject": "env-cmd react-scripts eject",
+    "storybook": "env-cmd start-storybook -p 3000"
   },
   "eslintConfig": {
     "extends": [
-      "react-app",
-      "plugin:@typescript-eslint/recommended"
+      "react-app"
     ],
-    "rules": {
-      "@typescript-eslint/interface-name-prefix": [
-        "error",
-        {
-          "prefixWithI": "always"
-        }
-      ],
-      "@typescript-eslint/ban-types": [
-        "error",
-        {
-          "types": {
-            "React.FC": {
-              "message": "In favor of unification use the form \"(props: IComponentNameProp) => ReactNode\""
-            }
-          }
-        }
-      ],
-      "@typescript-eslint/ban-ts-ignore": "off",
-      "@typescript-eslint/no-empty-interface": "off",
-      "@typescript-eslint/explicit-function-return-type": "off",
-      "@typescript-eslint/no-explicit-any": "off"
-    }
+    "rules": {},
+    "overrides": [
+      {
+        "files": [
+          "**/*.ts?(x)"
+        ],
+        "rules": {}
+      }
+    ]
   },
   "browserslist": {
     "production": [
