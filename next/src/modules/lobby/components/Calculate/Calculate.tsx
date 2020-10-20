@@ -19,14 +19,52 @@ import BigNumber from 'bignumber.js';
 
 const DEFAULT_VALUE = 10;
 const FIXED_DECIMAL_PLACES = 2;
+const YEAR_REATE = 0.0526;
+
+function EarningItem({
+  title,
+  amount,
+  ratePrice,
+}: {
+  title: string;
+  amount: number;
+  ratePrice?: BigNumber;
+}) {
+  const classes = useCalculateStyles();
+
+  return (
+    <li className={classes.item}>
+      <Headline6 className={classes.caption} component="span">
+        {title}
+      </Headline6>
+      <Typography className={classes.value} component="div">
+        <span className={classes.earningValue}>
+          {t('units.eth', {
+            value: new BigNumber(amount).toFormat(FIXED_DECIMAL_PLACES),
+          })}
+        </span>
+        {ratePrice && (
+          <>
+            <Divider orientation="vertical" className={classes.divider} />
+            <span className={classes.earningConvertedValue}>
+              {t('units.$', {
+                value: ratePrice
+                  .multipliedBy(amount)
+                  .toFormat(FIXED_DECIMAL_PLACES),
+              })}
+            </span>
+          </>
+        )}
+      </Typography>
+    </li>
+  );
+}
 
 interface ICalculateProps {
   className?: string;
   ethPrice?: BigNumber;
   isConnected: boolean;
 }
-
-const savers = ['monthly', 'yearly'];
 
 export const Calculate = ({
   className,
@@ -71,33 +109,16 @@ export const Calculate = ({
               min={0}
             />
             <ul className={classes.list}>
-              {savers.map(item => {
-                const monthlySaver = ethPrice
-                  ?.multipliedBy(value * 1.2)
-                  .toFixed(FIXED_DECIMAL_PLACES);
-                const yearlySaver = ethPrice
-                  ?.multipliedBy(value * 10)
-                  .toFixed(FIXED_DECIMAL_PLACES);
-                return (
-                  <li key={item} className={classes.item}>
-                    <Headline6 className={classes.caption} component="span">
-                      {t(`about.${item}`)}
-                    </Headline6>
-                    <Typography className={classes.value} component="div">
-                      <span className={classes.earningValue}>
-                        {t('units.eth', { value })}
-                      </span>
-                      <Divider
-                        orientation="vertical"
-                        className={classes.divider}
-                      />
-                      <span className={classes.earningConvertedValue}>
-                        {`$${item === 'monthly' ? monthlySaver : yearlySaver}`}
-                      </span>
-                    </Typography>
-                  </li>
-                );
-              })}
+              <EarningItem
+                title={t('about.monthly')}
+                amount={(value * YEAR_REATE) / 12}
+                ratePrice={ethPrice}
+              />
+              <EarningItem
+                title={t('about.yearly')}
+                amount={value * YEAR_REATE}
+                ratePrice={ethPrice}
+              />
             </ul>
             {!isConnected && (
               <Button
