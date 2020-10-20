@@ -94,7 +94,17 @@ export class ContractManager {
     return receipt.result;
   }
 
-  public async stake(poolIndex: number): Promise<string> {
+  public async pendingPools(): Promise<BigNumber[]> {
+    const pendingPools = await this.microPoolContract.methods
+      .poolDetails()
+      .call();
+    console.log(
+      `found next pending pools: ${JSON.stringify(pendingPools, null, 2)}`,
+    );
+    return Object.values(pendingPools);
+  }
+
+  public async stake(poolIndex: BigNumber, amount: BigNumber): Promise<string> {
     const data: string = this.microPoolContract.methods
       .stake(poolIndex)
       .encodeABI();
@@ -104,6 +114,7 @@ export class ContractManager {
       this.contractConfig.microPoolContract,
       {
         data: data,
+        value: amount.multipliedBy(ETH_SCALE_FACTOR).toString(),
       },
     );
     return receipt.result;
@@ -136,6 +147,13 @@ export class ContractManager {
         ANKR_SCALE_FACTOR,
       ),
     };
+    console.log(
+      `system contract parameters: ${JSON.stringify(
+        this.systemContractParameters,
+        null,
+        2,
+      )}`,
+    );
     return this.systemContractParameters;
   }
 

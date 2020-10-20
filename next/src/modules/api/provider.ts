@@ -94,10 +94,11 @@ export abstract class KeyProvider {
     address: string,
   ): Promise<string> {
     if (!this._web3) throw new Error('Web3 must be initialized');
-    const balance = await contract.methods.balanceOf(address).call(),
+    let balance = await contract.methods.balanceOf(address).call(),
       decimals = await contract.methods.decimals().call();
+    if (!Number(decimals)) decimals = 18;
     return new BigNumber(`${balance}`)
-      .dividedBy(new BigNumber(10).pow(decimals || 18))
+      .dividedBy(new BigNumber(10).pow(decimals))
       .toString();
   }
 }
