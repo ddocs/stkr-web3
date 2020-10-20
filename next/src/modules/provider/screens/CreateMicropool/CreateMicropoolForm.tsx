@@ -10,6 +10,8 @@ import {
   Headline6,
 } from '../../../../UiKit/Typography';
 import { InputField } from '../../../../UiKit/InputField';
+import { SubTitle } from '../../../../UiKit/Typography/Typography';
+import { Box } from '@material-ui/core';
 
 interface ICreateMicropoolFormProps {}
 
@@ -53,15 +55,38 @@ export const CreateMicropoolForm = ({
           <Body2 className={classes.text} component="p" color="secondary">
             {t('create-micropool.form.step-2.text')}
           </Body2>
-          <Button
-            className={classes.buy}
-            variant="outlined"
-            size="large"
-            color="primary"
-            onClick={handleBuy}
-          >
-            {t('navigation.buy')}
-          </Button>
+          <div className={classes.deposit}>
+            <Box>
+              <SubTitle className={classes.depositTitle}>
+                {t('create-micropool-form.your-balance')}
+              </SubTitle>
+              <Box display="flex" alignItems="center">
+                <Headline4>0</Headline4>
+                <Button
+                  className={classes.buy}
+                  variant="outlined"
+                  size="small"
+                  color="primary"
+                  onClick={handleBuy}
+                >
+                  {t('create-micropool-form.buy')}
+                </Button>
+              </Box>
+            </Box>
+            <Box>
+              <SubTitle className={classes.depositTitle}>
+                {t('create-micropool-form.needed')}
+              </SubTitle>
+              <Headline4>500,000</Headline4>
+            </Box>
+            <Button
+              size="large"
+              color="primary"
+              className={classes.depositButton}
+            >
+              {t('create-micropool-form.deposit', { value: '500,000' })}
+            </Button>
+          </div>
         </li>
       </ul>
       <Button
