@@ -2,7 +2,7 @@ import React from 'react';
 
 import { makeStyles } from '@material-ui/styles';
 import { Theme } from '@material-ui/core';
-import { NavLink } from './Link';
+import { NavLink } from './NavLink';
 
 const useStyles = makeStyles<Theme>(theme => ({
   block: {
@@ -22,7 +22,7 @@ const useStyles = makeStyles<Theme>(theme => ({
   },
 }));
 
-const LinkStory = () => {
+const NavLinkStory = () => {
   const classes = useStyles();
   return (
     <div className={classes.block}>
@@ -51,8 +51,8 @@ const LinkStory = () => {
   );
 };
 
-export const LinkExample = () => <LinkStory />;
+export const NavLinkExample = () => <NavLinkStory />;
 
 export default {
-  title: 'UiKit/Link',
+  title: 'UiKit/NavLink',
 };

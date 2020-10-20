@@ -7,7 +7,7 @@ import { t } from '../../../../common/utils/intl';
 import { Button } from '../../../../UiKit/Button';
 import { SubTitle } from '../../../../UiKit/Typography/Typography';
 import { walletConversion } from '../../../../common/utils/convertWallet';
-import { NavLink } from '../../../../UiKit/Link';
+import { NavLink } from '../../../../UiKit/NavLink';
 import { CopyIcon } from '../../../../UiKit/Icons/CopyIcon';
 import { ViewIcon } from '../../../../UiKit/Icons/ViewIcon';
 import { PROVIDERS } from '../const';

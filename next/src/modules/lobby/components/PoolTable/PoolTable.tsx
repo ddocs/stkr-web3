@@ -17,7 +17,7 @@ import { QueryEmpty } from '../../../../components/QueryEmpty/QueryEmpty';
 import { Query } from '@redux-requests/react';
 import { Total } from '../../../../components/Total';
 import { IPool } from '../../../../store/apiMappers/poolsApi';
-import { NavLink } from '../../../../UiKit/Link';
+import { NavLink } from '../../../../UiKit/NavLink';
 import { INDEX_PATH } from '../../../../common/const';
 import {
   Table,

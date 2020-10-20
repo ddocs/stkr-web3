@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import { useLogotypeStyles } from './LogotypeStyles';
-import { NavLink } from '../../../../UiKit/Link';
+import { NavLink } from '../../../../UiKit/NavLink';
 import { LogoIcon } from '../../../../UiKit/Icons/LogoIcon';
 import { Body2 } from '../../../../UiKit/Typography';
 import { t } from '../../../../common/utils/intl';

@@ -3,12 +3,12 @@ import { Button, ButtonProps } from '@material-ui/core';
 import { Link as RouterLink, useRouteMatch } from 'react-router-dom';
 import classNames from 'classnames';
 
-type LinksVariant = 'contained' | 'outlined' | 'text';
+type NavLinksVariant = 'contained' | 'outlined' | 'text';
 
 export interface INavLinkProps {
   component?: string | React.ComponentType;
   href: string;
-  variant?: LinksVariant;
+  variant?: NavLinksVariant;
   onClick?: (e: React.MouseEvent<Element, MouseEvent>) => void;
   activeClassName?: string;
 }

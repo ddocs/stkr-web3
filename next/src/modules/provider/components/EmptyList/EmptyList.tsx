@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { t } from '../../../../common/utils/intl';
 import { Body2, Headline4 } from '../../../../UiKit/Typography';
 import { BackgroundColorProvider } from '../../../../UiKit/BackgroundColorProvider';
-import { NavLink } from '../../../../UiKit/Link';
+import { NavLink } from '../../../../UiKit/NavLink';
 import { PROVIDER_CREATE_MICROPOOL_PATH } from '../../../../common/const';
 import { Icon } from './Icon';
 

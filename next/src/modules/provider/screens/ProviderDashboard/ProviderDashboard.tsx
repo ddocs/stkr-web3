@@ -14,7 +14,7 @@ import { ProviderTabs } from '../../components/ProviderTabs';
 import { t, tHTML } from '../../../../common/utils/intl';
 import { Curtains } from '../../../../UiKit/Curtains';
 import { Info } from '../../../../components/Info';
-import { NavLink } from '../../../../UiKit/Link';
+import { NavLink } from '../../../../UiKit/NavLink';
 import { IPool } from '../../../../store/apiMappers/poolsApi';
 import { UserActions, UserActionTypes, } from '../../../../store/actions/UserActions';
 import { Query } from '@redux-requests/react';

@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import { useSocialStyles } from './SocialStyles';
 import { uid } from 'react-uid';
-import { NavLink } from '../../../../UiKit/Link';
+import { NavLink } from '../../../../UiKit/NavLink';
 import { SOCIAL_LINK } from '../../../../common/const';
 import { t } from '../../../../common/utils/intl';
 

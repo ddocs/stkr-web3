@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import { useHeaderStyles } from './FooterStyles';
-import { NavLink } from '../../../../UiKit/Link';
+import { NavLink } from '../../../../UiKit/NavLink';
 import { t, tHTML } from '../../../../common/utils/intl';
 import { Curtains } from '../../../../UiKit/Curtains';
 import { connect } from 'react-redux';

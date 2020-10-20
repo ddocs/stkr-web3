@@ -4,7 +4,7 @@ import { usePickerStyles } from './PickerStyles';
 import { BackgroundColorProvider } from '../../UiKit/BackgroundColorProvider';
 import { Headline1, Body2 } from '../../UiKit/Typography';
 import { tHTML, t } from '../../common/utils/intl';
-import { NavLink } from '../../UiKit/Link';
+import { NavLink } from '../../UiKit/NavLink';
 import { PROVIDER_PATH, STAKER_PATH } from '../../common/const';
 
 interface IItemProps {

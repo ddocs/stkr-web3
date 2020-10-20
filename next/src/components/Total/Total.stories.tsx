@@ -1,16 +1,12 @@
 import React from 'react';
-
 import { makeStyles } from '@material-ui/styles';
-import { Theme } from '@material-ui/core';
 import { Total } from './Total';
 import { t } from '../../common/utils/intl';
 import { Button } from '../../UiKit/Button';
 import { INDEX_PATH } from '../../common/const';
-import { NavLink } from '../../UiKit/Link';
+import { NavLink } from '../../UiKit/NavLink';
 
-const useStyles = makeStyles<Theme>(theme => ({
-  block: {},
-
+const useStyles = makeStyles(() => ({
   total: {
     width: 385,
     marginBottom: 32,
@@ -20,7 +16,7 @@ const useStyles = makeStyles<Theme>(theme => ({
 const TotalStory = () => {
   const classes = useStyles();
   return (
-    <div className={classes.block}>
+    <div>
       <Total className={classes.total} total={32} reward={1} />
       <Total className={classes.total} total={32} reward={1}>
         <NavLink
