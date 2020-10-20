@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { MutableRefObject } from 'react';
 import { Button, ButtonProps } from '@material-ui/core';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useRouteMatch } from 'react-router-dom';
+import classNames from 'classnames';
 
 type LinksVariant = 'contained' | 'outlined' | 'text';
 
@@ -9,16 +10,15 @@ export interface INavLinkProps {
   href: string;
   variant?: LinksVariant;
   onClick?: (e: React.MouseEvent<Element, MouseEvent>) => void;
-  style?: React.CSSProperties;
   activeClassName?: string;
 }
 
 export const NavLink = React.forwardRef<
-  HTMLButtonElement,
+  HTMLButtonElement | HTMLAnchorElement,
   ButtonProps & INavLinkProps
 >(
   (
-    { href, variant = 'text', style, onClick, activeClassName, ...props },
+    { href, variant = 'text', onClick, activeClassName, className, ...props },
     ref,
   ) => {
     const isLink =
@@ -26,21 +26,33 @@ export const NavLink = React.forwardRef<
       href.startsWith('mailto') ||
       href.startsWith('tel');
 
+    const match = useRouteMatch({ path: href, exact: true });
+
+    if (isLink) {
+      return (
+        <Button
+          component="a"
+          href={href}
+          variant={variant}
+          onClick={onClick}
+          role="link"
+          rel="noopener noreferrer"
+          target="_blank"
+          ref={ref as MutableRefObject<HTMLAnchorElement>}
+          className={className}
+          {...(props as any)}
+        />
+      );
+    }
+
     return (
       <Button
-        component={isLink ? 'a' : RouterLink}
-        // @ts-ignore
-        activeClassName={activeClassName}
-        // @ts-ignore
+        component={RouterLink as any}
         to={href}
-        href={href}
         variant={variant}
         onClick={onClick}
-        role="link"
-        rel={isLink ? 'noopener noreferrer' : undefined}
-        target={isLink ? '_blank' : false}
         ref={ref}
-        style={style}
+        className={classNames(className, match && activeClassName)}
         {...props}
       />
     );

@@ -2,7 +2,6 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { IStoreState } from '../../../../store/reducers';
 import { isConnected } from '../../../../store/reducers/userReducer';
-
 import { Query } from '@redux-requests/react';
 import { UserActionTypes } from '../../../../store/actions/UserActions';
 import { IUserInfo } from '../../../../store/apiMappers/userApi';
