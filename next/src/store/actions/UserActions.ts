@@ -7,6 +7,7 @@ import { IPool } from '../apiMappers/poolsApi';
 import { differenceInCalendarMonths } from 'date-fns';
 import { ISidecar, mapSidecar } from '../apiMappers/sidecarsApi';
 import { mapStats } from '../apiMappers/statsApi';
+import { IAllowance, IAllowTokensResponse } from '../apiMappers/allowance';
 
 export const UserActionTypes = {
   CONNECT: 'CONNECT',
@@ -30,6 +31,10 @@ export const UserActionTypes = {
   CREATE_MICROPOOL: 'CREATE_MICROPOOL',
 
   FETCH_STATS: 'FETCH_STATS',
+
+  FETCH_ALLOWANCE: 'FETCH_ALLOWANCE',
+
+  ALLOW_TOKENS: 'ALLOW_TOKENS',
 };
 
 export const UserActions = {
@@ -170,6 +175,30 @@ export const UserActions = {
     },
     meta: {
       getData: mapStats,
+    },
+  }),
+  fetchAllowance: () => ({
+    type: UserActionTypes.FETCH_ALLOWANCE,
+    request: {
+      promise: (async function () {
+        const stkrSdk = StkrSdk.getLastInstance();
+        return {
+          allowanceAmount: await stkrSdk.getAllowanceAmount(),
+          remainingAllowance: await stkrSdk.getRemainingAllowance(),
+        } as IAllowance;
+      })(),
+    },
+  }),
+  allowTokens: () => ({
+    type: UserActionTypes.ALLOW_TOKENS,
+    request: {
+      promise: (async function () {
+        const stkrSdk = StkrSdk.getLastInstance();
+        return { txHash: await stkrSdk.allowTokens() } as IAllowTokensResponse;
+      })(),
+    },
+    meta: {
+      asMutation: true,
     },
   }),
 };

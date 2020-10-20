@@ -46,7 +46,7 @@ export const useCreateMicropoolStyles = makeStyles<Theme>(theme => ({
   },
   item: {
     display: 'grid',
-    gridTemplateColumns: '1fr 337px',
+    gridTemplateColumns: '1fr minmax(0, 337px)',
     gridRowGap: theme.spacing(3),
     padding: theme.spacing(5.5, 0),
     borderBottom: `1px solid ${fade(theme.palette.text.primary, 0.2)}`,
@@ -62,7 +62,7 @@ export const useCreateMicropoolStyles = makeStyles<Theme>(theme => ({
   },
   buy: {
     gridColumn: '2/3',
-    marginLeft: theme.spacing(1)
+    marginLeft: theme.spacing(1),
   },
   submit: {
     alignSelf: 'flex-end',
@@ -72,11 +72,12 @@ export const useCreateMicropoolStyles = makeStyles<Theme>(theme => ({
   deposit: {
     display: 'grid',
     gridTemplateColumns: '1fr 1fr',
+    gridGap: theme.spacing(2),
   },
   depositButton: {
     gridRow: 2,
     gridColumn: '1/3',
-    marginTop: theme.spacing(4.5)
+    marginTop: theme.spacing(4.5),
   },
   depositTitle: {
     marginBottom: theme.spacing(2),

@@ -15,6 +15,8 @@ import BigNumber from 'bignumber.js';
 
 const LOCAL_STORAGE_AUTHORIZATION_TOKEN_KEY = '__stkr_authorization_token';
 
+type TxHash = string;
+
 export interface ContractDetails {
   ankrEthContract: string;
   ankrContract: string;
@@ -162,33 +164,37 @@ export class StkrSdk {
     await contractManager.faucet();
   }
 
-  public async createMicroPool(
-    name: string,
-    stakingAmount: BigNumber = new BigNumber('100000'),
-  ): Promise<string> {
-    const contractManager = this.getContractManager(),
-      systemParams = await contractManager.getSystemContractParameters();
-    console.log(`checking allowance`);
-    const stakeAllowance = await contractManager.checkAnkrAllowance();
-    console.log(
-      `ankr staked allowance is ${stakeAllowance}, it should be greater than 100'000 ANKR`,
+  public async reserveTokens() {}
+
+  public async getAllowanceAmount() {
+    return await this.getContractManager().checkAnkrAllowance();
+  }
+
+  public async getProviderMinimalStakingAmount() {
+    const systemParams = await this.getContractManager().getSystemContractParameters();
+    return systemParams.providerMinimumStaking;
+  }
+
+  public async getRemainingAllowance() {
+    const allowanceAmount = await this.getAllowanceAmount();
+    const minimalStaking = await this.getProviderMinimalStakingAmount();
+    return minimalStaking.minus(allowanceAmount);
+  }
+
+  public async allowTokens(remainingAllowance?: BigNumber) {
+    return await this.getContractManager().approveAnkrToStakingContract(
+      remainingAllowance || (await this.getProviderMinimalStakingAmount()),
     );
-    if (stakeAllowance.isLessThan(systemParams.providerMinimumStaking)) {
-      const requiredMoreTokens = systemParams.providerMinimumStaking.minus(
-        stakingAmount,
-      );
-      console.log(
-        `you don't have enough ANKR tokens, need to approve ${requiredMoreTokens.toString()} more`,
-      );
-      await contractManager.approveAnkrToStakingContract(requiredMoreTokens);
-      console.log(
-        `successfully approved ${requiredMoreTokens.toString()} ANKR tokens for micro pool contract`,
-      );
+  }
+
+  public async createMicroPool(name: string): Promise<TxHash> {
+    const remainingAllowance = await this.getRemainingAllowance();
+
+    if (remainingAllowance.isGreaterThan(0)) {
+      await this.allowTokens(remainingAllowance);
     }
-    console.log(`initializing pool`);
-    const txHash = await contractManager.initializePool(name);
-    console.log(`created new micro pool, tx hash is ${txHash}`);
-    return txHash;
+
+    return await this.getContractManager().initializePool(name);
   }
 
   public async stake(amount: BigNumber | string): Promise<void> {
