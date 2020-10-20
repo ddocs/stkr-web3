@@ -17,6 +17,7 @@ import { uid } from 'react-uid';
 import { IPool } from '../../../../store/apiMappers/poolsApi';
 import { Total } from '../../../../components/Total';
 import { Button } from '../../../../UiKit/Button';
+import { StkrSdk } from '../../../api';
 
 interface IMicropoolListProps {
   className?: string;

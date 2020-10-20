@@ -15,6 +15,11 @@ export interface ITotalProps {
 
 export const Total = ({ className, reward, total, children }: ITotalProps) => {
   const active = (reward * 100) / total;
+  console.log(`--------------`);
+  console.log(reward);
+  console.log(total);
+  console.log(active);
+  console.log(`--------------`);
 
   const classes = useTotalStyles({ width: active });
 

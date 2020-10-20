@@ -70,8 +70,7 @@ export const UserActions = {
     request: {
       promise: (async function () {
         const stkrSdk = StkrSdk.getLastInstance();
-
-        return await stkrSdk.getApiGateway().getMicroPools();
+        return stkrSdk.getApiGateway().getMicroPools();
       })(),
     },
     meta: {
@@ -82,7 +81,7 @@ export const UserActions = {
           period: differenceInCalendarMonths(item.startTime, item.endTime),
           fee: new BigNumber('0'),
           currentStake: new BigNumber(item.balance),
-          totalStake: new BigNumber(item.balance),
+          totalStake: new BigNumber('32'),
           status: item.status,
         })),
     },
@@ -114,8 +113,8 @@ export const UserActions = {
           provider: item.provider,
           period: differenceInCalendarMonths(item.startTime, item.endTime),
           fee: new BigNumber(0),
-          currentStake: new BigNumber(0),
-          totalStake: new BigNumber(0),
+          currentStake: new BigNumber(item.balance),
+          totalStake: new BigNumber(32),
           status: item.status,
         }));
       },

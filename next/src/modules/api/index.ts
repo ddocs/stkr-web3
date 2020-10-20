@@ -264,4 +264,8 @@ export class StkrSdk {
   public getApiGateway(): ApiGateway {
     return this.apiGateway;
   }
+
+  public async manuallyStartSidecar(sidecar: string): Promise<{}> {
+    return this.getApiGateway().startSidecar(sidecar);
+  }
 }
