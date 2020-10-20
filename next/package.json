@@ -62,7 +62,8 @@
     "react-stroller": "^1.6.7",
     "react-uid": "^2.3.0",
     "resolve-from": "^5.0.0",
-    "storybook": "^5.3.19"
+    "storybook": "^5.3.19",
+    "eslint-config-react-app": "^5.2.1"
   },
   "husky": {
     "hooks": {
