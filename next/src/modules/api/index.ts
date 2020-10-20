@@ -191,10 +191,38 @@ export class StkrSdk {
     return txHash;
   }
 
+  public async stake(amount: BigNumber | string): Promise<void> {
+    if (typeof amount === 'string') {
+      amount = new BigNumber(amount);
+    }
+    const {
+      requesterMinimumStaking,
+    } = await this.getContractManager().getSystemContractParameters();
+    if (amount.isLessThan(requesterMinimumStaking)) {
+      throw new Error(
+        `Minimum staking amount is ${requesterMinimumStaking.toString()}`,
+      );
+    }
+    const pendingPools = (await this.getApiGateway().getMicroPools()).filter(
+      microPool => microPool.status === 'MICRO_POOL_STATUS_PENDING',
+    );
+    if (pendingPools.length === 0) {
+      throw new Error('There is no pending pools');
+    }
+    /* TODO: "let take first pending pool for the first time" */
+    const [pool] = pendingPools;
+    console.log(
+      `staking funds ${amount.toString()} in ${pool.poolIndex.toString()} pool`,
+    );
+    const txHash = await this.getContractManager().stake(
+      new BigNumber(pool.poolIndex),
+      amount,
+    );
+    console.log(`successfully staked funds in pool, tx hash is ${txHash}`);
+  }
+
   public async getMicroPool(poolIndex: string | number): Promise<any> {
-    if (!this.contractManager)
-      throw new Error('Key provider must be connected');
-    const result = await this.contractManager.poolDetails(`${poolIndex}`);
+    const result = await this.getContractManager().poolDetails(`${poolIndex}`);
     console.log(`fetched micro pool details, result is ${result}`);
     return result;
   }

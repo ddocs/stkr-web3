@@ -1,14 +1,23 @@
 import React from 'react';
 import { Curtains } from '../../UiKit/Curtains';
 import { useStakeStyles } from './StakeStyles';
-import { Body2, Headline2, Headline3, Headline6, } from '../../UiKit/Typography';
+import { Body2, Headline2, Headline3, Headline6 } from '../../UiKit/Typography';
 import { t } from '../../common/utils/intl';
-import { Box, Button, Divider, FormHelperText, IconButton, Tooltip, Typography, } from '@material-ui/core';
+import {
+  Box,
+  Button,
+  Divider,
+  FormHelperText,
+  IconButton,
+  Tooltip,
+  Typography,
+} from '@material-ui/core';
 import { CancelIcon } from '../../UiKit/Icons/CancelIcon';
 import { BackgroundColorProvider } from '../../UiKit/BackgroundColorProvider';
 import { Field, Form, FormRenderProps } from 'react-final-form';
 import { QuestionIcon } from '../../UiKit/Icons/QuestionIcon';
 import { SliderField } from '../../UiKit/RangeField';
+import { StkrSdk } from '../api';
 
 const MIN_AMOUNT = 0.5;
 const MAX_AMOUNT = 32;
@@ -102,7 +111,13 @@ export const Stake = () => {
     <section className={classes.component}>
       <Curtains classes={{ root: classes.wrapper }}>
         <Form
-          onSubmit={() => alert('Submit')}
+          onSubmit={async values => {
+            /* TODO: "fix me with actions" */
+            const { amount } = values;
+            const sdk = StkrSdk.getLastInstance();
+            const txHash = await sdk.stake(`${amount}`);
+            console.log(`tx hash is ${txHash}`);
+          }}
           render={renderForm}
           initialValues={{ amount: INIT_AMOUNT }}
         />
