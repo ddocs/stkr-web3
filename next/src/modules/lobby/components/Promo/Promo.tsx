@@ -27,7 +27,7 @@ const LIST = [
 ];
 
 export const Promo = ({ className }: IPromoProps) => {
-  const classes = usePromoStyles({ count: LIST.length });
+  const classes = usePromoStyles();
 
   return (
     <section className={classNames(classes.component, className)}>
