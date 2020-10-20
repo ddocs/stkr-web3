@@ -245,4 +245,12 @@ export class ApiGateway {
     if (status !== 200) throw new Error("Can't fetch statistics");
     return data;
   }
+
+  public async startSidecar(sidecar: string): Promise<{}> {
+    const { status, data } = await this.api.post(`/v1alpha/sidecar/start`, {
+      sidecar,
+    });
+    if (status !== 200) throw new Error("Can't fetch statistics");
+    return data;
+  }
 }
