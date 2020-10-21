@@ -8,8 +8,18 @@ export const useSpinnerStyles = makeStyles(() => ({
     animationIterationCount: 'infinite',
     animationTimingFunction: 'linear',
     margin: 'auto',
+    width: 54,
+    height: 54,
+    willChange: 'transform',
   },
   '@keyframes spin': {
     '100%': { transform: 'rotate(360deg)' },
+  },
+  centered: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    right: 0,
+    bottom: 0,
   },
 }));

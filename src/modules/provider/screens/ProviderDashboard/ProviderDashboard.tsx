@@ -17,12 +17,9 @@ import { Curtains } from '../../../../UiKit/Curtains';
 import { Info } from '../../../../components/Info';
 import { NavLink } from '../../../../UiKit/NavLink';
 import { IPool } from '../../../../store/apiMappers/poolsApi';
-import {
-  UserActions,
-  UserActionTypes,
-} from '../../../../store/actions/UserActions';
+import { UserActions, UserActionTypes, } from '../../../../store/actions/UserActions';
 import { Query } from '@redux-requests/react';
-import { QueryLoading } from '../../../../components/QueryLoading/QueryLoading';
+import { QueryLoadingCentered, } from '../../../../components/QueryLoading/QueryLoading';
 import { QueryError } from '../../../../components/QueryError/QueryError';
 import { Route } from 'react-router-dom';
 import { useInitEffect } from '../../../../common/hooks/useInitEffect';
@@ -159,7 +156,7 @@ export const ProviderDashboard = () => {
     return (
       <Query<IPool[] | null>
         errorComponent={QueryError}
-        loadingComponent={QueryLoading}
+        loadingComponent={QueryLoadingCentered}
         isDataEmpty={alwaysFalse}
         type={UserActionTypes.FETCH_CURRENT_PROVIDER_MICROPOOLS}
       >
@@ -176,7 +173,7 @@ export const ProviderDashboard = () => {
     <Query<ISidecar[] | null>
       type={UserActionTypes.FETCH_CURRENT_PROVIDER_SIDECARS}
       errorComponent={QueryError}
-      loadingComponent={QueryLoading}
+      loadingComponent={QueryLoadingCentered}
       noDataMessage={<CreateNode />}
     >
       {render}

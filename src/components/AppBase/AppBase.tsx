@@ -6,7 +6,7 @@ import { AppContext } from './AppContext';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import { locales } from '../../common/locales';
 import { mainTheme } from '../../common/themes/mainTheme';
-import { QueryLoading } from '../QueryLoading/QueryLoading';
+import { QueryLoadingCentered } from '../QueryLoading/QueryLoading';
 import { Provider, ReactReduxContext } from 'react-redux';
 import { persistor, store } from '../../store';
 import '../../common/fonts/stylesheet.css';
@@ -39,12 +39,19 @@ export class AppBase extends React.Component<IAppBaseProps, IAppBaseState> {
         <Provider store={store} context={ReactReduxContext}>
           <MuiThemeProvider theme={mainTheme}>
             <CssBaseline />
-            <PersistGate loading={<QueryLoading />} persistor={persistor}>
+            <PersistGate
+              loading={<QueryLoadingCentered />}
+              persistor={persistor}
+            >
               <ConnectedRouter
                 history={historyInstance}
                 context={ReactReduxContext}
               >
-                {!this.state.initDone ? <QueryLoading /> : this.props.children}
+                {!this.state.initDone ? (
+                  <QueryLoadingCentered />
+                ) : (
+                  this.props.children
+                )}
               </ConnectedRouter>
             </PersistGate>
           </MuiThemeProvider>
