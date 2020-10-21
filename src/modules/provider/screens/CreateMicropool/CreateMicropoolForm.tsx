@@ -103,7 +103,7 @@ export const CreateMicropoolForm = ({
                   <div className={classes.deposit}>
                     <Box>
                       <SubTitle className={classes.depositTitle}>
-                        {t('create-micropool-form.your-balance')}
+                        {t('create-micropool-form.your-deposit')}
                       </SubTitle>
                       <Box display="flex" alignItems="center">
                         <Headline4>{allowanceAmount.toFormat()}</Headline4>
@@ -156,7 +156,7 @@ export const CreateMicropoolForm = ({
                 variant="contained"
                 submit
                 aria-label="submit"
-                // disabled={disabled}
+                disabled={disabled}
               >
                 {t('navigation.create-pool')}
               </Button>
