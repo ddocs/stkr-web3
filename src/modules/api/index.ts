@@ -177,9 +177,14 @@ export class StkrSdk {
   }
 
   public async allowTokens(remainingAllowance?: BigNumber) {
-    // await this.faucet();
+    if (!remainingAllowance) {
+      remainingAllowance = await this.getProviderMinimalStakingAmount();
+    }
+    console.log(
+      `going to approve ankt to staking contract ${remainingAllowance.toString()}`,
+    );
     return await this.getContractManager().approveAnkrToStakingContract(
-      remainingAllowance || (await this.getProviderMinimalStakingAmount()),
+      remainingAllowance,
     );
   }
 

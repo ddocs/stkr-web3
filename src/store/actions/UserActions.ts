@@ -208,7 +208,14 @@ export const UserActions = {
     request: {
       promise: (async function () {
         const stkrSdk = StkrSdk.getLastInstance();
-        return { txHash: await stkrSdk.allowTokens() } as IAllowTokensResponse;
+        try {
+          return {
+            txHash: await stkrSdk.allowTokens(),
+          } as IAllowTokensResponse;
+        } catch (e) {
+          console.error(e);
+          throw e;
+        }
       })(),
     },
     meta: {
