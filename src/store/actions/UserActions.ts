@@ -35,6 +35,8 @@ export const UserActionTypes = {
   FETCH_ALLOWANCE: 'FETCH_ALLOWANCE',
 
   ALLOW_TOKENS: 'ALLOW_TOKENS',
+
+  BUY_TOKENS: 'BUY_TOKENS',
 };
 
 export const UserActions = {
@@ -205,6 +207,18 @@ export const UserActions = {
       promise: (async function () {
         const stkrSdk = StkrSdk.getLastInstance();
         return { txHash: await stkrSdk.allowTokens() } as IAllowTokensResponse;
+      })(),
+    },
+    meta: {
+      asMutation: true,
+    },
+  }),
+  buyTokens: () => ({
+    type: UserActionTypes.BUY_TOKENS,
+    request: {
+      promise: (async function () {
+        const stkrSdk = StkrSdk.getLastInstance();
+        return stkrSdk.faucet();
       })(),
     },
     meta: {

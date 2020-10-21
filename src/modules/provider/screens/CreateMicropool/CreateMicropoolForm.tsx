@@ -37,8 +37,9 @@ export const CreateMicropoolForm = ({
   });
 
   const handleBuy = useCallback(() => {
-    alert('You have bought 100,000 ANKR');
-  }, []);
+    // TODO Link for production
+    dispatch(UserActions.buyTokens());
+  }, [dispatch]);
 
   const handleAllowTokens = useCallback(() => {
     dispatch(UserActions.allowTokens());
