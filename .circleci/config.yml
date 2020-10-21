@@ -1,6 +1,7 @@
 version: 2
 jobs:
-  build:
+  # develop
+  build-develop:
     docker:
       - image: tarampampam/node:13-alpine
     steps:
@@ -9,17 +10,17 @@ jobs:
       - attach_workspace:
           at: '.'
       - run:
-          name: "Build the production code"
+          name: "Build develop artifacts"
           command: |
             node --version
             npm --version
             yarn install
-            yarn build
+            yarn build:develop
       - persist_to_workspace:
           root: '.'
           paths:
             - '.'
-  upload:  
+  upload-develop:
     docker:
       - image: bigbadalien/awscli-node-kops-kubectl:0.3
     steps:
@@ -27,33 +28,88 @@ jobs:
       - attach_workspace:
           at: '.'
       - run:
-          name: "Uploading assets to strk website"
+          name: "Upload develop artifacts"
           command: |
             pwd
             # DOMAIN="stkr.ankr.com"
             # DISTRIBUTION_ID="EMPBFTV79PLW8"
-
-            DOMAIN="stkr-goerli.ankr.com"
+            DOMAIN="stkr-dev.ankr.com"
             DISTRIBUTION_ID="E1LG75GWDIK2Z8"
-
             echo "Uploading assets to $DOMAIN"
             aws s3 cp ./build s3://$DOMAIN/ --acl bucket-owner-full-control --recursive --cache-control "public,max-age=600,s-maxage=3600"
-
             echo "Invalidating CDN network"
             INVALIDATION_ID=`aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths '/*' | jq -r '.Invalidation.Id'`
             echo "Invalidation ID is $INVALIDATION_ID"
             echo "CDN Invalidation request is sent."
+
+  # goerli
+  build-goerli:
+    docker:
+      - image: tarampampam/node:13-alpine
+    steps:
+      - checkout
+      - setup_remote_docker
+      - attach_workspace:
+          at: '.'
+      - run:
+          name: "Build goerli artifacts"
+          command: |
+            node --version
+            npm --version
+            yarn install
+            yarn build:goerli
+      - persist_to_workspace:
+          root: '.'
+          paths:
+            - '.'
+  upload-goerli:
+    docker:
+      - image: bigbadalien/awscli-node-kops-kubectl:0.3
+    steps:
+      - setup_remote_docker
+      - attach_workspace:
+          at: '.'
+      - run:
+          name: "Uploading goerli artifacts"
+          command: |
+            pwd
+            # DOMAIN="stkr.ankr.com"
+            # DISTRIBUTION_ID="EMPBFTV79PLW8"
+            DOMAIN="stkr-goerli.ankr.com"
+            DISTRIBUTION_ID="E1LG75GWDIK2Z8"
+            echo "Uploading assets to $DOMAIN"
+            aws s3 cp ./build s3://$DOMAIN/ --acl bucket-owner-full-control --recursive --cache-control "public,max-age=600,s-maxage=3600"
+            echo "Invalidating CDN network"
+            INVALIDATION_ID=`aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths '/*' | jq -r '.Invalidation.Id'`
+            echo "Invalidation ID is $INVALIDATION_ID"
+            echo "CDN Invalidation request is sent."
+
 workflows:
   version: 2
   stkr_web3:
     jobs:
-      - build:
+      - build-develop:
           context: cicd
-      - upload:
+      - upload-develop:
           context: cicd
           requires:
-            - build
-          filters: &prod_only
+            - build-develop
+          filters:
             branches:
               only:
                 - FD-2895_stkr
+                - develop
+      - build-goerli:
+          context: cicd
+          filters:
+            branches:
+              only:
+                - goerli
+      - upload-goerli:
+          context: cicd
+          requires:
+            - build-goerli
+          filters:
+            branches:
+              only:
+                - goerli
