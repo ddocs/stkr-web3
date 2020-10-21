@@ -65,7 +65,7 @@ const PickerContainer = withDefaultLayout(
 );
 
 const StakerContainer = withDefaultLayout(
-  loadable(async () => import('./modules/stake').then(module => module.Stake), {
+  loadable(async () => import('./modules/stake/screens').then(module => module.Stake), {
     fallback: <QueryLoadingCentered />,
   }) as LoadableComponent<any>,
 );

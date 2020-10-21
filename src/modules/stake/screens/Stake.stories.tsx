@@ -1,7 +1,7 @@
 import React from 'react';
 import { StakeComponent } from './Stake';
-import { DefaultLayoutComponent } from '../layout/components/DefautLayout/DefautLayout';
-import { YEAR_INTEREST } from '../../common/const';
+import { DefaultLayoutComponent } from '../../layout/components/DefautLayout/DefautLayout';
+import { YEAR_INTEREST } from '../../../common/const';
 
 const StakeStory = () => {
   return (
