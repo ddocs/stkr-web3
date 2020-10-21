@@ -34,7 +34,7 @@ jobs:
             # DOMAIN="stkr.ankr.com"
             # DISTRIBUTION_ID="EMPBFTV79PLW8"
             DOMAIN="stkr-dev.ankr.com"
-            DISTRIBUTION_ID="E1LG75GWDIK2Z8"
+            DISTRIBUTION_ID="E32ENR6PL3CWBO"
             echo "Uploading assets to $DOMAIN"
             aws s3 cp ./build s3://$DOMAIN/ --acl bucket-owner-full-control --recursive --cache-control "public,max-age=600,s-maxage=3600"
             echo "Invalidating CDN network"
