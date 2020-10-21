@@ -22,10 +22,10 @@ export const LOCAL_CONFIG: StkrConfig = {
     chainId: '5',
   },
   contractConfig: {
-    microPoolContract: '0x93D11295a8Bff032763E4Df94De4Fb455803875E',
-    ankrContract: '0x73ec423A2Ca297b2F34d017B538e7B314E4e1e3b',
-    stakingContract: '0x570DED9A463fD20472153cEBa90a83C3A6c654CD',
-    systemContract: '0x2c924B3f094554d2F77f417f88993E894cb5924c',
+    microPoolContract: '0x206B7200e6E497E96c592c760a50f030fe146c28',
+    ankrContract: '0xaA2B264cC4bb843a06254Ab1C47Cfce491A14052',
+    stakingContract: '0x51b0b6b72684C68c8B8091d55ba155C503D44d78',
+    systemContract: '0x40Eec3627A95c8fb969Bbf6769817cA3E021C289',
   },
   gatewayConfig: {
     baseUrl: 'http://localhost:8000',
@@ -38,10 +38,10 @@ export const DEVELOP_CONFIG: StkrConfig = {
     chainId: '5',
   },
   contractConfig: {
-    microPoolContract: '0x93D11295a8Bff032763E4Df94De4Fb455803875E',
-    ankrContract: '0x73ec423A2Ca297b2F34d017B538e7B314E4e1e3b',
-    stakingContract: '0x570DED9A463fD20472153cEBa90a83C3A6c654CD',
-    systemContract: '0x2c924B3f094554d2F77f417f88993E894cb5924c',
+    microPoolContract: '0x206B7200e6E497E96c592c760a50f030fe146c28',
+    ankrContract: '0xaA2B264cC4bb843a06254Ab1C47Cfce491A14052',
+    stakingContract: '0x51b0b6b72684C68c8B8091d55ba155C503D44d78',
+    systemContract: '0x40Eec3627A95c8fb969Bbf6769817cA3E021C289',
   },
   gatewayConfig: {
     baseUrl: 'https://api.stkr-dev.ankr.com/',
