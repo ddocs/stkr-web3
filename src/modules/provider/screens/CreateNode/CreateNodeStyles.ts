@@ -1,7 +1,6 @@
-import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-export const useCreateNodeStyles = makeStyles<Theme>(theme => ({
+export const useCreateNodeStyles = makeStyles(theme => ({
   component: {
     display: 'grid',
     gridTemplateRows: 'auto',
@@ -19,11 +18,6 @@ export const useCreateNodeStyles = makeStyles<Theme>(theme => ({
   title: {
     margin: 0,
   },
-  input: {
-    width: '100%',
-    margin: 0,
-    marginTop: theme.spacing(5),
-  },
   text: {
     margin: 0,
     marginTop: theme.spacing(3.5),
@@ -35,14 +29,6 @@ export const useCreateNodeStyles = makeStyles<Theme>(theme => ({
   image: {
     gridRow: '-1/1',
     gridColumn: '2/3',
-  },
-  section: {
-    padding: theme.spacing(8, 0),
-    height: '100%',
-    boxSizing: 'border-box',
-  },
-  wrapper: {
-    height: '100%',
   },
   content: {
     display: 'flex',

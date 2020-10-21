@@ -9,6 +9,6 @@ export enum Providers {
   wallet = 'wallet',
 }
 
-export interface IReduxRequestActionResponse<T = any> {
+export interface IRequestActionPromiseData<T = any> {
   action: Action<T>;
 }

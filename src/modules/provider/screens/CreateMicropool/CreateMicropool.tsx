@@ -4,20 +4,17 @@ import classNames from 'classnames';
 import { CancelIcon } from '../../../../UiKit/Icons/CancelIcon';
 import { Form } from 'react-final-form';
 import { CreateMicropoolForm } from './CreateMicropoolForm';
-import { useAction } from '../../../../store/redux';
-import {
-  UserActions,
-  UserActionTypes,
-} from '../../../../store/actions/UserActions';
+import { UserActions, UserActionTypes, } from '../../../../store/actions/UserActions';
 import { Mutation } from '@redux-requests/react';
 import { Curtains } from '../../../../UiKit/Curtains';
 import { BackgroundColorProvider } from '../../../../UiKit/BackgroundColorProvider';
 import { CreateMicropoolProgress } from './CreateMicropoolProgress';
 import { IconButton } from '@material-ui/core';
 import { useHistory } from 'react-router';
-import { IReduxRequestActionResponse } from '../../../../common/types';
+import { IRequestActionPromiseData } from '../../../../common/types';
 import { success } from '@redux-requests/core';
 import { PROVIDER_MICROPOOL_LIST_PATH } from '../../../../common/const';
+import { useRequestDispatch } from '../../../../common/utils/useRequestDispatch';
 
 interface ICreateMicropoolPayload {
   name: string;
@@ -50,19 +47,19 @@ export const CreateMicropoolComponent = ({
 export const CreateMicropoolImp = () => {
   const classes = useCreateMicropoolStyles();
   const history = useHistory();
-  const dispatchCreateMicropool = useAction(UserActions.createMicropool);
+  const dispatch = useRequestDispatch();
 
   const handleSubmit = useCallback(
     (payload: ICreateMicropoolPayload) => {
-      dispatchCreateMicropool(payload).then(
-        (data: IReduxRequestActionResponse) => {
+      dispatch(UserActions.createMicropool(payload)).then(
+        (data: IRequestActionPromiseData) => {
           if (data.action.type === success(UserActionTypes.CREATE_MICROPOOL)) {
             history.replace(PROVIDER_MICROPOOL_LIST_PATH);
           }
         },
       );
     },
-    [dispatchCreateMicropool, history],
+    [dispatch, history],
   );
 
   const handleClose = useCallback(() => {

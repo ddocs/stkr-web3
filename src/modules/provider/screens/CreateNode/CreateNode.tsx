@@ -5,19 +5,18 @@ import { t } from '../../../../common/utils/intl';
 import { Icon } from './Icon';
 import { Form, FormRenderProps } from 'react-final-form';
 import { Button } from '../../../../UiKit/Button';
-import { useAction } from '../../../../store/redux';
 import {
   UserActions,
   UserActionTypes,
 } from '../../../../store/actions/UserActions';
-import { Curtains } from '../../../../UiKit/Curtains';
 import { BackgroundColorProvider } from '../../../../UiKit/BackgroundColorProvider';
 import { Mutation } from '@redux-requests/react';
 import { CreateNodeProgress } from './CreateNodeProgress';
 import { success } from '@redux-requests/core';
 import { useHistory } from 'react-router';
 import { PROVIDER_NODES_PATH } from '../../../../common/const';
-import { IReduxRequestActionResponse } from '../../../../common/types';
+import { IRequestActionPromiseData } from '../../../../common/types';
+import { useRequestDispatch } from '../../../../common/utils/useRequestDispatch';
 
 interface ICreateNodePayload {}
 
@@ -60,33 +59,31 @@ export const CreateNodeComponent = ({ onSubmit }: ICreateNodeProps) => {
 };
 
 export const CreateNode = () => {
-  const dispatchCreateSidecar = useAction(UserActions.createSidecar);
+  const dispatch = useRequestDispatch();
   const classes = useCreateNodeStyles();
   const history = useHistory();
 
   const handleSubmit = useCallback(() => {
-    dispatchCreateSidecar().then((data: IReduxRequestActionResponse) => {
-      if (data.action.type === success(UserActionTypes.CREATE_SIDECAR)) {
-        history.replace(PROVIDER_NODES_PATH);
-      }
-    });
-  }, [dispatchCreateSidecar, history]);
+    dispatch(UserActions.createSidecar()).then(
+      (data: IRequestActionPromiseData) => {
+        if (data.action.type === success(UserActionTypes.CREATE_SIDECAR)) {
+          history.replace(PROVIDER_NODES_PATH);
+        }
+      },
+    );
+  }, [dispatch, history]);
 
   return (
-    <section className={classes.section}>
-      <Curtains classes={{ root: classes.wrapper }}>
-        <BackgroundColorProvider className={classes.content}>
-          <Mutation type={UserActionTypes.CREATE_SIDECAR}>
-            {({ loading }) =>
-              loading ? (
-                <CreateNodeProgress />
-              ) : (
-                <CreateNodeComponent onSubmit={handleSubmit} />
-              )
-            }
-          </Mutation>
-        </BackgroundColorProvider>
-      </Curtains>
-    </section>
+    <BackgroundColorProvider className={classes.content}>
+      <Mutation type={UserActionTypes.CREATE_SIDECAR}>
+        {({ loading }) =>
+          loading ? (
+            <CreateNodeProgress />
+          ) : (
+            <CreateNodeComponent onSubmit={handleSubmit} />
+          )
+        }
+      </Mutation>
+    </BackgroundColorProvider>
   );
 };

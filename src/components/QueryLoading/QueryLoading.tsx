@@ -1,7 +1,6 @@
 import * as React from 'react';
+import { Spinner } from '../Spinner';
 
-interface ILoadingProps {}
-
-export const QueryLoading = (props: ILoadingProps) => {
-  return <div>Loading...</div>;
+export const QueryLoading = () => {
+  return <Spinner />;
 };

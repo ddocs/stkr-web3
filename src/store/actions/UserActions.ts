@@ -147,7 +147,17 @@ export const UserActions = {
         return await stkrSdk.createSidecar();
       })(),
     },
-    meta: { asMutation: true },
+    meta: {
+      asMutation: true,
+      mutations: {
+        [UserActionTypes.FETCH_CURRENT_PROVIDER_SIDECARS]: (
+          data: ISidecar[],
+          item: { sidecar: SidecarReply },
+        ) => {
+          return [...data, mapSidecar(item.sidecar)] as ISidecar[];
+        },
+      },
+    },
   }),
   createMicropool: ({ name }: { name: string }) => ({
     type: UserActionTypes.CREATE_MICROPOOL,
