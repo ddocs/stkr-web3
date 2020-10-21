@@ -219,8 +219,5 @@
     "needed": "Needed amount",
     "deposit": "Deposit {value} ANKR",
     "buy": "Buy"
-  },
-  "provider-dashboard": {
-    "node-creation-disabled": "Please, register and activate already created node"
   }
 }

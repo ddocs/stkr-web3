@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useProviderDashboardStyles } from './ProviderDashboardStyles';
 import { MicropoolList } from '../../components/MicropoolList';
 import { NodeList } from '../../components/NodeList';
@@ -29,7 +29,6 @@ import { useInitEffect } from '../../../../common/hooks/useInitEffect';
 import { IStats } from '../../../../store/apiMappers/statsApi';
 import { alwaysFalse } from '../../../../common/utils/alwaysFalse';
 import { ISidecar } from '../../../../store/apiMappers/sidecarsApi';
-import { Tooltip } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 
 interface IProviderDashboardStoreProps {
@@ -56,6 +55,13 @@ export const ProviderDashboardComponent = ({
     () => <MicropoolList className={classes.table} data={micropools} />,
     [classes.table, micropools],
   );
+
+  const hasPendingMicropools = useMemo(
+    () => micropools?.some(item => item.status === 'MICRO_POOL_STATUS_PENDING'),
+    [micropools],
+  );
+
+  const hasMicropools = micropools && micropools.length > 0;
 
   return (
     <section className={classes.component}>
@@ -89,43 +95,41 @@ export const ProviderDashboardComponent = ({
         <div className={classes.navigation}>
           <ProviderTabs className={classes.tabs} />
           {location.pathname === PROVIDER_MICROPOOL_LIST_PATH ? (
-            <NavLink
-              className={classes.create}
-              href={PROVIDER_CREATE_MICROPOOL_PATH}
-              variant="outlined"
-              color="primary"
-            >
-              {t('navigation.create')}
-            </NavLink>
+            !hasPendingMicropools &&
+            hasMicropools && (
+              <NavLink
+                className={classes.create}
+                href={PROVIDER_CREATE_MICROPOOL_PATH}
+                variant="outlined"
+                color="primary"
+              >
+                {t('navigation.create')}
+              </NavLink>
+            )
           ) : (
-            <Query<ISidecar[]>
+            <Query<ISidecar[] | null>
               type={UserActionTypes.FETCH_CURRENT_PROVIDER_SIDECARS}
               errorComponent={QueryError}
               loadingComponent={QueryLoading}
               isDataEmpty={alwaysFalse}
             >
-              {({ data }) => {
-                console.log('data', data);
-                const hasCreateStatus = data?.some(
+              {({ data: nodes }) => {
+                const hasCreatedStatus = nodes?.some(
                   item => item.status === 'SIDECAR_STATUS_CREATED',
                 );
-                return (
-                  <Tooltip
-                    title={t('provider-dashboard.node-creation-disabled')}
+
+                const hasNodes = nodes && nodes.length > 0;
+
+                return !hasCreatedStatus && hasNodes ? (
+                  <NavLink
+                    className={classes.create}
+                    href={PROVIDER_CREATE_NODE_PATH}
+                    variant="outlined"
+                    color="primary"
                   >
-                    <div>
-                      <NavLink
-                        className={classes.create}
-                        href={PROVIDER_CREATE_NODE_PATH}
-                        variant="outlined"
-                        color="primary"
-                        disabled={hasCreateStatus}
-                      >
-                        {t('navigation.create')}
-                      </NavLink>
-                    </div>
-                  </Tooltip>
-                );
+                    {t('navigation.create')}
+                  </NavLink>
+                ) : null;
               }}
             </Query>
           )}
@@ -162,7 +166,6 @@ export const ProviderDashboard = () => {
       type={UserActionTypes.FETCH_CURRENT_PROVIDER_MICROPOOLS}
     >
       {({ data: micropools }) => {
-        console.log('micropools', micropools);
         return <ProviderDashboardComponent micropools={micropools} />;
       }}
     </Query>
