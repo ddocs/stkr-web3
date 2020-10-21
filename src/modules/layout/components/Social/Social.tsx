@@ -56,7 +56,7 @@ export const Social = ({ className }: { className?: string }) => {
       <ul className={classes.list}>
         {SOCIAL_LIST.map(item => {
           return (
-            <li className={classes.item}>
+            <li key={item.href} className={classes.item}>
               <NavLink
                 key={uid(item)}
                 className={classes.link}
