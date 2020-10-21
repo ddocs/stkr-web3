@@ -177,6 +177,7 @@ export class StkrSdk {
   }
 
   public async allowTokens(remainingAllowance?: BigNumber) {
+    // await this.faucet();
     return await this.getContractManager().approveAnkrToStakingContract(
       remainingAllowance || (await this.getProviderMinimalStakingAmount()),
     );
@@ -184,11 +185,9 @@ export class StkrSdk {
 
   public async createMicroPool(name: string): Promise<TxHash> {
     const remainingAllowance = await this.getRemainingAllowance();
-
     if (remainingAllowance.isGreaterThan(0)) {
       await this.allowTokens(remainingAllowance);
     }
-
     return await this.getContractManager().initializePool(name);
   }
 
