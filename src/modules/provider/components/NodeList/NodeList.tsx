@@ -13,20 +13,10 @@ import {
 import { useLocaleMemo } from '../../../../common/hooks/useLocaleMemo';
 import { t } from '../../../../common/utils/intl';
 import { Button } from '../../../../UiKit/Button';
-import {
-  UserActions,
-  UserActionTypes,
-} from '../../../../store/actions/UserActions';
 import { StkrSdk } from '../../../api';
-import { Query } from '@redux-requests/react';
 import { uid } from 'react-uid';
 import { ISidecar } from '../../../../store/apiMappers/sidecarsApi';
 import { formatDistanceToNowStrict } from 'date-fns';
-import { QueryError } from '../../../../components/QueryError/QueryError';
-import { QueryLoading } from '../../../../components/QueryLoading/QueryLoading';
-import { CreateNode } from '../../screens/CreateNode';
-import { useInitEffect } from '../../../../common/hooks/useInitEffect';
-import { useDispatch } from 'react-redux';
 
 const useCaptions = (): ITablesCaptionProps[] =>
   useLocaleMemo(
@@ -132,7 +122,7 @@ export const NodeListComponent = ({ className, data }: INodeListProps) => {
   );
 };
 
-export const NodeListImp = ({
+export const NodeList = ({
   className,
   data,
 }: {
@@ -140,25 +130,4 @@ export const NodeListImp = ({
   data: ISidecar[];
 }) => {
   return <NodeListComponent className={className} data={data} />;
-};
-
-export const NodeList = ({ className }: { className?: string }) => {
-  const dispatch = useDispatch();
-
-  useInitEffect(() => {
-    dispatch(UserActions.fetchCurrentProviderSidecars());
-  });
-
-  return (
-    <Query<ISidecar[]>
-      type={UserActionTypes.FETCH_CURRENT_PROVIDER_SIDECARS}
-      errorComponent={QueryError}
-      loadingComponent={QueryLoading}
-      noDataMessage={<CreateNode />}
-    >
-      {({ data: sidecars }) => (
-        <NodeListImp className={className} data={sidecars} />
-      )}
-    </Query>
-  );
 };

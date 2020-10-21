@@ -10,7 +10,7 @@ import {
   PROVIDER_NODES_PATH,
   PROVIDER_PATH,
 } from '../../../../common/const';
-import { useLocation } from 'react-router';
+import { useRouteMatch } from 'react-router';
 import { ProviderTabs } from '../../components/ProviderTabs';
 import { t, tHTML } from '../../../../common/utils/intl';
 import { Curtains } from '../../../../UiKit/Curtains';
@@ -30,9 +30,11 @@ import { IStats } from '../../../../store/apiMappers/statsApi';
 import { alwaysFalse } from '../../../../common/utils/alwaysFalse';
 import { ISidecar } from '../../../../store/apiMappers/sidecarsApi';
 import { useDispatch } from 'react-redux';
+import { CreateNode } from '../CreateNode';
 
 interface IProviderDashboardStoreProps {
   micropools: IPool[] | null;
+  nodes: ISidecar[] | null;
 }
 
 interface IProviderDashboardProps extends IProviderDashboardStoreProps {
@@ -41,14 +43,18 @@ interface IProviderDashboardProps extends IProviderDashboardStoreProps {
 
 export const ProviderDashboardComponent = ({
   micropools,
+  nodes,
 }: IProviderDashboardProps) => {
   const classes = useProviderDashboardStyles();
 
-  const location = useLocation();
+  const isMicropoolListRoute = useRouteMatch({
+    path: PROVIDER_MICROPOOL_LIST_PATH,
+    exact: true,
+  });
 
   const renderNodeList = useCallback(
-    () => <NodeList className={classes.table} />,
-    [classes.table],
+    () => (nodes ? <NodeList className={classes.table} data={nodes} /> : null),
+    [classes.table, nodes],
   );
 
   const renderMicropoolList = useCallback(
@@ -56,12 +62,18 @@ export const ProviderDashboardComponent = ({
     [classes.table, micropools],
   );
 
-  const hasPendingMicropools = useMemo(
+  const hasPendingMicropoolStatus = useMemo(
     () => micropools?.some(item => item.status === 'MICRO_POOL_STATUS_PENDING'),
     [micropools],
   );
 
   const hasMicropools = micropools && micropools.length > 0;
+
+  const hasCreatedNodeStatus = nodes?.some(
+    item => item.status === 'SIDECAR_STATUS_CREATED',
+  );
+
+  const hasNodes = nodes && nodes.length > 0;
 
   return (
     <section className={classes.component}>
@@ -94,45 +106,29 @@ export const ProviderDashboardComponent = ({
         </Query>
         <div className={classes.navigation}>
           <ProviderTabs className={classes.tabs} />
-          {location.pathname === PROVIDER_MICROPOOL_LIST_PATH ? (
-            !hasPendingMicropools &&
-            hasMicropools && (
-              <NavLink
-                className={classes.create}
-                href={PROVIDER_CREATE_MICROPOOL_PATH}
-                variant="outlined"
-                color="primary"
-              >
-                {t('navigation.create')}
-              </NavLink>
-            )
-          ) : (
-            <Query<ISidecar[] | null>
-              type={UserActionTypes.FETCH_CURRENT_PROVIDER_SIDECARS}
-              errorComponent={QueryError}
-              loadingComponent={QueryLoading}
-              isDataEmpty={alwaysFalse}
-            >
-              {({ data: nodes }) => {
-                const hasCreatedStatus = nodes?.some(
-                  item => item.status === 'SIDECAR_STATUS_CREATED',
-                );
-
-                const hasNodes = nodes && nodes.length > 0;
-
-                return !hasCreatedStatus && hasNodes ? (
-                  <NavLink
-                    className={classes.create}
-                    href={PROVIDER_CREATE_NODE_PATH}
-                    variant="outlined"
-                    color="primary"
-                  >
-                    {t('navigation.create')}
-                  </NavLink>
-                ) : null;
-              }}
-            </Query>
-          )}
+          {isMicropoolListRoute
+            ? !hasPendingMicropoolStatus &&
+              hasMicropools && (
+                <NavLink
+                  className={classes.create}
+                  href={PROVIDER_CREATE_MICROPOOL_PATH}
+                  variant="outlined"
+                  color="primary"
+                >
+                  {t('navigation.create')}
+                </NavLink>
+              )
+            : !hasCreatedNodeStatus &&
+              hasNodes && (
+                <NavLink
+                  className={classes.create}
+                  href={PROVIDER_CREATE_NODE_PATH}
+                  variant="outlined"
+                  color="primary"
+                >
+                  {t('navigation.create')}
+                </NavLink>
+              )}
         </div>
         <Route
           path={[PROVIDER_PATH]}
@@ -155,19 +151,35 @@ export const ProviderDashboard = () => {
 
   useInitEffect(() => {
     dispatch(UserActions.fetchCurrentProviderMicropools());
+    dispatch(UserActions.fetchCurrentProviderSidecars());
     dispatch(UserActions.fetchStats());
   });
 
+  const render = useCallback(({ data: nodes }: { data: ISidecar[] | null }) => {
+    return (
+      <Query<IPool[] | null>
+        errorComponent={QueryError}
+        loadingComponent={QueryLoading}
+        isDataEmpty={alwaysFalse}
+        type={UserActionTypes.FETCH_CURRENT_PROVIDER_MICROPOOLS}
+      >
+        {({ data: micropools }) => {
+          return (
+            <ProviderDashboardComponent micropools={micropools} nodes={nodes} />
+          );
+        }}
+      </Query>
+    );
+  }, []);
+
   return (
-    <Query<IPool[] | null>
+    <Query<ISidecar[] | null>
+      type={UserActionTypes.FETCH_CURRENT_PROVIDER_SIDECARS}
       errorComponent={QueryError}
       loadingComponent={QueryLoading}
-      isDataEmpty={alwaysFalse}
-      type={UserActionTypes.FETCH_CURRENT_PROVIDER_MICROPOOLS}
+      noDataMessage={<CreateNode />}
     >
-      {({ data: micropools }) => {
-        return <ProviderDashboardComponent micropools={micropools} />;
-      }}
+      {render}
     </Query>
   );
 };
