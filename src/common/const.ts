@@ -1,6 +1,6 @@
 export const INDEX_PATH = '/';
 export const STAKER_STAKE_PATH = '/staker/stake';
-export const STAKER_DASHBOAR_PATH = '/staker/dashboard';
+export const STAKER_DASHBOAR_PATH = '/staker';
 export const SDK_PATH = '/sdk';
 export const PROVIDER_PATH = '/provider';
 export const PROVIDER_MICROPOOL_LIST_PATH = PROVIDER_PATH;

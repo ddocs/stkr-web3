@@ -2,7 +2,7 @@ import { useHeaderStyles } from './HeaderStyles';
 import { useLocation } from 'react-router';
 import { useIsSMDown } from '../../../../common/hooks/useTheme';
 import { Toggle } from '../Toggle';
-import { PROVIDER_PATH, STAKER_STAKE_PATH } from '../../../../common/const';
+import { PROVIDER_PATH, STAKER_DASHBOAR_PATH } from '../../../../common/const';
 import { Tabs } from '../Tabs';
 import React from 'react';
 import { HeaderFrame } from './HeaderFrame';
@@ -24,7 +24,7 @@ const TABS: ITab[] = [
   {
     label: 'navigation.staker',
     value: NavTab.staker,
-    href: STAKER_STAKE_PATH,
+    href: STAKER_DASHBOAR_PATH,
   },
   {
     label: 'navigation.provider',
@@ -52,7 +52,7 @@ export const AuthorizedHeader = ({
         <Toggle />
       ) : (
         <>
-          {([STAKER_STAKE_PATH, PROVIDER_PATH].includes(location.pathname) ||
+          {([STAKER_DASHBOAR_PATH, PROVIDER_PATH].includes(location.pathname) ||
             SHOW_SWITCHER_ON_ALL_PAGES) && (
             <Tabs className={classes.tabs} values={TABS} />
           )}

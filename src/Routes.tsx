@@ -111,7 +111,11 @@ export function Routes() {
         exact={true}
       />
       <Route path={PICKER_PATH} component={PickerContainer} />
-      <Route path={STAKER_DASHBOAR_PATH} component={StakerDashboardContainer} />
+      <Route
+        path={STAKER_DASHBOAR_PATH}
+        component={StakerDashboardContainer}
+        exact={true}
+      />
       <Route path={STAKER_STAKE_PATH} component={StakerContainer} />
       <Route path={SDK_PATH} exact={true} component={App} />
       <Route component={PageNotFound} />
