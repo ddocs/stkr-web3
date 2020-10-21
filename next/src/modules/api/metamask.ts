@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/interface-name-prefix */
 import Web3 from 'web3';
 import { bytesToHex, numberToHex } from 'web3-utils';
 import { JsonRpcResponse } from 'web3-core-helpers/types';
@@ -22,7 +23,7 @@ export class MetaMaskProvider extends KeyProvider {
 
   async connect(): Promise<void> {
     // @ts-ignore
-    let ethereum: any = typeof window !== 'undefined' && window.ethereum;
+    const ethereum: any = typeof window !== 'undefined' && window.ethereum;
     // @ts-ignore
     let web3: any = typeof window !== 'undefined' && window.web3;
     if (ethereum) {

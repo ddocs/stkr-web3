@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/interface-name-prefix */
 import { ProviderConfig } from './provider';
 import { ContractConfig } from './contract';
 import { GatewayConfig } from './gateway';

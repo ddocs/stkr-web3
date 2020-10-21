@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/interface-name-prefix,@typescript-eslint/no-inferrable-types */
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 
 export interface GatewayConfig {

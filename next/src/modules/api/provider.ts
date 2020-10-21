@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/interface-name-prefix */
 import { JsonRpcResponse } from 'web3-core-helpers/types';
 import Web3 from 'web3';
 import { AbiItem } from 'web3-utils';
@@ -94,8 +95,8 @@ export abstract class KeyProvider {
     address: string,
   ): Promise<string> {
     if (!this._web3) throw new Error('Web3 must be initialized');
-    let balance = await contract.methods.balanceOf(address).call(),
-      decimals = await contract.methods.decimals().call();
+    const balance = await contract.methods.balanceOf(address).call();
+    let decimals = await contract.methods.decimals().call();
     if (!Number(decimals)) decimals = 18;
     return new BigNumber(`${balance}`)
       .dividedBy(new BigNumber(10).pow(decimals))

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires,@typescript-eslint/interface-name-prefix */
 import { KeyProvider } from './provider';
 import { Contract } from 'web3-eth-contract';
 import { stringToHex } from 'web3-utils';

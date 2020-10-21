@@ -89,6 +89,6 @@ export const UnlockWalletContentImp = ({
   );
 };
 
-export const UnlockWalletContent = connect((state: IStoreState) => {}, {
+export const UnlockWalletContent = connect((state: IStoreState) => ({}), {
   signIn: UserActions.connect,
 })(UnlockWalletContentImp);

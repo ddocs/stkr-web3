@@ -1,10 +1,7 @@
-import * as React from 'react';
-import { ComponentProps, useCallback } from 'react';
+import { useCallback } from 'react';
 import { Action } from 'redux';
 
 import { useDispatch } from 'react-redux';
-
-export type For<T extends React.FC> = Partial<ComponentProps<T>>;
 
 type Callback<T extends any[]> = (...args: T) => any;
 

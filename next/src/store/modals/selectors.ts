@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/interface-name-prefix */
 import { KnownModal } from './actions';
 
 export interface ModalsInternal {

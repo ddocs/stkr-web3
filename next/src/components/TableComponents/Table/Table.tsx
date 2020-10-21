@@ -16,7 +16,7 @@ type TableContextType = {
 
 export const TableContext = createPureContext<TableContextType>({
   tableWidth: 0,
-  setTableWidth: () => {},
+  setTableWidth: () => undefined,
   count: 0,
 } as TableContextType);
 

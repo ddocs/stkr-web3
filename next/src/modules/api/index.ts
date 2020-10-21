@@ -17,7 +17,7 @@ const LOCAL_STORAGE_AUTHORIZATION_TOKEN_KEY = '__stkr_authorization_token';
 
 type TxHash = string;
 
-export interface ContractDetails {
+export interface IContractDetails {
   ankrEthContract: string;
   ankrContract: string;
   marketPlaceContract: string;
@@ -60,7 +60,7 @@ export class StkrSdk {
     this.contractManager = contractManage;
   }
 
-  public async downloadContractDetails(): Promise<ContractDetails> {
+  public async downloadContractDetails(): Promise<IContractDetails> {
     const networkName: string =
       NETWORK_NAMES[Number(this.stkrConfig.providerConfig.networkId)];
     const {
@@ -145,15 +145,15 @@ export class StkrSdk {
   }
 
   public async getProviders(
-    page: number = 0,
-    size: number = 100,
+    page = 0,
+    size = 100,
   ): Promise<ProviderReply[]> {
     return this.apiGateway.getProviders(page, size);
   }
 
   public async getMicroPools(
-    page: number = 0,
-    size: number = 100,
+    page = 0,
+    size = 100,
   ): Promise<MicroPoolReply[]> {
     return this.apiGateway.getMicroPools(page, size);
   }
@@ -164,6 +164,7 @@ export class StkrSdk {
     await contractManager.faucet();
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   public async reserveTokens() {}
 
   public async getAllowanceAmount() {

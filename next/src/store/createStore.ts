@@ -8,16 +8,16 @@ import { handleRequests } from '@redux-requests/core';
 import { createDriver } from '@redux-requests/promise';
 import { History } from 'history';
 
-export interface ApplicationStore {
+export interface IApplicationStore {
   store: Store;
   saga: any;
 }
 
-export const persistApplicationStore = ({ store }: ApplicationStore) => {
+export const persistApplicationStore = ({ store }: IApplicationStore) => {
   return persistStore(store);
 };
 
-export const runApplicationStore = ({ saga }: ApplicationStore) => {
+export const runApplicationStore = ({ saga }: IApplicationStore) => {
   saga.run(rootSaga);
 };
 
@@ -25,7 +25,7 @@ export const createApplicationStore = ({
   history,
 }: {
   history: History;
-}): ApplicationStore => {
+}): IApplicationStore => {
   const { requestsReducer, requestsMiddleware } = handleRequests({
     driver: createDriver({
       processResponse: response => ({ data: response }),
