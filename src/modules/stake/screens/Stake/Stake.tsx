@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react';
-import { Curtains } from '../../../UiKit/Curtains';
+import { Curtains } from '../../../../UiKit/Curtains';
 import { useStakeStyles } from './StakeStyles';
-import { Body2, Headline2, Headline3, Headline6 } from '../../../UiKit/Typography';
-import { t } from '../../../common/utils/intl';
+import { Body2, Headline2, Headline3, Headline6 } from '../../../../UiKit/Typography';
+import { t } from '../../../../common/utils/intl';
 import {
   Box,
   Button,
@@ -12,19 +12,19 @@ import {
   Tooltip,
   Typography,
 } from '@material-ui/core';
-import { CancelIcon } from '../../../UiKit/Icons/CancelIcon';
-import { BackgroundColorProvider } from '../../../UiKit/BackgroundColorProvider';
+import { CancelIcon } from '../../../../UiKit/Icons/CancelIcon';
+import { BackgroundColorProvider } from '../../../../UiKit/BackgroundColorProvider';
 import { Field, Form, FormRenderProps } from 'react-final-form';
-import { QuestionIcon } from '../../../UiKit/Icons/QuestionIcon';
-import { SliderField } from '../../../UiKit/RangeField';
-import { UserActions, UserActionTypes } from '../../../store/actions/UserActions';
-import { FormErrors } from '../../../common/types/FormErrors';
+import { QuestionIcon } from '../../../../UiKit/Icons/QuestionIcon';
+import { SliderField } from '../../../../UiKit/RangeField';
+import { UserActions, UserActionTypes } from '../../../../store/actions/UserActions';
+import { FormErrors } from '../../../../common/types/FormErrors';
 import { Mutation, useQuery } from '@redux-requests/react';
-import { IUserInfo } from '../../../store/apiMappers/userApi';
+import { IUserInfo } from '../../../../store/apiMappers/userApi';
 import BigNumber from 'bignumber.js';
-import { useRequestDispatch } from '../../../common/utils/useRequestDispatch';
+import { useRequestDispatch } from '../../../../common/utils/useRequestDispatch';
 import { useHistory } from 'react-router';
-import { STAKER_DASHBOAR_PATH, YEAR_INTEREST } from '../../../common/const';
+import { STAKER_DASHBOAR_PATH, YEAR_INTEREST } from '../../../../common/const';
 
 const MIN_AMOUNT = 0.5;
 const MAX_AMOUNT = 32;
