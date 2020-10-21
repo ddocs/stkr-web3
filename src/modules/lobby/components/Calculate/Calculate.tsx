@@ -5,21 +5,16 @@ import classNames from 'classnames';
 import { useCalculateStyles } from './CalculateStyles';
 import { BackgroundColorProvider } from '../../../../UiKit/BackgroundColorProvider';
 import { Button } from '../../../../UiKit/Button';
-import {
-  Divider,
-  MuiThemeProvider,
-  Slider,
-  Typography,
-} from '@material-ui/core';
+import { Divider, MuiThemeProvider, Slider, Typography, } from '@material-ui/core';
 import { useAction } from '../../../../store/redux';
 import { openUnlockWalletAction } from '../../../../store/modals/actions';
 import { Headline1, Headline4, Headline6 } from '../../../../UiKit/Typography';
 import { invertTheme } from '../../../../common/themes/invertTheme';
 import BigNumber from 'bignumber.js';
+import { YEAR_INTEREST } from "../../../../common/const";
 
 const DEFAULT_VALUE = 10;
 const FIXED_DECIMAL_PLACES = 2;
-const YEAR_REATE = 0.0526;
 
 function EarningItem({
   title,
@@ -111,12 +106,12 @@ export const Calculate = ({
             <ul className={classes.list}>
               <EarningItem
                 title={t('about.monthly')}
-                amount={(value * YEAR_REATE) / 12}
+                amount={(value * YEAR_INTEREST) / 12}
                 ratePrice={ethPrice}
               />
               <EarningItem
                 title={t('about.yearly')}
-                amount={value * YEAR_REATE}
+                amount={value * YEAR_INTEREST}
                 ratePrice={ethPrice}
               />
             </ul>

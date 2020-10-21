@@ -15,3 +15,4 @@ export const SOCIAL_LINK = {
   whitepaperEn: 'https://assets.ankr.com/files/stkr_whitepaper.pdf',
   whitepaperCh: 'https://assets.ankr.com/files/stkr_whitepaper_cn.pdf',
 };
+export const YEAR_INTEREST = 0.0526;

@@ -24,11 +24,13 @@ import { IUserInfo } from '../../store/apiMappers/userApi';
 import BigNumber from 'bignumber.js';
 import { useRequestDispatch } from '../../common/utils/useRequestDispatch';
 import { useHistory } from 'react-router';
-import { STAKER_DASHBOAR_PATH } from '../../common/const';
+import { STAKER_DASHBOAR_PATH, YEAR_INTEREST } from '../../common/const';
 
 const MIN_AMOUNT = 0.5;
 const MAX_AMOUNT = 32;
 const INIT_AMOUNT = 10;
+const INTEREST_PERIOD = 12;
+const FIXED_DECIMAL_PLACES = 2;
 
 interface IStakePayload {
   amount: number;
@@ -37,11 +39,13 @@ interface IStakePayload {
 interface IStakeComponentProps {
   onSubmit: (payload: IStakePayload) => void;
   ankrBalance?: BigNumber;
+  yearlyInterest: number;
 }
 
 export const StakeComponent = ({
   onSubmit,
   ankrBalance,
+  yearlyInterest,
 }: IStakeComponentProps) => {
   const classes = useStakeStyles();
 
@@ -64,6 +68,7 @@ export const StakeComponent = ({
     handleSubmit,
     values: { amount },
     errors,
+    invalid,
   }: FormRenderProps<any>) => {
     return (
       <form onSubmit={handleSubmit} className={classes.form}>
@@ -107,7 +112,9 @@ export const StakeComponent = ({
                 </IconButton>
               </Tooltip>
             </Typography>
-            <Headline6>{t('units.~months', { value: 12 })}</Headline6>
+            <Headline6>
+              {t('units.~months', { value: INTEREST_PERIOD })}
+            </Headline6>
           </Box>
           <Box
             display="flex"
@@ -123,7 +130,13 @@ export const StakeComponent = ({
                 </IconButton>
               </Tooltip>
             </Typography>
-            <Headline3>{t('units.~eth', { value: 14.339 })}</Headline3>
+            <Headline3>
+              {t('units.~eth', {
+                value: new BigNumber(amount * yearlyInterest).toFormat(
+                  FIXED_DECIMAL_PLACES,
+                ),
+              })}
+            </Headline3>
           </Box>
           <Box>
             <Body2 color="textSecondary">{t('stake.yearly-earning-tip')}</Body2>
@@ -139,7 +152,7 @@ export const StakeComponent = ({
                 size="large"
                 className={classes.submit}
                 type="submit"
-                disabled={loading}
+                disabled={loading || invalid}
               >
                 {t('stake.stake')}
               </Button>
@@ -182,6 +195,10 @@ export const Stake = () => {
   });
 
   return (
-    <StakeComponent onSubmit={handleSubmit} ankrBalance={data?.ankrBalance} />
+    <StakeComponent
+      onSubmit={handleSubmit}
+      ankrBalance={data?.ankrBalance}
+      yearlyInterest={YEAR_INTEREST}
+    />
   );
 };

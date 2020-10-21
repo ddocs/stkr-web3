@@ -1,12 +1,13 @@
 import React from 'react';
 import { StakeComponent } from './Stake';
 import { DefaultLayoutComponent } from '../layout/components/DefautLayout/DefautLayout';
+import { YEAR_INTEREST } from '../../common/const';
 
 const StakeStory = () => {
   return (
     <div>
       <DefaultLayoutComponent isAuth={true}>
-        <StakeComponent onSubmit={() => null} />
+        <StakeComponent onSubmit={() => null} yearlyInterest={YEAR_INTEREST} />
       </DefaultLayoutComponent>
     </div>
   );
