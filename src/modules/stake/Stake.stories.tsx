@@ -1,12 +1,12 @@
 import React from 'react';
-import { Stake } from './Stake';
+import { StakeComponent } from './Stake';
 import { DefaultLayoutComponent } from '../layout/components/DefautLayout/DefautLayout';
 
 const StakeStory = () => {
   return (
     <div>
       <DefaultLayoutComponent isAuth={true}>
-        <Stake />
+        <StakeComponent onSubmit={() => null} />
       </DefaultLayoutComponent>
     </div>
   );

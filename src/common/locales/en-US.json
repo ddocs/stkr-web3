@@ -134,6 +134,7 @@
     "out-of": "{value} / {of}"
   },
   "stake": {
+    "title": "Staking manager",
     "ankr": "Ankr",
     "range-name": "Pool fullness",
     "out-of-ETH": "{value} / {of} ETH",

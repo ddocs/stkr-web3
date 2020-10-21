@@ -1,7 +1,7 @@
-import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
+import { Theme } from '@material-ui/core';
 
-export const useStakeStyles = makeStyles<Theme, { icon?: string }>(theme => {
+export const useStakeStyles = makeStyles<Theme>(theme => {
   const contentPadding = theme.spacing(6, 22.5, 8.5, 22.5);
 
   return {

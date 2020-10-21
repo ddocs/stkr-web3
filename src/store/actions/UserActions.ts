@@ -37,6 +37,8 @@ export const UserActionTypes = {
   ALLOW_TOKENS: 'ALLOW_TOKENS',
 
   BUY_TOKENS: 'BUY_TOKENS',
+
+  STAKE: 'STAKE',
 };
 
 export const UserActions = {
@@ -219,6 +221,18 @@ export const UserActions = {
       promise: (async function () {
         const stkrSdk = StkrSdk.getLastInstance();
         return stkrSdk.faucet();
+      })(),
+    },
+    meta: {
+      asMutation: true,
+    },
+  }),
+  stake: (amount: BigNumber | string) => ({
+    type: UserActionTypes.STAKE,
+    request: {
+      promise: (async function () {
+        const stkrSdk = StkrSdk.getLastInstance();
+        return stkrSdk.stake(amount);
       })(),
     },
     meta: {
