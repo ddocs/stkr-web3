@@ -104,6 +104,7 @@ workflows:
           filters:
             branches:
               only:
+                - FD-2895_stkr
                 - goerli
       - upload-goerli:
           context: cicd
@@ -112,4 +113,5 @@ workflows:
           filters:
             branches:
               only:
+                - FD-2895_stkr
                 - goerli
