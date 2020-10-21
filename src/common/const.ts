@@ -1,5 +1,5 @@
 export const INDEX_PATH = '/';
-export const STAKER_STAKE_PATH = '/stake';
+export const STAKER_STAKE_PATH = '/staker/stake';
 export const STAKER_DASHBOAR_PATH = '/staker/dashboard';
 export const SDK_PATH = '/sdk';
 export const PROVIDER_PATH = '/provider';

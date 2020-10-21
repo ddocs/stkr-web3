@@ -12,6 +12,7 @@ import {
   PROVIDER_NODES_PATH,
   PROVIDER_PATH,
   SDK_PATH,
+  STAKER_DASHBOAR_PATH,
   STAKER_STAKE_PATH,
 } from './common/const';
 import App from './modules/api/App';
@@ -64,10 +65,26 @@ const PickerContainer = withDefaultLayout(
   ) as LoadableComponent<any>,
 );
 
+const StakerDashboardContainer = withDefaultLayout(
+  loadable(
+    async () =>
+      import('./modules/stake/screens/StakerDashboard').then(
+        module => module.StakerDashboard,
+      ),
+    {
+      fallback: <QueryLoadingCentered />,
+    },
+  ) as LoadableComponent<any>,
+);
+
 const StakerContainer = withDefaultLayout(
-  loadable(async () => import('./modules/stake/screens/Stake').then(module => module.Stake), {
-    fallback: <QueryLoadingCentered />,
-  }) as LoadableComponent<any>,
+  loadable(
+    async () =>
+      import('./modules/stake/screens/Stake').then(module => module.Stake),
+    {
+      fallback: <QueryLoadingCentered />,
+    },
+  ) as LoadableComponent<any>,
 );
 
 export function Routes() {
@@ -94,6 +111,7 @@ export function Routes() {
         exact={true}
       />
       <Route path={PICKER_PATH} component={PickerContainer} />
+      <Route path={STAKER_DASHBOAR_PATH} component={StakerDashboardContainer} />
       <Route path={STAKER_STAKE_PATH} component={StakerContainer} />
       <Route path={SDK_PATH} exact={true} component={App} />
       <Route component={PageNotFound} />

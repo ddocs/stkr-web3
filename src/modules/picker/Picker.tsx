@@ -5,7 +5,7 @@ import { BackgroundColorProvider } from '../../UiKit/BackgroundColorProvider';
 import { Body2, Headline1 } from '../../UiKit/Typography';
 import { t, tHTML } from '../../common/utils/intl';
 import { NavLink } from '../../UiKit/NavLink';
-import { PROVIDER_PATH, STAKER_STAKE_PATH } from '../../common/const';
+import { PROVIDER_PATH, STAKER_DASHBOAR_PATH } from '../../common/const';
 
 interface IItemProps {
   title: string;
@@ -39,7 +39,7 @@ const Item = ({ title, text, buttonCaption, link, icon }: IItemProps) => {
 };
 
 const LIST: Record<string, string> = {
-  staker: STAKER_STAKE_PATH,
+  staker: STAKER_DASHBOAR_PATH,
   provider: PROVIDER_PATH,
 };
 
