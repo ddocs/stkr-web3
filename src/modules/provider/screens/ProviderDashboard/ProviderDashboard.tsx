@@ -5,7 +5,8 @@ import { MicropoolList } from '../../components/MicropoolList';
 import { NodeList } from '../../components/NodeList';
 import {
   PROVIDER_CREATE_MICROPOOL_PATH,
-  PROVIDER_CREATE_NODE_LIST_PATH,
+  PROVIDER_CREATE_NODE_PATH,
+  PROVIDER_MICROPOOL_LIST_PATH,
   PROVIDER_NODES_PATH,
   PROVIDER_PATH,
 } from '../../../../common/const';
@@ -24,12 +25,15 @@ import { Query } from '@redux-requests/react';
 import { QueryLoading } from '../../../../components/QueryLoading/QueryLoading';
 import { QueryError } from '../../../../components/QueryError/QueryError';
 import { Route } from 'react-router-dom';
-import { useAction } from '../../../../store/redux';
 import { useInitEffect } from '../../../../common/hooks/useInitEffect';
 import { IStats } from '../../../../store/apiMappers/statsApi';
+import { alwaysFalse } from '../../../../common/utils/alwaysFalse';
+import { ISidecar } from '../../../../store/apiMappers/sidecarsApi';
+import { Tooltip } from '@material-ui/core';
+import { useDispatch } from 'react-redux';
 
 interface IProviderDashboardStoreProps {
-  micropools?: IPool[];
+  micropools: IPool[] | null;
 }
 
 interface IProviderDashboardProps extends IProviderDashboardStoreProps {
@@ -84,21 +88,46 @@ export const ProviderDashboardComponent = ({
         </Query>
         <div className={classes.navigation}>
           <ProviderTabs className={classes.tabs} />
-          {location.pathname === PROVIDER_PATH && !micropools ? (
-            <></>
-          ) : (
+          {location.pathname === PROVIDER_MICROPOOL_LIST_PATH ? (
             <NavLink
               className={classes.create}
-              href={
-                location.pathname === PROVIDER_PATH
-                  ? PROVIDER_CREATE_MICROPOOL_PATH
-                  : PROVIDER_CREATE_NODE_LIST_PATH
-              }
+              href={PROVIDER_CREATE_MICROPOOL_PATH}
               variant="outlined"
               color="primary"
             >
               {t('navigation.create')}
             </NavLink>
+          ) : (
+            <Query<ISidecar[]>
+              type={UserActionTypes.FETCH_CURRENT_PROVIDER_SIDECARS}
+              errorComponent={QueryError}
+              loadingComponent={QueryLoading}
+              isDataEmpty={alwaysFalse}
+            >
+              {({ data }) => {
+                console.log('data', data);
+                const hasCreateStatus = data?.some(
+                  item => item.status === 'SIDECAR_STATUS_CREATED',
+                );
+                return (
+                  <Tooltip
+                    title={t('provider-dashboard.node-creation-disabled')}
+                  >
+                    <div>
+                      <NavLink
+                        className={classes.create}
+                        href={PROVIDER_CREATE_NODE_PATH}
+                        variant="outlined"
+                        color="primary"
+                        disabled={hasCreateStatus}
+                      >
+                        {t('navigation.create')}
+                      </NavLink>
+                    </div>
+                  </Tooltip>
+                );
+              }}
+            </Query>
           )}
         </div>
         <Route
@@ -117,29 +146,25 @@ export const ProviderDashboardComponent = ({
   );
 };
 
-const alwaysFalse = () => false;
-
 export const ProviderDashboard = () => {
-  const dispatchFetchCurrentProviderMicropools = useAction(
-    UserActions.fetchCurrentProviderMicropools,
-  );
-  const dispatchFetchStats = useAction(UserActions.fetchStats);
+  const dispatch = useDispatch();
 
   useInitEffect(() => {
-    dispatchFetchCurrentProviderMicropools();
-    dispatchFetchStats();
+    dispatch(UserActions.fetchCurrentProviderMicropools());
+    dispatch(UserActions.fetchStats());
   });
 
   return (
-    <Query<IPool[]>
+    <Query<IPool[] | null>
       errorComponent={QueryError}
       loadingComponent={QueryLoading}
       isDataEmpty={alwaysFalse}
       type={UserActionTypes.FETCH_CURRENT_PROVIDER_MICROPOOLS}
     >
-      {({ data: micropools }) => (
-        <ProviderDashboardComponent micropools={micropools} />
-      )}
+      {({ data: micropools }) => {
+        console.log('micropools', micropools);
+        return <ProviderDashboardComponent micropools={micropools} />;
+      }}
     </Query>
   );
 };

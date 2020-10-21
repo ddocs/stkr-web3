@@ -20,7 +20,7 @@ import { Button } from '../../../../UiKit/Button';
 
 interface IMicropoolListProps {
   className?: string;
-  data?: IPool[];
+  data: IPool[] | null;
   onCreateMicropool?(x: any): void;
 }
 
