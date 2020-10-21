@@ -223,5 +223,16 @@
     "needed": "Needed amount",
     "deposit": "Deposit {value} ANKR",
     "buy": "Buy"
+  },
+  "staked-dashboard": {
+    "staked": "Staked",
+    "my-rewards": "My rewards",
+    "stake-more": "Stake more",
+    "eth": "ETH",
+    "column": {
+      "date": "Date",
+      "staked": "Staked",
+      "rewards": "Reward"
+    }
   }
 }

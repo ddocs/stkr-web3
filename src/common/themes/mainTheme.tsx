@@ -182,7 +182,6 @@ const mainTheme = createMuiTheme({
       sizeLarge: {
         height: 48,
         padding: defaultTheme.spacing(1, 2),
-
         fontSize: 16,
       },
 

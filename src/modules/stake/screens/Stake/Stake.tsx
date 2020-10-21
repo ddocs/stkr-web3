@@ -1,7 +1,12 @@
 import React, { useCallback } from 'react';
 import { Curtains } from '../../../../UiKit/Curtains';
 import { useStakeStyles } from './StakeStyles';
-import { Body2, Headline2, Headline3, Headline6 } from '../../../../UiKit/Typography';
+import {
+  Body2,
+  Headline2,
+  Headline3,
+  Headline6,
+} from '../../../../UiKit/Typography';
 import { t } from '../../../../common/utils/intl';
 import {
   Box,
@@ -17,7 +22,10 @@ import { BackgroundColorProvider } from '../../../../UiKit/BackgroundColorProvid
 import { Field, Form, FormRenderProps } from 'react-final-form';
 import { QuestionIcon } from '../../../../UiKit/Icons/QuestionIcon';
 import { SliderField } from '../../../../UiKit/RangeField';
-import { UserActions, UserActionTypes } from '../../../../store/actions/UserActions';
+import {
+  UserActions,
+  UserActionTypes,
+} from '../../../../store/actions/UserActions';
 import { FormErrors } from '../../../../common/types/FormErrors';
 import { Mutation, useQuery } from '@redux-requests/react';
 import { IUserInfo } from '../../../../store/apiMappers/userApi';
@@ -38,12 +46,14 @@ interface IStakePayload {
 
 interface IStakeComponentProps {
   onSubmit: (payload: IStakePayload) => void;
+  onCancel: () => void;
   ankrBalance?: BigNumber;
   yearlyInterest: number;
 }
 
 export const StakeComponent = ({
   onSubmit,
+  onCancel,
   ankrBalance,
   yearlyInterest,
 }: IStakeComponentProps) => {
@@ -80,7 +90,7 @@ export const StakeComponent = ({
             disableRipple={false}
             className={classes.cancel}
           >
-            <CancelIcon size="md" />
+            <CancelIcon size="md" onClick={onCancel} />
           </IconButton>
           <Headline2 align="center" className={classes.header}>
             {t('stake.title')}
@@ -182,7 +192,7 @@ export const StakeComponent = ({
 
 export const Stake = () => {
   const dispatch = useRequestDispatch();
-  const { replace } = useHistory();
+  const { replace, goBack } = useHistory();
 
   const handleSubmit = ({ amount }: IStakePayload) => {
     dispatch(UserActions.stake(amount.toString())).then(() => {
@@ -194,9 +204,14 @@ export const Stake = () => {
     type: UserActionTypes.FETCH_ACCOUNT_DATA,
   });
 
+  const handleCancel = useCallback(() => {
+    goBack();
+  }, [goBack]);
+
   return (
     <StakeComponent
       onSubmit={handleSubmit}
+      onCancel={handleCancel}
       ankrBalance={data?.ankrBalance}
       yearlyInterest={YEAR_INTEREST}
     />

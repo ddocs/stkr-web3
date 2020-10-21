@@ -64,11 +64,7 @@ export const NodeListComponent = ({ className, data }: INodeListProps) => {
       >
         <TableHead>
           {captions.map(cell => (
-            <TableHeadCell
-              key={cell.key}
-              label={cell.label}
-              align={cell.align}
-            />
+            <TableHeadCell key={cell.key} label={cell.label} />
           ))}
         </TableHead>
         {data && (

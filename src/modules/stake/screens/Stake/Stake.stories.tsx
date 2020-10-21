@@ -7,7 +7,11 @@ const StakeStory = () => {
   return (
     <div>
       <DefaultLayoutComponent isAuth={true}>
-        <StakeComponent onSubmit={() => null} yearlyInterest={YEAR_INTEREST} />
+        <StakeComponent
+          onSubmit={() => null}
+          onCancel={() => null}
+          yearlyInterest={YEAR_INTEREST}
+        />
       </DefaultLayoutComponent>
     </div>
   );
