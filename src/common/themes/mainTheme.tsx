@@ -68,6 +68,8 @@ const mainTheme = createMuiTheme({
   breakpoints: BREAKPOINTS,
 
   props: {
+    MuiTextField: {},
+
     MuiUseMediaQuery: {
       noSsr: true,
     },
@@ -462,6 +464,31 @@ const mainTheme = createMuiTheme({
       root: {
         fontSize: 14,
         marginTop: 0,
+      },
+    },
+    MuiInputLabel: {
+      root: {
+        fontSize: 20,
+        marginTop: -20,
+      },
+      shrink: {
+        transform: 'translate(0, 16px) scale(0.75)',
+      },
+    },
+    MuiInput: {
+      input: {
+        fontSize: 22,
+        height: 29,
+      },
+      formControl: {
+        'label + &': {
+          marginTop: 6,
+        },
+      },
+      underline: {
+        '&::after': {
+          content: 'none',
+        },
       },
     },
   },

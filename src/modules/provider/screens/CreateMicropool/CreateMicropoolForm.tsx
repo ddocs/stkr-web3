@@ -12,7 +12,6 @@ import {
 import { InputField } from '../../../../UiKit/InputField';
 import { SubTitle } from '../../../../UiKit/Typography/Typography';
 import { Box } from '@material-ui/core';
-import { useAction } from '../../../../store/redux';
 import { useInitEffect } from '../../../../common/hooks/useInitEffect';
 import {
   UserActions,
@@ -23,6 +22,7 @@ import { IAllowance } from '../../../../store/apiMappers/allowance';
 import { QueryError } from '../../../../components/QueryError/QueryError';
 import { QueryLoading } from '../../../../components/QueryLoading/QueryLoading';
 import { QueryEmpty } from '../../../../components/QueryEmpty/QueryEmpty';
+import { useDispatch } from 'react-redux';
 
 interface ICreateMicropoolFormProps {}
 
@@ -30,11 +30,10 @@ export const CreateMicropoolForm = ({
   handleSubmit,
 }: FormRenderProps<any> & ICreateMicropoolFormProps) => {
   const classes = useCreateMicropoolStyles();
-  const dispatchFetchAllowance = useAction(UserActions.fetchAllowance);
-  const dispatchAllowTokens = useAction(UserActions.allowTokens);
+  const dispatch = useDispatch();
 
   useInitEffect(() => {
-    dispatchFetchAllowance();
+    dispatch(UserActions.fetchAllowance());
   });
 
   const handleBuy = useCallback(() => {
@@ -42,8 +41,8 @@ export const CreateMicropoolForm = ({
   }, []);
 
   const handleAllowTokens = useCallback(() => {
-    dispatchAllowTokens();
-  }, [dispatchAllowTokens]);
+    dispatch(UserActions.allowTokens());
+  }, [dispatch]);
 
   return (
     <form onSubmit={handleSubmit} className={classes.form}>
@@ -75,10 +74,10 @@ export const CreateMicropoolForm = ({
                   </Headline4>
                   <Field
                     component={InputField}
-                    required
                     name="name"
                     type="text"
                     label={t('create-micropool.form.step-1.name')}
+                    color="secondary"
                   />
                 </li>
                 <li className={classes.item}>
@@ -156,7 +155,7 @@ export const CreateMicropoolForm = ({
                 variant="contained"
                 submit
                 aria-label="submit"
-                disabled={disabled}
+                // disabled={disabled}
               >
                 {t('navigation.create-pool')}
               </Button>

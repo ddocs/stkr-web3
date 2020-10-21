@@ -13,14 +13,11 @@ export const useSubscribeFormStyles = makeStyles<Theme>(theme => ({
       gridRowGap: theme.spacing(4),
     },
   },
-
   input: {
     height: '100%',
-
     [theme.breakpoints.down('xs')]: {
       height: 48,
     },
   },
-
   submit: {},
 }));

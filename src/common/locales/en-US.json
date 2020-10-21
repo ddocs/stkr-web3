@@ -16,7 +16,7 @@
     "create-beacon-chain": "Create Beacon chain",
     "create-micropool": "Create micropool",
     "become-provider": "Become a Provider",
-    "email": "Enter your name",
+    "email": "Your email address",
     "next": "Next",
     "create": "Create",
     "edit": "Edit",
@@ -44,7 +44,10 @@
     "node-name": "Enter node name"
   },
   "validation": {
-    "email-error": "Not a valid email address"
+    "email-error": "Not a valid email address",
+    "alphanumeric": "This field can contain only letters and numbers.",
+    "required": "This field is required",
+    "min-length": "Should be limited to {size} characters."
   },
   "about": {
     "title": "<span>Staking.</span>Simplified.",

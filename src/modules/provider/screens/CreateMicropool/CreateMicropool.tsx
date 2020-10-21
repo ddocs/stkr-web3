@@ -4,7 +4,10 @@ import classNames from 'classnames';
 import { CancelIcon } from '../../../../UiKit/Icons/CancelIcon';
 import { Form } from 'react-final-form';
 import { CreateMicropoolForm } from './CreateMicropoolForm';
-import { UserActions, UserActionTypes, } from '../../../../store/actions/UserActions';
+import {
+  UserActions,
+  UserActionTypes,
+} from '../../../../store/actions/UserActions';
 import { Mutation } from '@redux-requests/react';
 import { Curtains } from '../../../../UiKit/Curtains';
 import { BackgroundColorProvider } from '../../../../UiKit/BackgroundColorProvider';
@@ -15,9 +18,30 @@ import { IRequestActionPromiseData } from '../../../../common/types';
 import { success } from '@redux-requests/core';
 import { PROVIDER_MICROPOOL_LIST_PATH } from '../../../../common/const';
 import { useRequestDispatch } from '../../../../common/utils/useRequestDispatch';
+import { isAlphanumeric } from '../../../../common/utils/isAlphanumeric';
+import { FormErrors } from '../../../../common/types/FormErrors';
+import { t } from '../../../../common/utils/intl';
+
+const MICROPOOL_NAME_MAX_LENGTH = 32;
 
 interface ICreateMicropoolPayload {
   name: string;
+}
+
+function validateCreateMicropoolForm({ name }: ICreateMicropoolPayload) {
+  const errors: FormErrors<ICreateMicropoolPayload> = {};
+
+  if (!name) {
+    errors.name = t('validation.required');
+  } else if (!isAlphanumeric(name)) {
+    errors.name = t('validation.alphanumeric');
+  } else if (name.length > MICROPOOL_NAME_MAX_LENGTH) {
+    errors.name = t('validation.min-length', {
+      size: MICROPOOL_NAME_MAX_LENGTH,
+    });
+  }
+
+  return errors;
 }
 
 interface ICreateMicropoolProps {
@@ -39,6 +63,7 @@ export const CreateMicropoolComponent = ({
       <Form
         render={formProps => <CreateMicropoolForm {...formProps} />}
         onSubmit={onSubmit}
+        validate={validateCreateMicropoolForm}
       />
     </div>
   );
