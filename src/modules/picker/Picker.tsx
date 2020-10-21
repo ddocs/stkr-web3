@@ -2,8 +2,8 @@ import React from 'react';
 import { Curtains } from '../../UiKit/Curtains';
 import { usePickerStyles } from './PickerStyles';
 import { BackgroundColorProvider } from '../../UiKit/BackgroundColorProvider';
-import { Headline1, Body2 } from '../../UiKit/Typography';
-import { tHTML, t } from '../../common/utils/intl';
+import { Body2, Headline1 } from '../../UiKit/Typography';
+import { t, tHTML } from '../../common/utils/intl';
 import { NavLink } from '../../UiKit/NavLink';
 import { PROVIDER_PATH, STAKER_PATH } from '../../common/const';
 
