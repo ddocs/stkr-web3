@@ -33,7 +33,7 @@ jobs:
             # DOMAIN="stkr.ankr.com"
             # DISTRIBUTION_ID="EMPBFTV79PLW8"
 
-            DOMAIN="stkr-dev.ankr.com"
+            DOMAIN="stkr-goerli.ankr.com"
             DISTRIBUTION_ID="E1LG75GWDIK2Z8"
 
             echo "Uploading assets to $DOMAIN"
