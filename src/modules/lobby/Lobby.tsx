@@ -7,6 +7,8 @@ import BigNumber from 'bignumber.js';
 import { useAuthentication } from '../../common/utils/useAuthentications';
 import { StayTuned } from './components/StayTuned';
 
+const ENABLE_SUBSCRIPTION = false;
+
 export const Lobby = () => {
   const classes = useLobbyStyles();
   const { isConnected } = useAuthentication();
@@ -19,7 +21,7 @@ export const Lobby = () => {
         isConnected={isConnected}
       />
       <StayTuned className={classes.stayTuned} />
-      <Marketing className={classes.marketing} />
+      {ENABLE_SUBSCRIPTION && <Marketing className={classes.marketing} />}
     </div>
   );
 };
