@@ -218,7 +218,7 @@
     }
   },
   "create-micropool-form": {
-    "your-deposit": "Your ANKR deposit",
+    "your-balance": "Your ANKR balance",
     "needed": "Needed amount",
     "deposit": "Deposit {value} ANKR",
     "buy": "Buy"

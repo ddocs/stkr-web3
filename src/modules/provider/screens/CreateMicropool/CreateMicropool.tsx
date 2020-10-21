@@ -8,7 +8,7 @@ import {
   UserActions,
   UserActionTypes,
 } from '../../../../store/actions/UserActions';
-import { Mutation } from '@redux-requests/react';
+import { Mutation, useQuery } from '@redux-requests/react';
 import { Curtains } from '../../../../UiKit/Curtains';
 import { BackgroundColorProvider } from '../../../../UiKit/BackgroundColorProvider';
 import { CreateMicropoolProgress } from './CreateMicropoolProgress';
@@ -21,6 +21,8 @@ import { useRequestDispatch } from '../../../../common/utils/useRequestDispatch'
 import { isAlphanumeric } from '../../../../common/utils/isAlphanumeric';
 import { FormErrors } from '../../../../common/types/FormErrors';
 import { t } from '../../../../common/utils/intl';
+import { IUserInfo } from '../../../../store/apiMappers/userApi';
+import BigNumber from 'bignumber.js';
 
 const MICROPOOL_NAME_MAX_LENGTH = 32;
 
@@ -47,11 +49,13 @@ function validateCreateMicropoolForm({ name }: ICreateMicropoolPayload) {
 interface ICreateMicropoolProps {
   onSubmit(x: ICreateMicropoolPayload): void;
   onClose?(): void;
+  ankrBalance?: BigNumber;
 }
 
 export const CreateMicropoolComponent = ({
   onSubmit,
   onClose,
+  ankrBalance,
 }: ICreateMicropoolProps) => {
   const classes = useCreateMicropoolStyles();
 
@@ -61,7 +65,9 @@ export const CreateMicropoolComponent = ({
         <CancelIcon />
       </IconButton>
       <Form
-        render={formProps => <CreateMicropoolForm {...formProps} />}
+        render={formProps => (
+          <CreateMicropoolForm ankrBalance={ankrBalance} {...formProps} />
+        )}
         onSubmit={onSubmit}
         validate={validateCreateMicropoolForm}
       />
@@ -91,6 +97,10 @@ export const CreateMicropoolImp = () => {
     history.goBack();
   }, [history]);
 
+  const { data } = useQuery<IUserInfo | null>({
+    type: UserActionTypes.FETCH_ACCOUNT_DATA,
+  });
+
   return (
     <section className={classNames(classes.section)}>
       <Curtains classes={{ root: classes.wrapper }}>
@@ -103,6 +113,7 @@ export const CreateMicropoolImp = () => {
                 <CreateMicropoolComponent
                   onSubmit={handleSubmit}
                   onClose={handleClose}
+                  ankrBalance={data?.ankrBalance}
                 />
               )
             }

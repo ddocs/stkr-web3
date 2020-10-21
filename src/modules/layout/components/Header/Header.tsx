@@ -18,7 +18,7 @@ interface IHeaderProps {
 
 const HeaderImp = ({ isAuth, className }: IHeaderProps) => {
   return isAuth ? (
-    <Query<IUserInfo | undefined>
+    <Query<IUserInfo | null>
       type={UserActionTypes.FETCH_ACCOUNT_DATA}
       errorComponent={QueryError}
       loadingComponent={QueryLoading}

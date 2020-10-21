@@ -23,11 +23,15 @@ import { QueryError } from '../../../../components/QueryError/QueryError';
 import { QueryLoading } from '../../../../components/QueryLoading/QueryLoading';
 import { QueryEmpty } from '../../../../components/QueryEmpty/QueryEmpty';
 import { useDispatch } from 'react-redux';
+import BigNumber from 'bignumber.js';
 
-interface ICreateMicropoolFormProps {}
+interface ICreateMicropoolFormProps {
+  ankrBalance?: BigNumber;
+}
 
 export const CreateMicropoolForm = ({
   handleSubmit,
+  ankrBalance,
 }: FormRenderProps<any> & ICreateMicropoolFormProps) => {
   const classes = useCreateMicropoolStyles();
   const dispatch = useDispatch();
@@ -56,7 +60,7 @@ export const CreateMicropoolForm = ({
         noDataMessage={<QueryEmpty />}
         type={UserActionTypes.FETCH_ALLOWANCE}
       >
-        {({ data: { allowanceAmount, remainingAllowance } }) => {
+        {({ data: { remainingAllowance } }) => {
           const disabled = remainingAllowance.isGreaterThan(0);
 
           return (
@@ -103,10 +107,10 @@ export const CreateMicropoolForm = ({
                   <div className={classes.deposit}>
                     <Box>
                       <SubTitle className={classes.depositTitle}>
-                        {t('create-micropool-form.your-deposit')}
+                        {t('create-micropool-form.your-balance')}
                       </SubTitle>
                       <Box display="flex" alignItems="center">
-                        <Headline4>{allowanceAmount.toFormat()}</Headline4>
+                        <Headline4>{ankrBalance?.toFormat()}</Headline4>
                         {disabled && (
                           <Button
                             className={classes.buy}
