@@ -26,7 +26,7 @@ import { QueryError } from '../../../../components/QueryError/QueryError';
 import { QueryLoading } from '../../../../components/QueryLoading/QueryLoading';
 import { CreateNode } from '../../screens/CreateNode';
 import { useInitEffect } from '../../../../common/hooks/useInitEffect';
-import { useAction } from '../../../../store/redux';
+import { useDispatch } from 'react-redux';
 
 const useCaptions = (): ITablesCaptionProps[] =>
   useLocaleMemo(
@@ -67,7 +67,11 @@ export const NodeListComponent = ({ className, data }: INodeListProps) => {
 
   return (
     <div className={classNames(classes.component, className)}>
-      <Table customCell="1fr 1fr 1fr 1fr 0.7fr" columnsCount={captions.length}>
+      <Table
+        customCell="1fr 1fr 1fr 1fr 0.7fr"
+        columnsCount={captions.length}
+        className={classes.table}
+      >
         <TableHead>
           {captions.map(cell => (
             <TableHeadCell
@@ -139,12 +143,10 @@ export const NodeListImp = ({
 };
 
 export const NodeList = ({ className }: { className?: string }) => {
-  const dispatchFetchCurrentProviderSidecars = useAction(
-    UserActions.fetchCurrentProviderSidecars,
-  );
+  const dispatch = useDispatch();
 
   useInitEffect(() => {
-    dispatchFetchCurrentProviderSidecars();
+    dispatch(UserActions.fetchCurrentProviderSidecars());
   });
 
   return (
