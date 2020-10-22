@@ -33,17 +33,16 @@ export class AppBase extends React.Component<IAppBaseProps, IAppBaseState> {
   }
 
   public componentDidMount(): void {
-    const env = `${process.env.REACT_APP_STKR_ENV}`;
+    const env = process.env.REACT_APP_STKR_ENV ?? 'goerli';
     console.log(`Current environment is: ${env}`);
     if (env === 'goerli') {
       StkrSdk.factoryDefault(GOERLI_CONFIG);
     } else if (env === 'develop') {
       StkrSdk.factoryDefault(DEVELOP_CONFIG);
-    } else if (env === 'local') {
-      StkrSdk.factoryDefault(LOCAL_CONFIG);
     } else {
-      throw new Error(`Invalid environment config specified: ${env}`);
+      StkrSdk.factoryDefault(LOCAL_CONFIG);
     }
+
     this.loadLocales();
   }
 

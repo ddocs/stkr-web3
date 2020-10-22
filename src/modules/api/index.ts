@@ -7,7 +7,9 @@ import {
   MicroPoolReply,
   ProviderReply,
   SidecarReply,
+  UserStakeReply,
   StatsReply,
+  UserStatisticsReply,
 } from './gateway';
 import { NETWORK_NAMES, StkrConfig } from './config';
 import { t } from '../../common/utils/intl';
@@ -264,6 +266,18 @@ export class StkrSdk {
     const currentAccount = this.getKeyProvider().currentAccount(),
       balanceOf = await this.getContractManager().ankrBalance(currentAccount);
     return { available: balanceOf, timestamp: new Date().getTime() };
+  }
+
+  public async getStakerDashboard(): Promise<{
+    stakes: UserStakeReply[];
+    stats: UserStatisticsReply;
+  }> {
+    const user = this.getKeyProvider().currentAccount();
+    const [stakes, stats] = await Promise.all([
+      this.getApiGateway().getUserStakes(user),
+      this.getApiGateway().getUserStatistics(user),
+    ]);
+    return { stakes, stats };
   }
 
   public getApiGateway(): ApiGateway {
