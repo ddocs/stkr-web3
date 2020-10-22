@@ -47,14 +47,14 @@ interface IStakePayload {
 interface IStakeComponentProps {
   onSubmit: (payload: IStakePayload) => void;
   onCancel: () => void;
-  ankrBalance?: BigNumber;
+  ethereumBalance?: BigNumber;
   yearlyInterest: number;
 }
 
 export const StakeComponent = ({
   onSubmit,
   onCancel,
-  ankrBalance,
+  ethereumBalance,
   yearlyInterest,
 }: IStakeComponentProps) => {
   const classes = useStakeStyles();
@@ -65,13 +65,13 @@ export const StakeComponent = ({
 
       if (!amount) {
         errors.amount = t('validation.required');
-      } else if (ankrBalance?.isLessThan(amount)) {
+      } else if (ethereumBalance?.isLessThan(amount)) {
         errors.amount = t('stake.validation.balance-exceed');
       }
 
       return errors;
     },
-    [ankrBalance],
+    [ethereumBalance],
   );
 
   const renderForm = ({
@@ -212,7 +212,7 @@ export const Stake = () => {
     <StakeComponent
       onSubmit={handleSubmit}
       onCancel={handleCancel}
-      ankrBalance={data?.ankrBalance}
+      ethereumBalance={data?.ethereumBalance}
       yearlyInterest={YEAR_INTEREST}
     />
   );
