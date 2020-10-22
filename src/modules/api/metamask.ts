@@ -35,7 +35,9 @@ export class MetaMaskProvider extends KeyProvider {
         console.error(
           `ethereum networks mismatched ${ethereum.networkVersion} != ${this.providerConfig.networkId}`,
         );
-        /*throw new Error('MetaMask ethereum network mismatched, please check your MetaMask network.')*/
+        throw new Error(
+          'MetaMask ethereum network mismatched, please check your MetaMask network.',
+        );
       }
       await this.unlockAccounts(ethereum);
       ethereum.on('accountsChanged', (accounts: string[]) => {
@@ -50,11 +52,17 @@ export class MetaMaskProvider extends KeyProvider {
           window.location.reload();
         }
       });
+      ethereum.on('disconnect', (error: ProviderRpcError) => {
+        console.log(
+          `You've disconnected from MetaMask: ${JSON.stringify(error)}`,
+        );
+        window.location.reload();
+      });
       ethereum.on('message', (message: ProviderMessage) => {
         console.log(`message from MetaMask: ${JSON.stringify(message)}`);
       });
       ethereum.on('chainChanged', (chainId: string) => {
-        console.log(`detected MetMask chainId change to ${chainId}`);
+        console.log(`detected MetaMask chainId change to ${chainId}`);
         window.location.reload();
       });
       ethereum.autoRefreshOnNetworkChange = false;
