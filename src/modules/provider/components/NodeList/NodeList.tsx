@@ -89,24 +89,8 @@ export const NodeListComponent = ({ className, data }: INodeListProps) => {
                       );
                       window.open(downloadLink, '_blank');
                     }}
-                    size={'small'}
                   >
                     {t('navigation.download')}
-                  </Button>
-                  <br />
-                  <Button
-                    onClick={async () => {
-                      console.log(item);
-                      /* TODO: "move me to actions too" */
-                      await StkrSdk.getLastInstance().manuallyStartSidecar(
-                        item.id,
-                      );
-                      /* TODO: "refresh sidecar list" */
-                      alert('Successfully pushed');
-                    }}
-                    size={'small'}
-                  >
-                    {t('navigation.push-manually')}
                   </Button>
                 </TableBodyCell>
               </TableRow>
