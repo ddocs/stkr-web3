@@ -42,7 +42,7 @@ jobs:
             INVALIDATION_ID=`aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths '/*' | jq -r '.Invalidation.Id'`
             echo "Invalidation ID is $INVALIDATION_ID"
             echo "CDN Invalidation request is sent."
-  upload_prody:
+  upload_prod:
     <<: *upload
   upload_develop:
     <<: *upload
