@@ -75,8 +75,14 @@
     ]
   },
   "scripts": {
-    "start": "env-cmd react-scripts start",
-    "build": "env-cmd react-scripts build",
+    "start": "env-cmd -f .env.develop react-scripts start",
+    "build": "env-cmd -f .env.develop react-scripts build",
+    "start:local": "env-cmd -f .env.local react-scripts start",
+    "start:develop": "env-cmd -f .env.develop react-scripts start",
+    "start:goerli": "env-cmd -f .env.goerli react-scripts start",
+    "build:local": "env-cmd -f .env.local react-scripts build",
+    "build:develop": "env-cmd -f .env.develop react-scripts build",
+    "build:goerli": "env-cmd -f .env.goerli react-scripts build",
     "test": "env-cmd react-scripts test",
     "eject": "env-cmd react-scripts eject",
     "storybook": "env-cmd start-storybook -p 3000"
