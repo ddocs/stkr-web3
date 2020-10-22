@@ -80,7 +80,7 @@ export const StakerDashboardComponent = () => {
             <Table customCell="1fr 1fr 1fr" columnsCount={captions.length}>
               <TableHead>
                 {captions.map(cell => (
-                  <TableHeadCell label={cell.label} />
+                  <TableHeadCell key={cell.label} label={cell.label} />
                 ))}
               </TableHead>
               {data && (

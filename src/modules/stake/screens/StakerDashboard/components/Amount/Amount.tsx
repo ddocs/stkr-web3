@@ -14,7 +14,7 @@ export const Amount = ({ value, unit }: ITotalProps) => {
   return (
     <Headline1 color="primary" className={classes.component}>
       {value}
-      <SubTitle color="primary" className={classes.unit}>
+      <SubTitle color="primary" component="div" className={classes.unit}>
         {unit}
       </SubTitle>
     </Headline1>
