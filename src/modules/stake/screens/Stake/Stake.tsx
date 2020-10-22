@@ -33,6 +33,7 @@ import BigNumber from 'bignumber.js';
 import { useRequestDispatch } from '../../../../common/utils/useRequestDispatch';
 import { useHistory } from 'react-router';
 import { STAKER_DASHBOAR_PATH, YEAR_INTEREST } from '../../../../common/const';
+import { success } from '@redux-requests/core';
 
 const MIN_AMOUNT = 0.5;
 const MAX_AMOUNT = 32;
@@ -89,8 +90,9 @@ export const StakeComponent = ({
             disableFocusRipple={false}
             disableRipple={false}
             className={classes.cancel}
+            onClick={onCancel}
           >
-            <CancelIcon size="md" onClick={onCancel} />
+            <CancelIcon size="md" />
           </IconButton>
           <Headline2 align="center" className={classes.header}>
             {t('stake.title')}
@@ -195,8 +197,10 @@ export const Stake = () => {
   const { replace, goBack } = useHistory();
 
   const handleSubmit = ({ amount }: IStakePayload) => {
-    dispatch(UserActions.stake(amount.toString())).then(() => {
-      replace(STAKER_DASHBOAR_PATH);
+    dispatch(UserActions.stake(amount.toString())).then(data => {
+      if (data.action.type === success(UserActionTypes.STAKE)) {
+        replace(STAKER_DASHBOAR_PATH);
+      }
     });
   };
 
