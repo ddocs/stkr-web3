@@ -23,7 +23,7 @@ jobs:
     <<: *build
   build_develop:
     <<: *build
-  build_goerly:
+  build_goerli:
     <<: *build
   upload: &upload
     docker:
@@ -46,7 +46,7 @@ jobs:
     <<: *upload
   upload_develop:
     <<: *upload
-  upload_goerly:
+  upload_goerli:
     <<: *upload
 
 workflows:
