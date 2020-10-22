@@ -11,11 +11,9 @@ import {
   PROVIDER_CREATE_NODE_PATH,
   PROVIDER_NODES_PATH,
   PROVIDER_PATH,
-  SDK_PATH,
   STAKER_DASHBOAR_PATH,
   STAKER_STAKE_PATH,
 } from './common/const';
-import App from './modules/api/App';
 
 const LoadableOverviewContainer = withDefaultLayout(
   loadable(async () => import('./modules/lobby').then(module => module.Lobby), {
@@ -117,7 +115,6 @@ export function Routes() {
         exact={true}
       />
       <Route path={STAKER_STAKE_PATH} component={StakerContainer} />
-      <Route path={SDK_PATH} exact={true} component={App} />
       <Route component={PageNotFound} />
     </Switch>
   );
