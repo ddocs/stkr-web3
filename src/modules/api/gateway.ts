@@ -75,6 +75,22 @@ export interface StatsReply {
   yearlyEarnings: string;
 }
 
+export type UserStakeAction = 'STAKE_ACTION_STAKE' | 'STAKE_ACTION_UNSTAKE';
+
+export interface UserStakeReply {
+  user: string;
+  microPool: string;
+  amount: string;
+  transactionHash: string;
+  action: UserStakeAction;
+  timestamp: number;
+}
+
+export interface UserStatisticsReply {
+  totalStakedAmount: string;
+  totalRewards: string;
+}
+
 export class ApiGateway {
   private readonly defaultConfig: AxiosRequestConfig;
   private api: AxiosInstance;
@@ -247,11 +263,17 @@ export class ApiGateway {
     return data;
   }
 
-  public async startSidecar(sidecar: string): Promise<{}> {
-    const { status, data } = await this.api.post(`/v1alpha/sidecar/start`, {
-      sidecar,
-    });
-    if (status !== 200) throw new Error("Can't fetch statistics");
+  public async getUserStakes(user: string): Promise<UserStakeReply[]> {
+    const { data } = await this.api.get<UserStakeReply[]>(
+      `/v1alpha/staker/stakes/${user}`,
+    );
+    return data;
+  }
+
+  public async getUserStatistics(user: string): Promise<UserStatisticsReply> {
+    const { data } = await this.api.get<UserStatisticsReply>(
+      `/v1alpha/staker/stats/${user}`,
+    );
     return data;
   }
 }
