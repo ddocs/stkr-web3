@@ -19,7 +19,7 @@ jobs:
           root: '.'
           paths:
             - '.'
-  build_prody:
+  build_prod:
     <<: *build
   build_develop:
     <<: *build
