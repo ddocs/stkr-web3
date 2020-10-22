@@ -1,27 +1,99 @@
 {
-  "contractName": "ProviderContract",
+  "contractName": "IDepositContract",
   "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "bytes",
+          "name": "pubkey",
+          "type": "bytes"
+        },
+        {
+          "indexed": false,
+          "internalType": "bytes",
+          "name": "withdrawal_credentials",
+          "type": "bytes"
+        },
+        {
+          "indexed": false,
+          "internalType": "bytes",
+          "name": "amount",
+          "type": "bytes"
+        },
+        {
+          "indexed": false,
+          "internalType": "bytes",
+          "name": "signature",
+          "type": "bytes"
+        },
+        {
+          "indexed": false,
+          "internalType": "bytes",
+          "name": "index",
+          "type": "bytes"
+        }
+      ],
+      "name": "DepositEvent",
+      "type": "event"
+    },
     {
       "inputs": [
         {
-          "internalType": "address",
-          "name": "addr",
-          "type": "address"
+          "internalType": "bytes",
+          "name": "pubkey",
+          "type": "bytes"
+        },
+        {
+          "internalType": "bytes",
+          "name": "withdrawal_credentials",
+          "type": "bytes"
+        },
+        {
+          "internalType": "bytes",
+          "name": "signature",
+          "type": "bytes"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "deposit_data_root",
+          "type": "bytes32"
         }
       ],
-      "name": "isProvider",
+      "name": "deposit",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "get_deposit_root",
       "outputs": [
         {
-          "internalType": "bool",
+          "internalType": "bytes32",
           "name": "",
-          "type": "bool"
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "get_deposit_count",
+      "outputs": [
+        {
+          "internalType": "bytes",
+          "name": "",
+          "type": "bytes"
         }
       ],
       "stateMutability": "view",
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.6.8+commit.0bbfe453\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"addr\",\"type\":\"address\"}],\"name\":\"isProvider\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/anilkucukrecep/Code/Personal/st/contracts/contracts/MicroPool.sol\":\"ProviderContract\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/anilkucukrecep/Code/Personal/st/contracts/contracts/MicroPool.sol\":{\"keccak256\":\"0x7b71383bd668172442a28adb554e72dd058656a531e3b84839fb07bb1349afc9\",\"license\":\"UNLICENSED\",\"urls\":[\"bzz-raw://339523f54b7373090a1679d2c2ad12a37f37ec73b7a6b6e4d63f07a5af34977f\",\"dweb:/ipfs/QmNRg6P142RxCCTw4SJ996tKjwdybabFaqXjrvhLyQPsvy\"]},\"/Users/anilkucukrecep/Code/Personal/st/contracts/contracts/core/OwnedByGovernor.sol\":{\"keccak256\":\"0xfbe8459299ebf79a927114b5044ad8e74fd4097c9a9e111c7cccee577582d4c7\",\"license\":\"UNLICENSED\",\"urls\":[\"bzz-raw://fd7c47ff2690027aca96de0d4844b34f32f9db09a5ba3edf043f1fde8343d49b\",\"dweb:/ipfs/QmTW2P3a38JWKyjsBigxT2YQoU5bBEWnr3xdebBZxG7GGi\"]},\"/Users/anilkucukrecep/Code/Personal/st/contracts/contracts/lib/SafeMath.sol\":{\"keccak256\":\"0xbf62930407bf4a810fd68d677235ee59909de9a9c39eeb81d30805b5cd72ebdd\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://60e27e94f59f7dbc119968232d8b74f6e02cc8e4a6194cb82507e46dbddb00bc\",\"dweb:/ipfs/QmeVNyFVwo1ikqsQdy6ZqSXtpMCFtwtdFtWA8R8E7abwzn\"]}},\"version\":1}",
+  "metadata": "{\"compiler\":{\"version\":\"0.6.8+commit.0bbfe453\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"bytes\",\"name\":\"pubkey\",\"type\":\"bytes\"},{\"indexed\":false,\"internalType\":\"bytes\",\"name\":\"withdrawal_credentials\",\"type\":\"bytes\"},{\"indexed\":false,\"internalType\":\"bytes\",\"name\":\"amount\",\"type\":\"bytes\"},{\"indexed\":false,\"internalType\":\"bytes\",\"name\":\"signature\",\"type\":\"bytes\"},{\"indexed\":false,\"internalType\":\"bytes\",\"name\":\"index\",\"type\":\"bytes\"}],\"name\":\"DepositEvent\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"bytes\",\"name\":\"pubkey\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"withdrawal_credentials\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"signature\",\"type\":\"bytes\"},{\"internalType\":\"bytes32\",\"name\":\"deposit_data_root\",\"type\":\"bytes32\"}],\"name\":\"deposit\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"get_deposit_count\",\"outputs\":[{\"internalType\":\"bytes\",\"name\":\"\",\"type\":\"bytes\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"get_deposit_root\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{\"deposit(bytes,bytes,bytes,bytes32)\":{\"params\":{\"deposit_data_root\":\"The SHA-256 hash of the SSZ-encoded DepositData object. Used as a protection against malformed input.\",\"pubkey\":\"A BLS12-381 public key.\",\"signature\":\"A BLS12-381 signature.\",\"withdrawal_credentials\":\"Commitment to a public key for withdrawals.\"}},\"get_deposit_count()\":{\"returns\":{\"_0\":\"The deposit count encoded as a little endian 64-bit number.\"}},\"get_deposit_root()\":{\"returns\":{\"_0\":\"The deposit root hash.\"}}}},\"userdoc\":{\"methods\":{\"deposit(bytes,bytes,bytes,bytes32)\":{\"notice\":\"Submit a Phase 0 DepositData object.\"},\"get_deposit_count()\":{\"notice\":\"Query the current deposit count.\"},\"get_deposit_root()\":{\"notice\":\"Query the current deposit root hash.\"}}}},\"settings\":{\"compilationTarget\":{\"/Users/anilkucukrecep/Code/Personal/st/contracts/contracts/MicroPool.sol\":\"IDepositContract\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/anilkucukrecep/Code/Personal/st/contracts/contracts/MicroPool.sol\":{\"keccak256\":\"0x7b71383bd668172442a28adb554e72dd058656a531e3b84839fb07bb1349afc9\",\"license\":\"UNLICENSED\",\"urls\":[\"bzz-raw://339523f54b7373090a1679d2c2ad12a37f37ec73b7a6b6e4d63f07a5af34977f\",\"dweb:/ipfs/QmNRg6P142RxCCTw4SJ996tKjwdybabFaqXjrvhLyQPsvy\"]},\"/Users/anilkucukrecep/Code/Personal/st/contracts/contracts/core/OwnedByGovernor.sol\":{\"keccak256\":\"0xfbe8459299ebf79a927114b5044ad8e74fd4097c9a9e111c7cccee577582d4c7\",\"license\":\"UNLICENSED\",\"urls\":[\"bzz-raw://fd7c47ff2690027aca96de0d4844b34f32f9db09a5ba3edf043f1fde8343d49b\",\"dweb:/ipfs/QmTW2P3a38JWKyjsBigxT2YQoU5bBEWnr3xdebBZxG7GGi\"]},\"/Users/anilkucukrecep/Code/Personal/st/contracts/contracts/lib/SafeMath.sol\":{\"keccak256\":\"0xbf62930407bf4a810fd68d677235ee59909de9a9c39eeb81d30805b5cd72ebdd\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://60e27e94f59f7dbc119968232d8b74f6e02cc8e4a6194cb82507e46dbddb00bc\",\"dweb:/ipfs/QmeVNyFVwo1ikqsQdy6ZqSXtpMCFtwtdFtWA8R8E7abwzn\"]}},\"version\":1}",
   "bytecode": "0x",
   "deployedBytecode": "0x",
   "immutableReferences": {},
@@ -19465,11 +19537,40 @@
   },
   "networks": {},
   "schemaVersion": "3.2.5",
-  "updatedAt": "2020-10-05T15:42:10.150Z",
+  "updatedAt": "2020-10-05T15:42:10.181Z",
   "devdoc": {
-    "methods": {}
+    "methods": {
+      "deposit(bytes,bytes,bytes,bytes32)": {
+        "params": {
+          "deposit_data_root": "The SHA-256 hash of the SSZ-encoded DepositData object. Used as a protection against malformed input.",
+          "pubkey": "A BLS12-381 public key.",
+          "signature": "A BLS12-381 signature.",
+          "withdrawal_credentials": "Commitment to a public key for withdrawals."
+        }
+      },
+      "get_deposit_count()": {
+        "returns": {
+          "_0": "The deposit count encoded as a little endian 64-bit number."
+        }
+      },
+      "get_deposit_root()": {
+        "returns": {
+          "_0": "The deposit root hash."
+        }
+      }
+    }
   },
   "userdoc": {
-    "methods": {}
+    "methods": {
+      "deposit(bytes,bytes,bytes,bytes32)": {
+        "notice": "Submit a Phase 0 DepositData object."
+      },
+      "get_deposit_count()": {
+        "notice": "Query the current deposit count."
+      },
+      "get_deposit_root()": {
+        "notice": "Query the current deposit root hash."
+      }
+    }
   }
 }

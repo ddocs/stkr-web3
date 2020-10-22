@@ -1,5 +1,5 @@
 {
-  "contractName": "ProviderContract",
+  "contractName": "Beacon",
   "abi": [
     {
       "inputs": [
@@ -21,7 +21,7 @@
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.6.8+commit.0bbfe453\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"addr\",\"type\":\"address\"}],\"name\":\"isProvider\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/anilkucukrecep/Code/Personal/st/contracts/contracts/MicroPool.sol\":\"ProviderContract\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/anilkucukrecep/Code/Personal/st/contracts/contracts/MicroPool.sol\":{\"keccak256\":\"0x7b71383bd668172442a28adb554e72dd058656a531e3b84839fb07bb1349afc9\",\"license\":\"UNLICENSED\",\"urls\":[\"bzz-raw://339523f54b7373090a1679d2c2ad12a37f37ec73b7a6b6e4d63f07a5af34977f\",\"dweb:/ipfs/QmNRg6P142RxCCTw4SJ996tKjwdybabFaqXjrvhLyQPsvy\"]},\"/Users/anilkucukrecep/Code/Personal/st/contracts/contracts/core/OwnedByGovernor.sol\":{\"keccak256\":\"0xfbe8459299ebf79a927114b5044ad8e74fd4097c9a9e111c7cccee577582d4c7\",\"license\":\"UNLICENSED\",\"urls\":[\"bzz-raw://fd7c47ff2690027aca96de0d4844b34f32f9db09a5ba3edf043f1fde8343d49b\",\"dweb:/ipfs/QmTW2P3a38JWKyjsBigxT2YQoU5bBEWnr3xdebBZxG7GGi\"]},\"/Users/anilkucukrecep/Code/Personal/st/contracts/contracts/lib/SafeMath.sol\":{\"keccak256\":\"0xbf62930407bf4a810fd68d677235ee59909de9a9c39eeb81d30805b5cd72ebdd\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://60e27e94f59f7dbc119968232d8b74f6e02cc8e4a6194cb82507e46dbddb00bc\",\"dweb:/ipfs/QmeVNyFVwo1ikqsQdy6ZqSXtpMCFtwtdFtWA8R8E7abwzn\"]}},\"version\":1}",
+  "metadata": "{\"compiler\":{\"version\":\"0.6.8+commit.0bbfe453\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"addr\",\"type\":\"address\"}],\"name\":\"isProvider\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/anilkucukrecep/Code/Personal/st/contracts/contracts/MicroPool.sol\":\"Beacon\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/anilkucukrecep/Code/Personal/st/contracts/contracts/MicroPool.sol\":{\"keccak256\":\"0x7b71383bd668172442a28adb554e72dd058656a531e3b84839fb07bb1349afc9\",\"license\":\"UNLICENSED\",\"urls\":[\"bzz-raw://339523f54b7373090a1679d2c2ad12a37f37ec73b7a6b6e4d63f07a5af34977f\",\"dweb:/ipfs/QmNRg6P142RxCCTw4SJ996tKjwdybabFaqXjrvhLyQPsvy\"]},\"/Users/anilkucukrecep/Code/Personal/st/contracts/contracts/core/OwnedByGovernor.sol\":{\"keccak256\":\"0xfbe8459299ebf79a927114b5044ad8e74fd4097c9a9e111c7cccee577582d4c7\",\"license\":\"UNLICENSED\",\"urls\":[\"bzz-raw://fd7c47ff2690027aca96de0d4844b34f32f9db09a5ba3edf043f1fde8343d49b\",\"dweb:/ipfs/QmTW2P3a38JWKyjsBigxT2YQoU5bBEWnr3xdebBZxG7GGi\"]},\"/Users/anilkucukrecep/Code/Personal/st/contracts/contracts/lib/SafeMath.sol\":{\"keccak256\":\"0xbf62930407bf4a810fd68d677235ee59909de9a9c39eeb81d30805b5cd72ebdd\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://60e27e94f59f7dbc119968232d8b74f6e02cc8e4a6194cb82507e46dbddb00bc\",\"dweb:/ipfs/QmeVNyFVwo1ikqsQdy6ZqSXtpMCFtwtdFtWA8R8E7abwzn\"]}},\"version\":1}",
   "bytecode": "0x",
   "deployedBytecode": "0x",
   "immutableReferences": {},
@@ -19465,7 +19465,7 @@
   },
   "networks": {},
   "schemaVersion": "3.2.5",
-  "updatedAt": "2020-10-05T15:42:10.150Z",
+  "updatedAt": "2020-10-05T15:42:10.174Z",
   "devdoc": {
     "methods": {}
   },
