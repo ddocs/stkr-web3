@@ -17,9 +17,12 @@ import { Curtains } from '../../../../UiKit/Curtains';
 import { Info } from '../../../../components/Info';
 import { NavLink } from '../../../../UiKit/NavLink';
 import { IPool } from '../../../../store/apiMappers/poolsApi';
-import { UserActions, UserActionTypes, } from '../../../../store/actions/UserActions';
+import {
+  UserActions,
+  UserActionTypes,
+} from '../../../../store/actions/UserActions';
 import { Query } from '@redux-requests/react';
-import { QueryLoadingCentered, } from '../../../../components/QueryLoading/QueryLoading';
+import { QueryLoadingCentered } from '../../../../components/QueryLoading/QueryLoading';
 import { QueryError } from '../../../../components/QueryError/QueryError';
 import { Route } from 'react-router-dom';
 import { useInitEffect } from '../../../../common/hooks/useInitEffect';
@@ -104,23 +107,23 @@ export const ProviderDashboardComponent = ({
         <div className={classes.navigation}>
           <ProviderTabs className={classes.tabs} />
           {isMicropoolListRoute
-            ? !hasPendingMicropoolStatus &&
-              hasMicropools && (
+            ? hasMicropools && (
                 <NavLink
                   className={classes.create}
                   href={PROVIDER_CREATE_MICROPOOL_PATH}
                   variant="outlined"
+                  disabled={hasPendingMicropoolStatus}
                   color="primary"
                 >
                   {t('navigation.create')}
                 </NavLink>
               )
-            : !hasCreatedNodeStatus &&
-              hasNodes && (
+            : hasNodes && (
                 <NavLink
                   className={classes.create}
                   href={PROVIDER_CREATE_NODE_PATH}
                   variant="outlined"
+                  disabled={hasCreatedNodeStatus}
                   color="primary"
                 >
                   {t('navigation.create')}
