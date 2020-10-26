@@ -24,6 +24,7 @@ import { QueryLoading } from '../../../../components/QueryLoading/QueryLoading';
 import { QueryEmpty } from '../../../../components/QueryEmpty/QueryEmpty';
 import { useDispatch } from 'react-redux';
 import BigNumber from 'bignumber.js';
+import { MutationErrorHandler } from "../../../../components/MutationErrorHandler/MutationErrorHandler";
 
 interface ICreateMicropoolFormProps {
   ankrBalance?: BigNumber;
@@ -130,6 +131,7 @@ export const CreateMicropoolForm = ({
                       </SubTitle>
                       <Headline4>{remainingAllowance.toFormat()}</Headline4>
                     </Box>
+                    <MutationErrorHandler type={UserActionTypes.ALLOW_TOKENS} />
                     {disabled && (
                       <Mutation type={UserActionTypes.ALLOW_TOKENS}>
                         {({ loading }) => {

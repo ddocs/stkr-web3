@@ -1,6 +1,7 @@
 import { createMuiTheme, fade } from '@material-ui/core';
 import { ThemeOptions } from '@material-ui/core/styles/createMuiTheme';
 import { PaletteOptions } from '@material-ui/core/styles/createPalette';
+import { NOTIFICATION_AUTO_HIDE_DURATION } from '../const';
 
 export const DEFAULT_FONT = '"Helvetica Neue", sans-serif';
 
@@ -68,6 +69,14 @@ const mainTheme = createMuiTheme({
   breakpoints: BREAKPOINTS,
 
   props: {
+    MuiSnackbar: {
+      autoHideDuration: NOTIFICATION_AUTO_HIDE_DURATION,
+    },
+
+    MuiAlert: {
+      icon: false,
+    },
+
     MuiTextField: {},
 
     MuiUseMediaQuery: {
@@ -95,6 +104,36 @@ const mainTheme = createMuiTheme({
   },
 
   overrides: {
+    MuiSnackbar: {
+      root: {
+        '&&': {
+          top: 0,
+          right: 0,
+          left: 0,
+          bottom: 'auto',
+          width: '100%',
+          transform: 'translateX(0)',
+        },
+      },
+    },
+    MuiAlert: {
+      root: {
+        width: '100%',
+        paddingTop: 12,
+        paddingBottom: 12,
+        borderRadius: 0,
+      },
+      standardError: {
+        backgroundColor: '#FF362D',
+      },
+      message: {
+        fontSize: 14,
+        fontWeight: 'bold',
+        color: '#fff',
+        width: '100%',
+        textAlign: 'center',
+      },
+    },
     MuiCssBaseline: {
       '@global': {
         '::selection': {

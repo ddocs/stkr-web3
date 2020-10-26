@@ -34,6 +34,7 @@ import { useRequestDispatch } from '../../../../common/utils/useRequestDispatch'
 import { useHistory } from 'react-router';
 import { STAKER_DASHBOAR_PATH, YEAR_INTEREST } from '../../../../common/const';
 import { success } from '@redux-requests/core';
+import { MutationErrorHandler } from '../../../../components/MutationErrorHandler/MutationErrorHandler';
 
 const MIN_AMOUNT = 0.5;
 const MAX_AMOUNT = 32;
@@ -156,6 +157,7 @@ export const StakeComponent = ({
         </BackgroundColorProvider>
         <Divider />
         <BackgroundColorProvider className={classes.footer}>
+          <MutationErrorHandler type={UserActionTypes.STAKE} />
           <Mutation type={UserActionTypes.STAKE}>
             {({ loading }) => (
               <Button

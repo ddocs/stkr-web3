@@ -12,3 +12,5 @@ export enum Providers {
 export interface IRequestActionPromiseData<T = any> {
   action: Action<T>;
 }
+
+export type Milliseconds = number;

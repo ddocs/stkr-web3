@@ -1,3 +1,5 @@
+import { Milliseconds } from './types';
+
 export const INDEX_PATH = '/';
 export const STAKER_STAKE_PATH = '/staker/stake';
 export const STAKER_DASHBOAR_PATH = '/staker';
@@ -10,9 +12,10 @@ export const PROVIDER_CREATE_NODE_PATH = '/provider/create-node';
 export const PICKER_PATH = '/picker';
 
 export const SOCIAL_LINK = {
-  twitter: '',
-  facebook: '',
+  twitter: 'twitter',
+  facebook: 'facebook',
   whitepaperEn: 'https://assets.ankr.com/files/stkr_whitepaper.pdf',
   whitepaperCh: 'https://assets.ankr.com/files/stkr_whitepaper_cn.pdf',
 };
 export const YEAR_INTEREST = 0.0526;
+export const NOTIFICATION_AUTO_HIDE_DURATION: Milliseconds = 3000;

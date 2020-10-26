@@ -12,6 +12,7 @@ const ENABLE_SUBSCRIPTION = false;
 export const Lobby = () => {
   const classes = useLobbyStyles();
   const { isConnected } = useAuthentication();
+
   return (
     <div className={classes.component}>
       <Promo />

@@ -23,6 +23,7 @@ import { FormErrors } from '../../../../common/types/FormErrors';
 import { t } from '../../../../common/utils/intl';
 import { IUserInfo } from '../../../../store/apiMappers/userApi';
 import BigNumber from 'bignumber.js';
+import { MutationErrorHandler } from '../../../../components/MutationErrorHandler/MutationErrorHandler';
 
 const MICROPOOL_NAME_MAX_LENGTH = 32;
 
@@ -105,6 +106,7 @@ export const CreateMicropoolImp = () => {
     <section className={classNames(classes.section)}>
       <Curtains classes={{ root: classes.wrapper }}>
         <BackgroundColorProvider className={classes.content}>
+          <MutationErrorHandler type={UserActionTypes.CREATE_MICROPOOL} />
           <Mutation type={UserActionTypes.CREATE_MICROPOOL}>
             {({ loading }) =>
               loading ? (

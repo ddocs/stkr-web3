@@ -6,6 +6,7 @@ import { persistReducer } from 'redux-persist';
 import { IUserState, userReducer } from './userReducer';
 import { ModalState } from '../modals/selectors';
 import { modals } from '../modals/reducer';
+import { notificationReducer } from './notificationReducer';
 
 export interface IStoreState extends ModalState {
   router: RouterState;
@@ -18,6 +19,7 @@ const createRootReducer = (history: History, requestsReducer: Reducer) =>
     user: persistReducer(userPersistConfig, userReducer),
     requests: requestsReducer,
     modals,
+    notification: notificationReducer,
   });
 
 export { createRootReducer };

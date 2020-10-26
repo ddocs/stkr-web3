@@ -17,6 +17,7 @@ import { useHistory } from 'react-router';
 import { PROVIDER_NODES_PATH } from '../../../../common/const';
 import { IRequestActionPromiseData } from '../../../../common/types';
 import { useRequestDispatch } from '../../../../common/utils/useRequestDispatch';
+import { MutationErrorHandler } from '../../../../components/MutationErrorHandler/MutationErrorHandler';
 
 interface ICreateNodePayload {}
 
@@ -75,6 +76,7 @@ export const CreateNode = () => {
 
   return (
     <BackgroundColorProvider className={classes.content}>
+      <MutationErrorHandler type={UserActionTypes.CREATE_SIDECAR} />
       <Mutation type={UserActionTypes.CREATE_SIDECAR}>
         {({ loading }) =>
           loading ? (
