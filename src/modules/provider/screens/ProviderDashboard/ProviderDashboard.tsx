@@ -26,7 +26,7 @@ import { QueryLoadingCentered } from '../../../../components/QueryLoading/QueryL
 import { QueryError } from '../../../../components/QueryError/QueryError';
 import { Route } from 'react-router-dom';
 import { useInitEffect } from '../../../../common/hooks/useInitEffect';
-import { IStats } from '../../../../store/apiMappers/statsApi';
+import { IProviderStats } from '../../../../store/apiMappers/providerStatsApi';
 import { alwaysFalse } from '../../../../common/utils/alwaysFalse';
 import { ISidecar } from '../../../../store/apiMappers/sidecarsApi';
 import { useDispatch } from 'react-redux';
@@ -78,7 +78,7 @@ export const ProviderDashboardComponent = ({
   return (
     <section className={classes.component}>
       <Curtains classes={{ root: classes.wrapper }}>
-        <Query<IStats> type={UserActionTypes.FETCH_STATS}>
+        <Query<IProviderStats> type={UserActionTypes.FETCH_PROVIDER_STATS}>
           {({ data }) => {
             const info = [
               {
@@ -152,7 +152,7 @@ export const ProviderDashboard = () => {
   useInitEffect(() => {
     dispatch(UserActions.fetchCurrentProviderMicropools());
     dispatch(UserActions.fetchCurrentProviderSidecars());
-    dispatch(UserActions.fetchStats());
+    dispatch(UserActions.fetchProviderStats());
   });
 
   const render = useCallback(({ data: nodes }: { data: ISidecar[] | null }) => {

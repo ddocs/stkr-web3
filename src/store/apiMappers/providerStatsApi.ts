@@ -1,7 +1,7 @@
-import { StatsReply } from '../../modules/api/gateway';
+import { ProviderStatsReply } from '../../modules/api/gateway';
 import BigNumber from 'bignumber.js';
 
-export interface IStats {
+export interface IProviderStats {
   totalEthereumStaked: BigNumber;
   totalProviders: number;
   totalMicroPools: number;
@@ -10,7 +10,7 @@ export interface IStats {
   yearlyEarnings: BigNumber;
 }
 
-export function mapStats(item: StatsReply): IStats {
+export function mapProviderStats(item: ProviderStatsReply): IProviderStats {
   return {
     totalEthereumStaked: new BigNumber(item.totalEthereumStaked),
     totalProviders: item.totalProviders,

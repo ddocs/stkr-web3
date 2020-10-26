@@ -6,8 +6,9 @@ import { MicroPoolReply, SidecarReply } from '../../modules/api/gateway';
 import { IPool } from '../apiMappers/poolsApi';
 import { differenceInCalendarMonths } from 'date-fns';
 import { ISidecar, mapSidecar } from '../apiMappers/sidecarsApi';
-import { mapStats } from '../apiMappers/statsApi';
+import { mapProviderStats } from '../apiMappers/providerStatsApi';
 import { IAllowance, IAllowTokensResponse } from '../apiMappers/allowance';
+import { mapStakerStats } from '../apiMappers/stakerStatsApi';
 
 export const UserActionTypes = {
   CONNECT: 'CONNECT',
@@ -30,7 +31,7 @@ export const UserActionTypes = {
 
   CREATE_MICROPOOL: 'CREATE_MICROPOOL',
 
-  FETCH_STATS: 'FETCH_STATS',
+  FETCH_PROVIDER_STATS: 'FETCH_PROVIDER_STATS',
 
   FETCH_ALLOWANCE: 'FETCH_ALLOWANCE',
 
@@ -39,6 +40,8 @@ export const UserActionTypes = {
   BUY_TOKENS: 'BUY_TOKENS',
 
   STAKE: 'STAKE',
+
+  FETCH_STAKER_STATS: 'FETCH_STAKER_STATS',
 };
 
 export const UserActions = {
@@ -179,16 +182,16 @@ export const UserActions = {
     },
     meta: { asMutation: true },
   }),
-  fetchStats: () => ({
-    type: UserActionTypes.FETCH_STATS,
+  fetchProviderStats: () => ({
+    type: UserActionTypes.FETCH_PROVIDER_STATS,
     request: {
       promise: (async function () {
         const stkrSdk = StkrSdk.getLastInstance();
-        return await stkrSdk.getStats();
+        return await stkrSdk.getProviderStats();
       })(),
     },
     meta: {
-      getData: mapStats,
+      getData: mapProviderStats,
     },
   }),
   fetchAllowance: () => ({
@@ -244,6 +247,18 @@ export const UserActions = {
     },
     meta: {
       asMutation: true,
+    },
+  }),
+  fetchStakerStats: () => ({
+    type: UserActionTypes.FETCH_STAKER_STATS,
+    request: {
+      promise: (async function () {
+        const stkrSdk = StkrSdk.getLastInstance();
+        return await stkrSdk.getStakerStats();
+      })(),
+    },
+    meta: {
+      getData: mapStakerStats,
     },
   }),
 };

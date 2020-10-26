@@ -33,7 +33,9 @@ export class AppBase extends React.Component<IAppBaseProps, IAppBaseState> {
   }
 
   public componentDidMount(): void {
-    const env = process.env.REACT_APP_STKR_ENV ?? 'goerli';
+    const env = process.env.REACT_APP_STKR_ENV
+      ? process.env.REACT_APP_STKR_ENV
+      : 'goerli';
     console.log(`Current environment is: ${env}`);
     if (env === 'goerli') {
       StkrSdk.factoryDefault(GOERLI_CONFIG);

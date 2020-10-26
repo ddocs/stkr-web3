@@ -6,10 +6,9 @@ import {
   BalanceReply,
   MicroPoolReply,
   ProviderReply,
+  ProviderStatsReply,
   SidecarReply,
-  UserStakeReply,
-  StatsReply,
-  UserStatisticsReply,
+  StakerStats,
 } from './gateway';
 import { NETWORK_NAMES, StkrConfig } from './config';
 import { t } from '../../common/utils/intl';
@@ -241,8 +240,8 @@ export class StkrSdk {
     return this.keyProvider?.currentAccount();
   }
 
-  public async getStats(): Promise<StatsReply> {
-    return this.apiGateway.getStats();
+  public async getProviderStats(): Promise<ProviderStatsReply> {
+    return this.apiGateway.getProviderStats();
   }
 
   public getKeyProvider(): KeyProvider {
@@ -268,10 +267,7 @@ export class StkrSdk {
     return { available: balanceOf, timestamp: new Date().getTime() };
   }
 
-  public async getStakerDashboard(): Promise<{
-    stakes: UserStakeReply[];
-    stats: UserStatisticsReply;
-  }> {
+  public async getStakerStats(): Promise<StakerStats> {
     const user = this.getKeyProvider().currentAccount();
     const [stakes, stats] = await Promise.all([
       this.getApiGateway().getUserStakes(user),
