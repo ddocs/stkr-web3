@@ -1,6 +1,7 @@
 {
   "error": {
-    "unknown": "Unknown error"
+    "unknown": "Unknown error",
+    "not-authenticated": "Not Authenticated"
   },
   "by-ankr": "By Ankr",
   "navigation": {

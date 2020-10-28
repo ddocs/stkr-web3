@@ -1,15 +1,14 @@
-import { put, select, takeEvery } from 'redux-saga/effects';
+import { put, takeEvery, select } from 'redux-saga/effects';
 import { UserActions, UserActionTypes } from '../actions/UserActions';
 import { createErrorAction } from '../../common/utils/createErrorAction';
 import { createSuccessAction } from '../../common/utils/createSuccessAction';
 import { StkrSdk } from '../../modules/api';
-import { IStoreState } from '../reducers';
-import { isConnected } from '../reducers/userReducer';
 import { closeModalAction } from '../modals/actions';
 import { REHYDRATE } from 'redux-persist/es/constants';
 import { replace } from 'connected-react-router';
 import { INDEX_PATH, PICKER_PATH } from '../../common/const';
 import { resetRequests } from '@redux-requests/core';
+import { IStoreState } from '../reducers';
 
 function* onConnect() {
   try {
@@ -31,11 +30,11 @@ function* onDisconnectSuccess() {
 }
 
 function* init() {
-  const state = yield select((store: IStoreState) => ({
-    isConnected: isConnected(store.user),
+  const { isConnectionAvailable } = yield select((store: IStoreState) => ({
+    isConnectionAvailable: store.user.isConnectionAvailable,
   }));
 
-  if (state.isConnected) {
+  if (isConnectionAvailable) {
     yield put(UserActions.connect());
   }
 }

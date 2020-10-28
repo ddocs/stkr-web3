@@ -7,7 +7,7 @@ import { Query } from '@redux-requests/react';
 import { IAuthorizeProviderResponse } from '../../store/apiMappers/authorizeProvider';
 import { useAuthentication } from '../../common/utils/useAuthentications';
 import { QueryError } from '../../components/QueryError/QueryError';
-import { QueryLoading, } from '../../components/QueryLoading/QueryLoading';
+import { QueryLoading } from '../../components/QueryLoading/QueryLoading';
 import { QueryEmpty } from '../../components/QueryEmpty/QueryEmpty';
 
 interface IProviderProps {
@@ -15,13 +15,15 @@ interface IProviderProps {
 }
 
 export const ProviderComponent = ({ authorizeProvider }: IProviderProps) => {
-  const { isProviderAuthenticated } = useAuthentication();
+  const { isProviderAuthenticated, isConnected } = useAuthentication();
 
   useInitEffect(() => {
-    authorizeProvider();
+    if (!isProviderAuthenticated) {
+      authorizeProvider();
+    }
   });
 
-  if (isProviderAuthenticated) {
+  if (isProviderAuthenticated && isConnected) {
     return <ProviderDashboard />;
   }
 

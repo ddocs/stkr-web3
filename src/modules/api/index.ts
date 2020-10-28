@@ -14,8 +14,6 @@ import { NETWORK_NAMES, StkrConfig } from './config';
 import { t } from '../../common/utils/intl';
 import BigNumber from 'bignumber.js';
 
-const LOCAL_STORAGE_AUTHORIZATION_TOKEN_KEY = '__stkr_authorization_token';
-
 type TxHash = string;
 
 export interface IContractDetails {
@@ -90,7 +88,6 @@ export class StkrSdk {
     await this.apiGateway.logout();
     this.keyProvider = null;
     this.contractManager = null;
-    delete localStorage[LOCAL_STORAGE_AUTHORIZATION_TOKEN_KEY];
   }
 
   public async authorizeProvider(
@@ -99,19 +96,18 @@ export class StkrSdk {
     if (!this.keyProvider) {
       throw new Error('Key provider must be connected');
     }
-    if (await this.isAuthorized()) {
-      return { token: this.apiGateway.getToken() };
-    }
+
     const token = await this.keyProvider.signLoginData(ttl);
+
     const {
       status,
       statusText,
     } = await this.apiGateway.authorizeWithSignedData(token);
+
     if (status !== 200) {
       throw new Error(`Unable to authenticate user (#${status}) ${statusText}`);
     }
-    // TODO Remove
-    localStorage[LOCAL_STORAGE_AUTHORIZATION_TOKEN_KEY] = token;
+
     return { token };
   }
 
@@ -120,18 +116,16 @@ export class StkrSdk {
   }
 
   public async createSidecar(): Promise<SidecarReply> {
-    if (!(await this.isAuthorized())) throw new Error('Not authorized');
     return this.apiGateway.createSidecar();
   }
 
   public async getProviderSidecars(): Promise<SidecarReply[]> {
-    if (!(await this.isAuthorized())) throw new Error('Not authorized');
     return this.apiGateway.getProviderSidecars();
   }
 
-  public async isAuthorized(): Promise<boolean> {
+  public async isAuthorized(token?: string): Promise<boolean> {
     if (this.apiGateway.isAuthorized()) return true;
-    const existingToken = localStorage[LOCAL_STORAGE_AUTHORIZATION_TOKEN_KEY];
+    const existingToken = token;
     if (!existingToken) return false;
     try {
       const { status } = await this.apiGateway.authorizeWithSignedData(
@@ -141,7 +135,7 @@ export class StkrSdk {
     } catch (e) {
       console.warn(`unable to verify token: ${e.message}`);
     }
-    delete localStorage[LOCAL_STORAGE_AUTHORIZATION_TOKEN_KEY];
+
     return false;
   }
 

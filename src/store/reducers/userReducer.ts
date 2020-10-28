@@ -10,7 +10,7 @@ import { SuccessResponseAction } from '../apiMappers/successResponseAction';
 import { IAuthorizeProviderResponse } from '../apiMappers/authorizeProvider';
 
 export function isConnected(state: IUserState) {
-  return !!state.isConnected;
+  return state.isConnected;
 }
 
 export interface IConnectResponse {}
@@ -18,7 +18,8 @@ export interface IConnectResponse {}
 export interface IUserState {
   connectStatus: RequestStatus;
   disconnectStatus: RequestStatus;
-  isConnected?: boolean;
+  isConnected: boolean;
+  isConnectionAvailable: boolean;
   providerAccessToken?: string;
 }
 
@@ -26,6 +27,7 @@ const initialState: IUserState = {
   connectStatus: requestInactive(),
   disconnectStatus: requestInactive(),
   isConnected: false,
+  isConnectionAvailable: false,
 };
 
 export const userReducer = createReducer(initialState, {
@@ -33,11 +35,20 @@ export const userReducer = createReducer(initialState, {
     UserActionTypes.CONNECT,
     'connectStatus',
     {
-      onSuccess: state => ({ ...state, isConnected: true }),
+      onSuccess: state => ({
+        ...state,
+        isConnected: true,
+        isConnectionAvailable: true,
+      }),
     },
   ),
   [success(UserActionTypes.DISCONNECT)]: state => {
-    return { ...state, isConnected: false, providerAccessToken: undefined };
+    return {
+      ...state,
+      isConnected: false,
+      isConnectionAvailable: false,
+      providerAccessToken: undefined,
+    };
   },
   [success(UserActionTypes.AUTHORIZE_PROVIDER)]: (
     state,

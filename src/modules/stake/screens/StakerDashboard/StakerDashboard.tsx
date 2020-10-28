@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Curtains } from '../../../../UiKit/Curtains';
 import { useStakerDasboardStyles } from './StakerDashboardStyles';
 import { BackgroundColorProvider } from '../../../../UiKit/BackgroundColorProvider';
@@ -23,9 +23,9 @@ import {
 import { QueryError } from '../../../../components/QueryError/QueryError';
 import { QueryLoadingCentered } from '../../../../components/QueryLoading/QueryLoading';
 import { QueryEmpty } from '../../../../components/QueryEmpty/QueryEmpty';
-import { useInitEffect } from '../../../../common/hooks/useInitEffect';
 import { useDispatch } from 'react-redux';
 import { IStakerStats } from '../../../../store/apiMappers/stakerStatsApi';
+import { useAuthentication } from '../../../../common/utils/useAuthentications';
 
 export const StakerDashboardComponent = () => {
   const classes = useStakerDasboardStyles();
@@ -136,10 +136,13 @@ export const StakerDashboardComponent = () => {
 
 export const StakerDashboard = () => {
   const dispatch = useDispatch();
+  const { isConnected } = useAuthentication();
 
-  useInitEffect(() => {
-    dispatch(UserActions.fetchStakerStats());
-  });
+  useEffect(() => {
+    if (isConnected) {
+      dispatch(UserActions.fetchStakerStats());
+    }
+  }, [dispatch, isConnected]);
 
   return <StakerDashboardComponent />;
 };

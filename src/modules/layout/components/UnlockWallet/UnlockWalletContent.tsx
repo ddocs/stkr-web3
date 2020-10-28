@@ -4,7 +4,6 @@ import { Button } from '../../../../UiKit/Button';
 import React, { useCallback } from 'react';
 import { useUnlockWalletStyles } from './UnlockWalletStyles';
 import { connect } from 'react-redux';
-import { IStoreState } from '../../../../store/reducers';
 import { UserActions } from '../../../../store/actions/UserActions';
 import { PROVIDERS } from '../const';
 
@@ -71,15 +70,15 @@ export const UnlockWalletContentComponent = ({
 };
 
 interface IUnlockWalletContentStoreProps {
-  signIn: typeof UserActions.connect;
+  connect: typeof UserActions.connect;
 }
 
 export const UnlockWalletContentImp = ({
-  signIn,
+  connect,
 }: IUnlockWalletContentStoreProps) => {
   const handleConnectMetamask = useCallback(() => {
-    signIn();
-  }, [signIn]);
+    connect();
+  }, [connect]);
 
   return (
     <UnlockWalletContentComponent
@@ -89,6 +88,6 @@ export const UnlockWalletContentImp = ({
   );
 };
 
-export const UnlockWalletContent = connect((state: IStoreState) => ({}), {
-  signIn: UserActions.connect,
+export const UnlockWalletContent = connect(() => ({}), {
+  connect: UserActions.connect,
 })(UnlockWalletContentImp);

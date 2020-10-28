@@ -9,10 +9,10 @@ import { ISidecar, mapSidecar } from '../apiMappers/sidecarsApi';
 import { mapProviderStats } from '../apiMappers/providerStatsApi';
 import { IAllowance, IAllowTokensResponse } from '../apiMappers/allowance';
 import { mapStakerStats } from '../apiMappers/stakerStatsApi';
+import { authenticatedGuard } from '../../common/utils/authenticatedGuard';
 
 export const UserActionTypes = {
   CONNECT: 'CONNECT',
-  CONNECT_SUCCESS: 'CONNECT_SUCCESS',
 
   DISCONNECT: 'DISCONNECT',
   DISCONNECT_SUCCESS: 'DISCONNECT_SUCCESS',
@@ -106,7 +106,9 @@ export const UserActions = {
         return await stkrSdk.authorizeProvider();
       })(),
     },
-    meta: { asMutation: true },
+    meta: {
+      asMutation: true,
+    },
   }),
   fetchCurrentProviderMicropools: () => ({
     type: UserActionTypes.FETCH_CURRENT_PROVIDER_MICROPOOLS,
@@ -135,12 +137,13 @@ export const UserActions = {
   fetchCurrentProviderSidecars: () => ({
     type: UserActionTypes.FETCH_CURRENT_PROVIDER_SIDECARS,
     request: {
-      promise: (async function () {
+      promise: async function () {
         const stkrSdk = StkrSdk.getLastInstance();
         return stkrSdk?.getProviderSidecars();
-      })(),
+      },
     },
     meta: {
+      onRequest: authenticatedGuard,
       getData: (data: SidecarReply[]): ISidecar[] => {
         return data.map(mapSidecar);
       },
@@ -149,12 +152,13 @@ export const UserActions = {
   createSidecar: () => ({
     type: UserActionTypes.CREATE_SIDECAR,
     request: {
-      promise: (async function () {
+      promise: async function () {
         const stkrSdk = StkrSdk.getLastInstance();
         return await stkrSdk.createSidecar();
-      })(),
+      },
     },
     meta: {
+      onRequest: authenticatedGuard,
       asMutation: true,
       mutations: {
         [UserActionTypes.FETCH_CURRENT_PROVIDER_SIDECARS]: (
@@ -185,13 +189,14 @@ export const UserActions = {
   fetchProviderStats: () => ({
     type: UserActionTypes.FETCH_PROVIDER_STATS,
     request: {
-      promise: (async function () {
+      promise: async function () {
         const stkrSdk = StkrSdk.getLastInstance();
         return await stkrSdk.getProviderStats();
-      })(),
+      },
     },
     meta: {
       getData: mapProviderStats,
+      onRequest: authenticatedGuard,
     },
   }),
   fetchAllowance: () => ({
