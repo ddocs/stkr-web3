@@ -94,6 +94,12 @@
         "internalType": "uint256",
         "name": "poolBalance",
         "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "enum MicroPool.PoolType",
+        "name": "poolType",
+        "type": "uint8"
       }
     ],
     "name": "PoolMigrated",
@@ -198,8 +204,7 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   },
   {
     "inputs": [],
@@ -212,8 +217,7 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   },
   {
     "inputs": [],
@@ -226,8 +230,7 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   },
   {
     "inputs": [],
@@ -240,8 +243,7 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   },
   {
     "inputs": [
@@ -260,8 +262,7 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   },
   {
     "inputs": [],
@@ -355,6 +356,19 @@
   {
     "inputs": [
       {
+        "internalType": "bytes32",
+        "name": "name",
+        "type": "bytes32"
+      }
+    ],
+    "name": "initializePoolWithETH",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "uint256",
         "name": "poolIndex",
         "type": "uint256"
@@ -363,8 +377,38 @@
     "name": "stake",
     "outputs": [],
     "stateMutability": "payable",
-    "type": "function",
-    "payable": true
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "poolIndex",
+        "type": "uint256"
+      }
+    ],
+    "name": "unstake",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "poolIndex",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "slashings",
+        "type": "uint256"
+      }
+    ],
+    "name": "rewardMicropool",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
   },
   {
     "inputs": [
@@ -393,39 +437,6 @@
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "poolIndex",
-        "type": "uint256"
-      }
-    ],
-    "name": "unstake",
-    "outputs": [],
-    "stateMutability": "payable",
-    "type": "function",
-    "payable": true
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "poolIndex",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "slashings",
-        "type": "uint256"
-      }
-    ],
-    "name": "rewardMicropool",
-    "outputs": [],
-    "stateMutability": "payable",
-    "type": "function",
-    "payable": true
   },
   {
     "inputs": [
@@ -515,6 +526,11 @@
         "type": "uint256"
       },
       {
+        "internalType": "uint256",
+        "name": "requesterRewards",
+        "type": "uint256"
+      },
+      {
         "internalType": "bytes32",
         "name": "name",
         "type": "bytes32"
@@ -536,8 +552,7 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   },
   {
     "inputs": [],
@@ -550,8 +565,7 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   },
   {
     "inputs": [
@@ -575,8 +589,7 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   },
   {
     "inputs": [
@@ -596,7 +609,6 @@
     "name": "getBack",
     "outputs": [],
     "stateMutability": "payable",
-    "type": "function",
-    "payable": true
+    "type": "function"
   }
 ]

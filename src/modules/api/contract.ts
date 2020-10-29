@@ -20,6 +20,7 @@ export interface SystemContractParameters {
   providerMinimumStaking: BigNumber;
   requesterMinimumStaking: BigNumber;
   slashingForMigration: BigNumber;
+  ethereumStakingAmount: BigNumber;
 }
 
 const ANKR_SCALE_FACTOR = 10 ** 18;
@@ -73,6 +74,35 @@ export class ContractManager {
       {
         gasLimit: '1000000',
         data: data,
+      },
+    );
+    return receipt.result;
+  }
+
+  public async initializePoolWithETH(
+    name: string,
+    amount: BigNumber,
+  ): Promise<string> {
+    const { ethereumStakingAmount } = await this.getSystemContractParameters();
+    if (amount.lt(ethereumStakingAmount)) {
+      throw new Error(`Amount can't be lower than minimum staking amount`);
+    }
+    const encodedName = stringToHex(name);
+    if (encodedName.length > 32) {
+      throw new Error(`Encoded pool name can't be greater than 32 bytes`);
+    }
+    const data: string = this.microPoolContract.methods
+      .initializePoolWithETH(encodedName)
+      .encodeABI();
+    console.log(`encoded [initializePool] ABI: ${data}`);
+    const currentAccount = await this.keyProvider.currentAccount();
+    const receipt = await this.keyProvider.send(
+      currentAccount,
+      this.contractConfig.microPoolContract,
+      {
+        gasLimit: '1000000',
+        data: data,
+        value: amount.toString(),
       },
     );
     return receipt.result;
@@ -136,6 +166,9 @@ export class ContractManager {
     const slashingForMigration = await this.systemContract.methods
       .SLASHINGS_FOR_MIGRATION()
       .call();
+    const ethereumStakingAmount = await this.systemContract.methods
+      .ETHEREUM_STAKING_AMOUNT()
+      .call();
     console.log(`fetching system contract parameters`);
     this.systemContractParameters = {
       providerMinimumStaking: new BigNumber(providerMinimumStaking).dividedBy(
@@ -145,7 +178,10 @@ export class ContractManager {
         ANKR_SCALE_FACTOR,
       ),
       slashingForMigration: new BigNumber(slashingForMigration).dividedBy(
-        ANKR_SCALE_FACTOR,
+        ETH_SCALE_FACTOR,
+      ),
+      ethereumStakingAmount: new BigNumber(ethereumStakingAmount).dividedBy(
+        ETH_SCALE_FACTOR,
       ),
     };
     console.log(
