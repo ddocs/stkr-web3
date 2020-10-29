@@ -177,7 +177,7 @@ export const UserActions = {
         const stkrSdk = StkrSdk.getLastInstance();
         // TODO Remove log
         try {
-          return await stkrSdk.createMicroPool(name);
+          return await stkrSdk.createAnkrMicroPool(name);
         } catch (e) {
           console.error(e);
           throw e;
