@@ -96,6 +96,23 @@ export interface StakerStats {
   stats: UserStatisticsReply;
 }
 
+export interface ConfigReply {
+  contracts: {
+    SystemParameters: string;
+    DepositContract: string;
+    MicroPool: string;
+    MarketPlace: string;
+    AETH: string;
+    ANKR: string;
+    Migrations: string;
+    Staking: string;
+  };
+  network: {
+    networkId: number;
+    chainId: number;
+  };
+}
+
 export class ApiGateway {
   private readonly defaultConfig: AxiosRequestConfig;
   private api: AxiosInstance;
@@ -113,6 +130,11 @@ export class ApiGateway {
     };
     this.api = axios.create(this.defaultConfig);
     this.token = null;
+  }
+
+  public async downloadConfigFile(configFile: string): Promise<ConfigReply> {
+    const { data } = await this.api.get<ConfigReply>(`/${configFile}`);
+    return data;
   }
 
   public createSidecarDownloadLink(sidecar: string): string {

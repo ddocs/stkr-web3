@@ -10,7 +10,7 @@ import {
   SidecarReply,
   StakerStats,
 } from './gateway';
-import { NETWORK_NAMES, StkrConfig } from './config';
+import { IStkrConfig } from './config';
 import { t } from '../../common/utils/intl';
 import BigNumber from 'bignumber.js';
 
@@ -29,10 +29,15 @@ export class StkrSdk {
   private keyProvider: KeyProvider | null = null;
   private contractManager: ContractManager | null = null;
 
-  constructor(private stkrConfig: StkrConfig, private apiGateway: ApiGateway) {}
+  constructor(
+    private stkrConfig: IStkrConfig,
+    private apiGateway: ApiGateway,
+  ) {}
 
-  static factoryDefault(stkrConfig: StkrConfig): StkrSdk {
-    const apiGateway = new ApiGateway(stkrConfig.gatewayConfig);
+  static factoryDefault(stkrConfig: IStkrConfig): StkrSdk {
+    const apiGateway = new ApiGateway({
+      baseUrl: stkrConfig.baseUrl,
+    });
     StkrSdk.instance = new StkrSdk(stkrConfig, apiGateway);
     return StkrSdk.instance;
   }
@@ -47,37 +52,25 @@ export class StkrSdk {
   }
 
   public async connectMetaMask() {
-    const metaMaskProvider = new MetaMaskProvider(
-      this.stkrConfig.providerConfig,
+    const config = await this.apiGateway.downloadConfigFile(
+      this.stkrConfig.configFile,
     );
+    console.log(
+      `downloaded config from server: ${JSON.stringify(config, null, 2)}`,
+    );
+    const metaMaskProvider = new MetaMaskProvider({
+      networkId: `${config.network.networkId}`,
+      chainId: `${config.network.chainId}`,
+    });
     await metaMaskProvider.connect();
-    const contractManage = new ContractManager(
-      metaMaskProvider,
-      this.stkrConfig.contractConfig,
-    );
+    const contractManage = new ContractManager(metaMaskProvider, {
+      ankrContract: config.contracts.ANKR,
+      microPoolContract: config.contracts.MicroPool,
+      stakingContract: config.contracts.Staking,
+      systemContract: config.contracts.SystemParameters,
+    });
     this.keyProvider = metaMaskProvider;
     this.contractManager = contractManage;
-  }
-
-  public async downloadContractDetails(): Promise<IContractDetails> {
-    const networkName: string =
-      NETWORK_NAMES[Number(this.stkrConfig.providerConfig.networkId)];
-    const {
-      AETH,
-      ANKR,
-      MarketPlace,
-      MicroPool,
-      Staking,
-      SystemParameters,
-    } = await this.apiGateway.downloadConfig(networkName);
-    return {
-      ankrEthContract: AETH,
-      ankrContract: ANKR,
-      marketPlaceContract: MarketPlace,
-      microPoolContract: MicroPool,
-      systemParametersContract: SystemParameters,
-      stakingContract: Staking,
-    };
   }
 
   public isConnected() {
@@ -173,7 +166,7 @@ export class StkrSdk {
 
   public async allowTokens(remainingAllowance?: BigNumber) {
     if (!remainingAllowance) {
-      remainingAllowance = await this.getProviderMinimalStakingAmount();
+      remainingAllowance = await this.getRemainingAllowance();
     }
     console.log(
       `going to approve ankt to staking contract ${remainingAllowance.toString()}`,
@@ -181,6 +174,24 @@ export class StkrSdk {
     return await this.getContractManager().approveAnkrToStakingContract(
       remainingAllowance,
     );
+  }
+
+  public async waitForAllowance(remainingAllowance?: BigNumber): Promise<void> {
+    if (!remainingAllowance) {
+      remainingAllowance = await this.getRemainingAllowance();
+    }
+    return new Promise(resolve => {
+      const CHECK_INTERVAL = 5000;
+      const checkFunction = async () => {
+        const remainingAmount = await this.getRemainingAllowance();
+        // @ts-ignore
+        if (!remainingAmount.lt(remainingAllowance)) {
+          return;
+        }
+        resolve();
+      };
+      setTimeout(checkFunction, CHECK_INTERVAL);
+    });
   }
 
   public async createMicroPool(name: string): Promise<TxHash> {

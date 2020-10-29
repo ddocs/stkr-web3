@@ -198,10 +198,8 @@
   },
   "beacon-list": {
     "status": {
-      "SIDECAR_STATUS_CREATED": "Created",
-      "SIDECAR_STATUS_REGISTERED": "Registered",
-      "SIDECAR_STATUS_ACTIVATED": "Activated",
-      "SIDECAR_STATUS_DELETED": "Deleted"
+      "VALIDATOR_STATUS_FREE": "Created",
+      "VALIDATOR_STATUS_RESERVED": "Activated"
     }
   },
   "create-micropool": {

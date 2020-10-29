@@ -78,6 +78,7 @@
   },
   "scripts": {
     "start": "env-cmd react-scripts start",
+    "start:localhost": "env-cmd -f .env.localhost react-scripts start",
     "build": "env-cmd react-scripts build",
     "test": "env-cmd react-scripts test",
     "eject": "env-cmd react-scripts eject",
