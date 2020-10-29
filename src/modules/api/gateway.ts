@@ -137,9 +137,9 @@ export class ApiGateway {
     return data;
   }
 
-  public createSidecarDownloadLink(sidecar: string): string {
+  public createSidecarDownloadLink(sidecar: string, platform: string): string {
     return `${this.defaultConfig.baseURL}${this.api.getUri({
-      url: `/v1alpha/sidecar/download/${sidecar}`,
+      url: `/v1alpha/sidecar/${sidecar}/download/${platform}`,
     })}?token=${this.token}`;
   }
 

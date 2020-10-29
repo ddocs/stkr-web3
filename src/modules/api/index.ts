@@ -104,8 +104,8 @@ export class StkrSdk {
     return { token };
   }
 
-  public createSidecarDownloadLink(sidecar: string): string {
-    return this.apiGateway.createSidecarDownloadLink(sidecar);
+  public createSidecarDownloadLink(sidecar: string, platform: string): string {
+    return this.apiGateway.createSidecarDownloadLink(sidecar, platform);
   }
 
   public async createSidecar(): Promise<SidecarReply> {
