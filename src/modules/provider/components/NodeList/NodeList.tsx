@@ -12,13 +12,10 @@ import {
 } from '../../../../components/TableComponents';
 import { useLocaleMemo } from '../../../../common/hooks/useLocaleMemo';
 import { t } from '../../../../common/utils/intl';
-import { Button } from '../../../../UiKit/Button';
 import { StkrSdk } from '../../../api';
 import { uid } from 'react-uid';
 import { ISidecar } from '../../../../store/apiMappers/sidecarsApi';
 import { formatDistanceToNowStrict } from 'date-fns';
-import { Icon, SvgIcon } from '@material-ui/core';
-import { DesktopWindows } from '@material-ui/icons';
 
 const useCaptions = (): ITablesCaptionProps[] =>
   useLocaleMemo(
