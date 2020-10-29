@@ -188,6 +188,7 @@
     }
   },
   "micropool-list": {
+    "transaction": "https://goerli.etherscan.io/tx/{value}",
     "status": {
       "MICRO_POOL_STATUS_PENDING": "Pending",
       "MICRO_POOL_STATUS_PUSH_WAITING": "Waiting for push",

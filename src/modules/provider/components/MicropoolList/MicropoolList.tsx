@@ -16,7 +16,8 @@ import { EmptyList } from '../EmptyList';
 import { uid } from 'react-uid';
 import { IPool } from '../../../../store/apiMappers/poolsApi';
 import { Total } from '../../../../components/Total';
-import { Button } from '../../../../UiKit/Button';
+import { NavLink } from '../../../../UiKit/NavLink';
+import { walletConversion } from '../../../../common/utils/convertWallet';
 
 interface IMicropoolListProps {
   className?: string;
@@ -85,14 +86,15 @@ export const MicropoolList = ({ className, data }: IMicropoolListProps) => {
                       total={item.totalStake.toNumber()}
                       reward={item.currentStake.toNumber()}
                     >
-                      <Button
-                        variant="text"
-                        size="medium"
-                        color="secondary"
-                        onClick={() => alert()}
-                      >
-                        {t('navigation.edit')}
-                      </Button>
+                      {item.transactionHash && (
+                        <NavLink
+                          href={t('micropool-list.transaction', {
+                            value: item.transactionHash,
+                          })}
+                        >
+                          {walletConversion(item.transactionHash)}
+                        </NavLink>
+                      )}
                     </Total>
                   </TableBodyCell>
                 </TableRow>

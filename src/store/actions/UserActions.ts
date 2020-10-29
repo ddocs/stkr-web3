@@ -95,6 +95,7 @@ export const UserActions = {
           currentStake: new BigNumber(item.balance),
           totalStake: new BigNumber('32'),
           status: item.status,
+          transactionHash: item.transactionHash,
         })),
     },
   }),
@@ -130,6 +131,7 @@ export const UserActions = {
           currentStake: new BigNumber(item.balance),
           totalStake: new BigNumber(32),
           status: item.status,
+          transactionHash: item.transactionHash,
         }));
       },
     },

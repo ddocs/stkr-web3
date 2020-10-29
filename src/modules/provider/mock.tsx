@@ -10,6 +10,7 @@ export const MICRO_POOL_DATA: IPool[] = [
     fee: new BigNumber(0.000315),
     totalStake: new BigNumber(32),
     currentStake: new BigNumber(29.5),
+    transactionHash: '',
   },
   {
     provider: '',
@@ -19,6 +20,7 @@ export const MICRO_POOL_DATA: IPool[] = [
     fee: new BigNumber(0.000315),
     totalStake: new BigNumber(32),
     currentStake: new BigNumber(29),
+    transactionHash: '',
   },
   {
     provider: '',
@@ -28,5 +30,6 @@ export const MICRO_POOL_DATA: IPool[] = [
     fee: new BigNumber(0.000315),
     totalStake: new BigNumber(32),
     currentStake: new BigNumber(3.5),
+    transactionHash: '',
   },
 ];

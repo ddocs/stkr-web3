@@ -27,6 +27,7 @@ export type MicroPoolStatus =
 export interface MicroPoolReply {
   id: string;
   status: MicroPoolStatus;
+  transactionHash: string;
   provider: string;
   poolIndex: number;
   name: string;
