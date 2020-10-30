@@ -1,9 +1,10 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useCreateMicropoolStyles } from './CreateMicropoolStyles';
 import classNames from 'classnames';
 import { CancelIcon } from '../../../../UiKit/Icons/CancelIcon';
 import { Form } from 'react-final-form';
 import {
+  ETH_AMOUNT_FIELD_NAME,
   CreateMicropoolForm,
   DEPOSIT_TYPE_FIELD_NAME,
   depositType,
@@ -35,10 +36,6 @@ interface ICreateMicropoolPayload {
   name: string;
 }
 
-const INIT_VALUES = {
-  [DEPOSIT_TYPE_FIELD_NAME]: depositType.ANKR,
-};
-
 function validateCreateMicropoolForm({ name }: ICreateMicropoolPayload) {
   const errors: FormErrors<ICreateMicropoolPayload> = {};
 
@@ -59,14 +56,24 @@ interface ICreateMicropoolProps {
   onSubmit(x: ICreateMicropoolPayload): void;
   onClose?(): void;
   ankrBalance?: BigNumber;
+  ethereumBalance?: BigNumber;
 }
 
 export const CreateMicropoolComponent = ({
   onSubmit,
   onClose,
   ankrBalance,
+  ethereumBalance,
 }: ICreateMicropoolProps) => {
   const classes = useCreateMicropoolStyles();
+
+  const INIT_VALUES = useMemo(
+    () => ({
+      [DEPOSIT_TYPE_FIELD_NAME]: depositType.ANKR,
+      [ETH_AMOUNT_FIELD_NAME]: ethereumBalance?.toFixed(),
+    }),
+    [ethereumBalance],
+  );
 
   return (
     <div className={classes.component}>
@@ -75,7 +82,11 @@ export const CreateMicropoolComponent = ({
       </IconButton>
       <Form
         render={formProps => (
-          <CreateMicropoolForm ankrBalance={ankrBalance} {...formProps} />
+          <CreateMicropoolForm
+            ankrBalance={ankrBalance}
+            ethereumBalance={ethereumBalance}
+            {...formProps}
+          />
         )}
         onSubmit={onSubmit}
         validate={validateCreateMicropoolForm}
@@ -125,6 +136,7 @@ export const CreateMicropoolImp = () => {
                   onSubmit={handleSubmit}
                   onClose={handleClose}
                   ankrBalance={data?.ankrBalance}
+                  ethereumBalance={data?.ethereumBalance}
                 />
               )
             }

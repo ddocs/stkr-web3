@@ -106,5 +106,8 @@ export const useCreateMicropoolStyles = makeStyles<Theme>(theme => {
       gridTemplateColumns: '1fr auto 1fr',
       gridGap: theme.spacing(3),
     },
+    ethValue: {
+      marginBottom: theme.spacing(2.5),
+    },
   };
 });
