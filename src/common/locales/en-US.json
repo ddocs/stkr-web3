@@ -204,16 +204,22 @@
     }
   },
   "create-micropool": {
-    "title": "Create Your Staking Pool",
+    "title": "Create Your Micropool",
     "form": {
       "step-1": {
         "count": "Step 1",
-        "caption": "Micropool name",
+        "caption": "Enter the name",
         "name": "Micropool name"
       },
       "step-2": {
         "count": "Step 2",
-        "caption": "Deposit ANKR tokens",
+        "caption": "Сhoose cryptocurrency",
+        "deposit-ETH": "Deposit ETH",
+        "or": "or",
+        "deposit-ANKR": "Deposit ANKR"
+      },
+      "step-3": {
+        "caption": "ANKR amount",
         "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
       }
     }

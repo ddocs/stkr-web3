@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { useProviderDashboardStyles } from './ProviderDashboardStyles';
 import { MicropoolList } from '../../components/MicropoolList';
 import { NodeList } from '../../components/NodeList';
@@ -25,7 +25,6 @@ import { Query } from '@redux-requests/react';
 import { QueryLoadingCentered } from '../../../../components/QueryLoading/QueryLoading';
 import { QueryError } from '../../../../components/QueryError/QueryError';
 import { Route } from 'react-router-dom';
-import { useInitEffect } from '../../../../common/hooks/useInitEffect';
 import { IProviderStats } from '../../../../store/apiMappers/providerStatsApi';
 import { alwaysFalse } from '../../../../common/utils/alwaysFalse';
 import { ISidecar } from '../../../../store/apiMappers/sidecarsApi';
@@ -33,6 +32,7 @@ import { useDispatch } from 'react-redux';
 import { CreateNode } from '../CreateNode';
 import { useInterval } from '../../../../common/utils/useInterval';
 import { Milliseconds } from '../../../../common/types';
+import { useAuthentication } from '../../../../common/utils/useAuthentications';
 
 const UPDATE_INTERVAL: Milliseconds = 20000;
 
@@ -152,12 +152,15 @@ export const ProviderDashboardComponent = ({
 
 export const ProviderDashboard = () => {
   const dispatch = useDispatch();
+  const { isConnected } = useAuthentication();
 
-  useInitEffect(() => {
-    dispatch(UserActions.fetchCurrentProviderMicropools());
-    dispatch(UserActions.fetchCurrentProviderSidecars());
-    dispatch(UserActions.fetchProviderStats());
-  });
+  useEffect(() => {
+    if (isConnected) {
+      dispatch(UserActions.fetchCurrentProviderMicropools());
+      dispatch(UserActions.fetchCurrentProviderSidecars());
+      dispatch(UserActions.fetchProviderStats());
+    }
+  }, [dispatch, isConnected]);
 
   useInterval(() => {
     dispatch(UserActions.fetchCurrentProviderSidecars());
