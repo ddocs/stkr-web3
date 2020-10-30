@@ -125,36 +125,41 @@ export const NodeListComponent = ({ className, data }: INodeListProps) => {
                   {t('format.date', { value: item.created })}
                 </TableBodyCell>
                 <TableBodyCell>
-                  <a
+                  <IconButton
+                    component="a"
+                    className={classes.icon}
                     href={StkrSdk.getLastInstance().createSidecarDownloadLink(
                       item.id,
                       'windows64',
                     )}
+                    target="_blank"
                   >
-                    <IconButton className={classes.icon}>
-                      <WindowsIcon />
-                    </IconButton>
-                  </a>
-                  <a
+                    <WindowsIcon />
+                  </IconButton>
+
+                  <IconButton
+                    component="a"
+                    className={classes.icon}
                     href={StkrSdk.getLastInstance().createSidecarDownloadLink(
                       item.id,
                       'linux64',
                     )}
+                    target="_blank"
                   >
-                    <IconButton className={classes.icon}>
-                      <LinuxIcon />
-                    </IconButton>
-                  </a>
-                  <a
+                    <LinuxIcon />
+                  </IconButton>
+
+                  <IconButton
+                    component="a"
+                    className={classes.icon}
                     href={StkrSdk.getLastInstance().createSidecarDownloadLink(
                       item.id,
                       'darwin64',
                     )}
+                    target="_blank"
                   >
-                    <IconButton className={classes.icon}>
-                      <MacIcon />
-                    </IconButton>
-                  </a>
+                    <MacIcon />
+                  </IconButton>
                 </TableBodyCell>
               </TableRow>
             ))}
