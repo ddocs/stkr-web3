@@ -116,7 +116,7 @@ export const NodeListComponent = ({ className, data }: INodeListProps) => {
                     onClick={() => {
                       const downloadLink = StkrSdk.getLastInstance().createSidecarDownloadLink(
                         item.id,
-                        'win64',
+                        'windows64',
                       );
                       window.open(downloadLink, '_blank');
                     }}

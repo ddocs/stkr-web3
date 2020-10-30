@@ -102,7 +102,7 @@ export class ContractManager {
       {
         gasLimit: '1000000',
         data: data,
-        value: amount.toString(),
+        value: amount.toString(10),
       },
     );
     return receipt.result;
@@ -145,7 +145,7 @@ export class ContractManager {
       this.contractConfig.microPoolContract,
       {
         data: data,
-        value: amount.multipliedBy(ETH_SCALE_FACTOR).toString(),
+        value: amount.multipliedBy(ETH_SCALE_FACTOR).toString(10),
       },
     );
     return receipt.result;
@@ -222,7 +222,7 @@ export class ContractManager {
     const data: string = this.ankrContract.methods
       .approve(
         this.contractConfig.stakingContract,
-        amount.multipliedBy(ANKR_SCALE_FACTOR),
+        amount.multipliedBy(ANKR_SCALE_FACTOR).toString(10),
       )
       .encodeABI();
     const currentAccount = await this.keyProvider.currentAccount();
