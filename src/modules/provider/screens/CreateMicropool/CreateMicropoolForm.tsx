@@ -25,6 +25,7 @@ import { useDispatch } from 'react-redux';
 import BigNumber from 'bignumber.js';
 import { MutationErrorHandler } from '../../../../components/MutationErrorHandler/MutationErrorHandler';
 import { useAuthentication } from '../../../../common/utils/useAuthentications';
+import { SliderField } from '../../../../UiKit/RangeField';
 
 export enum depositType {
   ETH = 'ETH',
@@ -32,14 +33,18 @@ export enum depositType {
 }
 
 export const DEPOSIT_TYPE_FIELD_NAME = 'depositType';
+export const ETH_AMOUNT_FIELD_NAME = 'etheriumAmount';
+export const MIN_ETH_AMOUNT_DEPOSIT = 2;
 
 interface ICreateMicropoolFormProps {
   ankrBalance?: BigNumber;
+  ethereumBalance?: BigNumber;
 }
 
 export const CreateMicropoolForm = ({
   handleSubmit,
   ankrBalance,
+  ethereumBalance,
   values,
 }: FormRenderProps<any> & ICreateMicropoolFormProps) => {
   const classes = useCreateMicropoolStyles();
@@ -167,6 +172,19 @@ export const CreateMicropoolForm = ({
                     >
                       {t('create-micropool.form.step-3.text-ETH')}
                     </Body2>
+                    <div>
+                      <Headline4 className={classes.ethValue}>
+                        {t('units.eth', {
+                          value: values[ETH_AMOUNT_FIELD_NAME],
+                        })}
+                      </Headline4>
+                      <Field
+                        component={SliderField}
+                        min={MIN_ETH_AMOUNT_DEPOSIT}
+                        max={ethereumBalance?.toFixed()}
+                        name={ETH_AMOUNT_FIELD_NAME}
+                      />
+                    </div>
                   </li>
                 )}
                 {values[DEPOSIT_TYPE_FIELD_NAME] === depositType.ANKR && (
