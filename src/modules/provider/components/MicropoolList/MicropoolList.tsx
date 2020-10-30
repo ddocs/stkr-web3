@@ -31,7 +31,7 @@ const useCaptions = (): ITablesCaptionProps[] =>
     () => [
       {
         key: 'poolIndex',
-        label: t('micro-pool-table.poolIndex'),
+        label: '',
       },
       {
         key: 'name',
@@ -50,12 +50,12 @@ const useCaptions = (): ITablesCaptionProps[] =>
         label: t('micro-pool-table.lastSlashing'),
       },
       {
-        key: 'total',
-        label: t('micro-pool-table.total'),
-      },
-      {
         key: 'startTime',
         label: t('micro-pool-table.startTime'),
+      },
+      {
+        key: 'total',
+        label: t('micro-pool-table.total'),
       },
     ],
     [],
@@ -74,7 +74,7 @@ export const MicropoolList = ({ className, data }: IMicropoolListProps) => {
         <Table
           columnsCount={captions.length}
           className={classes.table}
-          customCell="0.7fr 1fr 1fr 1fr 1fr 1fr 1.5fr"
+          customCell="0.5fr 0.9fr 0.9fr 0.7fr 0.7fr 0.7fr 2fr"
         >
           <TableHead>
             {captions.map(cell => (
@@ -103,6 +103,11 @@ export const MicropoolList = ({ className, data }: IMicropoolListProps) => {
                     {t('units.eth', { value: item.lastSlashing.toFormat() })}
                   </TableBodyCell>
                   <TableBodyCell>
+                    {t('node-list.ago', {
+                      value: formatDistanceToNowStrict(item.startTime),
+                    })}
+                  </TableBodyCell>
+                  <TableBodyCell>
                     <Total
                       total={item.totalStake.toNumber()}
                       reward={item.currentStake.toNumber()}
@@ -117,11 +122,6 @@ export const MicropoolList = ({ className, data }: IMicropoolListProps) => {
                         </NavLink>
                       )}
                     </Total>
-                  </TableBodyCell>
-                  <TableBodyCell>
-                    {t('node-list.ago', {
-                      value: formatDistanceToNowStrict(item.startTime),
-                    })}
                   </TableBodyCell>
                 </TableRow>
               ))}

@@ -108,10 +108,8 @@ export const NodeListComponent = ({ className, data }: INodeListProps) => {
                   <Query<ISidecarStatus | undefined>
                     loadingComponent={QueryLoading}
                     loadingComponentProps={{ size: 20 }}
-                    errorComponent={() => (
-                      <>{t(`beacon-list.status.${item.status}`)}</>
-                    )}
-                    noDataMessage={t(`beacon-list.status.${item.status}`)}
+                    errorComponent={() => <>{t(`beacon-list.not-launched`)}</>}
+                    noDataMessage={t(`beacon-list.not-launched`)}
                     type={UserActionTypes.FETCH_SIDECAR_STATUS}
                     requestKey={item.id}
                   >

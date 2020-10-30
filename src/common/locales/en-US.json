@@ -206,7 +206,8 @@
     "status": {
       "VALIDATOR_STATUS_FREE": "Created",
       "VALIDATOR_STATUS_RESERVED": "Activated"
-    }
+    },
+    "not-launched": "Not launched"
   },
   "create-micropool": {
     "title": "Create Your Micropool",

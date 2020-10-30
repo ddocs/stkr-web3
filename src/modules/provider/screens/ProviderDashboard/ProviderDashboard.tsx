@@ -32,6 +32,7 @@ import { useDispatch } from 'react-redux';
 import { useInterval } from '../../../../common/utils/useInterval';
 import { Milliseconds } from '../../../../common/types';
 import { useAuthentication } from '../../../../common/utils/useAuthentications';
+import { CreateNode } from '../CreateNode';
 
 const SHORT_UPDATE_INTERVAL: Milliseconds = 10_000;
 const LONG_UPDATE_INTERVAL: Milliseconds = 60_000;
@@ -197,6 +198,7 @@ export const ProviderDashboard = () => {
       type={UserActionTypes.FETCH_CURRENT_PROVIDER_SIDECARS}
       errorComponent={QueryError}
       loadingComponent={QueryLoadingCentered}
+      noDataMessage={<CreateNode />}
       showLoaderDuringRefetch={false}
     >
       {render}
