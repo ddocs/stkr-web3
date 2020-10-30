@@ -27,7 +27,7 @@ import { MutationErrorHandler } from '../../../../components/MutationErrorHandle
 import { useAuthentication } from '../../../../common/utils/useAuthentications';
 import { SliderField } from '../../../../UiKit/RangeField';
 
-export enum depositType {
+export enum DepositType {
   ETH = 'ETH',
   ANKR = 'ANKR',
 }
@@ -78,7 +78,9 @@ export const CreateMicropoolForm = ({
         type={UserActionTypes.FETCH_ALLOWANCE}
       >
         {({ data: { remainingAllowance } }) => {
-          const disabled = remainingAllowance.isGreaterThan(0);
+          const disabled =
+            values[DEPOSIT_TYPE_FIELD_NAME] === DepositType.ANKR &&
+            remainingAllowance.isGreaterThan(0);
 
           return (
             <>
@@ -127,10 +129,10 @@ export const CreateMicropoolForm = ({
                             size="large"
                             fullWidth={true}
                             className={classes.depositTypeButton}
-                            value={depositType.ETH}
+                            value={DepositType.ETH}
                             onClick={handleChange}
                             color={
-                              value === depositType.ETH
+                              value === DepositType.ETH
                                 ? 'primary'
                                 : 'secondary'
                             }
@@ -145,10 +147,10 @@ export const CreateMicropoolForm = ({
                             size="large"
                             fullWidth={true}
                             className={classes.depositTypeButton}
-                            value={depositType.ANKR}
+                            value={DepositType.ANKR}
                             onClick={handleChange}
                             color={
-                              value === depositType.ANKR
+                              value === DepositType.ANKR
                                 ? 'primary'
                                 : 'secondary'
                             }
@@ -160,7 +162,7 @@ export const CreateMicropoolForm = ({
                     }}
                   />
                 </li>
-                {values[DEPOSIT_TYPE_FIELD_NAME] === depositType.ETH && (
+                {values[DEPOSIT_TYPE_FIELD_NAME] === DepositType.ETH && (
                   <li className={classes.item}>
                     <Headline4 className={classes.caption} component="h4">
                       {t('create-micropool.form.step-3.caption-ETH')}
@@ -181,13 +183,13 @@ export const CreateMicropoolForm = ({
                       <Field
                         component={SliderField}
                         min={MIN_ETH_AMOUNT_DEPOSIT}
-                        max={ethereumBalance?.toFixed()}
+                        max={ethereumBalance?.toNumber()}
                         name={ETH_AMOUNT_FIELD_NAME}
                       />
                     </div>
                   </li>
                 )}
-                {values[DEPOSIT_TYPE_FIELD_NAME] === depositType.ANKR && (
+                {values[DEPOSIT_TYPE_FIELD_NAME] === DepositType.ANKR && (
                   <li className={classes.item}>
                     <Headline4 className={classes.caption} component="h4">
                       {t('create-micropool.form.step-3.caption-ANKR')}

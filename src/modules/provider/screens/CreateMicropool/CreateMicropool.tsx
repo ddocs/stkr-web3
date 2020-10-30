@@ -4,10 +4,11 @@ import classNames from 'classnames';
 import { CancelIcon } from '../../../../UiKit/Icons/CancelIcon';
 import { Form } from 'react-final-form';
 import {
-  ETH_AMOUNT_FIELD_NAME,
   CreateMicropoolForm,
   DEPOSIT_TYPE_FIELD_NAME,
-  depositType,
+  DepositType,
+  ETH_AMOUNT_FIELD_NAME,
+  MIN_ETH_AMOUNT_DEPOSIT,
 } from './CreateMicropoolForm';
 import {
   UserActions,
@@ -34,9 +35,14 @@ const MICROPOOL_NAME_MAX_LENGTH = 32;
 
 interface ICreateMicropoolPayload {
   name: string;
+  [DEPOSIT_TYPE_FIELD_NAME]: DepositType;
+  [ETH_AMOUNT_FIELD_NAME]: number;
 }
 
-function validateCreateMicropoolForm({ name }: ICreateMicropoolPayload) {
+function validateCreateMicropoolForm({
+  name,
+  ...data
+}: ICreateMicropoolPayload) {
   const errors: FormErrors<ICreateMicropoolPayload> = {};
 
   if (!name) {
@@ -47,6 +53,14 @@ function validateCreateMicropoolForm({ name }: ICreateMicropoolPayload) {
     errors.name = t('validation.min-length', {
       size: MICROPOOL_NAME_MAX_LENGTH,
     });
+  }
+
+  if (data[DEPOSIT_TYPE_FIELD_NAME] === DepositType.ETH) {
+    if (data[ETH_AMOUNT_FIELD_NAME] < MIN_ETH_AMOUNT_DEPOSIT) {
+      errors[ETH_AMOUNT_FIELD_NAME] = t('validation.min-ETH-amount', {
+        value: MIN_ETH_AMOUNT_DEPOSIT,
+      });
+    }
   }
 
   return errors;
@@ -69,7 +83,7 @@ export const CreateMicropoolComponent = ({
 
   const INIT_VALUES = useMemo(
     () => ({
-      [DEPOSIT_TYPE_FIELD_NAME]: depositType.ANKR,
+      [DEPOSIT_TYPE_FIELD_NAME]: DepositType.ANKR,
       [ETH_AMOUNT_FIELD_NAME]: ethereumBalance?.toFixed(),
     }),
     [ethereumBalance],
@@ -103,6 +117,15 @@ export const CreateMicropoolImp = () => {
 
   const handleSubmit = useCallback(
     (payload: ICreateMicropoolPayload) => {
+      if (payload[DEPOSIT_TYPE_FIELD_NAME] === DepositType.ETH) {
+        dispatch(
+          UserActions.allowEthTokens({
+            name: payload.name,
+            amount: new BigNumber(payload[ETH_AMOUNT_FIELD_NAME]),
+          }),
+        );
+      }
+
       dispatch(UserActions.createMicropool(payload)).then(
         (data: IRequestActionPromiseData) => {
           if (data.action.type === success(UserActionTypes.CREATE_MICROPOOL)) {

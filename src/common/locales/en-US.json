@@ -48,7 +48,8 @@
     "email-error": "Not a valid email address",
     "alphanumeric": "This field can contain only letters and numbers.",
     "required": "This field is required",
-    "min-length": "Should be limited to {size} characters."
+    "min-length": "Should be limited to {size} characters.",
+    "min-ETH-amount": "Minimum amount is {value} ETH"
   },
   "about": {
     "title": "<span>Staking.</span>Simplified.",

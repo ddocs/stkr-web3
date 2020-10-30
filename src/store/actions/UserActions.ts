@@ -47,6 +47,8 @@ export const UserActionTypes = {
 
   ALLOW_TOKENS: 'ALLOW_TOKENS',
 
+  ALLOW_ETH_TOKENS: 'ALLOW_ETH_TOKENS',
+
   BUY_TOKENS: 'BUY_TOKENS',
 
   STAKE: 'STAKE',
@@ -278,6 +280,18 @@ export const UserActions = {
           console.error(e);
           throw e;
         }
+      })(),
+    },
+    meta: {
+      asMutation: true,
+    },
+  }),
+  allowEthTokens: ({ name, amount }: { name: string; amount: BigNumber }) => ({
+    type: UserActionTypes.ALLOW_ETH_TOKENS,
+    request: {
+      promise: (async function () {
+        const stkrSdk = StkrSdk.getLastInstance();
+        return await stkrSdk.createEthereumMicroPool(name, amount);
       })(),
     },
     meta: {
