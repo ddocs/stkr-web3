@@ -125,7 +125,8 @@ export class StkrSdk {
   }
 
   public async isAuthorized(token?: string): Promise<boolean> {
-    if (this.apiGateway.isAuthorized()) return true;
+    const currentAccount = this.getKeyProvider().currentAccount();
+    if (this.apiGateway.isAuthorized(currentAccount)) return true;
     const existingToken = token;
     if (!existingToken) return false;
     try {

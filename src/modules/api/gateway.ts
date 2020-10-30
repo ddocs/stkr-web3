@@ -192,12 +192,15 @@ export class ApiGateway {
     return Object.assign({}, data, { status, statusText });
   }
 
-  public isAuthorized(): boolean {
+  public isAuthorized(currentAddress: string): boolean {
     if (!this.authorized || !this.token) return false;
     const parsedToken = this.parseToken();
     if (!parsedToken) return false;
-    const { expires } = parsedToken,
+    const { expires, address } = parsedToken,
       currentTime = new Date().getTime();
+    if (currentAddress.toLowerCase() !== address.toLowerCase()) {
+      return false;
+    }
     return currentTime < expires;
   }
 
