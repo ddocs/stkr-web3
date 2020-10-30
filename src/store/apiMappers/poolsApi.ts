@@ -10,4 +10,5 @@ export interface IPool {
   totalStake: BigNumber;
   status: MicroPoolStatus;
   transactionHash: string;
+  poolIndex: number;
 }

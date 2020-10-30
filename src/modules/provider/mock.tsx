@@ -11,6 +11,7 @@ export const MICRO_POOL_DATA: IPool[] = [
     totalStake: new BigNumber(32),
     currentStake: new BigNumber(29.5),
     transactionHash: '',
+    poolIndex: 1,
   },
   {
     provider: '',
@@ -21,6 +22,7 @@ export const MICRO_POOL_DATA: IPool[] = [
     totalStake: new BigNumber(32),
     currentStake: new BigNumber(29),
     transactionHash: '',
+    poolIndex: 2,
   },
   {
     provider: '',
@@ -31,5 +33,6 @@ export const MICRO_POOL_DATA: IPool[] = [
     totalStake: new BigNumber(32),
     currentStake: new BigNumber(3.5),
     transactionHash: '',
+    poolIndex: 3,
   },
 ];

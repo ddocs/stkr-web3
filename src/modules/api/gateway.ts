@@ -41,7 +41,7 @@ export interface MicroPoolReply {
   created: number;
 }
 
-export interface SidecarStatusReplay {
+export interface SidecarStatusReply {
   machine: {
     hostId: string;
     platform: 'SIDECAR_PLATFORM_DARWIN';
@@ -335,8 +335,8 @@ export class ApiGateway {
 
   public async getSidecarStatus(
     sidecarId: string,
-  ): Promise<SidecarStatusReplay> {
-    const { data } = await this.api.get<SidecarStatusReplay>(
+  ): Promise<SidecarStatusReply> {
+    const { data } = await this.api.get<SidecarStatusReply>(
       `/v1alpha/sidecar/${sidecarId}/status`,
     );
 

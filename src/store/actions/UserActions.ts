@@ -5,7 +5,7 @@ import BigNumber from 'bignumber.js';
 import {
   MicroPoolReply,
   SidecarReply,
-  SidecarStatusReplay,
+  SidecarStatusReply,
 } from '../../modules/api/gateway';
 import { IPool } from '../apiMappers/poolsApi';
 import { differenceInCalendarMonths } from 'date-fns';
@@ -102,10 +102,13 @@ export const UserActions = {
           provider: item.provider,
           period: differenceInCalendarMonths(item.startTime, item.endTime),
           fee: new BigNumber('0'),
-          currentStake: new BigNumber(item.balance),
+          currentStake: new BigNumber(
+            item.status === 'MICRO_POOL_STATUS_ONGOING' ? '32' : item.balance,
+          ),
           totalStake: new BigNumber('32'),
           status: item.status,
           transactionHash: item.transactionHash,
+          poolIndex: item.poolIndex,
         })),
     },
   }),
@@ -138,10 +141,13 @@ export const UserActions = {
           provider: item.provider,
           period: differenceInCalendarMonths(item.startTime, item.endTime),
           fee: new BigNumber(0),
-          currentStake: new BigNumber(item.balance),
+          currentStake: new BigNumber(
+            item.status === 'MICRO_POOL_STATUS_ONGOING' ? '32' : item.balance,
+          ),
           totalStake: new BigNumber(32),
           status: item.status,
           transactionHash: item.transactionHash,
+          poolIndex: item.poolIndex,
         }));
       },
     },
@@ -186,7 +192,7 @@ export const UserActions = {
     },
     meta: {
       onRequest: authenticatedGuard,
-      getData: (data: SidecarStatusReplay): ISidecarStatus => {
+      getData: (data: SidecarStatusReply): ISidecarStatus => {
         return mapNodeStatus(data);
       },
       requestKey: id,

@@ -66,7 +66,7 @@ export const NodeListComponent = ({ className, data }: INodeListProps) => {
   return (
     <div className={classNames(classes.component, className)}>
       <Table
-        customCell="1fr 1fr 1fr 1fr 0.7fr"
+        customCell="1.1fr 0.6fr 0.5fr 0.7fr 0.7fr"
         columnsCount={captions.length}
         className={classes.table}
       >
@@ -112,33 +112,36 @@ export const NodeListComponent = ({ className, data }: INodeListProps) => {
                   {t('format.date', { value: item.created })}
                 </TableBodyCell>
                 <TableBodyCell>
-                  <IconButton
-                    className={classes.icon}
-                    onClick={() => {
-                      const downloadLink = StkrSdk.getLastInstance().createSidecarDownloadLink(
-                        item.id,
-                        'windows64',
-                      );
-                      window.open(downloadLink, '_blank');
-                    }}
+                  <a
+                    href={StkrSdk.getLastInstance().createSidecarDownloadLink(
+                      item.id,
+                      'windows64',
+                    )}
                   >
-                    <WindowsIcon />
-                  </IconButton>
-                  <IconButton
-                    className={classes.icon}
-                    onClick={() => {
-                      const downloadLink = StkrSdk.getLastInstance().createSidecarDownloadLink(
-                        item.id,
-                        'linux64',
-                      );
-                      window.open(downloadLink, '_blank');
-                    }}
+                    <IconButton className={classes.icon}>
+                      <WindowsIcon />
+                    </IconButton>
+                  </a>
+                  <a
+                    href={StkrSdk.getLastInstance().createSidecarDownloadLink(
+                      item.id,
+                      'linux64',
+                    )}
                   >
-                    <LinuxIcon />
-                  </IconButton>
-                  <IconButton className={classes.icon} disabled={true}>
-                    <MacIcon />
-                  </IconButton>
+                    <IconButton className={classes.icon}>
+                      <LinuxIcon />
+                    </IconButton>
+                  </a>
+                  <a
+                    href={StkrSdk.getLastInstance().createSidecarDownloadLink(
+                      item.id,
+                      'darwin64',
+                    )}
+                  >
+                    <IconButton className={classes.icon}>
+                      <MacIcon />
+                    </IconButton>
+                  </a>
                 </TableBodyCell>
               </TableRow>
             ))}
