@@ -8,7 +8,7 @@ import {
   ProviderReply,
   ProviderStatsReply,
   SidecarReply,
-  SidecarStatusReplay,
+  SidecarStatusReply,
   StakerStats,
 } from './gateway';
 import { IStkrConfig } from './config';
@@ -120,7 +120,7 @@ export class StkrSdk {
 
   public async getSidecarStatus(
     sidecarId: string,
-  ): Promise<SidecarStatusReplay> {
+  ): Promise<SidecarStatusReply> {
     return this.apiGateway.getSidecarStatus(sidecarId);
   }
 

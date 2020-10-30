@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/interface-name-prefix,@typescript-eslint/no-inferrable-types */
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
-import { Megabytes, Milliseconds, Percentage } from '../../common/types';
+import { Megabytes, Percentage, Seconds } from '../../common/types';
 
 export interface GatewayConfig {
   baseUrl: string;
@@ -41,13 +41,13 @@ export interface MicroPoolReply {
   created: number;
 }
 
-export interface SidecarStatusReplay {
+export interface SidecarStatusReply {
   machine: {
     hostId: string;
     platform: 'SIDECAR_PLATFORM_DARWIN';
     arch: 'SIDECAR_ARCH_AMD64';
-    machineUptime: Milliseconds;
-    currentTime: Milliseconds;
+    machineUptime: Seconds;
+    currentTime: Seconds;
     totalMemory: Megabytes;
     freeMemory: Megabytes;
     totalDisk: Megabytes;
@@ -335,8 +335,8 @@ export class ApiGateway {
 
   public async getSidecarStatus(
     sidecarId: string,
-  ): Promise<SidecarStatusReplay> {
-    const { data } = await this.api.get<SidecarStatusReplay>(
+  ): Promise<SidecarStatusReply> {
+    const { data } = await this.api.get<SidecarStatusReply>(
       `/v1alpha/sidecar/${sidecarId}/status`,
     );
 

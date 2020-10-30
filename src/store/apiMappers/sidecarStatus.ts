@@ -1,5 +1,5 @@
 import { Megabytes, Percentage } from '../../common/types';
-import { SidecarStatusReplay } from '../../modules/api/gateway';
+import { SidecarStatusReply } from '../../modules/api/gateway';
 
 interface IMachine {
   hostId: string;
@@ -32,12 +32,12 @@ export interface ISidecarStatus {
   chain: IChain;
 }
 
-export function mapNodeStatus(payload: SidecarStatusReplay): ISidecarStatus {
+export function mapNodeStatus(payload: SidecarStatusReply): ISidecarStatus {
   return {
     machine: {
       ...payload.machine,
       machineUptime: new Date(payload.machine.machineUptime),
-      currentTime: new Date(payload.machine.currentTime),
+      currentTime: new Date(payload.machine.currentTime * 1000),
     },
     chain: payload.beaconChain,
   };

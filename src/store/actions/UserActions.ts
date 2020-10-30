@@ -5,7 +5,7 @@ import BigNumber from 'bignumber.js';
 import {
   MicroPoolReply,
   SidecarReply,
-  SidecarStatusReplay,
+  SidecarStatusReply,
 } from '../../modules/api/gateway';
 import { IPool } from '../apiMappers/poolsApi';
 import { differenceInCalendarMonths } from 'date-fns';
@@ -102,10 +102,17 @@ export const UserActions = {
           provider: item.provider,
           period: differenceInCalendarMonths(item.startTime, item.endTime),
           fee: new BigNumber('0'),
-          currentStake: new BigNumber(item.balance),
+          lastReward: new BigNumber(item.lastReward),
+          lastSlashing: new BigNumber(item.lastSlashing),
+          startTime: new Date(item.startTime * 1000),
+          endTime: new Date(item.endTime * 1000),
+          currentStake: new BigNumber(
+            item.status === 'MICRO_POOL_STATUS_ONGOING' ? '32' : item.balance,
+          ),
           totalStake: new BigNumber('32'),
           status: item.status,
           transactionHash: item.transactionHash,
+          poolIndex: item.poolIndex,
         })),
     },
   }),
@@ -138,10 +145,17 @@ export const UserActions = {
           provider: item.provider,
           period: differenceInCalendarMonths(item.startTime, item.endTime),
           fee: new BigNumber(0),
-          currentStake: new BigNumber(item.balance),
+          lastReward: new BigNumber(item.lastReward),
+          lastSlashing: new BigNumber(item.lastSlashing),
+          startTime: new Date(item.startTime * 1000),
+          endTime: new Date(item.endTime * 1000),
+          currentStake: new BigNumber(
+            item.status === 'MICRO_POOL_STATUS_ONGOING' ? '32' : item.balance,
+          ),
           totalStake: new BigNumber(32),
           status: item.status,
           transactionHash: item.transactionHash,
+          poolIndex: item.poolIndex,
         }));
       },
     },
@@ -163,12 +177,9 @@ export const UserActions = {
         action: RequestAction,
         store: Store<IStoreState>,
       ) => {
-        request.data.map(item => item.id);
-
         request.data.forEach(item => {
           store.dispatch(UserActions.fetchSidecarStatus(item.id));
         });
-
         return request;
       },
       getData: (data: SidecarReply[]): ISidecar[] => {
@@ -186,7 +197,7 @@ export const UserActions = {
     },
     meta: {
       onRequest: authenticatedGuard,
-      getData: (data: SidecarStatusReplay): ISidecarStatus => {
+      getData: (data: SidecarStatusReply): ISidecarStatus => {
         return mapNodeStatus(data);
       },
       requestKey: id,

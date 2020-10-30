@@ -18,6 +18,7 @@ import { IPool } from '../../../../store/apiMappers/poolsApi';
 import { Total } from '../../../../components/Total';
 import { NavLink } from '../../../../UiKit/NavLink';
 import { walletConversion } from '../../../../common/utils/convertWallet';
+import { formatDistanceToNowStrict } from 'date-fns';
 
 interface IMicropoolListProps {
   className?: string;
@@ -29,6 +30,10 @@ const useCaptions = (): ITablesCaptionProps[] =>
   useLocaleMemo(
     () => [
       {
+        key: 'poolIndex',
+        label: t('micro-pool-table.poolIndex'),
+      },
+      {
         key: 'name',
         label: t('micro-pool-table.name'),
       },
@@ -37,12 +42,20 @@ const useCaptions = (): ITablesCaptionProps[] =>
         label: t('micro-pool-table.status'),
       },
       {
-        key: 'fee',
-        label: t('micro-pool-table.fee'),
+        key: 'lastReward',
+        label: t('micro-pool-table.lastReward'),
+      },
+      {
+        key: 'lastSlashing',
+        label: t('micro-pool-table.lastSlashing'),
       },
       {
         key: 'total',
         label: t('micro-pool-table.total'),
+      },
+      {
+        key: 'startTime',
+        label: t('micro-pool-table.startTime'),
       },
     ],
     [],
@@ -61,7 +74,7 @@ export const MicropoolList = ({ className, data }: IMicropoolListProps) => {
         <Table
           columnsCount={captions.length}
           className={classes.table}
-          customCell="1fr 1fr 1fr 1.5fr"
+          customCell="0.7fr 1fr 1fr 1fr 1fr 1fr 1.5fr"
         >
           <TableHead>
             {captions.map(cell => (
@@ -76,11 +89,17 @@ export const MicropoolList = ({ className, data }: IMicropoolListProps) => {
             <TableBody rowsCount={data.length}>
               {data.map(item => (
                 <TableRow key={uid(item)}>
+                  <TableBodyCell>#{item.poolIndex}</TableBodyCell>
                   <TableBodyCell>{item.name}</TableBodyCell>
                   <TableBodyCell>
                     {t(`micropool-list.status.${item.status}`)}
                   </TableBodyCell>
-                  <TableBodyCell>{item.fee.toFormat()}</TableBodyCell>
+                  <TableBodyCell>
+                    {item.lastReward.toFormat()}&nbsp;ETH
+                  </TableBodyCell>
+                  <TableBodyCell>
+                    {item.lastSlashing.toFormat()}&nbsp;ETH
+                  </TableBodyCell>
                   <TableBodyCell>
                     <Total
                       total={item.totalStake.toNumber()}
@@ -96,6 +115,9 @@ export const MicropoolList = ({ className, data }: IMicropoolListProps) => {
                         </NavLink>
                       )}
                     </Total>
+                  </TableBodyCell>
+                  <TableBodyCell>
+                    {formatDistanceToNowStrict(item.startTime)}&nbsp;ago
                   </TableBodyCell>
                 </TableRow>
               ))}

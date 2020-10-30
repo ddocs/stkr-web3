@@ -29,12 +29,12 @@ import { IProviderStats } from '../../../../store/apiMappers/providerStatsApi';
 import { alwaysFalse } from '../../../../common/utils/alwaysFalse';
 import { ISidecar } from '../../../../store/apiMappers/sidecarsApi';
 import { useDispatch } from 'react-redux';
-import { CreateNode } from '../CreateNode';
 import { useInterval } from '../../../../common/utils/useInterval';
 import { Milliseconds } from '../../../../common/types';
 import { useAuthentication } from '../../../../common/utils/useAuthentications';
 
-const UPDATE_INTERVAL: Milliseconds = 20000;
+const SHORT_UPDATE_INTERVAL: Milliseconds = 10_000;
+const LONG_UPDATE_INTERVAL: Milliseconds = 60_000;
 
 interface IProviderDashboardStoreProps {
   micropools: IPool[] | null;
@@ -82,7 +82,10 @@ export const ProviderDashboardComponent = ({
   return (
     <section className={classes.component}>
       <Curtains classes={{ root: classes.wrapper }}>
-        <Query<IProviderStats> type={UserActionTypes.FETCH_PROVIDER_STATS}>
+        <Query<IProviderStats>
+          type={UserActionTypes.FETCH_PROVIDER_STATS}
+          showLoaderDuringRefetch={false}
+        >
           {({ data }) => {
             const info = [
               {
@@ -163,8 +166,13 @@ export const ProviderDashboard = () => {
   }, [dispatch, isConnected]);
 
   useInterval(() => {
+    dispatch(UserActions.fetchCurrentProviderMicropools());
     dispatch(UserActions.fetchCurrentProviderSidecars());
-  }, UPDATE_INTERVAL);
+  }, SHORT_UPDATE_INTERVAL);
+
+  useInterval(() => {
+    dispatch(UserActions.fetchProviderStats());
+  }, LONG_UPDATE_INTERVAL);
 
   const render = useCallback(({ data: nodes }: { data: ISidecar[] | null }) => {
     return (
@@ -173,6 +181,7 @@ export const ProviderDashboard = () => {
         loadingComponent={QueryLoadingCentered}
         isDataEmpty={alwaysFalse}
         type={UserActionTypes.FETCH_CURRENT_PROVIDER_MICROPOOLS}
+        showLoaderDuringRefetch={false}
       >
         {({ data: micropools }) => {
           return (
@@ -188,7 +197,6 @@ export const ProviderDashboard = () => {
       type={UserActionTypes.FETCH_CURRENT_PROVIDER_SIDECARS}
       errorComponent={QueryError}
       loadingComponent={QueryLoadingCentered}
-      noDataMessage={<CreateNode />}
       showLoaderDuringRefetch={false}
     >
       {render}

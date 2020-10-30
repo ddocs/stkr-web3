@@ -75,10 +75,14 @@
     "total": "Total Stake"
   },
   "micro-pool-table": {
+    "poolIndex": "Pool Index",
     "name": "Name",
     "status": "Status",
     "fee": "Fee",
+    "lastReward": "Rewarded",
+    "lastSlashing": "Slashed",
     "duration": "Staking duration",
+    "startTime": "Started",
     "total": "ETH in the pool",
     "empty": {
       "title": "Create your first micropool node",
@@ -88,7 +92,7 @@
   },
   "beacon-node-table": {
     "name": "Name",
-    "uptime": "Uptime",
+    "uptime": "Last activity",
     "date": "Creation Date",
     "certificate": "Certificate",
     "status": "Status"
