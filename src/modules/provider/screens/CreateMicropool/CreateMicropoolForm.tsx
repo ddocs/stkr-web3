@@ -1,7 +1,7 @@
 import { Field, FormRenderProps } from 'react-final-form';
 import { t } from '../../../../common/utils/intl';
 import { Button } from '../../../../UiKit/Button';
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useCreateMicropoolStyles } from './CreateMicropoolStyles';
 import {
   Body2,
@@ -12,7 +12,6 @@ import {
 import { InputField } from '../../../../UiKit/InputField';
 import { SubTitle } from '../../../../UiKit/Typography/Typography';
 import { Box } from '@material-ui/core';
-import { useInitEffect } from '../../../../common/hooks/useInitEffect';
 import {
   UserActions,
   UserActionTypes,
@@ -24,7 +23,15 @@ import { QueryLoading } from '../../../../components/QueryLoading/QueryLoading';
 import { QueryEmpty } from '../../../../components/QueryEmpty/QueryEmpty';
 import { useDispatch } from 'react-redux';
 import BigNumber from 'bignumber.js';
-import { MutationErrorHandler } from "../../../../components/MutationErrorHandler/MutationErrorHandler";
+import { MutationErrorHandler } from '../../../../components/MutationErrorHandler/MutationErrorHandler';
+import { useAuthentication } from '../../../../common/utils/useAuthentications';
+
+export enum depositType {
+  ETH = 'ETH',
+  ANKR = 'ANKR',
+}
+
+export const DEPOSIT_TYPE_FIELD_NAME = 'depositType';
 
 interface ICreateMicropoolFormProps {
   ankrBalance?: BigNumber;
@@ -33,13 +40,17 @@ interface ICreateMicropoolFormProps {
 export const CreateMicropoolForm = ({
   handleSubmit,
   ankrBalance,
+  values,
 }: FormRenderProps<any> & ICreateMicropoolFormProps) => {
   const classes = useCreateMicropoolStyles();
   const dispatch = useDispatch();
+  const { isConnected } = useAuthentication();
 
-  useInitEffect(() => {
-    dispatch(UserActions.fetchAllowance());
-  });
+  useEffect(() => {
+    if (isConnected) {
+      dispatch(UserActions.fetchAllowance());
+    }
+  }, [dispatch, isConnected]);
 
   const handleBuy = useCallback(() => {
     // TODO Link for production
@@ -86,7 +97,7 @@ export const CreateMicropoolForm = ({
                     color="secondary"
                   />
                 </li>
-                <li className={classes.item}>
+                <li className={classes.depositItem}>
                   <Headline6
                     className={classes.count}
                     component="span"
@@ -97,62 +108,117 @@ export const CreateMicropoolForm = ({
                   <Headline4 className={classes.caption} component="h4">
                     {t('create-micropool.form.step-2.caption')}
                   </Headline4>
-                  <Body2
-                    className={classes.text}
-                    component="p"
-                    color="secondary"
-                  >
-                    {t('create-micropool.form.step-2.text')}
-                  </Body2>
 
-                  <div className={classes.deposit}>
-                    <Box>
-                      <SubTitle className={classes.depositTitle}>
-                        {t('create-micropool-form.your-balance')}
-                      </SubTitle>
-                      <Box display="flex" alignItems="center">
-                        <Headline4>{ankrBalance?.toFormat()}</Headline4>
-                        {disabled && (
+                  <Field
+                    name={DEPOSIT_TYPE_FIELD_NAME}
+                    render={({ input: { onChange, value } }) => {
+                      const handleChange = (event: any) => {
+                        onChange(event.currentTarget.value);
+                      };
+                      return (
+                        <div className={classes.depositTypeSwitcher}>
                           <Button
-                            className={classes.buy}
                             variant="outlined"
-                            size="small"
-                            color="primary"
-                            onClick={handleBuy}
+                            size="large"
+                            fullWidth={true}
+                            className={classes.depositTypeButton}
+                            value={depositType.ETH}
+                            onClick={handleChange}
+                            color={
+                              value === depositType.ETH
+                                ? 'primary'
+                                : 'secondary'
+                            }
                           >
-                            {t('create-micropool-form.buy')}
+                            {t('create-micropool.form.step-2.deposit-ETH')}
                           </Button>
-                        )}
-                      </Box>
-                    </Box>
-                    <Box>
-                      <SubTitle className={classes.depositTitle}>
-                        {t('create-micropool-form.needed')}
-                      </SubTitle>
-                      <Headline4>{remainingAllowance.toFormat()}</Headline4>
-                    </Box>
-                    <MutationErrorHandler type={UserActionTypes.ALLOW_TOKENS} />
-                    {disabled && (
-                      <Mutation type={UserActionTypes.ALLOW_TOKENS}>
-                        {({ loading }) => {
-                          return (
-                            <Button
-                              size="large"
-                              color="primary"
-                              className={classes.depositButton}
-                              disabled={loading}
-                              onClick={handleAllowTokens}
-                            >
-                              {t('create-micropool-form.deposit', {
-                                value: remainingAllowance.toFormat(),
-                              })}
-                            </Button>
-                          );
-                        }}
-                      </Mutation>
-                    )}
-                  </div>
+                          <Headline6 className={classes.depositDelimiter}>
+                            {t('create-micropool.form.step-2.or')}
+                          </Headline6>
+                          <Button
+                            variant="outlined"
+                            size="large"
+                            fullWidth={true}
+                            className={classes.depositTypeButton}
+                            value={depositType.ANKR}
+                            onClick={handleChange}
+                            color={
+                              value === depositType.ANKR
+                                ? 'primary'
+                                : 'secondary'
+                            }
+                          >
+                            {t('create-micropool.form.step-2.deposit-ANKR')}
+                          </Button>
+                        </div>
+                      );
+                    }}
+                  />
                 </li>
+                {values[DEPOSIT_TYPE_FIELD_NAME] === depositType.ANKR && (
+                  <li className={classes.item}>
+                    <Headline4 className={classes.caption} component="h4">
+                      {t('create-micropool.form.step-3.caption')}
+                    </Headline4>
+                    <Body2
+                      className={classes.text}
+                      component="p"
+                      color="secondary"
+                    >
+                      {t('create-micropool.form.step-3.text')}
+                    </Body2>
+
+                    <div className={classes.deposit}>
+                      <Box>
+                        <SubTitle className={classes.depositTitle}>
+                          {t('create-micropool-form.your-balance')}
+                        </SubTitle>
+                        <Box display="flex" alignItems="center">
+                          <Headline4>{ankrBalance?.toFormat()}</Headline4>
+                          {disabled && (
+                            <Button
+                              className={classes.buy}
+                              variant="outlined"
+                              size="small"
+                              color="primary"
+                              onClick={handleBuy}
+                            >
+                              {t('create-micropool-form.buy')}
+                            </Button>
+                          )}
+                        </Box>
+                      </Box>
+                      <Box>
+                        <SubTitle className={classes.depositTitle}>
+                          {t('create-micropool-form.needed')}
+                        </SubTitle>
+                        <Headline4>{remainingAllowance.toFormat()}</Headline4>
+                      </Box>
+                      <MutationErrorHandler
+                        type={UserActionTypes.ALLOW_TOKENS}
+                      />
+                      {disabled && (
+                        <Mutation type={UserActionTypes.ALLOW_TOKENS}>
+                          {({ loading }) => {
+                            return (
+                              <Button
+                                size="large"
+                                color="primary"
+                                className={classes.depositButton}
+                                disabled={loading}
+                                onClick={handleAllowTokens}
+                              >
+                                {t('create-micropool-form.deposit', {
+                                  value: remainingAllowance.toFormat(),
+                                })}
+                              </Button>
+                            );
+                          }}
+                        </Mutation>
+                      )}
+                    </div>
+                  </li>
+                )}
               </ul>
 
               <Button

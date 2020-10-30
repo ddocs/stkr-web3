@@ -3,7 +3,11 @@ import { useCreateMicropoolStyles } from './CreateMicropoolStyles';
 import classNames from 'classnames';
 import { CancelIcon } from '../../../../UiKit/Icons/CancelIcon';
 import { Form } from 'react-final-form';
-import { CreateMicropoolForm } from './CreateMicropoolForm';
+import {
+  CreateMicropoolForm,
+  DEPOSIT_TYPE_FIELD_NAME,
+  depositType,
+} from './CreateMicropoolForm';
 import {
   UserActions,
   UserActionTypes,
@@ -30,6 +34,10 @@ const MICROPOOL_NAME_MAX_LENGTH = 32;
 interface ICreateMicropoolPayload {
   name: string;
 }
+
+const INIT_VALUES = {
+  [DEPOSIT_TYPE_FIELD_NAME]: depositType.ANKR,
+};
 
 function validateCreateMicropoolForm({ name }: ICreateMicropoolPayload) {
   const errors: FormErrors<ICreateMicropoolPayload> = {};
@@ -71,6 +79,7 @@ export const CreateMicropoolComponent = ({
         )}
         onSubmit={onSubmit}
         validate={validateCreateMicropoolForm}
+        initialValues={INIT_VALUES}
       />
     </div>
   );
