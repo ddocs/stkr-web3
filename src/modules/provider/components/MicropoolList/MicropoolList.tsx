@@ -89,16 +89,18 @@ export const MicropoolList = ({ className, data }: IMicropoolListProps) => {
             <TableBody rowsCount={data.length}>
               {data.map(item => (
                 <TableRow key={uid(item)}>
-                  <TableBodyCell>#{item.poolIndex}</TableBodyCell>
+                  <TableBodyCell>
+                    {t('micropool-list.pool-index', { value: item.poolIndex })}
+                  </TableBodyCell>
                   <TableBodyCell>{item.name}</TableBodyCell>
                   <TableBodyCell>
                     {t(`micropool-list.status.${item.status}`)}
                   </TableBodyCell>
                   <TableBodyCell>
-                    {item.lastReward.toFormat()}&nbsp;ETH
+                    {t('units.eth', { value: item.lastReward.toFormat() })}
                   </TableBodyCell>
                   <TableBodyCell>
-                    {item.lastSlashing.toFormat()}&nbsp;ETH
+                    {t('units.eth', { value: item.lastSlashing.toFormat() })}
                   </TableBodyCell>
                   <TableBodyCell>
                     <Total
@@ -117,7 +119,9 @@ export const MicropoolList = ({ className, data }: IMicropoolListProps) => {
                     </Total>
                   </TableBodyCell>
                   <TableBodyCell>
-                    {formatDistanceToNowStrict(item.startTime)}&nbsp;ago
+                    {t('node-list.ago', {
+                      value: formatDistanceToNowStrict(item.startTime),
+                    })}
                   </TableBodyCell>
                 </TableRow>
               ))}
