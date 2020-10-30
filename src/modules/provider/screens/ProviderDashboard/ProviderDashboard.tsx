@@ -31,6 +31,10 @@ import { alwaysFalse } from '../../../../common/utils/alwaysFalse';
 import { ISidecar } from '../../../../store/apiMappers/sidecarsApi';
 import { useDispatch } from 'react-redux';
 import { CreateNode } from '../CreateNode';
+import { useInterval } from '../../../../common/utils/useInterval';
+import { Milliseconds } from '../../../../common/types';
+
+const UPDATE_INTERVAL: Milliseconds = 20000;
 
 interface IProviderDashboardStoreProps {
   micropools: IPool[] | null;
@@ -155,6 +159,10 @@ export const ProviderDashboard = () => {
     dispatch(UserActions.fetchProviderStats());
   });
 
+  useInterval(() => {
+    dispatch(UserActions.fetchCurrentProviderSidecars());
+  }, UPDATE_INTERVAL);
+
   const render = useCallback(({ data: nodes }: { data: ISidecar[] | null }) => {
     return (
       <Query<IPool[] | null>
@@ -178,6 +186,7 @@ export const ProviderDashboard = () => {
       errorComponent={QueryError}
       loadingComponent={QueryLoadingCentered}
       noDataMessage={<CreateNode />}
+      showLoaderDuringRefetch={false}
     >
       {render}
     </Query>
