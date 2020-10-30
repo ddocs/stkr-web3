@@ -199,7 +199,7 @@ export const Stake = () => {
   const { replace, goBack } = useHistory();
 
   const handleSubmit = ({ amount }: IStakePayload) => {
-    dispatch(UserActions.stake(amount.toString())).then(data => {
+    dispatch(UserActions.stake(amount.toString(10))).then(data => {
       if (data.action.type === success(UserActionTypes.STAKE)) {
         replace(STAKER_DASHBOAR_PATH);
       }
