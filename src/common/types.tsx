@@ -14,3 +14,5 @@ export interface IRequestActionPromiseData<T = any> {
 }
 
 export type Milliseconds = number;
+export type Megabytes = number;
+export type Percentage = number;

@@ -70,7 +70,7 @@ export const ProviderDashboardComponent = ({
   const hasMicropools = micropools && micropools.length > 0;
 
   const hasCreatedNodeStatus = nodes?.some(
-    item => item.status === 'SIDECAR_STATUS_CREATED',
+    item => item.status === 'VALIDATOR_STATUS_FREE',
   );
 
   const hasNodes = nodes && nodes.length > 0;

@@ -234,5 +234,8 @@
       "staked": "Staked",
       "rewards": "Reward"
     }
+  },
+  "node-list": {
+    "syncing": "Syncing {value}%"
   }
 }

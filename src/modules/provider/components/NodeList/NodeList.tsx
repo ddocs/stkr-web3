@@ -16,6 +16,11 @@ import { StkrSdk } from '../../../api';
 import { uid } from 'react-uid';
 import { ISidecar } from '../../../../store/apiMappers/sidecarsApi';
 import { formatDistanceToNowStrict } from 'date-fns';
+import { Query } from '@redux-requests/react';
+import { UserActionTypes } from '../../../../store/actions/UserActions';
+import { ISidecarStatus } from '../../../../store/apiMappers/sidecarStatus';
+import { safeDiv } from '../../../../common/utils/safeDiv';
+import { QueryLoading } from '../../../../components/QueryLoading/QueryLoading';
 
 const useCaptions = (): ITablesCaptionProps[] =>
   useLocaleMemo(
@@ -72,7 +77,29 @@ export const NodeListComponent = ({ className, data }: INodeListProps) => {
               <TableRow key={uid(item)}>
                 <TableBodyCell>{item.id}</TableBodyCell>
                 <TableBodyCell>
-                  {t(`beacon-list.status.${item.status}`)}
+                  <Query<ISidecarStatus | undefined>
+                    loadingComponent={QueryLoading}
+                    loadingComponentProps={{ size: 20 }}
+                    errorComponent={() => (
+                      <>t(`beacon-list.status.${item.status}`)</>
+                    )}
+                    noDataMessage={t(`beacon-list.status.${item.status}`)}
+                    type={UserActionTypes.FETCH_SIDECAR_STATUS}
+                    requestKey={item.id}
+                  >
+                    {({ data }) => {
+                      if (item.status === 'VALIDATOR_STATUS_FREE') {
+                        return t('node-list.syncing', {
+                          value: safeDiv(
+                            data?.chain.currentSlot,
+                            data?.chain.latestSlot,
+                          ).toFixed(0),
+                        });
+                      }
+
+                      return t(`beacon-list.status.${item.status}`);
+                    }}
+                  </Query>
                 </TableBodyCell>
                 <TableBodyCell>
                   {formatDistanceToNowStrict(item.created, { addSuffix: true })}
@@ -107,7 +134,7 @@ export const NodeListComponent = ({ className, data }: INodeListProps) => {
                       height="35"
                       rx="1.5"
                       stroke="white"
-                      stroke-opacity="0.2"
+                      strokeOpacity="0.2"
                     />
                   </svg>
                   &nbsp;
@@ -149,7 +176,7 @@ export const NodeListComponent = ({ className, data }: INodeListProps) => {
                       height="35"
                       rx="1.5"
                       stroke="white"
-                      stroke-opacity="0.2"
+                      strokeOpacity="0.2"
                     />
                   </svg>
                   &nbsp;
@@ -176,7 +203,7 @@ export const NodeListComponent = ({ className, data }: INodeListProps) => {
                       height="35"
                       rx="1.5"
                       stroke="white"
-                      stroke-opacity="0.2"
+                      strokeOpacity="0.2"
                     />
                   </svg>
                 </TableBodyCell>

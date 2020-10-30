@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/interface-name-prefix,@typescript-eslint/no-inferrable-types */
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+import { Megabytes, Milliseconds, Percentage } from '../../common/types';
 
 export interface GatewayConfig {
   baseUrl: string;
@@ -40,6 +41,33 @@ export interface MicroPoolReply {
   created: number;
 }
 
+export interface SidecarStatusReplay {
+  machine: {
+    hostId: string;
+    platform: 'SIDECAR_PLATFORM_DARWIN';
+    arch: 'SIDECAR_ARCH_AMD64';
+    machineUptime: Milliseconds;
+    currentTime: Milliseconds;
+    totalMemory: Megabytes;
+    freeMemory: Megabytes;
+    totalDisk: Megabytes;
+    freeDisk: Megabytes;
+    numberOfCores: number;
+    cpuModel: string;
+    cpuUsage: Percentage[];
+    cpuSpeed: number;
+    hostPlatform: '';
+  };
+  beaconChain: {
+    currentSlot: number;
+    latestSlot: number;
+    currentEpoch: number;
+    latestEpoch: number;
+    peerCount: number;
+    syncing: boolean;
+  };
+}
+
 export type ProviderStatus =
   | 'PROVIDER_STATUS_ACTIVE'
   | 'PROVIDER_STATUS_BANNED';
@@ -52,10 +80,8 @@ export interface ProviderReply {
 }
 
 export type SidecarStatus =
-  | 'SIDECAR_STATUS_CREATED'
-  | 'SIDECAR_STATUS_REGISTERED'
-  | 'SIDECAR_STATUS_ACTIVATED'
-  | 'SIDECAR_STATUS_DELETED';
+  | 'VALIDATOR_STATUS_FREE'
+  | 'VALIDATOR_STATUS_RESERVED';
 
 export interface SidecarReply {
   id: string;
@@ -304,6 +330,16 @@ export class ApiGateway {
     const { data } = await this.api.get<UserStatisticsReply>(
       `/v1alpha/staker/stats/${user}`,
     );
+    return data;
+  }
+
+  public async getSidecarStatus(
+    sidecarId: string,
+  ): Promise<SidecarStatusReplay> {
+    const { data } = await this.api.get<SidecarStatusReplay>(
+      `/v1alpha/sidecar/${sidecarId}/status`,
+    );
+
     return data;
   }
 }

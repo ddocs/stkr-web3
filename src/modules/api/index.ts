@@ -8,6 +8,7 @@ import {
   ProviderReply,
   ProviderStatsReply,
   SidecarReply,
+  SidecarStatusReplay,
   StakerStats,
 } from './gateway';
 import { IStkrConfig } from './config';
@@ -63,6 +64,7 @@ export class StkrSdk {
       chainId: `${config.network.chainId}`,
     });
     await metaMaskProvider.connect();
+
     const contractManage = new ContractManager(metaMaskProvider, {
       ankrContract: config.contracts.ANKR,
       microPoolContract: config.contracts.MicroPool,
@@ -114,6 +116,12 @@ export class StkrSdk {
 
   public async getProviderSidecars(): Promise<SidecarReply[]> {
     return this.apiGateway.getProviderSidecars();
+  }
+
+  public async getSidecarStatus(
+    sidecarId: string,
+  ): Promise<SidecarStatusReplay> {
+    return this.apiGateway.getSidecarStatus(sidecarId);
   }
 
   public async isAuthorized(token?: string): Promise<boolean> {

@@ -1,6 +1,8 @@
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, Theme } from '@material-ui/core/styles';
 
-export const useSpinnerStyles = makeStyles(() => ({
+const DEFAULT_SIZE = 54;
+
+export const useSpinnerStyles = makeStyles<Theme, { size?: number }>(() => ({
   component: {
     animationName: '$spin',
     animationDuration: '1s',
@@ -8,8 +10,8 @@ export const useSpinnerStyles = makeStyles(() => ({
     animationIterationCount: 'infinite',
     animationTimingFunction: 'linear',
     margin: 'auto',
-    width: 54,
-    height: 54,
+    width: ({ size }) => size ?? DEFAULT_SIZE,
+    height: ({ size }) => size ?? DEFAULT_SIZE,
     willChange: 'transform',
   },
   '@keyframes spin': {
