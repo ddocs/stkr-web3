@@ -38,9 +38,6 @@ export const StakerDashboardComponent = () => {
       {
         label: t('staked-dashboard.column.staked'),
       },
-      {
-        label: t('staked-dashboard.column.rewards'),
-      },
     ],
     [],
   );
@@ -96,7 +93,7 @@ export const StakerDashboardComponent = () => {
                   {data && data.stakes.length > 0 && (
                     <BackgroundColorProvider className={classes.history}>
                       <Table
-                        customCell="1fr 1fr 1fr"
+                        customCell="1fr 1fr"
                         columnsCount={captions.length}
                       >
                         <TableHead>
