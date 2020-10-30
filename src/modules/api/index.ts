@@ -169,7 +169,9 @@ export class StkrSdk {
       remainingAllowance = await this.getRemainingAllowance();
     }
     console.log(
-      `going to approve ankt to staking contract ${remainingAllowance.toString()}`,
+      `going to approve ankr to staking contract ${remainingAllowance.toString(
+        10,
+      )}`,
     );
     return await this.getContractManager().approveAnkrToStakingContract(
       remainingAllowance,
@@ -224,7 +226,7 @@ export class StkrSdk {
     } = await this.getContractManager().getSystemContractParameters();
     if (amount.isLessThan(requesterMinimumStaking)) {
       throw new Error(
-        `Minimum staking amount is ${requesterMinimumStaking.toString()}`,
+        `Minimum staking amount is ${requesterMinimumStaking.toString(10)}`,
       );
     }
     const pendingPools = (await this.getApiGateway().getMicroPools()).filter(
@@ -236,7 +238,9 @@ export class StkrSdk {
     /* TODO: "let take first pending pool for the first time" */
     const [pool] = pendingPools;
     console.log(
-      `staking funds ${amount.toString()} in ${pool.poolIndex.toString()} pool`,
+      `staking funds ${amount.toString(10)} in ${pool.poolIndex.toString(
+        10,
+      )} pool`,
     );
     const txHash = await this.getContractManager().stake(
       new BigNumber(pool.poolIndex),
