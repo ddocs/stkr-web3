@@ -137,7 +137,7 @@ export class ContractManager {
 
   public async stake(poolIndex: BigNumber, amount: BigNumber): Promise<string> {
     const data: string = this.microPoolContract.methods
-      .stake(poolIndex)
+      .stake(poolIndex.toString(10))
       .encodeABI();
     const currentAccount = await this.keyProvider.currentAccount();
     const receipt = await this.keyProvider.send(
