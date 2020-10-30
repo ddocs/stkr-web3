@@ -155,17 +155,31 @@ export const CreateMicropoolForm = ({
                     }}
                   />
                 </li>
-                {values[DEPOSIT_TYPE_FIELD_NAME] === depositType.ANKR && (
+                {values[DEPOSIT_TYPE_FIELD_NAME] === depositType.ETH && (
                   <li className={classes.item}>
                     <Headline4 className={classes.caption} component="h4">
-                      {t('create-micropool.form.step-3.caption')}
+                      {t('create-micropool.form.step-3.caption-ETH')}
                     </Headline4>
                     <Body2
                       className={classes.text}
                       component="p"
                       color="secondary"
                     >
-                      {t('create-micropool.form.step-3.text')}
+                      {t('create-micropool.form.step-3.text-ETH')}
+                    </Body2>
+                  </li>
+                )}
+                {values[DEPOSIT_TYPE_FIELD_NAME] === depositType.ANKR && (
+                  <li className={classes.item}>
+                    <Headline4 className={classes.caption} component="h4">
+                      {t('create-micropool.form.step-3.caption-ANKR')}
+                    </Headline4>
+                    <Body2
+                      className={classes.text}
+                      component="p"
+                      color="secondary"
+                    >
+                      {t('create-micropool.form.step-3.text-ANKR')}
                     </Body2>
 
                     <div className={classes.deposit}>
