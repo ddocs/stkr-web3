@@ -1,4 +1,4 @@
-import { put, takeEvery, select } from 'redux-saga/effects';
+import { put, takeEvery, select, delay } from 'redux-saga/effects';
 import { UserActions, UserActionTypes } from '../actions/UserActions';
 import { createErrorAction } from '../../common/utils/createErrorAction';
 import { createSuccessAction } from '../../common/utils/createSuccessAction';
@@ -10,6 +10,8 @@ import { INDEX_PATH, PICKER_PATH } from '../../common/const';
 import { resetRequests } from '@redux-requests/core';
 import { IStoreState } from '../reducers';
 
+const FETCH_ACCOUNT_DATA_DELAY = 15000;
+
 function* onConnect() {
   try {
     const stkrSdk = StkrSdk.getLastInstance();
@@ -19,6 +21,11 @@ function* onConnect() {
     yield put(UserActions.fetchAccountData());
     yield put(closeModalAction());
     yield put(replace(PICKER_PATH));
+    while (true) {
+      // TODO Stop polling on logout or reconnect
+      yield delay(FETCH_ACCOUNT_DATA_DELAY);
+      yield put(UserActions.fetchAccountData());
+    }
   } catch (error) {
     yield put(createErrorAction(UserActionTypes.CONNECT, error));
   }

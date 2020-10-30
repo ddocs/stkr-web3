@@ -23,6 +23,7 @@ const HeaderImp = ({ isAuth, className }: IHeaderProps) => {
       errorComponent={QueryError}
       loadingComponent={QueryLoading}
       noDataMessage={<QueryEmpty />}
+      showLoaderDuringRefetch={false}
     >
       {({ data }) => {
         return (
