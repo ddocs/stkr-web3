@@ -85,7 +85,7 @@ export const NodeListComponent = ({ className, data }: INodeListProps) => {
                     loadingComponent={QueryLoading}
                     loadingComponentProps={{ size: 20 }}
                     errorComponent={() => (
-                      <>t(`beacon-list.status.${item.status}`)</>
+                      <>{t(`beacon-list.status.${item.status}`)}</>
                     )}
                     noDataMessage={t(`beacon-list.status.${item.status}`)}
                     type={UserActionTypes.FETCH_SIDECAR_STATUS}
