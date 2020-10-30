@@ -66,7 +66,7 @@ export const NodeListComponent = ({ className, data }: INodeListProps) => {
   return (
     <div className={classNames(classes.component, className)}>
       <Table
-        customCell="1.1fr 0.6fr 0.5fr 0.7fr 0.7fr"
+        customCell="1.1fr 0.6fr 0.6fr 0.7fr 0.7fr"
         columnsCount={captions.length}
         className={classes.table}
       >
@@ -100,13 +100,28 @@ export const NodeListComponent = ({ className, data }: INodeListProps) => {
                           ).toFixed(0),
                         });
                       }
-
                       return t(`beacon-list.status.${item.status}`);
                     }}
                   </Query>
                 </TableBodyCell>
                 <TableBodyCell>
-                  {formatDistanceToNowStrict(item.created, { addSuffix: true })}
+                  <Query<ISidecarStatus | undefined>
+                    loadingComponent={QueryLoading}
+                    loadingComponentProps={{ size: 20 }}
+                    errorComponent={() => (
+                      <>{t(`beacon-list.status.${item.status}`)}</>
+                    )}
+                    noDataMessage={t(`beacon-list.status.${item.status}`)}
+                    type={UserActionTypes.FETCH_SIDECAR_STATUS}
+                    requestKey={item.id}
+                  >
+                    {({ data }) => {
+                      return formatDistanceToNowStrict(
+                        data?.machine?.currentTime || new Date(),
+                        { addSuffix: true },
+                      );
+                    }}
+                  </Query>
                 </TableBodyCell>
                 <TableBodyCell>
                   {t('format.date', { value: item.created })}

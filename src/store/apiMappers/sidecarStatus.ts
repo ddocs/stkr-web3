@@ -37,7 +37,7 @@ export function mapNodeStatus(payload: SidecarStatusReply): ISidecarStatus {
     machine: {
       ...payload.machine,
       machineUptime: new Date(payload.machine.machineUptime),
-      currentTime: new Date(payload.machine.currentTime),
+      currentTime: new Date(payload.machine.currentTime * 1000),
     },
     chain: payload.beaconChain,
   };

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/interface-name-prefix,@typescript-eslint/no-inferrable-types */
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
-import { Megabytes, Milliseconds, Percentage } from '../../common/types';
+import { Megabytes, Percentage, Seconds } from '../../common/types';
 
 export interface GatewayConfig {
   baseUrl: string;
@@ -46,8 +46,8 @@ export interface SidecarStatusReply {
     hostId: string;
     platform: 'SIDECAR_PLATFORM_DARWIN';
     arch: 'SIDECAR_ARCH_AMD64';
-    machineUptime: Milliseconds;
-    currentTime: Milliseconds;
+    machineUptime: Seconds;
+    currentTime: Seconds;
     totalMemory: Megabytes;
     freeMemory: Megabytes;
     totalDisk: Megabytes;

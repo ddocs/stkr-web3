@@ -102,6 +102,10 @@ export const UserActions = {
           provider: item.provider,
           period: differenceInCalendarMonths(item.startTime, item.endTime),
           fee: new BigNumber('0'),
+          lastReward: new BigNumber(item.lastReward),
+          lastSlashing: new BigNumber(item.lastSlashing),
+          startTime: new Date(item.startTime * 1000),
+          endTime: new Date(item.endTime * 1000),
           currentStake: new BigNumber(
             item.status === 'MICRO_POOL_STATUS_ONGOING' ? '32' : item.balance,
           ),
@@ -141,6 +145,10 @@ export const UserActions = {
           provider: item.provider,
           period: differenceInCalendarMonths(item.startTime, item.endTime),
           fee: new BigNumber(0),
+          lastReward: new BigNumber(item.lastReward),
+          lastSlashing: new BigNumber(item.lastSlashing),
+          startTime: new Date(item.startTime * 1000),
+          endTime: new Date(item.endTime * 1000),
           currentStake: new BigNumber(
             item.status === 'MICRO_POOL_STATUS_ONGOING' ? '32' : item.balance,
           ),
@@ -169,12 +177,9 @@ export const UserActions = {
         action: RequestAction,
         store: Store<IStoreState>,
       ) => {
-        request.data.map(item => item.id);
-
         request.data.forEach(item => {
           store.dispatch(UserActions.fetchSidecarStatus(item.id));
         });
-
         return request;
       },
       getData: (data: SidecarReply[]): ISidecar[] => {
