@@ -6,7 +6,13 @@ export interface IPool {
   provider: string;
   period: number;
   fee: BigNumber;
+  lastReward: BigNumber;
+  lastSlashing: BigNumber;
+  startTime: Date;
+  endTime: Date;
   currentStake: BigNumber;
   totalStake: BigNumber;
   status: MicroPoolStatus;
+  transactionHash: string;
+  poolIndex: number;
 }

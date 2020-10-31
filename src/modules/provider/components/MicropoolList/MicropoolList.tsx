@@ -16,7 +16,9 @@ import { EmptyList } from '../EmptyList';
 import { uid } from 'react-uid';
 import { IPool } from '../../../../store/apiMappers/poolsApi';
 import { Total } from '../../../../components/Total';
-import { Button } from '../../../../UiKit/Button';
+import { NavLink } from '../../../../UiKit/NavLink';
+import { walletConversion } from '../../../../common/utils/convertWallet';
+import { formatDistanceToNowStrict } from 'date-fns';
 
 interface IMicropoolListProps {
   className?: string;
@@ -28,6 +30,10 @@ const useCaptions = (): ITablesCaptionProps[] =>
   useLocaleMemo(
     () => [
       {
+        key: 'poolIndex',
+        label: '',
+      },
+      {
         key: 'name',
         label: t('micro-pool-table.name'),
       },
@@ -36,8 +42,16 @@ const useCaptions = (): ITablesCaptionProps[] =>
         label: t('micro-pool-table.status'),
       },
       {
-        key: 'fee',
-        label: t('micro-pool-table.fee'),
+        key: 'lastReward',
+        label: t('micro-pool-table.lastReward'),
+      },
+      {
+        key: 'lastSlashing',
+        label: t('micro-pool-table.lastSlashing'),
+      },
+      {
+        key: 'startTime',
+        label: t('micro-pool-table.startTime'),
       },
       {
         key: 'total',
@@ -60,7 +74,7 @@ export const MicropoolList = ({ className, data }: IMicropoolListProps) => {
         <Table
           columnsCount={captions.length}
           className={classes.table}
-          customCell="1fr 1fr 1fr 1.5fr"
+          customCell="0.5fr 0.9fr 0.9fr 0.7fr 0.7fr 0.7fr 2fr"
         >
           <TableHead>
             {captions.map(cell => (
@@ -75,24 +89,38 @@ export const MicropoolList = ({ className, data }: IMicropoolListProps) => {
             <TableBody rowsCount={data.length}>
               {data.map(item => (
                 <TableRow key={uid(item)}>
+                  <TableBodyCell>
+                    {t('micropool-list.pool-index', { value: item.poolIndex })}
+                  </TableBodyCell>
                   <TableBodyCell>{item.name}</TableBodyCell>
                   <TableBodyCell>
                     {t(`micropool-list.status.${item.status}`)}
                   </TableBodyCell>
-                  <TableBodyCell>{item.fee.toFormat()}</TableBodyCell>
+                  <TableBodyCell>
+                    {t('units.eth', { value: item.lastReward.toFormat() })}
+                  </TableBodyCell>
+                  <TableBodyCell>
+                    {t('units.eth', { value: item.lastSlashing.toFormat() })}
+                  </TableBodyCell>
+                  <TableBodyCell>
+                    {t('node-list.ago', {
+                      value: formatDistanceToNowStrict(item.startTime),
+                    })}
+                  </TableBodyCell>
                   <TableBodyCell>
                     <Total
                       total={item.totalStake.toNumber()}
                       reward={item.currentStake.toNumber()}
                     >
-                      <Button
-                        variant="text"
-                        size="medium"
-                        color="secondary"
-                        onClick={() => alert()}
-                      >
-                        {t('navigation.edit')}
-                      </Button>
+                      {item.transactionHash && (
+                        <NavLink
+                          href={t('micropool-list.transaction', {
+                            value: item.transactionHash,
+                          })}
+                        >
+                          {walletConversion(item.transactionHash)}
+                        </NavLink>
+                      )}
                     </Total>
                   </TableBodyCell>
                 </TableRow>

@@ -1,8 +1,13 @@
 import * as React from 'react';
 import { Spinner } from '../Spinner';
+import { LoadingProps } from '@redux-requests/react';
 
-export const QueryLoading = () => {
-  return <Spinner />;
+interface IQueryLoadingProps extends LoadingProps {
+  size?: number;
+}
+
+export const QueryLoading = ({ size }: IQueryLoadingProps) => {
+  return <Spinner size={size} />;
 };
 
 export const QueryLoadingCentered = () => {

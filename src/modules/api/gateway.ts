@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/interface-name-prefix,@typescript-eslint/no-inferrable-types */
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+import { Megabytes, Percentage, Seconds } from '../../common/types';
 
 export interface GatewayConfig {
   baseUrl: string;
@@ -27,6 +28,7 @@ export type MicroPoolStatus =
 export interface MicroPoolReply {
   id: string;
   status: MicroPoolStatus;
+  transactionHash: string;
   provider: string;
   poolIndex: number;
   name: string;
@@ -37,6 +39,33 @@ export interface MicroPoolReply {
   balance: string;
   validator: string;
   created: number;
+}
+
+export interface SidecarStatusReply {
+  machine: {
+    hostId: string;
+    platform: 'SIDECAR_PLATFORM_DARWIN';
+    arch: 'SIDECAR_ARCH_AMD64';
+    machineUptime: Seconds;
+    currentTime: Seconds;
+    totalMemory: Megabytes;
+    freeMemory: Megabytes;
+    totalDisk: Megabytes;
+    freeDisk: Megabytes;
+    numberOfCores: number;
+    cpuModel: string;
+    cpuUsage: Percentage[];
+    cpuSpeed: number;
+    hostPlatform: '';
+  };
+  beaconChain: {
+    currentSlot: number;
+    latestSlot: number;
+    currentEpoch: number;
+    latestEpoch: number;
+    peerCount: number;
+    syncing: boolean;
+  };
 }
 
 export type ProviderStatus =
@@ -51,10 +80,8 @@ export interface ProviderReply {
 }
 
 export type SidecarStatus =
-  | 'SIDECAR_STATUS_CREATED'
-  | 'SIDECAR_STATUS_REGISTERED'
-  | 'SIDECAR_STATUS_ACTIVATED'
-  | 'SIDECAR_STATUS_DELETED';
+  | 'VALIDATOR_STATUS_FREE'
+  | 'VALIDATOR_STATUS_RESERVED';
 
 export interface SidecarReply {
   id: string;
@@ -96,6 +123,23 @@ export interface StakerStats {
   stats: UserStatisticsReply;
 }
 
+export interface ConfigReply {
+  contracts: {
+    SystemParameters: string;
+    DepositContract: string;
+    MicroPool: string;
+    MarketPlace: string;
+    AETH: string;
+    ANKR: string;
+    Migrations: string;
+    Staking: string;
+  };
+  network: {
+    networkId: number;
+    chainId: number;
+  };
+}
+
 export class ApiGateway {
   private readonly defaultConfig: AxiosRequestConfig;
   private api: AxiosInstance;
@@ -115,9 +159,14 @@ export class ApiGateway {
     this.token = null;
   }
 
-  public createSidecarDownloadLink(sidecar: string): string {
+  public async downloadConfigFile(configFile: string): Promise<ConfigReply> {
+    const { data } = await this.api.get<ConfigReply>(`/${configFile}`);
+    return data;
+  }
+
+  public createSidecarDownloadLink(sidecar: string, platform: string): string {
     return `${this.defaultConfig.baseURL}${this.api.getUri({
-      url: `/v1alpha/sidecar/download/${sidecar}`,
+      url: `/v1alpha/sidecar/${sidecar}/download/${platform}`,
     })}?token=${this.token}`;
   }
 
@@ -143,12 +192,15 @@ export class ApiGateway {
     return Object.assign({}, data, { status, statusText });
   }
 
-  public isAuthorized(): boolean {
+  public isAuthorized(currentAddress: string): boolean {
     if (!this.authorized || !this.token) return false;
     const parsedToken = this.parseToken();
     if (!parsedToken) return false;
-    const { expires } = parsedToken,
+    const { expires, address } = parsedToken,
       currentTime = new Date().getTime();
+    if (currentAddress.toLowerCase() !== address.toLowerCase()) {
+      return false;
+    }
     return currentTime < expires;
   }
 
@@ -281,6 +333,16 @@ export class ApiGateway {
     const { data } = await this.api.get<UserStatisticsReply>(
       `/v1alpha/staker/stats/${user}`,
     );
+    return data;
+  }
+
+  public async getSidecarStatus(
+    sidecarId: string,
+  ): Promise<SidecarStatusReply> {
+    const { data } = await this.api.get<SidecarStatusReply>(
+      `/v1alpha/sidecar/${sidecarId}/status`,
+    );
+
     return data;
   }
 }

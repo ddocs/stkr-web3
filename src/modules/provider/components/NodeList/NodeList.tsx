@@ -12,11 +12,19 @@ import {
 } from '../../../../components/TableComponents';
 import { useLocaleMemo } from '../../../../common/hooks/useLocaleMemo';
 import { t } from '../../../../common/utils/intl';
-import { Button } from '../../../../UiKit/Button';
 import { StkrSdk } from '../../../api';
 import { uid } from 'react-uid';
 import { ISidecar } from '../../../../store/apiMappers/sidecarsApi';
 import { formatDistanceToNowStrict } from 'date-fns';
+import { Query } from '@redux-requests/react';
+import { UserActionTypes } from '../../../../store/actions/UserActions';
+import { ISidecarStatus } from '../../../../store/apiMappers/sidecarStatus';
+import { safeDiv } from '../../../../common/utils/safeDiv';
+import { QueryLoading } from '../../../../components/QueryLoading/QueryLoading';
+import { IconButton } from '@material-ui/core';
+import { ReactComponent as WindowsIcon } from './assets/windows.svg';
+import { ReactComponent as LinuxIcon } from './assets/linux.svg';
+import { ReactComponent as MacIcon } from './assets/mac.svg';
 
 const useCaptions = (): ITablesCaptionProps[] =>
   useLocaleMemo(
@@ -58,7 +66,7 @@ export const NodeListComponent = ({ className, data }: INodeListProps) => {
   return (
     <div className={classNames(classes.component, className)}>
       <Table
-        customCell="1fr 1fr 1fr 1fr 0.7fr"
+        customCell="1.1fr 0.6fr 0.6fr 0.7fr 0.7fr"
         columnsCount={captions.length}
         className={classes.table}
       >
@@ -73,25 +81,85 @@ export const NodeListComponent = ({ className, data }: INodeListProps) => {
               <TableRow key={uid(item)}>
                 <TableBodyCell>{item.id}</TableBodyCell>
                 <TableBodyCell>
-                  {t(`beacon-list.status.${item.status}`)}
+                  <Query<ISidecarStatus | undefined>
+                    loadingComponent={QueryLoading}
+                    loadingComponentProps={{ size: 20 }}
+                    errorComponent={() => (
+                      <>{t(`beacon-list.status.${item.status}`)}</>
+                    )}
+                    noDataMessage={t(`beacon-list.status.${item.status}`)}
+                    type={UserActionTypes.FETCH_SIDECAR_STATUS}
+                    requestKey={item.id}
+                  >
+                    {({ data }) => {
+                      if (item.status === 'VALIDATOR_STATUS_FREE') {
+                        return t('node-list.syncing', {
+                          value: safeDiv(
+                            data?.chain.currentSlot,
+                            data?.chain.latestSlot,
+                          ).toFixed(0),
+                        });
+                      }
+                      return t(`beacon-list.status.${item.status}`);
+                    }}
+                  </Query>
                 </TableBodyCell>
                 <TableBodyCell>
-                  {formatDistanceToNowStrict(item.created, { addSuffix: true })}
+                  <Query<ISidecarStatus | undefined>
+                    loadingComponent={QueryLoading}
+                    loadingComponentProps={{ size: 20 }}
+                    errorComponent={() => <>{t(`beacon-list.not-launched`)}</>}
+                    noDataMessage={t(`beacon-list.not-launched`)}
+                    type={UserActionTypes.FETCH_SIDECAR_STATUS}
+                    requestKey={item.id}
+                  >
+                    {({ data }) => {
+                      return formatDistanceToNowStrict(
+                        data?.machine?.currentTime || new Date(),
+                        { addSuffix: true },
+                      );
+                    }}
+                  </Query>
                 </TableBodyCell>
                 <TableBodyCell>
                   {t('format.date', { value: item.created })}
                 </TableBodyCell>
                 <TableBodyCell>
-                  <Button
-                    onClick={() => {
-                      const downloadLink = StkrSdk.getLastInstance().createSidecarDownloadLink(
-                        item.id,
-                      );
-                      window.open(downloadLink, '_blank');
-                    }}
+                  <IconButton
+                    component="a"
+                    className={classes.icon}
+                    href={StkrSdk.getLastInstance().createSidecarDownloadLink(
+                      item.id,
+                      'windows64',
+                    )}
+                    target="_blank"
                   >
-                    {t('navigation.download')}
-                  </Button>
+                    <WindowsIcon />
+                  </IconButton>
+
+                  <IconButton
+                    component="a"
+                    className={classes.icon}
+                    href={StkrSdk.getLastInstance().createSidecarDownloadLink(
+                      item.id,
+                      'linux64',
+                    )}
+                    target="_blank"
+                  >
+                    <LinuxIcon />
+                  </IconButton>
+
+                  <IconButton
+                    component="a"
+                    className={classes.icon}
+                    href={StkrSdk.getLastInstance().createSidecarDownloadLink(
+                      item.id,
+                      'darwin64',
+                    )}
+                    target="_blank"
+                  >
+                    <MacIcon />
+                  </IconButton>
                 </TableBodyCell>
               </TableRow>
             ))}

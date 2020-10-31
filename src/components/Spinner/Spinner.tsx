@@ -5,10 +5,11 @@ import classNames from 'classnames';
 
 interface ISpinnerProps {
   centered?: boolean;
+  size?: number;
 }
 
-export const Spinner = ({ centered = false }: ISpinnerProps) => {
-  const classes = useSpinnerStyles();
+export const Spinner = ({ centered = false, size }: ISpinnerProps) => {
+  const classes = useSpinnerStyles({ size });
 
   return (
     <SpinnerIcon

@@ -2,7 +2,11 @@ import { IUserInfo } from '../apiMappers/userApi';
 import { Providers } from '../../common/types';
 import { StkrSdk } from '../../modules/api';
 import BigNumber from 'bignumber.js';
-import { MicroPoolReply, SidecarReply } from '../../modules/api/gateway';
+import {
+  MicroPoolReply,
+  SidecarReply,
+  SidecarStatusReply,
+} from '../../modules/api/gateway';
 import { IPool } from '../apiMappers/poolsApi';
 import { differenceInCalendarMonths } from 'date-fns';
 import { ISidecar, mapSidecar } from '../apiMappers/sidecarsApi';
@@ -10,6 +14,10 @@ import { mapProviderStats } from '../apiMappers/providerStatsApi';
 import { IAllowance, IAllowTokensResponse } from '../apiMappers/allowance';
 import { mapStakerStats } from '../apiMappers/stakerStatsApi';
 import { authenticatedGuard } from '../../common/utils/authenticatedGuard';
+import { RequestAction } from '@redux-requests/core';
+import { Store } from 'redux';
+import { IStoreState } from '../reducers';
+import { ISidecarStatus, mapNodeStatus } from '../apiMappers/sidecarStatus';
 
 export const UserActionTypes = {
   CONNECT: 'CONNECT',
@@ -23,7 +31,9 @@ export const UserActionTypes = {
 
   FETCH_CURRENT_PROVIDER_MICROPOOLS: 'FETCH_CURRENT_PROVIDER_MICROPOOLS',
 
-  FETCH_CURRENT_PROVIDER_SIDECARS: 'FETCH_SIDECARS',
+  FETCH_CURRENT_PROVIDER_SIDECARS: 'FETCH_CURRENT_PROVIDER_SIDECARS',
+
+  FETCH_SIDECAR_STATUS: 'FETCH_SIDECAR_STATUS',
 
   AUTHORIZE_PROVIDER: 'AUTHORIZE_PROVIDER',
 
@@ -36,6 +46,8 @@ export const UserActionTypes = {
   FETCH_ALLOWANCE: 'FETCH_ALLOWANCE',
 
   ALLOW_TOKENS: 'ALLOW_TOKENS',
+
+  ALLOW_ETH_TOKENS: 'ALLOW_ETH_TOKENS',
 
   BUY_TOKENS: 'BUY_TOKENS',
 
@@ -92,9 +104,17 @@ export const UserActions = {
           provider: item.provider,
           period: differenceInCalendarMonths(item.startTime, item.endTime),
           fee: new BigNumber('0'),
-          currentStake: new BigNumber(item.balance),
+          lastReward: new BigNumber(item.lastReward),
+          lastSlashing: new BigNumber(item.lastSlashing),
+          startTime: new Date(item.startTime * 1000),
+          endTime: new Date(item.endTime * 1000),
+          currentStake: new BigNumber(
+            item.status === 'MICRO_POOL_STATUS_ONGOING' ? '32' : item.balance,
+          ),
           totalStake: new BigNumber('32'),
           status: item.status,
+          transactionHash: item.transactionHash,
+          poolIndex: item.poolIndex,
         })),
     },
   }),
@@ -127,9 +147,17 @@ export const UserActions = {
           provider: item.provider,
           period: differenceInCalendarMonths(item.startTime, item.endTime),
           fee: new BigNumber(0),
-          currentStake: new BigNumber(item.balance),
+          lastReward: new BigNumber(item.lastReward),
+          lastSlashing: new BigNumber(item.lastSlashing),
+          startTime: new Date(item.startTime * 1000),
+          endTime: new Date(item.endTime * 1000),
+          currentStake: new BigNumber(
+            item.status === 'MICRO_POOL_STATUS_ONGOING' ? '32' : item.balance,
+          ),
           totalStake: new BigNumber(32),
           status: item.status,
+          transactionHash: item.transactionHash,
+          poolIndex: item.poolIndex,
         }));
       },
     },
@@ -139,14 +167,42 @@ export const UserActions = {
     request: {
       promise: async function () {
         const stkrSdk = StkrSdk.getLastInstance();
-        return stkrSdk?.getProviderSidecars();
+        const data: SidecarReply[] = await stkrSdk?.getProviderSidecars();
+
+        return data;
       },
     },
     meta: {
       onRequest: authenticatedGuard,
+      onSuccess: (
+        request: { data: ISidecar[] },
+        action: RequestAction,
+        store: Store<IStoreState>,
+      ) => {
+        request.data.forEach(item => {
+          store.dispatch(UserActions.fetchSidecarStatus(item.id));
+        });
+        return request;
+      },
       getData: (data: SidecarReply[]): ISidecar[] => {
         return data.map(mapSidecar);
       },
+    },
+  }),
+  fetchSidecarStatus: (id: string) => ({
+    type: UserActionTypes.FETCH_SIDECAR_STATUS,
+    request: {
+      promise: async function () {
+        const stkrSdk = StkrSdk.getLastInstance();
+        return await stkrSdk.getSidecarStatus(id);
+      },
+    },
+    meta: {
+      onRequest: authenticatedGuard,
+      getData: (data: SidecarStatusReply): ISidecarStatus => {
+        return mapNodeStatus(data);
+      },
+      requestKey: id,
     },
   }),
   createSidecar: () => ({
@@ -177,7 +233,7 @@ export const UserActions = {
         const stkrSdk = StkrSdk.getLastInstance();
         // TODO Remove log
         try {
-          return await stkrSdk.createMicroPool(name);
+          return await stkrSdk.createAnkrMicroPool(name);
         } catch (e) {
           console.error(e);
           throw e;
@@ -224,6 +280,18 @@ export const UserActions = {
           console.error(e);
           throw e;
         }
+      })(),
+    },
+    meta: {
+      asMutation: true,
+    },
+  }),
+  allowEthTokens: ({ name, amount }: { name: string; amount: BigNumber }) => ({
+    type: UserActionTypes.ALLOW_ETH_TOKENS,
+    request: {
+      promise: (async function () {
+        const stkrSdk = StkrSdk.getLastInstance();
+        return await stkrSdk.createEthereumMicroPool(name, amount);
       })(),
     },
     meta: {

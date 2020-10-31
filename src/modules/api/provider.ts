@@ -91,7 +91,7 @@ export abstract class KeyProvider {
     const balance = await this.getWeb3().eth.getBalance(address);
     return new BigNumber(`${balance}`)
       .dividedBy(new BigNumber(10).pow(18))
-      .toString();
+      .toString(10);
   }
 
   public async erc20Balance(
@@ -103,7 +103,7 @@ export abstract class KeyProvider {
     if (!Number(decimals)) decimals = 18;
     return new BigNumber(`${balance}`)
       .dividedBy(new BigNumber(10).pow(decimals))
-      .toString();
+      .toString(10);
   }
 
   public async latestBlockHeight(): Promise<number> {
