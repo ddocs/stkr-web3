@@ -8,7 +8,6 @@ import { connect } from 'react-redux';
 import { IStoreState } from '../../../../store/reducers';
 import { isConnected } from '../../../../store/reducers/userReducer';
 import { uid } from 'react-uid';
-import { Body2 } from '../../../../UiKit/Typography';
 import { Social } from '../Social';
 import { SOCIAL_LINK } from '../../../../common/const';
 
@@ -39,9 +38,9 @@ export const FooterComponent = ({ className, isAuth }: IFooterProps) => {
   return !isAuth ? (
     <footer className={classNames(classes.component, className)}>
       <Curtains classes={{ root: classes.wrapper }}>
-        <Body2 className={classes.copyright} component="p" color="secondary">
+        <p className={classes.copyright}>
           {tHTML('navigation.copyright', { year: year })}
-        </Body2>
+        </p>
         <ul className={classes.list}>
           {LINKS.map(link => (
             <li className={classes.item} key={uid(link)}>

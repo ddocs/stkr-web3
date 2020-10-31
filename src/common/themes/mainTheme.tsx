@@ -15,6 +15,7 @@ const PALETTE = {
   },
   background: {
     paper: '#1D1D1D',
+    default: '#0F0F0F',
   },
   text: {
     primary: '#ffffff',
@@ -47,7 +48,7 @@ const BREAKPOINTS = {
   },
 };
 
-const MAX_WIDTH = 1620;
+export const MAX_WIDTH = 1620;
 
 export const defaultTheme = createMuiTheme({
   breakpoints: BREAKPOINTS,
@@ -145,12 +146,12 @@ const mainTheme = createMuiTheme({
       root: {
         '&&': {
           maxWidth: MAX_WIDTH,
-          padding: defaultTheme.spacing(0, 12),
+          padding: defaultTheme.spacing(0, 15),
 
           boxSizing: 'border-box',
 
           [defaultTheme.breakpoints.down('lg')]: {
-            padding: defaultTheme.spacing(0, 8),
+            padding: defaultTheme.spacing(0, 10),
           },
 
           [defaultTheme.breakpoints.down('md')]: {
@@ -411,7 +412,6 @@ const mainTheme = createMuiTheme({
         fontSize: 48,
         fontWeight: 700,
         lineHeight: 1.2,
-
         [defaultTheme.breakpoints.down('sm')]: {
           fontSize: 38,
         },
@@ -463,6 +463,9 @@ const mainTheme = createMuiTheme({
         fontSize: 18,
         fontWeight: 400,
         lineHeight: 1.5,
+        [defaultTheme.breakpoints.down('md')]: {
+          fontSize: 16,
+        },
       },
 
       body2: {

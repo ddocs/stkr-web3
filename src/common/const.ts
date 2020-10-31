@@ -14,6 +14,8 @@ export const PICKER_PATH = '/picker';
 export const SOCIAL_LINK = {
   twitter: 'twitter',
   facebook: 'facebook',
+  telegram: 'telegram',
+  chat: 'chat',
   whitepaperEn: 'https://assets.ankr.com/files/stkr_whitepaper.pdf',
   whitepaperCh: 'https://assets.ankr.com/files/stkr_whitepaper_cn.pdf',
 };

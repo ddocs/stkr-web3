@@ -1,35 +1,47 @@
-import React, { useState } from 'react';
+import React, { SVGAttributes } from 'react';
 import classNames from 'classnames';
 import { useMarketingStyles } from './MarketingStyles';
-import { uid } from 'react-uid';
-import { Success } from '../Success';
-import { Subscribe } from '../Subscribe';
-import { defineFlow } from '../../../../components/Flow/definition';
-import { BackgroundColorProvider } from '../../../../UiKit/BackgroundColorProvider';
-import { Flow } from '../../../../components/Flow';
 import { Curtains } from '../../../../UiKit/Curtains';
+import { Headline2, Headline5 } from '../../../../UiKit/Typography';
+import { t, tHTML } from '../../../../common/utils/intl';
+import { NavLink } from '../../../../UiKit/NavLink';
+import { BackgroundColorProvider } from '../../../../UiKit/BackgroundColorProvider';
 
 interface IMarketingProps {
   className?: string;
 }
 
-const STEPS = defineFlow(Subscribe, Success);
+const Arrow = (props: SVGAttributes<SVGElement>) => {
+  return (
+    <svg width={58} height={58} viewBox="0 0 58 58" fill="none" {...props}>
+      <circle cx={29} cy={29} r={29} fill="currentColor" />
+      <path
+        stroke="#FFE819"
+        strokeWidth={3}
+        d="M19 28.382h20M30.765 20.765L39 29l-8.235 8.235"
+      />
+    </svg>
+  );
+};
 
 export const Marketing = ({ className }: IMarketingProps) => {
   const classes = useMarketingStyles();
 
-  const [steps] = useState(STEPS);
-
   return (
     <section className={classNames(classes.component, className)}>
       <Curtains classes={{ root: classes.wrapper }}>
-        <BackgroundColorProvider
-          component="div"
-          classes={{ root: classes.content }}
-        >
-          <Flow key={uid(steps)} steps={steps} onComplete={() => null}>
-            {body => body}
-          </Flow>
+        <BackgroundColorProvider component="div" className={classes.content}>
+          <Headline2 className={classes.title} component="h2">
+            {t('about.marketing-title')}
+          </Headline2>
+          <p className={classes.text}>
+            <Headline5 component="span">
+              {tHTML('about.marketing-text')}
+            </Headline5>
+            <NavLink className={classes.link} href="">
+              <Arrow />
+            </NavLink>
+          </p>
         </BackgroundColorProvider>
       </Curtains>
     </section>

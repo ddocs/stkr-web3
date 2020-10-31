@@ -7,7 +7,7 @@ const PALETTE = {
   type: 'dark',
   primary: {
     light: '',
-    main: '#0F0F0F',
+    main: '#000000',
     dark: '#0F0F0F',
     contrastText: '#FFE819',
   },
@@ -15,7 +15,7 @@ const PALETTE = {
     paper: '#FFE819',
   },
   text: {
-    primary: '#0F0F0F',
+    primary: '#000000',
     secondary: fade('#ffffff', 0.5),
   },
   grey: {

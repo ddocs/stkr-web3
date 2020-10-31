@@ -14,8 +14,15 @@ export const useHeaderStyles = makeStyles<Theme>(theme => ({
       display: 'grid',
       gridTemplateColumns: 'auto 180px',
       justifyContent: 'space-between',
+      padding: theme.spacing(0, 8.5),
+      [theme.breakpoints.down('lg')]: {
+        padding: theme.spacing(0, 5),
+      },
       [theme.breakpoints.down('sm')]: {
         gridTemplateColumns: 'auto 134px',
+      },
+      [theme.breakpoints.down('xs')]: {
+        padding: theme.spacing(0, 3),
       },
     },
   },

@@ -1,15 +1,15 @@
 import * as React from 'react';
 import { usePoolStyles } from './PoolStyles';
-import { Curtains } from '../../../../UiKit/Curtains';
+import { Curtains } from '../../UiKit/Curtains';
 import classNames from 'classnames';
-import { t } from '../../../../common/utils/intl';
+import { t } from '../../common/utils/intl';
 import { PoolTable } from '../PoolTable';
-import { Button } from '../../../../UiKit/Button';
-import { Headline1 } from '../../../../UiKit/Typography';
-import { useAction } from '../../../../store/redux';
-import { openUnlockWalletAction } from '../../../../store/modals/actions';
+import { Button } from '../../UiKit/Button';
+import { Headline1 } from '../../UiKit/Typography';
+import { useAction } from '../../store/redux';
+import { openUnlockWalletAction } from '../../store/modals/actions';
 import { useQuery } from '@redux-requests/react';
-import { UserActionTypes } from '../../../../store/actions/UserActions';
+import { UserActionTypes } from '../../store/actions/UserActions';
 
 interface IPoolProps {
   className?: string;

@@ -5,7 +5,7 @@ import {
   Body2,
   Headline2,
   Headline3,
-  Headline6,
+  Headline5,
 } from '../../../../UiKit/Typography';
 import { t } from '../../../../common/utils/intl';
 import {
@@ -125,9 +125,9 @@ export const StakeComponent = ({
                 </IconButton>
               </Tooltip>
             </Typography>
-            <Headline6>
+            <Headline5>
               {t('units.~months', { value: INTEREST_PERIOD })}
-            </Headline6>
+            </Headline5>
           </Box>
           <Box
             display="flex"

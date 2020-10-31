@@ -3,145 +3,133 @@ import { makeStyles } from '@material-ui/core/styles';
 
 export const useCalculateStyles = makeStyles<Theme>(theme => ({
   component: {},
-  title: {
-    margin: 0,
-    '& span span': {
-      color: theme.palette.primary.main,
-    },
-  },
-  curtains: {
+  wrapper: {
     '&&': {
-      maxWidth: 1048,
+      padding: theme.spacing(0, 8.5),
+      [theme.breakpoints.down('lg')]: {
+        padding: theme.spacing(0, 5),
+      },
+      [theme.breakpoints.down('md')]: {
+        padding: 0,
+      },
     },
   },
-
-  form: {
-    marginTop: theme.spacing(9),
-    padding: theme.spacing(12, 13, 8.5, 13),
-    boxSizing: 'border-box',
-
-    [theme.breakpoints.down('md')]: {
-      padding: theme.spacing(12, 6.5, 8.5, 6.5),
-    },
-
-    [theme.breakpoints.down('sm')]: {
-      padding: theme.spacing(4),
-    },
-
-    [theme.breakpoints.down('xs')]: {
-      marginTop: theme.spacing(5),
-    },
-  },
-
-  label: {
+  content: {
     display: 'grid',
-    gridTemplateColumns: '1fr auto',
-    gridTemplateRows: 'auto auto',
-    gridTemplateAreas: '"label ethPrice" "usdPrice usdPrice"',
+    gridTemplateColumns: 'repeat(9, 1fr)',
+    padding: theme.spacing(15, 6.5, 12.5),
+    [theme.breakpoints.down('lg')]: {
+      padding: theme.spacing(15, 5, 12.5),
+    },
+    [theme.breakpoints.down('md')]: {
+      padding: theme.spacing(10, 5, 8),
+    },
+    [theme.breakpoints.down('sm')]: {
+      gridTemplateColumns: '100%',
+      gridRowGap: theme.spacing(7.5),
+    },
+    [theme.breakpoints.down('xs')]: {
+      padding: theme.spacing(4.5, 3),
+    },
+  },
+  title: {
+    gridColumn: '1/5',
+    margin: 0,
+    [theme.breakpoints.down('sm')]: {
+      gridColumn: '-1/1',
+    },
+    '& br': {
+      [theme.breakpoints.down('sm')]: {
+        display: 'none',
+      },
+    },
+  },
+  form: {
+    gridColumn: '5/10',
+    display: 'grid',
+    gridTemplateColumns: 'repeat(5, 1fr)',
+    gridTemplateRows: 'auto auto auto',
+    gridRowGap: theme.spacing(4.5),
 
     [theme.breakpoints.down('sm')]: {
-      fontSize: 18,
+      gridColumn: '-1/1',
+      gridTemplateColumns: 'repeat(9, 1fr)',
     },
-
+    [theme.breakpoints.down('xs')]: {
+      gridTemplateColumns: '100%',
+      gridTemplateRows: 'auto auto auto auto',
+      gridRowGap: theme.spacing(2.5),
+    },
+  },
+  range: {
+    gridColumn: '-1/1',
+    [theme.breakpoints.down('xs')]: {
+      gridRow: '2/3',
+    },
+  },
+  item: {
+    display: 'grid',
+    gridTemplateColumns: '1fr',
+    gridTemplateRows: 'auto auto auto',
+    gridTemplateAreas: '"caption" "value" "converted-value"',
     [theme.breakpoints.down('xs')]: {
       gridTemplateColumns: 'auto 1fr',
       gridTemplateRows: 'auto auto',
-      gridTemplateAreas: '"label label" "ethPrice usdPrice"',
-      gridColumnGap: theme.spacing(2),
-      gridRowGap: theme.spacing(4),
+      gridTemplateAreas: '"caption caption" "value converted-value"',
+    },
+    '&:nth-of-type(2n+1)': {
+      gridColumn: '1/3',
+      [theme.breakpoints.down('sm')]: {
+        gridColumn: '1/5',
+      },
+      [theme.breakpoints.down('xs')]: {
+        gridColumn: '-1/1',
+      },
+    },
+    '&:nth-of-type(2n+2)': {
+      gridColumn: '4/6',
+      [theme.breakpoints.down('sm')]: {
+        gridColumn: '6/10',
+      },
+      [theme.breakpoints.down('xs')]: {
+        gridColumn: '-1/1',
+      },
     },
   },
-
-  captionPrice: {
-    gridArea: 'label',
+  itemCaption: {
+    gridArea: 'caption',
+    marginBottom: theme.spacing(1.5),
+    opacity: 0.5,
+    [theme.breakpoints.down('xs')]: {
+      opacity: 1,
+    },
   },
-
-  ethPrice: {
-    gridArea: 'ethPrice',
-    fontSize: 34,
+  itemValue: {
+    gridArea: 'value',
+    fontSize: 40,
+    lineHeight: 1.3,
     fontWeight: 700,
-
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('xs')]: {
       fontSize: 28,
+      fontWeight: 500,
     },
   },
-
-  usdPrice: {
-    gridArea: 'usdPrice',
-    justifySelf: 'flex-end',
-    alignSelf: 'center',
-
-    fontSize: 20,
-    fontWeight: 400,
-
-    [theme.breakpoints.down('sm')]: {
-      fontSize: 18,
-    },
-
+  itemConvertedValue: {
+    gridArea: 'converted-value',
+    fontSize: 18,
+    lineHeight: 1.3,
+    opacity: 0.5,
     [theme.breakpoints.down('xs')]: {
-      justifySelf: 'flex-start',
+      alignSelf: 'flex-end',
+      marginBottom: 4,
+      marginLeft: 8,
     },
   },
-
-  range: {
-    marginTop: theme.spacing(1),
-
-    [theme.breakpoints.down('xs')]: {
-      marginTop: theme.spacing(3.5),
-    },
-  },
-
-  list: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(2, minmax(auto, 260px))',
-    justifyContent: 'space-between',
-    margin: 0,
-    marginTop: theme.spacing(5),
-    padding: 0,
-    listStyle: 'none',
-
-    [theme.breakpoints.down('xs')]: {
-      gridTemplateColumns: '100%',
-      gridTemplateRows: 'repeat(2, auto)',
-      gridRowGap: theme.spacing(4.5),
-    },
-  },
-
-  item: {},
-
-  caption: {},
-
-  value: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-
-    marginTop: theme.spacing(2),
-  },
-
-  earningValue: {
-    fontSize: 27,
-    fontWeight: 700,
-  },
-
-  divider: {
-    height: 26,
-  },
-
-  earningConvertedValue: {
-    fontSize: 24,
-    fontWeight: 400,
-  },
-
   unlock: {
-    placeSelf: 'center',
-
-    width: '100%',
+    gridColumn: '-1/1',
     height: 60,
-    marginTop: theme.spacing(8),
-
     [theme.breakpoints.down('xs')]: {
-      marginTop: theme.spacing(6),
+      marginTop: theme.spacing(1),
     },
   },
 }));

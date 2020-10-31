@@ -2,27 +2,27 @@ import React from 'react';
 
 import { makeStyles } from '@material-ui/styles';
 import { MuiThemeProvider, Theme } from '@material-ui/core';
-import { Marketing } from './Marketing';
+import { Faq } from './Faq';
 import { invertTheme } from '../../../../common/themes/invertTheme';
 
 const useStyles = makeStyles<Theme>(() => ({
   block: {},
 }));
 
-const MarketingStory = () => {
+const FaqStory = () => {
   const classes = useStyles();
 
   return (
     <div className={classes.block}>
       <MuiThemeProvider theme={invertTheme}>
-        <Marketing />
+        <Faq />
       </MuiThemeProvider>
     </div>
   );
 };
 
-export const MarketingExample = () => <MarketingStory />;
+export const FaqExample = () => <FaqStory />;
 
 export default {
-  title: 'modules/Lobby/component/Marketing',
+  title: 'modules/Lobby/component/Faq',
 };

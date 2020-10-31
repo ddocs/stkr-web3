@@ -5,55 +5,47 @@ import classNames from 'classnames';
 import { useCalculateStyles } from './CalculateStyles';
 import { BackgroundColorProvider } from '../../../../UiKit/BackgroundColorProvider';
 import { Button } from '../../../../UiKit/Button';
-import { Divider, MuiThemeProvider, Slider, Typography, } from '@material-ui/core';
+import { Slider } from '@material-ui/core';
 import { useAction } from '../../../../store/redux';
 import { openUnlockWalletAction } from '../../../../store/modals/actions';
-import { Headline1, Headline4, Headline6 } from '../../../../UiKit/Typography';
-import { invertTheme } from '../../../../common/themes/invertTheme';
+import { Headline1, Headline5 } from '../../../../UiKit/Typography';
 import BigNumber from 'bignumber.js';
-import { YEAR_INTEREST } from "../../../../common/const";
+import { YEAR_INTEREST } from '../../../../common/const';
 
 const DEFAULT_VALUE = 10;
 const FIXED_DECIMAL_PLACES = 2;
 
-function EarningItem({
+const Value = ({
   title,
-  amount,
+  value,
   ratePrice,
 }: {
   title: string;
-  amount: number;
+  value: number;
   ratePrice?: BigNumber;
-}) {
+}) => {
   const classes = useCalculateStyles();
 
   return (
-    <li className={classes.item}>
-      <Headline6 className={classes.caption} component="span">
+    <div className={classes.item}>
+      <Headline5 className={classes.itemCaption} component="span">
         {title}
-      </Headline6>
-      <Typography className={classes.value} component="div">
-        <span className={classes.earningValue}>
-          {t('units.eth', {
-            value: new BigNumber(amount).toFormat(FIXED_DECIMAL_PLACES),
+      </Headline5>
+      <span className={classes.itemValue}>
+        {t('units.eth', {
+          value: new BigNumber(value).toFormat(FIXED_DECIMAL_PLACES),
+        })}
+      </span>
+      {ratePrice && (
+        <span className={classes.itemConvertedValue}>
+          {t('units.$', {
+            value: ratePrice.multipliedBy(value).toFormat(FIXED_DECIMAL_PLACES),
           })}
         </span>
-        {ratePrice && (
-          <>
-            <Divider orientation="vertical" className={classes.divider} />
-            <span className={classes.earningConvertedValue}>
-              {t('units.$', {
-                value: ratePrice
-                  .multipliedBy(amount)
-                  .toFormat(FIXED_DECIMAL_PLACES),
-              })}
-            </span>
-          </>
-        )}
-      </Typography>
-    </li>
+      )}
+    </div>
   );
-}
+};
 
 interface ICalculateProps {
   className?: string;
@@ -76,25 +68,13 @@ export const Calculate = ({
   };
 
   return (
-    <MuiThemeProvider theme={invertTheme}>
-      <section className={classNames(classes.component, className)}>
-        <Curtains className={classes.curtains}>
-          <Headline1 align="center" className={classes.title}>
+    <section className={classNames(classes.component, className)}>
+      <Curtains classes={{ root: classes.wrapper }}>
+        <BackgroundColorProvider component="div" className={classes.content}>
+          <Headline1 className={classes.title} component="h2">
             {tHTML('about.calculate-title')}
           </Headline1>
-          <BackgroundColorProvider className={classes.form}>
-            <Headline4 className={classes.label} component="p">
-              <span className={classes.captionPrice}>
-                {t('about.calculate-note')}
-              </span>
-              <span className={classes.ethPrice}>
-                {t('units.eth', { value })}
-              </span>
-              <span className={classes.usdPrice}>
-                {ethPrice &&
-                  t('units.$', { value: ethPrice.multipliedBy(value) })}
-              </span>
-            </Headline4>
+          <div className={classes.form}>
             <Slider
               className={classes.range}
               value={value}
@@ -102,19 +82,18 @@ export const Calculate = ({
               aria-labelledby="calculator"
               step={0.5}
               min={0}
+              max={320}
             />
-            <ul className={classes.list}>
-              <EarningItem
-                title={t('about.monthly')}
-                amount={(value * YEAR_INTEREST) / 12}
-                ratePrice={ethPrice}
-              />
-              <EarningItem
-                title={t('about.yearly')}
-                amount={value * YEAR_INTEREST}
-                ratePrice={ethPrice}
-              />
-            </ul>
+            <Value
+              title={t('about.calculate-note')}
+              value={value}
+              ratePrice={ethPrice}
+            />
+            <Value
+              title={t('about.calculate-yearly')}
+              value={value * YEAR_INTEREST}
+              ratePrice={ethPrice}
+            />
             {!isConnected && (
               <Button
                 className={classes.unlock}
@@ -125,9 +104,9 @@ export const Calculate = ({
                 {t('navigation.unlock-your-wallet')}
               </Button>
             )}
-          </BackgroundColorProvider>
-        </Curtains>
-      </section>
-    </MuiThemeProvider>
+          </div>
+        </BackgroundColorProvider>
+      </Curtains>
+    </section>
   );
 };

@@ -11,7 +11,7 @@ import {
   Body1,
   SubTitle,
   SmallTitle,
-  Headline6,
+  Headline5,
 } from './Typography';
 
 const useStyles = makeStyles<Theme>(theme => ({
@@ -45,9 +45,9 @@ const TypographyStory = () => {
       <Headline4 className={classes.title} component="h4">
         Headline4
       </Headline4>
-      <Headline6 className={classes.title} component="h6">
+      <Headline5 className={classes.title} component="h6">
         Headline6
-      </Headline6>
+      </Headline5>
       <SubTitle className={classes.title} component="p">
         SubTitle
       </SubTitle>

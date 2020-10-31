@@ -7,7 +7,7 @@ import {
   Body2,
   Headline1,
   Headline4,
-  Headline6,
+  Headline5,
 } from '../../../../UiKit/Typography';
 import { InputField } from '../../../../UiKit/InputField';
 import { SubTitle } from '../../../../UiKit/Typography/Typography';
@@ -24,7 +24,7 @@ import { QueryLoading } from '../../../../components/QueryLoading/QueryLoading';
 import { QueryEmpty } from '../../../../components/QueryEmpty/QueryEmpty';
 import { useDispatch } from 'react-redux';
 import BigNumber from 'bignumber.js';
-import { MutationErrorHandler } from "../../../../components/MutationErrorHandler/MutationErrorHandler";
+import { MutationErrorHandler } from '../../../../components/MutationErrorHandler/MutationErrorHandler';
 
 interface ICreateMicropoolFormProps {
   ankrBalance?: BigNumber;
@@ -68,13 +68,13 @@ export const CreateMicropoolForm = ({
             <>
               <ul className={classes.list}>
                 <li className={classes.item}>
-                  <Headline6
+                  <Headline5
                     className={classes.count}
                     component="span"
                     color="primary"
                   >
                     {t('create-micropool.form.step-1.count')}
-                  </Headline6>
+                  </Headline5>
                   <Headline4 className={classes.caption} component="h4">
                     {t('create-micropool.form.step-1.caption')}
                   </Headline4>
@@ -87,13 +87,13 @@ export const CreateMicropoolForm = ({
                   />
                 </li>
                 <li className={classes.item}>
-                  <Headline6
+                  <Headline5
                     className={classes.count}
                     component="span"
                     color="primary"
                   >
                     {t('create-micropool.form.step-2.count')}
-                  </Headline6>
+                  </Headline5>
                   <Headline4 className={classes.caption} component="h4">
                     {t('create-micropool.form.step-2.caption')}
                   </Headline4>

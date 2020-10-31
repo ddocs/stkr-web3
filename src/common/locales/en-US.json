@@ -29,7 +29,7 @@
     "connect": "Connect",
     "install": "Install",
     "submit": "Submit",
-    "copyright": "© {year} Strk All rights reserved <a href=\"mailto: info@stkr.com\" rel=\"noopener noreferrer\">info@stkr.com</a>",
+    "copyright": "© {year} Strk All rights reserved | <a href=\"mailto: info@stkr.com\" rel=\"noopener noreferrer\">info@stkr.com</a>",
     "share": "Share via social",
     "micropool-name": "Micropool name",
     "duration": "Duration",
@@ -52,17 +52,54 @@
   },
   "about": {
     "title": "<span>Staking.</span>Simplified.",
-    "text": "Stkr is a decentralized protocol \nand platform that combines staking and DeFi, implementing elements from traditional staking with non-custodial staking, Micropools and decentralized governance.",
+    "text": "Stkr is a decentralized protocol and platform that combines staking and DeFi, implementing elements from traditional staking with non-custodial management, Micropools, instant liquidity and decentralized governance.",
     "stakers": "Stakers",
     "providers": "Providers",
     "total": "Total Value Staked",
     "pool-title": "{value} staking pools",
     "pool-note": "Start staking today with STKR",
-    "calculate-title": "Calculate your <span>earnings</span>",
+    "calculate-title": "Calculate <br/>your earnings",
     "calculate-note": "Your ETH amount",
-    "monthly": "Monthly Earning",
-    "yearly": "Yearly Earning",
-    "marketing-success": "Thanks! We are glad that you are with us"
+    "calculate-monthly": "Monthly Earning",
+    "calculate-yearly": "Yearly Earning",
+    "marketing-title": "Are you interested to stake, become a node provider or governor",
+    "marketing-text": "Please fill in this typeform<br />and we'll get in touch!",
+    "why-title": "Why Stkr?",
+    "why-text": "Stkr is built by the Ankr team, to provide the best user experience and highest level of safety, combined with an attractive reward mechanism and instant staking liquidity through a bond-like ETH.",
+    "why-micropool-title": "Micropool",
+    "why-micropool-text": "Stake as little as 0.5 ETH and pool with other stakers while enjoying the same ROI",
+    "why-manager-title": "Staking Manager",
+    "why-manager-text": "Send all of your ETH in one transaction and Stkr will automatically allocate to the best nodes to optimize your staking rewards.",
+    "why-liquidity-title": "Staking Liquidity",
+    "why-liquidity-text": "With aETH, you can hold or trade your staked assets at any time, without having to wait until transactions are enabled on Ethereum 2.0.",
+    "why-security-title": "Security",
+    "why-security-text": "Keep your funds in your own custody and always be in charge of your assets. ",
+    "roles-title": "<span>The 4 roles</span>in the Stkr system",
+    "roles-eth-staker-title": "ETH staker",
+    "roles-eth-staker-text": "ETH stakers can stake any amount of ETH tokens (minimum 0.5 ETH) to earn staking rewards and platform fees. The staked ETH will immediately be liquid in the form of aETH, which users can use to trade or participate in DeFi.",
+    "roles-node-provider-title": "Node provider",
+    "roles-node-provider-text": "Node providers will be running Ethereum 2.0 nodes and earning from staking rewards and platform fees.",
+    "roles-ankr-staker-title": "ANKR staker",
+    "roles-ankr-staker-text": "ANKR token stakers will earn a percentage of the Stkr platform fees by simply staking ANKR tokens or providing liquidity to designated pools (such as aETH/ANKR and aETH/ETH) on Uniswap and other AMM's.",
+    "roles-governance-title": "Governance",
+    "roles-governance-text": "Governance will ensure the long term sustainability of the platform. A substantial stake of ANKR tokens is necessary to become part of the Stkr governance board (a governor does not necessary need to be a node provider).",
+    "become-provider-title": "Become <br />a provider ",
+    "become-provider-text": "Become a provider by running Ethereum 2.0 nodes on Ankr with no hardware or technical knowledge required.",
+    "become-provider-api-title": "Developer APIs",
+    "become-provider-api-text": "Integrate Stkr with exchanges, wallets and custodian services ",
+    "become-provider-knowledge-title": "No technical knowledge needed",
+    "become-provider-knowledge-text": "By running Ethereum 2.0 nodes on Ankr, no hardware or technical knowledge needed.",
+    "become-provider-governance-title": "Governance",
+    "become-provider-governance-text": "Run infrastructure with Stkr and earn part of the network commision ",
+    "faq-title": "FAQ",
+    "faq-question-1": "What are validating and delegating?",
+    "faq-answer-1": "<p>New blocks on Cardano are proposed by validators. To enable Cardano to run seamlessly, validators need the technical capabilities to offer a secure, always on infrastructure.</p><p>Not everyone is able to do this. Some token holders participate indirectly by delegating the tokens they have to a validator. Validators are running a service for delegators. They typically charge a fee to cover their operational costs.</p>",
+    "faq-question-2": "Why should you delegate?",
+    "faq-answer-2": "<p>New blocks on Cardano are proposed by validators. To enable Cardano to run seamlessly, validators need the technical capabilities to offer a secure, always on infrastructure.</p><p>Not everyone is able to do this. Some token holders participate indirectly by delegating the tokens they have to a validator. Validators are running a service for delegators. They typically charge a fee to cover their operational costs.</p>",
+    "faq-question-3": "What happens to the ownership of ADA after they're delegated?",
+    "faq-answer-3": "<p>New blocks on Cardano are proposed by validators. To enable Cardano to run seamlessly, validators need the technical capabilities to offer a secure, always on infrastructure.</p><p>Not everyone is able to do this. Some token holders participate indirectly by delegating the tokens they have to a validator. Validators are running a service for delegators. They typically charge a fee to cover their operational costs.</p>",
+    "faq-question-4": "What does stakefish get out of this?",
+    "faq-answer-4": "<p>New blocks on Cardano are proposed by validators. To enable Cardano to run seamlessly, validators need the technical capabilities to offer a secure, always on infrastructure.</p><p>Not everyone is able to do this. Some token holders participate indirectly by delegating the tokens they have to a validator. Validators are running a service for delegators. They typically charge a fee to cover their operational costs.</p>"
   },
   "dashboard": {
     "hi": "Hi, {name}"
@@ -167,24 +204,6 @@
   "user-actions": {
     "error": {
       "sdk-not-initialized": "Sdk not initialized"
-    }
-  },
-  "what-is": {
-    "title": "What is <span>Ethereum <br/>2.0?</span>",
-    "note1": "Ethereum 2.0 is an ambitious multi-year network upgrade of Ethereum that will achieve better scalability, security and decentralization. Take a read through the design goals outlined in Ethereum 2.0’s official spec or Vitalik’s write-up on Serenity’s design rationale to learn more about the guiding principles of Ethereum 2.0's design.",
-    "note2": "In the upcoming Phase 0 of Ethereum 2.0, the Beacon Chain will be launched. The Beacon Chain relies on Proof of Stake for network security. Anyone with 32 ETH can participate as a validator and receive rewards for contributing to Ethereum 2.0’s security. Learn more about Ethereum 2.0 in our beginner's guide."
-  },
-  "stay-tuned": {
-    "title": "Stay tuned for updates",
-    "subheader": {
-      "1": "We are happy to present ETH 2.0 stake possibility",
-      "2": "We are happy to present ETH 2.0 stake possibility",
-      "3": "We are happy to present ETH 2.0 stake possibility"
-    },
-    "date": {
-      "1": "2 days ago   Community",
-      "2": "21 May   Community",
-      "3": "21 May   Community"
     }
   },
   "micropool-list": {

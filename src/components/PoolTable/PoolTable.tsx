@@ -2,23 +2,20 @@ import * as React from 'react';
 import { useEffect } from 'react';
 import { usePoolTableStyles } from './PoolTableStyles';
 import classNames from 'classnames';
-import { t } from '../../../../common/utils/intl';
-import { useLocaleMemo } from '../../../../common/hooks/useLocaleMemo';
-import { ITablesCaptionProps } from '../../../../components/TableComponents/types';
+import { t } from '../../common/utils/intl';
+import { useLocaleMemo } from '../../common/hooks/useLocaleMemo';
+import { ITablesCaptionProps } from '../TableComponents/types';
 import { connect } from 'react-redux';
 import { uid } from 'react-uid';
-import {
-  UserActions,
-  UserActionTypes,
-} from '../../../../store/actions/UserActions';
-import { QueryError } from '../../../../components/QueryError/QueryError';
-import { QueryLoading } from '../../../../components/QueryLoading/QueryLoading';
-import { QueryEmpty } from '../../../../components/QueryEmpty/QueryEmpty';
+import { UserActions, UserActionTypes } from '../../store/actions/UserActions';
+import { QueryError } from '../QueryError/QueryError';
+import { QueryLoading } from '../QueryLoading/QueryLoading';
+import { QueryEmpty } from '../QueryEmpty/QueryEmpty';
 import { Query } from '@redux-requests/react';
-import { Total } from '../../../../components/Total';
-import { IPool } from '../../../../store/apiMappers/poolsApi';
-import { NavLink } from '../../../../UiKit/NavLink';
-import { INDEX_PATH } from '../../../../common/const';
+import { Total } from '../Total';
+import { IPool } from '../../store/apiMappers/poolsApi';
+import { NavLink } from '../../UiKit/NavLink';
+import { INDEX_PATH } from '../../common/const';
 import {
   Table,
   TableHead,
@@ -26,7 +23,7 @@ import {
   TableBody,
   TableRow,
   TableBodyCell,
-} from '../../../../components/TableComponents';
+} from '../TableComponents';
 
 const TABLE_LIMIT = 4;
 
