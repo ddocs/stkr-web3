@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires,@typescript-eslint/interface-name-prefix */
-import { KeyProvider } from './provider';
+import { KeyProvider, SendAsyncResult } from './provider';
 import { Contract } from 'web3-eth-contract';
 import { stringToHex } from 'web3-utils';
 import BigNumber from 'bignumber.js';
@@ -58,7 +58,7 @@ export class ContractManager {
     );
   }
 
-  public async initializePool(name: string): Promise<string> {
+  public async initializePool(name: string): Promise<SendAsyncResult> {
     const encodedName = stringToHex(name);
     if (encodedName.length > 32) {
       throw new Error("Encoded pool name can't be greater than 32 bytes");
@@ -68,7 +68,7 @@ export class ContractManager {
       .encodeABI();
     console.log(`encoded [initializePool] ABI: ${data}`);
     const currentAccount = await this.keyProvider.currentAccount();
-    const receipt = await this.keyProvider.send(
+    return this.keyProvider.sendAsync(
       currentAccount,
       this.contractConfig.microPoolContract,
       {
@@ -76,13 +76,12 @@ export class ContractManager {
         data: data,
       },
     );
-    return receipt.result;
   }
 
   public async initializePoolWithETH(
     name: string,
     amount: BigNumber,
-  ): Promise<string> {
+  ): Promise<SendAsyncResult> {
     const { ethereumStakingAmount } = await this.getSystemContractParameters();
     if (amount.lt(ethereumStakingAmount)) {
       throw new Error(`Amount can't be lower than minimum staking amount`);
@@ -96,7 +95,7 @@ export class ContractManager {
       .encodeABI();
     console.log(`encoded [initializePool] ABI: ${data}`);
     const currentAccount = await this.keyProvider.currentAccount();
-    const receipt = await this.keyProvider.send(
+    return this.keyProvider.sendAsync(
       currentAccount,
       this.contractConfig.microPoolContract,
       {
@@ -105,24 +104,12 @@ export class ContractManager {
         value: amount.toString(10),
       },
     );
-    return receipt.result;
   }
 
   public async poolDetails(poolIndex: string): Promise<any> {
-    const encodedPoolIndex = stringToHex(poolIndex);
-    const data: string = this.microPoolContract.methods
-      .poolDetails(encodedPoolIndex)
-      .encodeABI();
-    console.log(`encoded [initializePool] ABI: ${data}`);
-    const currentAccount = await this.keyProvider.currentAccount();
-    const receipt = await this.keyProvider.invoke(
-      currentAccount,
-      this.contractConfig.microPoolContract,
-      {
-        data: data,
-      },
-    );
-    return receipt.result;
+    return this.microPoolContract.methods
+      .poolDetails(stringToHex(poolIndex))
+      .call();
   }
 
   public async pendingPools(): Promise<BigNumber[]> {
@@ -148,7 +135,7 @@ export class ContractManager {
         value: amount.multipliedBy(ETH_SCALE_FACTOR).toString(10),
       },
     );
-    return receipt.result;
+    return receipt.transactionHash;
   }
 
   public async getSystemContractParameters(): Promise<
@@ -213,7 +200,7 @@ export class ContractManager {
         data: data,
       },
     );
-    return receipt.result;
+    return receipt.transactionHash;
   }
 
   public async approveAnkrToStakingContract(
@@ -234,7 +221,7 @@ export class ContractManager {
         data: data,
       },
     );
-    return receipt.result;
+    return receipt.transactionHash;
   }
 
   public async unstake(poolIndex: number): Promise<string> {
@@ -249,7 +236,7 @@ export class ContractManager {
         data: data,
       },
     );
-    return receipt.result;
+    return receipt.transactionHash;
   }
 
   public async ankrBalance(address: string): Promise<string> {

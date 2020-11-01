@@ -4,6 +4,7 @@ import Web3 from 'web3';
 import { AbiItem } from 'web3-utils';
 import { Contract } from 'web3-eth-contract';
 import { BigNumber } from 'bignumber.js';
+import { PromiEvent, TransactionReceipt } from 'web3-core';
 
 export interface ProviderConfig {
   networkId: string;
@@ -14,6 +15,12 @@ export interface SendOptions {
   data?: string;
   gasLimit?: string;
   value?: string;
+}
+
+export interface SendAsyncResult {
+  receiptPromise: PromiEvent<TransactionReceipt>;
+  transactionHash: string;
+  rawTransaction: string;
 }
 
 export abstract class KeyProvider {
@@ -66,17 +73,17 @@ export abstract class KeyProvider {
     address: string,
   ): Promise<string>;
 
-  public abstract invoke(
-    from: string,
-    to: string,
-    sendOptions: SendOptions,
-  ): Promise<JsonRpcResponse>;
-
   public abstract send(
     from: string,
     to: string,
     sendOptions: SendOptions,
-  ): Promise<JsonRpcResponse>;
+  ): Promise<TransactionReceipt>;
+
+  public abstract sendAsync(
+    from: string,
+    to: string,
+    sendOptions: SendOptions,
+  ): Promise<SendAsyncResult>;
 
   public async signLoginData(ttl: number): Promise<string> {
     const currentTime = Math.floor(new Date().getTime()),
