@@ -17,11 +17,6 @@ interface ProviderMessage {
 }
 
 export class MetaMaskProvider extends KeyProvider {
-  static hasInPageSupport() {
-    // @ts-ignore
-    return !!window.ethereum || !!window.web3;
-  }
-
   async connect(): Promise<void> {
     // @ts-ignore
     const ethereum: any = typeof window !== 'undefined' && window.ethereum;

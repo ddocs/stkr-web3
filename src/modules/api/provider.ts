@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/interface-name-prefix */
-import { JsonRpcResponse } from 'web3-core-helpers/types';
 import Web3 from 'web3';
 import { AbiItem } from 'web3-utils';
 import { Contract } from 'web3-eth-contract';
@@ -26,12 +25,24 @@ export interface SendAsyncResult {
 export abstract class KeyProvider {
   protected _currentAccount: string | null = null;
   protected _web3: Web3 | null = null;
+  protected _latestBlockHeight = 0;
+  protected _fetchInterval = 0;
 
-  constructor(protected providerConfig: ProviderConfig) {}
+  constructor(protected providerConfig: ProviderConfig) {
+    // @ts-ignore
+    this._fetchInterval = setInterval(async () => {
+      if (!this._web3) return;
+      this._latestBlockHeight = await this._web3.eth.getBlockNumber();
+    }, 10_000);
+  }
 
   protected getWeb3(): Web3 {
     if (!this._web3) throw new Error('Web3 must be initialized');
     return this._web3;
+  }
+
+  public latestBlockHeight(): number {
+    return this._latestBlockHeight;
   }
 
   public createContract(abi: AbiItem[] | AbiItem, address: string): Contract {
@@ -111,9 +122,5 @@ export abstract class KeyProvider {
     return new BigNumber(`${balance}`)
       .dividedBy(new BigNumber(10).pow(decimals))
       .toString(10);
-  }
-
-  public async latestBlockHeight(): Promise<number> {
-    return this.getWeb3().eth.getBlockNumber();
   }
 }
