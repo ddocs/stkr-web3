@@ -15,6 +15,8 @@ export const MICRO_POOL_DATA: IPool[] = [
     totalStake: new BigNumber(32),
     currentStake: new BigNumber(29.5),
     transactionHash: '',
+    blockHeight: 0,
+    beaconDeposit: '0xaasd',
     poolIndex: 1,
   },
   {
@@ -30,6 +32,8 @@ export const MICRO_POOL_DATA: IPool[] = [
     totalStake: new BigNumber(32),
     currentStake: new BigNumber(29),
     transactionHash: '',
+    blockHeight: 0,
+    beaconDeposit: '0xaasd',
     poolIndex: 2,
   },
   {
@@ -45,6 +49,8 @@ export const MICRO_POOL_DATA: IPool[] = [
     totalStake: new BigNumber(32),
     currentStake: new BigNumber(3.5),
     transactionHash: '',
+    blockHeight: 0,
+    beaconDeposit: '0xaasd',
     poolIndex: 3,
   },
 ];

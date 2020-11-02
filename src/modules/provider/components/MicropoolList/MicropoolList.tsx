@@ -112,13 +112,13 @@ export const MicropoolList = ({ className, data }: IMicropoolListProps) => {
                       total={item.totalStake.toNumber()}
                       reward={item.currentStake.toNumber()}
                     >
-                      {item.transactionHash && (
+                      {item.beaconDeposit && (
                         <NavLink
                           href={t('micropool-list.transaction', {
                             value: item.transactionHash,
                           })}
                         >
-                          {walletConversion(item.transactionHash)}
+                          {walletConversion(item.beaconDeposit)}
                         </NavLink>
                       )}
                     </Total>

@@ -93,12 +93,19 @@ export const NodeListComponent = ({ className, data }: INodeListProps) => {
                   >
                     {({ data }) => {
                       if (item.status === 'VALIDATOR_STATUS_FREE') {
-                        return t('node-list.syncing', {
-                          value: safeDiv(
-                            data?.chain.currentSlot,
-                            data?.chain.latestSlot,
-                          ).toFixed(0),
-                        });
+                        return (
+                          <div>
+                            {t('node-list.syncing', {
+                              value: `${(
+                                100 *
+                                safeDiv(
+                                  data?.chain.currentSlot,
+                                  data?.chain.latestSlot,
+                                )
+                              ).toFixed(2)}`,
+                            })}
+                          </div>
+                        );
                       }
                       return t(`beacon-list.status.${item.status}`);
                     }}

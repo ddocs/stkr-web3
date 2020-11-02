@@ -242,4 +242,25 @@ export class ContractManager {
   public async ankrBalance(address: string): Promise<string> {
     return this.keyProvider.erc20Balance(this.ankrContract, address);
   }
+
+  public async userStakeAmount(
+    poolIndex: string,
+    address: string,
+  ): Promise<any> {
+    return this.microPoolContract.methods
+      .userStakeAmount(stringToHex(poolIndex), address)
+      .call();
+  }
+
+  public async refundAllSpentEthereum(): Promise<SendAsyncResult> {
+    const data: string = this.microPoolContract.methods.getBack().encodeABI();
+    const currentAccount = await this.keyProvider.currentAccount();
+    return this.keyProvider.sendAsync(
+      currentAccount,
+      this.contractConfig.microPoolContract,
+      {
+        data: data,
+      },
+    );
+  }
 }
