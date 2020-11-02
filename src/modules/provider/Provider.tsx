@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { ProviderDashboard } from './screens/ProviderDashboard';
 import { UserActions, UserActionTypes } from '../../store/actions/UserActions';
-import { useInitEffect } from '../../common/hooks/useInitEffect';
 import { Mutation } from '@redux-requests/react';
 import { useAuthentication } from '../../common/utils/useAuthentications';
 import { Headline2 } from '../../UiKit/Typography';
@@ -45,11 +44,11 @@ export const ProviderComponent = ({ authorizeProvider }: IProviderProps) => {
   const { isProviderAuthenticated, isConnected } = useAuthentication();
   const classes = useStyles();
 
-  useInitEffect(() => {
-    if (!isProviderAuthenticated) {
+  useEffect(() => {
+    if (!isProviderAuthenticated && isConnected) {
       authorizeProvider();
     }
-  });
+  }, [authorizeProvider, isConnected, isProviderAuthenticated]);
 
   if (isProviderAuthenticated && isConnected) {
     return <ProviderDashboard />;
