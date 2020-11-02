@@ -21,3 +21,4 @@ export const SOCIAL_LINK = {
 };
 export const YEAR_INTEREST = 0.0526;
 export const NOTIFICATION_AUTO_HIDE_DURATION: Milliseconds = 3000;
+export const DEFAULT_STAKING_AMOUNT = 32;

@@ -18,6 +18,7 @@ import { RequestAction } from '@redux-requests/core';
 import { Store } from 'redux';
 import { IStoreState } from '../reducers';
 import { ISidecarStatus, mapNodeStatus } from '../apiMappers/sidecarStatus';
+import { DEFAULT_STAKING_AMOUNT } from '../../common/const';
 
 export const UserActionTypes = {
   CONNECT: 'CONNECT',
@@ -109,9 +110,11 @@ export const UserActions = {
           startTime: new Date(item.startTime * 1000),
           endTime: new Date(item.endTime * 1000),
           currentStake: new BigNumber(
-            item.status === 'MICRO_POOL_STATUS_ONGOING' ? '32' : item.balance,
+            item.status === 'MICRO_POOL_STATUS_ONGOING'
+              ? DEFAULT_STAKING_AMOUNT.toString()
+              : item.balance,
           ),
-          totalStake: new BigNumber('32'),
+          totalStake: new BigNumber(DEFAULT_STAKING_AMOUNT),
           status: item.status,
           transactionHash: item.transactionHash,
           poolIndex: item.poolIndex,
@@ -152,9 +155,11 @@ export const UserActions = {
           startTime: new Date(item.startTime * 1000),
           endTime: new Date(item.endTime * 1000),
           currentStake: new BigNumber(
-            item.status === 'MICRO_POOL_STATUS_ONGOING' ? '32' : item.balance,
+            item.status === 'MICRO_POOL_STATUS_ONGOING'
+              ? DEFAULT_STAKING_AMOUNT.toString()
+              : item.balance,
           ),
-          totalStake: new BigNumber(32),
+          totalStake: new BigNumber(DEFAULT_STAKING_AMOUNT),
           status: item.status,
           transactionHash: item.transactionHash,
           poolIndex: item.poolIndex,
