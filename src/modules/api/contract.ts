@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires,@typescript-eslint/interface-name-prefix */
 import { KeyProvider, SendAsyncResult } from './provider';
 import { Contract } from 'web3-eth-contract';
-import { stringToHex } from 'web3-utils';
+import { stringToHex, numberToHex } from 'web3-utils';
 import BigNumber from 'bignumber.js';
 
 const ABI_MICRO_POOL = require('./contract/MicroPool.json');
@@ -254,6 +254,20 @@ export class ContractManager {
 
   public async refundAllSpentEthereum(): Promise<SendAsyncResult> {
     const data: string = this.microPoolContract.methods.getBack().encodeABI();
+    const currentAccount = await this.keyProvider.currentAccount();
+    return this.keyProvider.sendAsync(
+      currentAccount,
+      this.contractConfig.microPoolContract,
+      {
+        data: data,
+      },
+    );
+  }
+
+  public async claimAeth(poolIndex: number | string): Promise<SendAsyncResult> {
+    const data: string = this.microPoolContract.methods
+      .claimAeth(numberToHex(poolIndex))
+      .encodeABI();
     const currentAccount = await this.keyProvider.currentAccount();
     return this.keyProvider.sendAsync(
       currentAccount,
