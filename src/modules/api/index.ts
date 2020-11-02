@@ -205,25 +205,32 @@ export class StkrSdk {
     });
   }
 
-  public async createAnkrMicroPool(name: string): Promise<TxHash> {
+  public async createAnkrMicroPool(name: string): Promise<MicroPoolReply> {
     const remainingAllowance = await this.getRemainingAllowance();
     if (remainingAllowance.isGreaterThan(0)) {
       await this.allowTokens(remainingAllowance);
     }
-    return await this.getContractManager().initializePool(name);
+    const asyncResult = await this.getContractManager().initializePool(name),
+      rawTx = asyncResult.rawTransaction;
+    return await this.getApiGateway().createPendingMicroPool(rawTx);
   }
 
   public async createEthereumMicroPool(
     name: string,
     amount: BigNumber | null = null,
-  ): Promise<TxHash> {
+  ): Promise<MicroPoolReply> {
     const {
       ethereumStakingAmount,
     } = await this.getContractManager().getSystemContractParameters();
     if (!amount) {
       amount = ethereumStakingAmount;
     }
-    return await this.getContractManager().initializePoolWithETH(name, amount);
+    const asyncResult = await this.getContractManager().initializePoolWithETH(
+        name,
+        amount,
+      ),
+      rawTx = asyncResult.rawTransaction;
+    return await this.getApiGateway().createPendingMicroPool(rawTx);
   }
 
   public async stake(amount: BigNumber | string): Promise<void> {

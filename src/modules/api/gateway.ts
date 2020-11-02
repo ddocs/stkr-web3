@@ -28,7 +28,6 @@ export type MicroPoolStatus =
 export interface MicroPoolReply {
   id: string;
   status: MicroPoolStatus;
-  transactionHash: string;
   provider: string;
   poolIndex: number;
   name: string;
@@ -39,6 +38,9 @@ export interface MicroPoolReply {
   balance: string;
   validator: string;
   created: number;
+  transactionHash: string;
+  blockHeight: number;
+  beaconDeposit: string;
 }
 
 export interface SidecarStatusReply {
@@ -280,6 +282,18 @@ export class ApiGateway {
     );
     if (status !== 200)
       throw new Error(`Unable to fetch micro pools: ${statusText}`);
+    return data;
+  }
+
+  public async createPendingMicroPool(
+    rawTransaction: string,
+  ): Promise<MicroPoolReply> {
+    const { data } = await this.api.post<MicroPoolReply>(
+      `/v1alpha/micropool/pending`,
+      {
+        rawTransaction: rawTransaction,
+      },
+    );
     return data;
   }
 

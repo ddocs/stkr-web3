@@ -169,7 +169,7 @@
     }
   },
   "providers": {
-    "metamask": "Metamask",
+    "metamask": "MetaMask",
     "wallet": "WalletConnect",
     "trust": "Trust Walet"
   },
