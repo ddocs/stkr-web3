@@ -317,4 +317,8 @@ export class StkrSdk {
   public getApiGateway(): ApiGateway {
     return this.apiGateway;
   }
+
+  public async claimAeth(poolIndex: number | string) {
+    return await this.getContractManager().claimAeth(poolIndex);
+  }
 }

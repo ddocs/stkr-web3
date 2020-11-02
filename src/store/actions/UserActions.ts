@@ -2,7 +2,11 @@ import { IUserInfo } from '../apiMappers/userApi';
 import { Providers } from '../../common/types';
 import { StkrSdk } from '../../modules/api';
 import BigNumber from 'bignumber.js';
-import { MicroPoolReply, SidecarReply, SidecarStatusReply, } from '../../modules/api/gateway';
+import {
+  MicroPoolReply,
+  SidecarReply,
+  SidecarStatusReply,
+} from '../../modules/api/gateway';
 import { IMicropool, mapMicropool } from '../apiMappers/poolsApi';
 import { ISidecar, mapSidecar } from '../apiMappers/sidecarsApi';
 import { mapProviderStats } from '../apiMappers/providerStatsApi';
@@ -49,6 +53,8 @@ export const UserActionTypes = {
   BUY_TOKENS: 'BUY_TOKENS',
 
   STAKE: 'STAKE',
+
+  CLAIM_A_ETH: 'CLAIM_A_ETH',
 
   FETCH_STAKER_STATS: 'FETCH_STAKER_STATS',
 };
@@ -318,6 +324,18 @@ export const UserActions = {
     },
     meta: {
       getData: mapStakerStats,
+    },
+  }),
+  claimAeth: (poolIndex: number) => ({
+    type: UserActionTypes.CLAIM_A_ETH,
+    request: {
+      promise: (async function () {
+        const stkrSdk = StkrSdk.getLastInstance();
+        return stkrSdk.claimAeth(poolIndex);
+      })(),
+    },
+    meta: {
+      asMutation: true,
     },
   }),
 };
