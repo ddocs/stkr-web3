@@ -114,29 +114,27 @@ export const ProviderDashboardComponent = ({
         </Query>
         <div className={classes.navigation}>
           <ProviderTabs className={classes.tabs} />
-          {isMicropoolListRoute
-            ? hasMicropools && (
-                <NavLink
-                  className={classes.create}
-                  href={PROVIDER_CREATE_MICROPOOL_PATH}
-                  variant="outlined"
-                  disabled={hasPendingMicropoolStatus}
-                  color="primary"
-                >
-                  {t('navigation.create')}
-                </NavLink>
-              )
-            : hasNodes && (
-                <NavLink
-                  className={classes.create}
-                  href={PROVIDER_CREATE_NODE_PATH}
-                  variant="outlined"
-                  disabled={hasCreatedNodeStatus}
-                  color="primary"
-                >
-                  {t('navigation.create')}
-                </NavLink>
-              )}
+          {isMicropoolListRoute ? (
+            <NavLink
+              className={classes.create}
+              href={PROVIDER_CREATE_MICROPOOL_PATH}
+              variant="outlined"
+              disabled={hasPendingMicropoolStatus || !hasMicropools}
+              color="primary"
+            >
+              {t('navigation.create')}
+            </NavLink>
+          ) : (
+            <NavLink
+              className={classes.create}
+              href={PROVIDER_CREATE_NODE_PATH}
+              variant="outlined"
+              disabled={hasCreatedNodeStatus || !hasNodes}
+              color="primary"
+            >
+              {t('navigation.create')}
+            </NavLink>
+          )}
         </div>
         <Route
           path={[PROVIDER_PATH]}
