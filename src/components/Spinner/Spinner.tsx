@@ -6,14 +6,23 @@ import classNames from 'classnames';
 interface ISpinnerProps {
   centered?: boolean;
   size?: number;
+  className?: string;
 }
 
-export const Spinner = ({ centered = false, size }: ISpinnerProps) => {
+export const Spinner = ({
+  centered = false,
+  size,
+  className,
+}: ISpinnerProps) => {
   const classes = useSpinnerStyles({ size });
 
   return (
     <SpinnerIcon
-      className={classNames(classes.component, centered && classes.centered)}
+      className={classNames(
+        classes.component,
+        centered && classes.centered,
+        className,
+      )}
     />
   );
 };

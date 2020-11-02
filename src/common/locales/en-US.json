@@ -148,6 +148,9 @@
     }
   },
   "provider": {
+    "connecting-headline": "Signature creating...",
+    "try-again-headline": "Please allow to emit signature",
+    "try-again": "Try again",
     "create": {
       "create-beacon-chain-stage-1": {
         "title": "Create a beacon chain node",
