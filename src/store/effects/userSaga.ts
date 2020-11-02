@@ -1,34 +1,34 @@
-import { put, takeEvery, select, delay } from 'redux-saga/effects';
+import {
+  cancel,
+  delay,
+  fork,
+  put,
+  select,
+  take,
+  takeEvery,
+} from 'redux-saga/effects';
 import { UserActions, UserActionTypes } from '../actions/UserActions';
-import { createErrorAction } from '../../common/utils/createErrorAction';
-import { createSuccessAction } from '../../common/utils/createSuccessAction';
-import { StkrSdk } from '../../modules/api';
-import { closeModalAction } from '../modals/actions';
 import { REHYDRATE } from 'redux-persist/es/constants';
 import { replace } from 'connected-react-router';
-import { INDEX_PATH, PICKER_PATH } from '../../common/const';
-import { resetRequests } from '@redux-requests/core';
+import { INDEX_PATH } from '../../common/const';
+import { resetRequests, success } from '@redux-requests/core';
 import { IStoreState } from '../reducers';
 
 const FETCH_ACCOUNT_DATA_DELAY = 15000;
 
-function* onConnect() {
-  try {
-    const stkrSdk = StkrSdk.getLastInstance();
-    yield stkrSdk?.connectMetaMask();
-
-    yield put(createSuccessAction(UserActionTypes.CONNECT));
+function* accountDataSync() {
+  while (true) {
+    yield delay(FETCH_ACCOUNT_DATA_DELAY);
     yield put(UserActions.fetchAccountData());
-    yield put(closeModalAction());
-    yield put(replace(PICKER_PATH));
-    while (true) {
-      // TODO Stop polling on logout or reconnect
-      yield delay(FETCH_ACCOUNT_DATA_DELAY);
-      yield put(UserActions.fetchAccountData());
-    }
-  } catch (error) {
-    yield put(createErrorAction(UserActionTypes.CONNECT, error));
   }
+}
+
+function* onConnectSuccess() {
+  const accountDataSyncTask = yield fork(accountDataSync);
+
+  yield take([UserActionTypes.DISCONNECT, UserActionTypes.CONNECT]);
+
+  yield cancel(accountDataSyncTask);
 }
 
 function* onDisconnectSuccess() {
@@ -47,7 +47,7 @@ function* init() {
 }
 
 export function* userSaga() {
-  yield takeEvery(UserActionTypes.CONNECT, onConnect);
-  yield takeEvery(UserActionTypes.DISCONNECT_SUCCESS, onDisconnectSuccess);
+  yield takeEvery(success(UserActionTypes.CONNECT), onConnectSuccess);
+  yield takeEvery(success(UserActionTypes.DISCONNECT), onDisconnectSuccess);
   yield takeEvery(REHYDRATE, init);
 }

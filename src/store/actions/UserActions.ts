@@ -18,13 +18,14 @@ import { RequestAction } from '@redux-requests/core';
 import { Store } from 'redux';
 import { IStoreState } from '../reducers';
 import { ISidecarStatus, mapNodeStatus } from '../apiMappers/sidecarStatus';
-import { DEFAULT_STAKING_AMOUNT } from '../../common/const';
+import { DEFAULT_STAKING_AMOUNT, PICKER_PATH } from '../../common/const';
+import { closeModalAction } from '../modals/actions';
+import { replace } from 'connected-react-router';
 
 export const UserActionTypes = {
   CONNECT: 'CONNECT',
 
   DISCONNECT: 'DISCONNECT',
-  DISCONNECT_SUCCESS: 'DISCONNECT_SUCCESS',
 
   FETCH_ACCOUNT_DATA: 'FETCH_ACCOUNT_DATA',
 
@@ -60,6 +61,24 @@ export const UserActionTypes = {
 export const UserActions = {
   connect: () => ({
     type: UserActionTypes.CONNECT,
+    request: {
+      promise: (async function () {
+        const stkrSdk = StkrSdk.getLastInstance();
+        return await stkrSdk?.connectMetaMask();
+      })(),
+    },
+    meta: {
+      asMutation: true,
+      onSuccess: (
+        request: null,
+        action: RequestAction,
+        store: Store<IStoreState>,
+      ) => {
+        store.dispatch(UserActions.fetchAccountData());
+        store.dispatch(closeModalAction());
+        store.dispatch(replace(PICKER_PATH));
+      },
+    },
   }),
   // TODO Positive expectation response
   disconnect: () => ({

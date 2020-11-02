@@ -4,18 +4,29 @@ import { Button } from '../../../../UiKit/Button';
 import React, { useCallback } from 'react';
 import { useUnlockWalletStyles } from './UnlockWalletStyles';
 import { connect } from 'react-redux';
-import { UserActions } from '../../../../store/actions/UserActions';
+import {
+  UserActions,
+  UserActionTypes,
+} from '../../../../store/actions/UserActions';
 import { PROVIDERS } from '../const';
+import { Mutation } from '@redux-requests/react';
+import { MutationErrorHandler } from '../../../../components/MutationErrorHandler/MutationErrorHandler';
 
 interface IItemProps {
   caption: string;
   icon: string;
-  enable: boolean;
-
+  available: boolean;
+  disabled?: boolean;
   onConnect?(): void;
 }
 
-const Item = ({ onConnect, caption, icon, enable }: IItemProps) => {
+const Item = ({
+  onConnect,
+  caption,
+  icon,
+  available,
+  disabled,
+}: IItemProps) => {
   const classes = useUnlockWalletStyles({ icon: icon });
 
   return (
@@ -23,12 +34,12 @@ const Item = ({ onConnect, caption, icon, enable }: IItemProps) => {
       {caption}
       <Button
         className={classes.button}
-        onClick={enable ? onConnect : () => null}
+        onClick={available ? onConnect : () => null}
         color="primary"
         size="large"
-        disabled={!enable}
+        disabled={!available || disabled}
       >
-        {enable ? t('navigation.connect') : t('navigation.coming-soon')}
+        {available ? t('navigation.connect') : t('navigation.coming-soon')}
       </Button>
     </li>
   );
@@ -36,11 +47,13 @@ const Item = ({ onConnect, caption, icon, enable }: IItemProps) => {
 
 interface IUnlockWalletContentProps {
   onConnect?(): void;
+  disabled?: boolean;
 }
 
 export const UnlockWalletContentComponent = ({
   providers,
   onConnect,
+  disabled,
 }: IUnlockWalletContentProps & { providers: Record<string, any> }) => {
   const providersKeys = Object.keys(providers);
 
@@ -57,7 +70,8 @@ export const UnlockWalletContentComponent = ({
           return (
             <Item
               key={key}
-              enable={item.available}
+              available={item.available}
+              disabled={disabled}
               caption={t(item.caption)}
               onConnect={onConnect}
               icon={key}
@@ -81,10 +95,20 @@ export const UnlockWalletContentImp = ({
   }, [connect]);
 
   return (
-    <UnlockWalletContentComponent
-      onConnect={handleConnectMetamask}
-      providers={PROVIDERS}
-    />
+    <>
+      <MutationErrorHandler type={UserActionTypes.CONNECT} />
+      <Mutation type={UserActionTypes.CONNECT}>
+        {({ loading }) => {
+          return (
+            <UnlockWalletContentComponent
+              onConnect={handleConnectMetamask}
+              providers={PROVIDERS}
+              disabled={loading}
+            />
+          );
+        }}
+      </Mutation>
+    </>
   );
 };
 

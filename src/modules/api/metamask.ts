@@ -31,9 +31,9 @@ export class MetaMaskProvider extends KeyProvider {
         console.error(
           `ethereum networks mismatched ${ethereum.networkVersion} != ${this.providerConfig.networkId}`,
         );
-        /*throw new Error(
+        throw new Error(
           'MetaMask ethereum network mismatched, please check your MetaMask network.',
-        );*/
+        );
       }
       await this.unlockAccounts(web3);
       ethereum.on('accountsChanged', (accounts: string[]) => {
