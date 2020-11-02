@@ -14,15 +14,16 @@ import { useLocaleMemo } from '../../../../common/hooks/useLocaleMemo';
 import { t } from '../../../../common/utils/intl';
 import { EmptyList } from '../EmptyList';
 import { uid } from 'react-uid';
-import { IPool } from '../../../../store/apiMappers/poolsApi';
+import { IMicropool } from '../../../../store/apiMappers/poolsApi';
 import { Total } from '../../../../components/Total';
 import { NavLink } from '../../../../UiKit/NavLink';
 import { walletConversion } from '../../../../common/utils/convertWallet';
 import { formatDistanceToNowStrict } from 'date-fns';
+import { DEFAULT_STAKING_AMOUNT } from '../../../../common/const';
 
 interface IMicropoolListProps {
   className?: string;
-  data: IPool[] | null;
+  data: IMicropool[] | null;
   onCreateMicropool?(x: any): void;
 }
 
@@ -103,14 +104,14 @@ export const MicropoolList = ({ className, data }: IMicropoolListProps) => {
                     {t('units.eth', { value: item.lastSlashing.toFormat() })}
                   </TableBodyCell>
                   <TableBodyCell>
-                    {t('node-list.ago', {
+                    {item.startTime && t('node-list.ago', {
                       value: formatDistanceToNowStrict(item.startTime),
                     })}
                   </TableBodyCell>
                   <TableBodyCell>
                     <Total
-                      total={item.totalStake.toNumber()}
-                      reward={item.currentStake.toNumber()}
+                      total={DEFAULT_STAKING_AMOUNT}
+                      reward={item.balance.toNumber()}
                     >
                       {item.beaconDeposit && (
                         <NavLink

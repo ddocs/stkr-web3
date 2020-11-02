@@ -13,17 +13,10 @@ import { QueryLoading } from '../QueryLoading/QueryLoading';
 import { QueryEmpty } from '../QueryEmpty/QueryEmpty';
 import { Query } from '@redux-requests/react';
 import { Total } from '../Total';
-import { IPool } from '../../store/apiMappers/poolsApi';
+import { IMicropool } from '../../store/apiMappers/poolsApi';
 import { NavLink } from '../../UiKit/NavLink';
-import { INDEX_PATH } from '../../common/const';
-import {
-  Table,
-  TableHead,
-  TableHeadCell,
-  TableBody,
-  TableRow,
-  TableBodyCell,
-} from '../TableComponents';
+import { DEFAULT_STAKING_AMOUNT, INDEX_PATH } from '../../common/const';
+import { Table, TableBody, TableBodyCell, TableHead, TableHeadCell, TableRow, } from '../TableComponents';
 
 const TABLE_LIMIT = 4;
 
@@ -47,9 +40,6 @@ const useCaptions = (): Omit<ITablesCaptionProps, 'key'>[] =>
         label: t('pool-table.status'),
       },
       {
-        label: t('pool-table.fee'),
-      },
-      {
         label: t('pool-table.total'),
       },
     ],
@@ -68,7 +58,7 @@ export const PoolTableComponent = ({
   }, [fetchMicropools]);
 
   return (
-    <Query<IPool[]>
+    <Query<IMicropool[]>
       type={UserActionTypes.FETCH_MICROPOOLS}
       errorComponent={QueryError}
       loadingComponent={QueryLoading}
@@ -79,7 +69,7 @@ export const PoolTableComponent = ({
           <Table
             className={classNames(classes.component, className)}
             columnsCount={captions.length}
-            customCell="1fr 1fr 1fr 1fr 2fr"
+            customCell="1fr 1fr 1fr 2fr"
           >
             <TableHead>
               {captions.map(cell => (
@@ -93,11 +83,10 @@ export const PoolTableComponent = ({
                     <TableBodyCell>{row.name}</TableBodyCell>
                     <TableBodyCell>{row.provider}</TableBodyCell>
                     <TableBodyCell>{row.status}</TableBodyCell>
-                    <TableBodyCell>{row.fee.toFormat()}</TableBodyCell>
                     <TableBodyCell>
                       <Total
-                        total={row.totalStake.toNumber()}
-                        reward={row.currentStake.toNumber()}
+                        total={row.balance.toNumber()}
+                        reward={DEFAULT_STAKING_AMOUNT}
                       >
                         <NavLink
                           style={{ minWidth: 100 }}

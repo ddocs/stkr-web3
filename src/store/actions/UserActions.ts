@@ -2,13 +2,8 @@ import { IUserInfo } from '../apiMappers/userApi';
 import { Providers } from '../../common/types';
 import { StkrSdk } from '../../modules/api';
 import BigNumber from 'bignumber.js';
-import {
-  MicroPoolReply,
-  SidecarReply,
-  SidecarStatusReply,
-} from '../../modules/api/gateway';
-import { IPool } from '../apiMappers/poolsApi';
-import { differenceInCalendarMonths } from 'date-fns';
+import { MicroPoolReply, SidecarReply, SidecarStatusReply, } from '../../modules/api/gateway';
+import { IMicropool, mapMicropool } from '../apiMappers/poolsApi';
 import { ISidecar, mapSidecar } from '../apiMappers/sidecarsApi';
 import { mapProviderStats } from '../apiMappers/providerStatsApi';
 import { IAllowance, IAllowTokensResponse } from '../apiMappers/allowance';
@@ -18,7 +13,7 @@ import { RequestAction } from '@redux-requests/core';
 import { Store } from 'redux';
 import { IStoreState } from '../reducers';
 import { ISidecarStatus, mapNodeStatus } from '../apiMappers/sidecarStatus';
-import { DEFAULT_STAKING_AMOUNT, PICKER_PATH } from '../../common/const';
+import { PICKER_PATH } from '../../common/const';
 import { closeModalAction } from '../modals/actions';
 import { replace } from 'connected-react-router';
 
@@ -118,28 +113,7 @@ export const UserActions = {
       })(),
     },
     meta: {
-      getData: (data: MicroPoolReply[]): IPool[] =>
-        data.map(item => ({
-          name: item.name,
-          provider: item.provider,
-          period: differenceInCalendarMonths(item.startTime, item.endTime),
-          fee: new BigNumber('0'),
-          lastReward: new BigNumber(item.lastReward),
-          lastSlashing: new BigNumber(item.lastSlashing),
-          startTime: new Date(item.startTime * 1000),
-          endTime: new Date(item.endTime * 1000),
-          currentStake: new BigNumber(
-            item.status === 'MICRO_POOL_STATUS_ONGOING'
-              ? DEFAULT_STAKING_AMOUNT.toString()
-              : item.balance,
-          ),
-          totalStake: new BigNumber(DEFAULT_STAKING_AMOUNT),
-          status: item.status,
-          poolIndex: item.poolIndex,
-          transactionHash: item.transactionHash,
-          blockHeight: item.blockHeight,
-          beaconDeposit: item.beaconDeposit,
-        })),
+      getData: (data: MicroPoolReply[]): IMicropool[] => data.map(mapMicropool),
     },
   }),
   authorizeProvider: () => ({
@@ -165,28 +139,8 @@ export const UserActions = {
       })(),
     },
     meta: {
-      getData: (data: MicroPoolReply[]): IPool[] => {
-        return data.map(item => ({
-          name: item.name,
-          provider: item.provider,
-          period: differenceInCalendarMonths(item.startTime, item.endTime),
-          fee: new BigNumber(0),
-          lastReward: new BigNumber(item.lastReward),
-          lastSlashing: new BigNumber(item.lastSlashing),
-          startTime: new Date(item.startTime * 1000),
-          endTime: new Date(item.endTime * 1000),
-          currentStake: new BigNumber(
-            item.status === 'MICRO_POOL_STATUS_ONGOING'
-              ? DEFAULT_STAKING_AMOUNT.toString()
-              : item.balance,
-          ),
-          totalStake: new BigNumber(DEFAULT_STAKING_AMOUNT),
-          status: item.status,
-          poolIndex: item.poolIndex,
-          transactionHash: item.transactionHash,
-          blockHeight: item.blockHeight,
-          beaconDeposit: item.beaconDeposit,
-        }));
+      getData: (data: MicroPoolReply[]): IMicropool[] => {
+        return data.map(mapMicropool);
       },
     },
   }),
@@ -259,16 +213,20 @@ export const UserActions = {
     request: {
       promise: (async function () {
         const stkrSdk = StkrSdk.getLastInstance();
-        // TODO Remove log
-        try {
-          return await stkrSdk.createAnkrMicroPool(name);
-        } catch (e) {
-          console.error(e);
-          throw e;
-        }
+        return await stkrSdk.createAnkrMicroPool(name);
       })(),
     },
-    meta: { asMutation: true },
+    meta: {
+      asMutation: true,
+      mutations: {
+        [UserActionTypes.FETCH_CURRENT_PROVIDER_MICROPOOLS]: (
+          data: ISidecar[],
+          item: MicroPoolReply,
+        ) => {
+          return [...data, mapMicropool(item)];
+        },
+      },
+    },
   }),
   fetchProviderStats: () => ({
     type: UserActionTypes.FETCH_PROVIDER_STATS,

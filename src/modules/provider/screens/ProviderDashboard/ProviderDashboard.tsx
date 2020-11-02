@@ -16,7 +16,7 @@ import { t, tHTML } from '../../../../common/utils/intl';
 import { Curtains } from '../../../../UiKit/Curtains';
 import { Info } from '../../../../components/Info';
 import { NavLink } from '../../../../UiKit/NavLink';
-import { IPool } from '../../../../store/apiMappers/poolsApi';
+import { IMicropool } from '../../../../store/apiMappers/poolsApi';
 import {
   UserActions,
   UserActionTypes,
@@ -39,7 +39,7 @@ const SHORT_UPDATE_INTERVAL: Milliseconds = 10_000;
 const LONG_UPDATE_INTERVAL: Milliseconds = 60_000;
 
 interface IProviderDashboardStoreProps {
-  micropools: IPool[] | null;
+  micropools: IMicropool[] | null;
   nodes: ISidecar[] | null;
 }
 
@@ -202,7 +202,7 @@ export const ProviderDashboard = () => {
 
   const render = useCallback(({ data: nodes }: { data: ISidecar[] | null }) => {
     return (
-      <Query<IPool[] | null>
+      <Query<IMicropool[] | null>
         errorComponent={QueryError}
         loadingComponent={QueryLoadingCentered}
         isDataEmpty={alwaysFalse}

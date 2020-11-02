@@ -26,21 +26,22 @@ export type MicroPoolStatus =
   | 'MICRO_POOL_STATUS_CANCELED';
 
 export interface MicroPoolReply {
-  id: string;
-  status: MicroPoolStatus;
-  provider: string;
-  poolIndex: number;
-  name: string;
-  startTime: number;
+  balance: string; // / 32
+  beaconDeposit: string;
+  blockHeight: number;
+  created: number;
   endTime: number;
+  id: string;
   lastReward: string;
   lastSlashing: string;
-  balance: string;
-  validator: string;
-  created: number;
+  name: string;
+  poolIndex: number;
+  provider: string;
+  publicKey: string;
+  startTime: number;
+  status: MicroPoolStatus;
   transactionHash: string;
-  blockHeight: number;
-  beaconDeposit: string;
+  validator: string;
 }
 
 export interface SidecarStatusReply {
