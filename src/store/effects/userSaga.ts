@@ -18,8 +18,8 @@ const FETCH_ACCOUNT_DATA_DELAY = 15000;
 
 function* accountDataSync() {
   while (true) {
-    yield delay(FETCH_ACCOUNT_DATA_DELAY);
     yield put(UserActions.fetchAccountData());
+    yield delay(FETCH_ACCOUNT_DATA_DELAY);
   }
 }
 
