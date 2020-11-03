@@ -38,14 +38,13 @@ export const MIN_ETH_AMOUNT_DEPOSIT = 2;
 
 interface ICreateMicropoolFormProps {
   ankrBalance?: BigNumber;
-  ethereumBalance?: BigNumber;
 }
 
 export const CreateMicropoolForm = ({
   handleSubmit,
   ankrBalance,
-  ethereumBalance,
   values,
+  initialValues,
 }: FormRenderProps<any> & ICreateMicropoolFormProps) => {
   const classes = useCreateMicropoolStyles();
   const dispatch = useDispatch();
@@ -183,7 +182,7 @@ export const CreateMicropoolForm = ({
                       <Field
                         component={SliderField}
                         min={MIN_ETH_AMOUNT_DEPOSIT}
-                        max={ethereumBalance?.toNumber()}
+                        max={initialValues[ETH_AMOUNT_FIELD_NAME]}
                         name={ETH_AMOUNT_FIELD_NAME}
                       />
                     </div>
