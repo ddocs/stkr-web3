@@ -43,6 +43,7 @@ export const UnauthorizedHeader = ({ className }: { className?: string }) => {
               href={link.link}
               className={classes.link}
               color="secondary"
+              size="large"
             >
               {t(link.label)}
             </NavLink>
