@@ -3,6 +3,8 @@ import { useHeaderStyles } from './HeaderStyles';
 import classNames from 'classnames';
 import { Curtains } from '../../../../UiKit/Curtains';
 import { Logotype } from '../Logotype';
+import { Toggle } from '../Toggle';
+import { useIsSMDown } from '../../../../common/hooks/useTheme';
 
 export const HeaderFrame = ({
   children,
@@ -14,11 +16,13 @@ export const HeaderFrame = ({
 }>) => {
   const classes = useHeaderStyles();
 
+  const isSMDown = useIsSMDown();
+
   return (
     <header className={classNames(classes.component, outerClassName)}>
       <Curtains classes={{ root: innerClassName }}>
         <Logotype className={classes.logo} />
-        {children}
+        {isSMDown ? <Toggle /> : children}
       </Curtains>
     </header>
   );
