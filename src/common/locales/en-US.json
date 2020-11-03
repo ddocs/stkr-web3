@@ -273,6 +273,8 @@
     "my-rewards": "My rewards",
     "stake-more": "Stake more",
     "eth": "ETH",
+    "current-a-eth-balance": "Current aETH balance",
+    "redeem": "Redeem",
     "column": {
       "date": "Date",
       "staked": "Staked",

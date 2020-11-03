@@ -319,19 +319,21 @@ export const UserActions = {
     request: {
       promise: (async function () {
         const stkrSdk = StkrSdk.getLastInstance();
-        return await stkrSdk.getStakerStats();
+        // TODO Pass real data
+        const aEthBalance = '5';
+        return { aEthBalance, ...(await stkrSdk.getStakerStats()) };
       })(),
     },
     meta: {
       getData: mapStakerStats,
     },
   }),
-  claimAeth: (poolIndex: number) => ({
+  claimAeth: () => ({
     type: UserActionTypes.CLAIM_A_ETH,
     request: {
       promise: (async function () {
         const stkrSdk = StkrSdk.getLastInstance();
-        return stkrSdk.claimAeth(poolIndex);
+        return stkrSdk.claimAeth();
       })(),
     },
     meta: {

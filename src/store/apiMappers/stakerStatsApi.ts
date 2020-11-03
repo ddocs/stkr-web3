@@ -13,6 +13,7 @@ interface IStakeHistoryItem {
 export interface IStakerStats {
   reward: BigNumber;
   staked: BigNumber;
+  aEthBalance: BigNumber;
   stakes: IStakeHistoryItem[];
 }
 
@@ -27,10 +28,13 @@ function mapStakeHistoryItem(data: UserStakeReply): IStakeHistoryItem {
   };
 }
 
-export function mapStakerStats(data: StakerStats): IStakerStats {
+export function mapStakerStats(
+  data: StakerStats & { aEthBalance: string },
+): IStakerStats {
   return {
     reward: new BigNumber(data.stats.totalRewards),
     staked: new BigNumber(data.stats.totalStakedAmount),
+    aEthBalance: new BigNumber(data.aEthBalance),
     stakes: data.stakes.map(mapStakeHistoryItem),
   };
 }
