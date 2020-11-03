@@ -43,9 +43,13 @@
     "view-on-etherscan": "View on Etherscan",
     "coming-soon": "Coming soon",
     "node-name": "Enter node name",
-            "community": "Community",
+    "community": "Community",
     "governance": "Governance",
-    "docs": "Docs"
+    "docs": "Docs",
+    "twitter": "Twitter",
+    "telegram-chat": "Telegram Chat",
+    "telegram-announcements": "Telegram Announcements",
+    "medium": "Medium"
   },
   "validation": {
     "email-error": "Not a valid email address",

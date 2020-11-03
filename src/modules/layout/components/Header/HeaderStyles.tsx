@@ -44,40 +44,7 @@ export const useHeaderStyles = makeStyles<Theme>(theme => ({
   wallet: {
     width: 'auto',
   },
-  list: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    margin: 0,
-    padding: 0,
-    listStyle: 'none',
-  },
-  item: {
-    marginRight: theme.spacing(8),
-  },
-  link: {
-    '&&': {
-      '&::after': {
-        position: 'absolute',
-        content: '""',
-        bottom: -8,
-        left: 0,
-        width: '100%',
-        height: 2,
-        backgroundColor: theme.palette.text.secondary,
-        transform: 'scaleX(0)',
-        transformOrigin: 'bottom right',
-        transitionProperty: 'transform',
-        transitionTimingFunction: 'linear',
-        transitionDuration: '200ms',
-      },
-      '&:hover, &:focus': {
-        color: theme.palette.text.secondary,
-      },
-      '&:hover::after, &:focus::after': {
-        transform: 'scaleX(1)',
-        transformOrigin: 'bottom left',
-      },
-    },
+  links: {
+    alignSelf: 'center',
   },
 }));
