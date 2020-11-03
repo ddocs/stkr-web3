@@ -42,7 +42,10 @@
     "copy-address": "Copy Address",
     "view-on-etherscan": "View on Etherscan",
     "coming-soon": "Coming soon",
-    "node-name": "Enter node name"
+    "node-name": "Enter node name",
+            "community": "Community",
+    "governance": "Governance",
+    "docs": "Docs"
   },
   "validation": {
     "email-error": "Not a valid email address",
