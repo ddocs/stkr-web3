@@ -57,6 +57,11 @@ export const useRolesStyles = makeStyles(theme => ({
       gridTemplateColumns: '100%',
       gridTemplateRows: 'auto auto',
     },
+    '&:hover': {
+      '& $itemText': {
+        opacity: 1,
+      },
+    },
   },
   itemCaption: {
     gridColumn: '1/4',
@@ -80,6 +85,10 @@ export const useRolesStyles = makeStyles(theme => ({
   itemText: {
     gridColumn: '5/10',
     margin: 0,
+    opacity: 0.5,
+    transitionTimingFunction: 'linear',
+    transitionDuration: '250ms',
+    transitionProperty: 'opacity',
     [theme.breakpoints.down('xs')]: {
       gridColumn: '-1/1',
       marginTop: theme.spacing(2.5),

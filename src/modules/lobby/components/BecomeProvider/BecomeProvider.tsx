@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { useBecomeProviderStyles } from './BecomeProviderStyles';
 import { Curtains } from '../../../../UiKit/Curtains';
 import { t, tHTML } from '../../../../common/utils/intl';
@@ -7,19 +7,40 @@ import { Body1, Headline5, Headline1 } from '../../../../UiKit/Typography';
 import { Button } from '../../../../UiKit/Button';
 import { useAction } from '../../../../store/redux';
 import { openUnlockWalletAction } from '../../../../store/modals/actions';
+import { useIntersectionObserver } from '../../../../common/hooks/useIntersectionObserver';
 
 const Item = ({
   title,
   text,
   icon,
+  delay,
 }: {
   title: string;
   text: string;
   icon: string;
+  delay: number;
 }) => {
-  const classes = useBecomeProviderStyles({ icon: icon });
+  const classes = useBecomeProviderStyles({ icon: icon, delay: delay });
+
+  const [isItemVisible, setItemVisible] = useState(false);
+  const itemRef = useRef<HTMLLIElement>(null);
+
+  useIntersectionObserver(
+    (isVisible: boolean) => {
+      if (isVisible) {
+        setItemVisible(true);
+      }
+    },
+    itemRef,
+    {
+      rootMargin: '0% 0% -10% 0%',
+    },
+  );
   return (
-    <li className={classes.item}>
+    <li
+      className={classNames(classes.item, !isItemVisible && classes.hidden)}
+      ref={itemRef}
+    >
       <Headline5 className={classes.itemCaption} color="primary" component="h3">
         {title}
       </Headline5>
@@ -62,7 +83,7 @@ export const BecomeProvider = ({ className }: IFeaturesProps) => {
           {t('navigation.unlock-wallet')}
         </Button>
         <ul className={classes.list}>
-          {Object.keys(FEATURES).map((key: string) => {
+          {Object.keys(FEATURES).map((key: string, index) => {
             const item = FEATURES[key];
             return (
               <Item
@@ -70,6 +91,7 @@ export const BecomeProvider = ({ className }: IFeaturesProps) => {
                 title={t(`about.become-provider-${key}-title`)}
                 text={t(item)}
                 icon={key}
+                delay={200 * index}
               />
             );
           })}
