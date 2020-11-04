@@ -60,7 +60,7 @@ export const HeaderFrame = ({
         <Curtains classes={{ root: innerClassName }}>
           <Logotype className={classes.logo} />
           {isSMDown ? (
-            <Toggle onClick={handleOpen} ref={modalControlRef} />
+            <Toggle onClick={handleOpen} ref={modalControlRef} opened={on} />
           ) : (
             children
           )}
