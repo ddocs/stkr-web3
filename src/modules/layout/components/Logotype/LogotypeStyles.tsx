@@ -7,17 +7,10 @@ export const useLogotypeStyles = makeStyles(theme => ({
       margin: 0,
       marginRight: 'auto',
     },
-    gridTemplateColumns: 'auto auto',
-    gridTemplateAreas: '"link company"',
-    gridColumnGap: theme.spacing(2.5),
-    alignItems: 'center',
-    '& > span': {
-      whiteSpace: 'nowrap',
-    },
-  },
-  withDivider: {
     gridTemplateColumns: 'auto auto auto',
     gridTemplateAreas: '"link divider company"',
+    gridColumnGap: theme.spacing(2.5),
+    alignItems: 'center',
     '&::before': {
       position: 'relative',
       content: '""',
@@ -38,5 +31,14 @@ export const useLogotypeStyles = makeStyles(theme => ({
   },
   active: {
     pointerEvents: 'none',
+  },
+  caption: {
+    gridArea: 'company',
+    display: 'flex',
+    flexDirection: 'column',
+    fontSize: 12,
+    '& svg': {
+      marginTop: theme.spacing(0.5),
+    },
   },
 }));
