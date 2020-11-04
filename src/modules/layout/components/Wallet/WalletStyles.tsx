@@ -76,5 +76,9 @@ export const useWalletStyles = makeStyles<Theme>(theme => ({
     position: 'absolute',
     top: theme.spacing(1),
     right: 0,
+    [theme.breakpoints.down('sm')]: {
+      right: 0,
+      left: 0,
+    },
   },
 }));

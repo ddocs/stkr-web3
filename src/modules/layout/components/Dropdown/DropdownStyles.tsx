@@ -34,7 +34,7 @@ export const useDropdownStyles = makeStyles<
     gridTemplateRows: 'auto auto auto',
     gridTemplateColumns: '44px 1fr auto',
     gridTemplateAreas:
-      '"icon title title" "icon address disconnect" "navigation navigation navigation"',
+      '"icon title disconnect" "icon address address" "navigation navigation navigation"',
     gridColumnGap: theme.spacing(1.5),
 
     width: '100%',

@@ -10,6 +10,9 @@ export const useLinksStyles = makeStyles<Theme>(theme => ({
     margin: 0,
     padding: 0,
     listStyle: 'none',
+    [theme.breakpoints.down('sm')]: {
+      flexDirection: 'column',
+    },
   },
   item: {
     position: 'relative',
@@ -30,6 +33,13 @@ export const useLinksStyles = makeStyles<Theme>(theme => ({
           transformOrigin: 'bottom left',
         },
       },
+    },
+    [theme.breakpoints.down('sm')]: {
+      width: '100%',
+      margin: 0,
+      padding: theme.spacing(2, 0),
+
+      borderTop: `1px solid ${theme.palette.text.secondary}`,
     },
   },
   link: {
@@ -54,6 +64,13 @@ export const useLinksStyles = makeStyles<Theme>(theme => ({
       },
     },
   },
+  button: {
+    [theme.breakpoints.down('sm')]: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      width: '100%',
+    },
+  },
   arrow: {
     margin: 'auto 0',
     marginLeft: theme.spacing(1.5),
@@ -70,8 +87,10 @@ export const useLinksStyles = makeStyles<Theme>(theme => ({
     transitionDuration: '300ms',
     transitionProperty: 'z-index, opacity',
     visibility: 'hidden',
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('sm')]: {
       position: 'static',
+      opacity: 1,
+      visibility: 'visible',
     },
   },
   subList: {
@@ -81,6 +100,22 @@ export const useLinksStyles = makeStyles<Theme>(theme => ({
     listStyle: 'none',
     backgroundColor: '#181818',
     borderRadius: 4,
+    [theme.breakpoints.down('sm')]: {
+      margin: 0,
+      padding: theme.spacing(4, 0, 2.5),
+      backgroundColor: 'transparent',
+    },
+  },
+  subItem: {
+    [theme.breakpoints.down('sm')]: {
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'flex-start',
+      marginTop: theme.spacing(4),
+    },
+    '&:first-child': {
+      marginTop: 0,
+    },
   },
   subLink: {
     '&&': {
@@ -91,6 +126,9 @@ export const useLinksStyles = makeStyles<Theme>(theme => ({
       transitionTimingFunction: 'linear',
       transitionDuration: '250ms',
       transitionProperty: 'color, background-color',
+      [theme.breakpoints.down('sm')]: {
+        padding: 0,
+      },
       '&:hover, &:focus': {
         color: theme.palette.primary.contrastText,
         backgroundColor: theme.palette.primary.main,

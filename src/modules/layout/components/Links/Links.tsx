@@ -82,7 +82,7 @@ export const Links = ({ className }: ILinksProps) => {
               ) : (
                 <>
                   <Button
-                    className={classes.link}
+                    className={classNames(classes.link, classes.button)}
                     variant="text"
                     size="large"
                     color="secondary"

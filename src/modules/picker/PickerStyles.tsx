@@ -12,6 +12,10 @@ export const usePickerStyles = makeStyles<Theme, { icon?: string }>(theme => ({
     padding: theme.spacing(9, 0),
 
     boxSizing: 'border-box',
+
+    [theme.breakpoints.down('sm')]: {
+      display: 'none',
+    },
   },
 
   wrapper: {
