@@ -1,7 +1,6 @@
 import React from 'react';
 import { Curtains } from '../../UiKit/Curtains';
 import { usePickerStyles } from './PickerStyles';
-import { BackgroundColorProvider } from '../../UiKit/BackgroundColorProvider';
 import { Body1, Headline4 } from '../../UiKit/Typography';
 import { t, tHTML } from '../../common/utils/intl';
 import { NavLink } from '../../UiKit/NavLink';
@@ -18,13 +17,18 @@ interface IItemProps {
 const Item = ({ title, buttonCaption, link, icon, features }: IItemProps) => {
   const classes = usePickerStyles({ icon });
   return (
-    <BackgroundColorProvider component="li" className={classes.item}>
+    <li className={classes.item}>
       <Headline4 className={classes.caption} component="h3">
         {title}
       </Headline4>
       <ul className={classes.subList}>
         {features.map(feature => (
-          <Body1 className={classes.subItem} component="li" color="secondary">
+          <Body1
+            key={feature}
+            className={classes.subItem}
+            component="li"
+            color="secondary"
+          >
             {t(feature)}
           </Body1>
         ))}
@@ -38,7 +42,7 @@ const Item = ({ title, buttonCaption, link, icon, features }: IItemProps) => {
       >
         {buttonCaption}
       </NavLink>
-    </BackgroundColorProvider>
+    </li>
   );
 };
 

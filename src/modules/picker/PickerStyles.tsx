@@ -2,6 +2,7 @@ import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import * as assetsReference from './assets';
 import { getImages } from '../../common/utils/getImages';
+import icon from './raw_assets/check.svg';
 
 const assets = getImages(assetsReference);
 
@@ -9,9 +10,13 @@ export const usePickerStyles = makeStyles<Theme, { icon?: string }>(theme => ({
   component: {
     width: '100%',
     height: '100%',
-    padding: theme.spacing(9, 0),
+    padding: theme.spacing(7.5, 0),
 
     boxSizing: 'border-box',
+
+    [theme.breakpoints.down('lg')]: {
+      padding: theme.spacing(5, 0),
+    },
 
     [theme.breakpoints.down('sm')]: {
       display: 'none',
@@ -32,11 +37,10 @@ export const usePickerStyles = makeStyles<Theme, { icon?: string }>(theme => ({
     display: 'grid',
     gridTemplateColumns: '1fr 1fr',
     gridTemplateRows: '100%',
-    gridColumnGap: theme.spacing(6.75),
 
     width: '100%',
-    maxWidth: 1094,
-    maxHeight: 630,
+    maxWidth: 1170,
+    maxHeight: 650,
     height: '100%',
     margin: 'auto',
     padding: 0,
@@ -50,43 +54,104 @@ export const usePickerStyles = makeStyles<Theme, { icon?: string }>(theme => ({
     alignItems: 'center',
 
     width: '100%',
-    maxWidth: 520,
-    padding: theme.spacing(5.5, 8),
+    padding: theme.spacing(5.25, 11.25),
     boxSizing: 'border-box',
+
+    border: `1px solid #3F3F3F`,
+
+    transitionTimingFunction: 'linear',
+    transitionDuration: '300ms',
+    transitionProperty: 'background-color',
+
+    [theme.breakpoints.down('lg')]: {
+      padding: theme.spacing(5.25, 8),
+    },
+
+    [theme.breakpoints.down('md')]: {
+      padding: theme.spacing(5.25, 5.5),
+    },
 
     '&::before': {
       position: 'relative',
       content: '""',
 
       display: 'block',
-      width: '100%',
-      height: 160,
+      width: 165,
+      height: 165,
+      marginBottom: theme.spacing(3),
 
       backgroundImage: props =>
         props.icon ? `url(${assets[props.icon.toLowerCase()]})` : undefined,
       backgroundPosition: 'center',
       backgroundRepeat: 'no-repeat',
       backgroundSize: 'auto',
+
+      [theme.breakpoints.down('md')]: {
+        width: 135,
+        height: 135,
+      },
+    },
+
+    '&:first-child': {
+      borderRight: 0,
+    },
+
+    '&:hover': {
+      backgroundColor: '#161616',
     },
   },
 
   caption: {
+    flexShrink: 0,
     margin: 0,
 
     textAlign: 'center',
   },
 
-  text: {
+  subList: {
     margin: 0,
-    marginTop: theme.spacing(4),
-    marginBottom: theme.spacing(7.5),
+    marginTop: theme.spacing(8),
+    marginBottom: theme.spacing(2),
+    padding: 0,
 
-    textAlign: 'center',
+    listStyle: 'none',
+
+    [theme.breakpoints.down('lg')]: {
+      marginTop: theme.spacing(6),
+    },
+  },
+
+  subItem: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+
+    marginTop: theme.spacing(2),
+
+    '&:first-child': {
+      marginTop: 0,
+    },
+
+    '&::before': {
+      position: 'relative',
+      content: '""',
+
+      flexShrink: 0,
+      display: 'block',
+      width: 18,
+      height: 18,
+      marginTop: 4,
+      marginRight: theme.spacing(2),
+
+      backgroundImage: `url("${icon}")`,
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat',
+      backgroundSize: 'cover',
+    },
   },
 
   link: {
     width: '100%',
-    maxWidth: 270,
     marginTop: 'auto',
   },
 }));
