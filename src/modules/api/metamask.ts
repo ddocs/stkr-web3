@@ -1,12 +1,16 @@
 /* eslint-disable @typescript-eslint/interface-name-prefix */
 import Web3 from 'web3';
 import { bytesToHex, numberToHex } from 'web3-utils';
-import { KeyProvider, SendAsyncResult, SendOptions } from './provider';
+import {
+  KeyProvider,
+  KeyProviderEvents,
+  SendAsyncResult,
+  SendOptions,
+} from './provider';
 import { TransactionReceipt } from 'web3-core';
 import { Transaction } from 'ethereumjs-tx';
-import { Subject } from 'rxjs';
 
-interface ProviderRpcError extends Error {
+export interface ProviderRpcError extends Error {
   message: string;
   code: number;
   data?: unknown;
@@ -17,19 +21,9 @@ interface ProviderMessage {
   data: unknown;
 }
 
-type Address = string;
+export type Address = string;
 
 export class MetaMaskProvider extends KeyProvider {
-  private accountChangedSubject = new Subject<Address[]>();
-  private disconnectSubject = new Subject<ProviderRpcError>();
-  private messageSubject = new Subject<ProviderMessage>();
-  private chainChangedSubject = new Subject<string>();
-
-  public accountChangedEvent = this.accountChangedSubject.asObservable();
-  public disconnectEvent = this.disconnectSubject.asObservable();
-  public messageEvent = this.messageSubject.asObservable();
-  public chainChangedEvent = this.chainChangedSubject.asObservable();
-
   async connect(): Promise<void> {
     // @ts-ignore
     const ethereum: any = typeof window !== 'undefined' && window.ethereum;
@@ -49,35 +43,30 @@ export class MetaMaskProvider extends KeyProvider {
         );
       }
       await this.unlockAccounts(web3);
+
       ethereum.on('accountsChanged', (accounts: Address[]) => {
-        this.accountChangedSubject.next(accounts);
-        let newAccount: string | null = null;
-        if (accounts.length > 0) {
-          newAccount = accounts[0];
-        }
-        if (newAccount?.toLowerCase() !== this._currentAccount?.toLowerCase()) {
-          console.log(
-            `You've changed MetaMask account, reloading page (${this._currentAccount} != ${newAccount})`,
-          );
-          window.location.reload();
-        }
+        this.events.emit(KeyProviderEvents.AccountChanged, { accounts });
       });
+
       ethereum.on('disconnect', (error: ProviderRpcError) => {
-        this.disconnectSubject.next(error);
+        this.events.emit(KeyProviderEvents.Disconnect, { error });
         console.log(
           `You've disconnected from MetaMask: ${JSON.stringify(error)}`,
         );
-        window.location.reload();
       });
+
       ethereum.on('message', (message: ProviderMessage) => {
-        this.messageSubject.next(message);
+        this.events.emit(KeyProviderEvents.Message, message);
         console.log(`message from MetaMask: ${JSON.stringify(message)}`);
       });
+
       ethereum.on('chainChanged', (chainId: string) => {
-        this.chainChangedSubject.next(chainId);
+        this.events.emit(KeyProviderEvents.ChainChanged, {
+          chainId,
+        });
         console.log(`detected MetaMask chainId change to ${chainId}`);
-        window.location.reload();
       });
+
       ethereum.autoRefreshOnNetworkChange = false;
     } else if (web3) {
       /* there several providers that emulates MetaMask behavior */

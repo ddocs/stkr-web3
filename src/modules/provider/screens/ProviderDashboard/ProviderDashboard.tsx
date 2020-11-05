@@ -26,7 +26,6 @@ import { QueryLoadingCentered } from '../../../../components/QueryLoading/QueryL
 import { QueryError } from '../../../../components/QueryError/QueryError';
 import { Route } from 'react-router-dom';
 import { IProviderStats } from '../../../../store/apiMappers/providerStatsApi';
-import { alwaysFalse } from '../../../../common/utils/alwaysFalse';
 import { ISidecar } from '../../../../store/apiMappers/sidecarsApi';
 import { useDispatch } from 'react-redux';
 import { useInterval } from '../../../../common/utils/useInterval';
@@ -205,7 +204,6 @@ export const ProviderDashboard = () => {
       <Query<IMicropool[] | null>
         errorComponent={QueryError}
         loadingComponent={QueryLoadingCentered}
-        isDataEmpty={alwaysFalse}
         type={UserActionTypes.FETCH_CURRENT_PROVIDER_MICROPOOLS}
         showLoaderDuringRefetch={false}
       >
