@@ -7,6 +7,7 @@ import { createRootReducer } from './reducers';
 import { handleRequests } from '@redux-requests/core';
 import { createDriver } from '@redux-requests/promise';
 import { History } from 'history';
+import { isDev } from '../common/utils/isProd';
 
 export interface IApplicationStore {
   store: Store;
@@ -30,6 +31,14 @@ export const createApplicationStore = ({
     driver: createDriver({
       processResponse: response => ({ data: response }),
     }),
+    ...(isDev()
+      ? {
+          onError: error => {
+            console.error(error);
+            throw error;
+          },
+        }
+      : {}),
   });
 
   const sagaMiddleware = createSagaMiddleware();

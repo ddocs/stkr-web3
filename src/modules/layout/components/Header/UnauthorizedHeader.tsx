@@ -6,14 +6,20 @@ import { Button } from '../../../../UiKit/Button';
 import { t } from '../../../../common/utils/intl';
 import React from 'react';
 import { HeaderFrame } from './HeaderFrame';
+import { Links } from '../Links';
 
 export const UnauthorizedHeader = ({ className }: { className?: string }) => {
-  const classes = useHeaderStyles();
+  const classes = useHeaderStyles({});
   const openUnlockWallet = useAction(openUnlockWalletAction);
 
   const isSMDown = useIsSMDown();
   return (
-    <HeaderFrame outerClassName={className} innerClassName={classes.outer}>
+    <HeaderFrame
+      outerClassName={className}
+      innerClassName={classes.outer}
+      dropdownClassName={classes.dropdown}
+    >
+      <Links className={classes.links} />
       <Button
         onClick={openUnlockWallet}
         className={classes.button}

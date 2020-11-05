@@ -3,7 +3,7 @@
     "unknown": "Unknown error",
     "not-authenticated": "Not Authenticated"
   },
-  "by-ankr": "By Ankr",
+  "by-ankr": "Powered by",
   "navigation": {
     "staker": "Staker",
     "provider": "Provider",
@@ -42,7 +42,14 @@
     "copy-address": "Copy Address",
     "view-on-etherscan": "View on Etherscan",
     "coming-soon": "Coming soon",
-    "node-name": "Enter node name"
+    "node-name": "Enter node name",
+    "community": "Community",
+    "governance": "Governance",
+    "docs": "Docs",
+    "twitter": "Twitter",
+    "telegram-chat": "Telegram Chat",
+    "telegram-announcements": "Telegram Announcements",
+    "medium": "Medium"
   },
   "validation": {
     "email-error": "Not a valid email address",
@@ -137,13 +144,21 @@
   },
   "picker": {
     "staker": {
-      "title": "I want to<br />Stake tokens",
-      "text": "The lower fees for staking eth<br />Stable providers",
-      "link": "Stake tokens"
+      "title": "Earn staking rewards",
+      "features": {
+        "1": "Stake any amount of ETH (minimum 0.5 ETH) to earn staking rewards.",
+        "2": "Keep your staked ETH liquid to trade, sell or participate in DeFi applications through aETH.",
+        "3": "No technical knowledge required!"
+      },
+      "link": "Start staking"
     },
     "provider": {
-      "title": "I want to be<br />a Provider",
-      "text": "Stkr is a decentralized protocol and platform that combines staking and DeFi, implementing elements from traditional staking with non-custodial staking, Micropools and decentralized governance.",
+      "title": "Become a provider",
+      "features": {
+        "1": "Run Ethereum 2.0 nodes and earning from staking rewards and platform fees.",
+        "2": "Opt-in to stake ANKR and reach a higher trust level to receive more staked ETH.",
+        "3": "Non-technical users can run Ethereum 2.0 nodes on the Ankr platform."
+      },
       "link": "Start as a provider"
     }
   },
@@ -267,6 +282,8 @@
     "my-rewards": "My rewards",
     "stake-more": "Stake more",
     "eth": "ETH",
+    "current-a-eth-balance": "Current aETH balance",
+    "redeem": "Redeem",
     "column": {
       "date": "Date",
       "staked": "Staked",

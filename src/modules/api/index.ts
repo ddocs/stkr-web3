@@ -15,8 +15,6 @@ import { IStkrConfig } from './config';
 import { t } from '../../common/utils/intl';
 import BigNumber from 'bignumber.js';
 
-type TxHash = string;
-
 export interface IContractDetails {
   ankrEthContract: string;
   ankrContract: string;
@@ -316,5 +314,10 @@ export class StkrSdk {
 
   public getApiGateway(): ApiGateway {
     return this.apiGateway;
+  }
+
+  public async claimAeth() {
+    // TODO Remove poolIndex argument
+    return await this.getContractManager().claimAeth(5);
   }
 }

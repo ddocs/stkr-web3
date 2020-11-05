@@ -1,22 +1,20 @@
 import * as React from 'react';
+import { ReactNode } from 'react';
 import { useAmountStyles } from './AmountStyles';
-import { Headline1 } from '../../../../../../UiKit/Typography';
-import { SubTitle } from '../../../../../../UiKit/Typography/Typography';
+import { Typography } from '@material-ui/core';
 
 export interface ITotalProps {
   value: string;
-  unit: string;
+  unit: ReactNode;
 }
 
 export const Amount = ({ value, unit }: ITotalProps) => {
   const classes = useAmountStyles();
 
   return (
-    <Headline1 color="primary" className={classes.component}>
+    <Typography color="primary" component="div" className={classes.component}>
+      <div className={classes.unit}>{unit}</div>
       {value}
-      <SubTitle color="primary" component="div" className={classes.unit}>
-        {unit}
-      </SubTitle>
-    </Headline1>
+    </Typography>
   );
 };

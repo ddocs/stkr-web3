@@ -2,23 +2,23 @@ import React from 'react';
 
 import { makeStyles } from '@material-ui/styles';
 import { Theme } from '@material-ui/core';
-import { Pool } from './Pool';
+import { Links } from './Links';
 
 const useStyles = makeStyles<Theme>(theme => ({
   block: {},
 }));
 
-const PoolStory = () => {
+const LinksStory = () => {
   const classes = useStyles();
   return (
     <div className={classes.block}>
-      <Pool isAuthenticated={false} />
+      <Links />
     </div>
   );
 };
 
-export const PoolExample = () => <PoolStory />;
+export const LinksExample = () => <LinksStory />;
 
 export default {
-  title: 'modules/Lobby/component/Pool',
+  title: 'modules/Layout/components/Links',
 };

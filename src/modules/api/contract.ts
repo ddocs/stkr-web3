@@ -269,7 +269,7 @@ export class ContractManager {
       .claimAeth(numberToHex(poolIndex))
       .encodeABI();
     const currentAccount = await this.keyProvider.currentAccount();
-    return this.keyProvider.sendAsync(
+    return await this.keyProvider.sendAsync(
       currentAccount,
       this.contractConfig.microPoolContract,
       {

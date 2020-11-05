@@ -38,14 +38,13 @@ export const MIN_ETH_AMOUNT_DEPOSIT = 2;
 
 interface ICreateMicropoolFormProps {
   ankrBalance?: BigNumber;
-  ethereumBalance?: BigNumber;
 }
 
 export const CreateMicropoolForm = ({
   handleSubmit,
   ankrBalance,
-  ethereumBalance,
   values,
+  initialValues,
 }: FormRenderProps<any> & ICreateMicropoolFormProps) => {
   const classes = useCreateMicropoolStyles();
   const dispatch = useDispatch();
@@ -77,10 +76,14 @@ export const CreateMicropoolForm = ({
         noDataMessage={<QueryEmpty />}
         type={UserActionTypes.FETCH_ALLOWANCE}
       >
-        {({ data: { remainingAllowance } }) => {
-          const disabled =
+        {({ data: { remainingAllowance, allowanceAmount } }) => {
+          const isNotEnoughAllowance =
             values[DEPOSIT_TYPE_FIELD_NAME] === DepositType.ANKR &&
             remainingAllowance.isGreaterThan(0);
+
+          const isNotEnoughBalance =
+            values[DEPOSIT_TYPE_FIELD_NAME] === DepositType.ANKR &&
+            ankrBalance?.isLessThan(allowanceAmount);
 
           return (
             <>
@@ -183,7 +186,7 @@ export const CreateMicropoolForm = ({
                       <Field
                         component={SliderField}
                         min={MIN_ETH_AMOUNT_DEPOSIT}
-                        max={ethereumBalance?.toNumber()}
+                        max={initialValues[ETH_AMOUNT_FIELD_NAME]}
                         name={ETH_AMOUNT_FIELD_NAME}
                       />
                     </div>
@@ -209,7 +212,7 @@ export const CreateMicropoolForm = ({
                         </SubTitle>
                         <Box display="flex" alignItems="center">
                           <Headline4>{ankrBalance?.toFormat()}</Headline4>
-                          {disabled && (
+                          {isNotEnoughBalance && (
                             <Button
                               className={classes.buy}
                               variant="outlined"
@@ -231,7 +234,7 @@ export const CreateMicropoolForm = ({
                       <MutationErrorHandler
                         type={UserActionTypes.ALLOW_TOKENS}
                       />
-                      {disabled && (
+                      {isNotEnoughAllowance && (
                         <Mutation type={UserActionTypes.ALLOW_TOKENS}>
                           {({ loading }) => {
                             return (
@@ -262,7 +265,7 @@ export const CreateMicropoolForm = ({
                 variant="contained"
                 submit
                 aria-label="submit"
-                disabled={disabled}
+                disabled={isNotEnoughAllowance || isNotEnoughBalance}
               >
                 {t('navigation.create-pool')}
               </Button>

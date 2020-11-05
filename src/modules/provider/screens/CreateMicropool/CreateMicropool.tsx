@@ -22,7 +22,10 @@ import { IconButton } from '@material-ui/core';
 import { useHistory } from 'react-router';
 import { IRequestActionPromiseData } from '../../../../common/types';
 import { success } from '@redux-requests/core';
-import { PROVIDER_MICROPOOL_LIST_PATH } from '../../../../common/const';
+import {
+  MAX_PROVIDER_STAKING_AMOUNT,
+  PROVIDER_MICROPOOL_LIST_PATH,
+} from '../../../../common/const';
 import { useRequestDispatch } from '../../../../common/utils/useRequestDispatch';
 import { isAlphanumeric } from '../../../../common/utils/isAlphanumeric';
 import { FormErrors } from '../../../../common/types/FormErrors';
@@ -81,12 +84,27 @@ export const CreateMicropoolComponent = ({
 }: ICreateMicropoolProps) => {
   const classes = useCreateMicropoolStyles();
 
+  const maxStakingAmount = useMemo(
+    () =>
+      ethereumBalance?.isGreaterThan(MAX_PROVIDER_STAKING_AMOUNT)
+        ? new BigNumber(MAX_PROVIDER_STAKING_AMOUNT)
+        : ethereumBalance,
+    [ethereumBalance],
+  );
+
   const INIT_VALUES = useMemo(
     () => ({
       [DEPOSIT_TYPE_FIELD_NAME]: DepositType.ANKR,
-      [ETH_AMOUNT_FIELD_NAME]: ethereumBalance?.toFixed(),
+      [ETH_AMOUNT_FIELD_NAME]: maxStakingAmount,
     }),
-    [ethereumBalance],
+    [maxStakingAmount],
+  );
+
+  const render = useCallback(
+    formProps => (
+      <CreateMicropoolForm ankrBalance={ankrBalance} {...formProps} />
+    ),
+    [ankrBalance],
   );
 
   return (
@@ -95,16 +113,16 @@ export const CreateMicropoolComponent = ({
         <CancelIcon />
       </IconButton>
       <Form
-        render={formProps => (
-          <CreateMicropoolForm
-            ankrBalance={ankrBalance}
-            ethereumBalance={ethereumBalance}
-            {...formProps}
-          />
-        )}
+        render={render}
         onSubmit={onSubmit}
         validate={validateCreateMicropoolForm}
         initialValues={INIT_VALUES}
+        initialValuesEqual={(a, b) => {
+          return (
+            a?.[DEPOSIT_TYPE_FIELD_NAME] === b?.[DEPOSIT_TYPE_FIELD_NAME] &&
+            a?.[ETH_AMOUNT_FIELD_NAME]?.isEqualTo(b?.[ETH_AMOUNT_FIELD_NAME])
+          );
+        }}
       />
     </div>
   );

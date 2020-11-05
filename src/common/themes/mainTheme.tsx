@@ -10,7 +10,7 @@ const PALETTE = {
   primary: {
     light: '',
     main: '#FFE819',
-    dark: '#FFB800',
+    dark: '#FFE600',
     contrastText: '#000000',
   },
   background: {
@@ -261,10 +261,11 @@ const mainTheme = createMuiTheme({
         backgroundColor: PALETTE.primary.main,
 
         transitionDuration: '300ms',
-        transitionProperty: 'color, background-color',
+        transitionProperty: 'color, background-color, transform',
         transitionTimingFunction: 'linear',
 
         '&:hover, &:focus, &:active': {
+          transform: 'scale(1.05)',
           backgroundColor: PALETTE.primary.dark,
         },
 

@@ -60,20 +60,20 @@ export const Faq = ({ className }: IMarketingProps) => {
             const visible = value === item;
             return (
               <li className={classes.item} key={uid(item)}>
-                <button
-                  className={classes.question}
-                  onClick={() => setValue(item)}
-                >
-                  {t(item.question)}
+                <p className={classes.question}>
+                  <button onClick={() => setValue(item)}>
+                    {t(item.question)}
+                  </button>
                   <span
                     className={classNames(
                       classes.arrow,
                       visible && classes.rotate,
                     )}
+                    onClick={() => setValue(item)}
                   >
                     <Arrow />
                   </span>
-                </button>
+                </p>
                 <FoldableSection open={visible} timeout={300} ssr={false}>
                   <Body2 className={classes.answer} component="div">
                     {tHTML(item.answer)}
