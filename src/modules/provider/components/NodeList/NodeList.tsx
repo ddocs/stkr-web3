@@ -90,6 +90,7 @@ export const NodeListComponent = ({ className, data }: INodeListProps) => {
                     noDataMessage={t(`beacon-list.status.${item.status}`)}
                     type={UserActionTypes.FETCH_SIDECAR_STATUS}
                     requestKey={item.id}
+                    showLoaderDuringRefetch={false}
                   >
                     {({ data }) => {
                       if (item.status === 'VALIDATOR_STATUS_FREE') {
@@ -119,6 +120,7 @@ export const NodeListComponent = ({ className, data }: INodeListProps) => {
                     noDataMessage={t(`beacon-list.not-launched`)}
                     type={UserActionTypes.FETCH_SIDECAR_STATUS}
                     requestKey={item.id}
+                    showLoaderDuringRefetch={false}
                   >
                     {({ data }) => {
                       return formatDistanceToNowStrict(
