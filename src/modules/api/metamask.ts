@@ -4,6 +4,7 @@ import { bytesToHex, numberToHex } from 'web3-utils';
 import { KeyProvider, SendAsyncResult, SendOptions } from './provider';
 import { TransactionReceipt } from 'web3-core';
 import { Transaction } from 'ethereumjs-tx';
+import { Subject } from 'rxjs';
 
 interface ProviderRpcError extends Error {
   message: string;
@@ -16,7 +17,19 @@ interface ProviderMessage {
   data: unknown;
 }
 
+type Address = string;
+
 export class MetaMaskProvider extends KeyProvider {
+  private accountChangedSubject = new Subject<Address[]>();
+  private disconnectSubject = new Subject<ProviderRpcError>();
+  private messageSubject = new Subject<ProviderMessage>();
+  private chainChangedSubject = new Subject<string>();
+
+  public accountChangedEvent = this.accountChangedSubject.asObservable();
+  public disconnectEvent = this.disconnectSubject.asObservable();
+  public messageEvent = this.messageSubject.asObservable();
+  public chainChangedEvent = this.chainChangedSubject.asObservable();
+
   async connect(): Promise<void> {
     // @ts-ignore
     const ethereum: any = typeof window !== 'undefined' && window.ethereum;
@@ -36,7 +49,8 @@ export class MetaMaskProvider extends KeyProvider {
         );
       }
       await this.unlockAccounts(web3);
-      ethereum.on('accountsChanged', (accounts: string[]) => {
+      ethereum.on('accountsChanged', (accounts: Address[]) => {
+        this.accountChangedSubject.next(accounts);
         let newAccount: string | null = null;
         if (accounts.length > 0) {
           newAccount = accounts[0];
@@ -49,15 +63,18 @@ export class MetaMaskProvider extends KeyProvider {
         }
       });
       ethereum.on('disconnect', (error: ProviderRpcError) => {
+        this.disconnectSubject.next(error);
         console.log(
           `You've disconnected from MetaMask: ${JSON.stringify(error)}`,
         );
         window.location.reload();
       });
       ethereum.on('message', (message: ProviderMessage) => {
+        this.messageSubject.next(message);
         console.log(`message from MetaMask: ${JSON.stringify(message)}`);
       });
       ethereum.on('chainChanged', (chainId: string) => {
+        this.chainChangedSubject.next(chainId);
         console.log(`detected MetaMask chainId change to ${chainId}`);
         window.location.reload();
       });
