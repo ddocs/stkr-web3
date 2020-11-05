@@ -144,13 +144,21 @@
   },
   "picker": {
     "staker": {
-      "title": "I want to<br />Stake tokens",
-      "text": "The lower fees for staking eth<br />Stable providers",
-      "link": "Stake tokens"
+      "title": "Earn staking rewards",
+      "features": {
+        "1": "Stake any amount of ETH (minimum 0.5 ETH) to earn staking rewards.",
+        "2": "Keep your staked ETH liquid to trade, sell or participate in DeFi applications through aETH.",
+        "3": "No technical knowledge required!"
+      },
+      "link": "Start staking"
     },
     "provider": {
-      "title": "I want to be<br />a Provider",
-      "text": "Stkr is a decentralized protocol and platform that combines staking and DeFi, implementing elements from traditional staking with non-custodial staking, Micropools and decentralized governance.",
+      "title": "Become a provider",
+      "features": {
+        "1": "Run Ethereum 2.0 nodes and earning from staking rewards and platform fees.",
+        "2": "Opt-in to stake ANKR and reach a higher trust level to receive more staked ETH.",
+        "3": "Non-technical users can run Ethereum 2.0 nodes on the Ankr platform."
+      },
       "link": "Start as a provider"
     }
   },

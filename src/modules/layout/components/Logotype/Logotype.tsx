@@ -4,7 +4,7 @@ import { useLogotypeStyles } from './LogotypeStyles';
 import { NavLink } from '../../../../UiKit/NavLink';
 import { LogoIcon } from '../../../../UiKit/Icons/LogoIcon';
 import { Body2 } from '../../../../UiKit/Typography';
-import { t, tHTML } from '../../../../common/utils/intl';
+import { t } from '../../../../common/utils/intl';
 import { INDEX_PATH } from '../../../../common/const';
 
 export interface ILogotypeProps {
