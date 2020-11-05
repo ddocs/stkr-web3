@@ -34,7 +34,7 @@ import { useAuthentication } from '../../../../common/utils/useAuthentications';
 import { CreateNode } from '../CreateNode';
 import { StkrSdk } from '../../../api';
 
-const SHORT_UPDATE_INTERVAL: Milliseconds = 10_000;
+const SHORT_UPDATE_INTERVAL: Milliseconds = 30_000;
 const LONG_UPDATE_INTERVAL: Milliseconds = 60_000;
 
 interface IProviderDashboardStoreProps {
@@ -205,6 +205,9 @@ export const ProviderDashboard = () => {
         errorComponent={QueryError}
         loadingComponent={QueryLoadingCentered}
         type={UserActionTypes.FETCH_CURRENT_PROVIDER_MICROPOOLS}
+        isDataEmpty={query => {
+          return !query.data;
+        }}
         showLoaderDuringRefetch={false}
       >
         {({ data: micropools }) => {
