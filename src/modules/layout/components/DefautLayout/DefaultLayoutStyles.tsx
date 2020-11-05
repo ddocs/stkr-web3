@@ -3,8 +3,8 @@ import { DEFAULT_FONT } from '../../../../common/themes/mainTheme';
 
 export const useDefaultLayoutStyles = makeStyles(() => ({
   component: {
-    display: 'grid',
-    gridTemplateRows: 'auto 1fr',
+    display: 'flex',
+    flexDirection: 'column',
     minHeight: '100vh',
     width: '100%',
     fontFamily: DEFAULT_FONT,
@@ -22,7 +22,11 @@ export const useDefaultLayoutStyles = makeStyles(() => ({
     },
   },
   content: {
-    maxWidth: '100vw',
     position: 'relative',
+    flexGrow: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'initial',
+    maxWidth: '100vw',
   },
 }));
