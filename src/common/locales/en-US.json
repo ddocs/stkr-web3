@@ -218,6 +218,7 @@
     "transaction": "https://goerli.etherscan.io/tx/{value}",
     "pool-index": "#{value}",
     "status": {
+      "MICRO_POOL_STATUS_CREATING": "Mining",
       "MICRO_POOL_STATUS_PENDING": "Pending",
       "MICRO_POOL_STATUS_PUSH_WAITING": "Waiting for push",
       "MICRO_POOL_STATUS_ONGOING": "Ongoing",

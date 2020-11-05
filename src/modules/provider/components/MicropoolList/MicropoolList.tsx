@@ -90,11 +90,19 @@ export const MicropoolList = ({ className, data }: IMicropoolListProps) => {
               {data.map(item => (
                 <TableRow key={uid(item)}>
                   <TableBodyCell>
-                    {t('micropool-list.pool-index', { value: item.poolIndex })}
+                    {t('micropool-list.pool-index', {
+                      value: item.poolIndex < 0 ? '0' : item.poolIndex,
+                    })}
                   </TableBodyCell>
                   <TableBodyCell>{item.name}</TableBodyCell>
                   <TableBodyCell>
-                    {t(`micropool-list.status.${item.status}`)}
+                    {t(
+                      `micropool-list.status.${
+                        item.poolIndex < 0
+                          ? 'MICRO_POOL_STATUS_CREATING'
+                          : item.status
+                      }`,
+                    )}
                   </TableBodyCell>
                   <TableBodyCell>
                     {t('units.eth', { value: item.lastReward.toFormat() })}
