@@ -1,93 +1,99 @@
 version: 2.1
+
+build-template: &build-template
+  docker:
+    - image: tarampampam/node:13-alpine
+  steps:
+    - checkout
+    - setup_remote_docker
+    - attach_workspace:
+        at: '.'
+    - run:
+        name: 'Build artifacts'
+        command: |
+          node --version
+          npm --version
+          yarn install
+          yarn build
+    - persist_to_workspace:
+        root: '.'
+        paths:
+          - '.'
+
+upload-template: &upload-template
+  docker:
+    - image: bigbadalien/awscli-node-kops-kubectl:0.3
+  steps:
+    - setup_remote_docker
+    - attach_workspace:
+        at: '.'
+    - run:
+        name: 'Upload artifacts'
+        command: |
+          pwd
+          echo "Uploading assets to $DOMAIN"
+          aws s3 cp ./build s3://$DOMAIN/ --acl bucket-owner-full-control --recursive --cache-control "public,max-age=600,s-maxage=3600"
+          echo "Invalidating CDN network"
+          INVALIDATION_ID=`aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths '/*' | jq -r '.Invalidation.Id'`
+          echo "Invalidation ID is $INVALIDATION_ID"
+          echo "CDN Invalidation request is sent."
+
 jobs:
-  build: &build
-    docker:
-      - image: tarampampam/node:13-alpine
-    steps:
-      - checkout
-      - setup_remote_docker
-      - attach_workspace:
-          at: '.'
-      - run:
-          name: 'Build artifacts'
-          command: |
-            node --version
-            npm --version
-            yarn install
-            yarn build
-      - persist_to_workspace:
-          root: '.'
-          paths:
-            - '.'
-  build_prod:
-    <<: *build
-  build_develop:
-    <<: *build
-  build_goerli:
-    <<: *build
-  upload: &upload
-    docker:
-      - image: bigbadalien/awscli-node-kops-kubectl:0.3
-    steps:
-      - setup_remote_docker
-      - attach_workspace:
-          at: '.'
-      - run:
-          name: 'Upload artifacts'
-          command: |
-            pwd
-            echo "Uploading assets to $DOMAIN"
-            aws s3 cp ./build s3://$DOMAIN/ --acl bucket-owner-full-control --recursive --cache-control "public,max-age=600,s-maxage=3600"
-            echo "Invalidating CDN network"
-            INVALIDATION_ID=`aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths '/*' | jq -r '.Invalidation.Id'`
-            echo "Invalidation ID is $INVALIDATION_ID"
-            echo "CDN Invalidation request is sent."
-  upload_prod:
-    <<: *upload
-  upload_develop:
-    <<: *upload
-  upload_goerli:
-    <<: *upload
+  # build
+  build-develop:
+    <<: *build-template
+  build-goerli:
+    <<: *build-template
+  build-prod:
+    <<: *build-template
+  # upload
+  upload-develop:
+    <<: *upload-template
+  upload-goerli:
+    <<: *upload-template
+  upload-prod:
+    <<: *upload-template
 
 workflows:
   version: 2.1
   stkr_web3:
     jobs:
-      - hold_build_prod:
+      # develop
+      - approve-develop:
           type: approval
-      - build_prod:
-          context: stkr_build_prod
-          requires:
-            - hold_build_prod
-      - upload_prod:
-          context:
-            - cicd
-            - stkr_build_prod
-          requires:
-            - build_prod
-
-      - hold_build_develop:
-          type: approval
-      - build_develop:
+      - build-develop:
           context: stkr_build_develop
           requires:
-            - hold_build_develop
-      - upload_develop:
+            - approve-develop
+      - upload-develop:
           context:
             - cicd
             - stkr_build_develop
           requires:
-            - build_develop
-
-      - hold_build_goerli:
+            - build-develop
+      # goerli
+      - approve-goerli:
           type: approval
-      - build_goerli:
+      - build-goerli:
           context: stkr_build_goerli
           requires:
-            - hold_build_goerli
-      - upload_goerli:
+            - approve-goerli
+      - upload-goerli:
           context:
             - cicd
             - stkr_build_goerli
           requires:
-            - build_goerli
+            - build-goerli
+      # prod
+      - approve-prod:
+          type: approval
+      - build-prod:
+          context: stkr_build_prod
+          requires:
+            - approve-prod
+      - upload-prod:
+          context:
+            - cicd
+            - stkr_build_prod
+          requires:
+            - build-prod
