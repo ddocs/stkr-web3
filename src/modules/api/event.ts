@@ -73,7 +73,6 @@ export interface IEthereumBalanceChangedEvent {
     eventLog: IEventLog;
     address: Address;
     balance: BigNumber;
-    delta: BigNumber;
   };
 }
 
