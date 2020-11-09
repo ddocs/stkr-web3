@@ -21,7 +21,7 @@ export const SOCIAL_LINK = {
 };
 export const DOCS_LINK = '#';
 export const GOVERNANCE_LINK = '#';
-export const YEAR_INTEREST = 0.0526;
+export const YEAR_INTEREST = 0.216;
 export const NOTIFICATION_AUTO_HIDE_DURATION: Milliseconds = 3000;
 export const DEFAULT_STAKING_AMOUNT = 32;
 export const MAX_PROVIDER_STAKING_AMOUNT = 16;
