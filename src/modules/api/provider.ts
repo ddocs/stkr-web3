@@ -53,13 +53,19 @@ export abstract class KeyProvider {
     }, 10_000);
   }
 
-  protected getWeb3(): Web3 {
+  public getWeb3(): Web3 {
     if (!this._web3) throw new Error('Web3 must be initialized');
     return this._web3;
   }
 
   public latestBlockHeight(): number {
     return this._latestBlockHeight;
+  }
+
+  public changeLatestBlockHeight(blockHeight: number) {
+    if (blockHeight > this._latestBlockHeight) {
+      this._latestBlockHeight = blockHeight;
+    }
   }
 
   public createContract(abi: AbiItem[] | AbiItem, address: string): Contract {

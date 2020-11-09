@@ -10,6 +10,7 @@ import {
   IStakePendingEvent,
   IStakeRemovedEvent,
 } from './event';
+import { BlockHeader } from 'web3-eth';
 
 const ABI_GLOBAL_POOL = require('./contract/GlobalPool.json');
 const ABI_ANKR = require('./contract/ANKR.json');
@@ -129,7 +130,41 @@ export class ContractManager {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  private followEthereumEvents() {}
+  private followEthereumEvents() {
+    this.keyProvider
+      .getWeb3()
+      .eth.subscribe('newBlockHeaders')
+      .on('data', async (blockHeader: BlockHeader) => {
+        console.log(`handled new block ${blockHeader.number}`);
+        const currentAddress = this.keyProvider.currentAccount();
+        this.keyProvider.changeLatestBlockHeight(blockHeader.number);
+        const ethBalance = await this.keyProvider.ethereumBalance(
+            currentAddress,
+          ),
+          bigBalance = new BigNumber(ethBalance);
+        if (
+          this._ethereumBalance &&
+          bigBalance.comparedTo(this._ethereumBalance) === 0
+        ) {
+          return;
+        }
+        console.log(
+          `handled ethereum balance change from ${
+            this._ethereumBalance?.toString(10) || 0
+          } to ${ethBalance}`,
+        );
+        this._ethereumBalance = bigBalance;
+        this.eventEmitter.emit(ContractManagerEvents.EthereumBalanceChanged, {
+          eventLog: {
+            transactionHash: '',
+          },
+          address: currentAddress,
+          balance: this._ethereumBalance,
+        });
+      });
+  }
+
+  private _ethereumBalance?: BigNumber;
 
   private followAnkrEvents() {
     const currentAddress = this.keyProvider.currentAccount(),
