@@ -1,15 +1,23 @@
 /* eslint-disable @typescript-eslint/no-var-requires,@typescript-eslint/interface-name-prefix */
 import { KeyProvider, SendAsyncResult } from './provider';
-import { Contract } from 'web3-eth-contract';
-import { stringToHex, numberToHex } from 'web3-utils';
+import { Contract, EventData } from 'web3-eth-contract';
 import BigNumber from 'bignumber.js';
+import { EventLog } from 'web3-core';
+import { EventEmitter } from 'events';
+import {
+  ContractManagerEvents,
+  IContractManagerStakeConfirmed,
+  IContractManagerStakePending,
+  IContractManagerStakeRemoved,
+} from './event';
 
-const ABI_MICRO_POOL = require('./contract/MicroPool.json');
+const ABI_GLOBAL_POOL = require('./contract/GlobalPool.json');
 const ABI_ANKR = require('./contract/ANKR.json');
 const ABI_STAKING = require('./contract/Staking.json');
 const ABI_SYSTEM = require('./contract/SystemParameters.json');
 
 export interface ContractConfig {
+  aethContract: string;
   microPoolContract: string;
   ankrContract: string;
   stakingContract: string;
@@ -19,14 +27,11 @@ export interface ContractConfig {
 export interface SystemContractParameters {
   providerMinimumStaking: BigNumber;
   requesterMinimumStaking: BigNumber;
-  slashingForMigration: BigNumber;
   ethereumStakingAmount: BigNumber;
 }
 
 const ANKR_SCALE_FACTOR = 10 ** 18;
 const ETH_SCALE_FACTOR = 10 ** 18;
-
-console.log('Remove or use me', ETH_SCALE_FACTOR);
 
 export class ContractManager {
   private readonly microPoolContract: Contract;
@@ -39,9 +44,10 @@ export class ContractManager {
   public constructor(
     private keyProvider: KeyProvider,
     private contractConfig: ContractConfig,
+    private eventEmitter: EventEmitter,
   ) {
     this.microPoolContract = this.keyProvider.createContract(
-      ABI_MICRO_POOL,
+      ABI_GLOBAL_POOL,
       contractConfig.microPoolContract,
     );
     this.ankrContract = this.keyProvider.createContract(
@@ -56,86 +62,377 @@ export class ContractManager {
       ABI_SYSTEM,
       contractConfig.systemContract,
     );
+    console.log(`subscribing for contract events`);
+    this.followContractEvents();
   }
 
-  public async initializePool(name: string): Promise<SendAsyncResult> {
-    const encodedName = stringToHex(name);
-    if (encodedName.length > 32) {
-      throw new Error("Encoded pool name can't be greater than 32 bytes");
-    }
-    const data: string = this.microPoolContract.methods
-      .initializePool(encodedName)
-      .encodeABI();
-    console.log(`encoded [initializePool] ABI: ${data}`);
-    const currentAccount = await this.keyProvider.currentAccount();
-    return this.keyProvider.sendAsync(
-      currentAccount,
-      this.contractConfig.microPoolContract,
+  public async queryStakePendingEventLogs(): Promise<
+    IContractManagerStakePending[]
+  > {
+    const currentAddress = this.keyProvider.currentAccount();
+    const events = await this.microPoolContract.getPastEvents('StakePending', {
+      fromBlock: 0,
+      filter: { staker: currentAddress },
+    });
+    return events.map((eventData: EventData) => {
+      const { staker, amount } = eventData.returnValues;
+      return {
+        type: ContractManagerEvents.StakePending,
+        data: {
+          eventData,
+          staker: staker,
+          amount: new BigNumber(amount).dividedBy(ETH_SCALE_FACTOR),
+        },
+      };
+    });
+  }
+
+  public async queryStakeConfirmedEventLogs(): Promise<
+    IContractManagerStakeConfirmed[]
+  > {
+    const currentAddress = this.keyProvider.currentAccount();
+    const events = await this.microPoolContract.getPastEvents(
+      'StakeConfirmed',
       {
-        gasLimit: '1000000',
-        data: data,
+        fromBlock: 0,
+        filter: { staker: currentAddress },
       },
     );
+    return events.map((eventData: EventData) => {
+      const { staker, amount } = eventData.returnValues;
+      return {
+        type: ContractManagerEvents.StakeConfirmed,
+        data: {
+          eventData,
+          staker: staker,
+          amount: new BigNumber(amount).dividedBy(ETH_SCALE_FACTOR),
+        },
+      };
+    });
   }
 
-  public async initializePoolWithETH(
-    name: string,
-    amount: BigNumber,
+  public async queryStakeRemovedEventLogs(): Promise<
+    IContractManagerStakeRemoved[]
+  > {
+    const currentAddress = this.keyProvider.currentAccount();
+    const events = await this.microPoolContract.getPastEvents('StakeRemoved', {
+      fromBlock: 0,
+      filter: { staker: currentAddress },
+    });
+    return events.map((eventData: EventData) => {
+      const { staker, amount } = eventData.returnValues;
+      return {
+        type: ContractManagerEvents.StakeRemoved,
+        data: {
+          eventData,
+          staker: staker,
+          amount: new BigNumber(amount).dividedBy(ETH_SCALE_FACTOR),
+        },
+      };
+    });
+  }
+
+  private followContractEvents() {
+    const currentAddress = this.keyProvider.currentAccount(),
+      latestBlockHeight = this.keyProvider.latestBlockHeight();
+    // noinspection TypeScriptValidateJSTypes
+    this.microPoolContract.events
+      .StakePending({
+        filter: { staker: currentAddress },
+        fromBlock: latestBlockHeight,
+      })
+      .on('data', (eventLog: EventLog) => {
+        const { staker, amount } = eventLog.returnValues;
+        console.log(
+          `handled stake pending event log: `,
+          JSON.stringify(eventLog, null, 2),
+        );
+        this.eventEmitter.emit(ContractManagerEvents.StakePending, {
+          eventData: eventLog,
+          staker,
+          amount,
+        });
+      });
+    // noinspection TypeScriptValidateJSTypes
+    this.microPoolContract.events
+      .StakeConfirmed({
+        filter: { staker: currentAddress },
+        fromBlock: latestBlockHeight,
+      })
+      .on('data', (eventLog: EventLog) => {
+        const { staker, amount } = eventLog.returnValues;
+        console.log(
+          `handled stake confirmed event log: `,
+          JSON.stringify(eventLog, null, 2),
+        );
+        this.eventEmitter.emit(ContractManagerEvents.StakeConfirmed, {
+          eventData: eventLog,
+          staker,
+          amount,
+        });
+      });
+    // noinspection TypeScriptValidateJSTypes
+    this.microPoolContract.events
+      .StakeRemoved({
+        filter: { staker: currentAddress },
+        fromBlock: latestBlockHeight,
+      })
+      .on('data', (eventLog: EventLog) => {
+        const { staker, amount } = eventLog.returnValues;
+        console.log(
+          `handled stake removed event log: `,
+          JSON.stringify(eventLog, null, 2),
+        );
+        this.eventEmitter.emit(ContractManagerEvents.StakeRemoved, {
+          eventData: eventLog,
+          staker,
+          amount,
+        });
+      });
+    // noinspection TypeScriptValidateJSTypes
+    this.microPoolContract.events
+      .PoolOnGoing({
+        filter: { staker: currentAddress },
+        fromBlock: latestBlockHeight,
+      })
+      .on('data', (eventLog: EventLog) => {
+        const { pool } = eventLog.returnValues;
+        console.log(
+          `handled pool ongoing event log: `,
+          JSON.stringify(eventLog, null, 2),
+        );
+        this.eventEmitter.emit(ContractManagerEvents.PoolOnGoing, {
+          eventData: eventLog,
+          pool,
+        });
+      });
+    // noinspection TypeScriptValidateJSTypes
+    this.microPoolContract.events
+      .PoolCompleted({
+        filter: { staker: currentAddress },
+        fromBlock: latestBlockHeight,
+      })
+      .on('data', (eventLog: EventLog) => {
+        const { pool } = eventLog.returnValues;
+        console.log(
+          `handled pool completed event log: `,
+          JSON.stringify(eventLog, null, 2),
+        );
+        this.eventEmitter.emit(ContractManagerEvents.PoolCompleted, {
+          eventData: eventLog,
+          pool,
+        });
+      });
+    // noinspection TypeScriptValidateJSTypes
+    this.microPoolContract.events
+      .ProviderSlashedAnkr({
+        filter: { staker: currentAddress },
+        fromBlock: latestBlockHeight,
+      })
+      .on('data', (eventLog: EventLog) => {
+        const {
+          provider,
+          ankrAmount,
+          etherEquivalence,
+        } = eventLog.returnValues;
+        console.log(
+          `handled provider slashed ankr log: `,
+          JSON.stringify(eventLog, null, 2),
+        );
+        this.eventEmitter.emit(ContractManagerEvents.ProviderSlashedAnkr, {
+          eventData: eventLog,
+          provider,
+          ankrAmount,
+          etherEquivalence,
+        });
+      });
+    // noinspection TypeScriptValidateJSTypes
+    this.microPoolContract.events
+      .ProviderSlashedEth({
+        filter: { staker: currentAddress },
+        fromBlock: latestBlockHeight,
+      })
+      .on('data', (eventLog: EventLog) => {
+        const { provider, amount } = eventLog.returnValues;
+        console.log(
+          `handled provider slashed eth event log: `,
+          JSON.stringify(eventLog, null, 2),
+        );
+        this.eventEmitter.emit(ContractManagerEvents.ProviderSlashedEth, {
+          eventData: eventLog,
+          provider,
+          amount,
+        });
+      });
+    // noinspection TypeScriptValidateJSTypes
+    this.microPoolContract.events
+      .ProviderToppedUpEth({
+        filter: { staker: currentAddress },
+        fromBlock: latestBlockHeight,
+      })
+      .on('data', (eventLog: EventLog) => {
+        const { provider, amount } = eventLog.returnValues;
+        console.log(
+          `handled provider topped up eth event log: `,
+          JSON.stringify(eventLog, null, 2),
+        );
+        this.eventEmitter.emit(ContractManagerEvents.ProviderToppedUpEth, {
+          eventData: eventLog,
+          provider,
+          amount,
+        });
+      });
+    // noinspection TypeScriptValidateJSTypes
+    this.microPoolContract.events
+      .ProviderToppedUpAnkr({
+        filter: { staker: currentAddress },
+        fromBlock: latestBlockHeight,
+      })
+      .on('data', (eventLog: EventLog) => {
+        const { provider, amount } = eventLog.returnValues;
+        console.log(
+          `handled provider topped up ankr event log: `,
+          JSON.stringify(eventLog, null, 2),
+        );
+        this.eventEmitter.emit(ContractManagerEvents.ProviderToppedUpAnkr, {
+          eventData: eventLog,
+          provider,
+          amount,
+        });
+      });
+    // noinspection TypeScriptValidateJSTypes
+    this.microPoolContract.events
+      .ProviderExited({
+        filter: { staker: currentAddress },
+        fromBlock: latestBlockHeight,
+      })
+      .on('data', (eventLog: EventLog) => {
+        const { provider } = eventLog.returnValues;
+        console.log(
+          `handled provider exited event log: `,
+          JSON.stringify(eventLog, null, 2),
+        );
+        this.eventEmitter.emit(ContractManagerEvents.ProviderExited, {
+          eventData: eventLog,
+          provider,
+        });
+      });
+    // noinspection TypeScriptValidateJSTypes
+    this.microPoolContract.events
+      .RewardClaimed({
+        filter: { staker: currentAddress },
+        fromBlock: latestBlockHeight,
+      })
+      .on('data', (eventLog: EventLog) => {
+        const { staker, amount } = eventLog.returnValues;
+        console.log(
+          `handled reward claimed event log: `,
+          JSON.stringify(eventLog, null, 2),
+        );
+        this.eventEmitter.emit(ContractManagerEvents.RewardClaimed, {
+          eventData: eventLog,
+          staker,
+          amount,
+        });
+      });
+  }
+
+  public async stake(
+    amount: BigNumber | BigNumber.Value,
   ): Promise<SendAsyncResult> {
-    const { ethereumStakingAmount } = await this.getSystemContractParameters();
-    if (amount.lt(ethereumStakingAmount)) {
-      throw new Error(`Amount can't be lower than minimum staking amount`);
-    }
-    const encodedName = stringToHex(name);
-    if (encodedName.length > 32) {
-      throw new Error(`Encoded pool name can't be greater than 32 bytes`);
-    }
-    const data: string = this.microPoolContract.methods
-      .initializePoolWithETH(encodedName)
-      .encodeABI();
-    console.log(`encoded [initializePool] ABI: ${data}`);
+    const data: string = this.microPoolContract.methods.stake().encodeABI();
     const currentAccount = await this.keyProvider.currentAccount();
     return this.keyProvider.sendAsync(
       currentAccount,
       this.contractConfig.microPoolContract,
       {
-        gasLimit: '1000000',
         data: data,
-        value: amount.toString(10),
+        value: new BigNumber(amount)
+          .multipliedBy(ETH_SCALE_FACTOR)
+          .toString(10),
       },
     );
   }
 
-  public async poolDetails(poolIndex: string): Promise<any> {
-    return this.microPoolContract.methods
-      .poolDetails(stringToHex(poolIndex))
-      .call();
-  }
-
-  public async pendingPools(): Promise<BigNumber[]> {
-    const pendingPools = await this.microPoolContract.methods
-      .poolDetails()
-      .call();
-    console.log(
-      `found next pending pools: ${JSON.stringify(pendingPools, null, 2)}`,
-    );
-    return Object.values(pendingPools);
-  }
-
-  public async stake(poolIndex: BigNumber, amount: BigNumber): Promise<string> {
-    const data: string = this.microPoolContract.methods
-      .stake(poolIndex.toString(10))
-      .encodeABI();
+  public async unstake(): Promise<SendAsyncResult> {
+    const data: string = this.microPoolContract.methods.unstake().encodeABI();
     const currentAccount = await this.keyProvider.currentAccount();
-    const receipt = await this.keyProvider.send(
+    return this.keyProvider.sendAsync(
       currentAccount,
       this.contractConfig.microPoolContract,
       {
         data: data,
-        value: amount.multipliedBy(ETH_SCALE_FACTOR).toString(10),
       },
     );
-    return receipt.transactionHash;
+  }
+
+  public async topUpETH(amount: BigNumber | string): Promise<SendAsyncResult> {
+    const data: string = this.microPoolContract.methods.topUpETH().encodeABI();
+    const currentAccount = await this.keyProvider.currentAccount();
+    return this.keyProvider.sendAsync(
+      currentAccount,
+      this.contractConfig.microPoolContract,
+      {
+        data: data,
+        value: new BigNumber(amount)
+          .multipliedBy(ETH_SCALE_FACTOR)
+          .toString(10),
+      },
+    );
+  }
+
+  public async topUpANKR(amount: BigNumber | string): Promise<SendAsyncResult> {
+    const data: string = this.microPoolContract.methods
+      .topUpANKR(
+        new BigNumber(amount).multipliedBy(ANKR_SCALE_FACTOR).toString(10),
+      )
+      .encodeABI();
+    const currentAccount = await this.keyProvider.currentAccount();
+    return this.keyProvider.sendAsync(
+      currentAccount,
+      this.contractConfig.microPoolContract,
+      {
+        data: data,
+      },
+    );
+  }
+
+  public async providerExit(): Promise<SendAsyncResult> {
+    const data: string = this.microPoolContract.methods
+      .providerExit()
+      .encodeABI();
+    const currentAccount = await this.keyProvider.currentAccount();
+    return this.keyProvider.sendAsync(
+      currentAccount,
+      this.contractConfig.microPoolContract,
+      {
+        data: data,
+      },
+    );
+  }
+
+  public async claim(): Promise<SendAsyncResult> {
+    const data: string = this.microPoolContract.methods.claim().encodeABI();
+    const currentAccount = await this.keyProvider.currentAccount();
+    return this.keyProvider.sendAsync(
+      currentAccount,
+      this.contractConfig.microPoolContract,
+      {
+        data: data,
+      },
+    );
+  }
+
+  public async claimableRewardOf(): Promise<BigNumber> {
+    return this.microPoolContract.methods.claimableRewardOf().call();
+  }
+
+  public async poolCount(): Promise<BigNumber> {
+    return this.microPoolContract.methods.poolCount().call();
+  }
+
+  public async pendingStakesOf(staker: string): Promise<BigNumber> {
+    return this.microPoolContract.methods.pendingStakesOf(staker).call();
   }
 
   public async getSystemContractParameters(): Promise<
@@ -150,9 +447,6 @@ export class ContractManager {
     const requesterMinimumStaking = await this.systemContract.methods
       .REQUESTER_MINIMUM_POOL_STAKING()
       .call();
-    const slashingForMigration = await this.systemContract.methods
-      .SLASHINGS_FOR_MIGRATION()
-      .call();
     const ethereumStakingAmount = await this.systemContract.methods
       .ETHEREUM_STAKING_AMOUNT()
       .call();
@@ -163,9 +457,6 @@ export class ContractManager {
       ),
       requesterMinimumStaking: new BigNumber(requesterMinimumStaking).dividedBy(
         ANKR_SCALE_FACTOR,
-      ),
-      slashingForMigration: new BigNumber(slashingForMigration).dividedBy(
-        ETH_SCALE_FACTOR,
       ),
       ethereumStakingAmount: new BigNumber(ethereumStakingAmount).dividedBy(
         ETH_SCALE_FACTOR,
@@ -189,23 +480,22 @@ export class ContractManager {
     return new BigNumber(allowance).dividedBy(ANKR_SCALE_FACTOR);
   }
 
-  public async faucet(): Promise<string> {
+  public async faucet(): Promise<SendAsyncResult> {
     const data: string = this.ankrContract.methods.faucet().encodeABI();
     const currentAccount = await this.keyProvider.currentAccount();
     console.log(`encoded [faucet] ABI: ${data}`);
-    const receipt = await this.keyProvider.send(
+    return this.keyProvider.sendAsync(
       currentAccount,
       this.contractConfig.ankrContract,
       {
         data: data,
       },
     );
-    return receipt.transactionHash;
   }
 
   public async approveAnkrToStakingContract(
     amount: BigNumber,
-  ): Promise<string> {
+  ): Promise<SendAsyncResult> {
     const data: string = this.ankrContract.methods
       .approve(
         this.contractConfig.stakingContract,
@@ -214,67 +504,16 @@ export class ContractManager {
       .encodeABI();
     const currentAccount = await this.keyProvider.currentAccount();
     console.log(`encoded [approveAnkrToStakingContract] ABI: ${data}`);
-    const receipt = await this.keyProvider.send(
+    return this.keyProvider.sendAsync(
       currentAccount,
       this.contractConfig.ankrContract,
       {
         data: data,
       },
     );
-    return receipt.transactionHash;
-  }
-
-  public async unstake(poolIndex: number): Promise<string> {
-    const data: string = this.microPoolContract.methods
-      .unstake(poolIndex)
-      .encodeABI();
-    const currentAccount = await this.keyProvider.currentAccount();
-    const receipt = await this.keyProvider.send(
-      currentAccount,
-      this.contractConfig.microPoolContract,
-      {
-        data: data,
-      },
-    );
-    return receipt.transactionHash;
   }
 
   public async ankrBalance(address: string): Promise<string> {
     return this.keyProvider.erc20Balance(this.ankrContract, address);
-  }
-
-  public async userStakeAmount(
-    poolIndex: string,
-    address: string,
-  ): Promise<any> {
-    return this.microPoolContract.methods
-      .userStakeAmount(stringToHex(poolIndex), address)
-      .call();
-  }
-
-  public async refundAllSpentEthereum(): Promise<SendAsyncResult> {
-    const data: string = this.microPoolContract.methods.getBack().encodeABI();
-    const currentAccount = await this.keyProvider.currentAccount();
-    return this.keyProvider.sendAsync(
-      currentAccount,
-      this.contractConfig.microPoolContract,
-      {
-        data: data,
-      },
-    );
-  }
-
-  public async claimAeth(poolIndex: number | string): Promise<SendAsyncResult> {
-    const data: string = this.microPoolContract.methods
-      .claimAeth(numberToHex(poolIndex))
-      .encodeABI();
-    const currentAccount = await this.keyProvider.currentAccount();
-    return await this.keyProvider.sendAsync(
-      currentAccount,
-      this.contractConfig.microPoolContract,
-      {
-        data: data,
-      },
-    );
   }
 }

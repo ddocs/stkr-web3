@@ -5,7 +5,6 @@ import { Contract } from 'web3-eth-contract';
 import { BigNumber } from 'bignumber.js';
 import { PromiEvent, TransactionReceipt } from 'web3-core';
 import { EventEmitter } from 'events';
-import { Address, ProviderRpcError } from './metamask';
 
 export interface ProviderConfig {
   networkId: string;
@@ -24,47 +23,29 @@ export interface SendAsyncResult {
   rawTransaction: string;
 }
 
-export enum KeyProviderEvents {
-  AccountChanged = 'AccountChanged',
-  Disconnect = 'Disconnect',
-  Message = 'Message',
-  ChainChanged = 'ChainChanged',
+export type Address = string;
+
+export interface ProviderRpcError extends Error {
+  message: string;
+  code: number;
+  data?: unknown;
 }
 
-export interface IKeyProviderAccountChangedEvent {
-  type: KeyProviderEvents.AccountChanged;
-  data: { accounts: Address[] };
+export interface ProviderMessage {
+  type: string;
+  data: unknown;
 }
-
-export interface IKeyProviderDisconnectEvent {
-  type: KeyProviderEvents.Disconnect;
-  error: ProviderRpcError;
-}
-
-export interface IKeyProviderMessageEvent {
-  type: KeyProviderEvents.Message;
-  data: any;
-}
-
-export interface IKeyProviderChainChangedEvent {
-  type: KeyProviderEvents.ChainChanged;
-  data: { chainId: string };
-}
-
-export type KeyProviderEvent =
-  | IKeyProviderAccountChangedEvent
-  | IKeyProviderDisconnectEvent
-  | IKeyProviderMessageEvent
-  | IKeyProviderChainChangedEvent;
 
 export abstract class KeyProvider {
-  public events: EventEmitter = new EventEmitter();
   protected _currentAccount: string | null = null;
   protected _web3: Web3 | null = null;
   protected _latestBlockHeight = 0;
   protected _fetchInterval = 0;
 
-  constructor(protected providerConfig: ProviderConfig) {
+  constructor(
+    protected providerConfig: ProviderConfig,
+    protected eventEmitter: EventEmitter,
+  ) {
     // @ts-ignore
     this._fetchInterval = setInterval(async () => {
       if (!this._web3) return;
@@ -119,12 +100,6 @@ export abstract class KeyProvider {
     data: Buffer | string | object,
     address: string,
   ): Promise<string>;
-
-  public abstract send(
-    from: string,
-    to: string,
-    sendOptions: SendOptions,
-  ): Promise<TransactionReceipt>;
 
   public abstract sendAsync(
     from: string,

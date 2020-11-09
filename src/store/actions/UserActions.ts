@@ -10,7 +10,7 @@ import {
 import { IMicropool, mapMicropool } from '../apiMappers/poolsApi';
 import { ISidecar, mapSidecar } from '../apiMappers/sidecarsApi';
 import { mapProviderStats } from '../apiMappers/providerStatsApi';
-import { IAllowance, IAllowTokensResponse } from '../apiMappers/allowance';
+import { IAllowance } from '../apiMappers/allowance';
 import { mapStakerStats } from '../apiMappers/stakerStatsApi';
 import { authenticatedGuard } from '../../common/utils/authenticatedGuard';
 import { RequestAction } from '@redux-requests/core';
@@ -218,8 +218,8 @@ export const UserActions = {
     type: UserActionTypes.CREATE_MICROPOOL,
     request: {
       promise: (async function () {
-        const stkrSdk = StkrSdk.getLastInstance();
-        return await stkrSdk.createAnkrMicroPool(name);
+        console.log(name);
+        alert('Not possible anymore');
       })(),
     },
     meta: {
@@ -264,14 +264,7 @@ export const UserActions = {
     request: {
       promise: (async function () {
         const stkrSdk = StkrSdk.getLastInstance();
-        try {
-          return {
-            txHash: await stkrSdk.allowTokens(),
-          } as IAllowTokensResponse;
-        } catch (e) {
-          console.error(e);
-          throw e;
-        }
+        return (await stkrSdk.allowTokens()).transactionHash;
       })(),
     },
     meta: {
@@ -282,8 +275,8 @@ export const UserActions = {
     type: UserActionTypes.ALLOW_ETH_TOKENS,
     request: {
       promise: (async function () {
-        const stkrSdk = StkrSdk.getLastInstance();
-        return await stkrSdk.createEthereumMicroPool(name, amount);
+        console.log(name + amount);
+        alert('Not possible anymore');
       })(),
     },
     meta: {

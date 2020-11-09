@@ -1,32 +1,28 @@
 import { MetaMaskProvider } from './metamask';
-import { KeyProvider } from './provider';
+import { KeyProvider, SendAsyncResult } from './provider';
 import { ContractManager } from './contract';
 import {
   ApiGateway,
   BalanceReply,
-  MicroPoolReply,
-  ProviderReply,
   ProviderStatsReply,
   SidecarReply,
   SidecarStatusReply,
   StakerStats,
+  UserStakeReply,
 } from './gateway';
 import { IStkrConfig } from './config';
-import { t } from '../../common/utils/intl';
 import BigNumber from 'bignumber.js';
+import { EventEmitter } from 'events';
+import { TransactionReceipt } from 'web3-core';
 
-export interface IContractDetails {
-  ankrEthContract: string;
-  ankrContract: string;
-  marketPlaceContract: string;
-  microPoolContract: string;
-  systemParametersContract: string;
-  stakingContract: string;
+export interface IStakeAction extends SendAsyncResult {
+  waitForTxReceipt(): Promise<TransactionReceipt>;
 }
 
 export class StkrSdk {
   private keyProvider: KeyProvider | null = null;
   private contractManager: ContractManager | null = null;
+  private eventEmitter: EventEmitter = new EventEmitter();
 
   constructor(
     private stkrConfig: IStkrConfig,
@@ -45,30 +41,42 @@ export class StkrSdk {
 
   static getLastInstance() {
     if (!StkrSdk.instance) {
-      throw t('user-actions.error.sdk-not-initialized');
+      throw new Error('SDK is not initialized yet');
     }
     return StkrSdk.instance;
   }
 
   public async connectMetaMask() {
-    const config = await this.apiGateway.downloadConfigFile(
-      this.stkrConfig.configFile,
+    /* download config from server only if its not provided yet */
+    if (!this.stkrConfig.providerConfig || !this.stkrConfig.contractConfig) {
+      const config = await this.apiGateway.downloadConfigFile(
+        this.stkrConfig.configFile,
+      );
+      console.log(
+        `downloaded config from server: ${JSON.stringify(config, null, 2)}`,
+      );
+      this.stkrConfig.providerConfig = {
+        networkId: `${config.network.networkId}`,
+        chainId: `${config.network.chainId}`,
+      };
+      this.stkrConfig.contractConfig = {
+        aethContract: config.contracts.AETH,
+        microPoolContract: config.contracts.MicroPool,
+        ankrContract: config.contracts.ANKR,
+        stakingContract: config.contracts.Staking,
+        systemContract: config.contracts.SystemParameters,
+      };
+    }
+    const metaMaskProvider = new MetaMaskProvider(
+      this.stkrConfig.providerConfig,
+      this.eventEmitter,
     );
-    console.log(
-      `downloaded config from server: ${JSON.stringify(config, null, 2)}`,
-    );
-    const metaMaskProvider = new MetaMaskProvider({
-      networkId: `${config.network.networkId}`,
-      chainId: `${config.network.chainId}`,
-    });
     await metaMaskProvider.connect();
-
-    const contractManage = new ContractManager(metaMaskProvider, {
-      ankrContract: config.contracts.ANKR,
-      microPoolContract: config.contracts.MicroPool,
-      stakingContract: config.contracts.Staking,
-      systemContract: config.contracts.SystemParameters,
-    });
+    const contractManage = new ContractManager(
+      metaMaskProvider,
+      this.stkrConfig.contractConfig,
+      this.eventEmitter,
+    );
     this.keyProvider = metaMaskProvider;
     this.contractManager = contractManage;
   }
@@ -89,18 +97,8 @@ export class StkrSdk {
     if (!this.keyProvider) {
       throw new Error('Key provider must be connected');
     }
-
     const token = await this.keyProvider.signLoginData(ttl);
-
-    const {
-      status,
-      statusText,
-    } = await this.apiGateway.authorizeWithSignedData(token);
-
-    if (status !== 200) {
-      throw new Error(`Unable to authenticate user (#${status}) ${statusText}`);
-    }
-
+    await this.apiGateway.authorizeWithSignedData(token);
     return { token };
   }
 
@@ -135,26 +133,13 @@ export class StkrSdk {
     } catch (e) {
       console.warn(`unable to verify token: ${e.message}`);
     }
-
     return false;
-  }
-
-  public async getProviders(page = 0, size = 100): Promise<ProviderReply[]> {
-    return this.apiGateway.getProviders(page, size);
-  }
-
-  public async getMicroPools(page = 0, size = 100): Promise<MicroPoolReply[]> {
-    return this.apiGateway.getMicroPools(page, size);
   }
 
   public async faucet(): Promise<void> {
     const contractManager = this.getContractManager();
-    console.log(`calling faucet`);
     await contractManager.faucet();
   }
-
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  public async reserveTokens() {}
 
   public async getAllowanceAmount() {
     return await this.getContractManager().checkAnkrAllowance();
@@ -171,7 +156,9 @@ export class StkrSdk {
     return minimalStaking.minus(allowanceAmount);
   }
 
-  public async allowTokens(remainingAllowance?: BigNumber) {
+  public async allowTokens(
+    remainingAllowance?: BigNumber,
+  ): Promise<SendAsyncResult> {
     if (!remainingAllowance) {
       remainingAllowance = await this.getRemainingAllowance();
     }
@@ -180,7 +167,7 @@ export class StkrSdk {
         10,
       )}`,
     );
-    return await this.getContractManager().approveAnkrToStakingContract(
+    return this.getContractManager().approveAnkrToStakingContract(
       remainingAllowance,
     );
   }
@@ -203,70 +190,18 @@ export class StkrSdk {
     });
   }
 
-  public async createAnkrMicroPool(name: string): Promise<MicroPoolReply> {
-    const remainingAllowance = await this.getRemainingAllowance();
-    if (remainingAllowance.isGreaterThan(0)) {
-      await this.allowTokens(remainingAllowance);
-    }
-    const asyncResult = await this.getContractManager().initializePool(name),
-      rawTx = asyncResult.rawTransaction;
-    return await this.getApiGateway().createPendingMicroPool(rawTx);
-  }
-
-  public async createEthereumMicroPool(
-    name: string,
-    amount: BigNumber | null = null,
-  ): Promise<MicroPoolReply> {
-    const {
-      ethereumStakingAmount,
-    } = await this.getContractManager().getSystemContractParameters();
-    if (!amount) {
-      amount = ethereumStakingAmount;
-    }
-    const asyncResult = await this.getContractManager().initializePoolWithETH(
-        name,
-        amount,
-      ),
-      rawTx = asyncResult.rawTransaction;
-    return await this.getApiGateway().createPendingMicroPool(rawTx);
-  }
-
-  public async stake(amount: BigNumber | string): Promise<void> {
-    if (typeof amount === 'string') {
-      amount = new BigNumber(amount);
-    }
+  public async stake(stakingAmount: BigNumber | BigNumber.Value): Promise<{}> {
+    stakingAmount = new BigNumber(stakingAmount);
     const {
       requesterMinimumStaking,
     } = await this.getContractManager().getSystemContractParameters();
-    if (amount.isLessThan(requesterMinimumStaking)) {
+    if (stakingAmount.isLessThan(requesterMinimumStaking)) {
       throw new Error(
         `Minimum staking amount is ${requesterMinimumStaking.toString(10)}`,
       );
     }
-    const pendingPools = (await this.getApiGateway().getMicroPools()).filter(
-      microPool => microPool.status === 'MICRO_POOL_STATUS_PENDING',
-    );
-    if (pendingPools.length === 0) {
-      throw new Error('There is no pending pools');
-    }
-    /* TODO: "let take first pending pool for the first time" */
-    const [pool] = pendingPools;
-    console.log(
-      `staking funds ${amount.toString(10)} in ${pool.poolIndex.toString(
-        10,
-      )} pool`,
-    );
-    const txHash = await this.getContractManager().stake(
-      new BigNumber(pool.poolIndex),
-      amount,
-    );
-    console.log(`successfully staked funds in pool, tx hash is ${txHash}`);
-  }
-
-  public async getMicroPool(poolIndex: string | number): Promise<any> {
-    const result = await this.getContractManager().poolDetails(`${poolIndex}`);
-    console.log(`fetched micro pool details, result is ${result}`);
-    return result;
+    console.log(`staking funds ${stakingAmount.toString(10)} in global pool`);
+    return this.getContractManager().stake(stakingAmount);
   }
 
   public currentAccount(): string | undefined {
@@ -304,20 +239,72 @@ export class StkrSdk {
   }
 
   public async getStakerStats(): Promise<StakerStats> {
-    const user = this.getKeyProvider().currentAccount();
-    const [stakes, stats] = await Promise.all([
-      this.getApiGateway().getUserStakes(user),
-      this.getApiGateway().getUserStatistics(user),
+    console.log('fetching stake events from smart contract...');
+    const [pending, confirmed, removed] = await Promise.all([
+      this.getContractManager().queryStakePendingEventLogs(),
+      this.getContractManager().queryStakeConfirmedEventLogs(),
+      this.getContractManager().queryStakeRemovedEventLogs(),
     ]);
+    console.log(
+      `found ${pending.length} pending, ${confirmed.length} confirmed and ${removed.length} removed events`,
+    );
+    const stakes = [
+      ...pending.map(
+        (event): UserStakeReply => {
+          return {
+            user: event.data.staker,
+            amount: event.data.amount,
+            transactionHash: event.data.eventData.transactionHash,
+            action: 'STAKE_ACTION_PENDING',
+            timestamp: 0,
+          };
+        },
+      ),
+      ...confirmed.map(
+        (event): UserStakeReply => {
+          return {
+            user: event.data.staker,
+            amount: event.data.amount,
+            transactionHash: event.data.eventData.transactionHash,
+            action: 'STAKE_ACTION_STAKE',
+            timestamp: 0,
+          };
+        },
+      ),
+      ...removed.map(
+        (event): UserStakeReply => {
+          return {
+            user: event.data.staker,
+            amount: event.data.amount,
+            transactionHash: event.data.eventData.transactionHash,
+            action: 'STAKE_ACTION_UNSTAKE',
+            timestamp: 0,
+          };
+        },
+      ),
+    ];
+    const totalRewards = new BigNumber(0),
+      totalStakedAmount = stakes.reduce(
+        (result, stake) => result.plus(stake.amount),
+        new BigNumber(0),
+      );
+    console.log(`total staked amount is ${totalStakedAmount.toString(10)}`);
+    const stats = {
+      totalRewards: totalRewards.toString(10),
+      totalStakedAmount: totalStakedAmount.toString(10),
+    };
     return { stakes, stats };
   }
 
   public getApiGateway(): ApiGateway {
-    return this.apiGateway;
+    throw new Error("don't use ApiGateway");
+  }
+
+  public getEventEmitter(): EventEmitter {
+    return this.eventEmitter;
   }
 
   public async claimAeth() {
-    // TODO Remove poolIndex argument
-    return await this.getContractManager().claimAeth(5);
+    return await this.getContractManager().claim();
   }
 }

@@ -2,91 +2,59 @@
 import Web3 from 'web3';
 import { bytesToHex, numberToHex } from 'web3-utils';
 import {
+  Address,
   KeyProvider,
-  KeyProviderEvents,
+  ProviderMessage,
+  ProviderRpcError,
   SendAsyncResult,
   SendOptions,
 } from './provider';
-import { TransactionReceipt } from 'web3-core';
 import { Transaction } from 'ethereumjs-tx';
-
-export interface ProviderRpcError extends Error {
-  message: string;
-  code: number;
-  data?: unknown;
-}
-
-interface ProviderMessage {
-  type: string;
-  data: unknown;
-}
-
-export type Address = string;
+import { KeyProviderEvents } from './event';
 
 export class MetaMaskProvider extends KeyProvider {
   async connect(): Promise<void> {
-    // @ts-ignore
     const ethereum: any = typeof window !== 'undefined' && window.ethereum;
-    // @ts-ignore
-    let web3: any = typeof window !== 'undefined' && window.web3;
-    if (ethereum) {
-      web3 = new Web3(ethereum);
-      if (
-        Number(ethereum.networkVersion) !==
-        Number(this.providerConfig.networkId)
-      ) {
-        console.error(
-          `ethereum networks mismatched ${ethereum.networkVersion} != ${this.providerConfig.networkId}`,
-        );
-        throw new Error(
-          'MetaMask ethereum network mismatched, please check your MetaMask network.',
-        );
-      }
-      await this.unlockAccounts(web3);
-
-      ethereum.on('accountsChanged', (accounts: Address[]) => {
-        this.events.emit(KeyProviderEvents.AccountChanged, { accounts });
-      });
-
-      ethereum.on('disconnect', (error: ProviderRpcError) => {
-        this.events.emit(KeyProviderEvents.Disconnect, { error });
-        console.log(
-          `You've disconnected from MetaMask: ${JSON.stringify(error)}`,
-        );
-      });
-
-      ethereum.on('message', (message: ProviderMessage) => {
-        this.events.emit(KeyProviderEvents.Message, message);
-        console.log(`message from MetaMask: ${JSON.stringify(message)}`);
-      });
-
-      ethereum.on('chainChanged', (chainId: string) => {
-        this.events.emit(KeyProviderEvents.ChainChanged, {
-          chainId,
-        });
-        console.log(`detected MetaMask chainId change to ${chainId}`);
-      });
-
-      ethereum.autoRefreshOnNetworkChange = false;
-    } else if (web3) {
-      /* there several providers that emulates MetaMask behavior */
-      /*const {isMetaMask} = window.web3.currentProvider;
-            if (isMetaMask !== true) {
-              throw new Error('Invalid MetaMask configuration provided');
-            }*/
-      web3 = new Web3(web3.currentProvider);
-      if (!web3 || (web3.isConnected && !web3.isConnected())) {
-        throw new Error('Invalid MetaMask configuration provided');
-      }
-    } else {
-      web3 = new Web3();
-      if (!web3 || (web3.isConnected && !web3.isConnected())) {
-        throw new Error('Invalid MetaMask configuration provided');
-      }
-      // throw new Error('Non-Ethereum browser detected. You should consider trying MetaMask!')
+    if (!ethereum) {
+      throw new Error(
+        'Non-Ethereum browser detected. You should consider trying MetaMask!',
+      );
     }
+    const web3 = new Web3(ethereum);
+    if (
+      ethereum.networkVersion &&
+      this.providerConfig.networkId &&
+      Number(ethereum.networkVersion) !== Number(this.providerConfig.networkId)
+    ) {
+      console.error(
+        `ethereum networks mismatched ${ethereum.networkVersion} != ${this.providerConfig.networkId}`,
+      );
+      throw new Error(
+        'MetaMask ethereum network mismatched, please check your MetaMask network.',
+      );
+    }
+    await this.unlockAccounts(web3);
+    ethereum.on('accountsChanged', (accounts: Address[]) => {
+      this.eventEmitter.emit(KeyProviderEvents.AccountChanged, { accounts });
+    });
+    ethereum.on('disconnect', (error: ProviderRpcError) => {
+      this.eventEmitter.emit(KeyProviderEvents.Disconnect, { error });
+      console.log(
+        `You've disconnected from MetaMask: ${JSON.stringify(error)}`,
+      );
+    });
+    ethereum.on('message', (message: ProviderMessage) => {
+      this.eventEmitter.emit(KeyProviderEvents.Message, message);
+    });
+    ethereum.on('chainChanged', (chainId: string) => {
+      this.eventEmitter.emit(KeyProviderEvents.ChainChanged, {
+        chainId,
+      });
+      console.log(`detected MetaMask chainId change to ${chainId}`);
+    });
+    ethereum.autoRefreshOnNetworkChange = false;
+    this._latestBlockHeight = await web3.eth.getBlockNumber();
     this._web3 = web3;
-    return web3;
   }
 
   close(): Promise<void> {
@@ -128,29 +96,6 @@ export class MetaMaskProvider extends KeyProvider {
       }
       throw e;
     }
-  }
-
-  public async send(
-    from: string,
-    to: string,
-    sendOptions: SendOptions,
-  ): Promise<TransactionReceipt> {
-    const gasPrice = await this.getWeb3().eth.getGasPrice();
-    console.log('Gas Price: ' + gasPrice);
-    const nonce = await this.getWeb3().eth.getTransactionCount(from);
-    console.log('Nonce: ' + nonce);
-    const tx = {
-      from: from,
-      to: to,
-      value: numberToHex(sendOptions.value || '0'),
-      gas: numberToHex(sendOptions.gasLimit || '200000'),
-      gasPrice: gasPrice,
-      data: sendOptions.data,
-      nonce: nonce,
-      chainId: Number(this.providerConfig.chainId),
-    };
-    console.log('Sending transaction via Web3: ', tx);
-    return this.getWeb3().eth.sendTransaction(tx);
   }
 
   public async sendAsync(

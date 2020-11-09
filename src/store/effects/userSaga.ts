@@ -17,10 +17,7 @@ import { getQuery, resetRequests, success } from '@redux-requests/core';
 import { IStoreState } from '../reducers';
 import { END, eventChannel } from 'redux-saga';
 import { StkrSdk } from '../../modules/api';
-import {
-  KeyProviderEvent,
-  KeyProviderEvents,
-} from '../../modules/api/provider';
+import { KeyProviderEvent, KeyProviderEvents } from '../../modules/api/event';
 import { IApplicationStore } from '../createStore';
 import { IUserInfo } from '../apiMappers/userApi';
 
@@ -28,7 +25,7 @@ const FETCH_ACCOUNT_DATA_DELAY = 15000;
 
 function createEventChannel() {
   return eventChannel(emitter => {
-    const events = StkrSdk.getLastInstance().getKeyProvider().events;
+    const events = StkrSdk.getLastInstance().getEventEmitter();
 
     events.on(KeyProviderEvents.AccountChanged, data => {
       emitter({ data, type: KeyProviderEvents.AccountChanged });

@@ -5,22 +5,35 @@
       {
         "indexed": true,
         "internalType": "address",
-        "name": "previousOwner",
+        "name": "previousGovernor",
         "type": "address"
       },
       {
         "indexed": true,
         "internalType": "address",
-        "name": "newOwner",
+        "name": "newGovernor",
         "type": "address"
       }
     ],
-    "name": "OwnershipTransferred",
+    "name": "GovernorshipTransferred",
     "type": "event"
   },
   {
     "inputs": [],
     "name": "ETHEREUM_STAKING_AMOUNT",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "EXIT_BLOCKS",
     "outputs": [
       {
         "internalType": "uint256",
@@ -59,20 +72,7 @@
   },
   {
     "inputs": [],
-    "name": "SLASHINGS_FOR_MIGRATION",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "owner",
+    "name": "governor",
     "outputs": [
       {
         "internalType": "address",
@@ -85,7 +85,7 @@
   },
   {
     "inputs": [],
-    "name": "renounceOwnership",
+    "name": "renounceGovernorship",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -94,17 +94,30 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "newOwner",
+        "name": "newGovernor",
         "type": "address"
       }
     ],
-    "name": "transferOwnership",
+    "name": "transferGovernorship",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
   },
   {
     "inputs": [],
+    "name": "initialize",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "governor_",
+        "type": "address"
+      }
+    ],
     "name": "initialize",
     "outputs": [],
     "stateMutability": "nonpayable",

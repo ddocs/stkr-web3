@@ -32,7 +32,6 @@ import { useInterval } from '../../../../common/utils/useInterval';
 import { Milliseconds } from '../../../../common/types';
 import { useAuthentication } from '../../../../common/utils/useAuthentications';
 import { CreateNode } from '../CreateNode';
-import { StkrSdk } from '../../../api';
 
 const SHORT_UPDATE_INTERVAL: Milliseconds = 30_000;
 const LONG_UPDATE_INTERVAL: Milliseconds = 60_000;
@@ -141,38 +140,11 @@ export const ProviderDashboardComponent = ({
           render={renderMicropoolList}
           exact={true}
         />
-
         <Route
           path={[PROVIDER_NODES_PATH]}
           render={renderNodeList}
           exact={true}
         />
-        <br />
-        <NavLink
-          className={classes.create}
-          href={window.location.pathname}
-          onClick={async () => {
-            const currentAccount = StkrSdk.getLastInstance()
-              .getKeyProvider()
-              .currentAccount();
-            const answer = prompt(
-              `Do you want to withdraw all spent ethereum to current address: ${currentAccount}\n\n Type (Y/n)`,
-            );
-            if (answer?.toUpperCase() !== 'Y') {
-              return;
-            }
-            const result = await StkrSdk.getLastInstance()
-              .getContractManager()
-              .refundAllSpentEthereum();
-            window.open(
-              `https://goerli.etherscan.io/tx/${result.transactionHash}`,
-            );
-          }}
-          variant="outlined"
-          color="primary"
-        >
-          Get my goerli ETH back (for dev only)
-        </NavLink>
       </Curtains>
     </section>
   );

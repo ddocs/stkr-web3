@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/interface-name-prefix,@typescript-eslint/no-inferrable-types */
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import { Megabytes, Percentage, Seconds } from '../../common/types';
+import BigNumber from 'bignumber.js';
 
 export interface GatewayConfig {
   baseUrl: string;
@@ -105,12 +106,14 @@ export interface ProviderStatsReply {
   yearlyEarnings: string;
 }
 
-export type UserStakeAction = 'STAKE_ACTION_STAKE' | 'STAKE_ACTION_UNSTAKE';
+export type UserStakeAction =
+  | 'STAKE_ACTION_PENDING'
+  | 'STAKE_ACTION_STAKE'
+  | 'STAKE_ACTION_UNSTAKE';
 
 export interface UserStakeReply {
   user: string;
-  microPool: string;
-  amount: string;
+  amount: BigNumber;
   transactionHash: string;
   action: UserStakeAction;
   timestamp: number;
@@ -169,7 +172,7 @@ export class ApiGateway {
 
   public createSidecarDownloadLink(sidecar: string, platform: string): string {
     return `${this.defaultConfig.baseURL}${this.api.getUri({
-      url: `/v1alpha/sidecar/${sidecar}/download/${platform}`,
+      url: `v1alpha/sidecar/${sidecar}/download/${platform}`,
     })}?token=${this.token}`;
   }
 
