@@ -110,6 +110,7 @@ export interface IStakeRemovedEvent {
   data: {
     eventLog: IEventLog;
     staker: Address;
+    amount: BigNumber;
   };
 }
 
