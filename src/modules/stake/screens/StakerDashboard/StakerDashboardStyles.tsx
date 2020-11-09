@@ -6,6 +6,7 @@ export const useStakerDasboardStyles = makeStyles<Theme>(theme => ({
     height: '100%',
     boxSizing: 'border-box',
     overflow: 'hidden',
+    margin: 'auto',
   },
   wrapper: {
     display: 'grid',
@@ -13,6 +14,9 @@ export const useStakerDasboardStyles = makeStyles<Theme>(theme => ({
     width: '100%',
     gridGap: theme.spacing(4.5),
     height: '100%',
+    [theme.breakpoints.down('sm')]: {
+      gridTemplateColumns: '1fr',
+    },
   },
   content: {
     padding: theme.spacing(5),
