@@ -1,14 +1,4 @@
-import {
-  call,
-  cancel,
-  cancelled,
-  delay,
-  fork,
-  put,
-  select,
-  take,
-  takeEvery,
-} from 'redux-saga/effects';
+import { call, cancel, cancelled, fork, put, select, take, takeEvery, } from 'redux-saga/effects';
 import { UserActions, UserActionTypes } from '../actions/UserActions';
 import { REHYDRATE } from 'redux-persist/es/constants';
 import { replace } from 'connected-react-router';
@@ -17,11 +7,14 @@ import { getQuery, resetRequests, success } from '@redux-requests/core';
 import { IStoreState } from '../reducers';
 import { END, eventChannel } from 'redux-saga';
 import { StkrSdk } from '../../modules/api';
-import { KeyProviderEvent, KeyProviderEvents } from '../../modules/api/event';
+import {
+  ContractManagerEvent,
+  ContractManagerEvents,
+  KeyProviderEvent,
+  KeyProviderEvents,
+} from '../../modules/api/event';
 import { IApplicationStore } from '../createStore';
 import { IUserInfo } from '../apiMappers/userApi';
-
-const FETCH_ACCOUNT_DATA_DELAY = 15000;
 
 function createEventChannel() {
   return eventChannel(emitter => {
@@ -43,6 +36,30 @@ function createEventChannel() {
       emitter({ data, type: KeyProviderEvents.ChainChanged });
     });
 
+    events.on(ContractManagerEvents.AnkrBalanceChanged, data => {
+      emitter({ data, type: ContractManagerEvents.AnkrBalanceChanged });
+    });
+
+    events.on(ContractManagerEvents.EthereumBalanceChanged, data => {
+      emitter({ data, type: ContractManagerEvents.EthereumBalanceChanged });
+    });
+
+    events.on(ContractManagerEvents.AethBalanceChanged, data => {
+      emitter({ data, type: ContractManagerEvents.AethBalanceChanged });
+    });
+
+    events.on(ContractManagerEvents.StakePending, data => {
+      emitter({ data, type: ContractManagerEvents.StakePending });
+    });
+
+    events.on(ContractManagerEvents.StakeConfirmed, data => {
+      emitter({ data, type: ContractManagerEvents.StakeConfirmed });
+    });
+
+    events.on(ContractManagerEvents.StakeRemoved, data => {
+      emitter({ data, type: ContractManagerEvents.StakeRemoved });
+    });
+
     return () => {
       events.removeAllListeners();
     };
@@ -54,7 +71,9 @@ function* listenKeyProviderEvents() {
 
   try {
     while (true) {
-      const event: KeyProviderEvent = yield take(channel);
+      const event: KeyProviderEvent & ContractManagerEvent = yield take(
+        channel,
+      );
 
       if (event.type === KeyProviderEvents.ChainChanged) {
         yield put(UserActions.disconnect());
@@ -85,6 +104,18 @@ function* listenKeyProviderEvents() {
         setTimeout(() => {
           window.location.reload();
         });
+      } else if (event.type === ContractManagerEvents.AnkrBalanceChanged) {
+        yield put(UserActions.fetchAccountData());
+      } else if (event.type === ContractManagerEvents.EthereumBalanceChanged) {
+        yield put(UserActions.fetchAccountData());
+      } else if (event.type === ContractManagerEvents.AethBalanceChanged) {
+        yield put(UserActions.fetchStakerStats());
+      } else if (event.type === ContractManagerEvents.StakePending) {
+        yield put(UserActions.fetchStakerStats());
+      } else if (event.type === ContractManagerEvents.StakeConfirmed) {
+        yield put(UserActions.fetchStakerStats());
+      } else if (event.type === ContractManagerEvents.StakeRemoved) {
+        yield put(UserActions.fetchStakerStats());
       }
     }
   } finally {
@@ -94,21 +125,11 @@ function* listenKeyProviderEvents() {
   }
 }
 
-function* accountDataSync() {
-  while (true) {
-    yield put(UserActions.fetchAccountData());
-    yield delay(FETCH_ACCOUNT_DATA_DELAY);
-  }
-}
-
 function* onConnectSuccess() {
-  const accountDataSyncTask = yield fork(accountDataSync);
-
   const listenKeyProviderEventsTask = yield fork(listenKeyProviderEvents);
 
   yield take([UserActionTypes.DISCONNECT, UserActionTypes.CONNECT]);
 
-  yield cancel(accountDataSyncTask);
   yield cancel(listenKeyProviderEventsTask);
 }
 

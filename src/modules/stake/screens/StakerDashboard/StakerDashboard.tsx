@@ -64,6 +64,7 @@ export const StakerDashboardComponent = () => {
           errorComponent={QueryError}
           loadingComponent={QueryLoadingCentered}
           noDataMessage={<QueryEmpty />}
+          showLoaderDuringRefetch={false}
         >
           {({ data }) => (
             <>
