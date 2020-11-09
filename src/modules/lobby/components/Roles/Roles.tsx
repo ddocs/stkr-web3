@@ -8,7 +8,6 @@ import { Body1, Headline5 } from '../../../../UiKit/Typography';
 const ROLES: Record<string, string> = {
   'eth-staker': 'about.roles-eth-staker-text',
   'node-provider': 'about.roles-node-provider-text',
-  'ankr-staker': 'about.roles-ankr-staker-text',
   governance: 'about.roles-governance-text',
 };
 
