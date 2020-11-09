@@ -3,8 +3,8 @@ import classNames from 'classnames';
 import { useTabsStyles } from './TabsStyles';
 import { t } from '../../../../common/utils/intl';
 import { ITab } from '../types';
-import { NavLink } from 'react-router-dom';
 import { uid } from 'react-uid';
+import { NavLink } from '../../../../UiKit/NavLink';
 
 interface ITabsProps {
   className?: string;
@@ -21,9 +21,10 @@ export const Tabs = ({ className, values }: ITabsProps) => {
         {values.map(value => (
           <li className={classes.item} key={uid(value)}>
             <NavLink
-              to={value.href}
+              href={value.href}
               className={classes.button}
               activeClassName={classes.active}
+              disabled={value.disabled}
             >
               {t(value.label)}
             </NavLink>

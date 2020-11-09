@@ -8,10 +8,14 @@ import { Providers } from '../../../../common/types';
 import { ITab, NavTab } from '../types';
 import { Wallet } from '../Wallet';
 import { Links } from '../Links';
-import { useIsLGDown, useIsMDDown } from '../../../../common/hooks/useTheme';
+import {
+  useIsLGDown,
+  useIsMDDown,
+  useIsSMDown,
+} from '../../../../common/hooks/useTheme';
 
 const SHOW_SWITCHER_ON_ALL_PAGES = true;
-const ENABLE_SWITCHER = false;
+const ENABLE_PROVIDER = false;
 
 export type IAuthorizedHeaderProps = {
   className?: string;
@@ -31,6 +35,7 @@ const TABS: ITab[] = [
     label: 'navigation.provider',
     value: NavTab.provider,
     href: PROVIDER_PATH,
+    disabled: true,
   },
 ];
 
@@ -44,8 +49,7 @@ export const AuthorizedHeader = ({
   const classes = useHeaderStyles({});
 
   const location = useLocation();
-  const isSMDown = useIsMDDown();
-  const isLgDown = useIsLGDown();
+  const isSMDown = useIsSMDown();
 
   return (
     <HeaderFrame
@@ -53,12 +57,14 @@ export const AuthorizedHeader = ({
       innerClassName={classes.inner}
       dropdownClassName={classes.authDropdown}
     >
-      {(isSMDown || isLgDown) && <Links className={classes.links} />}
-      {ENABLE_SWITCHER &&
-        ([STAKER_DASHBOAR_PATH, PROVIDER_PATH].includes(location.pathname) ||
-          SHOW_SWITCHER_ON_ALL_PAGES) && (
-          <Tabs className={classes.tabs} values={TABS} />
-        )}
+      {isSMDown && <Links className={classes.links} />}
+      {([
+        STAKER_DASHBOAR_PATH,
+        ...(ENABLE_PROVIDER ? [PROVIDER_PATH] : []),
+      ].includes(location.pathname) ||
+        SHOW_SWITCHER_ON_ALL_PAGES) && (
+        <Tabs className={classes.tabs} values={TABS} />
+      )}
       <Wallet
         className={classes.wallet}
         ethereumBalance={ethereumBalance}
