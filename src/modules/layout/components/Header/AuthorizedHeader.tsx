@@ -45,7 +45,6 @@ export const AuthorizedHeader = ({
   const classes = useHeaderStyles({});
 
   const location = useLocation();
-
   const isSMDown = useIsSMDown();
 
   return (
