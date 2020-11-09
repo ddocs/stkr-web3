@@ -26,7 +26,6 @@ import { QueryLoadingCentered } from '../../../../components/QueryLoading/QueryL
 import { QueryError } from '../../../../components/QueryError/QueryError';
 import { Route } from 'react-router-dom';
 import { IProviderStats } from '../../../../store/apiMappers/providerStatsApi';
-import { alwaysFalse } from '../../../../common/utils/alwaysFalse';
 import { ISidecar } from '../../../../store/apiMappers/sidecarsApi';
 import { useDispatch } from 'react-redux';
 import { useInterval } from '../../../../common/utils/useInterval';
@@ -35,7 +34,7 @@ import { useAuthentication } from '../../../../common/utils/useAuthentications';
 import { CreateNode } from '../CreateNode';
 import { StkrSdk } from '../../../api';
 
-const SHORT_UPDATE_INTERVAL: Milliseconds = 10_000;
+const SHORT_UPDATE_INTERVAL: Milliseconds = 30_000;
 const LONG_UPDATE_INTERVAL: Milliseconds = 60_000;
 
 interface IProviderDashboardStoreProps {
@@ -205,8 +204,10 @@ export const ProviderDashboard = () => {
       <Query<IMicropool[] | null>
         errorComponent={QueryError}
         loadingComponent={QueryLoadingCentered}
-        isDataEmpty={alwaysFalse}
         type={UserActionTypes.FETCH_CURRENT_PROVIDER_MICROPOOLS}
+        isDataEmpty={query => {
+          return !query.data;
+        }}
         showLoaderDuringRefetch={false}
       >
         {({ data: micropools }) => {

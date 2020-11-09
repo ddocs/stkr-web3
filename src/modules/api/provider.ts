@@ -4,6 +4,8 @@ import { AbiItem } from 'web3-utils';
 import { Contract } from 'web3-eth-contract';
 import { BigNumber } from 'bignumber.js';
 import { PromiEvent, TransactionReceipt } from 'web3-core';
+import { EventEmitter } from 'events';
+import { Address, ProviderRpcError } from './metamask';
 
 export interface ProviderConfig {
   networkId: string;
@@ -22,7 +24,41 @@ export interface SendAsyncResult {
   rawTransaction: string;
 }
 
+export enum KeyProviderEvents {
+  AccountChanged = 'AccountChanged',
+  Disconnect = 'Disconnect',
+  Message = 'Message',
+  ChainChanged = 'ChainChanged',
+}
+
+export interface IKeyProviderAccountChangedEvent {
+  type: KeyProviderEvents.AccountChanged;
+  data: { accounts: Address[] };
+}
+
+export interface IKeyProviderDisconnectEvent {
+  type: KeyProviderEvents.Disconnect;
+  error: ProviderRpcError;
+}
+
+export interface IKeyProviderMessageEvent {
+  type: KeyProviderEvents.Message;
+  data: any;
+}
+
+export interface IKeyProviderChainChangedEvent {
+  type: KeyProviderEvents.ChainChanged;
+  data: { chainId: string };
+}
+
+export type KeyProviderEvent =
+  | IKeyProviderAccountChangedEvent
+  | IKeyProviderDisconnectEvent
+  | IKeyProviderMessageEvent
+  | IKeyProviderChainChangedEvent;
+
 export abstract class KeyProvider {
+  public events: EventEmitter = new EventEmitter();
   protected _currentAccount: string | null = null;
   protected _web3: Web3 | null = null;
   protected _latestBlockHeight = 0;

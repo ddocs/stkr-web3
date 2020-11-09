@@ -4,7 +4,7 @@ export interface IStkrConfig {
 }
 
 export const LOCAL_CONFIG: IStkrConfig = {
-  baseUrl: 'http://localhost:8000',
+  baseUrl: 'http://localhost:8080',
   configFile: 'develop.json',
 };
 
