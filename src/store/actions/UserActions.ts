@@ -20,7 +20,6 @@ import { ISidecarStatus, mapNodeStatus } from '../apiMappers/sidecarStatus';
 import { PICKER_PATH } from '../../common/const';
 import { closeModalAction } from '../modals/actions';
 import { replace } from 'connected-react-router';
-import { ContractManagerEvents } from '../../modules/api/event';
 
 export const UserActionTypes = {
   CONNECT: 'CONNECT',
