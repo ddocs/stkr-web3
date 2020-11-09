@@ -107,6 +107,7 @@ export const StakeComponent = ({
               component={SliderField}
               min={MIN_AMOUNT}
               max={MAX_AMOUNT}
+              step={0.5}
               name="amount"
             />
             {errors.amount && (
