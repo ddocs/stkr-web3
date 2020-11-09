@@ -24,7 +24,6 @@ export const useStakerDasboardStyles = makeStyles<Theme>(theme => ({
     gridTemplateColumns: '1fr minmax(0, 138px)',
     width: '100%',
     position: 'relative',
-    zIndex: theme.zIndex.tooltip,
   },
   half: {
     minHeight: '50%',
