@@ -31,6 +31,8 @@ import { AEthIcon } from '../../../../UiKit/Icons/AEthIcon';
 import { MutationErrorHandler } from '../../../../components/MutationErrorHandler/MutationErrorHandler';
 import { walletConversion } from '../../../../common/utils/convertWallet';
 
+const ENABLE_REDEEM = false;
+
 export const StakerDashboardComponent = () => {
   const classes = useStakerDasboardStyles();
   const dispatch = useDispatch();
@@ -102,7 +104,7 @@ export const StakerDashboardComponent = () => {
                           color="primary"
                           fullWidth={true}
                           onClick={handleClaim}
-                          disabled={loading}
+                          disabled={loading || !ENABLE_REDEEM}
                         >
                           {t('staked-dashboard.redeem')}
                         </Button>
