@@ -23,7 +23,6 @@ export const useStakerDasboardStyles = makeStyles<Theme>(theme => ({
     zIndex: theme.zIndex.tooltip,
   },
   half: {
-    position: 'relative',
     minHeight: '50%',
     '&:first-child': {
       display: 'flex',
@@ -43,20 +42,11 @@ export const useStakerDasboardStyles = makeStyles<Theme>(theme => ({
       gridColumn: '1 / span 2',
     },
   },
-  bg: {
-    width: '100vw',
-    height: '100vh',
-    position: 'absolute',
-    background: '#141414',
-    right: 0,
-    top: 0,
-  },
   leftColumn: {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
   },
-
   staked: {
     gridColumn: 1,
     gridRow: 1,
@@ -88,5 +78,10 @@ export const useStakerDasboardStyles = makeStyles<Theme>(theme => ({
   history: {
     gridColumn: '1 / span 2',
     gridRow: 2,
+  },
+  table: {
+    '&&': {
+      minWidth: 'unset',
+    },
   },
 }));

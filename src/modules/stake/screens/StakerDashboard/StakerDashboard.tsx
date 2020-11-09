@@ -86,7 +86,6 @@ export const StakerDashboardComponent = () => {
                 </div>
 
                 <div className={classes.half}>
-                  <div className={classes.bg} />
                   <div className={classes.content}>
                     <Typography className={classes.headline}>
                       {t('staked-dashboard.current-a-eth-balance')}
@@ -117,7 +116,11 @@ export const StakerDashboardComponent = () => {
               <div>
                 {data && data.stakes.length > 0 && (
                   <BackgroundColorProvider className={classes.history}>
-                    <Table customCell="1fr 1fr" columnsCount={captions.length}>
+                    <Table
+                      customCell="1fr 1fr"
+                      columnsCount={captions.length}
+                      classes={{ table: classes.table }}
+                    >
                       <TableHead>
                         {captions.map(cell => (
                           <TableHeadCell key={cell.label} label={cell.label} />
