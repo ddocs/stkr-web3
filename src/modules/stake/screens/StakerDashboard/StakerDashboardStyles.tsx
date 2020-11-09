@@ -93,6 +93,6 @@ export const useStakerDasboardStyles = makeStyles<Theme>(theme => ({
   buttons: {
     display: 'grid',
     gridTemplateColumns: '1fr',
-    gridGap: theme.spacing(1),
+    gridGap: theme.spacing(2),
   },
 }));
