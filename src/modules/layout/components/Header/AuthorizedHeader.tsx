@@ -8,11 +8,7 @@ import { Providers } from '../../../../common/types';
 import { ITab, NavTab } from '../types';
 import { Wallet } from '../Wallet';
 import { Links } from '../Links';
-import {
-  useIsLGDown,
-  useIsMDDown,
-  useIsSMDown,
-} from '../../../../common/hooks/useTheme';
+import { useIsSMDown } from '../../../../common/hooks/useTheme';
 
 const SHOW_SWITCHER_ON_ALL_PAGES = true;
 const ENABLE_PROVIDER = false;

@@ -11,7 +11,6 @@ import { QueryError } from '../../../../components/QueryError/QueryError';
 import { QueryLoading } from '../../../../components/QueryLoading/QueryLoading';
 import { QueryEmpty } from '../../../../components/QueryEmpty/QueryEmpty';
 import { useLocation } from 'react-router';
-import { useIsSMDown } from '../../../../common/hooks/useTheme';
 
 interface IHeaderProps {
   isAuth: boolean;
@@ -42,7 +41,7 @@ const HeaderImp = ({ isAuth, className }: IHeaderProps) => {
       }}
     </Query>
   ) : (
-    <UnauthorizedHeader className={className} />
+    <UnauthorizedHeader className={className} isAuth={isAuth} />
   );
 };
 
