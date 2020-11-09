@@ -312,9 +312,13 @@ export const UserActions = {
     request: {
       promise: (async function () {
         const stkrSdk = StkrSdk.getLastInstance();
-        // TODO Pass real data
-        const aEthBalance = '5';
-        return { aEthBalance, ...(await stkrSdk.getStakerStats()) };
+        const aethBalance = await stkrSdk
+          .getContractManager()
+          .claimableRewardOf(stkrSdk.getKeyProvider().currentAccount());
+        return {
+          aEthBalance: aethBalance.toString(10),
+          ...(await stkrSdk.getStakerStats()),
+        };
       })(),
     },
     meta: {

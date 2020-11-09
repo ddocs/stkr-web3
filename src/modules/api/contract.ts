@@ -477,8 +477,8 @@ export class ContractManager {
     );
   }
 
-  public async claimableRewardOf(): Promise<BigNumber> {
-    return this.microPoolContract.methods.claimableRewardOf().call();
+  public async claimableRewardOf(staker: string): Promise<BigNumber> {
+    return this.microPoolContract.methods.claimableRewardOf(staker).call();
   }
 
   public async poolCount(): Promise<BigNumber> {
