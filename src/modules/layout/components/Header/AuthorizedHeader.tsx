@@ -11,6 +11,7 @@ import { Links } from '../Links';
 import { useIsSMDown } from '../../../../common/hooks/useTheme';
 
 const SHOW_SWITCHER_ON_ALL_PAGES = true;
+const ENABLE_SWITCHER = false;
 
 export type IAuthorizedHeaderProps = {
   className?: string;
@@ -53,10 +54,11 @@ export const AuthorizedHeader = ({
       dropdownClassName={classes.authDropdown}
     >
       {isSMDown && <Links className={classes.links} />}
-      {([STAKER_DASHBOAR_PATH, PROVIDER_PATH].includes(location.pathname) ||
-        SHOW_SWITCHER_ON_ALL_PAGES) && (
-        <Tabs className={classes.tabs} values={TABS} />
-      )}
+      {ENABLE_SWITCHER &&
+        ([STAKER_DASHBOAR_PATH, PROVIDER_PATH].includes(location.pathname) ||
+          SHOW_SWITCHER_ON_ALL_PAGES) && (
+          <Tabs className={classes.tabs} values={TABS} />
+        )}
       <Wallet
         className={classes.wallet}
         ethereumBalance={ethereumBalance}

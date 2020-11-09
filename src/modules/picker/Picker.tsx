@@ -12,9 +12,17 @@ interface IItemProps {
   link: string;
   icon: string;
   features: string[];
+  disabled: boolean;
 }
 
-const Item = ({ title, buttonCaption, link, icon, features }: IItemProps) => {
+const Item = ({
+  title,
+  buttonCaption,
+  link,
+  icon,
+  features,
+  disabled,
+}: IItemProps) => {
   const classes = usePickerStyles({ icon });
   return (
     <li className={classes.item}>
@@ -39,6 +47,7 @@ const Item = ({ title, buttonCaption, link, icon, features }: IItemProps) => {
         variant="contained"
         color="primary"
         size="large"
+        disabled={disabled}
       >
         {buttonCaption}
       </NavLink>
@@ -51,17 +60,23 @@ const LIST: Record<string, string> = {
   provider: PROVIDER_PATH,
 };
 
-const FEATURES: Record<string, string[]> = {
-  staker: [
-    'picker.staker.features.1',
-    'picker.staker.features.2',
-    'picker.staker.features.3',
-  ],
-  provider: [
-    'picker.provider.features.1',
-    'picker.provider.features.2',
-    'picker.provider.features.3',
-  ],
+const DATA: Record<string, { disabled: boolean; features: string[] }> = {
+  staker: {
+    disabled: false,
+    features: [
+      'picker.staker.features.1',
+      'picker.staker.features.2',
+      'picker.staker.features.3',
+    ],
+  },
+  provider: {
+    disabled: true,
+    features: [
+      'picker.provider.features.1',
+      'picker.provider.features.2',
+      'picker.provider.features.3',
+    ],
+  },
 };
 
 export const Picker = () => {
@@ -79,9 +94,14 @@ export const Picker = () => {
                 key={key}
                 title={tHTML(`picker.${key}.title`)}
                 link={item}
-                buttonCaption={t(`picker.${key}.link`)}
+                buttonCaption={
+                  DATA[key]?.disabled
+                    ? t('coming-soon')
+                    : t(`picker.${key}.link`)
+                }
                 icon={key}
-                features={FEATURES[key]}
+                features={DATA[key]?.features}
+                disabled={DATA[key]?.disabled}
               />
             );
           })}
