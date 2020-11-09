@@ -5,7 +5,7 @@ import { NavLink } from '../../../../UiKit/NavLink';
 import { LogoIcon } from '../../../../UiKit/Icons/LogoIcon';
 import { Body2 } from '../../../../UiKit/Typography';
 import { t } from '../../../../common/utils/intl';
-import { INDEX_PATH } from '../../../../common/const';
+import { ANKR_PATH, INDEX_PATH } from '../../../../common/const';
 
 export interface ILogotypeProps {
   className?: string;
@@ -41,10 +41,10 @@ export const Logotype = ({ className }: ILogotypeProps) => {
       >
         <LogoIcon />
       </NavLink>
-      <span className={classes.caption}>
+      <NavLink href={ANKR_PATH} classes={{ label: classes.poweredCaption, root: classes.poweredRoot }}>
         {t('by-ankr')}
         <Ankr />
-      </span>
+      </NavLink>
     </Body2>
   );
 };

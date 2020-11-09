@@ -1,6 +1,7 @@
 import { Milliseconds } from './types';
 
 export const INDEX_PATH = '/';
+export const ANKR_PATH = 'https://www.ankr.com';
 export const STAKER_STAKE_PATH = '/staker/stake';
 export const STAKER_DASHBOAR_PATH = '/staker';
 export const PROVIDER_PATH = '/provider';

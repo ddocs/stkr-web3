@@ -32,11 +32,18 @@ export const useLogotypeStyles = makeStyles(theme => ({
   active: {
     pointerEvents: 'none',
   },
-  caption: {
+  poweredRoot: {
+    '&&': {
+      opacity: 0.5,
+      color: theme.palette.common.white,
+    },
+  },
+  poweredCaption: {
     gridArea: 'company',
     display: 'flex',
     flexDirection: 'column',
     fontSize: 12,
+    alignItems: 'flex-start',
     '& svg': {
       marginTop: theme.spacing(0.5),
     },
