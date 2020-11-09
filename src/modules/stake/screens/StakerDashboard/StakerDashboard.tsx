@@ -56,6 +56,11 @@ export const StakerDashboardComponent = () => {
     dispatch(UserActions.claimAeth());
   };
 
+  const env = process.env.REACT_APP_STKR_ENV
+    ? process.env.REACT_APP_STKR_ENV
+    : 'develop';
+  const isMainnet = env === 'mainnet';
+
   return (
     <section className={classes.component}>
       <Curtains classes={{ root: classes.wrapper }}>
@@ -146,9 +151,14 @@ export const StakerDashboardComponent = () => {
                             </TableBodyCell>
                             <TableBodyCell>
                               <NavLink
-                                href={t('staked-dashboard.transaction', {
-                                  value: item.transactionHash,
-                                })}
+                                href={t(
+                                  `staked-dashboard.transaction.${
+                                    isMainnet ? 'mainnet' : 'goerli'
+                                  }`,
+                                  {
+                                    value: item.transactionHash,
+                                  },
+                                )}
                               >
                                 {walletConversion(item.transactionHash)}
                               </NavLink>
