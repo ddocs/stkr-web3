@@ -29,6 +29,7 @@ import { Button, Typography } from '@material-ui/core';
 import { EthIcon } from '../../../../UiKit/Icons/EthIcon';
 import { AEthIcon } from '../../../../UiKit/Icons/AEthIcon';
 import { MutationErrorHandler } from '../../../../components/MutationErrorHandler/MutationErrorHandler';
+import { walletConversion } from '../../../../common/utils/convertWallet';
 
 export const StakerDashboardComponent = () => {
   const classes = useStakerDasboardStyles();
@@ -37,10 +38,13 @@ export const StakerDashboardComponent = () => {
   const captions = useLocaleMemo(
     () => [
       {
-        label: t('staked-dashboard.column.date'),
+        label: t('staked-dashboard.column.status'),
       },
       {
         label: t('staked-dashboard.column.staked'),
+      },
+      {
+        label: t('staked-dashboard.column.transaction-hash'),
       },
     ],
     [],
@@ -117,7 +121,7 @@ export const StakerDashboardComponent = () => {
                 {data && data.stakes.length > 0 && (
                   <BackgroundColorProvider className={classes.history}>
                     <Table
-                      customCell="1fr 1fr"
+                      customCell="1fr 1fr 1fr"
                       columnsCount={captions.length}
                       classes={{ table: classes.table }}
                     >
@@ -130,12 +134,21 @@ export const StakerDashboardComponent = () => {
                         {data.stakes.map(item => (
                           <TableRow key={uid(item)}>
                             <TableBodyCell>
-                              {t('format.date', { value: item.date })}
+                              {t(`staked-dashboard.statuses.${item.action}`)}
                             </TableBodyCell>
                             <TableBodyCell>
                               {t('units.eth', {
                                 value: item.amount.toFormat(),
                               })}
+                            </TableBodyCell>
+                            <TableBodyCell>
+                              <NavLink
+                                href={t('staked-dashboard.transaction', {
+                                  value: item.transactionHash,
+                                })}
+                              >
+                                {walletConversion(item.transactionHash)}
+                              </NavLink>
                             </TableBodyCell>
                           </TableRow>
                         ))}

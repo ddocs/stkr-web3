@@ -293,7 +293,15 @@
     "eth": "ETH",
     "current-a-eth-balance": "Current aETH balance",
     "redeem": "Redeem",
+    "statuses": {
+      "STAKE_ACTION_PENDING": "Pending",
+      "STAKE_ACTION_CONFIRMED": "Confirmed",
+      "STAKE_ACTION_UNSTAKE": "Removed"
+    },
+    "transaction": "https://goerli.etherscan.io/tx/{value}",
     "column": {
+      "status": "Status",
+      "transaction-hash": "Tx.Hash",
       "date": "Date",
       "staked": "Staked",
       "rewards": "Reward"
