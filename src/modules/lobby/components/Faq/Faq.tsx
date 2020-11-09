@@ -37,6 +37,22 @@ const FAQ: Record<string, string>[] = [
     question: 'about.faq-question-4',
     answer: 'about.faq-answer-4',
   },
+  {
+    question: 'about.faq-question-5',
+    answer: 'about.faq-answer-5',
+  },
+  {
+    question: 'about.faq-question-6',
+    answer: 'about.faq-answer-6',
+  },
+  {
+    question: 'about.faq-question-7',
+    answer: 'about.faq-answer-7',
+  },
+  {
+    question: 'about.faq-question-8',
+    answer: 'about.faq-answer-8',
+  },
 ];
 
 export const Faq = ({ className }: IMarketingProps) => {
@@ -69,7 +85,10 @@ export const Faq = ({ className }: IMarketingProps) => {
                       classes.arrow,
                       visible && classes.rotate,
                     )}
-                    onClick={() => setValue(item)}
+                    onClick={() => {
+                      if (value !== item) return setValue(item);
+                      else return setValue(undefined);
+                    }}
                   >
                     <Arrow />
                   </span>
