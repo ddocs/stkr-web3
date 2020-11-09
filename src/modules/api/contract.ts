@@ -445,13 +445,23 @@ export class ContractManager {
   public async unstake(): Promise<SendAsyncResult> {
     const data: string = this.microPoolContract.methods.unstake().encodeABI();
     const currentAccount = await this.keyProvider.currentAccount();
-    return this.keyProvider.sendAsync(
+    const currentStake = await this.pendingStakesOf(currentAccount);
+    const result = await this.keyProvider.sendAsync(
       currentAccount,
       this.contractConfig.microPoolContract,
       {
         data: data,
       },
     );
+    console.log(`emitting unstake manual pending event`);
+    this.eventEmitter.emit(ContractManagerEvents.StakeRemoved, {
+      eventLog: {
+        transactionHash: result.transactionHash,
+      },
+      staker: currentAccount,
+      amount: currentStake,
+    });
+    return result;
   }
 
   public async topUpETH(amount: BigNumber | string): Promise<SendAsyncResult> {
