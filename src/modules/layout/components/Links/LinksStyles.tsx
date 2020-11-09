@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/core/styles';
+import { fade, makeStyles } from '@material-ui/core/styles';
 import { Theme } from '@material-ui/core';
 
 export const useLinksStyles = makeStyles<Theme>(theme => ({
@@ -28,7 +28,7 @@ export const useLinksStyles = makeStyles<Theme>(theme => ({
           color: theme.palette.text.secondary,
           outline: 'none',
         },
-        '& $link::after': {
+        '& $link:not(.Mui-disabled)::after': {
           transform: 'scaleX(1)',
           transformOrigin: 'bottom left',
         },
@@ -61,6 +61,10 @@ export const useLinksStyles = makeStyles<Theme>(theme => ({
       },
       '&:hover, &:focus': {
         color: theme.palette.text.secondary,
+      },
+      '&.Mui-disabled': {
+        color: fade(theme.palette.text.primary, 0.5),
+        pointerEvents: 'auto',
       },
     },
   },

@@ -12,6 +12,7 @@ import { Button } from '../../../../UiKit/Button';
 import { useIsSMDown } from '../../../../common/hooks/useTheme';
 import { FoldableSection } from '../../../../UiKit/FoldableSection';
 import { Medium, Telegram, Twitter } from '../Icons/Icons';
+import { Tooltip } from '@material-ui/core';
 
 export interface ILinksProps {
   className?: string;
@@ -63,6 +64,7 @@ export const Links = ({ className }: ILinksProps) => {
   }, [open]);
 
   const isMDDown = useIsSMDown();
+
   return (
     <div className={classNames(className, classes.component)}>
       <ul className={classes.list}>
@@ -71,14 +73,18 @@ export const Links = ({ className }: ILinksProps) => {
           return (
             <li key={key} className={classes.item}>
               {typeof link === 'string' ? (
-                <NavLink
-                  href={link}
-                  className={classes.link}
-                  color="secondary"
-                  size="large"
-                >
-                  {t(`navigation.${key}`)}
-                </NavLink>
+                <Tooltip title={t('coming-soon')}>
+                  <NavLink
+                    href={link}
+                    className={classes.link}
+                    color="secondary"
+                    size="large"
+                    disabled={true}
+                    component="div"
+                  >
+                    {t(`navigation.${key}`)}
+                  </NavLink>
+                </Tooltip>
               ) : (
                 <>
                   <Button
