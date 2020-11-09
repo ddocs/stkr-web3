@@ -342,7 +342,8 @@ export class ContractManager {
   ): Promise<SendAsyncResult> {
     const data: string = this.microPoolContract.methods.stake().encodeABI();
     const currentAccount = await this.keyProvider.currentAccount();
-    return this.keyProvider.sendAsync(
+    console.log(`sending stake transaction`);
+    const result = await this.keyProvider.sendAsync(
       currentAccount,
       this.contractConfig.microPoolContract,
       {
@@ -352,6 +353,15 @@ export class ContractManager {
           .toString(10),
       },
     );
+    console.log(`emitting stake manual pending event`);
+    this.eventEmitter.emit(ContractManagerEvents.StakePending, {
+      eventData: {
+        transactionHash: result.transactionHash,
+      },
+      staker: currentAccount,
+      amount,
+    });
+    return result;
   }
 
   public async unstake(): Promise<SendAsyncResult> {

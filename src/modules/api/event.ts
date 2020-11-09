@@ -39,9 +39,9 @@ export type KeyProviderEvent =
   | IKeyProviderChainChangedEvent;
 
 export enum ContractManagerEvents {
-  StakePending = 'StakePending',
-  StakeConfirmed = 'StakeConfirmed',
-  StakeRemoved = 'StakeRemoved',
+  StakePending = 'StakePending', // !
+  StakeConfirmed = 'StakeConfirmed', // !
+  StakeRemoved = 'StakeRemoved', // !
   PoolOnGoing = 'PoolOnGoing',
   PoolCompleted = 'PoolCompleted',
   ProviderSlashedAnkr = 'ProviderSlashedAnkr',
@@ -52,10 +52,14 @@ export enum ContractManagerEvents {
   RewardClaimed = 'RewardClaimed',
 }
 
+export interface IEventLog {
+  transactionHash: string;
+}
+
 export interface IContractManagerStakePending {
   type: ContractManagerEvents.StakePending;
   data: {
-    eventData: EventData | EventLog;
+    eventData: IEventLog;
     staker: Address;
     amount: BigNumber;
   };
@@ -64,7 +68,7 @@ export interface IContractManagerStakePending {
 export interface IContractManagerStakeConfirmed {
   type: ContractManagerEvents.StakeConfirmed;
   data: {
-    eventData: EventData | EventLog;
+    eventData: IEventLog;
     staker: Address;
     amount: BigNumber;
   };
@@ -73,7 +77,7 @@ export interface IContractManagerStakeConfirmed {
 export interface IContractManagerStakeRemoved {
   type: ContractManagerEvents.StakeRemoved;
   data: {
-    eventData: EventData | EventLog;
+    eventData: IEventLog;
     staker: Address;
     amount: BigNumber;
   };
@@ -82,7 +86,7 @@ export interface IContractManagerStakeRemoved {
 export interface IContractManagerPoolOnGoing {
   type: ContractManagerEvents.PoolOnGoing;
   data: {
-    eventData: EventData | EventLog;
+    eventData: IEventLog;
     pool: string;
   };
 }
@@ -90,7 +94,7 @@ export interface IContractManagerPoolOnGoing {
 export interface IContractManagerPoolCompleted {
   type: ContractManagerEvents.PoolCompleted;
   data: {
-    eventData: EventData | EventLog;
+    eventData: IEventLog;
     pool: string;
   };
 }
@@ -98,7 +102,7 @@ export interface IContractManagerPoolCompleted {
 export interface IContractManagerProviderSlashedAnkr {
   type: ContractManagerEvents.ProviderSlashedAnkr;
   data: {
-    eventData: EventData | EventLog;
+    eventData: IEventLog;
     provider: Address;
     etherEquivalence: BigNumber;
     ankrAmount: BigNumber;
@@ -108,7 +112,7 @@ export interface IContractManagerProviderSlashedAnkr {
 export interface IContractManagerProviderSlashedEth {
   type: ContractManagerEvents.ProviderSlashedEth;
   data: {
-    eventData: EventData | EventLog;
+    eventData: IEventLog;
     provider: Address;
     etherAmount: BigNumber;
   };
@@ -117,7 +121,7 @@ export interface IContractManagerProviderSlashedEth {
 export interface IContractManagerProviderToppedUpEth {
   type: ContractManagerEvents.ProviderToppedUpEth;
   data: {
-    eventData: EventData | EventLog;
+    eventData: IEventLog;
     provider: Address;
     amount: BigNumber;
   };
@@ -126,7 +130,7 @@ export interface IContractManagerProviderToppedUpEth {
 export interface IContractManagerProviderToppedUpAnkr {
   type: ContractManagerEvents.ProviderToppedUpAnkr;
   data: {
-    eventData: EventData | EventLog;
+    eventData: IEventLog;
     provider: Address;
     amount: BigNumber;
   };
@@ -135,7 +139,7 @@ export interface IContractManagerProviderToppedUpAnkr {
 export interface IContractManagerProviderExited {
   type: ContractManagerEvents.ProviderExited;
   data: {
-    eventData: EventData | EventLog;
+    eventData: IEventLog;
     provider: Address;
   };
 }
@@ -143,7 +147,7 @@ export interface IContractManagerProviderExited {
 export interface IContractManagerRewardClaimed {
   type: ContractManagerEvents.RewardClaimed;
   data: {
-    eventData: EventData | EventLog;
+    eventData: IEventLog;
     staker: Address;
     amount: BigNumber;
   };

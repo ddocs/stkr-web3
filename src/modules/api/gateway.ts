@@ -108,7 +108,7 @@ export interface ProviderStatsReply {
 
 export type UserStakeAction =
   | 'STAKE_ACTION_PENDING'
-  | 'STAKE_ACTION_STAKE'
+  | 'STAKE_ACTION_CONFIRMED'
   | 'STAKE_ACTION_UNSTAKE';
 
 export interface UserStakeReply {

@@ -14,6 +14,7 @@ import { IStkrConfig } from './config';
 import BigNumber from 'bignumber.js';
 import { EventEmitter } from 'events';
 import { TransactionReceipt } from 'web3-core';
+import { YEAR_INTEREST } from '../../common/const';
 
 export interface IStakeAction extends SendAsyncResult {
   waitForTxReceipt(): Promise<TransactionReceipt>;
@@ -190,7 +191,9 @@ export class StkrSdk {
     });
   }
 
-  public async stake(stakingAmount: BigNumber | BigNumber.Value): Promise<{}> {
+  public async stake(
+    stakingAmount: BigNumber | BigNumber.Value,
+  ): Promise<SendAsyncResult> {
     stakingAmount = new BigNumber(stakingAmount);
     const {
       requesterMinimumStaking,
@@ -266,7 +269,7 @@ export class StkrSdk {
             user: event.data.staker,
             amount: event.data.amount,
             transactionHash: event.data.eventData.transactionHash,
-            action: 'STAKE_ACTION_STAKE',
+            action: 'STAKE_ACTION_CONFIRMED',
             timestamp: 0,
           };
         },
@@ -283,11 +286,11 @@ export class StkrSdk {
         },
       ),
     ];
-    const totalRewards = new BigNumber(0),
-      totalStakedAmount = stakes.reduce(
+    const totalStakedAmount = stakes.reduce(
         (result, stake) => result.plus(stake.amount),
         new BigNumber(0),
-      );
+      ),
+      totalRewards = totalStakedAmount.multipliedBy(YEAR_INTEREST);
     console.log(`total staked amount is ${totalStakedAmount.toString(10)}`);
     const stats = {
       totalRewards: totalRewards.toString(10),
