@@ -13,11 +13,11 @@ export const PICKER_PATH = '/picker';
 export const SURVEY_PATH = 'https://ankr_stkr.typeform.com/to/pc5sgxl9';
 
 export const SOCIAL_LINK = {
-  twitter: 'twitter',
+  twitter: 'https://twitter.com/ankr',
   facebook: 'facebook',
-  telegram: 'telegram',
-  telegramAnnouncements: 'telegram',
-  medium: 'medium',
+  telegram: 'https://t.me/ankrnetwork',
+  telegramAnnouncements: 'https://t.me/anrknetworkann',
+  medium: 'https://medium.com/ankr-network',
   whitepaperEn: 'https://assets.ankr.com/files/stkr_whitepaper.pdf',
   whitepaperCh: 'https://assets.ankr.com/files/stkr_whitepaper_cn.pdf',
 };
