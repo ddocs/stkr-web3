@@ -98,7 +98,7 @@ export const StakerDashboardComponent = () => {
                         {({ loading }) => (
                           <Button
                             size="large"
-                            color="primary"
+                            color="secondary"
                             onClick={handleUnstake}
                             disabled={loading}
                           >
