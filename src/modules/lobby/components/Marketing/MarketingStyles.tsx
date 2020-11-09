@@ -42,6 +42,11 @@ export const useMarketingStyles = makeStyles<Theme>(theme => ({
       gridColumn: '1/-1',
     },
   },
+  linkRoot: {
+    '&, &:hover': {
+      color: theme.palette.common.black,
+    },
+  },
   text: {
     gridColumn: '6/10',
     gridRow: '2/3',

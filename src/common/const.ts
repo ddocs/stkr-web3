@@ -10,6 +10,7 @@ export const PROVIDER_NODES_PATH = '/provider/nodes';
 export const PROVIDER_CREATE_MICROPOOL_PATH = '/provider/create-micropool';
 export const PROVIDER_CREATE_NODE_PATH = '/provider/create-node';
 export const PICKER_PATH = '/picker';
+export const SURVEY_PATH = 'https://ankr_stkr.typeform.com/to/pc5sgxl9';
 
 export const SOCIAL_LINK = {
   twitter: 'twitter',

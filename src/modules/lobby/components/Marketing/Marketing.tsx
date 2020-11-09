@@ -6,6 +6,7 @@ import { Headline2, Headline5 } from '../../../../UiKit/Typography';
 import { t, tHTML } from '../../../../common/utils/intl';
 import { NavLink } from '../../../../UiKit/NavLink';
 import { BackgroundColorProvider } from '../../../../UiKit/BackgroundColorProvider';
+import { SURVEY_PATH } from '../../../../common/const';
 
 interface IMarketingProps {
   className?: string;
@@ -34,14 +35,14 @@ export const Marketing = ({ className }: IMarketingProps) => {
           <Headline2 className={classes.title} component="h2">
             {t('about.marketing-title')}
           </Headline2>
-          <p className={classes.text}>
+          <NavLink href={SURVEY_PATH} className={classes.text} classes={{root: classes.linkRoot}}>
             <Headline5 component="span">
               {tHTML('about.marketing-text')}
             </Headline5>
-            <NavLink className={classes.link} href="">
+            <div className={classes.link}>
               <Arrow />
-            </NavLink>
-          </p>
+            </div>
+          </NavLink>
         </BackgroundColorProvider>
       </Curtains>
     </section>
