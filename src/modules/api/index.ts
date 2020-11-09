@@ -257,7 +257,7 @@ export class StkrSdk {
           return {
             user: event.data.staker,
             amount: event.data.amount,
-            transactionHash: event.data.eventData.transactionHash,
+            transactionHash: event.data.eventLog.transactionHash,
             action: 'STAKE_ACTION_PENDING',
             timestamp: 0,
           };
@@ -268,7 +268,7 @@ export class StkrSdk {
           return {
             user: event.data.staker,
             amount: event.data.amount,
-            transactionHash: event.data.eventData.transactionHash,
+            transactionHash: event.data.eventLog.transactionHash,
             action: 'STAKE_ACTION_CONFIRMED',
             timestamp: 0,
           };
@@ -279,7 +279,7 @@ export class StkrSdk {
           return {
             user: event.data.staker,
             amount: event.data.amount,
-            transactionHash: event.data.eventData.transactionHash,
+            transactionHash: event.data.eventLog.transactionHash,
             action: 'STAKE_ACTION_UNSTAKE',
             timestamp: 0,
           };

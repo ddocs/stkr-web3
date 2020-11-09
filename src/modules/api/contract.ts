@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/no-var-requires,@typescript-eslint/interface-name-prefix */
 import { KeyProvider, SendAsyncResult } from './provider';
-import { Contract, EventData } from 'web3-eth-contract';
+import { Contract } from 'web3-eth-contract';
 import BigNumber from 'bignumber.js';
 import { EventLog } from 'web3-core';
 import { EventEmitter } from 'events';
 import {
   ContractManagerEvents,
-  IContractManagerStakeConfirmed,
-  IContractManagerStakePending,
-  IContractManagerStakeRemoved,
+  IStakeConfirmedEvent,
+  IStakePendingEvent,
+  IStakeRemovedEvent,
 } from './event';
 
 const ABI_GLOBAL_POOL = require('./contract/GlobalPool.json');
@@ -63,23 +63,23 @@ export class ContractManager {
       contractConfig.systemContract,
     );
     console.log(`subscribing for contract events`);
-    this.followContractEvents();
+    this.followEthereumEvents();
+    this.followAnkrEvents();
+    this.followGlobalPoolEvents();
   }
 
-  public async queryStakePendingEventLogs(): Promise<
-    IContractManagerStakePending[]
-  > {
+  public async queryStakePendingEventLogs(): Promise<IStakePendingEvent[]> {
     const currentAddress = this.keyProvider.currentAccount();
     const events = await this.microPoolContract.getPastEvents('StakePending', {
       fromBlock: 0,
       filter: { staker: currentAddress },
     });
-    return events.map((eventData: EventData) => {
-      const { staker, amount } = eventData.returnValues;
+    return events.map((eventLog: EventLog) => {
+      const { staker, amount } = eventLog.returnValues;
       return {
         type: ContractManagerEvents.StakePending,
         data: {
-          eventData,
+          eventLog,
           staker: staker,
           amount: new BigNumber(amount).dividedBy(ETH_SCALE_FACTOR),
         },
@@ -87,9 +87,7 @@ export class ContractManager {
     });
   }
 
-  public async queryStakeConfirmedEventLogs(): Promise<
-    IContractManagerStakeConfirmed[]
-  > {
+  public async queryStakeConfirmedEventLogs(): Promise<IStakeConfirmedEvent[]> {
     const currentAddress = this.keyProvider.currentAccount();
     const events = await this.microPoolContract.getPastEvents(
       'StakeConfirmed',
@@ -98,12 +96,12 @@ export class ContractManager {
         filter: { staker: currentAddress },
       },
     );
-    return events.map((eventData: EventData) => {
-      const { staker, amount } = eventData.returnValues;
+    return events.map((eventLog: EventLog) => {
+      const { staker, amount } = eventLog.returnValues;
       return {
         type: ContractManagerEvents.StakeConfirmed,
         data: {
-          eventData,
+          eventLog,
           staker: staker,
           amount: new BigNumber(amount).dividedBy(ETH_SCALE_FACTOR),
         },
@@ -111,20 +109,18 @@ export class ContractManager {
     });
   }
 
-  public async queryStakeRemovedEventLogs(): Promise<
-    IContractManagerStakeRemoved[]
-  > {
+  public async queryStakeRemovedEventLogs(): Promise<IStakeRemovedEvent[]> {
     const currentAddress = this.keyProvider.currentAccount();
     const events = await this.microPoolContract.getPastEvents('StakeRemoved', {
       fromBlock: 0,
       filter: { staker: currentAddress },
     });
-    return events.map((eventData: EventData) => {
-      const { staker, amount } = eventData.returnValues;
+    return events.map((eventLog: EventLog) => {
+      const { staker, amount } = eventLog.returnValues;
       return {
         type: ContractManagerEvents.StakeRemoved,
         data: {
-          eventData,
+          eventLog,
           staker: staker,
           amount: new BigNumber(amount).dividedBy(ETH_SCALE_FACTOR),
         },
@@ -132,7 +128,53 @@ export class ContractManager {
     });
   }
 
-  private followContractEvents() {
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  private followEthereumEvents() {}
+
+  private followAnkrEvents() {
+    const currentAddress = this.keyProvider.currentAccount(),
+      latestBlockHeight = this.keyProvider.latestBlockHeight();
+    // noinspection TypeScriptValidateJSTypes
+    this.ankrContract.events
+      .Transfer({
+        filter: { from: currentAddress },
+        fromBlock: latestBlockHeight,
+      })
+      .on('data', async (eventLog: EventLog) => {
+        const { value } = eventLog.returnValues;
+        console.log(
+          `handled ANKR transfer from event log`,
+          JSON.stringify(eventLog, null, 2),
+        );
+        this.eventEmitter.emit(ContractManagerEvents.AnkrBalanceChanged, {
+          eventLog: eventLog,
+          address: currentAddress,
+          balance: new BigNumber(await this.ankrBalance(currentAddress)),
+          delta: new BigNumber(value).multipliedBy(ANKR_SCALE_FACTOR).negated(),
+        });
+      });
+    // noinspection TypeScriptValidateJSTypes
+    this.ankrContract.events
+      .Transfer({
+        filter: { to: currentAddress },
+        fromBlock: latestBlockHeight,
+      })
+      .on('data', async (eventLog: EventLog) => {
+        const { value } = eventLog.returnValues;
+        console.log(
+          `handled ANKR transfer to event log`,
+          JSON.stringify(eventLog, null, 2),
+        );
+        this.eventEmitter.emit(ContractManagerEvents.AnkrBalanceChanged, {
+          eventLog: eventLog,
+          address: currentAddress,
+          balance: new BigNumber(await this.ankrBalance(currentAddress)),
+          delta: new BigNumber(value).multipliedBy(ANKR_SCALE_FACTOR),
+        });
+      });
+  }
+
+  private followGlobalPoolEvents() {
     const currentAddress = this.keyProvider.currentAccount(),
       latestBlockHeight = this.keyProvider.latestBlockHeight();
     // noinspection TypeScriptValidateJSTypes
@@ -148,9 +190,9 @@ export class ContractManager {
           JSON.stringify(eventLog, null, 2),
         );
         this.eventEmitter.emit(ContractManagerEvents.StakePending, {
-          eventData: eventLog,
+          eventLog: eventLog,
           staker,
-          amount,
+          amount: new BigNumber(amount).dividedBy(ETH_SCALE_FACTOR),
         });
       });
     // noinspection TypeScriptValidateJSTypes
@@ -166,9 +208,9 @@ export class ContractManager {
           JSON.stringify(eventLog, null, 2),
         );
         this.eventEmitter.emit(ContractManagerEvents.StakeConfirmed, {
-          eventData: eventLog,
+          eventLog: eventLog,
           staker,
-          amount,
+          amount: new BigNumber(amount).dividedBy(ETH_SCALE_FACTOR),
         });
       });
     // noinspection TypeScriptValidateJSTypes
@@ -184,9 +226,9 @@ export class ContractManager {
           JSON.stringify(eventLog, null, 2),
         );
         this.eventEmitter.emit(ContractManagerEvents.StakeRemoved, {
-          eventData: eventLog,
+          eventLog: eventLog,
           staker,
-          amount,
+          amount: new BigNumber(amount).dividedBy(ETH_SCALE_FACTOR),
         });
       });
     // noinspection TypeScriptValidateJSTypes
@@ -202,7 +244,7 @@ export class ContractManager {
           JSON.stringify(eventLog, null, 2),
         );
         this.eventEmitter.emit(ContractManagerEvents.PoolOnGoing, {
-          eventData: eventLog,
+          eventLog: eventLog,
           pool,
         });
       });
@@ -219,7 +261,7 @@ export class ContractManager {
           JSON.stringify(eventLog, null, 2),
         );
         this.eventEmitter.emit(ContractManagerEvents.PoolCompleted, {
-          eventData: eventLog,
+          eventLog: eventLog,
           pool,
         });
       });
@@ -240,10 +282,12 @@ export class ContractManager {
           JSON.stringify(eventLog, null, 2),
         );
         this.eventEmitter.emit(ContractManagerEvents.ProviderSlashedAnkr, {
-          eventData: eventLog,
+          eventLog: eventLog,
           provider,
-          ankrAmount,
-          etherEquivalence,
+          ankrAmount: new BigNumber(ankrAmount).dividedBy(ANKR_SCALE_FACTOR),
+          etherEquivalence: new BigNumber(etherEquivalence).dividedBy(
+            ETH_SCALE_FACTOR,
+          ),
         });
       });
     // noinspection TypeScriptValidateJSTypes
@@ -259,9 +303,9 @@ export class ContractManager {
           JSON.stringify(eventLog, null, 2),
         );
         this.eventEmitter.emit(ContractManagerEvents.ProviderSlashedEth, {
-          eventData: eventLog,
+          eventLog: eventLog,
           provider,
-          amount,
+          amount: new BigNumber(amount).dividedBy(ETH_SCALE_FACTOR),
         });
       });
     // noinspection TypeScriptValidateJSTypes
@@ -277,9 +321,9 @@ export class ContractManager {
           JSON.stringify(eventLog, null, 2),
         );
         this.eventEmitter.emit(ContractManagerEvents.ProviderToppedUpEth, {
-          eventData: eventLog,
+          eventLog: eventLog,
           provider,
-          amount,
+          amount: new BigNumber(amount).dividedBy(ETH_SCALE_FACTOR),
         });
       });
     // noinspection TypeScriptValidateJSTypes
@@ -295,9 +339,9 @@ export class ContractManager {
           JSON.stringify(eventLog, null, 2),
         );
         this.eventEmitter.emit(ContractManagerEvents.ProviderToppedUpAnkr, {
-          eventData: eventLog,
+          eventLog: eventLog,
           provider,
-          amount,
+          amount: new BigNumber(amount).dividedBy(ANKR_SCALE_FACTOR),
         });
       });
     // noinspection TypeScriptValidateJSTypes
@@ -313,7 +357,7 @@ export class ContractManager {
           JSON.stringify(eventLog, null, 2),
         );
         this.eventEmitter.emit(ContractManagerEvents.ProviderExited, {
-          eventData: eventLog,
+          eventLog: eventLog,
           provider,
         });
       });
@@ -330,9 +374,9 @@ export class ContractManager {
           JSON.stringify(eventLog, null, 2),
         );
         this.eventEmitter.emit(ContractManagerEvents.RewardClaimed, {
-          eventData: eventLog,
+          eventLog: eventLog,
           staker,
-          amount,
+          amount: new BigNumber(amount).dividedBy(ETH_SCALE_FACTOR),
         });
       });
   }
@@ -355,7 +399,7 @@ export class ContractManager {
     );
     console.log(`emitting stake manual pending event`);
     this.eventEmitter.emit(ContractManagerEvents.StakePending, {
-      eventData: {
+      eventLog: {
         transactionHash: result.transactionHash,
       },
       staker: currentAccount,

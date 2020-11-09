@@ -1,7 +1,5 @@
 import { Address, ProviderRpcError } from './provider';
 import BigNumber from 'bignumber.js';
-import { EventData } from 'web3-eth-contract';
-import { EventLog } from 'web3-core';
 
 export enum KeyProviderEvents {
   AccountChanged = 'AccountChanged',
@@ -10,35 +8,38 @@ export enum KeyProviderEvents {
   ChainChanged = 'ChainChanged',
 }
 
-export interface IKeyProviderAccountChangedEvent {
+export interface IAccountChangedEvent {
   type: KeyProviderEvents.AccountChanged;
   data: {
     accounts: Address[];
   };
 }
 
-export interface IKeyProviderDisconnectEvent {
+export interface IDisconnectEvent {
   type: KeyProviderEvents.Disconnect;
   error: ProviderRpcError;
 }
 
-export interface IKeyProviderMessageEvent {
+export interface IMessageEvent {
   type: KeyProviderEvents.Message;
   data: any;
 }
 
-export interface IKeyProviderChainChangedEvent {
+export interface IChainChangedEvent {
   type: KeyProviderEvents.ChainChanged;
   data: { chainId: string };
 }
 
 export type KeyProviderEvent =
-  | IKeyProviderAccountChangedEvent
-  | IKeyProviderDisconnectEvent
-  | IKeyProviderMessageEvent
-  | IKeyProviderChainChangedEvent;
+  | IAccountChangedEvent
+  | IDisconnectEvent
+  | IMessageEvent
+  | IChainChangedEvent;
 
 export enum ContractManagerEvents {
+  AnkrBalanceChanged = 'AnkrBalanceChanged',
+  EthereumBalanceChanged = 'EthereumBalanceChanged',
+  AethBalanceChanged = 'AethBalanceChanged',
   StakePending = 'StakePending', // !
   StakeConfirmed = 'StakeConfirmed', // !
   StakeRemoved = 'StakeRemoved', // !
@@ -56,112 +57,142 @@ export interface IEventLog {
   transactionHash: string;
 }
 
-export interface IContractManagerStakePending {
+export interface IAnkrBalanceChangedEvent {
+  type: ContractManagerEvents.AnkrBalanceChanged;
+  data: {
+    eventLog: IEventLog;
+    address: Address;
+    balance: BigNumber;
+    delta: BigNumber;
+  };
+}
+
+export interface IEthereumBalanceChangedEvent {
+  type: ContractManagerEvents.EthereumBalanceChanged;
+  data: {
+    eventLog: IEventLog;
+    address: Address;
+    balance: BigNumber;
+    delta: BigNumber;
+  };
+}
+
+export interface IAethBalanceChangedEvent {
+  type: ContractManagerEvents.AethBalanceChanged;
+  data: {
+    eventLog: IEventLog;
+    address: Address;
+    balance: BigNumber;
+    delta: BigNumber;
+  };
+}
+
+export interface IStakePendingEvent {
   type: ContractManagerEvents.StakePending;
   data: {
-    eventData: IEventLog;
+    eventLog: IEventLog;
     staker: Address;
     amount: BigNumber;
   };
 }
 
-export interface IContractManagerStakeConfirmed {
+export interface IStakeConfirmedEvent {
   type: ContractManagerEvents.StakeConfirmed;
   data: {
-    eventData: IEventLog;
+    eventLog: IEventLog;
     staker: Address;
     amount: BigNumber;
   };
 }
 
-export interface IContractManagerStakeRemoved {
+export interface IStakeRemovedEvent {
   type: ContractManagerEvents.StakeRemoved;
   data: {
-    eventData: IEventLog;
+    eventLog: IEventLog;
     staker: Address;
     amount: BigNumber;
   };
 }
 
-export interface IContractManagerPoolOnGoing {
+export interface IPoolOnGoingEvent {
   type: ContractManagerEvents.PoolOnGoing;
   data: {
-    eventData: IEventLog;
+    eventLog: IEventLog;
     pool: string;
   };
 }
 
-export interface IContractManagerPoolCompleted {
+export interface IPoolCompletedEvent {
   type: ContractManagerEvents.PoolCompleted;
   data: {
-    eventData: IEventLog;
+    eventLog: IEventLog;
     pool: string;
   };
 }
 
-export interface IContractManagerProviderSlashedAnkr {
+export interface IProviderSlashedAnkrEvent {
   type: ContractManagerEvents.ProviderSlashedAnkr;
   data: {
-    eventData: IEventLog;
+    eventLog: IEventLog;
     provider: Address;
     etherEquivalence: BigNumber;
     ankrAmount: BigNumber;
   };
 }
 
-export interface IContractManagerProviderSlashedEth {
+export interface IProviderSlashedEthEvent {
   type: ContractManagerEvents.ProviderSlashedEth;
   data: {
-    eventData: IEventLog;
+    eventLog: IEventLog;
     provider: Address;
     etherAmount: BigNumber;
   };
 }
 
-export interface IContractManagerProviderToppedUpEth {
+export interface IProviderToppedUpEthEvent {
   type: ContractManagerEvents.ProviderToppedUpEth;
   data: {
-    eventData: IEventLog;
+    eventLog: IEventLog;
     provider: Address;
     amount: BigNumber;
   };
 }
 
-export interface IContractManagerProviderToppedUpAnkr {
+export interface IProviderToppedUpAnkrEvent {
   type: ContractManagerEvents.ProviderToppedUpAnkr;
   data: {
-    eventData: IEventLog;
+    eventLog: IEventLog;
     provider: Address;
     amount: BigNumber;
   };
 }
 
-export interface IContractManagerProviderExited {
+export interface IProviderExitedEvemt {
   type: ContractManagerEvents.ProviderExited;
   data: {
-    eventData: IEventLog;
+    eventLog: IEventLog;
     provider: Address;
   };
 }
 
-export interface IContractManagerRewardClaimed {
+export interface IRewardClaimedEvent {
   type: ContractManagerEvents.RewardClaimed;
   data: {
-    eventData: IEventLog;
+    eventLog: IEventLog;
     staker: Address;
     amount: BigNumber;
   };
 }
 
 export type ContractManagerEvent =
-  | IContractManagerStakePending
-  | IContractManagerStakeConfirmed
-  | IContractManagerStakeRemoved
-  | IContractManagerPoolOnGoing
-  | IContractManagerPoolCompleted
-  | IContractManagerProviderSlashedAnkr
-  | IContractManagerProviderSlashedEth
-  | IContractManagerProviderToppedUpEth
-  | IContractManagerProviderToppedUpAnkr
-  | IContractManagerProviderExited
-  | IContractManagerRewardClaimed;
+  | IStakePendingEvent
+  | IStakeConfirmedEvent
+  | IStakeRemovedEvent
+  | IPoolOnGoingEvent
+  | IPoolCompletedEvent
+  | IProviderSlashedAnkrEvent
+  | IProviderSlashedEthEvent
+  | IProviderToppedUpEthEvent
+  | IProviderToppedUpAnkrEvent
+  | IProviderExitedEvemt
+  | IRewardClaimedEvent;
