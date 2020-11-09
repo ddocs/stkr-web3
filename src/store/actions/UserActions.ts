@@ -20,6 +20,7 @@ import { ISidecarStatus, mapNodeStatus } from '../apiMappers/sidecarStatus';
 import { PICKER_PATH } from '../../common/const';
 import { closeModalAction } from '../modals/actions';
 import { replace } from 'connected-react-router';
+import { ContractManagerEvents } from '../../modules/api/event';
 
 export const UserActionTypes = {
   CONNECT: 'CONNECT',
@@ -53,6 +54,8 @@ export const UserActionTypes = {
   BUY_TOKENS: 'BUY_TOKENS',
 
   STAKE: 'STAKE',
+
+  UNSTAKE: 'UNSTAKE',
 
   CLAIM_A_ETH: 'CLAIM_A_ETH',
 
@@ -301,6 +304,18 @@ export const UserActions = {
       promise: (async function () {
         const stkrSdk = StkrSdk.getLastInstance();
         return stkrSdk.stake(amount);
+      })(),
+    },
+    meta: {
+      asMutation: true,
+    },
+  }),
+  unstake: () => ({
+    type: UserActionTypes.UNSTAKE,
+    request: {
+      promise: (async function () {
+        const stkrSdk = StkrSdk.getLastInstance();
+        return stkrSdk.unstake();
       })(),
     },
     meta: {

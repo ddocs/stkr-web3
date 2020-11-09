@@ -135,7 +135,6 @@ export class ContractManager {
       .getWeb3()
       .eth.subscribe('newBlockHeaders')
       .on('data', async (blockHeader: BlockHeader) => {
-        console.log(`handled new block ${blockHeader.number}`);
         const currentAddress = this.keyProvider.currentAccount();
         this.keyProvider.changeLatestBlockHeight(blockHeader.number);
         const ethBalance = await this.keyProvider.ethereumBalance(

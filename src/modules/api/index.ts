@@ -207,6 +207,11 @@ export class StkrSdk {
     return this.getContractManager().stake(stakingAmount);
   }
 
+  public async unstake(): Promise<SendAsyncResult> {
+    console.log(`unstaking funds from global pool`);
+    return this.getContractManager().unstake();
+  }
+
   public currentAccount(): string | undefined {
     if (!this.keyProvider) {
       return '';

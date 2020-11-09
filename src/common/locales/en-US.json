@@ -218,6 +218,7 @@
     "tweet": "Tweet",
     "copy": "Copy",
     "stake": "Stake",
+    "unstake": "Unstake",
     "validation": {
       "balance-exceed": "You entered a value that exceeds your balance"
     }
@@ -290,6 +291,7 @@
     "staked": "Staked",
     "my-rewards": "My rewards",
     "stake-more": "Stake more",
+    "unstake-funds": "Unstake funds",
     "eth": "ETH",
     "current-a-eth-balance": "Current aETH balance",
     "redeem": "Redeem",
