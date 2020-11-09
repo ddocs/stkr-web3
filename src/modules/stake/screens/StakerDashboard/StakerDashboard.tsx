@@ -56,6 +56,10 @@ export const StakerDashboardComponent = () => {
     dispatch(UserActions.claimAeth());
   };
 
+  const handleUnstake = () => {
+    dispatch(UserActions.unstake());
+  };
+
   return (
     <section className={classes.component}>
       <Curtains classes={{ root: classes.wrapper }}>
@@ -74,15 +78,30 @@ export const StakerDashboardComponent = () => {
                     <Typography className={classes.headline}>
                       {t('staked-dashboard.staked')}
                     </Typography>
-                    <NavLink
-                      variant="contained"
-                      color="primary"
-                      size="large"
-                      href={STAKER_STAKE_PATH}
-                      fullWidth={true}
-                    >
-                      {t('staked-dashboard.stake-more')}
-                    </NavLink>
+                    <div className={classes.buttons}>
+                      <NavLink
+                        variant="contained"
+                        color="primary"
+                        size="large"
+                        href={STAKER_STAKE_PATH}
+                        fullWidth={true}
+                      >
+                        {t('staked-dashboard.stake-more')}
+                      </NavLink>
+                      <MutationErrorHandler type={UserActionTypes.UNSTAKE} />
+                      <Mutation type={UserActionTypes.UNSTAKE}>
+                        {({ loading }) => (
+                          <Button
+                            size="large"
+                            color="primary"
+                            onClick={handleUnstake}
+                            disabled={loading}
+                          >
+                            {t('staker-dashboard.unstake')}
+                          </Button>
+                        )}
+                      </Mutation>
+                    </div>
                     {data?.staked && (
                       <Amount
                         value={data.staked.toFormat()}

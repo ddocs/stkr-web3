@@ -312,5 +312,8 @@
   "node-list": {
     "syncing": "Syncing {value}%",
     "ago": "{value} ago"
+  },
+  "staker-dashboard": {
+    "unstake": "Unstake"
   }
 }

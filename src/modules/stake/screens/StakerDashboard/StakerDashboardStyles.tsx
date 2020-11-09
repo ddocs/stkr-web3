@@ -90,4 +90,9 @@ export const useStakerDasboardStyles = makeStyles<Theme>(theme => ({
       minWidth: 'unset',
     },
   },
+  buttons: {
+    display: 'grid',
+    gridTemplateColumns: '1fr',
+    gridGap: theme.spacing(1),
+  },
 }));
