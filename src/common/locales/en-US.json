@@ -300,7 +300,10 @@
       "STAKE_ACTION_CONFIRMED": "Confirmed",
       "STAKE_ACTION_UNSTAKE": "Removed"
     },
-    "transaction": "https://goerli.etherscan.io/tx/{value}",
+    "transaction": {
+      "goerli": "https://goerli.etherscan.io/tx/{value}",
+      "mainnet": "https://etherscan.io/tx/{value}"
+    },
     "column": {
       "status": "Status",
       "transaction-hash": "Tx.Hash",

@@ -17,6 +17,7 @@ import {
   DEVELOP_CONFIG,
   GOERLI_CONFIG,
   LOCAL_CONFIG,
+  MAINNET_CONFIG,
 } from '../../modules/api/config';
 
 interface IAppBaseProps {}
@@ -37,14 +38,15 @@ export class AppBase extends React.Component<IAppBaseProps, IAppBaseState> {
       ? process.env.REACT_APP_STKR_ENV
       : 'develop';
     console.log(`Current environment is: ${env}`);
-    if (env === 'goerli') {
+    if (env === 'mainnet') {
+      StkrSdk.factoryDefault(MAINNET_CONFIG);
+    } else if (env === 'goerli') {
       StkrSdk.factoryDefault(GOERLI_CONFIG);
     } else if (env === 'develop') {
       StkrSdk.factoryDefault(DEVELOP_CONFIG);
     } else {
       StkrSdk.factoryDefault(LOCAL_CONFIG);
     }
-
     this.loadLocales();
   }
 

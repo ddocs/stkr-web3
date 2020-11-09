@@ -35,3 +35,9 @@ export const GOERLI_CONFIG: IStkrConfig = {
   baseUrl: 'https://api.stkr-goerli.ankr.com/',
   configFile: 'goerli.json',
 };
+
+export const MAINNET_CONFIG: IStkrConfig = {
+  ...LOCAL_CONFIG,
+  baseUrl: 'https://api.stkr.ankr.com/',
+  configFile: 'mainnet.json',
+};

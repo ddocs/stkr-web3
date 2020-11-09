@@ -264,7 +264,7 @@ export class StkrSdk {
             amount: event.data.amount,
             transactionHash: event.data.eventLog.transactionHash,
             action: 'STAKE_ACTION_PENDING',
-            timestamp: 0,
+            timestamp: event.data.eventLog.blockNumber,
           };
         },
       ),
@@ -275,7 +275,7 @@ export class StkrSdk {
             amount: event.data.amount,
             transactionHash: event.data.eventLog.transactionHash,
             action: 'STAKE_ACTION_CONFIRMED',
-            timestamp: 0,
+            timestamp: event.data.eventLog.blockNumber,
           };
         },
       ),
@@ -286,15 +286,17 @@ export class StkrSdk {
             amount: event.data.amount,
             transactionHash: event.data.eventLog.transactionHash,
             action: 'STAKE_ACTION_UNSTAKE',
-            timestamp: 0,
+            timestamp: event.data.eventLog.blockNumber,
           };
         },
       ),
-    ];
-    const totalStakedAmount = stakes.reduce(
-        (result, stake) => result.plus(stake.amount),
-        new BigNumber(0),
-      ),
+    ].sort((a, b) => a.timestamp - b.timestamp);
+    const totalStakedAmount = stakes.reduce((result, stake) => {
+        if (stake.action === 'STAKE_ACTION_UNSTAKE') {
+          return result.plus(stake.amount.negated());
+        }
+        return result.plus(stake.amount);
+      }, new BigNumber(0)),
       totalRewards = totalStakedAmount.multipliedBy(YEAR_INTEREST);
     console.log(`total staked amount is ${totalStakedAmount.toString(10)}`);
     const stats = {

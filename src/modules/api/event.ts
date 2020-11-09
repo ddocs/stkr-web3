@@ -55,6 +55,7 @@ export enum ContractManagerEvents {
 
 export interface IEventLog {
   transactionHash: string;
+  blockNumber: number;
 }
 
 export interface IAnkrBalanceChangedEvent {
