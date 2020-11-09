@@ -82,6 +82,8 @@ export const useStakerDasboardStyles = makeStyles<Theme>(theme => ({
   history: {
     gridColumn: '1 / span 2',
     gridRow: 2,
+    maxHeight: 'calc(100vh - 86px)',
+    overflowX: 'auto',
   },
   table: {
     '&&': {
