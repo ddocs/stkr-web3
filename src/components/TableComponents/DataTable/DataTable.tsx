@@ -12,8 +12,13 @@ import { TableHead } from '../TableHead';
 import { TableBody } from '../TableBody';
 import { TableHeadCell } from '../TableHeadCell';
 import { Table } from '../Table';
+import { WithStyles } from '@material-ui/core';
+import { tableStyles } from '../Table/TableStyles';
 
-interface IDataTableProps extends ICustomProps, IStyleProps {
+interface IDataTableProps
+  extends Partial<WithStyles<typeof tableStyles>>,
+    ICustomProps,
+    IStyleProps {
   className?: string;
   captions: ITablesCaptionProps[];
   rows: ITablesRowProps[];

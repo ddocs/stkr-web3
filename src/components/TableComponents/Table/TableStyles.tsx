@@ -1,9 +1,8 @@
-import { Theme } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
+import { createStyles } from '@material-ui/core';
 
 export const TABLE_MIN_WIDTH = 808;
 
-export const useTableStyles = makeStyles<Theme>(() => ({
+export const tableStyles = createStyles({
   container: {},
   table: {
     position: 'relative',
@@ -12,4 +11,4 @@ export const useTableStyles = makeStyles<Theme>(() => ({
     boxSizing: 'border-box',
     overflow: 'hidden',
   },
-}));
+});

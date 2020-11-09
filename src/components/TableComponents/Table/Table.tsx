@@ -1,9 +1,10 @@
 import classNames from 'classnames';
 import React, { ReactNode, useCallback, useState } from 'react';
 import { ICustomProps, IStyleProps } from '../types';
-import { useTableStyles } from './TableStyles';
+import { tableStyles } from './TableStyles';
 import { useResizeObserver } from '../../../common/hooks/useResizeObserver';
 import { createPureContext } from 'react-shallow-context';
+import { WithStyles, withStyles } from '@material-ui/core';
 
 type TableContextType = {
   tableWidth: number;
@@ -20,7 +21,10 @@ export const TableContext = createPureContext<TableContextType>({
   count: 0,
 } as TableContextType);
 
-interface ITableComponentProps extends ICustomProps, IStyleProps {
+interface ITableComponentProps
+  extends WithStyles<typeof tableStyles>,
+    ICustomProps,
+    IStyleProps {
   className?: string;
   columnsCount: number;
   tableWidth: number;
@@ -28,10 +32,11 @@ interface ITableComponentProps extends ICustomProps, IStyleProps {
   children: ReactNode;
 }
 
-export const TableComponent = ({
+const TableComponent = ({
   className,
   setTableWidth,
   children,
+  classes,
 }: ITableComponentProps) => {
   const [tableRef, setTableRef] = useState<HTMLElement | null>(null);
 
@@ -44,8 +49,6 @@ export const TableComponent = ({
       [setTableWidth],
     ),
   );
-
-  const classes = useTableStyles();
 
   return (
     <div className={classNames(classes.container, className)}>
@@ -61,7 +64,7 @@ export type ITableProps = Omit<
   'tableWidth' | 'setTableWidth'
 >;
 
-export const Table = (props: ITableProps) => {
+export const Table = withStyles(tableStyles)((props: ITableProps) => {
   const [tableWidth, setTableWidth] = useState(0);
 
   return (
@@ -83,4 +86,4 @@ export const Table = (props: ITableProps) => {
       />
     </TableContext.Provider>
   );
-};
+});
