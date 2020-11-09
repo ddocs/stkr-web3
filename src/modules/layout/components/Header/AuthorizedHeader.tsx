@@ -8,7 +8,7 @@ import { Providers } from '../../../../common/types';
 import { ITab, NavTab } from '../types';
 import { Wallet } from '../Wallet';
 import { Links } from '../Links';
-import { useIsSMDown } from '../../../../common/hooks/useTheme';
+import { useIsLGDown, useIsMDDown } from '../../../../common/hooks/useTheme';
 
 const SHOW_SWITCHER_ON_ALL_PAGES = true;
 const ENABLE_SWITCHER = false;
@@ -44,8 +44,8 @@ export const AuthorizedHeader = ({
   const classes = useHeaderStyles({});
 
   const location = useLocation();
-
-  const isSMDown = useIsSMDown();
+  const isSMDown = useIsMDDown();
+  const isLgDown = useIsLGDown();
 
   return (
     <HeaderFrame
@@ -53,7 +53,7 @@ export const AuthorizedHeader = ({
       innerClassName={classes.inner}
       dropdownClassName={classes.authDropdown}
     >
-      {isSMDown && <Links className={classes.links} />}
+      {(isSMDown || isLgDown) && <Links className={classes.links} />}
       {ENABLE_SWITCHER &&
         ([STAKER_DASHBOAR_PATH, PROVIDER_PATH].includes(location.pathname) ||
           SHOW_SWITCHER_ON_ALL_PAGES) && (
