@@ -83,7 +83,7 @@
     "why-liquidity-text": "With aETH, you can hold or trade your staked assets at any time, without having to wait until transactions are enabled on Ethereum 2.0.",
     "why-security-title": "Security",
     "why-security-text": "Keep your funds in your own custody and always be in charge of your assets. ",
-    "roles-title": "<span>The 4 roles</span>in the Stkr system",
+    "roles-title": "<span>The 3 roles</span>in the Stkr system",
     "roles-eth-staker-title": "ETH staker",
     "roles-eth-staker-text": "Stakers can stake any amount of ETH tokens (minimum 0.5 ETH) to earn staking rewards and platform fees. The staked ETH will immediately be liquid in the form of aETH, which users can use to trade or participate in DeFi. Stakers can stake ANKR in addition to their ETH stake to increase rewards from platform fees.",
     "roles-node-provider-title": "Node provider",
