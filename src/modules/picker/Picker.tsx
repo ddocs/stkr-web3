@@ -4,7 +4,11 @@ import { usePickerStyles } from './PickerStyles';
 import { Body1, Headline4 } from '../../UiKit/Typography';
 import { t, tHTML } from '../../common/utils/intl';
 import { NavLink } from '../../UiKit/NavLink';
-import { PROVIDER_PATH, STAKER_DASHBOAR_PATH } from '../../common/const';
+import {
+  ENABLE_PROVIDER,
+  PROVIDER_PATH,
+  STAKER_DASHBOAR_PATH,
+} from '../../common/const';
 
 interface IItemProps {
   title: string;
@@ -70,7 +74,7 @@ const DATA: Record<string, { disabled: boolean; features: string[] }> = {
     ],
   },
   provider: {
-    disabled: true,
+    disabled: !ENABLE_PROVIDER,
     features: [
       'picker.provider.features.1',
       'picker.provider.features.2',

@@ -1,6 +1,10 @@
 import { useHeaderStyles } from './HeaderStyles';
 import { useLocation } from 'react-router';
-import { PROVIDER_PATH, STAKER_DASHBOAR_PATH } from '../../../../common/const';
+import {
+  isMainnet,
+  PROVIDER_PATH,
+  STAKER_DASHBOAR_PATH,
+} from '../../../../common/const';
 import { Tabs } from '../Tabs';
 import React from 'react';
 import { HeaderFrame } from './HeaderFrame';
@@ -11,7 +15,6 @@ import { Links } from '../Links';
 import { useIsSMDown } from '../../../../common/hooks/useTheme';
 
 const SHOW_SWITCHER_ON_ALL_PAGES = true;
-const ENABLE_PROVIDER = false;
 
 export type IAuthorizedHeaderProps = {
   className?: string;
@@ -31,8 +34,8 @@ const TABS: ITab[] = [
     label: 'navigation.provider',
     value: NavTab.provider,
     href: PROVIDER_PATH,
-    disabled: true,
-  },
+    disabled: isMainnet,
+  } as ITab,
 ];
 
 export const AuthorizedHeader = ({
@@ -54,10 +57,7 @@ export const AuthorizedHeader = ({
       dropdownClassName={classes.authDropdown}
     >
       {isSMDown && <Links className={classes.links} />}
-      {([
-        STAKER_DASHBOAR_PATH,
-        ...(ENABLE_PROVIDER ? [PROVIDER_PATH] : []),
-      ].includes(location.pathname) ||
+      {([STAKER_DASHBOAR_PATH, PROVIDER_PATH].includes(location.pathname) ||
         SHOW_SWITCHER_ON_ALL_PAGES) && (
         <Tabs className={classes.tabs} values={TABS} />
       )}

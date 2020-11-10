@@ -11,12 +11,9 @@ import { TableBodyCell } from '../../../../components/TableComponents/TableBodyC
 import { Table } from '../../../../components/TableComponents/Table';
 import { useLocaleMemo } from '../../../../common/hooks/useLocaleMemo';
 import { NavLink } from '../../../../UiKit/NavLink';
-import { STAKER_STAKE_PATH } from '../../../../common/const';
+import { isMainnet, STAKER_STAKE_PATH } from '../../../../common/const';
 import { Mutation, Query } from '@redux-requests/react';
-import {
-  UserActions,
-  UserActionTypes,
-} from '../../../../store/actions/UserActions';
+import { UserActions, UserActionTypes, } from '../../../../store/actions/UserActions';
 import { QueryError } from '../../../../components/QueryError/QueryError';
 import { QueryLoadingCentered } from '../../../../components/QueryLoading/QueryLoading';
 import { QueryEmpty } from '../../../../components/QueryEmpty/QueryEmpty';
@@ -58,11 +55,6 @@ export const StakerDashboardComponent = () => {
   const handleUnstake = () => {
     dispatch(UserActions.unstake());
   };
-
-  const env = process.env.REACT_APP_STKR_ENV
-    ? process.env.REACT_APP_STKR_ENV
-    : 'develop';
-  const isMainnet = env === 'mainnet';
 
   const isXSDown = useIsXSDown();
 
