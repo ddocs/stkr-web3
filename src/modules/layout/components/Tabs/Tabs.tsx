@@ -19,7 +19,7 @@ export const Tabs = ({ className, values }: ITabsProps) => {
     <div className={classNames(classes.component, className)}>
       <ul className={classes.list}>
         {values.map(value => (
-          <li className={classes.item} key={uid(value)}>
+          <li key={uid(value)}>
             <NavLink
               href={value.href}
               className={classes.button}
