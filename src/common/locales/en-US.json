@@ -162,7 +162,7 @@
       "link": "Start staking"
     },
     "provider": {
-      "title": "Become a provider",
+      "title": "Become a provider<br/>and start earning",
       "features": {
         "1": "Run Ethereum 2.0 nodes and earning from staking rewards and platform fees.",
         "2": "Opt-in to stake ANKR and reach a higher trust level to receive more staked ETH.",
