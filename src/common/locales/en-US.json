@@ -220,8 +220,10 @@
     "stake": "Stake",
     "unstake": "Unstake",
     "validation": {
-      "balance-exceed": "You entered a value that exceeds your balance"
-    }
+      "balance-exceed": "You entered a value that exceeds your balance",
+      "agreement": "Need your confirmation"
+    },
+    "agreement": "I understand my staked funds will be locked and can not be redeemed for an uncertain period of time."
   },
   "units": {
     "$": "${value}",

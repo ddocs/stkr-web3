@@ -71,10 +71,14 @@ export const useStakerDasboardStyles = makeStyles<Theme>(theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'flex-start',
+    marginTop: theme.spacing(1),
     fontSize: 20,
     fontWeight: 500,
     [theme.breakpoints.down('sm')]: {
       gridRow: '1/2',
+    },
+    [theme.breakpoints.down('xs')]: {
+      marginTop: 0,
     },
   },
   value: {

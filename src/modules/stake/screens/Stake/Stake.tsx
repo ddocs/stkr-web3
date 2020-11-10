@@ -2,6 +2,7 @@ import React, { useCallback } from 'react';
 import { Curtains } from '../../../../UiKit/Curtains';
 import { useStakeStyles } from './StakeStyles';
 import {
+  Body1,
   Body2,
   Headline2,
   Headline3,
@@ -9,9 +10,6 @@ import {
 } from '../../../../UiKit/Typography';
 import { t } from '../../../../common/utils/intl';
 import {
-  Box,
-  Button,
-  Divider,
   FormHelperText,
   IconButton,
   Tooltip,
@@ -35,6 +33,9 @@ import { useHistory } from 'react-router';
 import { STAKER_DASHBOAR_PATH, YEAR_INTEREST } from '../../../../common/const';
 import { success } from '@redux-requests/core';
 import { MutationErrorHandler } from '../../../../components/MutationErrorHandler/MutationErrorHandler';
+import { CheckboxField } from '../../../../UiKit/Checkbox/CheckboxField';
+import { Button } from '../../../../UiKit/Button';
+import { useIsXSDown } from '../../../../common/hooks/useTheme';
 
 const MIN_AMOUNT = 0.5;
 const MAX_AMOUNT = 32;
@@ -44,6 +45,7 @@ const FIXED_DECIMAL_PLACES = 2;
 
 interface IStakePayload {
   amount: number;
+  agreement: boolean;
 }
 
 interface IStakeComponentProps {
@@ -62,7 +64,7 @@ export const StakeComponent = ({
   const classes = useStakeStyles();
 
   const validateStakeForm = useCallback(
-    ({ amount }: IStakePayload) => {
+    ({ amount, agreement }: IStakePayload) => {
       const errors: FormErrors<IStakePayload> = {};
 
       if (!amount) {
@@ -71,10 +73,16 @@ export const StakeComponent = ({
         errors.amount = t('stake.validation.balance-exceed');
       }
 
+      if (!agreement) {
+        errors.agreement = t('stake.validation.agreement');
+      }
+
       return errors;
     },
     [ethereumBalance],
   );
+
+  const isXSDown = useIsXSDown();
 
   const renderForm = ({
     handleSubmit,
@@ -84,59 +92,41 @@ export const StakeComponent = ({
   }: FormRenderProps<any>) => {
     return (
       <form onSubmit={handleSubmit} className={classes.form}>
-        <BackgroundColorProvider className={classes.content}>
-          <IconButton
-            disableTouchRipple={false}
-            focusRipple={false}
-            disableFocusRipple={false}
-            disableRipple={false}
-            className={classes.cancel}
-            onClick={onCancel}
-          >
-            <CancelIcon size="md" />
-          </IconButton>
-          <Headline2 align="center" className={classes.header}>
-            {t('stake.title')}
+        <label className={classes.range}>
+          <Headline2 component="p" classes={{ root: classes.label }}>
+            {t('stake.i-want')}
+            <span className={classes.amount}>
+              {t('units.eth', { value: amount })}
+            </span>
           </Headline2>
-          <Box display="flex" justifyContent="space-between" mb={1}>
-            <Headline2>{t('stake.i-want')}</Headline2>
-            <Headline2>{t('units.eth', { value: amount })}</Headline2>
-          </Box>
-          <Box mb={2}>
-            <Field
-              component={SliderField}
-              min={MIN_AMOUNT}
-              max={MAX_AMOUNT}
-              step={0.5}
-              name="amount"
-            />
-            {errors.amount && (
-              <FormHelperText error={true} className={classes.amountError}>
-                {errors.amount}
-              </FormHelperText>
-            )}
-          </Box>
+          <Field
+            component={SliderField}
+            min={MIN_AMOUNT}
+            max={MAX_AMOUNT}
+            step={0.5}
+            name="amount"
+          />
+          {errors.amount && (
+            <FormHelperText className={classes.amountError} error={true}>
+              {errors.amount}
+            </FormHelperText>
+          )}
+        </label>
 
-          <Box mb={6} display="flex" justifyContent="space-between">
-            <Typography className={classes.label}>
-              {t('stake.staking-period')}
-              <Tooltip title={t('stake.staking-period-tooltip')}>
-                <IconButton className={classes.question}>
-                  <QuestionIcon size="xs" />
-                </IconButton>
-              </Tooltip>
-            </Typography>
-            <Headline5>
-              {t('units.~months', { value: INTEREST_PERIOD })}
-            </Headline5>
-          </Box>
-          <Box
-            display="flex"
-            justifyContent="space-between"
-            alignItems="flex-end"
-            mb={1}
-          >
-            <Typography>
+        <dl className={classes.list}>
+          <Typography classes={{ root: classes.term }} component="dt">
+            {t('stake.staking-period')}
+            <Tooltip title={t('stake.staking-period-tooltip')}>
+              <IconButton className={classes.question}>
+                <QuestionIcon size="xs" />
+              </IconButton>
+            </Tooltip>
+          </Typography>
+          <Headline5 classes={{ root: classes.description }} component="dd">
+            {t('units.~months', { value: INTEREST_PERIOD })}
+          </Headline5>
+          <dt className={classes.term}>
+            <Typography component="span">
               {t('stake.yearly-earning')}
               <Tooltip title={t('stake.yearly-earning-tooltip')}>
                 <IconButton className={classes.question}>
@@ -144,25 +134,39 @@ export const StakeComponent = ({
                 </IconButton>
               </Tooltip>
             </Typography>
-            <Headline3>
-              {t('units.~eth', {
-                value: new BigNumber(amount * yearlyInterest).toFormat(
-                  FIXED_DECIMAL_PLACES,
-                ),
-              })}
-            </Headline3>
-          </Box>
-          <Box>
-            <Body2 color="textSecondary">{t('stake.yearly-earning-tip')}</Body2>
-          </Box>
-        </BackgroundColorProvider>
-        <Divider />
-        <BackgroundColorProvider className={classes.footer}>
+            <Body2 classes={{ root: classes.note }} color="textSecondary">
+              {t('stake.yearly-earning-tip')}
+            </Body2>
+          </dt>
+          <Headline3 component="dd" classes={{ root: classes.description }}>
+            {t('units.~eth', {
+              value: new BigNumber(amount * yearlyInterest).toFormat(
+                FIXED_DECIMAL_PLACES,
+              ),
+            })}
+          </Headline3>
+        </dl>
+        <div className={classes.footer}>
+          <Field
+            component={CheckboxField}
+            name="agreement"
+            classes={{ root: classes.checkbox }}
+            type="checkbox"
+            showErrorText={true}
+          >
+            <Body1
+              classes={{ root: classes.checkboxLabel }}
+              variant="body1"
+              color="secondary"
+              component="p"
+            >
+              {t('stake.agreement')}
+            </Body1>
+          </Field>
           <MutationErrorHandler type={UserActionTypes.STAKE} />
           <Mutation type={UserActionTypes.STAKE}>
             {({ loading }) => (
               <Button
-                fullWidth={true}
                 color="primary"
                 size="large"
                 className={classes.submit}
@@ -173,7 +177,7 @@ export const StakeComponent = ({
               </Button>
             )}
           </Mutation>
-        </BackgroundColorProvider>
+        </div>
       </form>
     );
   };
@@ -181,15 +185,27 @@ export const StakeComponent = ({
   return (
     <section className={classes.component}>
       <Curtains classes={{ root: classes.wrapper }}>
-        <Form
-          onSubmit={onSubmit}
-          render={renderForm}
-          initialValues={{ amount: INIT_AMOUNT }}
-          validate={validateStakeForm}
-        />
-        <Typography color="textSecondary" className={classes.note}>
-          {t('stake.note')}
-        </Typography>
+        <BackgroundColorProvider className={classes.content}>
+          <Headline2 classes={{ root: classes.title }}>
+            {t('stake.title')}
+          </Headline2>
+          <Form
+            onSubmit={onSubmit}
+            render={renderForm}
+            initialValues={{ amount: INIT_AMOUNT }}
+            validate={validateStakeForm}
+          />
+          <IconButton
+            disableTouchRipple={false}
+            focusRipple={false}
+            disableFocusRipple={false}
+            disableRipple={false}
+            className={classes.cancel}
+            onClick={onCancel}
+          >
+            <CancelIcon size={isXSDown ? 'xs' : 'md'} />
+          </IconButton>
+        </BackgroundColorProvider>
       </Curtains>
     </section>
   );
