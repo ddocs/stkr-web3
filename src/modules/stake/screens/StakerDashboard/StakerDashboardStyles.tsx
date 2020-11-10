@@ -30,9 +30,12 @@ export const useStakerDasboardStyles = makeStyles<Theme>(theme => ({
     gridRowGap: theme.spacing(2),
     alignItems: 'flex-start',
     width: '100%',
-    padding: theme.spacing(10, 7.5, 3, 0),
+    padding: theme.spacing(10, 7.5, 5, 0),
     boxSizing: 'border-box',
     borderRight: `1px solid ${fade(theme.palette.text.primary, 0.1)}`,
+    [theme.breakpoints.up('xl')]: {
+      padding: theme.spacing(10, 7.5, 7, 0),
+    },
     [theme.breakpoints.down('lg')]: {
       padding: theme.spacing(5, 3.5, 3, 0),
     },
@@ -119,6 +122,7 @@ export const useStakerDasboardStyles = makeStyles<Theme>(theme => ({
     position: 'relative',
     gridColumn: '-1/1',
     gridRow: '3/4',
+    alignSelf: 'flex-end',
     paddingLeft: theme.spacing(1.5),
     lineHeight: 1.6,
     [theme.breakpoints.down('sm')]: {
