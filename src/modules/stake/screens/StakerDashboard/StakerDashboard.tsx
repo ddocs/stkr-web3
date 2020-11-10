@@ -1,9 +1,7 @@
 import React, { useEffect } from 'react';
 import { Curtains } from '../../../../UiKit/Curtains';
 import { useStakerDasboardStyles } from './StakerDashboardStyles';
-import { BackgroundColorProvider } from '../../../../UiKit/BackgroundColorProvider';
-import { t } from '../../../../common/utils/intl';
-import { Amount } from './components/Amount';
+import { t, tHTML } from '../../../../common/utils/intl';
 import { TableHead } from '../../../../components/TableComponents/TableHead';
 import { TableHeadCell } from '../../../../components/TableComponents/TableHeadCell';
 import { TableBody } from '../../../../components/TableComponents/TableBody';
@@ -26,10 +24,10 @@ import { useDispatch } from 'react-redux';
 import { IStakerStats } from '../../../../store/apiMappers/stakerStatsApi';
 import { useAuthentication } from '../../../../common/utils/useAuthentications';
 import { Button, Typography } from '@material-ui/core';
-import { EthIcon } from '../../../../UiKit/Icons/EthIcon';
-import { AEthIcon } from '../../../../UiKit/Icons/AEthIcon';
 import { MutationErrorHandler } from '../../../../components/MutationErrorHandler/MutationErrorHandler';
 import { walletConversion } from '../../../../common/utils/convertWallet';
+import { Body1 } from '../../../../UiKit/Typography';
+import { useIsXSDown } from '../../../../common/hooks/useTheme';
 
 const ENABLE_REDEEM = false;
 
@@ -65,6 +63,8 @@ export const StakerDashboardComponent = () => {
     : 'develop';
   const isMainnet = env === 'mainnet';
 
+  const isXSDown = useIsXSDown();
+
   return (
     <section className={classes.component}>
       <Curtains classes={{ root: classes.wrapper }}>
@@ -77,119 +77,123 @@ export const StakerDashboardComponent = () => {
         >
           {({ data }) => (
             <>
-              <div className={classes.leftColumn}>
-                <div className={classes.half}>
-                  <div className={classes.content}>
-                    <Typography className={classes.headline}>
-                      {t('staked-dashboard.staked')}
-                    </Typography>
-                    <div className={classes.buttons}>
-                      <NavLink
-                        variant="contained"
-                        color="primary"
-                        size="large"
-                        href={STAKER_STAKE_PATH}
-                        fullWidth={true}
-                      >
-                        {t('staked-dashboard.stake-more')}
-                      </NavLink>
-                      <MutationErrorHandler type={UserActionTypes.UNSTAKE} />
-                      <Mutation type={UserActionTypes.UNSTAKE}>
-                        {({ loading }) => (
-                          <Button
-                            size="large"
-                            onClick={handleUnstake}
-                            disabled={loading}
-                            variant="outlined"
-                            color="secondary"
-                          >
-                            {t('staker-dashboard.unstake')}
-                          </Button>
-                        )}
-                      </Mutation>
-                    </div>
-                    {data?.staked && (
-                      <Amount
-                        value={data.staked.toFormat()}
-                        unit={<EthIcon size="md" />}
-                      />
-                    )}
-                  </div>
-                </div>
-
-                <div className={classes.half}>
-                  <div className={classes.content}>
-                    <Typography className={classes.headline}>
-                      {t('staked-dashboard.current-a-eth-balance')}
-                    </Typography>
-                    <MutationErrorHandler type={UserActionTypes.CLAIM_A_ETH} />
-                    <Mutation type={UserActionTypes.CLAIM_A_ETH}>
-                      {({ loading }) => (
-                        <Button
-                          size="large"
-                          color="primary"
-                          fullWidth={true}
-                          onClick={handleClaim}
-                          disabled={loading || !ENABLE_REDEEM}
-                        >
-                          {t('staked-dashboard.redeem')}
-                        </Button>
-                      )}
-                    </Mutation>
-                    {data?.aEthBalance && (
-                      <Amount
-                        value={data.aEthBalance.toFormat()}
-                        unit={<AEthIcon size="md" />}
-                      />
-                    )}
-                  </div>
-                </div>
-              </div>
-              <div>
-                {data && data.stakes.length > 0 && (
-                  <BackgroundColorProvider className={classes.history}>
-                    <Table
-                      customCell="1fr 1fr 1fr"
-                      columnsCount={captions.length}
-                      classes={{ table: classes.table }}
+              <div className={classes.content}>
+                <Typography className={classes.balance} color="primary">
+                  {t('staked-dashboard.staked')}
+                  {data?.staked && (
+                    <span className={classes.value}>
+                      {tHTML('units.large-eth', {
+                        value: data.staked.toFormat(),
+                      })}
+                    </span>
+                  )}
+                </Typography>
+                <NavLink
+                  className={classes.primaryAction}
+                  variant="outlined"
+                  color="primary"
+                  size={isXSDown ? 'medium' : 'large'}
+                  href={STAKER_STAKE_PATH}
+                  fullWidth={true}
+                >
+                  {t('staked-dashboard.stake-more')}
+                </NavLink>
+                <MutationErrorHandler type={UserActionTypes.UNSTAKE} />
+                <Mutation type={UserActionTypes.UNSTAKE}>
+                  {({ loading }) => (
+                    <Button
+                      className={classes.action}
+                      size={isXSDown ? 'small' : 'large'}
+                      onClick={handleUnstake}
+                      disabled={loading}
+                      variant="outlined"
+                      color="secondary"
                     >
-                      <TableHead>
-                        {captions.map(cell => (
-                          <TableHeadCell key={cell.label} label={cell.label} />
-                        ))}
-                      </TableHead>
-                      <TableBody rowsCount={data.stakes.length}>
-                        {data.stakes.map(item => (
-                          <TableRow key={uid(item)}>
-                            <TableBodyCell>
-                              {t(`staked-dashboard.statuses.${item.action}`)}
-                            </TableBodyCell>
-                            <TableBodyCell>
-                              {t('units.eth', {
-                                value: item.amount.toFormat(),
-                              })}
-                            </TableBodyCell>
-                            <TableBodyCell>
-                              <NavLink
-                                href={t(
-                                  `staked-dashboard.transaction.${
-                                    isMainnet ? 'mainnet' : 'goerli'
-                                  }`,
-                                  {
-                                    value: item.transactionHash,
-                                  },
-                                )}
-                              >
-                                {walletConversion(item.transactionHash)}
-                              </NavLink>
-                            </TableBodyCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </BackgroundColorProvider>
-                )}
+                      {t('staker-dashboard.unstake')}
+                    </Button>
+                  )}
+                </Mutation>
               </div>
+              <div className={classes.content}>
+                <Typography
+                  className={classes.balance}
+                  color={!ENABLE_REDEEM && 'secondary'}
+                >
+                  {t('staked-dashboard.current-a-eth-balance')}
+                  {data?.aEthBalance && (
+                    <span className={classes.value}>
+                      {tHTML('units.large-aeth', {
+                        value: data.aEthBalance.toFormat(),
+                      })}
+                    </span>
+                  )}
+                </Typography>
+                <MutationErrorHandler type={UserActionTypes.CLAIM_A_ETH} />
+                <Mutation type={UserActionTypes.CLAIM_A_ETH}>
+                  {({ loading }) => (
+                    <Button
+                      className={classes.primaryAction}
+                      size={isXSDown ? 'medium' : 'large'}
+                      color="primary"
+                      fullWidth={true}
+                      onClick={handleClaim}
+                      disabled={loading || !ENABLE_REDEEM}
+                    >
+                      {t('staked-dashboard.redeem')}
+                    </Button>
+                  )}
+                </Mutation>
+                <Body1
+                  classes={{ root: classes.note }}
+                  component="p"
+                  color="primary"
+                >
+                  {t('staked-dashboard.locked')}
+                </Body1>
+              </div>
+              {data && data.stakes.length > 0 && (
+                <div className={classes.history}>
+                  <Table
+                    customCell="1fr 1fr 1fr"
+                    columnsCount={captions.length}
+                    classes={{ table: classes.table }}
+                  >
+                    <TableHead>
+                      {captions.map(cell => (
+                        <TableHeadCell key={cell.label} label={cell.label} />
+                      ))}
+                    </TableHead>
+                    <TableBody rowsCount={data.stakes.length}>
+                      {data.stakes.map(item => (
+                        <TableRow key={uid(item)}>
+                          <TableBodyCell>
+                            {t(`staked-dashboard.statuses.${item.action}`)}
+                          </TableBodyCell>
+                          <TableBodyCell>
+                            {t('units.eth', {
+                              value: item.amount.toFormat(),
+                            })}
+                          </TableBodyCell>
+                          <TableBodyCell>
+                            <NavLink
+                              href={t(
+                                `staked-dashboard.transaction.${
+                                  isMainnet ? 'mainnet' : 'goerli'
+                                }`,
+                                {
+                                  value: item.transactionHash,
+                                },
+                              )}
+                            >
+                              {walletConversion(item.transactionHash)}
+                            </NavLink>
+                          </TableBodyCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+              )}
             </>
           )}
         </Query>

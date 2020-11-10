@@ -229,7 +229,9 @@
     "~eth": "~ {value} ETH",
     "months": "{value} mo",
     "~months": "~ {value} mo",
-    "small-eth": "{value} <span style=\"font-size: 16px\">ETH</span>"
+    "small-eth": "{value} <span style=\"font-size: 16px\">ETH</span>",
+    "large-eth": "{value}<span> ETH</span>",
+    "large-aeth": "{value}<span> aETH</span>"
   },
   "format": {
     "date": "{value, date, medium} {value, time, medium}"
@@ -288,13 +290,14 @@
     "buy": "Buy"
   },
   "staked-dashboard": {
-    "staked": "Staked",
+    "staked": "Staked amount",
     "my-rewards": "My rewards",
     "stake-more": "Stake more",
     "unstake-funds": "Unstake funds",
     "eth": "ETH",
-    "current-a-eth-balance": "Current aETH balance",
+    "current-a-eth-balance": "Current balance",
     "redeem": "Redeem",
+    "locked": "Any staked amounts will be locked for an uncertain period of time. aETH assets will be available soon. Untill aETH is available, your funds are locked and can not be redeemed.",
     "statuses": {
       "STAKE_ACTION_PENDING": "Pending",
       "STAKE_ACTION_CONFIRMED": "Confirmed",
