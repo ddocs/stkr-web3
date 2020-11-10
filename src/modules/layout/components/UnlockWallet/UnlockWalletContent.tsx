@@ -11,6 +11,9 @@ import {
 import { PROVIDERS } from '../const';
 import { Mutation } from '@redux-requests/react';
 import { MutationErrorHandler } from '../../../../components/MutationErrorHandler/MutationErrorHandler';
+import { Typography } from '@material-ui/core';
+import classNames from 'classnames';
+import { useIsXSDown } from '../../../../common/hooks/useTheme';
 
 interface IItemProps {
   caption: string;
@@ -27,16 +30,24 @@ const Item = ({
   available,
   disabled,
 }: IItemProps) => {
-  const classes = useUnlockWalletStyles({ icon: icon });
-
+  const classes = useUnlockWalletStyles({ icon: icon, comingSoon: !available });
+  const isXSDown = useIsXSDown();
   return (
     <li className={classes.item}>
-      {caption}
+      <Typography component="span" className={classes.caption}>
+        {caption}
+      </Typography>
       <Button
-        className={classes.button}
+        classes={{
+          root: classNames(
+            classes.button,
+            available ? classes.connect : classes.soon,
+          ),
+        }}
         onClick={available ? onConnect : () => null}
         color="primary"
         size="large"
+        variant={isXSDown && !available ? 'text' : 'contained'}
         disabled={!available || disabled}
       >
         {available ? t('navigation.connect') : t('navigation.coming-soon')}

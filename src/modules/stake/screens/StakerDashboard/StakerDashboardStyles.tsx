@@ -1,5 +1,4 @@
 import { makeStyles, Theme, fade } from '@material-ui/core/styles';
-import { defaultTheme } from '../../../../common/themes/mainTheme';
 
 export const useStakerDasboardStyles = makeStyles<Theme>(theme => ({
   component: {
