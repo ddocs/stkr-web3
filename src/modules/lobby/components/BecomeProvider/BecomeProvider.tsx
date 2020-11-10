@@ -52,7 +52,7 @@ const Item = ({
 };
 
 const FEATURES: Record<string, string> = {
-  api: 'about.become-provider-knowledge-text',
+  api: 'about.become-provider-api-text',
   knowledge: 'about.become-provider-knowledge-text',
   governance: 'about.become-provider-governance-text',
 };
