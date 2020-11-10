@@ -307,7 +307,7 @@ export class StkrSdk {
   }
 
   public getApiGateway(): ApiGateway {
-    throw new Error("don't use ApiGateway");
+    return this.apiGateway;
   }
 
   public getEventEmitter(): EventEmitter {
