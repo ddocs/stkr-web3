@@ -68,6 +68,7 @@
     "pool-title": "{value} staking pools",
     "pool-note": "Start staking today with STKR",
     "calculate-title": "Calculate <br/>your earnings",
+    "calculate-subtitle": "This calculator is based on a estimation of 15 percent of annual staking rewards.",
     "calculate-note": "Your ETH amount",
     "calculate-monthly": "Monthly Earning",
     "calculate-yearly": "Yearly Earning",

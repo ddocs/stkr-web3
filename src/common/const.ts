@@ -23,7 +23,9 @@ export const SOCIAL_LINK = {
 };
 export const DOCS_LINK = '#';
 export const GOVERNANCE_LINK = '#';
-export const YEAR_INTEREST = 0.216;
+const ANNUAL_EXPECTED_YEARNING = 0.15;
+const STAKER_RATE = 0.77;
+export const YEAR_INTEREST = ANNUAL_EXPECTED_YEARNING * STAKER_RATE;
 export const NOTIFICATION_AUTO_HIDE_DURATION: Milliseconds = 3000;
 export const DEFAULT_STAKING_AMOUNT = 32;
 export const MAX_PROVIDER_STAKING_AMOUNT = 16;
@@ -32,4 +34,3 @@ const env = process.env.REACT_APP_STKR_ENV
   : 'develop';
 export const isMainnet = env === 'mainnet';
 export const ENABLE_PROVIDER = !isMainnet;
-console.log('isMainnet', isMainnet, 'ENABLE_PROVIDER', ENABLE_PROVIDER);

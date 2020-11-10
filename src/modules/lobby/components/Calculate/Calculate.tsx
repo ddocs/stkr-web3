@@ -8,7 +8,7 @@ import { Button } from '../../../../UiKit/Button';
 import { Slider } from '@material-ui/core';
 import { useAction } from '../../../../store/redux';
 import { openUnlockWalletAction } from '../../../../store/modals/actions';
-import { Headline1, Headline5 } from '../../../../UiKit/Typography';
+import { Body2, Headline1, Headline5 } from '../../../../UiKit/Typography';
 import BigNumber from 'bignumber.js';
 import { YEAR_INTEREST } from '../../../../common/const';
 
@@ -73,6 +73,9 @@ export const Calculate = ({
         <BackgroundColorProvider component="div" className={classes.content}>
           <Headline1 className={classes.title} component="h2">
             {tHTML('about.calculate-title')}
+            <Body2 className={classes.note}>
+              {t('about.calculate-subtitle')}
+            </Body2>
           </Headline1>
           <div className={classes.form}>
             <Slider

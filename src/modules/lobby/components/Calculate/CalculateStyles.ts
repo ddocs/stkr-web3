@@ -3,6 +3,11 @@ import { makeStyles } from '@material-ui/core/styles';
 
 export const useCalculateStyles = makeStyles<Theme>(theme => ({
   component: {},
+  note: {
+    marginTop: theme.spacing(4),
+    maxWidth: 305,
+    opacity: 0.5,
+  },
   wrapper: {
     '&&': {
       padding: theme.spacing(0, 8.5),
