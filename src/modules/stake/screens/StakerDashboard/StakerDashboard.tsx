@@ -28,6 +28,7 @@ import { MutationErrorHandler } from '../../../../components/MutationErrorHandle
 import { walletConversion } from '../../../../common/utils/convertWallet';
 import { Body1 } from '../../../../UiKit/Typography';
 import { useIsXSDown } from '../../../../common/hooks/useTheme';
+import classNames from 'classnames';
 
 const ENABLE_REDEEM = false;
 
@@ -94,7 +95,6 @@ export const StakerDashboardComponent = () => {
                   color="primary"
                   size={isXSDown ? 'medium' : 'large'}
                   href={STAKER_STAKE_PATH}
-                  fullWidth={true}
                 >
                   {t('staked-dashboard.stake-more')}
                 </NavLink>
@@ -102,11 +102,11 @@ export const StakerDashboardComponent = () => {
                 <Mutation type={UserActionTypes.UNSTAKE}>
                   {({ loading }) => (
                     <Button
-                      className={classes.action}
+                      className={classNames(classes.action, classes.unstake)}
                       size={isXSDown ? 'small' : 'large'}
                       onClick={handleUnstake}
                       disabled={loading}
-                      variant="outlined"
+                      variant="text"
                       color="secondary"
                     >
                       {t('staker-dashboard.unstake')}
@@ -134,8 +134,8 @@ export const StakerDashboardComponent = () => {
                     <Button
                       className={classes.primaryAction}
                       size={isXSDown ? 'medium' : 'large'}
-                      color="primary"
-                      fullWidth={true}
+                      color="secondary"
+                      variant="outlined"
                       onClick={handleClaim}
                       disabled={loading || !ENABLE_REDEEM}
                     >

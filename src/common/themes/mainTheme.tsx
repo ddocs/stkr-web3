@@ -250,6 +250,7 @@ const mainTheme = createMuiTheme({
         transitionTimingFunction: 'linear',
 
         '&:hover, &:focus, &:active': {
+          transform: 'scale(1.05)',
           backgroundColor: PALETTE.text.secondary,
         },
 
@@ -298,10 +299,9 @@ const mainTheme = createMuiTheme({
         transitionTimingFunction: 'linear',
 
         '&:hover, &:focus, &:active': {
-          color: PALETTE.text.secondary,
-          borderColor: PALETTE.text.secondary,
+          color: PALETTE.primary.contrastText,
 
-          backgroundColor: 'transparent',
+          backgroundColor: PALETTE.text.primary,
         },
 
         '&$disabled': {},
@@ -318,10 +318,9 @@ const mainTheme = createMuiTheme({
         transitionTimingFunction: 'linear',
 
         '&:hover, &:focus, &:active': {
-          color: PALETTE.primary.dark,
-          borderColor: PALETTE.primary.dark,
+          color: PALETTE.primary.contrastText,
 
-          backgroundColor: 'transparent',
+          backgroundColor: PALETTE.primary.main,
         },
 
         '&$disabled': {},
@@ -338,10 +337,9 @@ const mainTheme = createMuiTheme({
         transitionTimingFunction: 'linear',
 
         '&:hover, &:focus, &:active': {
-          color: PALETTE.text.primary,
-          borderColor: PALETTE.text.primary,
+          color: PALETTE.primary.contrastText,
 
-          backgroundColor: 'transparent',
+          backgroundColor: PALETTE.text.secondary,
         },
 
         '&$disabled': {},

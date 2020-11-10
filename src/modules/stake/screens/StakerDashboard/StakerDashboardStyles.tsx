@@ -1,4 +1,5 @@
 import { makeStyles, Theme, fade } from '@material-ui/core/styles';
+import { defaultTheme } from '../../../../common/themes/mainTheme';
 
 export const useStakerDasboardStyles = makeStyles<Theme>(theme => ({
   component: {
@@ -24,8 +25,8 @@ export const useStakerDasboardStyles = makeStyles<Theme>(theme => ({
     position: 'relative',
     gridColumn: '1/2',
     display: 'grid',
-    gridTemplateColumns: '1fr minmax(0, 138px)',
-    gridTemplateRows: '48px auto 1fr',
+    gridTemplateColumns: '1fr minmax(0, 128px) minmax(0, 128px)',
+    gridTemplateRows: 'auto 1fr',
     gridColumnGap: theme.spacing(1),
     gridRowGap: theme.spacing(2),
     alignItems: 'flex-start',
@@ -33,7 +34,7 @@ export const useStakerDasboardStyles = makeStyles<Theme>(theme => ({
     padding: theme.spacing(10, 7.5, 5, 0),
     boxSizing: 'border-box',
     borderRight: `1px solid ${fade(theme.palette.text.primary, 0.1)}`,
-    [theme.breakpoints.up('xl')]: {
+    [theme.breakpoints.up(1920)]: {
       padding: theme.spacing(10, 7.5, 7, 0),
     },
     [theme.breakpoints.down('lg')]: {
@@ -66,7 +67,7 @@ export const useStakerDasboardStyles = makeStyles<Theme>(theme => ({
     },
   },
   balance: {
-    gridColumn: '1/2',
+    gridColumn: '1/3',
     gridRow: '1/3',
     display: 'flex',
     flexDirection: 'column',
@@ -102,20 +103,40 @@ export const useStakerDasboardStyles = makeStyles<Theme>(theme => ({
   },
   action: {
     gridColumn: '2/3',
-    gridRow: '2/3',
+    gridRow: '1/2',
     [theme.breakpoints.down('sm')]: {
       gridColumn: '2/3',
       gridRow: '1/2',
+    },
+    [theme.breakpoints.down('xs')]: {
       minHeight: 32,
     },
   },
   primaryAction: {
-    gridColumn: '2/3',
+    gridColumn: '3/4',
     gridRow: '1/2',
     [theme.breakpoints.down('sm')]: {
       gridColumn: '-1/1',
       gridRow: 'auto',
+    },
+    [theme.breakpoints.down('xs')]: {
       minHeight: 44,
+    },
+  },
+  unstake: {
+    '&&': {
+      height: 48,
+      padding: theme.spacing(1, 2),
+      fontSize: 14,
+      fontWeight: 500,
+      transitionProperty: 'color, background-color',
+      [theme.breakpoints.down('xs')]: {
+        height: 32,
+      },
+      '&:hover, &:focus': {
+        color: theme.palette.primary.contrastText,
+        backgroundColor: fade(theme.palette.text.primary, 0.75),
+      },
     },
   },
   note: {
