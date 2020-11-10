@@ -13,6 +13,7 @@ import { ViewIcon } from '../../../../UiKit/Icons/ViewIcon';
 import { PROVIDERS } from '../const';
 import { useAction } from '../../../../store/redux';
 import { UserActions } from '../../../../store/actions/UserActions';
+import CopyToClipboard from 'react-copy-to-clipboard';
 
 interface IItemProps {
   caption: string;
@@ -99,15 +100,17 @@ export const DropdownComponent = ({
             {t('navigation.disconnect')}
           </Button>
           <div className={classes.navigation}>
-            <Button
-              className={classes.copy}
-              variant="text"
-              color="secondary"
-              size="small"
-            >
-              <CopyIcon className={classes.icon} />
-              {t('navigation.copy-address')}
-            </Button>
+            <CopyToClipboard text={address}>
+              <Button
+                className={classes.copy}
+                variant="text"
+                color="secondary"
+                size="small"
+              >
+                <CopyIcon className={classes.icon} />
+                {t('navigation.copy-address')}
+              </Button>
+            </CopyToClipboard>
             <NavLink
               className={classes.view}
               color="secondary"
