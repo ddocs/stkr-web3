@@ -9,12 +9,7 @@ import {
   Headline5,
 } from '../../../../UiKit/Typography';
 import { t } from '../../../../common/utils/intl';
-import {
-  FormHelperText,
-  IconButton,
-  Tooltip,
-  Typography,
-} from '@material-ui/core';
+import { IconButton, Tooltip, Typography } from '@material-ui/core';
 import { CancelIcon } from '../../../../UiKit/Icons/CancelIcon';
 import { BackgroundColorProvider } from '../../../../UiKit/BackgroundColorProvider';
 import { Field, Form, FormRenderProps } from 'react-final-form';
@@ -87,7 +82,6 @@ export const StakeComponent = ({
   const renderForm = ({
     handleSubmit,
     values: { amount },
-    errors,
   }: FormRenderProps<any>) => {
     return (
       <form onSubmit={handleSubmit} className={classes.form}>
@@ -105,11 +99,6 @@ export const StakeComponent = ({
             step={0.5}
             name="amount"
           />
-          {errors.amount && (
-            <FormHelperText className={classes.amountError} error={true}>
-              {errors.amount}
-            </FormHelperText>
-          )}
         </label>
 
         <dl className={classes.list}>
