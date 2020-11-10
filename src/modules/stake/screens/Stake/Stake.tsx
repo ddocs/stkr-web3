@@ -88,7 +88,6 @@ export const StakeComponent = ({
     handleSubmit,
     values: { amount },
     errors,
-    invalid,
   }: FormRenderProps<any>) => {
     return (
       <form onSubmit={handleSubmit} className={classes.form}>
@@ -171,7 +170,7 @@ export const StakeComponent = ({
                 size="large"
                 className={classes.submit}
                 type="submit"
-                disabled={loading || invalid}
+                disabled={loading}
               >
                 {t('stake.stake')}
               </Button>
