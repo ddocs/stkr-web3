@@ -15,6 +15,7 @@ import { useAction } from '../../../../store/redux';
 import { UserActions } from '../../../../store/actions/UserActions';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import { Typography } from '@material-ui/core';
+import { getWalletLink } from '../../../../common/utils/getWalletLink';
 
 interface IItemProps {
   caption: string;
@@ -134,7 +135,7 @@ export const DropdownComponent = ({
             <NavLink
               className={classes.view}
               color="secondary"
-              href="#"
+              href={getWalletLink(address)}
               size="small"
             >
               <ViewIcon className={classes.icon} />
