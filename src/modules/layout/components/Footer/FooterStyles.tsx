@@ -9,11 +9,14 @@ export const useHeaderStyles = makeStyles<Theme>(theme => ({
       padding: theme.spacing(9, 0),
     },
   },
+  componentAuth: {
+    padding: theme.spacing(3, 0),
+  },
   wrapper: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('xs')]: {
       flexDirection: 'column',
     },
   },
@@ -40,13 +43,19 @@ export const useHeaderStyles = makeStyles<Theme>(theme => ({
     marginLeft: 'auto',
     padding: 0,
     listStyle: 'none',
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('xs')]: {
       marginLeft: 0,
       marginTop: theme.spacing(2.5),
     },
   },
   item: {
     marginRight: theme.spacing(9),
+    [theme.breakpoints.down('sm')]: {
+      marginRight: theme.spacing(4.5),
+    },
+    [theme.breakpoints.down('xs')]: {
+      marginRight: theme.spacing(9),
+    },
     '&:last-child': {
       marginRight: 0,
     },
@@ -59,6 +68,9 @@ export const useHeaderStyles = makeStyles<Theme>(theme => ({
   social: {
     marginLeft: theme.spacing(18),
     [theme.breakpoints.down('sm')]: {
+      marginLeft: theme.spacing(4.5),
+    },
+    [theme.breakpoints.down('xs')]: {
       marginLeft: 0,
       marginTop: theme.spacing(2.5),
     },

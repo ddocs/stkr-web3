@@ -35,8 +35,14 @@ export const FooterComponent = ({ className, isAuth }: IFooterProps) => {
 
   const year = new Date().getFullYear();
 
-  return !isAuth ? (
-    <footer className={classNames(classes.component, className)}>
+  return (
+    <footer
+      className={classNames(
+        classes.component,
+        isAuth && classes.componentAuth,
+        className,
+      )}
+    >
       <Curtains classes={{ root: classes.wrapper }}>
         <p className={classes.copyright}>
           {tHTML('navigation.copyright', { year: year })}
@@ -59,7 +65,7 @@ export const FooterComponent = ({ className, isAuth }: IFooterProps) => {
         <Social className={classes.social} />
       </Curtains>
     </footer>
-  ) : null;
+  );
 };
 
 export const Footer = connect(

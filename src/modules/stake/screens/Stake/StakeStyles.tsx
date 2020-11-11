@@ -8,10 +8,10 @@ export const useStakeStyles = makeStyles<Theme>(theme => {
       display: 'grid',
       gridTemplateColumns: '100%',
       gridTemplateRows: '100%',
-      padding: theme.spacing(8, 0),
+      padding: theme.spacing(8, 0, 5),
       boxSizing: 'border-box',
       [theme.breakpoints.down('lg')]: {
-        padding: theme.spacing(6, 0),
+        padding: theme.spacing(6, 0, 3),
       },
       [theme.breakpoints.down('md')]: {
         padding: theme.spacing(4, 0),

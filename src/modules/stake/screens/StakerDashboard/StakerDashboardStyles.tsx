@@ -7,7 +7,11 @@ export const useStakerDasboardStyles = makeStyles<Theme>(theme => ({
     gridTemplateColumns: '100%',
     gridTemplateRows: '100%',
     boxSizing: 'border-box',
+    borderBottom: `1px solid ${fade(theme.palette.text.primary, 0.1)}`,
     overflow: 'hidden',
+    [theme.breakpoints.down('sm')]: {
+      borderBottom: 0,
+    },
   },
   wrapper: {
     display: 'grid',
@@ -30,11 +34,11 @@ export const useStakerDasboardStyles = makeStyles<Theme>(theme => ({
     gridRowGap: theme.spacing(2),
     alignItems: 'flex-start',
     width: '100%',
-    padding: theme.spacing(10, 7.5, 5, 0),
+    padding: theme.spacing(7, 7.5, 5, 0),
     boxSizing: 'border-box',
     borderRight: `1px solid ${fade(theme.palette.text.primary, 0.1)}`,
     [theme.breakpoints.up(1920)]: {
-      padding: theme.spacing(10, 7.5, 7, 0),
+      padding: theme.spacing(7, 7.5, 7, 0),
     },
     [theme.breakpoints.down('lg')]: {
       padding: theme.spacing(5, 3.5, 3, 0),
@@ -85,7 +89,7 @@ export const useStakerDasboardStyles = makeStyles<Theme>(theme => ({
     display: 'inline-block',
     marginTop: theme.spacing(4),
     fontSize: 98,
-    lineHeight: 1.2,
+    lineHeight: 1,
     [theme.breakpoints.down('lg')]: {
       fontSize: 84,
     },
@@ -170,7 +174,7 @@ export const useStakerDasboardStyles = makeStyles<Theme>(theme => ({
   history: {
     gridColumn: '2/3',
     gridRow: '-1/1',
-    maxHeight: 'calc(100vh - 81px)',
+    maxHeight: 'calc(100vh - 160px)',
     padding: theme.spacing(10, 0, 3, 7.5),
     overflowX: 'auto',
     [theme.breakpoints.down('lg')]: {

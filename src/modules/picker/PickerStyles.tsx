@@ -12,10 +12,10 @@ export const usePickerStyles = makeStyles<Theme, { icon?: string }>(theme => ({
     display: 'grid',
     gridTemplateRows: '100%',
     gridTemplateColumns: '100%',
-    padding: theme.spacing(7.5, 0),
+    padding: theme.spacing(7.5, 0, 4.5),
     boxSizing: 'border-box',
     [theme.breakpoints.down('lg')]: {
-      padding: theme.spacing(5, 0),
+      padding: theme.spacing(4, 0, 1),
     },
     [theme.breakpoints.down('xs')]: {
       padding: theme.spacing(3, 0),
@@ -47,7 +47,6 @@ export const usePickerStyles = makeStyles<Theme, { icon?: string }>(theme => ({
       maxHeight: 'none',
     },
   },
-
   item: {
     display: 'flex',
     flexDirection: 'column',
@@ -126,26 +125,31 @@ export const usePickerStyles = makeStyles<Theme, { icon?: string }>(theme => ({
     },
   },
   subItem: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    marginTop: theme.spacing(2),
-    '&:first-child': {
-      marginTop: 0,
-    },
-    '&::before': {
-      position: 'relative',
-      content: '""',
-      flexShrink: 0,
-      display: 'block',
-      width: 18,
-      height: 18,
-      marginTop: 4,
-      marginRight: theme.spacing(2),
-      backgroundImage: `url("${icon}")`,
-      backgroundPosition: 'center',
-      backgroundRepeat: 'no-repeat',
-      backgroundSize: 'cover',
+    '&&': {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'flex-start',
+      marginTop: theme.spacing(2),
+      [theme.breakpoints.down('lg')]: {
+        fontSize: 14,
+      },
+      '&:first-child': {
+        marginTop: 0,
+      },
+      '&::before': {
+        position: 'relative',
+        content: '""',
+        flexShrink: 0,
+        display: 'block',
+        width: 18,
+        height: 18,
+        marginTop: 4,
+        marginRight: theme.spacing(2),
+        backgroundImage: `url("${icon}")`,
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
+      },
     },
   },
   link: {
