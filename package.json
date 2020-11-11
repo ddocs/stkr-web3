@@ -1,80 +1,144 @@
 {
-  "name": "vuexy-vuejs-html-laravel-dashboard-admin-template",
-  "version": "4.0.0",
+  "name": "next",
+  "version": "0.1.0",
   "private": true,
-  "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
-  },
   "dependencies": {
-    "@chenfengyuan/vue-countdown": "^1.1.2",
-    "@drizzle/vue-plugin": "^0.1.3",
-    "ag-grid-community": "^21.0.1",
-    "ag-grid-vue": "^21.0.1",
-    "algoliasearch": "^3.33.0",
-    "apexcharts": "^3.6.12",
-    "auth0-js": "^9.10.4",
-    "axios": "^0.19.0",
-    "chart.js": "^2.8.0",
-    "core-js": "2.6.5",
-    "echarts": "^4.2.1",
-    "file-saver": "2.0.1",
-    "firebase": "7.13.2",
-    "instantsearch.css": "^7.3.1",
-    "jsonwebtoken": "^8.5.1",
-    "material-icons": "^0.3.1",
-    "perfect-scrollbar": "^1.4.0",
-    "postcss-rtl": "^1.5.0",
-    "prismjs": "^1.16.0",
-    "vee-validate": "^2.2.8",
-    "vue": "^2.6.10",
-    "vue-acl": "4.0.7",
-    "vue-apexcharts": "^1.3.5",
-    "vue-awesome-swiper": "^3.1.3",
-    "vue-backtotop": "^1.6.1",
-    "vue-chartjs": "^3.4.2",
-    "vue-clipboard2": "^0.3.0",
-    "vue-context": "4.0.0",
-    "vue-echarts": "^4.0.3",
-    "vue-feather-icons": "^5.0.0",
-    "vue-flatpickr-component": "^8.1.2",
-    "vue-form-wizard": "^0.8.4",
-    "vue-fullcalendar": "^1.0.9",
-    "vue-i18n": "^8.11.2",
-    "vue-instantsearch": "^2.2.1",
-    "vue-perfect-scrollbar": "^0.1.0",
-    "vue-prism-component": "^1.1.1",
-    "vue-property-decorator": "^8.1.1",
-    "vue-quill-editor": "^3.0.6",
-    "vue-router": "^3.0.6",
-    "vue-select": "^3.1.0",
-    "vue-simple-calendar": "^4.2.2",
-    "vue-simple-suggest": "^1.9.5",
-    "vue-star-rating": "^1.6.1",
-    "vue-tour": "^1.1.0",
-    "vue-tree-halower": "^1.8.0",
-    "vue-video-player": "^5.0.2",
-    "vue2-google-maps": "^0.10.6",
-    "vue2-hammer": "^2.1.2",
-    "vuedraggable": "^2.21.0",
-    "vuejs-datepicker": "^1.5.4",
-    "vuesax": "jd-0001/vuesax",
-    "vuex": "^3.1.1",
-    "web3": "^1.3.0",
-    "xlsx": "^0.15.0"
+    "@date-io/date-fns": "^2.10.6",
+    "@loadable/component": "^5.13.2",
+    "@material-ui/core": "^4.11.0",
+    "@material-ui/icons": "^4.9.1",
+    "@material-ui/lab": "^4.0.0-alpha.56",
+    "@redux-requests/core": "1.0.0",
+    "@redux-requests/promise": "1.0.0",
+    "@redux-requests/react": "1.0.0",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "@types/jest": "^24.0.0",
+    "@types/node": "^12.0.0",
+    "@types/react": "^16.9.0",
+    "@types/react-copy-to-clipboard": "^4.3.0",
+    "@types/react-dom": "^16.9.0",
+    "axios": "^0.20.0",
+    "bignumber.js": "^9.0.1",
+    "connected-react-router": "^6.8.0",
+    "date-fns": "^2.16.1",
+    "events": "^3.2.0",
+    "final-form": "^4.20.1",
+    "react": "^16.13.1",
+    "react-copy-to-clipboard": "^5.0.2",
+    "react-dom": "^16.13.1",
+    "react-intl-universal": "^2.4.1",
+    "react-redux": "^7.2.1",
+    "react-router": "^5.2.0",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "3.4.3",
+    "react-shallow-context": "^1.0.1",
+    "redux": "^4.0.5",
+    "redux-action": "^1.2.2",
+    "redux-actions": "^2.6.5",
+    "redux-persist": "^6.0.0",
+    "redux-saga": "^1.1.3",
+    "reselect": "^4.0.0",
+    "typescript": "~3.7.2"
   },
   "devDependencies": {
-    "@fullhuman/postcss-purgecss": "^1.2.0",
-    "@vue/cli-plugin-babel": "^3.7.0",
-    "@vue/cli-plugin-eslint": "^3.7.0",
-    "@vue/cli-service": "^3.7.0",
-    "axios-mock-adapter": "^1.17.0",
-    "node-sass": "^4.12.0",
-    "purgecss": "^1.3.0",
-    "sass-loader": "^7.1.0",
-    "script-loader": "0.7.2",
-    "tailwindcss": "^1.0.1",
-    "vue-template-compiler": "^2.6.10"
+    "@storybook/cli": "^5.3.19",
+    "@storybook/preset-create-react-app": "^3.1.4",
+    "@storybook/react": "^5.3.19",
+    "@types/classnames": "^2.2.10",
+    "@types/loadable__component": "^5.13.1",
+    "@types/react-redux": "^7.1.9",
+    "@types/react-router": "^5.1.8",
+    "@types/react-router-dom": "^5.1.5",
+    "@types/redux-actions": "^2.6.1",
+    "@types/web3": "^1.2.2",
+    "babel-loader": "8.1.0",
+    "classnames": "^2.2.6",
+    "env-cmd": "^10.1.0",
+    "history": "^4.10.1",
+    "husky": "^4.3.0",
+    "intersection-observer": "^0.11.0",
+    "lint-staged": "^10.4.0",
+    "prettier": "^2.1.2",
+    "react-app-rewired": "^2.1.6",
+    "react-final-form": "^6.5.1",
+    "react-focus-on": "^3.5.0",
+    "react-stroller": "^1.6.7",
+    "react-uid": "^2.3.0",
+    "resolve-from": "^5.0.0",
+    "storybook": "^5.3.19"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "scripts": {
+    "start": "env-cmd react-scripts start",
+    "start:localhost": "env-cmd -f .env.localhost react-scripts start",
+    "build": "env-cmd react-scripts build",
+    "test": "env-cmd react-scripts test",
+    "eject": "env-cmd react-scripts eject",
+    "storybook": "env-cmd start-storybook -p 3000"
+  },
+  "extends": [
+    "plugin:@typescript-eslint/recommended",
+    "react-app"
+  ],
+  "eslintConfig": {
+    "extends": [
+      "plugin:@typescript-eslint/recommended",
+      "react-app"
+    ],
+    "rules": {},
+    "overrides": [
+      {
+        "files": [
+          "**/*.ts?(x)"
+        ],
+        "rules": {
+          "@typescript-eslint/interface-name-prefix": [
+            "error",
+            {
+              "prefixWithI": "always"
+            }
+          ],
+          "@typescript-eslint/ban-types": [
+            "error",
+            {
+              "types": {
+                "React.FC": {
+                  "message": "In favor of unification use the form \"(props: IComponentNameProp) => ReactNode\""
+                }
+              }
+            }
+          ],
+          "@typescript-eslint/ban-ts-ignore": "off",
+          "@typescript-eslint/no-empty-interface": "off",
+          "@typescript-eslint/explicit-function-return-type": "off",
+          "@typescript-eslint/no-explicit-any": "off",
+          "@typescript-eslint/camelcase": "off"
+        }
+      }
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }

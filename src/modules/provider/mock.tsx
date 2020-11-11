@@ -1,0 +1,62 @@
+import { IMicropool } from '../../store/apiMappers/poolsApi';
+import BigNumber from 'bignumber.js';
+
+export const MICRO_POOL_DATA: IMicropool[] = [
+  {
+    balance: new BigNumber(4),
+    beaconDeposit: '0xb827bCA9CF96f58a7BEd49D9b5cbd84fEd72b03F',
+    blockHeight: 56757,
+    created: new Date(),
+    endTime: new Date(),
+    id: 'foobar',
+    lastReward: new BigNumber(2),
+    lastSlashing: new BigNumber(2),
+    name: 'Foobar',
+    poolIndex: 1,
+    provider: '0xb827bCA9CF96f58a7BEd49D9b5cbd84fEd72b03F',
+    publicKey: '0xb827bCA9CF96f58a7BEd49D9b5cbd84fEd72b03F',
+    startTime: new Date(),
+    status: 'MICRO_POOL_STATUS_PENDING',
+    transactionHash:
+      '0x4b5e3a1dca65a376f731872acccb1b407b43ec24338acbd1a34e34ea79a19a46',
+    validator: 'Foobar validator',
+  },
+  {
+    balance: new BigNumber(4),
+    beaconDeposit: '0xb827bCA9CF96f58a7BEd49D9b5cbd84fEd72b03F',
+    blockHeight: 56757,
+    created: new Date(),
+    endTime: new Date(),
+    id: 'foobar',
+    lastReward: new BigNumber(2),
+    lastSlashing: new BigNumber(2),
+    name: 'Foobar',
+    poolIndex: 1,
+    provider: '0xb827bCA9CF96f58a7BEd49D9b5cbd84fEd72b03F',
+    publicKey: '0xb827bCA9CF96f58a7BEd49D9b5cbd84fEd72b03F',
+    startTime: new Date(),
+    status: 'MICRO_POOL_STATUS_PENDING',
+    transactionHash:
+      '0x4b5e3a1dca65a376f731872acccb1b407b43ec24338acbd1a34e34ea79a19a46',
+    validator: 'Foobar validator',
+  },
+  {
+    balance: new BigNumber(4),
+    beaconDeposit: '0xb827bCA9CF96f58a7BEd49D9b5cbd84fEd72b03F',
+    blockHeight: 56757,
+    created: new Date(),
+    endTime: new Date(),
+    id: 'foobar',
+    lastReward: new BigNumber(2),
+    lastSlashing: new BigNumber(2),
+    name: 'Foobar',
+    poolIndex: 1,
+    provider: '0xb827bCA9CF96f58a7BEd49D9b5cbd84fEd72b03F',
+    publicKey: '0xb827bCA9CF96f58a7BEd49D9b5cbd84fEd72b03F',
+    startTime: new Date(),
+    status: 'MICRO_POOL_STATUS_PENDING',
+    transactionHash:
+      '0x4b5e3a1dca65a376f731872acccb1b407b43ec24338acbd1a34e34ea79a19a46',
+    validator: 'Foobar validator',
+  },
+];

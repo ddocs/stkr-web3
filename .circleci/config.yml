@@ -1,59 +1,99 @@
-version: 2
+version: 2.1
+
+build-template: &build-template
+  docker:
+    - image: tarampampam/node:13-alpine
+  steps:
+    - checkout
+    - setup_remote_docker
+    - attach_workspace:
+        at: '.'
+    - run:
+        name: 'Build artifacts'
+        command: |
+          node --version
+          npm --version
+          yarn install
+          yarn build
+    - persist_to_workspace:
+        root: '.'
+        paths:
+          - '.'
+
+upload-template: &upload-template
+  docker:
+    - image: bigbadalien/awscli-node-kops-kubectl:0.3
+  steps:
+    - setup_remote_docker
+    - attach_workspace:
+        at: '.'
+    - run:
+        name: 'Upload artifacts'
+        command: |
+          pwd
+          echo "Uploading assets to $DOMAIN"
+          aws s3 cp ./build s3://$DOMAIN/ --acl bucket-owner-full-control --recursive --cache-control "public,max-age=600,s-maxage=3600"
+          echo "Invalidating CDN network"
+          INVALIDATION_ID=`aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths '/*' | jq -r '.Invalidation.Id'`
+          echo "Invalidation ID is $INVALIDATION_ID"
+          echo "CDN Invalidation request is sent."
+
 jobs:
-  build:
-    docker:
-      - image: tarampampam/node:13-alpine
-    steps:
-      - checkout
-      - setup_remote_docker
-      - attach_workspace:
-          at: '.'
-      - run:
-          name: "Build the production code"
-          command: |
-            node --version
-            npm --version
-            yarn install
-            yarn build
-      - persist_to_workspace:
-          root: '.'
-          paths:
-            - '.'
-  upload:  
-    docker:
-      - image: bigbadalien/awscli-node-kops-kubectl:0.3
-    steps:
-      - setup_remote_docker
-      - attach_workspace:
-          at: '.'
-      - run:
-          name: "Uploading assets to strk website"
-          command: |
-            pwd
-            # DOMAIN="stkr.ankr.com"
-            # DISTRIBUTION_ID="EMPBFTV79PLW8"
+  # build
+  build-develop:
+    <<: *build-template
+  build-goerli:
+    <<: *build-template
+  build-prod:
+    <<: *build-template
+  # upload
+  upload-develop:
+    <<: *upload-template
+  upload-goerli:
+    <<: *upload-template
+  upload-prod:
+    <<: *upload-template
 
-            DOMAIN="stkr-goerli.ankr.com"
-            DISTRIBUTION_ID="E1LG75GWDIK2Z8"
-
-            echo "Uploading assets to $DOMAIN"
-            aws s3 cp ./dist/ s3://$DOMAIN/ --acl bucket-owner-full-control --recursive --cache-control "public,max-age=600,s-maxage=3600"
-
-            echo "Invalidating CDN network"
-            INVALIDATION_ID=`aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths '/*' | jq -r '.Invalidation.Id'`
-            echo "Invalidation ID is $INVALIDATION_ID"
-            echo "CDN Invalidation request is sent."
 workflows:
-  version: 2
+  version: 2.1
   stkr_web3:
     jobs:
-      - build:
-          context: cicd
-      - upload:
-          context: cicd
+      # develop
+      - approve-develop:
+          type: approval
+      - build-develop:
+          context: stkr_build_develop
           requires:
-            - build
-          filters: &prod_only
-            branches:
-              only:
-                - master
+            - approve-develop
+      - upload-develop:
+          context:
+            - cicd
+            - stkr_build_develop
+          requires:
+            - build-develop
+      # goerli
+      - approve-goerli:
+          type: approval
+      - build-goerli:
+          context: stkr_build_goerli
+          requires:
+            - approve-goerli
+      - upload-goerli:
+          context:
+            - cicd
+            - stkr_build_goerli
+          requires:
+            - build-goerli
+      # prod
+      - approve-prod:
+          type: approval
+      - build-prod:
+          context: stkr_build_prod
+          requires:
+            - approve-prod
+      - upload-prod:
+          context:
+            - cicd
+            - stkr_build_prod
+          requires:
+            - build-prod
