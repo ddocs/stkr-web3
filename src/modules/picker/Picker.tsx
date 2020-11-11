@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { Curtains } from '../../UiKit/Curtains';
 import { usePickerStyles } from './PickerStyles';
 import { Body1, Headline4 } from '../../UiKit/Typography';
@@ -8,7 +8,13 @@ import {
   ENABLE_PROVIDER,
   PROVIDER_PATH,
   STAKER_DASHBOAR_PATH,
+  STAKER_STAKE_PATH,
 } from '../../common/const';
+import { useDispatch } from 'react-redux';
+import { useAuthentication } from '../../common/utils/useAuthentications';
+import { UserActions, UserActionTypes } from '../../store/actions/UserActions';
+import { useQuery } from '@redux-requests/react';
+import { IStakerStats } from '../../store/apiMappers/stakerStatsApi';
 
 interface IItemProps {
   title: string;
@@ -59,32 +65,54 @@ const Item = ({
   );
 };
 
-const LIST: Record<string, string> = {
-  staker: STAKER_DASHBOAR_PATH,
-  provider: PROVIDER_PATH,
-};
-
-const DATA: Record<string, { disabled: boolean; features: string[] }> = {
-  staker: {
-    disabled: false,
-    features: [
-      'picker.staker.features.1',
-      'picker.staker.features.2',
-      'picker.staker.features.3',
-    ],
-  },
-  provider: {
-    disabled: !ENABLE_PROVIDER,
-    features: [
-      'picker.provider.features.1',
-      'picker.provider.features.2',
-      'picker.provider.features.3',
-    ],
-  },
-};
-
 export const Picker = () => {
   const classes = usePickerStyles({});
+  const dispatch = useDispatch();
+  const { isConnected } = useAuthentication();
+
+  useEffect(() => {
+    if (isConnected) {
+      dispatch(UserActions.fetchStakerStats());
+    }
+  }, [dispatch, isConnected]);
+
+  const { loading, data } = useQuery<IStakerStats | null>({
+    type: UserActionTypes.FETCH_STAKER_STATS,
+  });
+
+  const DATA: Record<
+    string,
+    { disabled: boolean; features: string[]; comingSoon?: boolean }
+  > = useMemo(
+    () => ({
+      staker: {
+        disabled: loading,
+        features: [
+          'picker.staker.features.1',
+          'picker.staker.features.2',
+          'picker.staker.features.3',
+        ],
+      },
+      provider: {
+        disabled: !ENABLE_PROVIDER,
+        comingSoon: !ENABLE_PROVIDER,
+        features: [
+          'picker.provider.features.1',
+          'picker.provider.features.2',
+          'picker.provider.features.3',
+        ],
+      },
+    }),
+    [loading],
+  );
+
+  const LIST: Record<string, string> = {
+    staker:
+      data?.stakes && data.stakes.length > 0
+        ? STAKER_DASHBOAR_PATH
+        : STAKER_STAKE_PATH,
+    provider: PROVIDER_PATH,
+  };
 
   const keys: string[] = Object.keys(LIST);
   return (
@@ -99,7 +127,7 @@ export const Picker = () => {
                 title={tHTML(`picker.${key}.title`)}
                 link={item}
                 buttonCaption={
-                  DATA[key]?.disabled
+                  DATA[key]?.comingSoon
                     ? t('coming-soon')
                     : t(`picker.${key}.link`)
                 }
