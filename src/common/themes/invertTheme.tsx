@@ -1,5 +1,5 @@
 import { ThemeOptions } from '@material-ui/core/styles/createMuiTheme';
-import { DEFAULT_FONT, defaultTheme, mainTheme } from './mainTheme';
+import { DEFAULT_FONT, defaultTheme, mainTheme, MAX_WIDTH } from './mainTheme';
 import { createMuiTheme, fade } from '@material-ui/core';
 import { PaletteOptions } from '@material-ui/core/styles/createPalette';
 
@@ -44,6 +44,38 @@ export const invertTheme = createMuiTheme({
   palette: PALETTE as PaletteOptions,
   overrides: {
     ...mainTheme.overrides,
+    MuiContainer: {
+      root: {
+        '&&': {
+          maxWidth: MAX_WIDTH,
+          padding: defaultTheme.spacing(0, 15),
+
+          boxSizing: 'border-box',
+
+          [defaultTheme.breakpoints.down('lg')]: {
+            padding: defaultTheme.spacing(0, 10),
+          },
+
+          [defaultTheme.breakpoints.down('md')]: {
+            padding: defaultTheme.spacing(0, 5),
+          },
+
+          [defaultTheme.breakpoints.down('xs')]: {
+            padding: defaultTheme.spacing(0, 3),
+          },
+
+          '& *::selection': {
+            color: `${PALETTE.primary.contrastText}`,
+            backgroundColor: `${PALETTE.primary.main}`,
+          },
+        },
+      },
+      maxWidthLg: {
+        '&&': {
+          maxWidth: MAX_WIDTH,
+        },
+      },
+    },
     MuiPaper: {
       root: {
         color: PALETTE.text.primary,
