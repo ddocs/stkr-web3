@@ -3,12 +3,11 @@ import { Curtains } from '../../../../UiKit/Curtains';
 import { useStakeStyles } from './StakeStyles';
 import {
   Body1,
-  Body2,
   Headline2,
   Headline3,
   Headline5,
 } from '../../../../UiKit/Typography';
-import { t } from '../../../../common/utils/intl';
+import { t, tHTML } from '../../../../common/utils/intl';
 import { IconButton, Tooltip, Typography } from '@material-ui/core';
 import { CancelIcon } from '../../../../UiKit/Icons/CancelIcon';
 import { BackgroundColorProvider } from '../../../../UiKit/BackgroundColorProvider';
@@ -116,15 +115,12 @@ export const StakeComponent = ({
           <dt className={classes.term}>
             <Typography component="span">
               {t('stake.yearly-earning')}
-              <Tooltip title={t('stake.yearly-earning-tooltip')}>
+              <Tooltip title={tHTML('stake.yearly-earning-tooltip')}>
                 <IconButton className={classes.question}>
                   <QuestionIcon size="xs" />
                 </IconButton>
               </Tooltip>
             </Typography>
-            <Body2 classes={{ root: classes.note }} color="textSecondary">
-              {t('stake.yearly-earning-tip')}
-            </Body2>
           </dt>
           <Headline3 component="dd" classes={{ root: classes.description }}>
             {t('units.~eth', {
