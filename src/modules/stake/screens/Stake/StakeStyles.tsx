@@ -149,16 +149,11 @@ export const useStakeStyles = makeStyles<Theme>(theme => {
     question: {
       padding: theme.spacing(1),
     },
-    note: {
-      [theme.breakpoints.down('xs')]: {
-        fontSize: 14,
-      },
-    },
     footer: {
       display: 'grid',
       gridTemplateColumns: '1fr minmax(auto, 214px)',
       gridColumnGap: theme.spacing(4),
-      marginTop: theme.spacing(5),
+      marginTop: theme.spacing(8),
       padding: theme.spacing(5.5, 20),
       borderTop: `1px solid ${fade(theme.palette.text.primary, 0.2)}`,
       [theme.breakpoints.down('lg')]: {
