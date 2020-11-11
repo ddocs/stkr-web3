@@ -8,6 +8,7 @@ import { Button } from '../../../../UiKit/Button';
 import { useAction } from '../../../../store/redux';
 import { openUnlockWalletAction } from '../../../../store/modals/actions';
 import { useIntersectionObserver } from '../../../../common/hooks/useIntersectionObserver';
+import { Typography } from '@material-ui/core';
 
 const Item = ({
   title,
@@ -71,11 +72,21 @@ export const BecomeProvider = ({ className }: IFeaturesProps) => {
         <Headline1 className={classes.title} component="h2">
           {tHTML('about.become-provider-title')}
         </Headline1>
-        <Body1 className={classes.text} component="p">
-          {t('about.become-provider-text')}
-        </Body1>
+        <div className={classes.textWrapper}>
+          <Typography className={classes.text} component="p">
+            {t('about.become-provider-text')}
+          </Typography>
+          <Button
+            className={classes.button}
+            color="primary"
+            size="large"
+            onClick={openUnlockWallet}
+          >
+            {t('navigation.unlock-wallet')}
+          </Button>
+        </div>
         <Button
-          className={classes.button}
+          className={classes.mobileButton}
           color="primary"
           size="large"
           onClick={openUnlockWallet}
