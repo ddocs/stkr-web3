@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { useDropdownStyles } from './DropdownStyles';
 import { Providers } from '../../../../common/types';
@@ -14,6 +14,7 @@ import { PROVIDERS } from '../const';
 import { useAction } from '../../../../store/redux';
 import { UserActions } from '../../../../store/actions/UserActions';
 import CopyToClipboard from 'react-copy-to-clipboard';
+import { Typography } from '@material-ui/core';
 
 interface IItemProps {
   caption: string;
@@ -76,6 +77,14 @@ export const DropdownComponent = ({
     alert(`selected ${selectedItem}`);
   }, []);
 
+  const [isCopy, setCopy] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (isCopy) {
+      setTimeout(() => setCopy(false), 1000);
+    }
+  }, [isCopy]);
+
   return (
     <BackgroundColorProvider
       className={classNames(
@@ -100,17 +109,28 @@ export const DropdownComponent = ({
             {t('navigation.disconnect')}
           </Button>
           <div className={classes.navigation}>
-            <CopyToClipboard text={address}>
-              <Button
-                className={classes.copy}
-                variant="text"
-                color="secondary"
-                size="small"
-              >
-                <CopyIcon className={classes.icon} />
-                {t('navigation.copy-address')}
-              </Button>
-            </CopyToClipboard>
+            <div className={classes.copy}>
+              <CopyToClipboard text={address} onCopy={() => setCopy(true)}>
+                <Button
+                  className={classes.copyAction}
+                  variant="text"
+                  color="secondary"
+                  size="small"
+                >
+                  <CopyIcon className={classes.icon} />
+                  {t('navigation.copy-address')}
+                </Button>
+              </CopyToClipboard>
+              {isCopy && (
+                <Typography
+                  className={classes.copyMessage}
+                  component="span"
+                  color="secondary"
+                >
+                  {t('navigation.copied')}
+                </Typography>
+              )}
+            </div>
             <NavLink
               className={classes.view}
               color="secondary"

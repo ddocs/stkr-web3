@@ -50,7 +50,8 @@
     "twitter": "Twitter",
     "telegram-chat": "Telegram Chat",
     "telegram-announcements": "Telegram Announcements",
-    "medium": "Medium"
+    "medium": "Medium",
+    "copied": "Address copied"
   },
   "validation": {
     "email-error": "Not a valid email address",

@@ -1,7 +1,8 @@
-import { Theme } from '@material-ui/core';
+import { fade, Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import * as assetsReference from '../assets/assets';
 import { getImages } from '../../../../common/utils/getImages';
+import icon from './assets/check.svg';
 
 const assets = getImages(assetsReference);
 
@@ -69,9 +70,40 @@ export const useDropdownStyles = makeStyles<
     marginTop: theme.spacing(3),
   },
   copy: {
+    position: 'relative',
+    display: 'inline-block',
     marginRight: theme.spacing(3),
+  },
+  copyAction: {
     '& svg': {
       color: 'inherit',
+    },
+  },
+  copyMessage: {
+    position: 'absolute',
+    top: theme.spacing(4),
+    left: -theme.spacing(3),
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: theme.spacing(1, 2.5),
+    boxSizing: 'border-box',
+    fontSize: 12,
+    whiteSpace: 'nowrap',
+    background: theme.palette.background.paper,
+    border: `1px solid ${fade(theme.palette.text.primary, 0.1)}`,
+    borderRadius: 2,
+    '&::before': {
+      position: 'relative',
+      content: '""',
+      display: 'block',
+      width: 16,
+      height: 16,
+      marginRight: theme.spacing(1),
+      backgroundImage: `url("${icon}")`,
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat',
+      backgroundSize: 'contain',
     },
   },
   view: {
