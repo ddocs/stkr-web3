@@ -23,6 +23,8 @@ export const SOCIAL_LINK = {
 };
 export const DOCS_LINK = '#';
 export const GOVERNANCE_LINK = '#';
+export const LITEPAPER_LINK =
+  'https://assets.ankr.com/files/stkr_litepaper.pdf';
 const ANNUAL_EXPECTED_YEARNING = 0.15;
 const STAKER_RATE = 0.77;
 export const YEAR_INTEREST = ANNUAL_EXPECTED_YEARNING * STAKER_RATE;

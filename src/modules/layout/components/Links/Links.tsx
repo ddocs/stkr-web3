@@ -6,6 +6,7 @@ import {
   DOCS_LINK,
   GOVERNANCE_LINK,
   SOCIAL_LINK,
+  LITEPAPER_LINK,
 } from '../../../../common/const';
 import { useLinksStyles } from './LinksStyles';
 import { Button } from '../../../../UiKit/Button';
@@ -19,6 +20,7 @@ export interface ILinksProps {
 }
 
 const LINKS: Record<string, string | Record<string, string>> = {
+  litepaper: LITEPAPER_LINK,
   community: {
     twitter: SOCIAL_LINK.twitter,
     'telegram-chat': SOCIAL_LINK.telegram,
@@ -73,14 +75,17 @@ export const Links = ({ className }: ILinksProps) => {
           return (
             <li key={key} className={classes.item}>
               {typeof link === 'string' ? (
-                <Tooltip title={t('coming-soon')}>
+                <Tooltip
+                  title={t('coming-soon')}
+                  disableHoverListener={link.startsWith('http')}
+                  disableTouchListener={link.startsWith('http')}
+                >
                   <NavLink
-                    href={link}
+                    href={link.startsWith('http') ? link : ''}
                     className={classes.link}
                     color="secondary"
                     size="large"
-                    disabled={true}
-                    component="div"
+                    disabled={!link.startsWith('http')}
                   >
                     {t(`navigation.${key}`)}
                   </NavLink>
