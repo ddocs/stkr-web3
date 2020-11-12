@@ -20,8 +20,8 @@ export type IAuthorizedHeaderProps = {
   className?: string;
   walletAddress: string | undefined;
   walletType: Providers | undefined;
-  ethereumBalance: string | undefined;
-  ankrBalance: string | undefined;
+  ethereumBalance: number;
+  ankrBalance: number;
 };
 
 const TABS: ITab[] = [

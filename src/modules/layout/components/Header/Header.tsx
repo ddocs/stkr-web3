@@ -11,6 +11,7 @@ import { QueryError } from '../../../../components/QueryError/QueryError';
 import { QueryLoading } from '../../../../components/QueryLoading/QueryLoading';
 import { QueryEmpty } from '../../../../components/QueryEmpty/QueryEmpty';
 import { useLocation } from 'react-router';
+import BigNumber from 'bignumber.js';
 
 interface IHeaderProps {
   isAuth: boolean;
@@ -34,8 +35,10 @@ const HeaderImp = ({ isAuth, className }: IHeaderProps) => {
             className={className}
             walletAddress={data?.address}
             walletType={data?.walletType}
-            ethereumBalance={data?.ethereumBalance.toFormat()}
-            ankrBalance={data?.ankrBalance.toFormat()}
+            ethereumBalance={
+              data?.ethereumBalance && +data.ethereumBalance.toFormat()
+            }
+            ankrBalance={data?.ankrBalance && +data.ankrBalance.toFormat()}
           />
         );
       }}

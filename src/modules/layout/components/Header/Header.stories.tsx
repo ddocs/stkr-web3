@@ -17,8 +17,8 @@ const HeaderStory = () => {
       <AuthorizedHeader
         walletAddress="0x603366e08380EceB2E334621A27eeD36F34A9D50"
         walletType={Providers.metamask}
-        ethereumBalance={'23'}
-        ankrBalance={'10500'}
+        ethereumBalance={23.4536334}
+        ankrBalance={10500.45}
       />
     </div>
   );
