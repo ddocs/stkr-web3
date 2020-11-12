@@ -2,11 +2,7 @@ import { IUserInfo } from '../apiMappers/userApi';
 import { Providers } from '../../common/types';
 import { StkrSdk } from '../../modules/api';
 import BigNumber from 'bignumber.js';
-import {
-  MicroPoolReply,
-  SidecarReply,
-  SidecarStatusReply,
-} from '../../modules/api/gateway';
+import { MicroPoolReply, SidecarReply, SidecarStatusReply, } from '../../modules/api/gateway';
 import { IMicropool, mapMicropool } from '../apiMappers/poolsApi';
 import { ISidecar, mapSidecar } from '../apiMappers/sidecarsApi';
 import { mapProviderStats } from '../apiMappers/providerStatsApi';
@@ -20,6 +16,8 @@ import { ISidecarStatus, mapNodeStatus } from '../apiMappers/sidecarStatus';
 import { PICKER_PATH } from '../../common/const';
 import { closeModalAction } from '../modals/actions';
 import { replace } from 'connected-react-router';
+import { update } from '../../common/utils/update';
+import { createAction } from 'redux-actions';
 
 export const UserActionTypes = {
   CONNECT: 'CONNECT',
@@ -112,6 +110,9 @@ export const UserActions = {
       })(),
     },
   }),
+  updateAccountData: createAction<Partial<IUserInfo>>(
+    update(UserActionTypes.FETCH_ACCOUNT_DATA),
+  ),
   fetchMicropools: () => ({
     type: UserActionTypes.FETCH_MICROPOOLS,
     request: {
@@ -326,11 +327,11 @@ export const UserActions = {
     request: {
       promise: (async function () {
         const stkrSdk = StkrSdk.getLastInstance();
-        const aethBalance = await stkrSdk
+        const aEthBalance = await stkrSdk
           .getContractManager()
           .claimableRewardOf(stkrSdk.getKeyProvider().currentAccount());
         return {
-          aEthBalance: aethBalance.toString(10),
+          aEthBalance,
           ...(await stkrSdk.getStakerStats()),
         };
       })(),

@@ -105,9 +105,17 @@ function* listenKeyProviderEvents() {
           window.location.reload();
         });
       } else if (event.type === ContractManagerEvents.AnkrBalanceChanged) {
-        yield put(UserActions.fetchAccountData());
+        yield put(
+            UserActions.updateAccountData({
+              ankrBalance: event.data.balance,
+            }),
+        );
       } else if (event.type === ContractManagerEvents.EthereumBalanceChanged) {
-        yield put(UserActions.fetchAccountData());
+        yield put(
+          UserActions.updateAccountData({
+            ethereumBalance: event.data.balance,
+          }),
+        );
       } else if (event.type === ContractManagerEvents.AethBalanceChanged) {
         yield put(UserActions.fetchStakerStats());
       } else if (event.type === ContractManagerEvents.StakePending) {
