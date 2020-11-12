@@ -13,7 +13,10 @@ import { useLocaleMemo } from '../../../../common/hooks/useLocaleMemo';
 import { NavLink } from '../../../../UiKit/NavLink';
 import { isMainnet, STAKER_STAKE_PATH } from '../../../../common/const';
 import { Mutation, Query } from '@redux-requests/react';
-import { UserActions, UserActionTypes, } from '../../../../store/actions/UserActions';
+import {
+  UserActions,
+  UserActionTypes,
+} from '../../../../store/actions/UserActions';
 import { QueryError } from '../../../../components/QueryError/QueryError';
 import { QueryLoadingCentered } from '../../../../components/QueryLoading/QueryLoading';
 import { QueryEmpty } from '../../../../components/QueryEmpty/QueryEmpty';
@@ -91,20 +94,22 @@ export const StakerDashboardComponent = () => {
                   {t('staked-dashboard.stake-more')}
                 </NavLink>
                 <MutationErrorHandler type={UserActionTypes.UNSTAKE} />
-                <Mutation type={UserActionTypes.UNSTAKE}>
-                  {({ loading }) => (
-                    <Button
-                      className={classNames(classes.action, classes.unstake)}
-                      size={isXSDown ? 'small' : 'large'}
-                      onClick={handleUnstake}
-                      disabled={loading}
-                      variant="text"
-                      color="secondary"
-                    >
-                      {t('staker-dashboard.unstake')}
-                    </Button>
-                  )}
-                </Mutation>
+                {data?.staked.isGreaterThan(0) && (
+                  <Mutation type={UserActionTypes.UNSTAKE}>
+                    {({ loading }) => (
+                      <Button
+                        className={classNames(classes.action, classes.unstake)}
+                        size={isXSDown ? 'small' : 'large'}
+                        onClick={handleUnstake}
+                        disabled={loading}
+                        variant="text"
+                        color="secondary"
+                      >
+                        {t('staker-dashboard.unstake')}
+                      </Button>
+                    )}
+                  </Mutation>
+                )}
               </div>
               <div className={classes.content}>
                 <Typography
