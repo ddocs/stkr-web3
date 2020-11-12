@@ -39,6 +39,6 @@ export function mapStakerStats(
     reward: new BigNumber(data.stats.totalRewards),
     staked: new BigNumber(data.stats.totalStakedAmount),
     aEthBalance: new BigNumber(data.aEthBalance),
-    stakes: data.stakes.map(mapStakeHistoryItem),
+    stakes: data.stakes.map(mapStakeHistoryItem).reverse(),
   };
 }
