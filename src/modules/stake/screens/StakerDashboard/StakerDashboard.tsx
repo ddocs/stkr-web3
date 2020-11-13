@@ -71,20 +71,22 @@ export const StakerDashboardComponent = () => {
                   {t('staked-dashboard.stake-more')}
                 </NavLink>
                 <MutationErrorHandler type={UserActionTypes.UNSTAKE} />
-                <Mutation type={UserActionTypes.UNSTAKE}>
-                  {({ loading }) => (
-                    <Button
-                      className={classNames(classes.action, classes.unstake)}
-                      size={isXSDown ? 'small' : 'large'}
-                      onClick={handleUnstake}
-                      disabled={loading}
-                      variant="text"
-                      color="secondary"
-                    >
-                      {t('staker-dashboard.unstake')}
-                    </Button>
-                  )}
-                </Mutation>
+                {data?.staked.isGreaterThan(0) && (
+                  <Mutation type={UserActionTypes.UNSTAKE}>
+                    {({ loading }) => (
+                      <Button
+                        className={classNames(classes.action, classes.unstake)}
+                        size={isXSDown ? 'small' : 'large'}
+                        onClick={handleUnstake}
+                        disabled={loading}
+                        variant="text"
+                        color="secondary"
+                      >
+                        {t('staker-dashboard.unstake')}
+                      </Button>
+                    )}
+                  </Mutation>
+                )}
               </div>
               <div className={classes.content}>
                 <Typography
