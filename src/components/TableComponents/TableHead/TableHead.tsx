@@ -2,12 +2,15 @@ import React, { ReactNode, useContext } from 'react';
 import { useTableHeadStyles } from './TableHeadStyles';
 import { ICustomProps, IStyleProps } from '../types';
 import { TableContext } from '../Table/Table';
+import classNames from 'classnames';
 
 interface ITableHeadProps {
+  className?: string;
   children: ReactNode;
 }
 
 export const TableHeadComponent = ({
+  className,
   children,
   customCell,
   paddingCollapse,
@@ -20,7 +23,7 @@ export const TableHeadComponent = ({
   });
 
   return (
-    <div className={classes.head} role="rowgroup">
+    <div className={classNames(classes.head, className)} role="rowgroup">
       <div className={classes.row} role="row">
         {children}
       </div>
