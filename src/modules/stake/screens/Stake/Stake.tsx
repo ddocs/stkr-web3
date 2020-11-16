@@ -30,12 +30,13 @@ import { MutationErrorHandler } from '../../../../components/MutationErrorHandle
 import { CheckboxField } from '../../../../UiKit/Checkbox/CheckboxField';
 import { Button } from '../../../../UiKit/Button';
 import { useIsXSDown } from '../../../../common/hooks/useTheme';
-import { round } from '../../../../common/utils/round';
+import { floor } from "../../../../common/utils/floor";
 
 const MIN_AMOUNT = 0.5;
 const MAX_AMOUNT = 32;
 const INTEREST_PERIOD = 12;
 const FIXED_DECIMAL_PLACES = 2;
+const STEP = 0.5;
 
 interface IStakePayload {
   amount: number;
@@ -80,13 +81,15 @@ export const StakeComponent = ({
 
   const max = useMemo(
     () =>
-      ethereumBalance && ethereumBalance.isGreaterThan(MAX_AMOUNT)
-        ? ethereumBalance.toNumber()
-        : MAX_AMOUNT,
+      floor(
+        ethereumBalance && ethereumBalance.isGreaterThan(MAX_AMOUNT)
+          ? ethereumBalance.toNumber()
+          : MAX_AMOUNT,
+      ),
     [ethereumBalance],
   );
 
-  const INIT_AMOUNT = ethereumBalance && round(ethereumBalance.toNumber(), 0.5);
+  const INIT_AMOUNT = ethereumBalance && floor(ethereumBalance.toNumber(), STEP);
 
   const renderForm = ({
     handleSubmit,
@@ -105,7 +108,7 @@ export const StakeComponent = ({
             component={SliderField}
             min={MIN_AMOUNT}
             max={max}
-            step={0.5}
+            step={STEP}
             name="amount"
           />
         </label>
