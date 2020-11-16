@@ -1,6 +1,5 @@
 import React, { useCallback, useMemo } from 'react';
 import { useCreateMicropoolStyles } from './CreateMicropoolStyles';
-import classNames from 'classnames';
 import { CancelIcon } from '../../../../UiKit/Icons/CancelIcon';
 import { Form } from 'react-final-form';
 import {
@@ -10,19 +9,11 @@ import {
   ETH_AMOUNT_FIELD_NAME,
   MIN_ETH_AMOUNT_DEPOSIT,
 } from './CreateMicropoolForm';
-import {
-  UserActions,
-  UserActionTypes,
-} from '../../../../store/actions/UserActions';
-import { useQuery } from '@redux-requests/react';
 import { IconButton } from '@material-ui/core';
-import { useHistory } from 'react-router';
 import { MAX_PROVIDER_STAKING_AMOUNT } from '../../../../common/const';
-import { useRequestDispatch } from '../../../../common/utils/useRequestDispatch';
 import { isAlphanumeric } from '../../../../common/utils/isAlphanumeric';
 import { FormErrors } from '../../../../common/types/FormErrors';
 import { t } from '../../../../common/utils/intl';
-import { IUserInfo } from '../../../../store/apiMappers/userApi';
 import BigNumber from 'bignumber.js';
 
 const MICROPOOL_NAME_MAX_LENGTH = 32;
@@ -122,31 +113,5 @@ export const CreateMicropoolComponent = ({
 };
 
 export const CreateMicropoolImp = () => {
-  const classes = useCreateMicropoolStyles();
-  const history = useHistory();
-  const dispatch = useRequestDispatch();
-
-  const handleSubmit = useCallback(
-    (payload: ICreateMicropoolPayload) => {
-      if (payload[DEPOSIT_TYPE_FIELD_NAME] === DepositType.ETH) {
-        dispatch(
-          UserActions.allowEthTokens({
-            name: payload.name,
-            amount: new BigNumber(payload[ETH_AMOUNT_FIELD_NAME]),
-          }),
-        );
-      }
-    },
-    [dispatch],
-  );
-
-  const handleClose = useCallback(() => {
-    history.goBack();
-  }, [history]);
-
-  const {} = useQuery<IUserInfo | null>({
-    type: UserActionTypes.FETCH_ACCOUNT_DATA,
-  });
-
-  return <section className={classNames(classes.section)}></section>;
+  return <></>;
 };

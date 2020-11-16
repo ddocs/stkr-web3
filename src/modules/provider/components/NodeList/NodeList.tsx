@@ -108,7 +108,7 @@ export const NodeListComponent = ({ className, data }: INodeListProps) => {
                     onClick={() => {
                       StkrSdk.getLastInstance().downloadSidecar(
                         item.id,
-                        'windows64',
+                        'windows-amd64',
                       );
                     }}
                     target="_blank"
@@ -121,7 +121,7 @@ export const NodeListComponent = ({ className, data }: INodeListProps) => {
                     onClick={() => {
                       StkrSdk.getLastInstance().downloadSidecar(
                         item.id,
-                        'linux64',
+                        'linux-amd64',
                       );
                     }}
                     target="_blank"
@@ -134,7 +134,7 @@ export const NodeListComponent = ({ className, data }: INodeListProps) => {
                     onClick={() => {
                       StkrSdk.getLastInstance().downloadSidecar(
                         item.id,
-                        'darwin64',
+                        'darwin-amd64',
                       );
                     }}
                     target="_blank"

@@ -198,7 +198,7 @@ export class ApiGateway {
     if (currentAddress.toLowerCase() !== address.toLowerCase()) {
       return false;
     }
-    return currentTime < expires;
+    return currentTime <= expires;
   }
 
   public parseToken(): {
