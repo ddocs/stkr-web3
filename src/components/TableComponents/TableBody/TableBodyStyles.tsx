@@ -22,7 +22,6 @@ export const useTableBodyStyles = makeStyles<
     paddingLeft: props => (props.paddingCollapse ? theme.spacing(4) : 0),
     paddingRight: props => (props.paddingCollapse ? theme.spacing(4) : 0),
     boxSizing: 'border-box',
-    overflow: 'hidden',
     [theme.breakpoints.down('md')]: {
       paddingLeft: props => (props.paddingCollapse ? theme.spacing(3) : 0),
       paddingRight: props => (props.paddingCollapse ? theme.spacing(3) : 0),

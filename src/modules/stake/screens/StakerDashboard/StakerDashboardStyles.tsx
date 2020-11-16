@@ -6,10 +6,12 @@ export const useStakerDasboardStyles = makeStyles<Theme>(theme => ({
     display: 'grid',
     gridTemplateColumns: '100%',
     gridTemplateRows: '100%',
+    maxHeight: 'calc(100vh - 160px)',
     boxSizing: 'border-box',
     borderBottom: `1px solid ${fade(theme.palette.text.primary, 0.1)}`,
     overflow: 'hidden',
     [theme.breakpoints.down('sm')]: {
+      height: 'auto',
       borderBottom: 0,
     },
   },
@@ -38,7 +40,7 @@ export const useStakerDasboardStyles = makeStyles<Theme>(theme => ({
     boxSizing: 'border-box',
     borderRight: `1px solid ${fade(theme.palette.text.primary, 0.1)}`,
     [theme.breakpoints.up(1920)]: {
-      padding: theme.spacing(7, 7.5, 7, 0),
+      padding: theme.spacing(10, 7.5, 7, 0),
     },
     [theme.breakpoints.down('lg')]: {
       padding: theme.spacing(5, 3.5, 3, 0),
@@ -174,22 +176,19 @@ export const useStakerDasboardStyles = makeStyles<Theme>(theme => ({
   history: {
     gridColumn: '2/3',
     gridRow: '-1/1',
-    maxHeight: 'calc(100vh - 160px)',
-    padding: theme.spacing(10, 0, 3, 7.5),
-    overflowX: 'auto',
+    maxHeight: '100%',
+    boxSizing: 'border-box',
+    padding: theme.spacing(7, 0, 3, 7.5),
+    [theme.breakpoints.up(1920)]: {
+      padding: theme.spacing(10, 0, 3, 7.5),
+    },
     [theme.breakpoints.down('lg')]: {
       padding: theme.spacing(5, 0, 3, 3.5),
     },
     [theme.breakpoints.down('sm')]: {
       gridColumn: '-1/1',
       gridRow: 'auto',
-      maxHeight: 'none',
       padding: theme.spacing(5, 0),
-    },
-  },
-  table: {
-    '&&': {
-      minWidth: 'unset',
     },
   },
 }));

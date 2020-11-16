@@ -6,11 +6,13 @@ import { BackgroundColorProvider } from '../../../UiKit/BackgroundColorProvider'
 import { TableContext } from '../Table/Table';
 
 interface ITableHeadCellProps {
+  className?: string;
   label: React.ReactNode;
   align?: AlignType;
 }
 
 const TableHeadCellComponent = ({
+  className,
   alignCell,
   align,
   label,
@@ -27,6 +29,7 @@ const TableHeadCellComponent = ({
         (alignCell === 'center' || align === 'center') && classes.centerCell,
         (alignCell === 'right' || align === 'right') && classes.rightCell,
         (alignCell === 'left' || align === 'left') && classes.leftCell,
+        className,
       )}
       role="cell"
       component="div"
