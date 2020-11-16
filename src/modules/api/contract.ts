@@ -522,7 +522,12 @@ export class ContractManager {
   }
 
   public async claimableRewardOf(staker: string): Promise<BigNumber> {
-    return this.microPoolContract.methods.claimableRewardOf(staker).call();
+    return this.microPoolContract.methods
+      .claimableRewardOf(staker)
+      .call()
+      .then((value: string) => {
+        return this.keyProvider.getWeb3().utils.fromWei(value);
+      });
   }
 
   public async poolCount(): Promise<BigNumber> {
