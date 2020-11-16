@@ -14,25 +14,16 @@ import {
   UserActions,
   UserActionTypes,
 } from '../../../../store/actions/UserActions';
-import { Mutation, useQuery } from '@redux-requests/react';
-import { Curtains } from '../../../../UiKit/Curtains';
-import { BackgroundColorProvider } from '../../../../UiKit/BackgroundColorProvider';
-import { CreateMicropoolProgress } from './CreateMicropoolProgress';
+import { useQuery } from '@redux-requests/react';
 import { IconButton } from '@material-ui/core';
 import { useHistory } from 'react-router';
-import { IRequestActionPromiseData } from '../../../../common/types';
-import { success } from '@redux-requests/core';
-import {
-  MAX_PROVIDER_STAKING_AMOUNT,
-  PROVIDER_MICROPOOL_LIST_PATH,
-} from '../../../../common/const';
+import { MAX_PROVIDER_STAKING_AMOUNT } from '../../../../common/const';
 import { useRequestDispatch } from '../../../../common/utils/useRequestDispatch';
 import { isAlphanumeric } from '../../../../common/utils/isAlphanumeric';
 import { FormErrors } from '../../../../common/types/FormErrors';
 import { t } from '../../../../common/utils/intl';
 import { IUserInfo } from '../../../../store/apiMappers/userApi';
 import BigNumber from 'bignumber.js';
-import { MutationErrorHandler } from '../../../../components/MutationErrorHandler/MutationErrorHandler';
 
 const MICROPOOL_NAME_MAX_LENGTH = 32;
 
@@ -71,7 +62,9 @@ function validateCreateMicropoolForm({
 
 interface ICreateMicropoolProps {
   onSubmit(x: ICreateMicropoolPayload): void;
+
   onClose?(): void;
+
   ankrBalance?: BigNumber;
   ethereumBalance?: BigNumber;
 }
@@ -143,47 +136,17 @@ export const CreateMicropoolImp = () => {
           }),
         );
       }
-
-      dispatch(UserActions.createMicropool(payload)).then(
-        (data: IRequestActionPromiseData) => {
-          if (data.action.type === success(UserActionTypes.CREATE_MICROPOOL)) {
-            history.replace(PROVIDER_MICROPOOL_LIST_PATH);
-          }
-        },
-      );
     },
-    [dispatch, history],
+    [dispatch],
   );
 
   const handleClose = useCallback(() => {
     history.goBack();
   }, [history]);
 
-  const { data } = useQuery<IUserInfo | null>({
+  const {} = useQuery<IUserInfo | null>({
     type: UserActionTypes.FETCH_ACCOUNT_DATA,
   });
 
-  return (
-    <section className={classNames(classes.section)}>
-      <Curtains classes={{ root: classes.wrapper }}>
-        <BackgroundColorProvider className={classes.content}>
-          <MutationErrorHandler type={UserActionTypes.CREATE_MICROPOOL} />
-          <Mutation type={UserActionTypes.CREATE_MICROPOOL}>
-            {({ loading }) =>
-              loading ? (
-                <CreateMicropoolProgress />
-              ) : (
-                <CreateMicropoolComponent
-                  onSubmit={handleSubmit}
-                  onClose={handleClose}
-                  ankrBalance={data?.ankrBalance}
-                  ethereumBalance={data?.ethereumBalance}
-                />
-              )
-            }
-          </Mutation>
-        </BackgroundColorProvider>
-      </Curtains>
-    </section>
-  );
+  return <section className={classNames(classes.section)}></section>;
 };

@@ -15,16 +15,11 @@ import { t } from '../../../../common/utils/intl';
 import { StkrSdk } from '../../../api';
 import { uid } from 'react-uid';
 import { ISidecar } from '../../../../store/apiMappers/sidecarsApi';
-import { formatDistanceToNowStrict } from 'date-fns';
-import { Query } from '@redux-requests/react';
-import { UserActionTypes } from '../../../../store/actions/UserActions';
-import { ISidecarStatus } from '../../../../store/apiMappers/sidecarStatus';
-import { safeDiv } from '../../../../common/utils/safeDiv';
-import { QueryLoading } from '../../../../components/QueryLoading/QueryLoading';
 import { IconButton } from '@material-ui/core';
 import { ReactComponent as WindowsIcon } from './assets/windows.svg';
 import { ReactComponent as LinuxIcon } from './assets/linux.svg';
 import { ReactComponent as MacIcon } from './assets/mac.svg';
+import { safeDiv } from '../../../../common/utils/safeDiv';
 
 const useCaptions = (): ITablesCaptionProps[] =>
   useLocaleMemo(
@@ -81,54 +76,27 @@ export const NodeListComponent = ({ className, data }: INodeListProps) => {
               <TableRow key={uid(item)}>
                 <TableBodyCell>{item.id}</TableBodyCell>
                 <TableBodyCell>
-                  <Query<ISidecarStatus | undefined>
-                    loadingComponent={QueryLoading}
-                    loadingComponentProps={{ size: 20 }}
-                    errorComponent={() => (
-                      <>{t(`beacon-list.status.${item.status}`)}</>
-                    )}
-                    noDataMessage={t(`beacon-list.status.${item.status}`)}
-                    type={UserActionTypes.FETCH_SIDECAR_STATUS}
-                    requestKey={item.id}
-                    showLoaderDuringRefetch={false}
-                  >
-                    {({ data }) => {
-                      if (item.status === 'VALIDATOR_STATUS_FREE') {
-                        return (
-                          <div>
-                            {t('node-list.syncing', {
-                              value: `${(
-                                100 *
-                                safeDiv(
-                                  data?.chain.currentSlot,
-                                  data?.chain.latestSlot,
-                                )
-                              ).toFixed(2)}`,
-                            })}
-                          </div>
-                        );
-                      }
-                      return t(`beacon-list.status.${item.status}`);
-                    }}
-                  </Query>
+                  {item.status === 'SIDECAR_STATUS_UNKNOWN' ? (
+                    <div>
+                      {t('node-list.syncing', {
+                        value: `${(
+                          100 *
+                          safeDiv(
+                            item?.beaconChain?.currentSlot,
+                            item?.beaconChain?.latestSlot,
+                          )
+                        ).toFixed(2)}`,
+                      })}
+                    </div>
+                  ) : (
+                    t(`beacon-list.status.${item.status}`)
+                  )}
                 </TableBodyCell>
                 <TableBodyCell>
-                  <Query<ISidecarStatus | undefined>
-                    loadingComponent={QueryLoading}
-                    loadingComponentProps={{ size: 20 }}
-                    errorComponent={() => <>{t(`beacon-list.not-launched`)}</>}
-                    noDataMessage={t(`beacon-list.not-launched`)}
-                    type={UserActionTypes.FETCH_SIDECAR_STATUS}
-                    requestKey={item.id}
-                    showLoaderDuringRefetch={false}
-                  >
-                    {({ data }) => {
-                      return formatDistanceToNowStrict(
-                        data?.machine?.currentTime || new Date(),
-                        { addSuffix: true },
-                      );
-                    }}
-                  </Query>
+                  {/*formatDistanceToNowStrict(*/}
+                  {/*data?.machine?.currentTime || new Date(),*/}
+                  {/*{ addSuffix: true },*/}
+                  {/*)*/}
                 </TableBodyCell>
                 <TableBodyCell>
                   {t('format.date', { value: item.created })}
@@ -137,34 +105,38 @@ export const NodeListComponent = ({ className, data }: INodeListProps) => {
                   <IconButton
                     component="a"
                     className={classes.icon}
-                    href={StkrSdk.getLastInstance().createSidecarDownloadLink(
-                      item.id,
-                      'windows64',
-                    )}
+                    onClick={() => {
+                      StkrSdk.getLastInstance().downloadSidecar(
+                        item.id,
+                        'windows64',
+                      );
+                    }}
                     target="_blank"
                   >
                     <WindowsIcon />
                   </IconButton>
-
                   <IconButton
                     component="a"
                     className={classes.icon}
-                    href={StkrSdk.getLastInstance().createSidecarDownloadLink(
-                      item.id,
-                      'linux64',
-                    )}
+                    onClick={() => {
+                      StkrSdk.getLastInstance().downloadSidecar(
+                        item.id,
+                        'linux64',
+                      );
+                    }}
                     target="_blank"
                   >
                     <LinuxIcon />
                   </IconButton>
-
                   <IconButton
                     component="a"
                     className={classes.icon}
-                    href={StkrSdk.getLastInstance().createSidecarDownloadLink(
-                      item.id,
-                      'darwin64',
-                    )}
+                    onClick={() => {
+                      StkrSdk.getLastInstance().downloadSidecar(
+                        item.id,
+                        'darwin64',
+                      );
+                    }}
                     target="_blank"
                   >
                     <MacIcon />

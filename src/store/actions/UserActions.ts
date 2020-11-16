@@ -2,8 +2,7 @@ import { IUserInfo } from '../apiMappers/userApi';
 import { Providers } from '../../common/types';
 import { StkrSdk } from '../../modules/api';
 import BigNumber from 'bignumber.js';
-import { MicroPoolReply, SidecarReply, SidecarStatusReply, } from '../../modules/api/gateway';
-import { IMicropool, mapMicropool } from '../apiMappers/poolsApi';
+import { SidecarReply } from '../../modules/api/gateway';
 import { ISidecar, mapSidecar } from '../apiMappers/sidecarsApi';
 import { mapProviderStats } from '../apiMappers/providerStatsApi';
 import { IAllowance } from '../apiMappers/allowance';
@@ -12,7 +11,6 @@ import { authenticatedGuard } from '../../common/utils/authenticatedGuard';
 import { RequestAction } from '@redux-requests/core';
 import { Store } from 'redux';
 import { IStoreState } from '../reducers';
-import { ISidecarStatus, mapNodeStatus } from '../apiMappers/sidecarStatus';
 import { PICKER_PATH } from '../../common/const';
 import { closeModalAction } from '../modals/actions';
 import { replace } from 'connected-react-router';
@@ -26,19 +24,11 @@ export const UserActionTypes = {
 
   FETCH_ACCOUNT_DATA: 'FETCH_ACCOUNT_DATA',
 
-  FETCH_MICROPOOLS: 'FETCH_MICROPOOLS',
-
-  FETCH_CURRENT_PROVIDER_MICROPOOLS: 'FETCH_CURRENT_PROVIDER_MICROPOOLS',
-
   FETCH_CURRENT_PROVIDER_SIDECARS: 'FETCH_CURRENT_PROVIDER_SIDECARS',
-
-  FETCH_SIDECAR_STATUS: 'FETCH_SIDECAR_STATUS',
 
   AUTHORIZE_PROVIDER: 'AUTHORIZE_PROVIDER',
 
   CREATE_SIDECAR: 'CREATE_SIDECAR',
-
-  CREATE_MICROPOOL: 'CREATE_MICROPOOL',
 
   FETCH_PROVIDER_STATS: 'FETCH_PROVIDER_STATS',
 
@@ -113,18 +103,6 @@ export const UserActions = {
   updateAccountData: createAction<Partial<IUserInfo>>(
     update(UserActionTypes.FETCH_ACCOUNT_DATA),
   ),
-  fetchMicropools: () => ({
-    type: UserActionTypes.FETCH_MICROPOOLS,
-    request: {
-      promise: (async function () {
-        const stkrSdk = StkrSdk.getLastInstance();
-        return stkrSdk.getApiGateway().getMicroPools();
-      })(),
-    },
-    meta: {
-      getData: (data: MicroPoolReply[]): IMicropool[] => data.map(mapMicropool),
-    },
-  }),
   authorizeProvider: () => ({
     type: UserActionTypes.AUTHORIZE_PROVIDER,
     request: {
@@ -135,22 +113,6 @@ export const UserActions = {
     },
     meta: {
       asMutation: true,
-    },
-  }),
-  fetchCurrentProviderMicropools: () => ({
-    type: UserActionTypes.FETCH_CURRENT_PROVIDER_MICROPOOLS,
-    request: {
-      promise: (async function () {
-        const stkrSdk = StkrSdk.getLastInstance();
-        return stkrSdk
-          ?.getApiGateway()
-          .getMicroPoolsByProvider(stkrSdk.getKeyProvider().currentAccount());
-      })(),
-    },
-    meta: {
-      getData: (data: MicroPoolReply[]): IMicropool[] => {
-        return data.map(mapMicropool);
-      },
     },
   }),
   fetchCurrentProviderSidecars: () => ({
@@ -165,35 +127,9 @@ export const UserActions = {
     },
     meta: {
       onRequest: authenticatedGuard,
-      onSuccess: (
-        request: { data: ISidecar[] },
-        action: RequestAction,
-        store: Store<IStoreState>,
-      ) => {
-        request.data.forEach(item => {
-          store.dispatch(UserActions.fetchSidecarStatus(item.id));
-        });
-        return request;
-      },
       getData: (data: SidecarReply[]): ISidecar[] => {
         return data.map(mapSidecar);
       },
-    },
-  }),
-  fetchSidecarStatus: (id: string) => ({
-    type: UserActionTypes.FETCH_SIDECAR_STATUS,
-    request: {
-      promise: async function () {
-        const stkrSdk = StkrSdk.getLastInstance();
-        return await stkrSdk.getSidecarStatus(id);
-      },
-    },
-    meta: {
-      onRequest: authenticatedGuard,
-      getData: (data: SidecarStatusReply): ISidecarStatus => {
-        return mapNodeStatus(data);
-      },
-      requestKey: id,
     },
   }),
   createSidecar: () => ({
@@ -210,29 +146,9 @@ export const UserActions = {
       mutations: {
         [UserActionTypes.FETCH_CURRENT_PROVIDER_SIDECARS]: (
           data: ISidecar[],
-          item: { sidecar: SidecarReply },
+          sidecar: SidecarReply,
         ) => {
-          return [...data, mapSidecar(item.sidecar)] as ISidecar[];
-        },
-      },
-    },
-  }),
-  createMicropool: ({ name }: { name: string }) => ({
-    type: UserActionTypes.CREATE_MICROPOOL,
-    request: {
-      promise: (async function () {
-        console.log(name);
-        alert('Not possible anymore');
-      })(),
-    },
-    meta: {
-      asMutation: true,
-      mutations: {
-        [UserActionTypes.FETCH_CURRENT_PROVIDER_MICROPOOLS]: (
-          data: ISidecar[],
-          item: MicroPoolReply,
-        ) => {
-          return [...data, mapMicropool(item)];
+          return [...data, mapSidecar(sidecar)] as ISidecar[];
         },
       },
     },

@@ -103,11 +103,6 @@ export function Routes() {
         component={CreateBeaconChainContainer}
         exact={true}
       />
-      <Route
-        path={PROVIDER_CREATE_MICROPOOL_PATH}
-        component={CreateMicropoolContainer}
-        exact={true}
-      />
       <Route path={PICKER_PATH} component={PickerContainer} />
       <Route
         path={STAKER_DASHBOAR_PATH}
