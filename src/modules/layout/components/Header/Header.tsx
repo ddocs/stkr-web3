@@ -10,7 +10,6 @@ import { UnauthorizedHeader } from './UnauthorizedHeader';
 import { QueryError } from '../../../../components/QueryError/QueryError';
 import { QueryLoading } from '../../../../components/QueryLoading/QueryLoading';
 import { QueryEmpty } from '../../../../components/QueryEmpty/QueryEmpty';
-import { useLocation } from 'react-router';
 
 interface IHeaderProps {
   isAuth: boolean;
@@ -18,9 +17,7 @@ interface IHeaderProps {
 }
 
 const HeaderImp = ({ isAuth, className }: IHeaderProps) => {
-  const location = useLocation();
-  const isLanding = location.pathname === '/';
-  return !isLanding && isAuth ? (
+  return isAuth ? (
     <Query<IUserInfo | null>
       type={UserActionTypes.FETCH_ACCOUNT_DATA}
       errorComponent={QueryError}

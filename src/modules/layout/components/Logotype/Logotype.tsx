@@ -5,7 +5,34 @@ import { NavLink } from '../../../../UiKit/NavLink';
 import { LogoIcon } from '../../../../UiKit/Icons/LogoIcon';
 import { Body2 } from '../../../../UiKit/Typography';
 import { t } from '../../../../common/utils/intl';
-import { ANKR_PATH, INDEX_PATH } from '../../../../common/const';
+import {
+  ANKR_PATH,
+  INDEX_PATH,
+  PICKER_PATH,
+  PROVIDER_PATH,
+  STAKER_PATH,
+} from '../../../../common/const';
+import { useRouteMatch } from 'react-router';
+
+const useLogoHref = () => {
+  const isStaker = useRouteMatch({ path: STAKER_PATH });
+  const isProvider = useRouteMatch({ path: PROVIDER_PATH });
+  const isPicker = useRouteMatch({ path: PICKER_PATH });
+
+  if (isStaker) {
+    return STAKER_PATH;
+  }
+
+  if (isProvider) {
+    return PROVIDER_PATH;
+  }
+
+  if (isPicker) {
+    return PICKER_PATH;
+  }
+
+  return INDEX_PATH;
+};
 
 export interface ILogotypeProps {
   className?: string;
@@ -26,6 +53,7 @@ const Ankr = (props: SVGAttributes<SVGElement>) => {
 
 export const Logotype = ({ className }: ILogotypeProps) => {
   const classes = useLogotypeStyles();
+  const href = useLogoHref();
 
   return (
     <Body2
@@ -36,12 +64,15 @@ export const Logotype = ({ className }: ILogotypeProps) => {
       <NavLink
         className={classes.link}
         activeClassName={classes.active}
-        href={INDEX_PATH}
         color="primary"
+        href={href}
       >
         <LogoIcon />
       </NavLink>
-      <NavLink href={ANKR_PATH} classes={{ label: classes.poweredCaption, root: classes.poweredRoot }}>
+      <NavLink
+        href={ANKR_PATH}
+        classes={{ label: classes.poweredCaption, root: classes.poweredRoot }}
+      >
         {t('by-ankr')}
         <Ankr />
       </NavLink>
