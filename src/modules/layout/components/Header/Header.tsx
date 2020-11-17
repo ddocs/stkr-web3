@@ -32,9 +32,9 @@ const HeaderImp = ({ isAuth, className }: IHeaderProps) => {
             walletAddress={data?.address}
             walletType={data?.walletType}
             ethereumBalance={
-              data?.ethereumBalance ? +data.ethereumBalance.toFormat() : 0
+              data?.ethereumBalance ? data.ethereumBalance.toNumber() : 0
             }
-            ankrBalance={data?.ankrBalance ? +data.ankrBalance.toFormat() : 0}
+            ankrBalance={data?.ankrBalance ? data.ankrBalance.toNumber() : 0}
           />
         );
       }}

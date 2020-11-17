@@ -6,6 +6,9 @@ import { FocusOn } from 'react-focus-on';
 import { Providers } from '../../../../common/types';
 import { Dropdown } from '../Dropdown';
 import { fixedNumber } from '../../../../common/utils/fixedNumber';
+import BigNumber from 'bignumber.js';
+
+const FIXED = 4;
 
 interface IWalletProps {
   className?: string;
@@ -44,9 +47,11 @@ export const Wallet = ({
     <div className={classNames(classes.component, className)}>
       <button className={classes.toggle} onClick={handleOpen} ref={controlRef}>
         <span className={classes.ethereum}>
-          {fixedNumber(ethereumBalance, 4)}
+          {new BigNumber(fixedNumber(ethereumBalance, FIXED)).toFormat()}
         </span>
-        <span className={classes.ankr}>{fixedNumber(ankrBalance, 4)}</span>
+        <span className={classes.ankr}>
+          {new BigNumber(fixedNumber(ankrBalance, FIXED)).toFormat()}
+        </span>
         {address && provider && (
           <Address
             className={classes.address}
