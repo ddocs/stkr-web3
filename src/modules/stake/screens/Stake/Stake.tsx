@@ -30,7 +30,7 @@ import { MutationErrorHandler } from '../../../../components/MutationErrorHandle
 import { CheckboxField } from '../../../../UiKit/Checkbox/CheckboxField';
 import { Button } from '../../../../UiKit/Button';
 import { useIsXSDown } from '../../../../common/hooks/useTheme';
-import { floor } from "../../../../common/utils/floor";
+import { floor } from '../../../../common/utils/floor';
 
 const MIN_AMOUNT = 0.5;
 const MAX_AMOUNT = 32;
@@ -85,11 +85,13 @@ export const StakeComponent = ({
         ethereumBalance && ethereumBalance.isGreaterThan(MAX_AMOUNT)
           ? ethereumBalance.toNumber()
           : MAX_AMOUNT,
+        STEP,
       ),
     [ethereumBalance],
   );
 
-  const INIT_AMOUNT = ethereumBalance && floor(ethereumBalance.toNumber(), STEP);
+  const INIT_AMOUNT =
+    ethereumBalance && floor(ethereumBalance.toNumber(), STEP);
 
   const renderForm = ({
     handleSubmit,
