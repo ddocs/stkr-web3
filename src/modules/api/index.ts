@@ -6,7 +6,6 @@ import {
   BalanceReply,
   ProviderStatsReply,
   SidecarReply,
-  SidecarStatusReply,
   StakerStats,
   UserStakeReply,
 } from './gateway';
@@ -51,7 +50,7 @@ export class StkrSdk {
     /* download config from server only if its not provided yet */
     if (!this.stkrConfig.providerConfig || !this.stkrConfig.contractConfig) {
       const config = await this.apiGateway.downloadConfigFile(
-        this.stkrConfig.configFile,
+        this.stkrConfig.configUrl,
       );
       console.log(
         `downloaded config from server: ${JSON.stringify(config, null, 2)}`,
@@ -103,8 +102,12 @@ export class StkrSdk {
     return { token };
   }
 
-  public createSidecarDownloadLink(sidecar: string, platform: string): string {
-    return this.apiGateway.createSidecarDownloadLink(sidecar, platform);
+  public downloadSidecar(sidecar: string, platform: string) {
+    const downloadLink = this.apiGateway.createSidecarDownloadLink(
+      sidecar,
+      platform,
+    );
+    window.open(downloadLink);
   }
 
   public async createSidecar(): Promise<SidecarReply> {
@@ -113,12 +116,6 @@ export class StkrSdk {
 
   public async getProviderSidecars(): Promise<SidecarReply[]> {
     return this.apiGateway.getProviderSidecars();
-  }
-
-  public async getSidecarStatus(
-    sidecarId: string,
-  ): Promise<SidecarStatusReply> {
-    return this.apiGateway.getSidecarStatus(sidecarId);
   }
 
   public async isAuthorized(token?: string): Promise<boolean> {
@@ -292,10 +289,12 @@ export class StkrSdk {
       ),
     ].sort((a, b) => a.timestamp - b.timestamp);
     const totalStakedAmount = stakes.reduce((result, stake) => {
-        if (stake.action === 'STAKE_ACTION_UNSTAKE') {
+        if (stake.action === 'STAKE_ACTION_PENDING') {
+          return result.plus(stake.amount);
+        } else if (stake.action === 'STAKE_ACTION_UNSTAKE') {
           return result.plus(stake.amount.negated());
         }
-        return result.plus(stake.amount);
+        return result;
       }, new BigNumber(0)),
       totalRewards = totalStakedAmount.multipliedBy(YEAR_INTEREST);
     console.log(`total staked amount is ${totalStakedAmount.toString(10)}`);
