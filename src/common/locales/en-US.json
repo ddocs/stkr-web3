@@ -303,7 +303,7 @@
     "redeem": "Redeem",
     "locked": "Any staked amounts will be locked for the duration of the ETH 2.0 contract. You will, however, receive aETH equivalent to your stake that you will be able to trade in the meantime, against your staked amount. Until aETH is made available, however, your funds will be locked and not redeemable.",
     "statuses": {
-      "STAKE_ACTION_PENDING": "Pending",
+      "STAKE_ACTION_PENDING": "Created",
       "STAKE_ACTION_CONFIRMED": "Confirmed",
       "STAKE_ACTION_UNSTAKE": "Removed"
     },
