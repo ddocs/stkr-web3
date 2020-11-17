@@ -2,7 +2,7 @@ import React from 'react';
 import { ProviderDashboardComponent } from './ProviderDashboard';
 
 const ProviderDashboardStory = () => {
-  return <ProviderDashboardComponent micropools={[]} nodes={[]} />;
+  return <ProviderDashboardComponent sidecars={[]} />;
 };
 
 export const ProviderDashboardExample = () => <ProviderDashboardStory />;

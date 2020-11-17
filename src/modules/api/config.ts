@@ -5,7 +5,7 @@ export interface IStkrConfig {
   providerConfig?: ProviderConfig;
   contractConfig?: ContractConfig;
   baseUrl: string;
-  configFile: string;
+  configUrl: string;
 }
 
 export const LOCAL_CONFIG: IStkrConfig = {
@@ -20,20 +20,20 @@ export const LOCAL_CONFIG: IStkrConfig = {
     stakingContract: '0xe48cDc6146722C045566c6B614263e22D9bF1b50',
     systemContract: '0x9C3bAd0a6755d07C9784adD9c42F58c6256a01A6',
   },
-  baseUrl: 'http://localhost:8080',
-  configFile: 'develop.json',
+  baseUrl: 'http://localhost:8080/',
+  configUrl: 'https://cdn.stkr.io/contracts/test/addresses.json',
 };
 
 export const DEVELOP_CONFIG: IStkrConfig = {
   ...LOCAL_CONFIG,
   baseUrl: 'https://api.stkr-dev.ankr.com/',
-  configFile: 'develop.json',
+  configUrl: 'https://cdn.stkr.io/contracts/test/addresses.json',
 };
 
 export const GOERLI_CONFIG: IStkrConfig = {
   ...LOCAL_CONFIG,
   baseUrl: 'https://api.stkr-goerli.ankr.com/',
-  configFile: 'goerli.json',
+  configUrl: 'https://assets.stkr.io/contracts/test/addresses.json',
 };
 
 export const MAINNET_CONFIG: IStkrConfig = {
@@ -49,5 +49,5 @@ export const MAINNET_CONFIG: IStkrConfig = {
     systemContract: '0x3bFce37B5401BEF13C78830D3A9FB14294d18c4F',
   },
   baseUrl: 'https://api.stkr.ankr.com/',
-  configFile: 'mainnet.json',
+  configUrl: 'https://cdn.stkr.io/contracts/mainnet/addresses.json',
 };

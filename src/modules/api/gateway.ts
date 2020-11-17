@@ -45,11 +45,27 @@ export interface MicroPoolReply {
   validator: string;
 }
 
-export interface SidecarStatusReply {
-  machine: {
-    hostId: string;
-    platform: 'SIDECAR_PLATFORM_DARWIN';
-    arch: 'SIDECAR_ARCH_AMD64';
+export type SidecarStatus =
+  | 'SIDECAR_STATUS_UNKNOWN'
+  | 'SIDECAR_STATUS_SYNCING'
+  | 'SIDECAR_STATUS_ACTIVE'
+  | 'SIDECAR_STATUS_DISABLED'
+  | 'SIDECAR_STATUS_BLOCKED';
+
+export interface SidecarReply {
+  id: string;
+  provider: string;
+  status: SidecarStatus;
+  machine?: {
+    host: string;
+    platform:
+      | 'MACHINE_PLATFORM_UNKNOWN'
+      | 'MACHINE_PLATFORM_WINDOWS_X86'
+      | 'MACHINE_PLATFORM_WINDOWS_AMD64'
+      | 'MACHINE_PLATFORM_LINUX_X86'
+      | 'MACHINE_PLATFORM_LINUX_AMD64'
+      | 'MACHINE_PLATFORM_DARWIN_X86'
+      | 'MACHINE_PLATFORM_DARWIN_AMD64';
     machineUptime: Seconds;
     currentTime: Seconds;
     totalMemory: Megabytes;
@@ -60,9 +76,8 @@ export interface SidecarStatusReply {
     cpuModel: string;
     cpuUsage: Percentage[];
     cpuSpeed: number;
-    hostPlatform: '';
   };
-  beaconChain: {
+  beaconChain?: {
     currentSlot: number;
     latestSlot: number;
     currentEpoch: number;
@@ -70,31 +85,7 @@ export interface SidecarStatusReply {
     peerCount: number;
     syncing: boolean;
   };
-}
-
-export type ProviderStatus =
-  | 'PROVIDER_STATUS_ACTIVE'
-  | 'PROVIDER_STATUS_BANNED';
-
-export interface ProviderReply {
-  id: string;
-  status: ProviderStatus;
   created: number;
-  banned?: number;
-}
-
-export type SidecarStatus =
-  | 'VALIDATOR_STATUS_FREE'
-  | 'VALIDATOR_STATUS_RESERVED';
-
-export interface SidecarReply {
-  id: string;
-  provider: string;
-  status: SidecarStatus;
-  isOnline: boolean;
-  created: number;
-  registered: number;
-  activated: number;
 }
 
 export interface ProviderStatsReply {
@@ -207,7 +198,7 @@ export class ApiGateway {
     if (currentAddress.toLowerCase() !== address.toLowerCase()) {
       return false;
     }
-    return currentTime < expires;
+    return currentTime <= expires;
   }
 
   public parseToken(): {
@@ -274,64 +265,6 @@ export class ApiGateway {
     return data;
   }
 
-  public async getMicroPools(
-    page: number = 0,
-    size: number = 100,
-  ): Promise<MicroPoolReply[]> {
-    const { status, data, statusText } = await this.api.get<MicroPoolReply[]>(
-      `/v1alpha/micropool/`,
-      {
-        params: { page, size },
-      },
-    );
-    if (status !== 200)
-      throw new Error(`Unable to fetch micro pools: ${statusText}`);
-    return data;
-  }
-
-  public async createPendingMicroPool(
-    rawTransaction: string,
-  ): Promise<MicroPoolReply> {
-    const { data } = await this.api.post<MicroPoolReply>(
-      `/v1alpha/micropool/pending`,
-      {
-        rawTransaction: rawTransaction,
-      },
-    );
-    return data;
-  }
-
-  public async getMicroPoolsByProvider(
-    provider: string,
-    page: number = 0,
-    size: number = 100,
-  ): Promise<MicroPoolReply[]> {
-    const { status, data, statusText } = await this.api.get<MicroPoolReply[]>(
-      `/v1alpha/micropool/${provider}/`,
-      {
-        params: { page, size },
-      },
-    );
-    if (status !== 200)
-      throw new Error(`Unable to fetch micro pools: ${statusText}`);
-    return data;
-  }
-
-  public async getProviders(
-    page: number = 0,
-    size: number = 100,
-  ): Promise<ProviderReply[]> {
-    const { status, data, statusText } = await this.api.get<ProviderReply[]>(
-      `/v1alpha/provider/`,
-      {
-        params: { page, size },
-      },
-    );
-    if (status !== 200)
-      throw new Error(`Unable to fetch providers: ${statusText}`);
-    return data;
-  }
-
   public async getProviderStats(): Promise<ProviderStatsReply> {
     const { status, data } = await this.api.get<ProviderStatsReply>(
       `/v1alpha/stats`,
@@ -351,16 +284,6 @@ export class ApiGateway {
     const { data } = await this.api.get<UserStatisticsReply>(
       `/v1alpha/staker/stats/${user}`,
     );
-    return data;
-  }
-
-  public async getSidecarStatus(
-    sidecarId: string,
-  ): Promise<SidecarStatusReply> {
-    const { data } = await this.api.get<SidecarStatusReply>(
-      `/v1alpha/sidecar/${sidecarId}/status`,
-    );
-
     return data;
   }
 }
