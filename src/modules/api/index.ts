@@ -289,10 +289,12 @@ export class StkrSdk {
       ),
     ].sort((a, b) => a.timestamp - b.timestamp);
     const totalStakedAmount = stakes.reduce((result, stake) => {
-        if (stake.action === 'STAKE_ACTION_UNSTAKE') {
+        if (stake.action === 'STAKE_ACTION_PENDING') {
+          return result.plus(stake.amount);
+        } else if (stake.action === 'STAKE_ACTION_UNSTAKE') {
           return result.plus(stake.amount.negated());
         }
-        return result.plus(stake.amount);
+        return result;
       }, new BigNumber(0)),
       totalRewards = totalStakedAmount.multipliedBy(YEAR_INTEREST);
     console.log(`total staked amount is ${totalStakedAmount.toString(10)}`);
