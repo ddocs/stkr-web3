@@ -2,11 +2,7 @@ import * as React from 'react';
 import { useCallback, useEffect } from 'react';
 import { useProviderDashboardStyles } from './ProviderDashboardStyles';
 import { NodeList } from '../../components/NodeList';
-import {
-  PROVIDER_TOP_UP_PATH,
-  PROVIDER_CREATE_NODE_PATH,
-  PROVIDER_NODES_PATH,
-} from '../../../../common/const';
+import { PROVIDER_CREATE_NODE_PATH, PROVIDER_NODES_PATH, PROVIDER_TOP_UP_PATH, } from '../../../../common/const';
 import { ProviderTabs } from '../../components/ProviderTabs';
 import { t, tHTML } from '../../../../common/utils/intl';
 import { Curtains } from '../../../../UiKit/Curtains';
@@ -23,8 +19,8 @@ import { useDispatch } from 'react-redux';
 import { useInterval } from '../../../../common/utils/useInterval';
 import { Milliseconds } from '../../../../common/types';
 import { useAuthentication } from '../../../../common/utils/useAuthentications';
-import { CreateNode } from '../CreateNode';
 import { TopUpImp } from '../TopUp';
+import { alwaysFalse } from '../../../../common/utils/alwaysFalse';
 
 const SHORT_UPDATE_INTERVAL: Milliseconds = 30_000;
 const LONG_UPDATE_INTERVAL: Milliseconds = 60_000;
@@ -139,8 +135,8 @@ export const ProviderDashboard = () => {
       type={UserActionTypes.FETCH_CURRENT_PROVIDER_SIDECARS}
       errorComponent={QueryError}
       loadingComponent={QueryLoadingCentered}
-      noDataMessage={<CreateNode />}
       showLoaderDuringRefetch={false}
+      isDataEmpty={alwaysFalse}
     >
       {({ data: sidecars }) => {
         return <ProviderDashboardComponent sidecars={sidecars} />;
