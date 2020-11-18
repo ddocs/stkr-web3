@@ -2,13 +2,20 @@ import * as React from 'react';
 import { useCallback, useEffect } from 'react';
 import { useProviderDashboardStyles } from './ProviderDashboardStyles';
 import { NodeList } from '../../components/NodeList';
-import { PROVIDER_CREATE_NODE_PATH, PROVIDER_NODES_PATH, PROVIDER_TOP_UP_PATH, } from '../../../../common/const';
+import {
+  PROVIDER_CREATE_NODE_PATH,
+  PROVIDER_NODES_PATH,
+  PROVIDER_TOP_UP_PATH,
+} from '../../../../common/const';
 import { ProviderTabs } from '../../components/ProviderTabs';
 import { t, tHTML } from '../../../../common/utils/intl';
 import { Curtains } from '../../../../UiKit/Curtains';
 import { Info } from '../../../../components/Info';
 import { NavLink } from '../../../../UiKit/NavLink';
-import { UserActions, UserActionTypes, } from '../../../../store/actions/UserActions';
+import {
+  UserActions,
+  UserActionTypes,
+} from '../../../../store/actions/UserActions';
 import { Query } from '@redux-requests/react';
 import { QueryLoadingCentered } from '../../../../components/QueryLoading/QueryLoading';
 import { QueryError } from '../../../../components/QueryError/QueryError';
@@ -51,6 +58,7 @@ export const ProviderDashboardComponent = ({
   );
 
   const hasNodes = sidecars && sidecars.length > 0;
+  console.log('hasNodes will be used soon', hasNodes);
 
   return (
     <section className={classes.component}>
@@ -90,7 +98,8 @@ export const ProviderDashboardComponent = ({
             className={classes.create}
             href={PROVIDER_CREATE_NODE_PATH}
             variant="outlined"
-            disabled={hasCreatedNodeStatus || !hasNodes}
+            // TODO is enough balance
+            disabled={hasCreatedNodeStatus}
             color="primary"
           >
             {t('navigation.create')}
