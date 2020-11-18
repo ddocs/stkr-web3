@@ -3,18 +3,16 @@ import { useCallback, useEffect } from 'react';
 import { useProviderDashboardStyles } from './ProviderDashboardStyles';
 import { NodeList } from '../../components/NodeList';
 import {
+  PROVIDER_CREATE_MICROPOOL_PATH,
   PROVIDER_CREATE_NODE_PATH,
-  PROVIDER_PATH,
+  PROVIDER_NODES_PATH,
 } from '../../../../common/const';
 import { ProviderTabs } from '../../components/ProviderTabs';
 import { t, tHTML } from '../../../../common/utils/intl';
 import { Curtains } from '../../../../UiKit/Curtains';
 import { Info } from '../../../../components/Info';
 import { NavLink } from '../../../../UiKit/NavLink';
-import {
-  UserActions,
-  UserActionTypes,
-} from '../../../../store/actions/UserActions';
+import { UserActions, UserActionTypes, } from '../../../../store/actions/UserActions';
 import { Query } from '@redux-requests/react';
 import { QueryLoadingCentered } from '../../../../components/QueryLoading/QueryLoading';
 import { QueryError } from '../../../../components/QueryError/QueryError';
@@ -26,6 +24,7 @@ import { useInterval } from '../../../../common/utils/useInterval';
 import { Milliseconds } from '../../../../common/types';
 import { useAuthentication } from '../../../../common/utils/useAuthentications';
 import { CreateNode } from '../CreateNode';
+import { TopUpImp } from '../TopUp';
 
 const SHORT_UPDATE_INTERVAL: Milliseconds = 30_000;
 const LONG_UPDATE_INTERVAL: Milliseconds = 60_000;
@@ -46,6 +45,10 @@ export const ProviderDashboardComponent = ({
       sidecars ? <NodeList className={classes.table} data={sidecars} /> : null,
     [classes.table, sidecars],
   );
+
+  const renderTopUp = useCallback(() => {
+    return <TopUpImp />;
+  }, []);
 
   const hasCreatedNodeStatus = sidecars?.some(
     item => item.status === 'SIDECAR_STATUS_UNKNOWN',
@@ -97,7 +100,16 @@ export const ProviderDashboardComponent = ({
             {t('navigation.create')}
           </NavLink>
         </div>
-        <Route path={[PROVIDER_PATH]} render={renderNodeList} exact={true} />
+        <Route
+          path={[PROVIDER_CREATE_MICROPOOL_PATH]}
+          render={renderTopUp}
+          exact={true}
+        />
+        <Route
+          path={[PROVIDER_NODES_PATH]}
+          render={renderNodeList}
+          exact={true}
+        />
       </Curtains>
     </section>
   );

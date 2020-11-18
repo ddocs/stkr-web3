@@ -3,7 +3,10 @@ import { useProviderTabsStyles } from './ProviderTabsStyles';
 import classNames from 'classnames';
 import { t } from '../../../../common/utils/intl';
 import { NavLink, useRouteMatch } from 'react-router-dom';
-import { PROVIDER_NODES_PATH } from '../../../../common/const';
+import {
+  PROVIDER_CREATE_MICROPOOL_PATH,
+  PROVIDER_NODES_PATH,
+} from '../../../../common/const';
 import { useLocaleMemo } from '../../../../common/hooks/useLocaleMemo';
 
 interface IItemProps {
@@ -36,6 +39,10 @@ export const ProviderTabs = ({ className }: IProviderTabsProps) => {
 
   const TABS = useLocaleMemo(
     () => [
+      {
+        label: t('navigation.top-up'),
+        link: PROVIDER_CREATE_MICROPOOL_PATH,
+      },
       {
         label: t('navigation.beacon-list'),
         link: PROVIDER_NODES_PATH,

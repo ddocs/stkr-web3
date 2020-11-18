@@ -1,7 +1,7 @@
 import { fade, Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-export const useCreateMicropoolStyles = makeStyles<Theme>(theme => {
+export const useTopUpStyles = makeStyles<Theme>(theme => {
   const item = {
     display: 'grid',
     gridTemplateColumns: '1fr minmax(0, 337px)',
@@ -59,6 +59,9 @@ export const useCreateMicropoolStyles = makeStyles<Theme>(theme => {
     depositItem: {
       ...item,
       gridTemplateColumns: '1fr minmax(0, 526px)',
+      '&:first-child': {
+        paddingTop: theme.spacing(11),
+      },
     },
     count: {
       gridColumn: '-1/1',
@@ -80,7 +83,7 @@ export const useCreateMicropoolStyles = makeStyles<Theme>(theme => {
     },
     deposit: {
       display: 'grid',
-      gridTemplateColumns: '1fr 1fr',
+      gridTemplateColumns: '1fr',
       gridGap: theme.spacing(2),
     },
     depositButton: {
@@ -108,6 +111,15 @@ export const useCreateMicropoolStyles = makeStyles<Theme>(theme => {
     },
     ethValue: {
       marginBottom: theme.spacing(2.5),
+    },
+    allowance: {
+    },
+    allowanceDoneTitle: {
+      display: 'flex',
+      alignItems: 'center',
+    },
+    allowanceDoneIcon: {
+      marginRight: theme.spacing(1),
     },
   };
 });

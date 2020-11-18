@@ -312,4 +312,12 @@ export class StkrSdk {
   public async claimAeth() {
     return await this.getContractManager().claim();
   }
+
+  public async topUpETH(amount: BigNumber) {
+    return await this.getContractManager().topUpETH(amount);
+  }
+
+  public async topUpANKR(amount: BigNumber) {
+    return await this.getContractManager().topUpANKR(amount);
+  }
 }

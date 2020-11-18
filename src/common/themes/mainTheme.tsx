@@ -64,46 +64,35 @@ const mainTheme = createMuiTheme({
     fontFamily: DEFAULT_FONT,
     color: PALETTE.text.primary,
   },
-
   palette: PALETTE as PaletteOptions,
-
   breakpoints: BREAKPOINTS,
-
   props: {
     MuiSnackbar: {
       autoHideDuration: NOTIFICATION_AUTO_HIDE_DURATION,
     },
-
     MuiAlert: {
       icon: false,
     },
-
     MuiTextField: {},
-
     MuiUseMediaQuery: {
       noSsr: true,
     },
-
     MuiButton: {
       disableRipple: true,
       variant: 'contained',
       size: 'medium',
     },
-
     MuiPaper: {
       elevation: 0,
       square: true,
     },
-
     MuiSlider: {
       color: 'primary',
     },
-
     MuiIconButton: {
       disableRipple: true,
     },
   },
-
   overrides: {
     MuiSnackbar: {
       root: {
@@ -169,7 +158,6 @@ const mainTheme = createMuiTheme({
         },
       },
     },
-
     MuiPaper: {
       root: {
         color: PALETTE.text.primary,
@@ -178,60 +166,48 @@ const mainTheme = createMuiTheme({
         overflow: 'initial',
       },
     },
-
     MuiSlider: {
       rail: {
         backgroundColor: '#555555',
       },
-
       track: {},
-
       thumb: {
         width: 20,
         height: 20,
-
         marginTop: -9,
         marginLeft: -10,
       },
     },
-
     MuiButton: {
       root: {
         height: 36,
         padding: defaultTheme.spacing(1, 2),
         boxSizing: 'border-box',
-
         fontFamily: DEFAULT_FONT,
         fontSize: 14,
         lineHeight: 1.2,
         fontWeight: 500,
-
         textDecoration: 'none',
         textTransform: 'initial',
-
         borderRadius: 2,
       },
-
       sizeSmall: {
         height: 28,
         padding: defaultTheme.spacing(1, 2),
 
         fontSize: 14,
       },
-
       sizeLarge: {
         height: 48,
         padding: defaultTheme.spacing(1, 2),
         fontSize: 16,
       },
-
       textSizeLarge: {
         '&&': {
           height: 'auto',
           padding: 0,
         },
       },
-
       textSizeSmall: {
         '&&': {
           height: 'auto',
@@ -240,108 +216,81 @@ const mainTheme = createMuiTheme({
           fontSize: 12,
         },
       },
-
       contained: {
         color: PALETTE.primary.contrastText,
         backgroundColor: PALETTE.text.primary,
-
         transitionDuration: '300ms',
         transitionProperty: 'color, background-color',
         transitionTimingFunction: 'linear',
-
         '&:hover, &:focus, &:active': {
           transform: 'scale(1.05)',
           backgroundColor: PALETTE.text.secondary,
         },
-
         '&$disabled': {},
       },
-
       containedPrimary: {
         color: PALETTE.primary.contrastText,
         backgroundColor: PALETTE.primary.main,
-
         transitionDuration: '300ms',
         transitionProperty: 'color, background-color, transform',
         transitionTimingFunction: 'linear',
-
         '&:hover, &:focus, &:active': {
           transform: 'scale(1.05)',
           backgroundColor: PALETTE.primary.dark,
         },
-
         '&$disabled': {},
       },
-
       containedSecondary: {
         color: PALETTE.primary.contrastText,
         backgroundColor: PALETTE.text.secondary,
-
         transitionDuration: '300ms',
         transitionProperty: 'color, background-color',
         transitionTimingFunction: 'linear',
-
         '&:hover, &:focus, &:active': {
           backgroundColor: PALETTE.text.primary,
         },
-
         '&$disabled': {},
       },
-
       outlined: {
         color: PALETTE.text.primary,
         border: `1px solid ${PALETTE.text.primary}`,
-
         backgroundColor: 'transparent',
-
         transitionDuration: '300ms',
         transitionProperty: 'color, border-color, background-color',
         transitionTimingFunction: 'linear',
-
         '&:hover, &:focus, &:active': {
           color: PALETTE.primary.contrastText,
 
           backgroundColor: PALETTE.text.primary,
         },
-
         '&$disabled': {},
       },
-
       outlinedPrimary: {
         color: PALETTE.primary.main,
         border: `1px solid ${PALETTE.primary.main}`,
-
         backgroundColor: 'transparent',
-
         transitionDuration: '300ms',
         transitionProperty: 'color, border-color, background-color',
         transitionTimingFunction: 'linear',
-
         '&:hover, &:focus, &:active': {
           color: PALETTE.primary.contrastText,
 
           backgroundColor: PALETTE.primary.main,
         },
-
         '&$disabled': {},
       },
-
       outlinedSecondary: {
         color: PALETTE.text.secondary,
         border: `1px solid ${PALETTE.text.secondary}`,
-
         backgroundColor: 'transparent',
-
         transitionDuration: '300ms',
         transitionProperty: 'color, border-color, background-color',
         transitionTimingFunction: 'linear',
-
         '&:hover, &:focus, &:active': {
           color: PALETTE.primary.contrastText,
-
           backgroundColor: PALETTE.text.secondary,
+          border: `1px solid ${PALETTE.grey['900']}`,
         },
-
         '&$disabled': {},
       },
 
@@ -349,63 +298,45 @@ const mainTheme = createMuiTheme({
         height: 'auto',
         padding: 0,
         minWidth: 0,
-
         color: PALETTE.text.primary,
         fontWeight: 400,
         whiteSpace: 'nowrap',
-
         backgroundColor: 'transparent',
-
         transitionDuration: '300ms',
         transitionProperty: 'color',
         transitionTimingFunction: 'linear',
-
         '&:hover, &:focus, &:active': {
           color: PALETTE.text.secondary,
-
           backgroundColor: 'transparent',
         },
-
         '&$disabled': {},
       },
-
       textPrimary: {
         color: PALETTE.primary.main,
-
         backgroundColor: 'transparent',
-
         transitionDuration: '300ms',
         transitionProperty: 'color',
         transitionTimingFunction: 'linear',
-
         '&:hover, &:focus, &:active': {
           color: PALETTE.primary.dark,
 
           backgroundColor: 'transparent',
         },
-
         '&$disabled': {},
       },
-
       textSecondary: {
         color: PALETTE.text.secondary,
-
         backgroundColor: 'transparent',
-
         transitionDuration: '300ms',
         transitionProperty: 'color',
         transitionTimingFunction: 'linear',
-
         '&:hover, &:focus, &:active': {
           color: PALETTE.text.primary,
-
           backgroundColor: 'transparent',
         },
-
         '&$disabled': {},
       },
     },
-
     MuiTypography: {
       h1: {
         fontSize: 48,

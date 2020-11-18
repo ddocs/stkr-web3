@@ -7,6 +7,7 @@ import { withDefaultLayout } from './modules/layout';
 import {
   INDEX_PATH,
   PICKER_PATH,
+  PROVIDER_CREATE_MICROPOOL_PATH,
   PROVIDER_CREATE_NODE_PATH,
   PROVIDER_NODES_PATH,
   PROVIDER_PATH,
@@ -81,7 +82,7 @@ export function Routes() {
         component={LoadableOverviewContainer}
       />
       <Route
-        path={[PROVIDER_PATH, PROVIDER_NODES_PATH]}
+        path={[PROVIDER_PATH, PROVIDER_CREATE_MICROPOOL_PATH, PROVIDER_NODES_PATH]}
         component={ProviderContainer}
         exact={true}
       />

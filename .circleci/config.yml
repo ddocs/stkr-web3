@@ -59,11 +59,12 @@ workflows:
   stkr_web3:
     jobs:
       # develop
+      - approve-develop:
+          type: approval
       - build-develop:
           context: stkr_build_develop
-          filters:
-            branches:
-              only: [ develop ]
+          requires:
+            - approve-develop
       - upload-develop:
           context:
             - cicd
@@ -71,11 +72,12 @@ workflows:
           requires:
             - build-develop
       # goerli
+      - approve-goerli:
+          type: approval
       - build-goerli:
           context: stkr_build_goerli
-          filters:
-            branches:
-              only: [ goerli ]
+          requires:
+            - approve-goerli
       - upload-goerli:
           context:
             - cicd
@@ -83,11 +85,15 @@ workflows:
           requires:
             - build-goerli
       # prod
-      - build-prod:
-          context: stkr_build_prod
+      - approve-prod:
+          type: approval
           filters:
             branches:
               only: [ master ]
+      - build-prod:
+          context: stkr_build_prod
+          requires:
+            - approve-prod
       - upload-prod:
           context:
             - cicd

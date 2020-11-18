@@ -25,6 +25,7 @@
     "push-manually": "Push Manually",
     "download": "Download",
     "micropool-list": "My micropool list",
+    "top-up": "Top up",
     "beacon-list": "Beacon chain list",
     "select-wallet-provider": "Select a wallet provider",
     "connect": "Connect",
@@ -188,7 +189,7 @@
         "note": "The process might take a while"
       },
       "stage-7": {
-        "generation": "Micropool is being generated",
+        "generation": "Transaction is processing...",
         "note": "The process might take a while"
       }
     },
@@ -231,6 +232,7 @@
   "units": {
     "$": "${value}",
     "eth": "{value} ETH",
+    "ankr": "{value} ANKR",
     "~eth": "~ {value} ETH",
     "months": "{value} mo",
     "~months": "~ {value} mo",
@@ -265,7 +267,8 @@
     "not-launched": "Not launched"
   },
   "create-micropool": {
-    "title": "Create Your Micropool",
+    "title": "Top-up your balance",
+    "submit": "Top-up",
     "form": {
       "step-1": {
         "count": "Step 1",
@@ -274,24 +277,25 @@
       },
       "step-2": {
         "count": "Step 2",
-        "caption": "Сhoose cryptocurrency",
-        "deposit-ETH": "Deposit ETH",
+        "caption": "Select a top-up method",
+        "deposit-ETH": "ETH",
         "or": "or",
-        "deposit-ANKR": "Deposit ANKR"
+        "deposit-ANKR": "ANKR"
       },
       "step-3": {
-        "caption-ANKR": "ANKR amount",
-        "text-ANKR": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-        "caption-ETH": "ETH amount",
-        "text-ETH": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+        "caption-ANKR": "Top up ANKR tokens",
+        "text-ANKR": "For top-up you need to have minimum 100,000 ANKR on your account.\nThese funds will be blocked for participation in staking.",
+        "caption-ETH": "Top up ETH tokens",
+        "text-ETH": "For top-up you need to have minimum 2 ETH on your account. These funds will be blocked for participation in staking."
       }
     }
   },
   "create-micropool-form": {
     "your-balance": "Your ANKR balance",
     "needed": "Needed amount",
-    "deposit": "Deposit {value} ANKR",
-    "buy": "Buy"
+    "allow": "Allow {value} ANKR",
+    "buy": "Buy",
+    "ankr-allowed": "{value} ANKR allowed"
   },
   "staked-dashboard": {
     "staked": "Staked amount",

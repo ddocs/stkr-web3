@@ -16,6 +16,7 @@ import { closeModalAction } from '../modals/actions';
 import { replace } from 'connected-react-router';
 import { update } from '../../common/utils/update';
 import { createAction } from 'redux-actions';
+import { DepositType } from '../../modules/provider/screens/TopUp/TopUpForm';
 
 export const UserActionTypes = {
   CONNECT: 'CONNECT',
@@ -47,6 +48,8 @@ export const UserActionTypes = {
   CLAIM_A_ETH: 'CLAIM_A_ETH',
 
   FETCH_STAKER_STATS: 'FETCH_STAKER_STATS',
+
+  TOP_UP: 'TOP_UP',
 };
 
 export const UserActions = {
@@ -171,9 +174,14 @@ export const UserActions = {
     request: {
       promise: (async function () {
         const stkrSdk = StkrSdk.getLastInstance();
+        const allowanceAmount = await stkrSdk.getAllowanceAmount();
+        const remainingAllowance = await stkrSdk.getRemainingAllowance();
+        const totalAllowance = allowanceAmount.plus(remainingAllowance);
+
         return {
-          allowanceAmount: await stkrSdk.getAllowanceAmount(),
-          remainingAllowance: await stkrSdk.getRemainingAllowance(),
+          allowanceAmount,
+          remainingAllowance,
+          totalAllowance,
         } as IAllowance;
       })(),
     },
@@ -262,6 +270,23 @@ export const UserActions = {
       promise: (async function () {
         const stkrSdk = StkrSdk.getLastInstance();
         return stkrSdk.claimAeth();
+      })(),
+    },
+    meta: {
+      asMutation: true,
+    },
+  }),
+  topUp: (amount: BigNumber, type: DepositType) => ({
+    type: UserActionTypes.TOP_UP,
+    request: {
+      promise: (async function () {
+        const stkrSdk = StkrSdk.getLastInstance();
+
+        if (type === DepositType.ETH) {
+          return stkrSdk.topUpETH(amount);
+        }
+
+        return stkrSdk.topUpANKR(amount);
       })(),
     },
     meta: {
