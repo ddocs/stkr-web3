@@ -118,44 +118,50 @@ export class MetaMaskProvider extends KeyProvider {
       chainId: Number(this.providerConfig.chainId),
     };
     console.log('Sending transaction via Web3: ', tx);
-    return new Promise<SendAsyncResult>(resolve => {
+    return new Promise<SendAsyncResult>((resolve, reject) => {
       const promise = this.getWeb3().eth.sendTransaction(tx);
-      promise.once('transactionHash', async (transactionHash: string) => {
-        console.log(`Just signed transaction has is: ${transactionHash}`);
-        const rawTx = await this.getWeb3().eth.getTransaction(transactionHash);
-        console.log(
-          `Found transaction in node: `,
-          JSON.stringify(rawTx, null, 2),
-        );
-        // @ts-ignore
-        const { v, r, s } = rawTx; /* this fields are not-documented */
-        const newTx = new Transaction(
-          {
-            gasLimit: this.getWeb3().utils.numberToHex(rawTx.gas),
-            gasPrice: this.getWeb3().utils.numberToHex(Number(rawTx.gasPrice)),
-            to: `${rawTx.to}`,
-            nonce: this.getWeb3().utils.numberToHex(rawTx.nonce),
-            data: rawTx.input,
-            v: v,
-            r: r,
-            s: s,
-            value: this.getWeb3().utils.numberToHex(rawTx.value),
-          },
-          {
-            chain: Number(this.providerConfig.chainId),
-          },
-        );
-        if (!newTx.verifySignature())
-          throw new Error(`The signature is not valid for this transaction`);
-        console.log(`New Tx: `, JSON.stringify(newTx, null, 2));
-        const rawTxHex = newTx.serialize().toString('hex');
-        console.log(`Raw transaction hex is: `, rawTxHex);
-        resolve({
-          receiptPromise: promise,
-          transactionHash: transactionHash,
-          rawTransaction: rawTxHex,
-        });
-      });
+      promise
+        .once('transactionHash', async (transactionHash: string) => {
+          console.log(`Just signed transaction has is: ${transactionHash}`);
+          const rawTx = await this.getWeb3().eth.getTransaction(
+            transactionHash,
+          );
+          console.log(
+            `Found transaction in node: `,
+            JSON.stringify(rawTx, null, 2),
+          );
+          // @ts-ignore
+          const { v, r, s } = rawTx; /* this fields are not-documented */
+          const newTx = new Transaction(
+            {
+              gasLimit: this.getWeb3().utils.numberToHex(rawTx.gas),
+              gasPrice: this.getWeb3().utils.numberToHex(
+                Number(rawTx.gasPrice),
+              ),
+              to: `${rawTx.to}`,
+              nonce: this.getWeb3().utils.numberToHex(rawTx.nonce),
+              data: rawTx.input,
+              v: v,
+              r: r,
+              s: s,
+              value: this.getWeb3().utils.numberToHex(rawTx.value),
+            },
+            {
+              chain: Number(this.providerConfig.chainId),
+            },
+          );
+          if (!newTx.verifySignature())
+            throw new Error(`The signature is not valid for this transaction`);
+          console.log(`New Tx: `, JSON.stringify(newTx, null, 2));
+          const rawTxHex = newTx.serialize().toString('hex');
+          console.log(`Raw transaction hex is: `, rawTxHex);
+          resolve({
+            receiptPromise: promise,
+            transactionHash: transactionHash,
+            rawTransaction: rawTxHex,
+          });
+        })
+        .catch(reject);
     });
   }
 
