@@ -91,7 +91,9 @@ export const StakeComponent = ({
   );
 
   const INIT_AMOUNT =
-    ethereumBalance && floor(ethereumBalance.toNumber(), STEP);
+    ethereumBalance && ethereumBalance.isGreaterThan(MIN_AMOUNT)
+      ? floor(ethereumBalance.toNumber(), STEP)
+      : MIN_AMOUNT;
 
   const renderForm = ({
     handleSubmit,
