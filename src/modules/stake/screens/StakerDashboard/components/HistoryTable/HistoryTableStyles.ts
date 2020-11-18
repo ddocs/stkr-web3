@@ -45,6 +45,10 @@ export const useHistoryTableStyles = makeStyles<Theme>(theme => ({
       color: fade(theme.palette.text.primary, 0.5),
     },
   },
+  headCellContent: {
+    display: 'flex',
+    alignItems: 'center',
+  },
   bodyCell: {
     '&&': {
       paddingTop: theme.spacing(2.5),

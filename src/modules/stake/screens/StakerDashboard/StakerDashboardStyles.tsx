@@ -87,6 +87,10 @@ export const useStakerDasboardStyles = makeStyles<Theme>(theme => ({
       marginTop: 0,
     },
   },
+  balanceHeader: {
+    alignItems: 'center',
+    display: 'flex',
+  },
   value: {
     display: 'inline-block',
     marginTop: theme.spacing(4),

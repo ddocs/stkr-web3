@@ -15,12 +15,13 @@ import { QueryEmpty } from '../../../../components/QueryEmpty/QueryEmpty';
 import { useDispatch } from 'react-redux';
 import { IStakerStats } from '../../../../store/apiMappers/stakerStatsApi';
 import { useAuthentication } from '../../../../common/utils/useAuthentications';
-import { Button, Typography } from '@material-ui/core';
+import { Button, IconButton, Tooltip, Typography } from '@material-ui/core';
 import { MutationErrorHandler } from '../../../../components/MutationErrorHandler/MutationErrorHandler';
 import { Body1 } from '../../../../UiKit/Typography';
 import { useIsXSDown } from '../../../../common/hooks/useTheme';
 import classNames from 'classnames';
 import { HistoryTable } from './components/HistoryTable';
+import { QuestionIcon } from '../../../../UiKit/Icons/QuestionIcon';
 
 const ENABLE_REDEEM = false;
 
@@ -52,13 +53,21 @@ export const StakerDashboardComponent = () => {
             <>
               <div className={classes.content}>
                 <Typography className={classes.balance} color="primary">
-                  {t('staked-dashboard.staked')}
+                  <div className={classes.balanceHeader}>
+                    {t('staked-dashboard.staked')}
+                    <Tooltip title={t('stake.staking-period-tooltip')}>
+                      <IconButton className={classes.question}>
+                        <QuestionIcon size="xs" />
+                      </IconButton>
+                    </Tooltip>
+                  </div>
+
                   {data?.staked && (
-                    <span className={classes.value}>
+                    <div className={classes.value}>
                       {tHTML('units.large-eth', {
                         value: data.staked.toFormat(),
                       })}
-                    </span>
+                    </div>
                   )}
                 </Typography>
                 <NavLink
@@ -93,7 +102,14 @@ export const StakerDashboardComponent = () => {
                   className={classes.balance}
                   color={!ENABLE_REDEEM && 'secondary'}
                 >
-                  {t('staked-dashboard.current-a-eth-balance')}
+                  <div className={classes.balanceHeader}>
+                    {t('staked-dashboard.current-a-eth-balance')}
+                    <Tooltip title={t('staked-dashboard.tip.aeth-amount')}>
+                      <IconButton className={classes.question}>
+                        <QuestionIcon size="xs" />
+                      </IconButton>
+                    </Tooltip>
+                  </div>
                   {data?.aEthBalance && (
                     <span className={classes.value}>
                       {tHTML('units.large-aeth', {

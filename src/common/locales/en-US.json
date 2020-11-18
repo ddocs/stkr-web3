@@ -321,6 +321,10 @@
       "date": "Date",
       "staked": "Staked",
       "rewards": "Reward"
+    },
+    "tip": {
+      "staked": "This is the amount you have currently committed from your wallet, into Stkr",
+      "aeth-amount": "The amount of aETH redeemable"
     }
   },
   "node-list": {
@@ -329,5 +333,12 @@
   },
   "staker-dashboard": {
     "unstake": "Unstake"
+  },
+  "staking-history-table": {
+    "tip": {
+      "status": "Status of the staking transaction",
+      "amount": "Amount of ETH to be staked in this transaction",
+      "txid": "The Ethereum transaction ID. Click to view the transaction in the Eth explorer."
+    }
   }
 }

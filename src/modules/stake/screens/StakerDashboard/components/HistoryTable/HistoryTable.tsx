@@ -14,6 +14,8 @@ import { walletConversion } from '../../../../../../common/utils/convertWallet';
 import { useLocaleMemo } from '../../../../../../common/hooks/useLocaleMemo';
 import classNames from 'classnames';
 import { AlignType } from '../../../../../../components/TableComponents/types';
+import { IconButton, Tooltip } from '@material-ui/core';
+import { QuestionIcon } from '../../../../../../UiKit/Icons/QuestionIcon';
 
 interface IHistoryTableProps {
   className?: string;
@@ -22,6 +24,7 @@ interface IHistoryTableProps {
 
 type CaptionType = {
   label: string;
+  tip?: string;
   align?: AlignType;
 };
 
@@ -32,12 +35,15 @@ export const HistoryTable = ({ className, data }: IHistoryTableProps) => {
     () => [
       {
         label: t('staked-dashboard.column.status'),
+        tip: t('staking-history-table.tip.status'),
       },
       {
         label: t('staked-dashboard.column.staked'),
+        tip: t('staking-history-table.tip.amount'),
       },
       {
         label: t('staked-dashboard.column.transaction-hash'),
+        tip: t('staking-history-table.tip.txid'),
         align: 'right',
       },
     ],
@@ -57,7 +63,19 @@ export const HistoryTable = ({ className, data }: IHistoryTableProps) => {
           {captions.map(cell => (
             <TableHeadCell
               key={cell.label}
-              label={cell.label}
+              label={
+                <>
+                  {cell.label}
+                  {cell.tip && (
+                    <Tooltip title={cell.tip}>
+                      <IconButton className={classes.question}>
+                        <QuestionIcon size="xs" />
+                      </IconButton>
+                    </Tooltip>
+                  )}
+                </>
+              }
+              classes={{ content: classes.headCellContent }}
               align={cell.align}
               className={classNames(classes.cell, classes.headCell)}
             />
