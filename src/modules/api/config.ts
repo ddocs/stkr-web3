@@ -31,6 +31,13 @@ export const DEVELOP_CONFIG: IStkrConfig = {
 
 export const GOERLI_CONFIG: IStkrConfig = {
   ...LOCAL_CONFIG,
+  contractConfig: {
+    aethContract: '0x35F50849eEe33632cD948A165C75523Fd8E6B16B',
+    microPoolContract: '0xDDEC45249efb72CbFe78f1Ad6DBf596DB6782CcD',
+    ankrContract: '0x23f438234655Bf317af71088e135104A5532F937', // old
+    stakingContract: '0xe48cDc6146722C045566c6B614263e22D9bF1b50', // old
+    systemContract: '0x19Ec552FB068D48de1A494C6655fc32bB00B2632',
+  },
   baseUrl: 'https://api.stkr-goerli.ankr.com/',
 };
 
