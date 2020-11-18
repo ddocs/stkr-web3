@@ -112,8 +112,7 @@ export const useTopUpStyles = makeStyles<Theme>(theme => {
     ethValue: {
       marginBottom: theme.spacing(2.5),
     },
-    allowance: {
-    },
+    allowance: {},
     allowanceDoneTitle: {
       display: 'flex',
       alignItems: 'center',

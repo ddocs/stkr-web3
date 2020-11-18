@@ -4,7 +4,7 @@ import { useStakerDasboardStyles } from './StakerDashboardStyles';
 import { t, tHTML } from '../../../../common/utils/intl';
 import { NavLink } from '../../../../UiKit/NavLink';
 import { STAKER_STAKE_PATH } from '../../../../common/const';
-import { Mutation, Query } from '@redux-requests/react';
+import { Mutation, Query, useQuery } from '@redux-requests/react';
 import {
   UserActions,
   UserActionTypes,
@@ -139,12 +139,13 @@ export const StakerDashboardComponent = () => {
 export const StakerDashboard = () => {
   const dispatch = useDispatch();
   const { isConnected } = useAuthentication();
+  const { pristine } = useQuery({ type: UserActionTypes.FETCH_STAKER_STATS });
 
   useEffect(() => {
-    if (isConnected) {
+    if (isConnected && pristine) {
       dispatch(UserActions.fetchStakerStats());
     }
-  }, [dispatch, isConnected]);
+  }, [dispatch, isConnected, pristine]);
 
   return <StakerDashboardComponent />;
 };

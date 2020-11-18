@@ -5,9 +5,7 @@ const TopUpProgressStory = () => {
   return <TopUpProgress />;
 };
 
-export const TopUpProgressExample = () => (
-  <TopUpProgressStory />
-);
+export const TopUpProgressExample = () => <TopUpProgressStory />;
 
 export default {
   title: 'modules/provider/component/TopUpProgressStory',

@@ -6,12 +6,11 @@ import {
 import BigNumber from 'bignumber.js';
 
 interface IStakeHistoryItem {
-  user: string;
-  microPoolName: string;
+  user?: string;
+  microPoolName?: string;
   amount: BigNumber;
   transactionHash: string;
   action: UserStakeAction;
-  date: Date;
 }
 
 export interface IStakerStats {
@@ -28,7 +27,6 @@ function mapStakeHistoryItem(data: UserStakeReply): IStakeHistoryItem {
     amount: new BigNumber(data.amount),
     transactionHash: data.transactionHash,
     action: data.action,
-    date: new Date(data.timestamp),
   };
 }
 

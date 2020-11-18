@@ -85,9 +85,7 @@ export const TopUpComponent = ({
   );
 
   const render = useCallback(
-    formProps => (
-      <TopUpForm ankrBalance={ankrBalance} {...formProps} />
-    ),
+    formProps => <TopUpForm ankrBalance={ankrBalance} {...formProps} />,
     [ankrBalance],
   );
 

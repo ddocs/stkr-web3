@@ -7,11 +7,11 @@ export const STAKER_PATH = '/staker';
 export const STAKER_DASHBOAR_PATH = STAKER_PATH;
 export const PROVIDER_PATH = '/provider';
 export const PROVIDER_NODES_PATH = `${PROVIDER_PATH}/nodes`;
-export const PROVIDER_TOP_UP_PATH = '/provider/top-up';
+export const PROVIDER_TOP_UP_PATH = PROVIDER_PATH;
 export const PROVIDER_CREATE_NODE_PATH = '/provider/create-node';
 export const PICKER_PATH = '/picker';
 export const SURVEY_PATH = 'https://ankr_stkr.typeform.com/to/pc5sgxl9';
-////
+
 export const SOCIAL_LINK = {
   twitter: 'https://twitter.com/ankr',
   facebook: 'facebook',

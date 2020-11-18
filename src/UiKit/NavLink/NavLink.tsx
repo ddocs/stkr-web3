@@ -26,7 +26,7 @@ export const NavLink = React.forwardRef<
       href.startsWith('mailto') ||
       href.startsWith('tel');
 
-    const match = useRouteMatch({ path: href, exact: true });
+    const match = useRouteMatch({ path: href });
 
     if (isLink) {
       return (

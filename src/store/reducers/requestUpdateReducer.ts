@@ -17,13 +17,34 @@ export const requestUpdateReducer = (
 
   const actionName = getInitActionName(action.type);
 
+  if (action.meta?.mutation instanceof Function) {
+    return {
+      ...state,
+      queries: {
+        ...state.queries,
+        [actionName]: {
+          ...state.queries[actionName],
+          data: {
+            ...action.meta.mutation(
+              state.queries[actionName].data,
+              action.payload,
+            ),
+          },
+        },
+      },
+    };
+  }
+
   return {
     ...state,
     queries: {
       ...state.queries,
       [actionName]: {
         ...state.queries[actionName],
-        ...action.payload,
+        data: {
+          ...state.queries[actionName].data,
+          ...action.payload,
+        },
       },
     },
   };

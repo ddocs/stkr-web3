@@ -227,11 +227,12 @@ export class ContractManager {
           `handled stake pending event log: `,
           JSON.stringify(eventLog, null, 2),
         );
+
         this.eventEmitter.emit(ContractManagerEvents.StakePending, {
           eventLog: eventLog,
           staker,
           amount: new BigNumber(amount).dividedBy(ETH_SCALE_FACTOR),
-        });
+        } as IStakePendingEvent['data']);
       });
     // noinspection TypeScriptValidateJSTypes
     this.microPoolContract.events
@@ -249,7 +250,7 @@ export class ContractManager {
           eventLog: eventLog,
           staker,
           amount: new BigNumber(amount).dividedBy(ETH_SCALE_FACTOR),
-        });
+        } as IStakeConfirmedEvent['data']);
       });
     // noinspection TypeScriptValidateJSTypes
     this.microPoolContract.events
@@ -429,7 +430,7 @@ export class ContractManager {
       currentAccount,
       this.contractConfig.microPoolContract,
       {
-        data: data,
+        data,
         value: new BigNumber(amount)
           .multipliedBy(ETH_SCALE_FACTOR)
           .toString(10),
@@ -539,7 +540,12 @@ export class ContractManager {
   }
 
   public async pendingStakesOf(staker: string): Promise<BigNumber> {
-    return this.microPoolContract.methods.pendingStakesOf(staker).call();
+    return this.microPoolContract.methods
+      .pendingStakesOf(staker)
+      .call()
+      .then((value: string) =>
+        new BigNumber(value).dividedBy(ETH_SCALE_FACTOR),
+      );
   }
 
   public async getSystemContractParameters(): Promise<

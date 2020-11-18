@@ -6,7 +6,7 @@ import { SidecarReply } from '../../modules/api/gateway';
 import { ISidecar, mapSidecar } from '../apiMappers/sidecarsApi';
 import { mapProviderStats } from '../apiMappers/providerStatsApi';
 import { IAllowance } from '../apiMappers/allowance';
-import { mapStakerStats } from '../apiMappers/stakerStatsApi';
+import { IStakerStats, mapStakerStats } from '../apiMappers/stakerStatsApi';
 import { authenticatedGuard } from '../../common/utils/authenticatedGuard';
 import { RequestAction } from '@redux-requests/core';
 import { Store } from 'redux';
@@ -264,6 +264,52 @@ export const UserActions = {
       getData: mapStakerStats,
     },
   }),
+  updateStakerStats: (payload: Partial<IStakerStats>) => {
+    return {
+      type: update(UserActionTypes.FETCH_STAKER_STATS),
+      payload: payload,
+      meta: {
+        // TODO cover by unit
+        mutation: (
+          state: IStakerStats | undefined,
+          payload: Partial<IStakerStats>,
+        ): Partial<IStakerStats> => {
+          const stakes = (() => {
+            if (!payload || !(payload.stakes instanceof Array)) {
+              return state?.stakes;
+            }
+
+            if (!state?.stakes) {
+              return payload.stakes;
+            }
+
+            let begin: IStakerStats['stakes'] = [];
+            const main = [...state.stakes];
+
+            payload.stakes.forEach(newItem => {
+              const index = state.stakes.findIndex(
+                item => item.transactionHash === newItem.transactionHash,
+              );
+              if (index !== -1) {
+                main[index] = newItem;
+                return;
+              }
+
+              begin = [newItem, ...begin];
+            });
+
+            return [...begin, ...main];
+          })();
+
+          return {
+            ...state,
+            ...payload,
+            stakes,
+          };
+        },
+      },
+    };
+  },
   claimAeth: () => ({
     type: UserActionTypes.CLAIM_A_ETH,
     request: {
