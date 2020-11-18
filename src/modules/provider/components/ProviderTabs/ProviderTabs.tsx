@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { t } from '../../../../common/utils/intl';
 import { NavLink, useRouteMatch } from 'react-router-dom';
 import {
-  PROVIDER_CREATE_MICROPOOL_PATH,
+  PROVIDER_TOP_UP_PATH,
   PROVIDER_NODES_PATH,
 } from '../../../../common/const';
 import { useLocaleMemo } from '../../../../common/hooks/useLocaleMemo';
@@ -41,7 +41,7 @@ export const ProviderTabs = ({ className }: IProviderTabsProps) => {
     () => [
       {
         label: t('navigation.top-up'),
-        link: PROVIDER_CREATE_MICROPOOL_PATH,
+        link: PROVIDER_TOP_UP_PATH,
       },
       {
         label: t('navigation.beacon-list'),

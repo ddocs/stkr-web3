@@ -3,7 +3,7 @@ import { useCallback, useEffect } from 'react';
 import { useProviderDashboardStyles } from './ProviderDashboardStyles';
 import { NodeList } from '../../components/NodeList';
 import {
-  PROVIDER_CREATE_MICROPOOL_PATH,
+  PROVIDER_TOP_UP_PATH,
   PROVIDER_CREATE_NODE_PATH,
   PROVIDER_NODES_PATH,
 } from '../../../../common/const';
@@ -101,7 +101,7 @@ export const ProviderDashboardComponent = ({
           </NavLink>
         </div>
         <Route
-          path={[PROVIDER_CREATE_MICROPOOL_PATH]}
+          path={[PROVIDER_TOP_UP_PATH]}
           render={renderTopUp}
           exact={true}
         />

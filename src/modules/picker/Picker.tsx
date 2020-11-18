@@ -6,7 +6,7 @@ import { t, tHTML } from '../../common/utils/intl';
 import { NavLink } from '../../UiKit/NavLink';
 import {
   ENABLE_PROVIDER,
-  PROVIDER_CREATE_MICROPOOL_PATH,
+  PROVIDER_TOP_UP_PATH,
   STAKER_DASHBOAR_PATH,
   STAKER_STAKE_PATH,
 } from '../../common/const';
@@ -111,7 +111,7 @@ export const Picker = () => {
       data?.stakes && data.stakes.length > 0
         ? STAKER_DASHBOAR_PATH
         : STAKER_STAKE_PATH,
-    provider: PROVIDER_CREATE_MICROPOOL_PATH,
+    provider: PROVIDER_TOP_UP_PATH,
   };
 
   const keys: string[] = Object.keys(LIST);
