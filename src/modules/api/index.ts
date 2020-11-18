@@ -48,23 +48,19 @@ export class StkrSdk {
 
   public async connectMetaMask() {
     /* download config from server only if its not provided yet */
-    if (!this.stkrConfig.providerConfig || !this.stkrConfig.contractConfig) {
+    if (!this.stkrConfig.contractConfig) {
       const config = await this.apiGateway.downloadConfigFile(
         this.stkrConfig.configUrl,
       );
       console.log(
         `downloaded config from server: ${JSON.stringify(config, null, 2)}`,
       );
-      this.stkrConfig.providerConfig = {
-        networkId: `${config.network.networkId}`,
-        chainId: `${config.network.chainId}`,
-      };
       this.stkrConfig.contractConfig = {
-        aethContract: config.contracts.AETH,
-        microPoolContract: config.contracts.MicroPool,
-        ankrContract: config.contracts.ANKR,
-        stakingContract: config.contracts.Staking,
-        systemContract: config.contracts.SystemParameters,
+        aethContract: config.AETH,
+        microPoolContract: config.GlobalPool,
+        ankrContract: config.ANKR,
+        stakingContract: config.Staking,
+        systemContract: config.SystemParameters,
       };
     }
     const metaMaskProvider = new MetaMaskProvider(

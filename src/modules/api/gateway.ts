@@ -121,20 +121,12 @@ export interface StakerStats {
 }
 
 export interface ConfigReply {
-  contracts: {
-    SystemParameters: string;
-    DepositContract: string;
-    MicroPool: string;
-    MarketPlace: string;
-    AETH: string;
-    ANKR: string;
-    Migrations: string;
-    Staking: string;
-  };
-  network: {
-    networkId: number;
-    chainId: number;
-  };
+  AETH: string;
+  Config: string;
+  GlobalPool: string;
+  SystemParameters: string;
+  ANKR?: string;
+  Staking?: string;
 }
 
 export class ApiGateway {
@@ -149,7 +141,6 @@ export class ApiGateway {
       headers: {
         'Content-Type': 'application/json',
       },
-      withCredentials: true,
       responseType: 'json',
     };
     this.api = axios.create(this.defaultConfig);
@@ -157,7 +148,7 @@ export class ApiGateway {
   }
 
   public async downloadConfigFile(configFile: string): Promise<ConfigReply> {
-    const { data } = await this.api.get<ConfigReply>(`/${configFile}`);
+    const { data } = await this.api.get<ConfigReply>(`${configFile}`);
     return data;
   }
 
@@ -175,6 +166,7 @@ export class ApiGateway {
         headers: {
           Authorization: `Bearer ${token}`,
         },
+        withCredentials: true,
       }),
     );
     if (this.authorized) throw new Error("You're already authorized");

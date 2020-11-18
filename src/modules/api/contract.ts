@@ -20,8 +20,8 @@ const ABI_SYSTEM = require('./contract/SystemParameters.json');
 export interface ContractConfig {
   aethContract: string;
   microPoolContract: string;
-  ankrContract: string;
-  stakingContract: string;
+  ankrContract?: string;
+  stakingContract?: string;
   systemContract: string;
 }
 
@@ -36,8 +36,8 @@ const ETH_SCALE_FACTOR = 10 ** 18;
 
 export class ContractManager {
   private readonly microPoolContract: Contract;
-  private readonly ankrContract: Contract;
-  private readonly stackingContract: Contract;
+  private readonly ankrContract?: Contract;
+  private readonly stakingContract?: Contract;
   private readonly systemContract: Contract;
 
   private systemContractParameters: SystemContractParameters | null = null;
@@ -51,14 +51,18 @@ export class ContractManager {
       ABI_GLOBAL_POOL,
       contractConfig.microPoolContract,
     );
-    this.ankrContract = this.keyProvider.createContract(
-      ABI_ANKR,
-      contractConfig.ankrContract,
-    );
-    this.stackingContract = this.keyProvider.createContract(
-      ABI_STAKING,
-      contractConfig.stakingContract,
-    );
+    if (contractConfig.ankrContract) {
+      this.ankrContract = this.keyProvider.createContract(
+        ABI_ANKR,
+        contractConfig.ankrContract,
+      );
+    }
+    if (contractConfig.stakingContract) {
+      this.stakingContract = this.keyProvider.createContract(
+        ABI_STAKING,
+        contractConfig.stakingContract,
+      );
+    }
     this.systemContract = this.keyProvider.createContract(
       ABI_SYSTEM,
       contractConfig.systemContract,
@@ -169,7 +173,7 @@ export class ContractManager {
     const currentAddress = this.keyProvider.currentAccount(),
       latestBlockHeight = this.keyProvider.latestBlockHeight();
     // noinspection TypeScriptValidateJSTypes
-    this.ankrContract.events
+    this.ankrContract?.events
       .Transfer({
         filter: { from: currentAddress },
         fromBlock: latestBlockHeight,
@@ -188,7 +192,7 @@ export class ContractManager {
         });
       });
     // noinspection TypeScriptValidateJSTypes
-    this.ankrContract.events
+    this.ankrContract?.events
       .Transfer({
         filter: { to: currentAddress },
         fromBlock: latestBlockHeight,
@@ -576,6 +580,9 @@ export class ContractManager {
   }
 
   public async checkAnkrAllowance(): Promise<BigNumber> {
+    if (!this.ankrContract || !this.contractConfig.ankrContract) {
+      throw new Error('Ankr contract is not available now');
+    }
     const currentAccount = await this.keyProvider.currentAccount();
     const allowance = await this.ankrContract.methods
       .allowance(currentAccount, this.contractConfig.stakingContract)
@@ -584,6 +591,9 @@ export class ContractManager {
   }
 
   public async faucet(): Promise<SendAsyncResult> {
+    if (!this.ankrContract || !this.contractConfig.ankrContract) {
+      throw new Error('Ankr contract is not available now');
+    }
     const data: string = this.ankrContract.methods.faucet().encodeABI();
     const currentAccount = await this.keyProvider.currentAccount();
     console.log(`encoded [faucet] ABI: ${data}`);
@@ -599,6 +609,9 @@ export class ContractManager {
   public async approveAnkrToStakingContract(
     amount: BigNumber,
   ): Promise<SendAsyncResult> {
+    if (!this.ankrContract || !this.contractConfig.ankrContract) {
+      throw new Error('Ankr contract is not available now');
+    }
     const data: string = this.ankrContract.methods
       .approve(
         this.contractConfig.stakingContract,
@@ -617,6 +630,9 @@ export class ContractManager {
   }
 
   public async ankrBalance(address: string): Promise<string> {
+    if (!this.ankrContract) {
+      return '0';
+    }
     return this.keyProvider.erc20Balance(this.ankrContract, address);
   }
 }
