@@ -11,7 +11,7 @@ export const PROVIDER_TOP_UP_PATH = '/provider/top-up';
 export const PROVIDER_CREATE_NODE_PATH = '/provider/create-node';
 export const PICKER_PATH = '/picker';
 export const SURVEY_PATH = 'https://ankr_stkr.typeform.com/to/pc5sgxl9';
-
+////
 export const SOCIAL_LINK = {
   twitter: 'https://twitter.com/ankr',
   facebook: 'facebook',
