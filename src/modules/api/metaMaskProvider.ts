@@ -29,7 +29,6 @@ export class MetaMaskProvider extends KeyProvider {
           ? {
               rpc: {
                 1: 'https://eth-03.dccn.ankr.com', // MAINNET
-                5: 'https://eth-03.dccn.ankr.com', // GOERLI
               },
             }
           : {
@@ -39,7 +38,6 @@ export class MetaMaskProvider extends KeyProvider {
     };
 
     this.web3Modal = new Web3Modal({
-      // network: ETHEREUM_NETWORK,
       cacheProvider: false,
       providerOptions,
       theme: {
