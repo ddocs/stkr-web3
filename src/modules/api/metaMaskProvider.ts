@@ -25,8 +25,8 @@ export class MetaMaskProvider extends KeyProvider {
         options: isMainnet
           ? {
               rpc: {
-                1: 'https://eth-03.dccn.ankr.com', // MAINNER
-                5: 'http://api.stkr-goerli.ankr.com/eth', // GOERLI
+                1: 'https://eth-03.dccn.ankr.com', // MAINNET
+                5: 'https://eth-03.dccn.ankr.com', // GOERLI
               },
             }
           : {
