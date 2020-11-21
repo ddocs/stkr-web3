@@ -11,48 +11,79 @@ import {
 } from './provider';
 import { Transaction } from 'ethereumjs-tx';
 import { KeyProviderEvents } from './event';
+import WalletConnectProvider from '@walletconnect/web3-provider';
+import Web3Modal from 'web3modal';
+import { ETHEREUM_NETWORK, isMainnet } from '../../common/const';
+import { PALETTE } from '../../common/themes/mainTheme';
 
 export class MetaMaskProvider extends KeyProvider {
   async connect(): Promise<void> {
-    const ethereum: any = typeof window !== 'undefined' && window.ethereum;
-    if (!ethereum) {
-      throw new Error(
-        'Non-Ethereum browser detected. You should consider trying MetaMask!',
-      );
-    }
-    const web3 = new Web3(ethereum);
+    // TODO Move up the provider creation
+    const providerOptions = {
+      walletconnect: {
+        package: WalletConnectProvider, // required
+        options: isMainnet
+          ? {
+              rpc: {
+                1: 'https://eth-03.dccn.ankr.com', // MAINNER
+                5: 'http://api.stkr-goerli.ankr.com/eth', // GOERLI
+              },
+            }
+          : {
+              infuraId: '3c88c0ec7e57421fa7d019780d2e6768',
+            },
+      },
+    };
+
+    const web3Modal = new Web3Modal({
+      network: ETHEREUM_NETWORK,
+      cacheProvider: false,
+      providerOptions,
+      theme: {
+        background: PALETTE.background.paper,
+        main: PALETTE.primary.main,
+        secondary: PALETTE.text.primary,
+        border: PALETTE.background.default,
+        hover: PALETTE.background.paper,
+      },
+    } as any);
+
+    const provider = await web3Modal.connect();
+
+    const web3 = new Web3(provider);
+
     if (
-      ethereum.networkVersion &&
+      provider.networkVersion &&
       this.providerConfig.networkId &&
-      Number(ethereum.networkVersion) !== Number(this.providerConfig.networkId)
+      Number(provider.networkVersion) !== Number(this.providerConfig.networkId)
     ) {
       console.error(
-        `ethereum networks mismatched ${ethereum.networkVersion} != ${this.providerConfig.networkId}`,
+        `ethereum networks mismatched ${provider.networkVersion} != ${this.providerConfig.networkId}`,
       );
       throw new Error(
         'MetaMask ethereum network mismatched, please check your MetaMask network.',
       );
     }
     await this.unlockAccounts(web3);
-    ethereum.on('accountsChanged', (accounts: Address[]) => {
+    provider.on('accountsChanged', (accounts: Address[]) => {
       this.eventEmitter.emit(KeyProviderEvents.AccountChanged, { accounts });
     });
-    ethereum.on('disconnect', (error: ProviderRpcError) => {
+    provider.on('disconnect', (error: ProviderRpcError) => {
       this.eventEmitter.emit(KeyProviderEvents.Disconnect, { error });
       console.log(
         `You've disconnected from MetaMask: ${JSON.stringify(error)}`,
       );
     });
-    ethereum.on('message', (message: ProviderMessage) => {
+    provider.on('message', (message: ProviderMessage) => {
       this.eventEmitter.emit(KeyProviderEvents.Message, message);
     });
-    ethereum.on('chainChanged', (chainId: string) => {
+    provider.on('chainChanged', (chainId: string) => {
       this.eventEmitter.emit(KeyProviderEvents.ChainChanged, {
         chainId,
       });
       console.log(`detected MetaMask chainId change to ${chainId}`);
     });
-    ethereum.autoRefreshOnNetworkChange = false;
+    provider.autoRefreshOnNetworkChange = false;
     this._latestBlockHeight = await web3.eth.getBlockNumber();
     this._web3 = web3;
   }
@@ -168,7 +199,7 @@ export class MetaMaskProvider extends KeyProvider {
   private async unlockAccounts(web3: Web3): Promise<string[]> {
     let unlockedAccounts: string[] = [];
     try {
-      unlockedAccounts = await web3.eth.requestAccounts();
+      unlockedAccounts = await web3.eth.getAccounts();
     } catch (error) {
       console.error(error);
       throw new Error('User denied access to account');
