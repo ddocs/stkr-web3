@@ -76,17 +76,13 @@ export const Picker = () => {
     }
   }, [dispatch, isConnected]);
 
-  const { loading, data } = useQuery<IStakerStats | null>({
-    type: UserActionTypes.FETCH_STAKER_STATS,
-  });
-
   const DATA: Record<
     string,
     { disabled: boolean; features: string[]; comingSoon?: boolean }
   > = useMemo(
     () => ({
       staker: {
-        disabled: loading,
+        disabled: false,
         features: [
           'picker.staker.features.1',
           'picker.staker.features.2',
@@ -103,14 +99,11 @@ export const Picker = () => {
         ],
       },
     }),
-    [loading],
+    [],
   );
 
   const LIST: Record<string, string> = {
-    staker:
-      data?.stakes && data.stakes.length > 0
-        ? STAKER_DASHBOAR_PATH
-        : STAKER_STAKE_PATH,
+    staker: STAKER_STAKE_PATH,
     provider: PROVIDER_TOP_UP_PATH,
   };
 
