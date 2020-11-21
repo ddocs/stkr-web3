@@ -82,6 +82,7 @@ export class StkrSdk {
   }
 
   public async disconnect() {
+    await this.getKeyProvider()?.disconnect();
     await this.apiGateway.logout();
     this.keyProvider = null;
     this.contractManager = null;

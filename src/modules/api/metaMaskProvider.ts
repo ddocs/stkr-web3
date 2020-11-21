@@ -13,10 +13,13 @@ import { Transaction } from 'ethereumjs-tx';
 import { KeyProviderEvents } from './event';
 import WalletConnectProvider from '@walletconnect/web3-provider';
 import Web3Modal from 'web3modal';
-import { ETHEREUM_NETWORK, isMainnet } from '../../common/const';
+import { CHAINS, isMainnet } from '../../common/const';
 import { PALETTE } from '../../common/themes/mainTheme';
 
 export class MetaMaskProvider extends KeyProvider {
+  private web3Modal: Web3Modal | undefined;
+  private provider: any;
+
   async connect(): Promise<void> {
     // TODO Move up the provider creation
     const providerOptions = {
@@ -35,8 +38,8 @@ export class MetaMaskProvider extends KeyProvider {
       },
     };
 
-    const web3Modal = new Web3Modal({
-      network: ETHEREUM_NETWORK,
+    this.web3Modal = new Web3Modal({
+      // network: ETHEREUM_NETWORK,
       cacheProvider: false,
       providerOptions,
       theme: {
@@ -48,9 +51,25 @@ export class MetaMaskProvider extends KeyProvider {
       },
     } as any);
 
-    const provider = await web3Modal.connect();
+    const provider = await this.web3Modal.connect();
+    this.provider = provider;
 
     const web3 = new Web3(provider);
+
+    // TODO remove parseInt
+    if (
+      isMainnet &&
+      CHAINS.mainnet !== parseInt(this.providerConfig.networkId, 10)
+    ) {
+      throw new Error('Please, switch to Mainnet network in your wallet');
+    }
+
+    if (
+      !isMainnet &&
+      CHAINS.goerli !== parseInt(this.providerConfig.networkId, 10)
+    ) {
+      throw new Error('Please, switch to Goerli network in your wallet');
+    }
 
     if (
       provider.networkVersion &&
@@ -88,7 +107,11 @@ export class MetaMaskProvider extends KeyProvider {
     this._web3 = web3;
   }
 
-  close(): Promise<void> {
+  disconnect(): Promise<void> {
+    if (this.provider?.close instanceof Function) {
+      this.provider.close();
+      this.web3Modal?.clearCachedProvider()
+    }
     return Promise.resolve();
   }
 

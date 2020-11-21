@@ -37,3 +37,14 @@ const env = process.env.REACT_APP_STKR_ENV
 export const isMainnet = env === 'mainnet';
 export const ENABLE_PROVIDER = !isMainnet;
 export const ETHEREUM_NETWORK = isMainnet ? 'mainnet' : 'goerli';
+
+export enum CHAINS {
+  mainnet = 1,
+  ropsten = 3,
+  rinkeby = 4,
+  goerli = 5,
+  dev = 2018,
+  classic = 61,
+  mordor = 63,
+  kotti = 6,
+}
