@@ -158,8 +158,12 @@ function* onConnectSuccess() {
 function* onDisconnectSuccess() {
   yield put(resetRequests());
   yield put(replace(INDEX_PATH));
-  const stkrSdk = StkrSdk.getLastInstance();
-  yield stkrSdk?.disconnect();
+  try {
+    const stkrSdk = StkrSdk.getLastInstance();
+    yield stkrSdk?.disconnect();
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 function* init() {
