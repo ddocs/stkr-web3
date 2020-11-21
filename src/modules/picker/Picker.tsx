@@ -4,17 +4,10 @@ import { usePickerStyles } from './PickerStyles';
 import { Body1, Headline4 } from '../../UiKit/Typography';
 import { t, tHTML } from '../../common/utils/intl';
 import { NavLink } from '../../UiKit/NavLink';
-import {
-  ENABLE_PROVIDER,
-  PROVIDER_TOP_UP_PATH,
-  STAKER_DASHBOAR_PATH,
-  STAKER_STAKE_PATH,
-} from '../../common/const';
+import { ENABLE_PROVIDER, PROVIDER_TOP_UP_PATH, STAKER_STAKE_PATH, } from '../../common/const';
 import { useDispatch } from 'react-redux';
 import { useAuthentication } from '../../common/utils/useAuthentications';
-import { UserActions, UserActionTypes } from '../../store/actions/UserActions';
-import { useQuery } from '@redux-requests/react';
-import { IStakerStats } from '../../store/apiMappers/stakerStatsApi';
+import { UserActions } from '../../store/actions/UserActions';
 
 interface IItemProps {
   title: string;
