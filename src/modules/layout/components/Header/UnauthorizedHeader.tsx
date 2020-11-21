@@ -35,7 +35,7 @@ export const UnauthorizedHeader = ({
       innerClassName={classes.outer}
       dropdownClassName={classes.dropdown}
     >
-      <MutationErrorHandler type={UserActionTypes.CONNECT} />
+      <MutationErrorHandler type={UserActionTypes.CONNECT} resetOnShow={false} />
       <Links className={classes.links} />
       <Button
         onClick={() => {

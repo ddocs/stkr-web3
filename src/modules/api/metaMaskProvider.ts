@@ -6,7 +6,6 @@ import { Transaction } from 'ethereumjs-tx';
 import { KeyProviderEvents } from './event';
 import WalletConnectProvider from '@walletconnect/web3-provider';
 import Web3Modal from 'web3modal';
-import { isMainnet } from '../../common/const';
 import { PALETTE } from '../../common/themes/mainTheme';
 
 export class MetaMaskProvider extends KeyProvider {
@@ -18,15 +17,12 @@ export class MetaMaskProvider extends KeyProvider {
     const providerOptions = {
       walletconnect: {
         package: WalletConnectProvider, // required
-        options: isMainnet
-          ? {
-              rpc: {
-                1: 'https://eth-03.dccn.ankr.com', // MAINNET
-              },
-            }
-          : {
-              infuraId: '3c88c0ec7e57421fa7d019780d2e6768',
-            },
+        options: {
+          rpc: {
+            1: 'https://eth-03.dccn.ankr.com',
+            5: 'https://goerli.infura.io/v3/3c88c0ec7e57421fa7d019780d2e6768',
+          },
+        },
       },
     };
 
