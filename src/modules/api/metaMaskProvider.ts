@@ -1,19 +1,12 @@
 /* eslint-disable @typescript-eslint/interface-name-prefix */
 import Web3 from 'web3';
 import { bytesToHex, numberToHex } from 'web3-utils';
-import {
-  Address,
-  KeyProvider,
-  ProviderMessage,
-  ProviderRpcError,
-  SendAsyncResult,
-  SendOptions,
-} from './provider';
+import { Address, KeyProvider, ProviderMessage, ProviderRpcError, SendAsyncResult, SendOptions, } from './provider';
 import { Transaction } from 'ethereumjs-tx';
 import { KeyProviderEvents } from './event';
 import WalletConnectProvider from '@walletconnect/web3-provider';
 import Web3Modal from 'web3modal';
-import { CHAINS, isMainnet } from '../../common/const';
+import { isMainnet } from '../../common/const';
 import { PALETTE } from '../../common/themes/mainTheme';
 
 export class MetaMaskProvider extends KeyProvider {
@@ -54,29 +47,19 @@ export class MetaMaskProvider extends KeyProvider {
 
     const web3 = new Web3(provider);
 
-    // TODO remove parseInt
-    if (
-      isMainnet &&
-      CHAINS.mainnet !== parseInt(this.providerConfig.networkId, 10)
-    ) {
-      throw new Error('Please, switch to Mainnet network in your wallet');
-    }
+    const chainId = provider.networkVersion ?? provider.chainId;
 
     if (
-      !isMainnet &&
-      CHAINS.goerli !== parseInt(this.providerConfig.networkId, 10)
-    ) {
-      throw new Error('Please, switch to Goerli network in your wallet');
-    }
-
-    if (
-      provider.networkVersion &&
+      chainId &&
       this.providerConfig.networkId &&
-      Number(provider.networkVersion) !== Number(this.providerConfig.networkId)
+      Number(chainId) !== Number(this.providerConfig.networkId)
     ) {
       console.error(
         `ethereum networks mismatched ${provider.networkVersion} != ${this.providerConfig.networkId}`,
       );
+      this.disconnect();
+
+      // TODO Human readable current network name
       throw new Error(
         'MetaMask ethereum network mismatched, please check your MetaMask network.',
       );
@@ -106,10 +89,8 @@ export class MetaMaskProvider extends KeyProvider {
   }
 
   disconnect(): Promise<void> {
-    if (this.provider?.close instanceof Function) {
-      this.provider.close();
-      this.web3Modal?.clearCachedProvider()
-    }
+    this.provider?.close();
+    this.web3Modal?.clearCachedProvider();
     return Promise.resolve();
   }
 

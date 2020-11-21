@@ -6,8 +6,12 @@ import React, { useCallback } from 'react';
 import { HeaderFrame } from './HeaderFrame';
 import { Links } from '../Links';
 import { useHistory } from 'react-router';
-import { UserActions } from '../../../../store/actions/UserActions';
+import {
+  UserActions,
+  UserActionTypes,
+} from '../../../../store/actions/UserActions';
 import { useDispatch } from 'react-redux';
+import { MutationErrorHandler } from '../../../../components/MutationErrorHandler/MutationErrorHandler';
 
 export const UnauthorizedHeader = ({
   className,
@@ -31,6 +35,7 @@ export const UnauthorizedHeader = ({
       innerClassName={classes.outer}
       dropdownClassName={classes.dropdown}
     >
+      <MutationErrorHandler type={UserActionTypes.CONNECT} />
       <Links className={classes.links} />
       <Button
         onClick={() => {
