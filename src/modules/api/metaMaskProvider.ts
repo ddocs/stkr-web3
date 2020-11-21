@@ -1,7 +1,14 @@
 /* eslint-disable @typescript-eslint/interface-name-prefix */
 import Web3 from 'web3';
 import { bytesToHex, numberToHex } from 'web3-utils';
-import { Address, KeyProvider, ProviderMessage, ProviderRpcError, SendAsyncResult, SendOptions, } from './provider';
+import {
+  Address,
+  KeyProvider,
+  ProviderMessage,
+  ProviderRpcError,
+  SendAsyncResult,
+  SendOptions,
+} from './provider';
 import { Transaction } from 'ethereumjs-tx';
 import { KeyProviderEvents } from './event';
 import WalletConnectProvider from '@walletconnect/web3-provider';
@@ -85,8 +92,12 @@ export class MetaMaskProvider extends KeyProvider {
   }
 
   disconnect(): Promise<void> {
-    this.provider?.close();
-    this.web3Modal?.clearCachedProvider();
+    try {
+      this.provider?.close();
+      this.web3Modal?.clearCachedProvider();
+    } catch (error) {
+      console.error(error);
+    }
     return Promise.resolve();
   }
 
