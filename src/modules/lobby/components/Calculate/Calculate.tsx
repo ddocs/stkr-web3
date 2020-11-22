@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Curtains } from '../../../../UiKit/Curtains';
 import { t, tHTML } from '../../../../common/utils/intl';
 import classNames from 'classnames';
@@ -6,11 +6,11 @@ import { useCalculateStyles } from './CalculateStyles';
 import { BackgroundColorProvider } from '../../../../UiKit/BackgroundColorProvider';
 import { Button } from '../../../../UiKit/Button';
 import { Slider } from '@material-ui/core';
-import { useAction } from '../../../../store/redux';
-import { openUnlockWalletAction } from '../../../../store/modals/actions';
 import { Body2, Headline1, Headline5 } from '../../../../UiKit/Typography';
 import BigNumber from 'bignumber.js';
 import { YEAR_INTEREST } from '../../../../common/const';
+import { UserActions } from "../../../../store/actions/UserActions";
+import { useDispatch } from "react-redux";
 
 const DEFAULT_VALUE = 10;
 const FIXED_DECIMAL_PLACES = 2;
@@ -59,7 +59,10 @@ export const Calculate = ({
   isConnected,
 }: ICalculateProps) => {
   const classes = useCalculateStyles();
-  const openUnlockWallet = useAction(openUnlockWalletAction);
+  const dispatch = useDispatch();
+  const handleUnlockWallet = useCallback(() => {
+    dispatch(UserActions.connect());
+  }, [dispatch]);
 
   const [value, setValue] = useState<number>(DEFAULT_VALUE);
 
@@ -100,7 +103,7 @@ export const Calculate = ({
             {!isConnected && (
               <Button
                 className={classes.unlock}
-                onClick={openUnlockWallet}
+                onClick={handleUnlockWallet}
                 color="primary"
                 size="large"
               >
