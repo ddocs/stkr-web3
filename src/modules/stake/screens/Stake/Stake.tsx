@@ -214,7 +214,7 @@ export const StakeComponent = ({
 
 export const Stake = () => {
   const dispatch = useRequestDispatch();
-  const { replace, goBack } = useHistory();
+  const { replace, push } = useHistory();
 
   const handleSubmit = ({ amount }: IStakePayload) => {
     dispatch(UserActions.stake(amount.toString(10))).then(data => {
@@ -229,8 +229,8 @@ export const Stake = () => {
   });
 
   const handleCancel = useCallback(() => {
-    goBack();
-  }, [goBack]);
+    push(STAKER_DASHBOAR_PATH);
+  }, [push]);
 
   return (
     <StakeComponent
