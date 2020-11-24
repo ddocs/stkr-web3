@@ -72,21 +72,21 @@ export const ProviderDashboardComponent = ({
               {
                 caption: 'provider.info.totalStaked',
                 value: tHTML('units.small-eth', {
-                  value: data.totalEthereumStaked.toFormat(),
+                  value: 0, //data.totalEthereumStaked.toFormat(),
                 }),
               },
               {
                 caption: 'provider.info.totalStakers',
-                value: data.totalStakers,
+                value: 0, //data.totalStakers,
               },
               {
                 caption: 'provider.info.micropools',
-                value: data.totalMicroPools,
+                value: data.activePoolCount,
               },
             ];
 
             return (
-              data.totalMicroPools > 0 && (
+              data.activePoolCount > 0 && (
                 <Info className={classes.info} data={info} small={true} />
               )
             );
