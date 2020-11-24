@@ -47,5 +47,3 @@ export enum CHAINS {
   mordor = 63,
   kotti = 6,
 }
-
-export const FROM_BLOCK = isMainnet ? 11_225_126 : 0;

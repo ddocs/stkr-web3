@@ -11,7 +11,6 @@ import {
   IStakeRemovedEvent,
 } from './event';
 import { BlockHeader } from 'web3-eth';
-import { FROM_BLOCK } from '../../common/const';
 
 const ABI_GLOBAL_POOL = require('./contract/GlobalPool.json');
 const ABI_ANKR = require('./contract/ANKR.json');
@@ -21,6 +20,7 @@ const ABI_SYSTEM = require('./contract/SystemParameters.json');
 export interface ContractConfig {
   aethContract: string;
   microPoolContract: string;
+  microPoolBlock?: string;
   ankrContract?: string;
   stakingContract?: string;
   systemContract: string;
@@ -77,7 +77,7 @@ export class ContractManager {
   public async queryStakePendingEventLogs(): Promise<IStakePendingEvent[]> {
     const currentAddress = this.keyProvider.currentAccount();
     const events = await this.microPoolContract.getPastEvents('StakePending', {
-      fromBlock: FROM_BLOCK,
+      fromBlock: this.contractConfig.microPoolBlock,
       filter: { staker: currentAddress },
     });
     return events.map((eventLog: EventLog) => {
@@ -98,7 +98,7 @@ export class ContractManager {
     const events = await this.microPoolContract.getPastEvents(
       'StakeConfirmed',
       {
-        fromBlock: FROM_BLOCK,
+        fromBlock: this.contractConfig.microPoolBlock,
         filter: { staker: currentAddress },
       },
     );
@@ -118,7 +118,7 @@ export class ContractManager {
   public async queryStakeRemovedEventLogs(): Promise<IStakeRemovedEvent[]> {
     const currentAddress = this.keyProvider.currentAccount();
     const events = await this.microPoolContract.getPastEvents('StakeRemoved', {
-      fromBlock: FROM_BLOCK,
+      fromBlock: this.contractConfig.microPoolBlock,
       filter: { staker: currentAddress },
     });
     return events.map((eventLog: EventLog) => {
