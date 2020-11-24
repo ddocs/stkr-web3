@@ -4,7 +4,11 @@ import { usePickerStyles } from './PickerStyles';
 import { Body1, Headline4 } from '../../UiKit/Typography';
 import { t, tHTML } from '../../common/utils/intl';
 import { NavLink } from '../../UiKit/NavLink';
-import { ENABLE_PROVIDER, PROVIDER_TOP_UP_PATH, STAKER_STAKE_PATH, } from '../../common/const';
+import {
+  ENABLE_PROVIDER,
+  PROVIDER_TOP_UP_PATH,
+  STAKER_DASHBOAR_PATH,
+} from '../../common/const';
 import { useDispatch } from 'react-redux';
 import { useAuthentication } from '../../common/utils/useAuthentications';
 import { UserActions } from '../../store/actions/UserActions';
@@ -96,7 +100,7 @@ export const Picker = () => {
   );
 
   const LIST: Record<string, string> = {
-    staker: STAKER_STAKE_PATH,
+    staker: STAKER_DASHBOAR_PATH,
     provider: PROVIDER_TOP_UP_PATH,
   };
 
