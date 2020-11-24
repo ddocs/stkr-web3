@@ -266,7 +266,11 @@
   },
   "beacon-list": {
     "status": {
-      "SIDECAR_STATUS_UNKNOWN": "Created"
+      "SIDECAR_STATUS_UNKNOWN": "Created",
+      "SIDECAR_STATUS_SYNCING": "Syncing",
+      "SIDECAR_STATUS_ACTIVE": "Active",
+      "SIDECAR_STATUS_DISABLED": "Disabled",
+      "SIDECAR_STATUS_BLOCKED": "Blocked"
     },
     "not-launched": "Not launched"
   },
@@ -332,6 +336,7 @@
     }
   },
   "node-list": {
+    "unknown": "Not Activated",
     "syncing": "Syncing {value}%",
     "ago": "{value} ago"
   },

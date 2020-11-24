@@ -20,6 +20,7 @@ import { ReactComponent as WindowsIcon } from './assets/windows.svg';
 import { ReactComponent as LinuxIcon } from './assets/linux.svg';
 import { ReactComponent as MacIcon } from './assets/mac.svg';
 import { safeDiv } from '../../../../common/utils/safeDiv';
+import { formatDistanceToNowStrict } from 'date-fns';
 
 const useCaptions = (): ITablesCaptionProps[] =>
   useLocaleMemo(
@@ -53,6 +54,49 @@ interface INodeListProps {
   data?: ISidecar[];
 }
 
+const getSidecarName = (item: ISidecar) => {
+  let name = item.id;
+  if (item.machine) {
+    name = `${item.machine.cpuModel}`;
+  }
+  let color = '#D1FF1B';
+  if (item.status === 'SIDECAR_STATUS_UNKNOWN') {
+    color = '#ff3d1b';
+  } else if (item.status === 'SIDECAR_STATUS_SYNCING') {
+    color = '#ff981b';
+  }
+  return (
+    <>
+      <svg
+        width="10"
+        height="10"
+        viewBox="0 0 10 10"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <circle cx="5" cy="5" r="5" fill={color} />
+      </svg>
+      &nbsp; &nbsp;
+      {name}
+    </>
+  );
+};
+
+const getSidecarStatus = (item: ISidecar) => {
+  if (item.status === 'SIDECAR_STATUS_UNKNOWN') {
+    return t('node-list.unknown');
+  }
+  if (item.status === 'SIDECAR_STATUS_SYNCING') {
+    return t('node-list.syncing', {
+      value: `${(
+        100 *
+        safeDiv(item?.beaconChain?.currentSlot, item?.beaconChain?.latestSlot)
+      ).toFixed(2)}`,
+    });
+  }
+  return t(`beacon-list.status.${item.status}`);
+};
+
 export const NodeListComponent = ({ className, data }: INodeListProps) => {
   const classes = useNodeListStyles();
 
@@ -74,29 +118,15 @@ export const NodeListComponent = ({ className, data }: INodeListProps) => {
           <TableBody rowsCount={data.length}>
             {data.map(item => (
               <TableRow key={uid(item)}>
-                <TableBodyCell>{item.id}</TableBodyCell>
+                <TableBodyCell>{getSidecarName(item)}</TableBodyCell>
+                <TableBodyCell>{getSidecarStatus(item)}</TableBodyCell>
                 <TableBodyCell>
-                  {item.status === 'SIDECAR_STATUS_UNKNOWN' ? (
-                    <div>
-                      {t('node-list.syncing', {
-                        value: `${(
-                          100 *
-                          safeDiv(
-                            item?.beaconChain?.currentSlot,
-                            item?.beaconChain?.latestSlot,
-                          )
-                        ).toFixed(2)}`,
-                      })}
-                    </div>
-                  ) : (
-                    t(`beacon-list.status.${item.status}`)
+                  {formatDistanceToNowStrict(
+                    item?.machine?.currentTime
+                      ? new Date(item.machine.currentTime * 1000)
+                      : new Date(),
+                    { addSuffix: true },
                   )}
-                </TableBodyCell>
-                <TableBodyCell>
-                  {/*formatDistanceToNowStrict(*/}
-                  {/*data?.machine?.currentTime || new Date(),*/}
-                  {/*{ addSuffix: true },*/}
-                  {/*)*/}
                 </TableBodyCell>
                 <TableBodyCell>
                   {t('format.date', { value: item.created })}
