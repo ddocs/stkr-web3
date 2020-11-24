@@ -1,4 +1,4 @@
-import { MetaMaskProvider } from './metamask';
+import { MetaMaskProvider } from './metaMaskProvider';
 import { KeyProvider, SendAsyncResult } from './provider';
 import { ContractManager } from './contract';
 import {
@@ -6,7 +6,6 @@ import {
   BalanceReply,
   ProviderStatsReply,
   SidecarReply,
-  SidecarStatusReply,
   StakerStats,
   UserStakeReply,
 } from './gateway';
@@ -47,25 +46,21 @@ export class StkrSdk {
     return StkrSdk.instance;
   }
 
-  public async connectMetaMask() {
+  public async connect() {
     /* download config from server only if its not provided yet */
-    if (!this.stkrConfig.providerConfig || !this.stkrConfig.contractConfig) {
+    if (!this.stkrConfig.contractConfig) {
       const config = await this.apiGateway.downloadConfigFile(
-        this.stkrConfig.configFile,
+        this.stkrConfig.configUrl,
       );
       console.log(
         `downloaded config from server: ${JSON.stringify(config, null, 2)}`,
       );
-      this.stkrConfig.providerConfig = {
-        networkId: `${config.network.networkId}`,
-        chainId: `${config.network.chainId}`,
-      };
       this.stkrConfig.contractConfig = {
-        aethContract: config.contracts.AETH,
-        microPoolContract: config.contracts.MicroPool,
-        ankrContract: config.contracts.ANKR,
-        stakingContract: config.contracts.Staking,
-        systemContract: config.contracts.SystemParameters,
+        aethContract: config.AETH,
+        microPoolContract: config.GlobalPool,
+        ankrContract: config.ANKR,
+        stakingContract: config.Staking,
+        systemContract: config.SystemParameters,
       };
     }
     const metaMaskProvider = new MetaMaskProvider(
@@ -87,6 +82,7 @@ export class StkrSdk {
   }
 
   public async disconnect() {
+    await this.getKeyProvider()?.disconnect();
     await this.apiGateway.logout();
     this.keyProvider = null;
     this.contractManager = null;
@@ -103,8 +99,12 @@ export class StkrSdk {
     return { token };
   }
 
-  public createSidecarDownloadLink(sidecar: string, platform: string): string {
-    return this.apiGateway.createSidecarDownloadLink(sidecar, platform);
+  public downloadSidecar(sidecar: string, platform: string) {
+    const downloadLink = this.apiGateway.createSidecarDownloadLink(
+      sidecar,
+      platform,
+    );
+    window.open(downloadLink);
   }
 
   public async createSidecar(): Promise<SidecarReply> {
@@ -113,12 +113,6 @@ export class StkrSdk {
 
   public async getProviderSidecars(): Promise<SidecarReply[]> {
     return this.apiGateway.getProviderSidecars();
-  }
-
-  public async getSidecarStatus(
-    sidecarId: string,
-  ): Promise<SidecarStatusReply> {
-    return this.apiGateway.getSidecarStatus(sidecarId);
   }
 
   public async isAuthorized(token?: string): Promise<boolean> {
@@ -292,10 +286,12 @@ export class StkrSdk {
       ),
     ].sort((a, b) => a.timestamp - b.timestamp);
     const totalStakedAmount = stakes.reduce((result, stake) => {
-        if (stake.action === 'STAKE_ACTION_UNSTAKE') {
+        if (stake.action === 'STAKE_ACTION_PENDING') {
+          return result.plus(stake.amount);
+        } else if (stake.action === 'STAKE_ACTION_UNSTAKE') {
           return result.plus(stake.amount.negated());
         }
-        return result.plus(stake.amount);
+        return result;
       }, new BigNumber(0)),
       totalRewards = totalStakedAmount.multipliedBy(YEAR_INTEREST);
     console.log(`total staked amount is ${totalStakedAmount.toString(10)}`);
@@ -316,5 +312,13 @@ export class StkrSdk {
 
   public async claimAeth() {
     return await this.getContractManager().claim();
+  }
+
+  public async topUpETH(amount: BigNumber) {
+    return await this.getContractManager().topUpETH(amount);
+  }
+
+  public async topUpANKR(amount: BigNumber) {
+    return await this.getContractManager().topUpANKR(amount);
   }
 }

@@ -87,6 +87,9 @@ workflows:
       # prod
       - approve-prod:
           type: approval
+          filters:
+            branches:
+              only: [ master ]
       - build-prod:
           context: stkr_build_prod
           requires:

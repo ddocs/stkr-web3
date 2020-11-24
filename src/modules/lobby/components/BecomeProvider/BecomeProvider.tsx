@@ -1,13 +1,14 @@
-import React, { useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { useBecomeProviderStyles } from './BecomeProviderStyles';
 import { Curtains } from '../../../../UiKit/Curtains';
 import { t, tHTML } from '../../../../common/utils/intl';
 import classNames from 'classnames';
-import { Body1, Headline5, Headline1 } from '../../../../UiKit/Typography';
+import { Body1, Headline1, Headline5 } from '../../../../UiKit/Typography';
 import { Button } from '../../../../UiKit/Button';
-import { useAction } from '../../../../store/redux';
-import { openUnlockWalletAction } from '../../../../store/modals/actions';
 import { useIntersectionObserver } from '../../../../common/hooks/useIntersectionObserver';
+import { Typography } from '@material-ui/core';
+import { useDispatch } from 'react-redux';
+import { UserActions } from '../../../../store/actions/UserActions';
 
 const Item = ({
   title,
@@ -63,7 +64,10 @@ interface IFeaturesProps {
 
 export const BecomeProvider = ({ className }: IFeaturesProps) => {
   const classes = useBecomeProviderStyles({});
-  const openUnlockWallet = useAction(openUnlockWalletAction);
+  const dispatch = useDispatch();
+  const handleUnlockWallet = useCallback(() => {
+    dispatch(UserActions.connect());
+  }, [dispatch]);
 
   return (
     <section className={classNames(classes.component, className)}>
@@ -71,14 +75,24 @@ export const BecomeProvider = ({ className }: IFeaturesProps) => {
         <Headline1 className={classes.title} component="h2">
           {tHTML('about.become-provider-title')}
         </Headline1>
-        <Body1 className={classes.text} component="p">
-          {t('about.become-provider-text')}
-        </Body1>
+        <div className={classes.textWrapper}>
+          <Typography className={classes.text} component="p">
+            {t('about.become-provider-text')}
+          </Typography>
+          <Button
+            className={classes.button}
+            color="primary"
+            size="large"
+            onClick={handleUnlockWallet}
+          >
+            {t('navigation.unlock-wallet')}
+          </Button>
+        </div>
         <Button
-          className={classes.button}
+          className={classes.mobileButton}
           color="primary"
           size="large"
-          onClick={openUnlockWallet}
+          onClick={handleUnlockWallet}
         >
           {t('navigation.unlock-wallet')}
         </Button>

@@ -5,13 +5,18 @@ import { StrollableContainer } from 'react-stroller';
 import { useTableBodyStyles } from './TableBodyStyles';
 import { useResizeObserver } from '../../../common/hooks/useResizeObserver';
 import { TableContext } from '../Table/Table';
+import classNames from 'classnames';
 
 interface ITableBodyProps {
+  className?: string;
   children: ReactNode;
   rowsCount: number;
+  sideOffset?: number;
 }
 
 export const TableBodyComponent = ({
+  className,
+  sideOffset,
   children,
   count,
   customCell,
@@ -29,7 +34,7 @@ export const TableBodyComponent = ({
     }, []),
   );
 
-  const TableScrollBar = () => <ScrollBar />;
+  const TableScrollBar = () => <ScrollBar sideOffset={sideOffset} />;
 
   const classes = useTableBodyStyles({
     count,
@@ -39,7 +44,7 @@ export const TableBodyComponent = ({
   });
 
   return (
-    <div className={classes.bodyWrapper}>
+    <div className={classNames(classes.bodyWrapper, className)}>
       <StrollableContainer
         bar={TableScrollBar}
         draggable={true}

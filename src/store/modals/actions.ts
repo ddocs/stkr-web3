@@ -11,4 +11,5 @@ export const openModalAction = (modal: KnownModal) => ({
 
 export const closeModalAction = () => ({ type: CLOSE_MODAL_ACTION });
 
+// TODO Remove
 export const openUnlockWalletAction = () => openModalAction('unlock-wallet');

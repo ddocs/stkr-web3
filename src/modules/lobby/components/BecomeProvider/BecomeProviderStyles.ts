@@ -44,33 +44,46 @@ export const useBecomeProviderStyles = makeStyles<
       marginBottom: theme.spacing(3),
     },
   },
-  text: {
+  textWrapper: {
     gridColumn: '4/10',
     gridRow: '1/2',
-    margin: 0,
-    maxWidth: 'calc(100% - 300px)',
+    alignSelf: 'end',
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'flex-start',
     [theme.breakpoints.down('sm')]: {
       gridColumn: '-1/1',
       gridRow: '2/3',
     },
+  },
+  text: {
+    margin: 0,
+    fontSize: 24,
+    [theme.breakpoints.down('lg')]: {
+      fontSize: 18,
+    },
     [theme.breakpoints.down('xs')]: {
-      maxWidth: 'none',
+      fontSize: 16,
     },
   },
   button: {
-    gridColumn: '4/10',
-    gridRow: '1/2',
-    minWidth: 220,
-    marginLeft: 'auto',
-    [theme.breakpoints.down('sm')]: {
-      gridColumn: '-1/1',
-      gridRow: '2/3',
+    '&&': {
+      minWidth: 220,
+      marginLeft: theme.spacing(9.5),
+      [theme.breakpoints.down('sm')]: {
+        display: 'none',
+      },
     },
-    [theme.breakpoints.down('xs')]: {
+  },
+  mobileButton: {
+    '&&': {
       gridRow: '4/5',
       width: '100%',
       margin: 0,
       marginTop: theme.spacing(3.5),
+      [theme.breakpoints.up('md')]: {
+        display: 'none',
+      },
     },
   },
   list: {
@@ -150,7 +163,7 @@ export const useBecomeProviderStyles = makeStyles<
   itemText: {
     gridArea: 'text',
     margin: 0,
-    marginTop: theme.spacing(1),
+    marginTop: theme.spacing(2),
     opacity: 0.5,
   },
 }));

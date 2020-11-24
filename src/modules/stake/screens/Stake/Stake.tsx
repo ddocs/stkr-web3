@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { Curtains } from '../../../../UiKit/Curtains';
 import { useStakeStyles } from './StakeStyles';
 import {
@@ -30,12 +30,13 @@ import { MutationErrorHandler } from '../../../../components/MutationErrorHandle
 import { CheckboxField } from '../../../../UiKit/Checkbox/CheckboxField';
 import { Button } from '../../../../UiKit/Button';
 import { useIsXSDown } from '../../../../common/hooks/useTheme';
+import { floor } from '../../../../common/utils/floor';
 
 const MIN_AMOUNT = 0.5;
 const MAX_AMOUNT = 32;
-const INIT_AMOUNT = 10;
 const INTEREST_PERIOD = 12;
 const FIXED_DECIMAL_PLACES = 2;
+const STEP = 0.5;
 
 interface IStakePayload {
   amount: number;
@@ -78,6 +79,22 @@ export const StakeComponent = ({
 
   const isXSDown = useIsXSDown();
 
+  const max = useMemo(
+    () =>
+      floor(
+        ethereumBalance && ethereumBalance.isGreaterThan(MAX_AMOUNT)
+          ? ethereumBalance.toNumber()
+          : MAX_AMOUNT,
+        STEP,
+      ),
+    [ethereumBalance],
+  );
+
+  const INIT_AMOUNT =
+    ethereumBalance && ethereumBalance.isGreaterThan(MIN_AMOUNT)
+      ? floor(ethereumBalance.toNumber(), STEP)
+      : MIN_AMOUNT;
+
   const renderForm = ({
     handleSubmit,
     values: { amount },
@@ -88,14 +105,14 @@ export const StakeComponent = ({
           <Headline2 component="p" classes={{ root: classes.label }}>
             {t('stake.i-want')}
             <span className={classes.amount}>
-              {t('units.eth', { value: amount })}
+              {t('units.eth', { value: new BigNumber(amount).toFormat() })}
             </span>
           </Headline2>
           <Field
             component={SliderField}
             min={MIN_AMOUNT}
-            max={MAX_AMOUNT}
-            step={0.5}
+            max={max}
+            step={STEP}
             name="amount"
           />
         </label>
@@ -124,9 +141,9 @@ export const StakeComponent = ({
           </dt>
           <Headline3 component="dd" classes={{ root: classes.description }}>
             {t('units.~eth', {
-              value: new BigNumber(amount * yearlyInterest).toFormat(
-                FIXED_DECIMAL_PLACES,
-              ),
+              value: new BigNumber(amount)
+                .multipliedBy(yearlyInterest)
+                .toFormat(FIXED_DECIMAL_PLACES),
             })}
           </Headline3>
         </dl>
@@ -197,7 +214,7 @@ export const StakeComponent = ({
 
 export const Stake = () => {
   const dispatch = useRequestDispatch();
-  const { replace, goBack } = useHistory();
+  const { replace, push } = useHistory();
 
   const handleSubmit = ({ amount }: IStakePayload) => {
     dispatch(UserActions.stake(amount.toString(10))).then(data => {
@@ -212,8 +229,8 @@ export const Stake = () => {
   });
 
   const handleCancel = useCallback(() => {
-    goBack();
-  }, [goBack]);
+    push(STAKER_DASHBOAR_PATH);
+  }, [push]);
 
   return (
     <StakeComponent

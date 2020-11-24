@@ -9,6 +9,5 @@ export const tableStyles = createStyles({
     minWidth: TABLE_MIN_WIDTH,
     height: '100%',
     boxSizing: 'border-box',
-    overflow: 'hidden',
   },
 });

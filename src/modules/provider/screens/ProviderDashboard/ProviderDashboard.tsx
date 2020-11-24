@@ -1,22 +1,17 @@
 import * as React from 'react';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useProviderDashboardStyles } from './ProviderDashboardStyles';
-import { MicropoolList } from '../../components/MicropoolList';
 import { NodeList } from '../../components/NodeList';
 import {
-  PROVIDER_CREATE_MICROPOOL_PATH,
   PROVIDER_CREATE_NODE_PATH,
-  PROVIDER_MICROPOOL_LIST_PATH,
   PROVIDER_NODES_PATH,
-  PROVIDER_PATH,
+  PROVIDER_TOP_UP_PATH,
 } from '../../../../common/const';
-import { useRouteMatch } from 'react-router';
 import { ProviderTabs } from '../../components/ProviderTabs';
 import { t, tHTML } from '../../../../common/utils/intl';
 import { Curtains } from '../../../../UiKit/Curtains';
 import { Info } from '../../../../components/Info';
 import { NavLink } from '../../../../UiKit/NavLink';
-import { IMicropool } from '../../../../store/apiMappers/poolsApi';
 import {
   UserActions,
   UserActionTypes,
@@ -31,53 +26,39 @@ import { useDispatch } from 'react-redux';
 import { useInterval } from '../../../../common/utils/useInterval';
 import { Milliseconds } from '../../../../common/types';
 import { useAuthentication } from '../../../../common/utils/useAuthentications';
-import { CreateNode } from '../CreateNode';
+import { TopUpImp } from '../TopUp';
+import { alwaysFalse } from '../../../../common/utils/alwaysFalse';
 
 const SHORT_UPDATE_INTERVAL: Milliseconds = 30_000;
 const LONG_UPDATE_INTERVAL: Milliseconds = 60_000;
 
 interface IProviderDashboardStoreProps {
-  micropools: IMicropool[] | null;
-  nodes: ISidecar[] | null;
+  sidecars: ISidecar[] | null;
 }
 
-interface IProviderDashboardProps extends IProviderDashboardStoreProps {
-  onCreateMicropool?(): void;
-}
+interface IProviderDashboardProps extends IProviderDashboardStoreProps {}
 
 export const ProviderDashboardComponent = ({
-  micropools,
-  nodes,
+  sidecars,
 }: IProviderDashboardProps) => {
   const classes = useProviderDashboardStyles();
 
-  const isMicropoolListRoute = useRouteMatch({
-    path: PROVIDER_MICROPOOL_LIST_PATH,
-    exact: true,
-  });
-
   const renderNodeList = useCallback(
-    () => (nodes ? <NodeList className={classes.table} data={nodes} /> : null),
-    [classes.table, nodes],
+    () =>
+      sidecars ? <NodeList className={classes.table} data={sidecars} /> : null,
+    [classes.table, sidecars],
   );
 
-  const renderMicropoolList = useCallback(
-    () => <MicropoolList className={classes.table} data={micropools} />,
-    [classes.table, micropools],
+  const renderTopUp = useCallback(() => {
+    return <TopUpImp />;
+  }, []);
+
+  const hasCreatedNodeStatus = sidecars?.some(
+    item => item.status === 'SIDECAR_STATUS_UNKNOWN',
   );
 
-  const hasPendingMicropoolStatus = useMemo(
-    () => micropools?.some(item => item.status === 'MICRO_POOL_STATUS_PENDING'),
-    [micropools],
-  );
-
-  const hasMicropools = micropools && micropools.length > 0;
-
-  const hasCreatedNodeStatus = nodes?.some(
-    item => item.status === 'VALIDATOR_STATUS_FREE',
-  );
-
-  const hasNodes = nodes && nodes.length > 0;
+  const hasNodes = sidecars && sidecars.length > 0;
+  console.log('hasNodes will be used soon', hasNodes);
 
   return (
     <section className={classes.component}>
@@ -113,31 +94,20 @@ export const ProviderDashboardComponent = ({
         </Query>
         <div className={classes.navigation}>
           <ProviderTabs className={classes.tabs} />
-          {isMicropoolListRoute ? (
-            <NavLink
-              className={classes.create}
-              href={PROVIDER_CREATE_MICROPOOL_PATH}
-              variant="outlined"
-              disabled={hasPendingMicropoolStatus || !hasMicropools}
-              color="primary"
-            >
-              {t('navigation.create')}
-            </NavLink>
-          ) : (
-            <NavLink
-              className={classes.create}
-              href={PROVIDER_CREATE_NODE_PATH}
-              variant="outlined"
-              disabled={hasCreatedNodeStatus || !hasNodes}
-              color="primary"
-            >
-              {t('navigation.create')}
-            </NavLink>
-          )}
+          <NavLink
+            className={classes.create}
+            href={PROVIDER_CREATE_NODE_PATH}
+            variant="outlined"
+            // TODO is enough balance
+            disabled={hasCreatedNodeStatus}
+            color="primary"
+          >
+            {t('navigation.create')}
+          </NavLink>
         </div>
         <Route
-          path={[PROVIDER_PATH]}
-          render={renderMicropoolList}
+          path={[PROVIDER_TOP_UP_PATH]}
+          render={renderTopUp}
           exact={true}
         />
         <Route
@@ -156,14 +126,12 @@ export const ProviderDashboard = () => {
 
   useEffect(() => {
     if (isConnected) {
-      dispatch(UserActions.fetchCurrentProviderMicropools());
       dispatch(UserActions.fetchCurrentProviderSidecars());
       dispatch(UserActions.fetchProviderStats());
     }
   }, [dispatch, isConnected]);
 
   useInterval(() => {
-    dispatch(UserActions.fetchCurrentProviderMicropools());
     dispatch(UserActions.fetchCurrentProviderSidecars());
   }, SHORT_UPDATE_INTERVAL);
 
@@ -171,35 +139,17 @@ export const ProviderDashboard = () => {
     dispatch(UserActions.fetchProviderStats());
   }, LONG_UPDATE_INTERVAL);
 
-  const render = useCallback(({ data: nodes }: { data: ISidecar[] | null }) => {
-    return (
-      <Query<IMicropool[] | null>
-        errorComponent={QueryError}
-        loadingComponent={QueryLoadingCentered}
-        type={UserActionTypes.FETCH_CURRENT_PROVIDER_MICROPOOLS}
-        isDataEmpty={query => {
-          return !query.data;
-        }}
-        showLoaderDuringRefetch={false}
-      >
-        {({ data: micropools }) => {
-          return (
-            <ProviderDashboardComponent micropools={micropools} nodes={nodes} />
-          );
-        }}
-      </Query>
-    );
-  }, []);
-
   return (
     <Query<ISidecar[] | null>
       type={UserActionTypes.FETCH_CURRENT_PROVIDER_SIDECARS}
       errorComponent={QueryError}
       loadingComponent={QueryLoadingCentered}
-      noDataMessage={<CreateNode />}
       showLoaderDuringRefetch={false}
+      isDataEmpty={alwaysFalse}
     >
-      {render}
+      {({ data: sidecars }) => {
+        return <ProviderDashboardComponent sidecars={sidecars} />;
+      }}
     </Query>
   );
 };

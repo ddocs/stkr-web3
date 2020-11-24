@@ -7,7 +7,7 @@ import { withDefaultLayout } from './modules/layout';
 import {
   INDEX_PATH,
   PICKER_PATH,
-  PROVIDER_CREATE_MICROPOOL_PATH,
+  PROVIDER_TOP_UP_PATH,
   PROVIDER_CREATE_NODE_PATH,
   PROVIDER_NODES_PATH,
   PROVIDER_PATH,
@@ -35,18 +35,6 @@ const CreateBeaconChainContainer = withDefaultLayout(
     async () =>
       import('./modules/provider/screens/CreateNode').then(
         module => module.CreateNode,
-      ),
-    {
-      fallback: <QueryLoadingCentered />,
-    },
-  ) as LoadableComponent<any>,
-);
-
-const CreateMicropoolContainer = withDefaultLayout(
-  loadable(
-    async () =>
-      import('./modules/provider/screens/CreateMicropool').then(
-        module => module.CreateMicropoolImp,
       ),
     {
       fallback: <QueryLoadingCentered />,
@@ -94,18 +82,13 @@ export function Routes() {
         component={LoadableOverviewContainer}
       />
       <Route
-        path={[PROVIDER_PATH, PROVIDER_NODES_PATH]}
+        path={[PROVIDER_PATH, PROVIDER_TOP_UP_PATH, PROVIDER_NODES_PATH]}
         component={ProviderContainer}
         exact={true}
       />
       <Route
         path={PROVIDER_CREATE_NODE_PATH}
         component={CreateBeaconChainContainer}
-        exact={true}
-      />
-      <Route
-        path={PROVIDER_CREATE_MICROPOOL_PATH}
-        component={CreateMicropoolContainer}
         exact={true}
       />
       <Route path={PICKER_PATH} component={PickerContainer} />

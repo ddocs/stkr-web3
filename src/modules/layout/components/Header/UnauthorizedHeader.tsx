@@ -1,13 +1,17 @@
 import { useHeaderStyles } from './HeaderStyles';
-import { useAction } from '../../../../store/redux';
-import { openUnlockWalletAction } from '../../../../store/modals/actions';
 import { useIsSMDown } from '../../../../common/hooks/useTheme';
 import { Button } from '../../../../UiKit/Button';
 import { t } from '../../../../common/utils/intl';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { HeaderFrame } from './HeaderFrame';
 import { Links } from '../Links';
 import { useHistory } from 'react-router';
+import {
+  UserActions,
+  UserActionTypes,
+} from '../../../../store/actions/UserActions';
+import { useDispatch } from 'react-redux';
+import { MutationErrorHandler } from '../../../../components/MutationErrorHandler/MutationErrorHandler';
 
 export const UnauthorizedHeader = ({
   className,
@@ -17,8 +21,12 @@ export const UnauthorizedHeader = ({
   isAuth?: boolean;
 }) => {
   const classes = useHeaderStyles({});
-  const openUnlockWallet = useAction(openUnlockWalletAction);
+  const dispatch = useDispatch();
   const history = useHistory();
+
+  const handleConnect = useCallback(() => {
+    dispatch(UserActions.connect());
+  }, [dispatch]);
 
   const isSMDown = useIsSMDown();
   return (
@@ -27,13 +35,14 @@ export const UnauthorizedHeader = ({
       innerClassName={classes.outer}
       dropdownClassName={classes.dropdown}
     >
+      <MutationErrorHandler type={UserActionTypes.CONNECT} resetOnShow={false} />
       <Links className={classes.links} />
       <Button
         onClick={() => {
           if (isAuth) {
             history.push('/picker');
           } else {
-            openUnlockWallet();
+            handleConnect();
           }
         }}
         className={classes.button}

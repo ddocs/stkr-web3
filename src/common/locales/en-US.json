@@ -25,12 +25,13 @@
     "push-manually": "Push Manually",
     "download": "Download",
     "micropool-list": "My micropool list",
+    "top-up": "Top up",
     "beacon-list": "Beacon chain list",
     "select-wallet-provider": "Select a wallet provider",
     "connect": "Connect",
     "install": "Install",
     "submit": "Submit",
-    "copyright": "© {year} Strk All rights reserved | <a href=\"mailto: info@ankr.com\" rel=\"noopener noreferrer\">info@ankr.com</a>",
+    "copyright": "© {year} Stkr All rights reserved | <a href=\"mailto: info@ankr.com\" rel=\"noopener noreferrer\">info@ankr.com</a>",
     "share": "Share via social",
     "micropool-name": "Micropool name",
     "duration": "Duration",
@@ -188,7 +189,7 @@
         "note": "The process might take a while"
       },
       "stage-7": {
-        "generation": "Micropool is being generated",
+        "generation": "Transaction is processing...",
         "note": "The process might take a while"
       }
     },
@@ -231,6 +232,7 @@
   "units": {
     "$": "${value}",
     "eth": "{value} ETH",
+    "ankr": "{value} ANKR",
     "~eth": "~ {value} ETH",
     "months": "{value} mo",
     "~months": "~ {value} mo",
@@ -260,13 +262,13 @@
   },
   "beacon-list": {
     "status": {
-      "VALIDATOR_STATUS_FREE": "Created",
-      "VALIDATOR_STATUS_RESERVED": "Activated"
+      "SIDECAR_STATUS_UNKNOWN": "Created"
     },
     "not-launched": "Not launched"
   },
   "create-micropool": {
-    "title": "Create Your Micropool",
+    "title": "Top-up your balance",
+    "submit": "Top-up",
     "form": {
       "step-1": {
         "count": "Step 1",
@@ -275,24 +277,25 @@
       },
       "step-2": {
         "count": "Step 2",
-        "caption": "Сhoose cryptocurrency",
-        "deposit-ETH": "Deposit ETH",
+        "caption": "Select a top-up method",
+        "deposit-ETH": "ETH",
         "or": "or",
-        "deposit-ANKR": "Deposit ANKR"
+        "deposit-ANKR": "ANKR"
       },
       "step-3": {
-        "caption-ANKR": "ANKR amount",
-        "text-ANKR": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-        "caption-ETH": "ETH amount",
-        "text-ETH": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+        "caption-ANKR": "Top up ANKR tokens",
+        "text-ANKR": "For top-up you need to have minimum 100,000 ANKR on your account.\nThese funds will be blocked for participation in staking.",
+        "caption-ETH": "Top up ETH tokens",
+        "text-ETH": "For top-up you need to have minimum 2 ETH on your account. These funds will be blocked for participation in staking."
       }
     }
   },
   "create-micropool-form": {
     "your-balance": "Your ANKR balance",
     "needed": "Needed amount",
-    "deposit": "Deposit {value} ANKR",
-    "buy": "Buy"
+    "allow": "Allow {value} ANKR",
+    "buy": "Buy",
+    "ankr-allowed": "{value} ANKR allowed"
   },
   "staked-dashboard": {
     "staked": "Staked amount",
@@ -304,7 +307,7 @@
     "redeem": "Redeem",
     "locked": "Any staked amounts will be locked for the duration of the ETH 2.0 contract. You will, however, receive aETH equivalent to your stake that you will be able to trade in the meantime, against your staked amount. Until aETH is made available, however, your funds will be locked and not redeemable.",
     "statuses": {
-      "STAKE_ACTION_PENDING": "Pending",
+      "STAKE_ACTION_PENDING": "Created",
       "STAKE_ACTION_CONFIRMED": "Confirmed",
       "STAKE_ACTION_UNSTAKE": "Removed"
     },
@@ -318,6 +321,10 @@
       "date": "Date",
       "staked": "Staked",
       "rewards": "Reward"
+    },
+    "tip": {
+      "staked": "This is the amount you have currently committed from your wallet, into Stkr",
+      "aeth-amount": "The amount of aETH redeemable"
     }
   },
   "node-list": {
@@ -326,5 +333,12 @@
   },
   "staker-dashboard": {
     "unstake": "Unstake"
+  },
+  "staking-history-table": {
+    "tip": {
+      "status": "Status of the staking transaction",
+      "amount": "Amount of ETH to be staked in this transaction",
+      "txid": "The Ethereum transaction ID. Click to view the transaction in the Eth explorer."
+    }
   }
 }

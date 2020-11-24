@@ -11,6 +11,7 @@ import {
   IStakeRemovedEvent,
 } from './event';
 import { BlockHeader } from 'web3-eth';
+import { FROM_BLOCK } from "../../common/const";
 
 const ABI_GLOBAL_POOL = require('./contract/GlobalPool.json');
 const ABI_ANKR = require('./contract/ANKR.json');
@@ -20,8 +21,8 @@ const ABI_SYSTEM = require('./contract/SystemParameters.json');
 export interface ContractConfig {
   aethContract: string;
   microPoolContract: string;
-  ankrContract: string;
-  stakingContract: string;
+  ankrContract?: string;
+  stakingContract?: string;
   systemContract: string;
 }
 
@@ -36,8 +37,8 @@ const ETH_SCALE_FACTOR = 10 ** 18;
 
 export class ContractManager {
   private readonly microPoolContract: Contract;
-  private readonly ankrContract: Contract;
-  private readonly stackingContract: Contract;
+  private readonly ankrContract?: Contract;
+  private readonly stakingContract?: Contract;
   private readonly systemContract: Contract;
 
   private systemContractParameters: SystemContractParameters | null = null;
@@ -51,14 +52,18 @@ export class ContractManager {
       ABI_GLOBAL_POOL,
       contractConfig.microPoolContract,
     );
-    this.ankrContract = this.keyProvider.createContract(
-      ABI_ANKR,
-      contractConfig.ankrContract,
-    );
-    this.stackingContract = this.keyProvider.createContract(
-      ABI_STAKING,
-      contractConfig.stakingContract,
-    );
+    if (contractConfig.ankrContract) {
+      this.ankrContract = this.keyProvider.createContract(
+        ABI_ANKR,
+        contractConfig.ankrContract,
+      );
+    }
+    if (contractConfig.stakingContract) {
+      this.stakingContract = this.keyProvider.createContract(
+        ABI_STAKING,
+        contractConfig.stakingContract,
+      );
+    }
     this.systemContract = this.keyProvider.createContract(
       ABI_SYSTEM,
       contractConfig.systemContract,
@@ -72,7 +77,7 @@ export class ContractManager {
   public async queryStakePendingEventLogs(): Promise<IStakePendingEvent[]> {
     const currentAddress = this.keyProvider.currentAccount();
     const events = await this.microPoolContract.getPastEvents('StakePending', {
-      fromBlock: 0,
+      fromBlock: FROM_BLOCK,
       filter: { staker: currentAddress },
     });
     return events.map((eventLog: EventLog) => {
@@ -93,7 +98,7 @@ export class ContractManager {
     const events = await this.microPoolContract.getPastEvents(
       'StakeConfirmed',
       {
-        fromBlock: 0,
+        fromBlock: FROM_BLOCK,
         filter: { staker: currentAddress },
       },
     );
@@ -113,7 +118,7 @@ export class ContractManager {
   public async queryStakeRemovedEventLogs(): Promise<IStakeRemovedEvent[]> {
     const currentAddress = this.keyProvider.currentAccount();
     const events = await this.microPoolContract.getPastEvents('StakeRemoved', {
-      fromBlock: 0,
+      fromBlock: FROM_BLOCK,
       filter: { staker: currentAddress },
     });
     return events.map((eventLog: EventLog) => {
@@ -169,7 +174,7 @@ export class ContractManager {
     const currentAddress = this.keyProvider.currentAccount(),
       latestBlockHeight = this.keyProvider.latestBlockHeight();
     // noinspection TypeScriptValidateJSTypes
-    this.ankrContract.events
+    this.ankrContract?.events
       .Transfer({
         filter: { from: currentAddress },
         fromBlock: latestBlockHeight,
@@ -188,7 +193,7 @@ export class ContractManager {
         });
       });
     // noinspection TypeScriptValidateJSTypes
-    this.ankrContract.events
+    this.ankrContract?.events
       .Transfer({
         filter: { to: currentAddress },
         fromBlock: latestBlockHeight,
@@ -223,11 +228,12 @@ export class ContractManager {
           `handled stake pending event log: `,
           JSON.stringify(eventLog, null, 2),
         );
+
         this.eventEmitter.emit(ContractManagerEvents.StakePending, {
           eventLog: eventLog,
           staker,
           amount: new BigNumber(amount).dividedBy(ETH_SCALE_FACTOR),
-        });
+        } as IStakePendingEvent['data']);
       });
     // noinspection TypeScriptValidateJSTypes
     this.microPoolContract.events
@@ -245,7 +251,7 @@ export class ContractManager {
           eventLog: eventLog,
           staker,
           amount: new BigNumber(amount).dividedBy(ETH_SCALE_FACTOR),
-        });
+        } as IStakeConfirmedEvent['data']);
       });
     // noinspection TypeScriptValidateJSTypes
     this.microPoolContract.events
@@ -425,7 +431,7 @@ export class ContractManager {
       currentAccount,
       this.contractConfig.microPoolContract,
       {
-        data: data,
+        data,
         value: new BigNumber(amount)
           .multipliedBy(ETH_SCALE_FACTOR)
           .toString(10),
@@ -522,7 +528,12 @@ export class ContractManager {
   }
 
   public async claimableRewardOf(staker: string): Promise<BigNumber> {
-    return this.microPoolContract.methods.claimableRewardOf(staker).call();
+    return this.microPoolContract.methods
+      .claimableRewardOf(staker)
+      .call()
+      .then((value: string) => {
+        return this.keyProvider.getWeb3().utils.fromWei(value);
+      });
   }
 
   public async poolCount(): Promise<BigNumber> {
@@ -530,7 +541,12 @@ export class ContractManager {
   }
 
   public async pendingStakesOf(staker: string): Promise<BigNumber> {
-    return this.microPoolContract.methods.pendingStakesOf(staker).call();
+    return this.microPoolContract.methods
+      .pendingStakesOf(staker)
+      .call()
+      .then((value: string) =>
+        new BigNumber(value).dividedBy(ETH_SCALE_FACTOR),
+      );
   }
 
   public async getSystemContractParameters(): Promise<
@@ -571,6 +587,9 @@ export class ContractManager {
   }
 
   public async checkAnkrAllowance(): Promise<BigNumber> {
+    if (!this.ankrContract || !this.contractConfig.ankrContract) {
+      throw new Error('Ankr contract is not available now');
+    }
     const currentAccount = await this.keyProvider.currentAccount();
     const allowance = await this.ankrContract.methods
       .allowance(currentAccount, this.contractConfig.stakingContract)
@@ -579,6 +598,9 @@ export class ContractManager {
   }
 
   public async faucet(): Promise<SendAsyncResult> {
+    if (!this.ankrContract || !this.contractConfig.ankrContract) {
+      throw new Error('Ankr contract is not available now');
+    }
     const data: string = this.ankrContract.methods.faucet().encodeABI();
     const currentAccount = await this.keyProvider.currentAccount();
     console.log(`encoded [faucet] ABI: ${data}`);
@@ -594,6 +616,9 @@ export class ContractManager {
   public async approveAnkrToStakingContract(
     amount: BigNumber,
   ): Promise<SendAsyncResult> {
+    if (!this.ankrContract || !this.contractConfig.ankrContract) {
+      throw new Error('Ankr contract is not available now');
+    }
     const data: string = this.ankrContract.methods
       .approve(
         this.contractConfig.stakingContract,
@@ -612,6 +637,9 @@ export class ContractManager {
   }
 
   public async ankrBalance(address: string): Promise<string> {
+    if (!this.ankrContract) {
+      return '0';
+    }
     return this.keyProvider.erc20Balance(this.ankrContract, address);
   }
 }

@@ -4,20 +4,18 @@ import classNames from 'classnames';
 import { useCellStyles } from './TableHeadCellStyles';
 import { BackgroundColorProvider } from '../../../UiKit/BackgroundColorProvider';
 import { TableContext } from '../Table/Table';
+import { WithUseStyles } from '../../../common/types';
 
-interface ITableHeadCellProps {
+interface ITableHeadCellProps extends Partial<WithUseStyles<typeof useCellStyles>> {
+  className?: string;
   label: React.ReactNode;
   align?: AlignType;
 }
 
-const TableHeadCellComponent = ({
-  alignCell,
-  align,
-  label,
-  defense,
-  paddingCollapse,
-}: ITableHeadCellProps & IStyleProps) => {
-  const classes = useCellStyles({ defense, paddingCollapse });
+const TableHeadCellComponent = (props: ITableHeadCellProps & IStyleProps) => {
+  const { className, alignCell, align, label } = props;
+
+  const classes = useCellStyles(props);
 
   return (
     <BackgroundColorProvider
@@ -27,11 +25,12 @@ const TableHeadCellComponent = ({
         (alignCell === 'center' || align === 'center') && classes.centerCell,
         (alignCell === 'right' || align === 'right') && classes.rightCell,
         (alignCell === 'left' || align === 'left') && classes.leftCell,
+        className,
       )}
       role="cell"
       component="div"
     >
-      <div className={classes.cellWrapper}>{label}</div>
+      <div className={classes.content}>{label}</div>
     </BackgroundColorProvider>
   );
 };

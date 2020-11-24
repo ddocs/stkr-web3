@@ -5,7 +5,7 @@ import { StkrSdk } from '../../modules/api';
 import { t } from './intl';
 import { UserActions } from '../../store/actions/UserActions';
 
-export const authenticatedGuard = function (
+export const authenticatedRequestGuard = function (
   request: any,
   action: RequestAction,
   store: Store<IStoreState>,

@@ -1,62 +1,46 @@
 import React, { useCallback, useMemo } from 'react';
-import { useCreateMicropoolStyles } from './CreateMicropoolStyles';
-import classNames from 'classnames';
+import { useTopUpStyles } from './TopUpStyles';
 import { CancelIcon } from '../../../../UiKit/Icons/CancelIcon';
 import { Form } from 'react-final-form';
 import {
-  CreateMicropoolForm,
+  ANKR_AMOUNT_FIELD_NAME,
+  TopUpForm,
   DEPOSIT_TYPE_FIELD_NAME,
   DepositType,
   ETH_AMOUNT_FIELD_NAME,
   MIN_ETH_AMOUNT_DEPOSIT,
-} from './CreateMicropoolForm';
+} from './TopUpForm';
+import { IconButton } from '@material-ui/core';
+import {
+  MAX_PROVIDER_STAKING_AMOUNT,
+  PROVIDER_NODES_PATH,
+} from '../../../../common/const';
+import { FormErrors } from '../../../../common/types/FormErrors';
+import { t } from '../../../../common/utils/intl';
+import BigNumber from 'bignumber.js';
+import { Curtains } from '../../../../UiKit/Curtains';
+import { BackgroundColorProvider } from '../../../../UiKit/BackgroundColorProvider';
+import { MutationErrorHandler } from '../../../../components/MutationErrorHandler/MutationErrorHandler';
+import { Mutation, useQuery } from '@redux-requests/react';
+import { TopUpProgress } from './TopUpProgress';
+import { useHistory } from 'react-router';
+import { useRequestDispatch } from '../../../../common/utils/useRequestDispatch';
 import {
   UserActions,
   UserActionTypes,
 } from '../../../../store/actions/UserActions';
-import { Mutation, useQuery } from '@redux-requests/react';
-import { Curtains } from '../../../../UiKit/Curtains';
-import { BackgroundColorProvider } from '../../../../UiKit/BackgroundColorProvider';
-import { CreateMicropoolProgress } from './CreateMicropoolProgress';
-import { IconButton } from '@material-ui/core';
-import { useHistory } from 'react-router';
-import { IRequestActionPromiseData } from '../../../../common/types';
-import { success } from '@redux-requests/core';
-import {
-  MAX_PROVIDER_STAKING_AMOUNT,
-  PROVIDER_MICROPOOL_LIST_PATH,
-} from '../../../../common/const';
-import { useRequestDispatch } from '../../../../common/utils/useRequestDispatch';
-import { isAlphanumeric } from '../../../../common/utils/isAlphanumeric';
-import { FormErrors } from '../../../../common/types/FormErrors';
-import { t } from '../../../../common/utils/intl';
 import { IUserInfo } from '../../../../store/apiMappers/userApi';
-import BigNumber from 'bignumber.js';
-import { MutationErrorHandler } from '../../../../components/MutationErrorHandler/MutationErrorHandler';
+import classNames from 'classnames';
+import { IAllowance } from '../../../../store/apiMappers/allowance';
 
-const MICROPOOL_NAME_MAX_LENGTH = 32;
-
-interface ICreateMicropoolPayload {
-  name: string;
+interface ITopUpPayload {
   [DEPOSIT_TYPE_FIELD_NAME]: DepositType;
   [ETH_AMOUNT_FIELD_NAME]: number;
+  [ANKR_AMOUNT_FIELD_NAME]: number;
 }
 
-function validateCreateMicropoolForm({
-  name,
-  ...data
-}: ICreateMicropoolPayload) {
-  const errors: FormErrors<ICreateMicropoolPayload> = {};
-
-  if (!name) {
-    errors.name = t('validation.required');
-  } else if (!isAlphanumeric(name)) {
-    errors.name = t('validation.alphanumeric');
-  } else if (name.length > MICROPOOL_NAME_MAX_LENGTH) {
-    errors.name = t('validation.min-length', {
-      size: MICROPOOL_NAME_MAX_LENGTH,
-    });
-  }
+function validateTopUpForm({ ...data }: ITopUpPayload) {
+  const errors: FormErrors<ITopUpPayload> = {};
 
   if (data[DEPOSIT_TYPE_FIELD_NAME] === DepositType.ETH) {
     if (data[ETH_AMOUNT_FIELD_NAME] < MIN_ETH_AMOUNT_DEPOSIT) {
@@ -69,20 +53,20 @@ function validateCreateMicropoolForm({
   return errors;
 }
 
-interface ICreateMicropoolProps {
-  onSubmit(x: ICreateMicropoolPayload): void;
+interface ITopUpProps {
+  onSubmit(x: ITopUpPayload): void;
   onClose?(): void;
   ankrBalance?: BigNumber;
   ethereumBalance?: BigNumber;
 }
 
-export const CreateMicropoolComponent = ({
+export const TopUpComponent = ({
   onSubmit,
   onClose,
   ankrBalance,
   ethereumBalance,
-}: ICreateMicropoolProps) => {
-  const classes = useCreateMicropoolStyles();
+}: ITopUpProps) => {
+  const classes = useTopUpStyles();
 
   const maxStakingAmount = useMemo(
     () =>
@@ -101,9 +85,7 @@ export const CreateMicropoolComponent = ({
   );
 
   const render = useCallback(
-    formProps => (
-      <CreateMicropoolForm ankrBalance={ankrBalance} {...formProps} />
-    ),
+    formProps => <TopUpForm ankrBalance={ankrBalance} {...formProps} />,
     [ankrBalance],
   );
 
@@ -115,7 +97,7 @@ export const CreateMicropoolComponent = ({
       <Form
         render={render}
         onSubmit={onSubmit}
-        validate={validateCreateMicropoolForm}
+        validate={validateTopUpForm}
         initialValues={INIT_VALUES}
         initialValuesEqual={(a, b) => {
           return (
@@ -128,31 +110,33 @@ export const CreateMicropoolComponent = ({
   );
 };
 
-export const CreateMicropoolImp = () => {
-  const classes = useCreateMicropoolStyles();
+export const TopUpImp = () => {
+  const classes = useTopUpStyles();
   const history = useHistory();
   const dispatch = useRequestDispatch();
+  const { data: allowanceData } = useQuery<IAllowance | null>({
+    type: UserActionTypes.FETCH_ALLOWANCE,
+  });
 
   const handleSubmit = useCallback(
-    (payload: ICreateMicropoolPayload) => {
+    (payload: ITopUpPayload) => {
       if (payload[DEPOSIT_TYPE_FIELD_NAME] === DepositType.ETH) {
         dispatch(
-          UserActions.allowEthTokens({
-            name: payload.name,
-            amount: new BigNumber(payload[ETH_AMOUNT_FIELD_NAME]),
-          }),
-        );
+          UserActions.topUp(
+            new BigNumber(payload[ETH_AMOUNT_FIELD_NAME]),
+            DepositType.ETH,
+          ),
+        ).then(() => history.push(PROVIDER_NODES_PATH));
+      } else {
+        if (allowanceData) {
+          dispatch(
+            UserActions.topUp(allowanceData.totalAllowance, DepositType.ANKR),
+          ).then(() => history.push(PROVIDER_NODES_PATH));
+        }
       }
-
-      dispatch(UserActions.createMicropool(payload)).then(
-        (data: IRequestActionPromiseData) => {
-          if (data.action.type === success(UserActionTypes.CREATE_MICROPOOL)) {
-            history.replace(PROVIDER_MICROPOOL_LIST_PATH);
-          }
-        },
-      );
+      // TODO Handle exception
     },
-    [dispatch, history],
+    [allowanceData, dispatch, history],
   );
 
   const handleClose = useCallback(() => {
@@ -167,13 +151,13 @@ export const CreateMicropoolImp = () => {
     <section className={classNames(classes.section)}>
       <Curtains classes={{ root: classes.wrapper }}>
         <BackgroundColorProvider className={classes.content}>
-          <MutationErrorHandler type={UserActionTypes.CREATE_MICROPOOL} />
-          <Mutation type={UserActionTypes.CREATE_MICROPOOL}>
+          <MutationErrorHandler type={UserActionTypes.TOP_UP} />
+          <Mutation type={UserActionTypes.TOP_UP}>
             {({ loading }) =>
               loading ? (
-                <CreateMicropoolProgress />
+                <TopUpProgress />
               ) : (
-                <CreateMicropoolComponent
+                <TopUpComponent
                   onSubmit={handleSubmit}
                   onClose={handleClose}
                   ankrBalance={data?.ankrBalance}

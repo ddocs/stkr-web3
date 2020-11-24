@@ -3,11 +3,11 @@ import { Milliseconds } from './types';
 export const INDEX_PATH = '/';
 export const ANKR_PATH = 'https://www.ankr.com';
 export const STAKER_STAKE_PATH = '/staker/stake';
-export const STAKER_DASHBOAR_PATH = '/staker';
+export const STAKER_PATH = '/staker';
+export const STAKER_DASHBOAR_PATH = STAKER_PATH;
 export const PROVIDER_PATH = '/provider';
-export const PROVIDER_MICROPOOL_LIST_PATH = PROVIDER_PATH;
-export const PROVIDER_NODES_PATH = '/provider/nodes';
-export const PROVIDER_CREATE_MICROPOOL_PATH = '/provider/create-micropool';
+export const PROVIDER_NODES_PATH = `${PROVIDER_PATH}/nodes`;
+export const PROVIDER_TOP_UP_PATH = PROVIDER_PATH;
 export const PROVIDER_CREATE_NODE_PATH = '/provider/create-node';
 export const PICKER_PATH = '/picker';
 export const SURVEY_PATH = 'https://ankr_stkr.typeform.com/to/pc5sgxl9';
@@ -36,3 +36,16 @@ const env = process.env.REACT_APP_STKR_ENV
   : 'develop';
 export const isMainnet = env === 'mainnet';
 export const ENABLE_PROVIDER = !isMainnet;
+
+export enum CHAINS {
+  mainnet = 1,
+  ropsten = 3,
+  rinkeby = 4,
+  goerli = 5,
+  dev = 2018,
+  classic = 61,
+  mordor = 63,
+  kotti = 6,
+}
+
+export const FROM_BLOCK = isMainnet ? 11_225_126 : 0;

@@ -2,10 +2,10 @@ import { ProviderConfig } from './provider';
 import { ContractConfig } from './contract';
 
 export interface IStkrConfig {
-  providerConfig?: ProviderConfig;
+  providerConfig: ProviderConfig;
   contractConfig?: ContractConfig;
   baseUrl: string;
-  configFile: string;
+  configUrl: string;
 }
 
 export const LOCAL_CONFIG: IStkrConfig = {
@@ -14,26 +14,31 @@ export const LOCAL_CONFIG: IStkrConfig = {
     chainId: '5',
   },
   contractConfig: {
-    aethContract: '0x2C6c8d1dcc90C6cd66e9508F22BbeA40BdcaFb9c',
-    microPoolContract: '0x96286E3BED3638541D5a6e5134C50C4d2C21d8D1',
-    ankrContract: '0x23f438234655Bf317af71088e135104A5532F937',
-    stakingContract: '0xe48cDc6146722C045566c6B614263e22D9bF1b50',
-    systemContract: '0x9C3bAd0a6755d07C9784adD9c42F58c6256a01A6',
+    aethContract: '0x04b7208e732D46e75EF45155b946235a185423b2',
+    microPoolContract: '0x0C06BEBd07E22ee5bfB0e5EC9bB22271faC86312',
+    ankrContract: '0x23f438234655Bf317af71088e135104A5532F937', // old
+    stakingContract: '0xe48cDc6146722C045566c6B614263e22D9bF1b50', // old
+    systemContract: '0x265B7726FF0Bb3b62D3F6bB9E88374f913FC4e22',
   },
-  baseUrl: 'http://localhost:8080',
-  configFile: 'develop.json',
+  baseUrl: 'http://localhost:8080/',
+  configUrl: 'https://cdn.stkr.io/contracts/develop/addresses.json',
 };
 
 export const DEVELOP_CONFIG: IStkrConfig = {
   ...LOCAL_CONFIG,
   baseUrl: 'https://api.stkr-dev.ankr.com/',
-  configFile: 'develop.json',
 };
 
 export const GOERLI_CONFIG: IStkrConfig = {
   ...LOCAL_CONFIG,
+  contractConfig: {
+    aethContract: '0x35F50849eEe33632cD948A165C75523Fd8E6B16B',
+    microPoolContract: '0xDDEC45249efb72CbFe78f1Ad6DBf596DB6782CcD',
+    ankrContract: '0x23f438234655Bf317af71088e135104A5532F937', // old
+    stakingContract: '0xe48cDc6146722C045566c6B614263e22D9bF1b50', // old
+    systemContract: '0x19Ec552FB068D48de1A494C6655fc32bB00B2632',
+  },
   baseUrl: 'https://api.stkr-goerli.ankr.com/',
-  configFile: 'goerli.json',
 };
 
 export const MAINNET_CONFIG: IStkrConfig = {
@@ -49,5 +54,5 @@ export const MAINNET_CONFIG: IStkrConfig = {
     systemContract: '0x3bFce37B5401BEF13C78830D3A9FB14294d18c4F',
   },
   baseUrl: 'https://api.stkr.ankr.com/',
-  configFile: 'mainnet.json',
+  configUrl: 'https://cdn.stkr.io/contracts/mainnet/addresses.json',
 };

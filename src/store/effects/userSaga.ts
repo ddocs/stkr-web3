@@ -1,4 +1,13 @@
-import { call, cancel, cancelled, fork, put, select, take, takeEvery, } from 'redux-saga/effects';
+import {
+  call,
+  cancel,
+  cancelled,
+  fork,
+  put,
+  select,
+  take,
+  takeEvery,
+} from 'redux-saga/effects';
 import { UserActions, UserActionTypes } from '../actions/UserActions';
 import { REHYDRATE } from 'redux-persist/es/constants';
 import { replace } from 'connected-react-router';
@@ -20,44 +29,17 @@ function createEventChannel() {
   return eventChannel(emitter => {
     const events = StkrSdk.getLastInstance().getEventEmitter();
 
-    events.on(KeyProviderEvents.AccountChanged, data => {
-      emitter({ data, type: KeyProviderEvents.AccountChanged });
+    [
+      ...Object.values(KeyProviderEvents),
+      ...Object.values(ContractManagerEvents),
+    ].forEach(value => {
+      events.on(value, data => {
+        emitter({ data, type: value });
+      });
     });
 
     events.on(KeyProviderEvents.Disconnect, () => {
       emitter(END);
-    });
-
-    events.on(KeyProviderEvents.Message, data => {
-      emitter({ data, type: KeyProviderEvents.Message });
-    });
-
-    events.on(KeyProviderEvents.ChainChanged, data => {
-      emitter({ data, type: KeyProviderEvents.ChainChanged });
-    });
-
-    events.on(ContractManagerEvents.AnkrBalanceChanged, data => {
-      emitter({ data, type: ContractManagerEvents.AnkrBalanceChanged });
-    });
-
-    events.on(ContractManagerEvents.EthereumBalanceChanged, data => {
-      emitter({ data, type: ContractManagerEvents.EthereumBalanceChanged });
-    });
-
-    events.on(ContractManagerEvents.AethBalanceChanged, data => {
-      emitter({ data, type: ContractManagerEvents.AethBalanceChanged });
-    });
-
-    events.on(ContractManagerEvents.StakePending, data => {
-      emitter({ data, type: ContractManagerEvents.StakePending });
-    });
-
-    events.on(ContractManagerEvents.StakeConfirmed, data => {
-      emitter({ data, type: ContractManagerEvents.StakeConfirmed });
-    });
-
-    events.on(ContractManagerEvents.StakeRemoved, data => {
-      emitter({ data, type: ContractManagerEvents.StakeRemoved });
     });
 
     return () => {
@@ -105,17 +87,57 @@ function* listenKeyProviderEvents() {
           window.location.reload();
         });
       } else if (event.type === ContractManagerEvents.AnkrBalanceChanged) {
-        yield put(UserActions.fetchAccountData());
+        yield put(
+          UserActions.updateAccountData({
+            ankrBalance: event.data.balance,
+          }),
+        );
       } else if (event.type === ContractManagerEvents.EthereumBalanceChanged) {
-        yield put(UserActions.fetchAccountData());
+        yield put(
+          UserActions.updateAccountData({
+            ethereumBalance: event.data.balance,
+          }),
+        );
       } else if (event.type === ContractManagerEvents.AethBalanceChanged) {
-        yield put(UserActions.fetchStakerStats());
+        yield put(
+          UserActions.updateStakerStats({ reward: event.data.balance }),
+        );
       } else if (event.type === ContractManagerEvents.StakePending) {
-        yield put(UserActions.fetchStakerStats());
+        yield put(
+          UserActions.updateStakerStats({
+            stakes: [
+              {
+                transactionHash: event.data.eventLog.transactionHash,
+                amount: event.data.amount,
+                action: 'STAKE_ACTION_PENDING',
+              },
+            ],
+          }),
+        );
       } else if (event.type === ContractManagerEvents.StakeConfirmed) {
-        yield put(UserActions.fetchStakerStats());
+        yield put(
+          UserActions.updateStakerStats({
+            stakes: [
+              {
+                transactionHash: event.data.eventLog.transactionHash,
+                amount: event.data.amount,
+                action: 'STAKE_ACTION_CONFIRMED',
+              },
+            ],
+          }),
+        );
       } else if (event.type === ContractManagerEvents.StakeRemoved) {
-        yield put(UserActions.fetchStakerStats());
+        yield put(
+          UserActions.updateStakerStats({
+            stakes: [
+              {
+                transactionHash: event.data.eventLog.transactionHash,
+                amount: event.data.amount,
+                action: 'STAKE_ACTION_UNSTAKE',
+              },
+            ],
+          }),
+        );
       }
     }
   } finally {
@@ -136,6 +158,13 @@ function* onConnectSuccess() {
 function* onDisconnectSuccess() {
   yield put(resetRequests());
   yield put(replace(INDEX_PATH));
+  try {
+    // TODO Can be excess
+    const stkrSdk = StkrSdk.getLastInstance();
+    yield stkrSdk?.disconnect();
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 function* init() {

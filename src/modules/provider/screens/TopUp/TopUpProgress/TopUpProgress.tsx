@@ -1,12 +1,12 @@
 import React from 'react';
-import { useCreateMicropoolProgressStyles } from './CreateMicropoolProgressStyles';
+import { useTopUpProgressStyles } from './TopUpProgressStyles';
 import { Body2, Headline2 } from '../../../../../UiKit/Typography';
 import { t, tHTML } from '../../../../../common/utils/intl';
 import { ProgressBar } from '../../../components/ProgressBar/ProgressBar';
 import { Icon } from '../../CreateNode/CreateNodeProgress/Icon';
 
-export const CreateMicropoolProgress = () => {
-  const classes = useCreateMicropoolProgressStyles();
+export const TopUpProgress = () => {
+  const classes = useTopUpProgressStyles();
 
   return (
     <div className={classes.component}>

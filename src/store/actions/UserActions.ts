@@ -2,24 +2,21 @@ import { IUserInfo } from '../apiMappers/userApi';
 import { Providers } from '../../common/types';
 import { StkrSdk } from '../../modules/api';
 import BigNumber from 'bignumber.js';
-import {
-  MicroPoolReply,
-  SidecarReply,
-  SidecarStatusReply,
-} from '../../modules/api/gateway';
-import { IMicropool, mapMicropool } from '../apiMappers/poolsApi';
+import { SidecarReply } from '../../modules/api/gateway';
 import { ISidecar, mapSidecar } from '../apiMappers/sidecarsApi';
 import { mapProviderStats } from '../apiMappers/providerStatsApi';
 import { IAllowance } from '../apiMappers/allowance';
-import { mapStakerStats } from '../apiMappers/stakerStatsApi';
-import { authenticatedGuard } from '../../common/utils/authenticatedGuard';
+import { IStakerStats, mapStakerStats } from '../apiMappers/stakerStatsApi';
+import { authenticatedRequestGuard } from '../../common/utils/authenticatedRequestGuard';
 import { RequestAction } from '@redux-requests/core';
 import { Store } from 'redux';
 import { IStoreState } from '../reducers';
-import { ISidecarStatus, mapNodeStatus } from '../apiMappers/sidecarStatus';
 import { PICKER_PATH } from '../../common/const';
 import { closeModalAction } from '../modals/actions';
 import { replace } from 'connected-react-router';
+import { update } from '../../common/utils/update';
+import { createAction } from 'redux-actions';
+import { DepositType } from '../../modules/provider/screens/TopUp/TopUpForm';
 
 export const UserActionTypes = {
   CONNECT: 'CONNECT',
@@ -28,19 +25,11 @@ export const UserActionTypes = {
 
   FETCH_ACCOUNT_DATA: 'FETCH_ACCOUNT_DATA',
 
-  FETCH_MICROPOOLS: 'FETCH_MICROPOOLS',
-
-  FETCH_CURRENT_PROVIDER_MICROPOOLS: 'FETCH_CURRENT_PROVIDER_MICROPOOLS',
-
   FETCH_CURRENT_PROVIDER_SIDECARS: 'FETCH_CURRENT_PROVIDER_SIDECARS',
-
-  FETCH_SIDECAR_STATUS: 'FETCH_SIDECAR_STATUS',
 
   AUTHORIZE_PROVIDER: 'AUTHORIZE_PROVIDER',
 
   CREATE_SIDECAR: 'CREATE_SIDECAR',
-
-  CREATE_MICROPOOL: 'CREATE_MICROPOOL',
 
   FETCH_PROVIDER_STATS: 'FETCH_PROVIDER_STATS',
 
@@ -59,6 +48,8 @@ export const UserActionTypes = {
   CLAIM_A_ETH: 'CLAIM_A_ETH',
 
   FETCH_STAKER_STATS: 'FETCH_STAKER_STATS',
+
+  TOP_UP: 'TOP_UP',
 };
 
 export const UserActions = {
@@ -67,7 +58,7 @@ export const UserActions = {
     request: {
       promise: (async function () {
         const stkrSdk = StkrSdk.getLastInstance();
-        return await stkrSdk?.connectMetaMask();
+        return await stkrSdk?.connect();
       })(),
     },
     meta: {
@@ -112,18 +103,9 @@ export const UserActions = {
       })(),
     },
   }),
-  fetchMicropools: () => ({
-    type: UserActionTypes.FETCH_MICROPOOLS,
-    request: {
-      promise: (async function () {
-        const stkrSdk = StkrSdk.getLastInstance();
-        return stkrSdk.getApiGateway().getMicroPools();
-      })(),
-    },
-    meta: {
-      getData: (data: MicroPoolReply[]): IMicropool[] => data.map(mapMicropool),
-    },
-  }),
+  updateAccountData: createAction<Partial<IUserInfo>>(
+    update(UserActionTypes.FETCH_ACCOUNT_DATA),
+  ),
   authorizeProvider: () => ({
     type: UserActionTypes.AUTHORIZE_PROVIDER,
     request: {
@@ -134,22 +116,6 @@ export const UserActions = {
     },
     meta: {
       asMutation: true,
-    },
-  }),
-  fetchCurrentProviderMicropools: () => ({
-    type: UserActionTypes.FETCH_CURRENT_PROVIDER_MICROPOOLS,
-    request: {
-      promise: (async function () {
-        const stkrSdk = StkrSdk.getLastInstance();
-        return stkrSdk
-          ?.getApiGateway()
-          .getMicroPoolsByProvider(stkrSdk.getKeyProvider().currentAccount());
-      })(),
-    },
-    meta: {
-      getData: (data: MicroPoolReply[]): IMicropool[] => {
-        return data.map(mapMicropool);
-      },
     },
   }),
   fetchCurrentProviderSidecars: () => ({
@@ -163,36 +129,10 @@ export const UserActions = {
       },
     },
     meta: {
-      onRequest: authenticatedGuard,
-      onSuccess: (
-        request: { data: ISidecar[] },
-        action: RequestAction,
-        store: Store<IStoreState>,
-      ) => {
-        request.data.forEach(item => {
-          store.dispatch(UserActions.fetchSidecarStatus(item.id));
-        });
-        return request;
-      },
+      onRequest: authenticatedRequestGuard,
       getData: (data: SidecarReply[]): ISidecar[] => {
         return data.map(mapSidecar);
       },
-    },
-  }),
-  fetchSidecarStatus: (id: string) => ({
-    type: UserActionTypes.FETCH_SIDECAR_STATUS,
-    request: {
-      promise: async function () {
-        const stkrSdk = StkrSdk.getLastInstance();
-        return await stkrSdk.getSidecarStatus(id);
-      },
-    },
-    meta: {
-      onRequest: authenticatedGuard,
-      getData: (data: SidecarStatusReply): ISidecarStatus => {
-        return mapNodeStatus(data);
-      },
-      requestKey: id,
     },
   }),
   createSidecar: () => ({
@@ -204,34 +144,14 @@ export const UserActions = {
       },
     },
     meta: {
-      onRequest: authenticatedGuard,
+      onRequest: authenticatedRequestGuard,
       asMutation: true,
       mutations: {
         [UserActionTypes.FETCH_CURRENT_PROVIDER_SIDECARS]: (
           data: ISidecar[],
-          item: { sidecar: SidecarReply },
+          sidecar: SidecarReply,
         ) => {
-          return [...data, mapSidecar(item.sidecar)] as ISidecar[];
-        },
-      },
-    },
-  }),
-  createMicropool: ({ name }: { name: string }) => ({
-    type: UserActionTypes.CREATE_MICROPOOL,
-    request: {
-      promise: (async function () {
-        console.log(name);
-        alert('Not possible anymore');
-      })(),
-    },
-    meta: {
-      asMutation: true,
-      mutations: {
-        [UserActionTypes.FETCH_CURRENT_PROVIDER_MICROPOOLS]: (
-          data: ISidecar[],
-          item: MicroPoolReply,
-        ) => {
-          return [...data, mapMicropool(item)];
+          return [...data, mapSidecar(sidecar)] as ISidecar[];
         },
       },
     },
@@ -246,7 +166,7 @@ export const UserActions = {
     },
     meta: {
       getData: mapProviderStats,
-      onRequest: authenticatedGuard,
+      onRequest: authenticatedRequestGuard,
     },
   }),
   fetchAllowance: () => ({
@@ -254,9 +174,14 @@ export const UserActions = {
     request: {
       promise: (async function () {
         const stkrSdk = StkrSdk.getLastInstance();
+        const allowanceAmount = await stkrSdk.getAllowanceAmount();
+        const remainingAllowance = await stkrSdk.getRemainingAllowance();
+        const totalAllowance = allowanceAmount.plus(remainingAllowance);
+
         return {
-          allowanceAmount: await stkrSdk.getAllowanceAmount(),
-          remainingAllowance: await stkrSdk.getRemainingAllowance(),
+          allowanceAmount,
+          remainingAllowance,
+          totalAllowance,
         } as IAllowance;
       })(),
     },
@@ -326,11 +251,11 @@ export const UserActions = {
     request: {
       promise: (async function () {
         const stkrSdk = StkrSdk.getLastInstance();
-        const aethBalance = await stkrSdk
+        const aEthBalance = await stkrSdk
           .getContractManager()
           .claimableRewardOf(stkrSdk.getKeyProvider().currentAccount());
         return {
-          aEthBalance: aethBalance.toString(10),
+          aEthBalance,
           ...(await stkrSdk.getStakerStats()),
         };
       })(),
@@ -339,12 +264,75 @@ export const UserActions = {
       getData: mapStakerStats,
     },
   }),
+  updateStakerStats: (payload: Partial<IStakerStats>) => {
+    return {
+      type: update(UserActionTypes.FETCH_STAKER_STATS),
+      payload: payload,
+      meta: {
+        // TODO cover by unit
+        mutation: (
+          state: IStakerStats | undefined,
+          payload: Partial<IStakerStats>,
+        ): Partial<IStakerStats> => {
+          const stakes = (() => {
+            if (!payload || !(payload.stakes instanceof Array)) {
+              return state?.stakes;
+            }
+
+            if (!state?.stakes) {
+              return payload.stakes;
+            }
+
+            let begin: IStakerStats['stakes'] = [];
+            const main = [...state.stakes];
+
+            payload.stakes.forEach(newItem => {
+              const index = state.stakes.findIndex(
+                item => item.transactionHash === newItem.transactionHash,
+              );
+              if (index !== -1) {
+                main[index] = newItem;
+                return;
+              }
+
+              begin = [newItem, ...begin];
+            });
+
+            return [...begin, ...main];
+          })();
+
+          return {
+            ...state,
+            ...payload,
+            stakes,
+          };
+        },
+      },
+    };
+  },
   claimAeth: () => ({
     type: UserActionTypes.CLAIM_A_ETH,
     request: {
       promise: (async function () {
         const stkrSdk = StkrSdk.getLastInstance();
         return stkrSdk.claimAeth();
+      })(),
+    },
+    meta: {
+      asMutation: true,
+    },
+  }),
+  topUp: (amount: BigNumber, type: DepositType) => ({
+    type: UserActionTypes.TOP_UP,
+    request: {
+      promise: (async function () {
+        const stkrSdk = StkrSdk.getLastInstance();
+
+        if (type === DepositType.ETH) {
+          return stkrSdk.topUpETH(amount);
+        }
+
+        return stkrSdk.topUpANKR(amount);
       })(),
     },
     meta: {
