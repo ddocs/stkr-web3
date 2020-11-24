@@ -11,7 +11,7 @@ import {
   IStakeRemovedEvent,
 } from './event';
 import { BlockHeader } from 'web3-eth';
-import { FROM_BLOCK } from "../../common/const";
+import { FROM_BLOCK } from '../../common/const';
 
 const ABI_GLOBAL_POOL = require('./contract/GlobalPool.json');
 const ABI_ANKR = require('./contract/ANKR.json');
@@ -228,7 +228,6 @@ export class ContractManager {
           `handled stake pending event log: `,
           JSON.stringify(eventLog, null, 2),
         );
-
         this.eventEmitter.emit(ContractManagerEvents.StakePending, {
           eventLog: eventLog,
           staker,

@@ -1,4 +1,4 @@
-import { ProviderStatsReply } from '../../modules/api/gateway';
+import { GlobalStatsReply } from '../../modules/api/gateway';
 import BigNumber from 'bignumber.js';
 
 export interface IProviderStats {
@@ -10,7 +10,7 @@ export interface IProviderStats {
   yearlyEarnings: BigNumber;
 }
 
-export function mapProviderStats(item: ProviderStatsReply): IProviderStats {
+export function mapProviderStats(item: GlobalStatsReply): IProviderStats {
   return {
     totalEthereumStaked: new BigNumber(item.totalEthereumStaked),
     totalProviders: item.totalProviders,

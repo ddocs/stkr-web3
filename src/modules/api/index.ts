@@ -4,7 +4,7 @@ import { ContractManager } from './contract';
 import {
   ApiGateway,
   BalanceReply,
-  ProviderStatsReply,
+  GlobalStatsReply,
   SidecarReply,
   StakerStats,
   UserStakeReply,
@@ -213,8 +213,8 @@ export class StkrSdk {
     return this.keyProvider?.currentAccount();
   }
 
-  public async getProviderStats(): Promise<ProviderStatsReply> {
-    return this.apiGateway.getProviderStats();
+  public async getGlobalStats(): Promise<GlobalStatsReply> {
+    return this.apiGateway.getGlobalStats();
   }
 
   public getKeyProvider(): KeyProvider {

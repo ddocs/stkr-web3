@@ -161,7 +161,7 @@ export const UserActions = {
     request: {
       promise: async function () {
         const stkrSdk = StkrSdk.getLastInstance();
-        return await stkrSdk.getProviderStats();
+        return await stkrSdk.getGlobalStats();
       },
     },
     meta: {
