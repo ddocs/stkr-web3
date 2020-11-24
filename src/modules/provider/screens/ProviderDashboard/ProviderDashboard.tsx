@@ -70,18 +70,24 @@ export const ProviderDashboardComponent = ({
           {({ data }) => {
             const info = [
               {
-                caption: 'provider.info.totalStaked',
+                caption: 'provider.info.totalEth2Stakes',
                 value: tHTML('units.small-eth', {
-                  value: 0, //data.totalEthereumStaked.toFormat(),
+                  value: data.activePoolCount * 32,
                 }),
               },
               {
-                caption: 'provider.info.totalStakers',
-                value: 0, //data.totalStakers,
+                caption: 'provider.info.activeValidators',
+                value: data.activePoolCount,
               },
               {
-                caption: 'provider.info.micropools',
-                value: data.activePoolCount,
+                caption: 'provider.info.pendingEthStakes',
+                value: tHTML('units.small-eth', {
+                  value: 0,
+                }),
+              },
+              {
+                caption: 'provider.info.activeSidecars',
+                value: data.activeSidecarCount,
               },
             ];
 

@@ -194,7 +194,11 @@
       }
     },
     "info": {
-      "totalStaked": "My total Staked ETH",
+      "totalEth2Stakes": "Total Staked ETH",
+      "activeValidators": "Active Validators",
+      "pendingEthStakes": "Pending ETH",
+      "activeSidecars": "Total Active Sidecars",
+      "totalStaked": "Total Staked ETH",
       "totalStakers": "Total Stakers",
       "micropools": "My micropools"
     }
