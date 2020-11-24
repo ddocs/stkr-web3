@@ -4,13 +4,9 @@ import { Button } from '../../../../UiKit/Button';
 import React, { useCallback } from 'react';
 import { useUnlockWalletStyles } from './UnlockWalletStyles';
 import { connect } from 'react-redux';
-import {
-  UserActions,
-  UserActionTypes,
-} from '../../../../store/actions/UserActions';
+import { UserActions, UserActionTypes, } from '../../../../store/actions/UserActions';
 import { PROVIDERS } from '../const';
 import { Mutation } from '@redux-requests/react';
-import { MutationErrorHandler } from '../../../../components/MutationErrorHandler/MutationErrorHandler';
 import { Typography } from '@material-ui/core';
 import classNames from 'classnames';
 import { useIsXSDown } from '../../../../common/hooks/useTheme';
@@ -107,7 +103,6 @@ export const UnlockWalletContentImp = ({
 
   return (
     <>
-      <MutationErrorHandler type={UserActionTypes.CONNECT} />
       <Mutation type={UserActionTypes.CONNECT}>
         {({ loading }) => {
           return (

@@ -75,7 +75,7 @@ export abstract class KeyProvider {
 
   public abstract connect(): Promise<void>;
 
-  public abstract close(): Promise<void>;
+  public abstract disconnect(): Promise<void>;
 
   public currentAccount(): string {
     if (!this._currentAccount) throw new Error('MetaMask is not activated');

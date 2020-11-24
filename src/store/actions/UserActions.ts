@@ -7,7 +7,7 @@ import { ISidecar, mapSidecar } from '../apiMappers/sidecarsApi';
 import { mapProviderStats } from '../apiMappers/providerStatsApi';
 import { IAllowance } from '../apiMappers/allowance';
 import { IStakerStats, mapStakerStats } from '../apiMappers/stakerStatsApi';
-import { authenticatedGuard } from '../../common/utils/authenticatedGuard';
+import { authenticatedRequestGuard } from '../../common/utils/authenticatedRequestGuard';
 import { RequestAction } from '@redux-requests/core';
 import { Store } from 'redux';
 import { IStoreState } from '../reducers';
@@ -58,7 +58,7 @@ export const UserActions = {
     request: {
       promise: (async function () {
         const stkrSdk = StkrSdk.getLastInstance();
-        return await stkrSdk?.connectMetaMask();
+        return await stkrSdk?.connect();
       })(),
     },
     meta: {
@@ -129,7 +129,7 @@ export const UserActions = {
       },
     },
     meta: {
-      onRequest: authenticatedGuard,
+      onRequest: authenticatedRequestGuard,
       getData: (data: SidecarReply[]): ISidecar[] => {
         return data.map(mapSidecar);
       },
@@ -144,7 +144,7 @@ export const UserActions = {
       },
     },
     meta: {
-      onRequest: authenticatedGuard,
+      onRequest: authenticatedRequestGuard,
       asMutation: true,
       mutations: {
         [UserActionTypes.FETCH_CURRENT_PROVIDER_SIDECARS]: (
@@ -166,7 +166,7 @@ export const UserActions = {
     },
     meta: {
       getData: mapProviderStats,
-      onRequest: authenticatedGuard,
+      onRequest: authenticatedRequestGuard,
     },
   }),
   fetchAllowance: () => ({

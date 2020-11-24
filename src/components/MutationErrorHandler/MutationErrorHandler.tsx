@@ -8,19 +8,23 @@ import { resetRequests } from '@redux-requests/core';
 
 interface IMutationErrorHandlerProps {
   type: string;
+  resetOnShow?: boolean;
 }
 
-export const MutationErrorHandler = ({ type }: IMutationErrorHandlerProps) => {
+export const MutationErrorHandler = ({
+  type,
+  resetOnShow = true,
+}: IMutationErrorHandlerProps) => {
   const { error } = useMutation({ type });
   const dispatch = useDispatch();
 
   useEffect(
     () => () => {
-      if (error) {
+      if (resetOnShow && error) {
         dispatch(resetRequests([type]));
       }
     },
-    [dispatch, error, type],
+    [dispatch, error, resetOnShow, type],
   );
 
   useEffect(() => {

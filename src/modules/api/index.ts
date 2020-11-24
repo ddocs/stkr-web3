@@ -1,4 +1,4 @@
-import { MetaMaskProvider } from './metamask';
+import { MetaMaskProvider } from './metaMaskProvider';
 import { KeyProvider, SendAsyncResult } from './provider';
 import { ContractManager } from './contract';
 import {
@@ -46,7 +46,7 @@ export class StkrSdk {
     return StkrSdk.instance;
   }
 
-  public async connectMetaMask() {
+  public async connect() {
     /* download config from server only if its not provided yet */
     if (!this.stkrConfig.contractConfig) {
       const config = await this.apiGateway.downloadConfigFile(
@@ -82,6 +82,7 @@ export class StkrSdk {
   }
 
   public async disconnect() {
+    await this.getKeyProvider()?.disconnect();
     await this.apiGateway.logout();
     this.keyProvider = null;
     this.contractManager = null;

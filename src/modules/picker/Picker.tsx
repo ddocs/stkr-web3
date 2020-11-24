@@ -8,13 +8,10 @@ import {
   ENABLE_PROVIDER,
   PROVIDER_TOP_UP_PATH,
   STAKER_DASHBOAR_PATH,
-  STAKER_STAKE_PATH,
 } from '../../common/const';
 import { useDispatch } from 'react-redux';
 import { useAuthentication } from '../../common/utils/useAuthentications';
-import { UserActions, UserActionTypes } from '../../store/actions/UserActions';
-import { useQuery } from '@redux-requests/react';
-import { IStakerStats } from '../../store/apiMappers/stakerStatsApi';
+import { UserActions } from '../../store/actions/UserActions';
 
 interface IItemProps {
   title: string;
@@ -76,17 +73,13 @@ export const Picker = () => {
     }
   }, [dispatch, isConnected]);
 
-  const { loading, data } = useQuery<IStakerStats | null>({
-    type: UserActionTypes.FETCH_STAKER_STATS,
-  });
-
   const DATA: Record<
     string,
     { disabled: boolean; features: string[]; comingSoon?: boolean }
   > = useMemo(
     () => ({
       staker: {
-        disabled: loading,
+        disabled: false,
         features: [
           'picker.staker.features.1',
           'picker.staker.features.2',
@@ -103,14 +96,11 @@ export const Picker = () => {
         ],
       },
     }),
-    [loading],
+    [],
   );
 
   const LIST: Record<string, string> = {
-    staker:
-      data?.stakes && data.stakes.length > 0
-        ? STAKER_DASHBOAR_PATH
-        : STAKER_STAKE_PATH,
+    staker: STAKER_DASHBOAR_PATH,
     provider: PROVIDER_TOP_UP_PATH,
   };
 

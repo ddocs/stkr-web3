@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { usePromoStyles } from './PromoStyles';
 import { Curtains } from '../../../../UiKit/Curtains';
 import { t, tHTML } from '../../../../common/utils/intl';
 import classNames from 'classnames';
 import { Typography } from '@material-ui/core';
 import { Button } from '../../../../UiKit/Button';
-import { useAction } from '../../../../store/redux';
-import { openUnlockWalletAction } from '../../../../store/modals/actions';
+import { useDispatch } from 'react-redux';
+import { UserActions } from '../../../../store/actions/UserActions';
 
 interface IPromoProps {
   className?: string;
@@ -14,7 +14,10 @@ interface IPromoProps {
 
 export const Promo = ({ className }: IPromoProps) => {
   const classes = usePromoStyles();
-  const openUnlockWallet = useAction(openUnlockWalletAction);
+  const dispatch = useDispatch();
+  const handleUnlockWallet = useCallback(() => {
+    dispatch(UserActions.connect());
+  }, [dispatch]);
 
   return (
     <section className={classNames(classes.component, className)}>
@@ -27,7 +30,7 @@ export const Promo = ({ className }: IPromoProps) => {
           className={classes.button}
           color="primary"
           size="large"
-          onClick={openUnlockWallet}
+          onClick={handleUnlockWallet}
         >
           {t('navigation.unlock-wallet')}
         </Button>

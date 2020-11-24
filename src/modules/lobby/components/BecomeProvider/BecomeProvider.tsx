@@ -1,14 +1,14 @@
-import React, { useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { useBecomeProviderStyles } from './BecomeProviderStyles';
 import { Curtains } from '../../../../UiKit/Curtains';
 import { t, tHTML } from '../../../../common/utils/intl';
 import classNames from 'classnames';
-import { Body1, Headline5, Headline1 } from '../../../../UiKit/Typography';
+import { Body1, Headline1, Headline5 } from '../../../../UiKit/Typography';
 import { Button } from '../../../../UiKit/Button';
-import { useAction } from '../../../../store/redux';
-import { openUnlockWalletAction } from '../../../../store/modals/actions';
 import { useIntersectionObserver } from '../../../../common/hooks/useIntersectionObserver';
 import { Typography } from '@material-ui/core';
+import { useDispatch } from 'react-redux';
+import { UserActions } from '../../../../store/actions/UserActions';
 
 const Item = ({
   title,
@@ -64,7 +64,10 @@ interface IFeaturesProps {
 
 export const BecomeProvider = ({ className }: IFeaturesProps) => {
   const classes = useBecomeProviderStyles({});
-  const openUnlockWallet = useAction(openUnlockWalletAction);
+  const dispatch = useDispatch();
+  const handleUnlockWallet = useCallback(() => {
+    dispatch(UserActions.connect());
+  }, [dispatch]);
 
   return (
     <section className={classNames(classes.component, className)}>
@@ -80,7 +83,7 @@ export const BecomeProvider = ({ className }: IFeaturesProps) => {
             className={classes.button}
             color="primary"
             size="large"
-            onClick={openUnlockWallet}
+            onClick={handleUnlockWallet}
           >
             {t('navigation.unlock-wallet')}
           </Button>
@@ -89,7 +92,7 @@ export const BecomeProvider = ({ className }: IFeaturesProps) => {
           className={classes.mobileButton}
           color="primary"
           size="large"
-          onClick={openUnlockWallet}
+          onClick={handleUnlockWallet}
         >
           {t('navigation.unlock-wallet')}
         </Button>

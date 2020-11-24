@@ -5,7 +5,7 @@ import { NOTIFICATION_AUTO_HIDE_DURATION } from '../const';
 
 export const DEFAULT_FONT = '"Helvetica Neue", sans-serif';
 
-const PALETTE = {
+export const PALETTE = {
   type: 'dark',
   primary: {
     light: '',

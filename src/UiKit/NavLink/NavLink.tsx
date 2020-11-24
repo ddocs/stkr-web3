@@ -11,6 +11,7 @@ export interface INavLinkProps {
   variant?: NavLinksVariant;
   onClick?: (e: React.MouseEvent<Element, MouseEvent>) => void;
   activeClassName?: string;
+  exactMatch?: boolean;
 }
 
 export const NavLink = React.forwardRef<
@@ -18,7 +19,15 @@ export const NavLink = React.forwardRef<
   ButtonProps & INavLinkProps
 >(
   (
-    { href, variant = 'text', onClick, activeClassName, className, ...props },
+    {
+      href,
+      variant = 'text',
+      onClick,
+      activeClassName,
+      className,
+      exactMatch = false,
+      ...props
+    },
     ref,
   ) => {
     const isLink =
@@ -26,7 +35,10 @@ export const NavLink = React.forwardRef<
       href.startsWith('mailto') ||
       href.startsWith('tel');
 
-    const match = useRouteMatch({ path: href });
+    const match = useRouteMatch({
+      path: href,
+      exact: exactMatch,
+    });
 
     if (isLink) {
       return (

@@ -11,53 +11,93 @@ import {
 } from './provider';
 import { Transaction } from 'ethereumjs-tx';
 import { KeyProviderEvents } from './event';
+import WalletConnectProvider from '@walletconnect/web3-provider';
+import Web3Modal from 'web3modal';
+import { PALETTE } from '../../common/themes/mainTheme';
 
 export class MetaMaskProvider extends KeyProvider {
+  private web3Modal: Web3Modal | undefined;
+  private provider: any;
+
   async connect(): Promise<void> {
-    const ethereum: any = typeof window !== 'undefined' && window.ethereum;
-    if (!ethereum) {
-      throw new Error(
-        'Non-Ethereum browser detected. You should consider trying MetaMask!',
-      );
-    }
-    const web3 = new Web3(ethereum);
+    // TODO Move up the provider creation
+    const providerOptions = {
+      walletconnect: {
+        package: WalletConnectProvider, // required
+        options: {
+          rpc: {
+            1: 'https://eth-03.dccn.ankr.com',
+            5: 'https://goerli.infura.io/v3/3c88c0ec7e57421fa7d019780d2e6768',
+          },
+        },
+      },
+    };
+
+    this.web3Modal = new Web3Modal({
+      cacheProvider: false,
+      providerOptions,
+      theme: {
+        background: PALETTE.background.paper,
+        main: PALETTE.primary.main,
+        secondary: PALETTE.text.primary,
+        border: PALETTE.background.default,
+        hover: PALETTE.background.paper,
+      },
+    } as any);
+
+    const provider = await this.web3Modal.connect();
+    this.provider = provider;
+
+    const web3 = new Web3(provider);
+
+    const chainId = provider.networkVersion ?? provider.chainId;
+
     if (
-      ethereum.networkVersion &&
+      chainId &&
       this.providerConfig.networkId &&
-      Number(ethereum.networkVersion) !== Number(this.providerConfig.networkId)
+      Number(chainId) !== Number(this.providerConfig.networkId)
     ) {
       console.error(
-        `ethereum networks mismatched ${ethereum.networkVersion} != ${this.providerConfig.networkId}`,
+        `ethereum networks mismatched ${provider.networkVersion} != ${this.providerConfig.networkId}`,
       );
+      this.disconnect();
+
+      // TODO Human readable current network name
       throw new Error(
         'MetaMask ethereum network mismatched, please check your MetaMask network.',
       );
     }
     await this.unlockAccounts(web3);
-    ethereum.on('accountsChanged', (accounts: Address[]) => {
+    provider.on('accountsChanged', (accounts: Address[]) => {
       this.eventEmitter.emit(KeyProviderEvents.AccountChanged, { accounts });
     });
-    ethereum.on('disconnect', (error: ProviderRpcError) => {
+    provider.on('disconnect', (error: ProviderRpcError) => {
       this.eventEmitter.emit(KeyProviderEvents.Disconnect, { error });
       console.log(
         `You've disconnected from MetaMask: ${JSON.stringify(error)}`,
       );
     });
-    ethereum.on('message', (message: ProviderMessage) => {
+    provider.on('message', (message: ProviderMessage) => {
       this.eventEmitter.emit(KeyProviderEvents.Message, message);
     });
-    ethereum.on('chainChanged', (chainId: string) => {
+    provider.on('chainChanged', (chainId: string) => {
       this.eventEmitter.emit(KeyProviderEvents.ChainChanged, {
         chainId,
       });
       console.log(`detected MetaMask chainId change to ${chainId}`);
     });
-    ethereum.autoRefreshOnNetworkChange = false;
+    provider.autoRefreshOnNetworkChange = false;
     this._latestBlockHeight = await web3.eth.getBlockNumber();
     this._web3 = web3;
   }
 
-  close(): Promise<void> {
+  disconnect(): Promise<void> {
+    try {
+      this.provider?.close();
+      this.web3Modal?.clearCachedProvider();
+    } catch (error) {
+      console.error(error);
+    }
     return Promise.resolve();
   }
 
@@ -168,7 +208,7 @@ export class MetaMaskProvider extends KeyProvider {
   private async unlockAccounts(web3: Web3): Promise<string[]> {
     let unlockedAccounts: string[] = [];
     try {
-      unlockedAccounts = await web3.eth.requestAccounts();
+      unlockedAccounts = await web3.eth.getAccounts();
     } catch (error) {
       console.error(error);
       throw new Error('User denied access to account');

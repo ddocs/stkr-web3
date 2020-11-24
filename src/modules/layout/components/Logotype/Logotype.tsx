@@ -8,7 +8,6 @@ import { t } from '../../../../common/utils/intl';
 import {
   ANKR_PATH,
   INDEX_PATH,
-  PICKER_PATH,
   PROVIDER_PATH,
   STAKER_PATH,
 } from '../../../../common/const';
@@ -17,7 +16,6 @@ import { useRouteMatch } from 'react-router';
 const useLogoHref = () => {
   const isStaker = useRouteMatch({ path: STAKER_PATH });
   const isProvider = useRouteMatch({ path: PROVIDER_PATH });
-  const isPicker = useRouteMatch({ path: PICKER_PATH });
 
   if (isStaker) {
     return STAKER_PATH;
@@ -25,10 +23,6 @@ const useLogoHref = () => {
 
   if (isProvider) {
     return PROVIDER_PATH;
-  }
-
-  if (isPicker) {
-    return PICKER_PATH;
   }
 
   return INDEX_PATH;
@@ -66,6 +60,7 @@ export const Logotype = ({ className }: ILogotypeProps) => {
         activeClassName={classes.active}
         color="primary"
         href={href}
+        exactMatch={true}
       >
         <LogoIcon />
       </NavLink>
