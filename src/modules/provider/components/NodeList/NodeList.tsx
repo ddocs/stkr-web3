@@ -59,6 +59,22 @@ const getSidecarName = (item: ISidecar) => {
   if (item.machine) {
     name = `${item.machine.cpuModel}`;
   }
+  return name;
+};
+
+const getSidecarStatus = (item: ISidecar) => {
+  let statusName = t(`beacon-list.status.${item.status}`);
+  if (item.status === 'SIDECAR_STATUS_UNKNOWN') {
+    statusName = t('node-list.unknown');
+  }
+  if (item.status === 'SIDECAR_STATUS_SYNCING') {
+    statusName = t('node-list.syncing', {
+      value: `${(
+        100 *
+        safeDiv(item?.beaconChain?.currentSlot, item?.beaconChain?.latestSlot)
+      ).toFixed(2)}`,
+    });
+  }
   let color = '#D1FF1B';
   if (item.status === 'SIDECAR_STATUS_UNKNOWN') {
     color = '#ff3d1b';
@@ -66,7 +82,7 @@ const getSidecarName = (item: ISidecar) => {
     color = '#ff981b';
   }
   return (
-    <>
+    <div style={{ color: color }}>
       <svg
         width="10"
         height="10"
@@ -76,25 +92,10 @@ const getSidecarName = (item: ISidecar) => {
       >
         <circle cx="5" cy="5" r="5" fill={color} />
       </svg>
-      &nbsp; &nbsp;
-      {name}
-    </>
+      &nbsp;
+      {statusName}
+    </div>
   );
-};
-
-const getSidecarStatus = (item: ISidecar) => {
-  if (item.status === 'SIDECAR_STATUS_UNKNOWN') {
-    return t('node-list.unknown');
-  }
-  if (item.status === 'SIDECAR_STATUS_SYNCING') {
-    return t('node-list.syncing', {
-      value: `${(
-        100 *
-        safeDiv(item?.beaconChain?.currentSlot, item?.beaconChain?.latestSlot)
-      ).toFixed(2)}`,
-    });
-  }
-  return t(`beacon-list.status.${item.status}`);
 };
 
 export const NodeListComponent = ({ className, data }: INodeListProps) => {
