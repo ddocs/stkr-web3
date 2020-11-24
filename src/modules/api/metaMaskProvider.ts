@@ -46,6 +46,14 @@ export class MetaMaskProvider extends KeyProvider {
     } as any);
 
     const provider = await this.web3Modal.connect();
+
+    if (!provider || !(provider.on instanceof Function)) {
+      await this.disconnect();
+      throw new Error(
+        "Your wallet doesn't support the type of connection. Try QR Code or another wallet application",
+      );
+    }
+
     this.provider = provider;
 
     const web3 = new Web3(provider);
