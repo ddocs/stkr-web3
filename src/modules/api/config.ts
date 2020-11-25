@@ -27,7 +27,7 @@ export const LOCAL_CONFIG: IStkrConfig = {
 
 export const DEVELOP_CONFIG: IStkrConfig = {
   ...LOCAL_CONFIG,
-  baseUrl: 'https://api.stkr-dev.ankr.com/',
+  baseUrl: 'https://api.dev.stkr.io/',
 };
 
 export const GOERLI_CONFIG: IStkrConfig = {
@@ -40,7 +40,7 @@ export const GOERLI_CONFIG: IStkrConfig = {
     stakingContract: '0xe48cDc6146722C045566c6B614263e22D9bF1b50', // old
     systemContract: '0x19Ec552FB068D48de1A494C6655fc32bB00B2632',
   },
-  baseUrl: 'https://api.stkr-goerli.ankr.com/',
+  baseUrl: 'https://api.goerli.stkr.io/',
 };
 
 export const MAINNET_CONFIG: IStkrConfig = {
@@ -56,6 +56,6 @@ export const MAINNET_CONFIG: IStkrConfig = {
     stakingContract: '0x0000000000000000000000000000000000000000',
     systemContract: '0x3bFce37B5401BEF13C78830D3A9FB14294d18c4F',
   },
-  baseUrl: 'https://api.stkr.ankr.com/',
+  baseUrl: 'https://api.stkr.io/',
   configUrl: 'https://cdn.stkr.io/contracts/mainnet/addresses.json',
 };
