@@ -62,7 +62,7 @@ workflows:
       - approve-develop:
           type: approval
       - build-develop:
-          context: stkr_build_develop
+          context: stkr_build_prod
           requires:
             - approve-develop
       - upload-develop:
