@@ -12,7 +12,7 @@ import {
 import { Transaction } from 'ethereumjs-tx';
 import { KeyProviderEvents } from './event';
 import WalletConnectProvider from '@walletconnect/web3-provider';
-import Web3Modal from 'web3modal';
+import Web3Modal, { IProviderOptions } from 'web3modal';
 import { PALETTE } from '../../common/themes/mainTheme';
 
 export class MetaMaskProvider extends KeyProvider {
@@ -21,9 +21,28 @@ export class MetaMaskProvider extends KeyProvider {
 
   async connect(): Promise<void> {
     // TODO Move up the provider creation
-    const providerOptions = {
+    const providerOptions: IProviderOptions = {
+      'custom-imtoken': {
+        display: {
+          logo: require('./assets/imToken.svg'),
+          name: 'imToken',
+          description: 'Easy and secure digital wallet trusted by millions',
+        },
+        package: WalletConnectProvider,
+        options: {
+          rpc: {
+            1: 'https://eth-03.dccn.ankr.com',
+            5: 'https://goerli.infura.io/v3/3c88c0ec7e57421fa7d019780d2e6768',
+          },
+        },
+        connector: async (ProviderPackage: any, options: any) => {
+          const provider = new ProviderPackage(options);
+          await provider.enable();
+          return provider;
+        },
+      },
       walletconnect: {
-        package: WalletConnectProvider, // required
+        package: WalletConnectProvider,
         options: {
           rpc: {
             1: 'https://eth-03.dccn.ankr.com',
