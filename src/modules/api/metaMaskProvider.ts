@@ -41,6 +41,44 @@ export class MetaMaskProvider extends KeyProvider {
           return provider;
         },
       },
+      'custom-math': {
+        display: {
+          logo: require('./assets/math.svg'),
+          name: 'Math Wallet',
+          description: 'Gateway to the World of Blockchain',
+        },
+        package: WalletConnectProvider,
+        options: {
+          rpc: {
+            1: 'https://eth-03.dccn.ankr.com',
+            5: 'https://goerli.infura.io/v3/3c88c0ec7e57421fa7d019780d2e6768',
+          },
+        },
+        connector: async (ProviderPackage: any, options: any) => {
+          const provider = new ProviderPackage(options);
+          await provider.enable();
+          return provider;
+        },
+      },
+      'custom-trust': {
+        display: {
+          logo: require('./assets/trust.svg'),
+          name: 'Trust Wallet',
+          description: 'The most trusted & secure crypto wallet',
+        },
+        package: WalletConnectProvider,
+        options: {
+          rpc: {
+            1: 'https://eth-03.dccn.ankr.com',
+            5: 'https://goerli.infura.io/v3/3c88c0ec7e57421fa7d019780d2e6768',
+          },
+        },
+        connector: async (ProviderPackage: any, options: any) => {
+          const provider = new ProviderPackage(options);
+          await provider.enable();
+          return provider;
+        },
+      },
       walletconnect: {
         package: WalletConnectProvider,
         options: {
@@ -57,7 +95,7 @@ export class MetaMaskProvider extends KeyProvider {
       providerOptions,
       theme: {
         background: PALETTE.background.paper,
-        main: PALETTE.primary.main,
+        main: PALETTE.text.primary,
         secondary: PALETTE.text.primary,
         border: PALETTE.background.default,
         hover: PALETTE.background.paper,
