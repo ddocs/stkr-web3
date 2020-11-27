@@ -14,6 +14,7 @@ import { KeyProviderEvents } from './event';
 import WalletConnectProvider from '@walletconnect/web3-provider';
 import Web3Modal, { IProviderOptions } from 'web3modal';
 import { PALETTE } from '../../common/themes/mainTheme';
+import { fade } from '@material-ui/core';
 
 export class MetaMaskProvider extends KeyProvider {
   private web3Modal: Web3Modal | undefined;
@@ -27,6 +28,44 @@ export class MetaMaskProvider extends KeyProvider {
           logo: require('./assets/imToken.svg'),
           name: 'imToken',
           description: 'Easy and secure digital wallet trusted by millions',
+        },
+        package: WalletConnectProvider,
+        options: {
+          rpc: {
+            1: 'https://eth-03.dccn.ankr.com',
+            5: 'https://goerli.infura.io/v3/3c88c0ec7e57421fa7d019780d2e6768',
+          },
+        },
+        connector: async (ProviderPackage: any, options: any) => {
+          const provider = new ProviderPackage(options);
+          await provider.enable();
+          return provider;
+        },
+      },
+      'custom-math': {
+        display: {
+          logo: require('./assets/math.svg'),
+          name: 'Math Wallet',
+          description: 'Gateway to the World of Blockchain',
+        },
+        package: WalletConnectProvider,
+        options: {
+          rpc: {
+            1: 'https://eth-03.dccn.ankr.com',
+            5: 'https://goerli.infura.io/v3/3c88c0ec7e57421fa7d019780d2e6768',
+          },
+        },
+        connector: async (ProviderPackage: any, options: any) => {
+          const provider = new ProviderPackage(options);
+          await provider.enable();
+          return provider;
+        },
+      },
+      'custom-trust': {
+        display: {
+          logo: require('./assets/trust.svg'),
+          name: 'Trust Wallet',
+          description: 'The most trusted & secure crypto wallet',
         },
         package: WalletConnectProvider,
         options: {
@@ -57,8 +96,8 @@ export class MetaMaskProvider extends KeyProvider {
       providerOptions,
       theme: {
         background: PALETTE.background.paper,
-        main: PALETTE.primary.main,
-        secondary: PALETTE.text.primary,
+        main: PALETTE.text.primary,
+        secondary: fade(PALETTE.text.primary, 0.5),
         border: PALETTE.background.default,
         hover: PALETTE.background.paper,
       },
