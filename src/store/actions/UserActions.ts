@@ -4,7 +4,7 @@ import { StkrSdk } from '../../modules/api';
 import BigNumber from 'bignumber.js';
 import { SidecarReply } from '../../modules/api/gateway';
 import { ISidecar, mapSidecar } from '../apiMappers/sidecarsApi';
-import { mapProviderStats } from '../apiMappers/providerStatsApi';
+import { mapGlobalStats } from '../apiMappers/globalStatsApi';
 import { IAllowance } from '../apiMappers/allowance';
 import { IStakerStats, mapStakerStats } from '../apiMappers/stakerStatsApi';
 import { authenticatedRequestGuard } from '../../common/utils/authenticatedRequestGuard';
@@ -31,7 +31,7 @@ export const UserActionTypes = {
 
   CREATE_SIDECAR: 'CREATE_SIDECAR',
 
-  FETCH_PROVIDER_STATS: 'FETCH_PROVIDER_STATS',
+  FETCH_GLOBAL_STATS: 'FETCH_GLOBAL_STATS',
 
   FETCH_ALLOWANCE: 'FETCH_ALLOWANCE',
 
@@ -156,17 +156,27 @@ export const UserActions = {
       },
     },
   }),
-  fetchProviderStats: () => ({
-    type: UserActionTypes.FETCH_PROVIDER_STATS,
+  fetchGlobalStats: () => ({
+    type: UserActionTypes.FETCH_GLOBAL_STATS,
     request: {
-      promise: async function () {
-        const stkrSdk = StkrSdk.getLastInstance();
-        return await stkrSdk.getGlobalStats();
-      },
+      promise: (async function () {
+        // TODO Revert
+        // const stkrSdk = StkrSdk.getLastInstance();
+        // return await stkrSdk.getGlobalStats();
+        return {
+          activePoolCount: 0,
+          activeSidecarCount: 0,
+          pendingEthereum: 0,
+          replicationFactor: 0,
+          totalProviders: 0,
+          totalStakedEthereum: '4052',
+          totalStakers: 499,
+          validatorCount: 0,
+        };
+      })(),
     },
     meta: {
-      getData: mapProviderStats,
-      onRequest: authenticatedRequestGuard,
+      getData: mapGlobalStats,
     },
   }),
   fetchAllowance: () => ({

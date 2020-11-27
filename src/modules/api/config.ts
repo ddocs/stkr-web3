@@ -10,8 +10,8 @@ export interface IStkrConfig {
 
 export const LOCAL_CONFIG: IStkrConfig = {
   providerConfig: {
-    networkId: '5',
-    chainId: '5',
+    networkId: 5,
+    chainId: 5,
   },
   contractConfig: {
     aethContract: '0x04b7208e732D46e75EF45155b946235a185423b2',
@@ -45,8 +45,8 @@ export const GOERLI_CONFIG: IStkrConfig = {
 
 export const MAINNET_CONFIG: IStkrConfig = {
   providerConfig: {
-    networkId: '1',
-    chainId: '1',
+    networkId: 1,
+    chainId: 1,
   },
   contractConfig: {
     aethContract: '0xE95A203B1a91a908F9B9CE46459d101078c2c3cb',

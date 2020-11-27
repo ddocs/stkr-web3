@@ -214,7 +214,7 @@ export class StkrSdk {
   }
 
   public async getGlobalStats(): Promise<GlobalStatsReply> {
-    return this.apiGateway.getGlobalStats();
+    return await this.apiGateway.getGlobalStats();
   }
 
   public getKeyProvider(): KeyProvider {

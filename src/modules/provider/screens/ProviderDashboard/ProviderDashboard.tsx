@@ -20,7 +20,7 @@ import { Query } from '@redux-requests/react';
 import { QueryLoadingCentered } from '../../../../components/QueryLoading/QueryLoading';
 import { QueryError } from '../../../../components/QueryError/QueryError';
 import { Route } from 'react-router-dom';
-import { IProviderStats } from '../../../../store/apiMappers/providerStatsApi';
+import { IGlobalStats } from '../../../../store/apiMappers/globalStatsApi';
 import { ISidecar } from '../../../../store/apiMappers/sidecarsApi';
 import { useDispatch } from 'react-redux';
 import { useInterval } from '../../../../common/utils/useInterval';
@@ -63,8 +63,8 @@ export const ProviderDashboardComponent = ({
   return (
     <section className={classes.component}>
       <Curtains classes={{ root: classes.wrapper }}>
-        <Query<IProviderStats>
-          type={UserActionTypes.FETCH_PROVIDER_STATS}
+        <Query<IGlobalStats>
+          type={UserActionTypes.FETCH_GLOBAL_STATS}
           showLoaderDuringRefetch={false}
         >
           {({ data }) => {
@@ -133,7 +133,7 @@ export const ProviderDashboard = () => {
   useEffect(() => {
     if (isConnected) {
       dispatch(UserActions.fetchCurrentProviderSidecars());
-      dispatch(UserActions.fetchProviderStats());
+      dispatch(UserActions.fetchGlobalStats());
     }
   }, [dispatch, isConnected]);
 
@@ -142,7 +142,7 @@ export const ProviderDashboard = () => {
   }, SHORT_UPDATE_INTERVAL);
 
   useInterval(() => {
-    dispatch(UserActions.fetchProviderStats());
+    dispatch(UserActions.fetchGlobalStats());
   }, LONG_UPDATE_INTERVAL);
 
   return (

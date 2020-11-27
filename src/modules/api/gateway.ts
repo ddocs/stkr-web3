@@ -90,11 +90,13 @@ export interface SidecarReply {
 
 export interface GlobalStatsReply {
   activePoolCount: number;
-  validatorCount: number;
   activeSidecarCount: number;
-  safeReplicationFactor: number;
-  replicationRate: number;
+  pendingEthereum: string;
   replicationFactor: number;
+  totalProviders: number;
+  totalStakedEthereum: string;
+  totalStakers: number;
+  validatorCount: number;
 }
 
 export type UserStakeAction =

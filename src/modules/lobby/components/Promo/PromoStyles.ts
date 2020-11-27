@@ -1,8 +1,8 @@
 import { makeStyles } from '@material-ui/core/styles';
 
 export const usePromoStyles = makeStyles(theme => ({
-  component: {
-    padding: theme.spacing(15, 0),
+  root: {
+    padding: theme.spacing(11, 0),
     [theme.breakpoints.down('md')]: {
       padding: theme.spacing(10, 0),
     },

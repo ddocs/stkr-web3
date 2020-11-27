@@ -5,10 +5,11 @@ import { Contract } from 'web3-eth-contract';
 import { BigNumber } from 'bignumber.js';
 import { PromiEvent, TransactionReceipt } from 'web3-core';
 import { EventEmitter } from 'events';
+import { Chain } from '../../common/const';
 
 export interface ProviderConfig {
-  networkId: string;
-  chainId: string;
+  networkId: Chain;
+  chainId: Chain;
 }
 
 export interface SendOptions {
@@ -82,11 +83,11 @@ export abstract class KeyProvider {
     return this._currentAccount;
   }
 
-  public currentChain(): string {
+  public currentChain(): Chain {
     return this.providerConfig.chainId;
   }
 
-  public currentNetwork(): string {
+  public currentNetwork(): Chain {
     return this.providerConfig.networkId;
   }
 

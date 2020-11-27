@@ -15,6 +15,7 @@ import WalletConnectProvider from '@walletconnect/web3-provider';
 import Web3Modal, { IProviderOptions } from 'web3modal';
 import { PALETTE } from '../../common/themes/mainTheme';
 import { fade } from '@material-ui/core';
+import { getNetworkName } from '../../common/utils/getNetworkName';
 
 export class MetaMaskProvider extends KeyProvider {
   private web3Modal: Web3Modal | undefined;
@@ -113,16 +114,17 @@ export class MetaMaskProvider extends KeyProvider {
     if (
       chainId &&
       this.providerConfig.networkId &&
-      Number(chainId) !== Number(this.providerConfig.networkId)
+      Number(chainId) !== this.providerConfig.networkId
     ) {
       console.error(
         `ethereum networks mismatched ${provider.networkVersion} != ${this.providerConfig.networkId}`,
       );
       this.disconnect();
 
-      // TODO Human readable current network name
       throw new Error(
-        'MetaMask ethereum network mismatched, please check your MetaMask network.',
+        `Please, change your wallet network to ${getNetworkName(
+          this.providerConfig.networkId,
+        )}.`,
       );
     }
     await this.unlockAccounts(web3);
