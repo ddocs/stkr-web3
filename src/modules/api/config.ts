@@ -14,12 +14,12 @@ export const LOCAL_CONFIG: IStkrConfig = {
     chainId: 5,
   },
   contractConfig: {
-    aethContract: '0x04b7208e732D46e75EF45155b946235a185423b2',
-    microPoolContract: '0x0C06BEBd07E22ee5bfB0e5EC9bB22271faC86312',
+    aethContract: '0x4530Ed00f795BB80C685359bb860ca9a4262A815',
+    microPoolContract: '0x5f2935be5F981E706C757BC2e74E29bE7DC6d114',
     microPoolBlock: '3775707',
     ankrContract: '0x23f438234655Bf317af71088e135104A5532F937', // old
     stakingContract: '0xe48cDc6146722C045566c6B614263e22D9bF1b50', // old
-    systemContract: '0x265B7726FF0Bb3b62D3F6bB9E88374f913FC4e22',
+    systemContract: '0xF2dFBCbE94Ff3A402B8575b80E5e785BC936c1c3',
   },
   baseUrl: 'http://localhost:8080/',
   configUrl: 'https://cdn.stkr.io/contracts/develop/addresses.json',
