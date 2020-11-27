@@ -13,6 +13,12 @@ import {
 import { useDispatch } from 'react-redux';
 import { MutationErrorHandler } from '../../../../components/MutationErrorHandler/MutationErrorHandler';
 
+const FILTERED_ERRORS = ['Modal closed by user'];
+
+function isFilteredError(error: any) {
+  return FILTERED_ERRORS.indexOf(error) !== -1;
+}
+
 export const UnauthorizedHeader = ({
   className,
   isAuth,
@@ -35,7 +41,11 @@ export const UnauthorizedHeader = ({
       innerClassName={classes.outer}
       dropdownClassName={classes.dropdown}
     >
-      <MutationErrorHandler type={UserActionTypes.CONNECT} resetOnShow={false} />
+      <MutationErrorHandler
+        type={UserActionTypes.CONNECT}
+        resetOnShow={false}
+        filter={isFilteredError}
+      />
       <Links className={classes.links} />
       <Button
         onClick={() => {

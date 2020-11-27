@@ -7,8 +7,8 @@ const assets = getImages(assetsReference);
 
 export const useFeaturesStyles = makeStyles<Theme, { icon?: string }>(
   theme => ({
-    component: {
-      padding: theme.spacing(20, 0),
+    root: {
+      padding: theme.spacing(9, 0, 20, 0),
       [theme.breakpoints.down('md')]: {
         padding: theme.spacing(16, 0),
       },

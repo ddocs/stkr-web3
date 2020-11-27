@@ -88,13 +88,15 @@ export interface SidecarReply {
   created: number;
 }
 
-export interface ProviderStatsReply {
-  totalEthereumStaked: string;
+export interface GlobalStatsReply {
+  activePoolCount: number;
+  activeSidecarCount: number;
+  pendingEthereum: string;
+  replicationFactor: number;
   totalProviders: number;
-  totalMicroPools: number;
+  totalStakedEthereum: string;
   totalStakers: number;
-  monthlyEarnings: string;
-  yearlyEarnings: string;
+  validatorCount: number;
 }
 
 export type UserStakeAction =
@@ -257,8 +259,8 @@ export class ApiGateway {
     return data;
   }
 
-  public async getProviderStats(): Promise<ProviderStatsReply> {
-    const { status, data } = await this.api.get<ProviderStatsReply>(
+  public async getGlobalStats(): Promise<GlobalStatsReply> {
+    const { status, data } = await this.api.get<GlobalStatsReply>(
       `/v1alpha/stats`,
     );
     if (status !== 200) throw new Error("Can't fetch statistics");

@@ -194,7 +194,11 @@
       }
     },
     "info": {
-      "totalStaked": "My total Staked ETH",
+      "totalEth2Stakes": "Total Staked ETH",
+      "activeValidators": "Active Validators",
+      "pendingEthStakes": "Pending ETH",
+      "activeSidecars": "Total Active Sidecars",
+      "totalStaked": "Total Staked ETH",
       "totalStakers": "Total Stakers",
       "micropools": "My micropools"
     }
@@ -238,7 +242,8 @@
     "~months": "~ {value} mo",
     "small-eth": "{value} <span style=\"font-size: 16px\">ETH</span>",
     "large-eth": "{value}<span> ETH</span>",
-    "large-aeth": "{value}<span> aETH</span>"
+    "large-aeth": "{value}<span> aETH</span>",
+    "number": "{value, number}"
   },
   "format": {
     "date": "{value, date, medium} {value, time, medium}"
@@ -262,7 +267,11 @@
   },
   "beacon-list": {
     "status": {
-      "SIDECAR_STATUS_UNKNOWN": "Created"
+      "SIDECAR_STATUS_UNKNOWN": "Created",
+      "SIDECAR_STATUS_SYNCING": "Syncing",
+      "SIDECAR_STATUS_ACTIVE": "Active",
+      "SIDECAR_STATUS_DISABLED": "Disabled",
+      "SIDECAR_STATUS_BLOCKED": "Blocked"
     },
     "not-launched": "Not launched"
   },
@@ -328,6 +337,7 @@
     }
   },
   "node-list": {
+    "unknown": "Not Activated",
     "syncing": "Syncing {value}%",
     "ago": "{value} ago"
   },
@@ -340,5 +350,19 @@
       "amount": "Amount of ETH to be staked in this transaction",
       "txid": "The Ethereum transaction ID. Click to view the transaction in the Eth explorer."
     }
+  },
+  "global-stats": {
+    "total-staked": "Total ETH Staked",
+    "stakers": "Stakers"
+  },
+  "chain": {
+    "1": "Mainnet",
+    "3": "Ropsten",
+    "4": "Rinkeby",
+    "5": "Goerli",
+    "2018": "Dev",
+    "61": "Classic",
+    "63": "Mordor",
+    "6":  "Kotti"
   }
 }

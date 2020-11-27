@@ -9,11 +9,13 @@ import { resetRequests } from '@redux-requests/core';
 interface IMutationErrorHandlerProps {
   type: string;
   resetOnShow?: boolean;
+  filter?: (error: any) => boolean;
 }
 
 export const MutationErrorHandler = ({
   type,
   resetOnShow = true,
+  filter,
 }: IMutationErrorHandlerProps) => {
   const { error } = useMutation({ type });
   const dispatch = useDispatch();
@@ -30,14 +32,16 @@ export const MutationErrorHandler = ({
   useEffect(() => {
     if (error) {
       const message = getErrorMessage({ error });
-      dispatch(
-        NotificationActions.showNotification({
-          message,
-          severity: 'error',
-        }),
-      );
+      if (filter ? !filter(message) : true) {
+        dispatch(
+          NotificationActions.showNotification({
+            message,
+            severity: 'error',
+          }),
+        );
+      }
     }
-  }, [dispatch, error]);
+  }, [dispatch, error, filter]);
 
   return <></>;
 };

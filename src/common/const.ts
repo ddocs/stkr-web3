@@ -37,7 +37,7 @@ const env = process.env.REACT_APP_STKR_ENV
 export const isMainnet = env === 'mainnet';
 export const ENABLE_PROVIDER = !isMainnet;
 
-export enum CHAINS {
+export enum Chain {
   mainnet = 1,
   ropsten = 3,
   rinkeby = 4,
@@ -47,5 +47,3 @@ export enum CHAINS {
   mordor = 63,
   kotti = 6,
 }
-
-export const FROM_BLOCK = isMainnet ? 11_225_126 : 0;
