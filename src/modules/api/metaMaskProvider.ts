@@ -14,6 +14,7 @@ import { KeyProviderEvents } from './event';
 import WalletConnectProvider from '@walletconnect/web3-provider';
 import Web3Modal, { IProviderOptions } from 'web3modal';
 import { PALETTE } from '../../common/themes/mainTheme';
+import { fade } from "@material-ui/core";
 
 export class MetaMaskProvider extends KeyProvider {
   private web3Modal: Web3Modal | undefined;
@@ -96,7 +97,7 @@ export class MetaMaskProvider extends KeyProvider {
       theme: {
         background: PALETTE.background.paper,
         main: PALETTE.text.primary,
-        secondary: PALETTE.text.primary,
+        secondary: fade(PALETTE.text.primary, 0.5),
         border: PALETTE.background.default,
         hover: PALETTE.background.paper,
       },
