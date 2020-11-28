@@ -80,6 +80,8 @@ const getSidecarStatus = (item: ISidecar) => {
     color = '#ff3d1b';
   } else if (item.status === 'SIDECAR_STATUS_SYNCING') {
     color = '#ff981b';
+  } else if (item.status === 'SIDECAR_STATUS_OFFLINE') {
+    color = '#7c7c7c';
   }
   return (
     <div style={{ color: color }}>

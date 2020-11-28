@@ -271,7 +271,8 @@
       "SIDECAR_STATUS_SYNCING": "Syncing",
       "SIDECAR_STATUS_ACTIVE": "Active",
       "SIDECAR_STATUS_DISABLED": "Disabled",
-      "SIDECAR_STATUS_BLOCKED": "Blocked"
+      "SIDECAR_STATUS_BLOCKED": "Blocked",
+      "SIDECAR_STATUS_OFFLINE": "Offline"
     },
     "not-launched": "Not launched"
   },

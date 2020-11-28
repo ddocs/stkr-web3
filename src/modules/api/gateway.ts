@@ -50,7 +50,8 @@ export type SidecarStatus =
   | 'SIDECAR_STATUS_SYNCING'
   | 'SIDECAR_STATUS_ACTIVE'
   | 'SIDECAR_STATUS_DISABLED'
-  | 'SIDECAR_STATUS_BLOCKED';
+  | 'SIDECAR_STATUS_BLOCKED'
+  | 'SIDECAR_STATUS_OFFLINE';
 
 export interface SidecarReply {
   id: string;
