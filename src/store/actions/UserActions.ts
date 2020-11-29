@@ -169,8 +169,8 @@ export const UserActions = {
           pendingEthereum: 0,
           replicationFactor: 0,
           totalProviders: 0,
-          totalStakedEthereum: '4052',
-          totalStakers: 499,
+          totalStakedEthereum: '4653',
+          totalStakers: 581,
           validatorCount: 0,
         };
       })(),
