@@ -1,10 +1,6 @@
 import { useHeaderStyles } from './HeaderStyles';
 import { useLocation } from 'react-router';
-import {
-  isMainnet,
-  PROVIDER_PATH,
-  STAKER_DASHBOAR_PATH,
-} from '../../../../common/const';
+import { PROVIDER_PATH, STAKER_DASHBOAR_PATH } from '../../../../common/const';
 import { Tabs } from '../Tabs';
 import React from 'react';
 import { HeaderFrame } from './HeaderFrame';
@@ -34,7 +30,6 @@ const TABS: ITab[] = [
     label: 'navigation.provider',
     value: NavTab.provider,
     href: PROVIDER_PATH,
-    disabled: isMainnet,
   } as ITab,
 ];
 
