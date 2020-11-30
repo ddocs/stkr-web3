@@ -19,6 +19,7 @@ export type Seconds = number;
 export type Milliseconds = number;
 export type Megabytes = number;
 export type Percentage = number;
+export type ETH = number;
 
 
 // TODO

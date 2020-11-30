@@ -107,8 +107,12 @@ export class StkrSdk {
     window.open(downloadLink);
   }
 
-  public async createSidecar(): Promise<SidecarReply> {
-    return this.apiGateway.createSidecar();
+  public async createSidecar(
+    name: string,
+    eth1Url: string,
+    eth2Url?: string,
+  ): Promise<SidecarReply> {
+    return this.apiGateway.createSidecar(name, eth1Url, eth2Url);
   }
 
   public async getProviderSidecars(): Promise<SidecarReply[]> {

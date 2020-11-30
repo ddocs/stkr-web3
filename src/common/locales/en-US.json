@@ -60,7 +60,9 @@
     "alphanumeric": "This field can contain only letters and numbers.",
     "required": "This field is required",
     "min-length": "Should be limited to {size} characters.",
-    "min-ETH-amount": "Minimum amount is {value} ETH"
+    "min-ETH-amount": "Minimum amount is {value} ETH",
+    "alpha-numerical-and-underscore": "Must consists of only letters, numbers, and the _ sign.",
+    "invalid-address-format": "Invalid address format"
   },
   "about": {
     "title": "<span>Staking.</span>Simplified.",
@@ -296,7 +298,7 @@
         "caption-ANKR": "Top up ANKR tokens",
         "text-ANKR": "For top-up you need to have minimum 100,000 ANKR on your account.\nThese funds will be blocked for participation in staking.",
         "caption-ETH": "Top up ETH tokens",
-        "text-ETH": "For top-up you need to have minimum 2 ETH on your account. These funds will be blocked for participation in staking."
+        "text-ETH": "Please note that if your insurance ever drops below 2 ETH due to slashing penalties, your node may stop running. To prevent this from happening, or to restart a node that has stopped because of this, please ensure your remaining insurance balance is at least 2 ETH. You can top this amount up here.<br/><br/>Also note that once deposited, any insurance amount remains locked in the Stkr system until the contract ends (Ethereum 2.0 Phase 1.5 release)."
       }
     }
   },
@@ -352,6 +354,25 @@
       "txid": "The Ethereum transaction ID. Click to view the transaction in the Eth explorer."
     }
   },
+  "create-node": {
+    "title": "Сonfigure beacon chain node",
+    "label": {
+      "node-name": "Node name",
+      "eth-node": "Provide Ethereum node",
+      "beacon-node": "Provide Beacon chain node"
+    },
+    "note": {
+      "eth-node": "If you don’t have it you can create a node using <a href=\"https://infura.io/\" target=\"_blank\" rel=\"noopener noreferrer\">Infura</a> or <a href=\"https://app.ankr.com/\" target=\"_blank\" rel=\"noopener noreferrer\">Ankr</a>"
+    },
+    "placeholder": {
+      "eth-node": "Paste your Ethereum node link here"
+    },
+    "option": {
+      "i-have": "I have beacon chain node",
+      "i-dont-have": "I don’t have beacon chain node"
+    },
+    "submit": "Create"
+  },
   "global-stats": {
     "total-staked": "Total ETH Staked",
     "stakers": "Stakers"
@@ -364,6 +385,13 @@
     "2018": "Dev",
     "61": "Classic",
     "63": "Mordor",
-    "6":  "Kotti"
+    "6": "Kotti"
+  },
+  "empty-node-list": {
+    "submit": "Create Beacon Chain"
+  },
+  "not-enough-balance": {
+    "title": "To create the first beacon node, you need to top-up your balance",
+    "submit": "Top-up your balance"
   }
 }

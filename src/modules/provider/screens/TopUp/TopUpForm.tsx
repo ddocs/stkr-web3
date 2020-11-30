@@ -1,5 +1,5 @@
 import { Field, FormRenderProps } from 'react-final-form';
-import { t } from '../../../../common/utils/intl';
+import { t, tHTML } from '../../../../common/utils/intl';
 import { Button } from '../../../../UiKit/Button';
 import React, { useCallback, useEffect } from 'react';
 import { useTopUpStyles } from './TopUpStyles';
@@ -27,6 +27,7 @@ import { MutationErrorHandler } from '../../../../components/MutationErrorHandle
 import { useAuthentication } from '../../../../common/utils/useAuthentications';
 import { SliderField } from '../../../../UiKit/RangeField';
 import { ReactComponent as DoneIcon } from './assets/done.svg';
+import { ENABLE_ANKR_DEPOSIT } from '../../../../common/const';
 
 export enum DepositType {
   ETH = 'ETH',
@@ -130,6 +131,7 @@ export const TopUpForm = ({
                             className={classes.depositTypeButton}
                             value={DepositType.ANKR}
                             onClick={handleChange}
+                            disabled={!ENABLE_ANKR_DEPOSIT}
                             color={
                               value === DepositType.ANKR
                                 ? 'primary'
@@ -153,10 +155,10 @@ export const TopUpForm = ({
                       component="p"
                       color="secondary"
                     >
-                      {t('create-micropool.form.step-3.text-ETH')}
+                      {tHTML('create-micropool.form.step-3.text-ETH')}
                     </Body2>
                     <div>
-                      <Headline4 className={classes.ethValue}>
+                      <Headline4 className={classes.ethValue} align="right">
                         {t('units.eth', {
                           value: values[ETH_AMOUNT_FIELD_NAME],
                         })}
@@ -164,7 +166,7 @@ export const TopUpForm = ({
                       <Field
                         component={SliderField}
                         min={MIN_ETH_AMOUNT_DEPOSIT}
-                        max={initialValues[ETH_AMOUNT_FIELD_NAME]}
+                        max={initialValues[ETH_AMOUNT_FIELD_NAME].toNumber()}
                         name={ETH_AMOUNT_FIELD_NAME}
                       />
                     </div>

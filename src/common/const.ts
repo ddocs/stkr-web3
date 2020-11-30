@@ -1,4 +1,4 @@
-import { Milliseconds } from './types';
+import { ETH, Milliseconds } from './types';
 
 export const INDEX_PATH = '/';
 export const ANKR_PATH = 'https://www.ankr.com';
@@ -8,7 +8,7 @@ export const STAKER_DASHBOAR_PATH = STAKER_PATH;
 export const PROVIDER_PATH = '/provider';
 export const PROVIDER_NODES_PATH = `${PROVIDER_PATH}/nodes`;
 export const PROVIDER_TOP_UP_PATH = PROVIDER_PATH;
-export const PROVIDER_CREATE_NODE_PATH = '/provider/create-node';
+export const PROVIDER_CREATE_NODE_PATH = `${PROVIDER_PATH}/create-node`;
 export const PICKER_PATH = '/picker';
 export const SURVEY_PATH = 'https://ankr_stkr.typeform.com/to/pc5sgxl9';
 
@@ -47,3 +47,7 @@ export enum Chain {
   mordor = 63,
   kotti = 6,
 }
+
+export const ENABLE_ANKR_DEPOSIT = false;
+export const ETH_SCALE_FACTOR = 10 ** 18;
+export const PROVIDE_MIN_BALANCE: ETH = 2;

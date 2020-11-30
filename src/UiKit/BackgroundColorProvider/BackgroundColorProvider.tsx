@@ -1,6 +1,7 @@
 import React from 'react';
 import { ContainerProps, Paper } from '@material-ui/core';
 
+// TODO Remove
 export const BackgroundColorProvider = ({
   component,
   ...props

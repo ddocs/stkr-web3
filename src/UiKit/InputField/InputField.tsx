@@ -3,21 +3,12 @@ import React from 'react';
 import { FieldRenderProps } from 'react-final-form';
 import { getErrorText, hasError } from '../../common/utils/form';
 
-interface IFieldProps extends FieldRenderProps<string> {
-  className?: string;
-  color?: 'primary' | 'secondary';
-  disabled?: boolean;
-  readOnly?: boolean;
-}
+interface IFieldProps extends FieldRenderProps<string> {}
 
 export const InputField = ({
-  className,
   input: { name, onChange, value },
   meta,
-  color,
-  disabled,
-  readOnly,
-  ...props
+  ...rest
 }: IFieldProps & TextFieldProps) => {
   return (
     <TextField
@@ -26,7 +17,7 @@ export const InputField = ({
       value={value}
       helperText={getErrorText(meta)}
       onChange={onChange}
-      {...props}
+      {...rest}
     />
   );
 };

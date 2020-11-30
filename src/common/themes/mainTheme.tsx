@@ -13,6 +13,9 @@ export const PALETTE = {
     dark: '#FFE600',
     contrastText: '#000000',
   },
+  secondary: {
+    main: '#FFE819',
+  },
   background: {
     paper: '#1D1D1D',
     default: '#0F0F0F',
@@ -73,7 +76,12 @@ const mainTheme = createMuiTheme({
     MuiAlert: {
       icon: false,
     },
-    MuiTextField: {},
+    MuiTextField: {
+      InputLabelProps: {
+        shrink: true,
+      },
+      InputProps: { disableUnderline: true },
+    },
     MuiUseMediaQuery: {
       noSsr: true,
     },
@@ -134,7 +142,6 @@ const mainTheme = createMuiTheme({
     MuiContainer: {
       root: {
         '&&': {
-          maxWidth: MAX_WIDTH,
           padding: defaultTheme.spacing(0, 15),
 
           boxSizing: 'border-box',
@@ -161,9 +168,19 @@ const mainTheme = createMuiTheme({
     MuiPaper: {
       root: {
         color: PALETTE.text.primary,
-
         transition: 'none',
         overflow: 'initial',
+      },
+      outlined: {
+        border: `1px solid ${fade('#ffffff', 0.2)}`,
+        background: PALETTE.background.default,
+        padding: '52px 92px',
+        [defaultTheme.breakpoints.down('sm')]: {
+          padding: 32,
+        },
+      },
+      rounded: {
+        borderRadius: 48,
       },
     },
     MuiSlider: {
@@ -438,22 +455,24 @@ const mainTheme = createMuiTheme({
       },
     },
     MuiInputLabel: {
-      root: {
-        fontSize: 20,
-        marginTop: -20,
-      },
       shrink: {
-        transform: 'translate(0, 16px) scale(0.75)',
+        fontSize: 24,
+        fontWeight: 700,
+        color: '#fff',
       },
     },
     MuiInput: {
       input: {
-        fontSize: 22,
-        height: 29,
+        fontSize: 18,
+        height: 35,
+        background: '#292929',
+        borderRadius: 4,
+        paddingLeft: 16,
+        paddingRight: 16,
       },
       formControl: {
         'label + &': {
-          marginTop: 6,
+          marginTop: 42,
         },
       },
       underline: {

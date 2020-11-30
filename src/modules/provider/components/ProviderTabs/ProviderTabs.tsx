@@ -40,12 +40,12 @@ export const ProviderTabs = ({ className }: IProviderTabsProps) => {
   const TABS = useLocaleMemo(
     () => [
       {
-        label: t('navigation.top-up'),
-        link: PROVIDER_TOP_UP_PATH,
-      },
-      {
         label: t('navigation.beacon-list'),
         link: PROVIDER_NODES_PATH,
+      },
+      {
+        label: t('navigation.top-up'),
+        link: PROVIDER_TOP_UP_PATH,
       },
     ],
     [],

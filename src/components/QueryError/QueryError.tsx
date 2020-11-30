@@ -6,6 +6,10 @@ import { useDispatch } from 'react-redux';
 import { NotificationActions } from '../../store/actions/NotificationActions';
 
 export function getErrorMessage(props: ErrorProps) {
+  if (typeof props.error?.response?.data?.message === 'string') {
+    return props.error.response.data.message;
+  }
+
   if (typeof props.error.message === 'string') {
     return props.error.message;
   }

@@ -1,5 +1,6 @@
 import { GlobalStatsReply } from '../../modules/api/gateway';
 import BigNumber from 'bignumber.js';
+import { ETH_SCALE_FACTOR } from '../../common/const';
 
 export interface IGlobalStats {
   activePoolCount: number;
@@ -15,7 +16,11 @@ export interface IGlobalStats {
 export function mapGlobalStats(item: GlobalStatsReply): IGlobalStats {
   return {
     ...item,
-    pendingEthereum: new BigNumber(item.pendingEthereum),
-    totalStakedEthereum: new BigNumber(item.totalStakedEthereum),
+    pendingEthereum: new BigNumber(
+      new BigNumber(item.pendingEthereum).div(ETH_SCALE_FACTOR).toFixed(1),
+    ),
+    totalStakedEthereum: new BigNumber(
+      new BigNumber(item.totalStakedEthereum).div(ETH_SCALE_FACTOR).toFixed(1),
+    ),
   };
 }

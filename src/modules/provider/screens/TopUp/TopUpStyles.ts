@@ -21,23 +21,16 @@ export const useTopUpStyles = makeStyles<Theme>(theme => {
       boxSizing: 'border-box',
     },
     section: {
-      padding: theme.spacing(8, 0),
       height: '100%',
       boxSizing: 'border-box',
-    },
-    wrapper: {
-      height: '100%',
     },
     content: {
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'center',
       height: '100%',
-    },
-    close: {
-      position: 'absolute',
-      top: theme.spacing(3),
-      right: theme.spacing(3),
+      paddingTop: theme.spacing(5),
+      paddingBottom: theme.spacing(5),
     },
     form: {
       display: 'flex',
