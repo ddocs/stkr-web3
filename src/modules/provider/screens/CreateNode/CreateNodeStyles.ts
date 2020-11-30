@@ -1,39 +1,38 @@
-import { makeStyles } from '@material-ui/core/styles';
+import { fade, makeStyles } from '@material-ui/core/styles';
 
 export const useCreateNodeStyles = makeStyles(theme => ({
-  component: {
-    display: 'grid',
-    gridTemplateRows: 'auto',
-    gridTemplateColumns: '1fr 1fr',
-    gridColumnGap: theme.spacing(2),
-    alignItems: 'center',
-    justifyItems: 'center',
+  root: {
+    '&&': {
+      paddingTop: theme.spacing(9),
+    },
   },
   form: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'flex-start',
-    maxWidth: 430,
   },
   title: {
-    margin: 0,
+    marginBottom: theme.spacing(6),
   },
-  text: {
-    margin: 0,
-    marginTop: theme.spacing(3.5),
+  space: {
+    '&&': {
+      marginBottom: theme.spacing(6.5),
+    },
   },
-  button: {
-    minWidth: 180,
-    marginTop: theme.spacing(5),
+  note: {
+    marginTop: theme.spacing(1.5),
+    '&, & a': {
+      color: fade(theme.palette.common.white, 0.5),
+    },
+    '& a:hover': {
+      color: theme.palette.primary.main,
+    },
   },
-  image: {
-    gridRow: '-1/1',
-    gridColumn: '2/3',
-  },
-  content: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    height: '100%',
+  cancel: {
+    position: 'absolute',
+    right: theme.spacing(5),
+    top: theme.spacing(2),
+    [theme.breakpoints.down('xs')]: {
+      right: theme.spacing(2),
+    },
   },
 }));

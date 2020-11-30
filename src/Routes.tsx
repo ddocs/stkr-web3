@@ -7,13 +7,14 @@ import { withDefaultLayout } from './modules/layout';
 import {
   INDEX_PATH,
   PICKER_PATH,
-  PROVIDER_TOP_UP_PATH,
   PROVIDER_CREATE_NODE_PATH,
   PROVIDER_NODES_PATH,
   PROVIDER_PATH,
+  PROVIDER_TOP_UP_PATH,
   STAKER_DASHBOAR_PATH,
   STAKER_STAKE_PATH,
 } from './common/const';
+import { PrivateRoute } from './UiKit/PrivateRoute';
 
 const LoadableOverviewContainer = withDefaultLayout(
   loadable(async () => import('./modules/lobby').then(module => module.Lobby), {
@@ -81,24 +82,24 @@ export function Routes() {
         exact={true}
         component={LoadableOverviewContainer}
       />
-      <Route
+      <PrivateRoute
         path={[PROVIDER_PATH, PROVIDER_TOP_UP_PATH, PROVIDER_NODES_PATH]}
         component={ProviderContainer}
         exact={true}
       />
-      <Route
+      <PrivateRoute
         path={PROVIDER_CREATE_NODE_PATH}
         component={CreateBeaconChainContainer}
         exact={true}
       />
-      <Route path={PICKER_PATH} component={PickerContainer} />
-      <Route
+      <PrivateRoute path={PICKER_PATH} component={PickerContainer} />
+      <PrivateRoute
         path={STAKER_DASHBOAR_PATH}
         component={StakerDashboardContainer}
         exact={true}
       />
-      <Route path={STAKER_STAKE_PATH} component={StakerContainer} />
-      <Route component={PageNotFound} />
+      <PrivateRoute path={STAKER_STAKE_PATH} component={StakerContainer} />
+      <PrivateRoute component={PageNotFound} />
     </Switch>
   );
 }

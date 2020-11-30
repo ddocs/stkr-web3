@@ -1,37 +1,28 @@
 import React, { useCallback, useMemo } from 'react';
 import { useTopUpStyles } from './TopUpStyles';
-import { CancelIcon } from '../../../../UiKit/Icons/CancelIcon';
 import { Form } from 'react-final-form';
 import {
   ANKR_AMOUNT_FIELD_NAME,
-  TopUpForm,
   DEPOSIT_TYPE_FIELD_NAME,
   DepositType,
   ETH_AMOUNT_FIELD_NAME,
   MIN_ETH_AMOUNT_DEPOSIT,
+  TopUpForm,
 } from './TopUpForm';
-import { IconButton } from '@material-ui/core';
-import {
-  MAX_PROVIDER_STAKING_AMOUNT,
-  PROVIDER_NODES_PATH,
-} from '../../../../common/const';
+import { MAX_PROVIDER_STAKING_AMOUNT, PROVIDER_NODES_PATH, } from '../../../../common/const';
 import { FormErrors } from '../../../../common/types/FormErrors';
 import { t } from '../../../../common/utils/intl';
 import BigNumber from 'bignumber.js';
-import { Curtains } from '../../../../UiKit/Curtains';
 import { BackgroundColorProvider } from '../../../../UiKit/BackgroundColorProvider';
 import { MutationErrorHandler } from '../../../../components/MutationErrorHandler/MutationErrorHandler';
 import { Mutation, useQuery } from '@redux-requests/react';
 import { TopUpProgress } from './TopUpProgress';
 import { useHistory } from 'react-router';
 import { useRequestDispatch } from '../../../../common/utils/useRequestDispatch';
-import {
-  UserActions,
-  UserActionTypes,
-} from '../../../../store/actions/UserActions';
+import { UserActions, UserActionTypes, } from '../../../../store/actions/UserActions';
 import { IUserInfo } from '../../../../store/apiMappers/userApi';
-import classNames from 'classnames';
 import { IAllowance } from '../../../../store/apiMappers/allowance';
+import { floor } from '../../../../common/utils/floor';
 
 interface ITopUpPayload {
   [DEPOSIT_TYPE_FIELD_NAME]: DepositType;
@@ -55,14 +46,12 @@ function validateTopUpForm({ ...data }: ITopUpPayload) {
 
 interface ITopUpProps {
   onSubmit(x: ITopUpPayload): void;
-  onClose?(): void;
   ankrBalance?: BigNumber;
   ethereumBalance?: BigNumber;
 }
 
 export const TopUpComponent = ({
   onSubmit,
-  onClose,
   ankrBalance,
   ethereumBalance,
 }: ITopUpProps) => {
@@ -72,13 +61,13 @@ export const TopUpComponent = ({
     () =>
       ethereumBalance?.isGreaterThan(MAX_PROVIDER_STAKING_AMOUNT)
         ? new BigNumber(MAX_PROVIDER_STAKING_AMOUNT)
-        : ethereumBalance,
+        : new BigNumber(floor(ethereumBalance?.toNumber() ?? 0, 0.5)),
     [ethereumBalance],
   );
 
   const INIT_VALUES = useMemo(
     () => ({
-      [DEPOSIT_TYPE_FIELD_NAME]: DepositType.ANKR,
+      [DEPOSIT_TYPE_FIELD_NAME]: DepositType.ETH,
       [ETH_AMOUNT_FIELD_NAME]: maxStakingAmount,
     }),
     [maxStakingAmount],
@@ -91,9 +80,6 @@ export const TopUpComponent = ({
 
   return (
     <div className={classes.component}>
-      <IconButton className={classes.close} onClick={onClose}>
-        <CancelIcon />
-      </IconButton>
       <Form
         render={render}
         onSubmit={onSubmit}
@@ -110,7 +96,7 @@ export const TopUpComponent = ({
   );
 };
 
-export const TopUpImp = () => {
+export const TopUpContainer = () => {
   const classes = useTopUpStyles();
   const history = useHistory();
   const dispatch = useRequestDispatch();
@@ -139,35 +125,28 @@ export const TopUpImp = () => {
     [allowanceData, dispatch, history],
   );
 
-  const handleClose = useCallback(() => {
-    history.goBack();
-  }, [history]);
-
   const { data } = useQuery<IUserInfo | null>({
     type: UserActionTypes.FETCH_ACCOUNT_DATA,
   });
 
   return (
-    <section className={classNames(classes.section)}>
-      <Curtains classes={{ root: classes.wrapper }}>
-        <BackgroundColorProvider className={classes.content}>
-          <MutationErrorHandler type={UserActionTypes.TOP_UP} />
-          <Mutation type={UserActionTypes.TOP_UP}>
-            {({ loading }) =>
-              loading ? (
-                <TopUpProgress />
-              ) : (
-                <TopUpComponent
-                  onSubmit={handleSubmit}
-                  onClose={handleClose}
-                  ankrBalance={data?.ankrBalance}
-                  ethereumBalance={data?.ethereumBalance}
-                />
-              )
-            }
-          </Mutation>
-        </BackgroundColorProvider>
-      </Curtains>
+    <section className={classes.section}>
+      <BackgroundColorProvider className={classes.content}>
+        <MutationErrorHandler type={UserActionTypes.TOP_UP} />
+        <Mutation type={UserActionTypes.TOP_UP}>
+          {({ loading }) =>
+            loading ? (
+              <TopUpProgress />
+            ) : (
+              <TopUpComponent
+                onSubmit={handleSubmit}
+                ankrBalance={data?.ankrBalance}
+                ethereumBalance={data?.ethereumBalance}
+              />
+            )
+          }
+        </Mutation>
+      </BackgroundColorProvider>
     </section>
   );
 };

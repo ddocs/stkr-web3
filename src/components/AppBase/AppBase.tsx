@@ -60,16 +60,16 @@ export class AppBase extends React.Component<IAppBaseProps, IAppBaseState> {
               loading={<QueryLoadingCentered />}
               persistor={persistor}
             >
-              <ConnectedRouter
-                history={historyInstance}
-                context={ReactReduxContext}
-              >
-                {!this.state.initDone ? (
-                  <QueryLoadingCentered />
-                ) : (
-                  this.props.children
-                )}
-              </ConnectedRouter>
+              {!this.state.initDone ? (
+                <QueryLoadingCentered />
+              ) : (
+                <ConnectedRouter
+                  history={historyInstance}
+                  context={ReactReduxContext}
+                >
+                  {this.props.children}
+                </ConnectedRouter>
+              )}
             </PersistGate>
           </MuiThemeProvider>
         </Provider>

@@ -11,6 +11,7 @@ import {
   IStakeRemovedEvent,
 } from './event';
 import { BlockHeader } from 'web3-eth';
+import { ETH_SCALE_FACTOR } from '../../common/const';
 
 const ABI_GLOBAL_POOL = require('./contract/GlobalPool.json');
 const ABI_ANKR = require('./contract/ANKR.json');
@@ -33,7 +34,6 @@ export interface SystemContractParameters {
 }
 
 const ANKR_SCALE_FACTOR = 10 ** 18;
-const ETH_SCALE_FACTOR = 10 ** 18;
 
 export class ContractManager {
   private readonly microPoolContract: Contract;
@@ -640,5 +640,32 @@ export class ContractManager {
       return '0';
     }
     return this.keyProvider.erc20Balance(this.ankrContract, address);
+  }
+
+  public async pendingEtherBalanceOf(provider: string): Promise<BigNumber> {
+    return this.microPoolContract.methods
+      .pendingEtherBalanceOf(provider)
+      .call()
+      .then((value: string) =>
+        new BigNumber(value).dividedBy(ETH_SCALE_FACTOR),
+      );
+  }
+
+  public async etherBalanceOf(provider: string): Promise<BigNumber> {
+    return this.microPoolContract.methods
+      .etherBalanceOf(provider)
+      .call()
+      .then((value: string) =>
+        new BigNumber(value).dividedBy(ETH_SCALE_FACTOR),
+      );
+  }
+
+  public async availableEtherBalanceOf(provider: string): Promise<BigNumber> {
+    return this.microPoolContract.methods
+      .availableEtherBalanceOf(provider)
+      .call()
+      .then((value: string) =>
+        new BigNumber(value).dividedBy(ETH_SCALE_FACTOR),
+      );
   }
 }

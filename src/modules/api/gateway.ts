@@ -50,7 +50,8 @@ export type SidecarStatus =
   | 'SIDECAR_STATUS_SYNCING'
   | 'SIDECAR_STATUS_ACTIVE'
   | 'SIDECAR_STATUS_DISABLED'
-  | 'SIDECAR_STATUS_BLOCKED';
+  | 'SIDECAR_STATUS_BLOCKED'
+  | 'SIDECAR_STATUS_OFFLINE';
 
 export interface SidecarReply {
   id: string;
@@ -223,9 +224,14 @@ export class ApiGateway {
     return data;
   }
 
-  public async createSidecar(): Promise<SidecarReply> {
+  public async createSidecar(
+    name: string,
+    eth1Url: string,
+    eth2Url?: string,
+  ): Promise<SidecarReply> {
     const { status, data, statusText } = await this.api.post<SidecarReply>(
       `/v1alpha/sidecar`,
+      { name, eth1Url, eth2Url },
     );
     if (status !== 200)
       throw new Error(`Unable to fetch ethereum balance: ${statusText}`);

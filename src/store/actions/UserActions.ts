@@ -17,6 +17,8 @@ import { replace } from 'connected-react-router';
 import { update } from '../../common/utils/update';
 import { createAction } from 'redux-actions';
 import { DepositType } from '../../modules/provider/screens/TopUp/TopUpForm';
+import { mapProviderStats } from '../apiMappers/providerStatsApi';
+import { ICreateNodeValue } from '../../modules/provider/screens/CreateNode';
 
 export const UserActionTypes = {
   CONNECT: 'CONNECT',
@@ -49,6 +51,8 @@ export const UserActionTypes = {
 
   FETCH_STAKER_STATS: 'FETCH_STAKER_STATS',
 
+  FETCH_PROVIDER_STATS: 'FETCH_PROVIDER_STATS',
+
   TOP_UP: 'TOP_UP',
 };
 
@@ -68,9 +72,11 @@ export const UserActions = {
         action: RequestAction,
         store: Store<IStoreState>,
       ) => {
-        store.dispatch(UserActions.fetchAccountData());
-        store.dispatch(closeModalAction());
-        store.dispatch(replace(PICKER_PATH));
+        setTimeout(() => {
+          store.dispatch(UserActions.fetchAccountData());
+          store.dispatch(closeModalAction());
+          store.dispatch(replace(PICKER_PATH));
+        });
       },
     },
   }),
@@ -135,12 +141,16 @@ export const UserActions = {
       },
     },
   }),
-  createSidecar: () => ({
+  createSidecar: (data: ICreateNodeValue) => ({
     type: UserActionTypes.CREATE_SIDECAR,
     request: {
       promise: async function () {
         const stkrSdk = StkrSdk.getLastInstance();
-        return await stkrSdk.createSidecar();
+        return await stkrSdk.createSidecar(
+          data.name,
+          data.eth1Url,
+          data.eth2Url,
+        );
       },
     },
     meta: {
@@ -160,19 +170,8 @@ export const UserActions = {
     type: UserActionTypes.FETCH_GLOBAL_STATS,
     request: {
       promise: (async function () {
-        // TODO Revert
-        // const stkrSdk = StkrSdk.getLastInstance();
-        // return await stkrSdk.getGlobalStats();
-        return {
-          activePoolCount: 0,
-          activeSidecarCount: 0,
-          pendingEthereum: 0,
-          replicationFactor: 0,
-          totalProviders: 0,
-          totalStakedEthereum: '4653',
-          totalStakers: 581,
-          validatorCount: 0,
-        };
+        const stkrSdk = StkrSdk.getLastInstance();
+        return await stkrSdk.getGlobalStats();
       })(),
     },
     meta: {
@@ -272,6 +271,21 @@ export const UserActions = {
     },
     meta: {
       getData: mapStakerStats,
+    },
+  }),
+  fetchProviderStats: () => ({
+    type: UserActionTypes.FETCH_PROVIDER_STATS,
+    request: {
+      promise: (async function () {
+        const stkrSdk = StkrSdk.getLastInstance();
+        const providerEthBalance = await stkrSdk
+          .getContractManager()
+          .etherBalanceOf(stkrSdk.getKeyProvider().currentAccount());
+        return { providerEthBalance };
+      })(),
+    },
+    meta: {
+      getData: mapProviderStats,
     },
   }),
   updateStakerStats: (payload: Partial<IStakerStats>) => {

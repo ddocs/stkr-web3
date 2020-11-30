@@ -3,6 +3,7 @@ import { useCallback, useEffect } from 'react';
 import { useProviderDashboardStyles } from './ProviderDashboardStyles';
 import { NodeList } from '../../components/NodeList';
 import {
+  PROVIDE_MIN_BALANCE,
   PROVIDER_CREATE_NODE_PATH,
   PROVIDER_NODES_PATH,
   PROVIDER_TOP_UP_PATH,
@@ -26,8 +27,9 @@ import { useDispatch } from 'react-redux';
 import { useInterval } from '../../../../common/utils/useInterval';
 import { Milliseconds } from '../../../../common/types';
 import { useAuthentication } from '../../../../common/utils/useAuthentications';
-import { TopUpImp } from '../TopUp';
+import { TopUpContainer } from '../TopUp';
 import { alwaysFalse } from '../../../../common/utils/alwaysFalse';
+import { IProviderStats } from '../../../../store/apiMappers/providerStatsApi';
 
 const SHORT_UPDATE_INTERVAL: Milliseconds = 30_000;
 const LONG_UPDATE_INTERVAL: Milliseconds = 60_000;
@@ -50,12 +52,8 @@ export const ProviderDashboardComponent = ({
   );
 
   const renderTopUp = useCallback(() => {
-    return <TopUpImp />;
+    return <TopUpContainer />;
   }, []);
-
-  const hasCreatedNodeStatus = sidecars?.some(
-    item => item.status === 'SIDECAR_STATUS_UNKNOWN',
-  );
 
   const hasNodes = sidecars && sidecars.length > 0;
   console.log('hasNodes will be used soon', hasNodes);
@@ -100,16 +98,28 @@ export const ProviderDashboardComponent = ({
         </Query>
         <div className={classes.navigation}>
           <ProviderTabs className={classes.tabs} />
-          <NavLink
-            className={classes.create}
-            href={PROVIDER_CREATE_NODE_PATH}
-            variant="outlined"
-            // TODO is enough balance
-            disabled={hasCreatedNodeStatus}
-            color="primary"
+          <Query<IProviderStats | null>
+            type={UserActionTypes.FETCH_PROVIDER_STATS}
+            showLoaderDuringRefetch={false}
           >
-            {t('navigation.create')}
-          </NavLink>
+            {({ data }) => {
+              const hasEnoughBalance = data?.balance.isGreaterThanOrEqualTo(
+                PROVIDE_MIN_BALANCE,
+              );
+
+              return (
+                <NavLink
+                  className={classes.create}
+                  href={PROVIDER_CREATE_NODE_PATH}
+                  variant="outlined"
+                  disabled={!hasEnoughBalance}
+                  color="primary"
+                >
+                  {t('navigation.create')}
+                </NavLink>
+              );
+            }}
+          </Query>
         </div>
         <Route
           path={[PROVIDER_TOP_UP_PATH]}
@@ -134,6 +144,7 @@ export const ProviderDashboard = () => {
     if (isConnected) {
       dispatch(UserActions.fetchCurrentProviderSidecars());
       dispatch(UserActions.fetchGlobalStats());
+      dispatch(UserActions.fetchProviderStats());
     }
   }, [dispatch, isConnected]);
 
