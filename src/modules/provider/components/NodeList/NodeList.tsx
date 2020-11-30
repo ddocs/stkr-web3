@@ -19,6 +19,7 @@ import { IconButton } from '@material-ui/core';
 import { ReactComponent as WindowsIcon } from './assets/windows.svg';
 import { ReactComponent as LinuxIcon } from './assets/linux.svg';
 import { ReactComponent as MacIcon } from './assets/mac.svg';
+import { ReactComponent as DockerIcon } from './assets/docker.svg';
 import { safeDiv } from '../../../../common/utils/safeDiv';
 import { formatDistanceToNowStrict } from 'date-fns';
 
@@ -75,13 +76,13 @@ const getSidecarStatus = (item: ISidecar) => {
       ).toFixed(2)}`,
     });
   }
-  let color = '#D1FF1B';
+  let color = '#FFE819';
   if (item.status === 'SIDECAR_STATUS_UNKNOWN') {
-    color = '#ff3d1b';
-  } else if (item.status === 'SIDECAR_STATUS_SYNCING') {
-    color = '#ff981b';
-  } else if (item.status === 'SIDECAR_STATUS_OFFLINE') {
     color = '#7c7c7c';
+  } else if (item.status === 'SIDECAR_STATUS_SYNCING') {
+    color = '#cf8327';
+  } else if (item.status === 'SIDECAR_STATUS_OFFLINE') {
+    color = '#cb4129';
   }
   return (
     <div style={{ color: color }}>
@@ -108,7 +109,7 @@ export const NodeListComponent = ({ className, data }: INodeListProps) => {
   return (
     <div className={classNames(classes.component, className)}>
       <Table
-        customCell="1.1fr 0.6fr 0.6fr 0.7fr 0.7fr"
+        customCell="1.1fr 0.6fr 0.6fr 0.7fr 260px"
         columnsCount={captions.length}
         className={classes.table}
       >
@@ -173,6 +174,19 @@ export const NodeListComponent = ({ className, data }: INodeListProps) => {
                     target="_blank"
                   >
                     <MacIcon />
+                  </IconButton>
+                  <IconButton
+                    component="a"
+                    className={classes.icon}
+                    onClick={() => {
+                      StkrSdk.getLastInstance().downloadSidecar(
+                        item.id,
+                        'docker',
+                      );
+                    }}
+                    target="_blank"
+                  >
+                    <DockerIcon />
                   </IconButton>
                 </TableBodyCell>
               </TableRow>
