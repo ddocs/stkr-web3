@@ -170,7 +170,6 @@ export const UserActions = {
     type: UserActionTypes.FETCH_GLOBAL_STATS,
     request: {
       promise: (async function () {
-        // TODO Revert
         const stkrSdk = StkrSdk.getLastInstance();
         return await stkrSdk.getGlobalStats();
       })(),
