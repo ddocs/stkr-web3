@@ -56,6 +56,7 @@ export type SidecarStatus =
 export interface SidecarReply {
   id: string;
   provider: string;
+  name?: string;
   status: SidecarStatus;
   machine?: {
     host: string;
