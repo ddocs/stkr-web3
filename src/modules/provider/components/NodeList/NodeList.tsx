@@ -14,7 +14,7 @@ import { t } from '../../../../common/utils/intl';
 import { StkrSdk } from '../../../api';
 import { uid } from 'react-uid';
 import { ISidecar } from '../../../../store/apiMappers/sidecarsApi';
-import { IconButton } from '@material-ui/core';
+import { Box, IconButton } from '@material-ui/core';
 import { ReactComponent as WindowsIcon } from './assets/windows.svg';
 import { ReactComponent as LinuxIcon } from './assets/linux.svg';
 import { ReactComponent as MacIcon } from './assets/mac.svg';
@@ -153,59 +153,65 @@ export const NodeListComponent = ({
                     <TableBodyCell>
                       {t('format.date', { value: item.created })}
                     </TableBodyCell>
-                    <TableBodyCell>
-                      <IconButton
-                        component="a"
-                        className={classes.icon}
-                        onClick={() => {
-                          StkrSdk.getLastInstance().downloadSidecar(
-                            item.id,
-                            'windows-amd64',
-                          );
-                        }}
-                        target="_blank"
-                      >
-                        <WindowsIcon />
-                      </IconButton>
-                      <IconButton
-                        component="a"
-                        className={classes.icon}
-                        onClick={() => {
-                          StkrSdk.getLastInstance().downloadSidecar(
-                            item.id,
-                            'linux-amd64',
-                          );
-                        }}
-                        target="_blank"
-                      >
-                        <LinuxIcon />
-                      </IconButton>
-                      <IconButton
-                        component="a"
-                        className={classes.icon}
-                        onClick={() => {
-                          StkrSdk.getLastInstance().downloadSidecar(
-                            item.id,
-                            'darwin-amd64',
-                          );
-                        }}
-                        target="_blank"
-                      >
-                        <MacIcon />
-                      </IconButton>
-                      <IconButton
-                        component="a"
-                        className={classes.icon}
-                        onClick={() => {
-                          StkrSdk.getLastInstance().downloadSidecar(
-                            item.id,
-                            'docker',
-                          );
-                        }}
-                        target="_blank"
-                      >
-                        <DockerIcon />
-                      </IconButton>
+                    <TableBodyCell classes={{ cellWrapper: classes.icons }}>
+                      <Box display="inline-block">
+                        <IconButton
+                          component="a"
+                          className={classes.icon}
+                          onClick={() => {
+                            StkrSdk.getLastInstance().downloadSidecar(
+                              item.id,
+                              'windows-amd64',
+                            );
+                          }}
+                          target="_blank"
+                        >
+                          <WindowsIcon />
+                        </IconButton>
+
+                        <IconButton
+                          component="a"
+                          className={classes.icon}
+                          onClick={() => {
+                            StkrSdk.getLastInstance().downloadSidecar(
+                              item.id,
+                              'linux-amd64',
+                            );
+                          }}
+                          target="_blank"
+                        >
+                          <LinuxIcon />
+                        </IconButton>
+                      </Box>
+                      <Box display="inline-block">
+                        <IconButton
+                          component="a"
+                          className={classes.icon}
+                          onClick={() => {
+                            StkrSdk.getLastInstance().downloadSidecar(
+                              item.id,
+                              'darwin-amd64',
+                            );
+                          }}
+                          target="_blank"
+                        >
+                          <MacIcon />
+                        </IconButton>
+
+                        <IconButton
+                          component="a"
+                          className={classes.icon}
+                          onClick={() => {
+                            StkrSdk.getLastInstance().downloadSidecar(
+                              item.id,
+                              'docker',
+                            );
+                          }}
+                          target="_blank"
+                        >
+                          <DockerIcon />
+                        </IconButton>
+                      </Box>
                     </TableBodyCell>
                   </TableRow>
                 ))}
@@ -232,6 +238,7 @@ export const NodeListComponent = ({
     [
       captions,
       classes.icon,
+      classes.icons,
       classes.noticeWrapper,
       classes.table,
       data,

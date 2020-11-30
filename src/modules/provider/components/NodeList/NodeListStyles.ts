@@ -7,7 +7,8 @@ export const useNodeListStyles = makeStyles<Theme>(theme => ({
   },
   icon: {
     padding: 0,
-    marginRight: theme.spacing(1.5),
+    marginRight: theme.spacing(0.5),
+    marginBottom: theme.spacing(0.5),
     '&.Mui-disabled': {
       opacity: 0.5,
     },
@@ -15,5 +16,10 @@ export const useNodeListStyles = makeStyles<Theme>(theme => ({
   noticeWrapper: {
     paddingTop: theme.spacing(10),
     paddingBottom: theme.spacing(10),
+  },
+  icons: {
+    '&&': {
+      whiteSpace: 'normal',
+    },
   },
 }));

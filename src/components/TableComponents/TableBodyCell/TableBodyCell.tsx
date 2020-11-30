@@ -4,8 +4,10 @@ import classNames from 'classnames';
 import { BackgroundColorProvider } from '../../../UiKit/BackgroundColorProvider';
 import { useTableBodyCellStyles } from './TableBodyCellStyles';
 import { TableContext } from '../Table/Table';
+import { WithUseStyles } from '../../../common/types';
 
-interface ITableBodyCellProps {
+interface ITableBodyCellProps
+  extends Partial<WithUseStyles<typeof useTableBodyCellStyles>> {
   className?: string;
   align?: AlignType;
   children: React.ReactNode;
