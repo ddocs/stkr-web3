@@ -63,7 +63,9 @@ const useCaptions = (): ITablesCaptionProps[] =>
 
 const getSidecarName = (item: ISidecar) => {
   let name = item.id;
-  if (item.machine) {
+  if (item.name) {
+    return `${item.name}`;
+  } else if (item.machine) {
     name = `${item.machine.cpuModel}`;
   }
   return name;

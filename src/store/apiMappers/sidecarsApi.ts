@@ -35,6 +35,7 @@ export interface ISidecarBeaconChain {
 export interface ISidecar {
   id: string;
   provider: string;
+  name?: string;
   status: SidecarStatus;
   machine?: ISidecarMachine;
   beaconChain?: ISidecarBeaconChain;
@@ -45,6 +46,7 @@ export function mapSidecar(item: SidecarReply): ISidecar {
   return {
     id: item.id,
     provider: item.provider,
+    name: item.name,
     status: item.status,
     machine: item.machine,
     beaconChain: item.beaconChain,
