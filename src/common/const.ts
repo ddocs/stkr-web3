@@ -35,7 +35,7 @@ const env = process.env.REACT_APP_STKR_ENV
   ? process.env.REACT_APP_STKR_ENV
   : 'develop';
 export const isMainnet = env === 'mainnet';
-export const ENABLE_PROVIDER = !isMainnet;
+export const ENABLE_PROVIDER = true; // !isMainnet;
 
 export enum Chain {
   mainnet = 1,
