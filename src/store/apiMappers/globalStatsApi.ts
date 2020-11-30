@@ -19,8 +19,6 @@ export function mapGlobalStats(item: GlobalStatsReply): IGlobalStats {
     pendingEthereum: new BigNumber(
       new BigNumber(item.pendingEthereum).div(ETH_SCALE_FACTOR).toFixed(1),
     ),
-    totalStakedEthereum: new BigNumber(
-      new BigNumber(item.totalStakedEthereum).div(ETH_SCALE_FACTOR).toFixed(1),
-    ),
+    totalStakedEthereum: new BigNumber(item.totalStakedEthereum),
   };
 }
