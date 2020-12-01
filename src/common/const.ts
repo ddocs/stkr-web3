@@ -51,3 +51,4 @@ export enum Chain {
 export const ENABLE_ANKR_DEPOSIT = false;
 export const ETH_SCALE_FACTOR = 10 ** 18;
 export const PROVIDE_MIN_BALANCE: ETH = 2;
+export const ETHEREUM_PRICE = 590;

@@ -13,6 +13,7 @@ import { invertTheme } from '../../common/themes/invertTheme';
 import { MuiThemeProvider } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 import { UserActions } from '../../store/actions/UserActions';
+import { ETHEREUM_PRICE } from '../../common/const';
 
 export const Lobby = () => {
   const { isConnected } = useAuthentication();
@@ -30,7 +31,7 @@ export const Lobby = () => {
       <Features />
       <MuiThemeProvider theme={invertTheme}>
         <Calculate
-          ethPrice={new BigNumber('374.94')}
+          ethPrice={new BigNumber(ETHEREUM_PRICE)}
           isConnected={isConnected}
         />
       </MuiThemeProvider>
