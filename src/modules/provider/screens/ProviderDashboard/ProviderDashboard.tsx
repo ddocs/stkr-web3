@@ -70,7 +70,7 @@ export const ProviderDashboardComponent = ({
               {
                 caption: 'provider.info.totalEth2Stakes',
                 value: tHTML('units.small-eth', {
-                  value: data.activePoolCount * 32,
+                  value: data.totalStakedEthereum.toString(),
                 }),
               },
               {
