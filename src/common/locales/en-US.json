@@ -188,7 +188,8 @@
     "small-eth": "{value} <span style=\"font-size: 16px\">ETH</span>",
     "large-eth": "{value}<span> ETH</span>",
     "large-aeth": "{value}<span> aETH</span>",
-    "number": "{value, number}"
+    "number": "{value, number}",
+    "~months": "~ {value} mo"
   },
   "format": {
     "date": "{value, date, medium} {value, time, medium}"
