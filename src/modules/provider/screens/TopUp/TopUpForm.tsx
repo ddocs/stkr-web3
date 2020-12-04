@@ -71,7 +71,7 @@ export const TopUpForm = ({
   return (
     <form onSubmit={handleSubmit} className={classes.form}>
       <Headline1 className={classes.title} component="h3" color="primary">
-        {t('create-micropool.title')}
+        {t('top-up.title')}
       </Headline1>
       <Query<IAllowance>
         errorComponent={QueryError}
@@ -95,7 +95,7 @@ export const TopUpForm = ({
               <ul className={classes.list}>
                 <li className={classes.depositItem}>
                   <Headline4 className={classes.caption} component="h4">
-                    {t('create-micropool.form.step-2.caption')}
+                    {t('top-up.form.step-1.caption')}
                   </Headline4>
 
                   <Field
@@ -119,10 +119,10 @@ export const TopUpForm = ({
                                 : 'secondary'
                             }
                           >
-                            {t('create-micropool.form.step-2.deposit-ETH')}
+                            {t('top-up.form.step-1.deposit-ETH')}
                           </Button>
                           <Headline5 className={classes.depositDelimiter}>
-                            {t('create-micropool.form.step-2.or')}
+                            {t('top-up.form.step-1.or')}
                           </Headline5>
                           <Button
                             variant="outlined"
@@ -138,7 +138,7 @@ export const TopUpForm = ({
                                 : 'secondary'
                             }
                           >
-                            {t('create-micropool.form.step-2.deposit-ANKR')}
+                            {t('top-up.form.step-1.deposit-ANKR')}
                           </Button>
                         </div>
                       );
@@ -148,14 +148,14 @@ export const TopUpForm = ({
                 {values[DEPOSIT_TYPE_FIELD_NAME] === DepositType.ETH && (
                   <li className={classes.item}>
                     <Headline4 className={classes.caption} component="h4">
-                      {t('create-micropool.form.step-3.caption-ETH')}
+                      {t('top-up.form.step-2.caption-ETH')}
                     </Headline4>
                     <Body2
                       className={classes.text}
                       component="p"
                       color="secondary"
                     >
-                      {tHTML('create-micropool.form.step-3.text-ETH')}
+                      {tHTML('top-up.form.step-2.text-ETH')}
                     </Body2>
                     <div>
                       <Headline4 className={classes.ethValue} align="right">
@@ -175,20 +175,20 @@ export const TopUpForm = ({
                 {values[DEPOSIT_TYPE_FIELD_NAME] === DepositType.ANKR && (
                   <li className={classes.item}>
                     <Headline4 className={classes.caption} component="h4">
-                      {t('create-micropool.form.step-3.caption-ANKR')}
+                      {t('top-up.form.step-2.caption-ANKR')}
                     </Headline4>
                     <Body2
                       className={classes.text}
                       component="p"
                       color="secondary"
                     >
-                      {t('create-micropool.form.step-3.text-ANKR')}
+                      {t('top-up.form.step-2.text-ANKR')}
                     </Body2>
 
                     <div className={classes.deposit}>
                       <Box>
                         <SubTitle className={classes.depositTitle}>
-                          {t('create-micropool-form.your-balance')}
+                          {t('top-up-form.your-balance')}
                           <Button
                             className={classes.buy}
                             variant="outlined"
@@ -196,7 +196,7 @@ export const TopUpForm = ({
                             color="primary"
                             onClick={handleBuy}
                           >
-                            {t('create-micropool-form.buy')}
+                            {t('top-up-form.buy')}
                           </Button>
                         </SubTitle>
                         <Box display="flex" alignItems="center">
@@ -219,7 +219,7 @@ export const TopUpForm = ({
                                   disabled={loading}
                                   onClick={handleAllowTokens}
                                 >
-                                  {t('create-micropool-form.allow', {
+                                  {t('top-up-form.allow', {
                                     value: totalAllowance.toFormat(),
                                   })}
                                 </Button>
@@ -232,7 +232,7 @@ export const TopUpForm = ({
                             color="primary"
                           >
                             <DoneIcon className={classes.allowanceDoneIcon} />
-                            {t('create-micropool-form.ankr-allowed', {
+                            {t('top-up-form.ankr-allowed', {
                               value: allowanceAmount.toFormat(),
                             })}
                           </SmallTitle>
@@ -255,7 +255,7 @@ export const TopUpForm = ({
                 aria-label="submit"
                 disabled={isNotEnoughAllowance || isNotEnoughBalance}
               >
-                {t('create-micropool.submit')}
+                {t('top-up.submit')}
               </Button>
             </>
           );

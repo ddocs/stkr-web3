@@ -1,4 +1,4 @@
-import { UserActionTypes } from '../actions/UserActions';
+import { ISetLanguagePayload, UserActionTypes } from '../actions/UserActions';
 import {
   requestInactive,
   RequestStatus,
@@ -8,6 +8,8 @@ import { createAPIReducer } from '../../common/utils/createAPIReducer';
 import { success } from '@redux-requests/core';
 import { SuccessResponseAction } from '../apiMappers/successResponseAction';
 import { IAuthorizeProviderResponse } from '../apiMappers/authorizeProvider';
+import { Locale } from '../../common/types';
+import { Action } from 'redux-actions';
 
 export function isConnected(state: IUserState) {
   return state.isConnected;
@@ -21,6 +23,7 @@ export interface IUserState {
   isConnected: boolean;
   isConnectionAvailable: boolean;
   providerAccessToken?: string;
+  locale: Locale;
 }
 
 const initialState: IUserState = {
@@ -28,6 +31,7 @@ const initialState: IUserState = {
   disconnectStatus: requestInactive(),
   isConnected: false,
   isConnectionAvailable: false,
+  locale: 'en-US',
 };
 
 export const userReducer = createReducer(initialState, {
@@ -55,5 +59,11 @@ export const userReducer = createReducer(initialState, {
     action: SuccessResponseAction<IAuthorizeProviderResponse>,
   ) => {
     return { ...state, providerAccessToken: action.response.data.token };
+  },
+  [UserActionTypes.SET_LOCALE]: (
+    state,
+    action: Action<ISetLanguagePayload>,
+  ) => {
+    return { ...state, locale: action.payload.locale };
   },
 });

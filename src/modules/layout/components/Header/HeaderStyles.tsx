@@ -13,7 +13,7 @@ export const useHeaderStyles = makeStyles<Theme, { height?: number }>(
     outer: {
       '&&': {
         display: 'grid',
-        gridTemplateColumns: '1fr auto 180px',
+        gridTemplateColumns: '1fr auto 180px 99px',
         justifyContent: 'space-between',
         padding: theme.spacing(0, 8.5),
         [theme.breakpoints.down('lg')]: {

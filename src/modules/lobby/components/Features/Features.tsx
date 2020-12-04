@@ -27,10 +27,10 @@ const Item = ({
 };
 
 const FEATURES: Record<string, string> = {
-  micropool: 'about.why-micropool-text',
-  manager: 'about.why-manager-text',
-  liquidity: 'about.why-liquidity-text',
-  security: 'about.why-security-text',
+  micropool: 'features.micropool-text',
+  manager: 'features.manager-text',
+  liquidity: 'features.liquidity-text',
+  security: 'features.security-text',
 };
 
 export const Features = () => {
@@ -39,9 +39,9 @@ export const Features = () => {
   return (
     <section className={classes.root}>
       <Curtains classes={{ root: classes.wrapper }}>
-        <h2 className={classes.title}>{t('about.why-title')}</h2>
+        <h2 className={classes.title}>{t('features.title')}</h2>
         <Body1 className={classes.text} component="p">
-          {t('about.why-text')}
+          {t('features.text')}
         </Body1>
         <ul className={classes.list}>
           {Object.keys(FEATURES).map((key: string) => {
@@ -49,7 +49,7 @@ export const Features = () => {
             return (
               <Item
                 key={key}
-                title={t(`about.why-${key}-title`)}
+                title={t(`features.${key}-title`)}
                 text={t(item)}
                 icon={key}
               />

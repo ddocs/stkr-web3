@@ -116,7 +116,6 @@ export const CreateNodeComponent = ({
               component={RadioGroupField}
               name="isBeaconAvailable"
               label={t('create-node.label.eth-node')}
-              palceholder={t('create-node.placeholder.eth-node')}
             >
               <FormControlLabel
                 value={Choice.yes}

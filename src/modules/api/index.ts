@@ -14,6 +14,7 @@ import BigNumber from 'bignumber.js';
 import { EventEmitter } from 'events';
 import { TransactionReceipt } from 'web3-core';
 import { YEAR_INTEREST } from '../../common/const';
+import { t } from '../../common/utils/intl';
 
 export interface IStakeAction extends SendAsyncResult {
   waitForTxReceipt(): Promise<TransactionReceipt>;
@@ -41,7 +42,7 @@ export class StkrSdk {
 
   static getLastInstance() {
     if (!StkrSdk.instance) {
-      throw new Error('SDK is not initialized yet');
+      throw new Error(t('user-actions.error.sdk-not-initialized'));
     }
     return StkrSdk.instance;
   }

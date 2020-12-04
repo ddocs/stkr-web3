@@ -22,36 +22,36 @@ const Arrow = (props: SVGAttributes<SVGElement>) => {
 
 const FAQ: Record<string, string>[] = [
   {
-    question: 'about.faq-question-1',
-    answer: 'about.faq-answer-1',
+    question: 'faq.question-1',
+    answer: 'faq.answer-1',
   },
   {
-    question: 'about.faq-question-2',
-    answer: 'about.faq-answer-2',
+    question: 'faq.question-2',
+    answer: 'faq.answer-2',
   },
   {
-    question: 'about.faq-question-3',
-    answer: 'about.faq-answer-3',
+    question: 'faq.question-3',
+    answer: 'faq.answer-3',
   },
   {
-    question: 'about.faq-question-4',
-    answer: 'about.faq-answer-4',
+    question: 'faq.question-4',
+    answer: 'faq.answer-4',
   },
   {
-    question: 'about.faq-question-5',
-    answer: 'about.faq-answer-5',
+    question: 'faq.question-5',
+    answer: 'faq.answer-5',
   },
   {
-    question: 'about.faq-question-6',
-    answer: 'about.faq-answer-6',
+    question: 'faq.question-6',
+    answer: 'faq.answer-6',
   },
   {
-    question: 'about.faq-question-7',
-    answer: 'about.faq-answer-7',
+    question: 'faq.question-7',
+    answer: 'faq.answer-7',
   },
   {
-    question: 'about.faq-question-8',
-    answer: 'about.faq-answer-8',
+    question: 'faq.question-8',
+    answer: 'faq.answer-8',
   },
 ];
 
@@ -69,7 +69,7 @@ export const Faq = ({ className }: IMarketingProps) => {
     >
       <Curtains classes={{ root: classes.wrapper }}>
         <Headline1 className={classes.title} component="h2">
-          {t('about.faq-title')}
+          {t('faq.title')}
         </Headline1>
         <ul className={classes.list}>
           {FAQ.map(item => {

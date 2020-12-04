@@ -1,12 +1,12 @@
-import { DependencyList, useContext, useMemo } from 'react';
-import { AppContext } from '../../components/AppBase/AppContext';
+import { DependencyList, useMemo } from 'react';
+import { useLocale } from '../utils/useLocale';
 
 function useLocaleMemo<T = any>(
   memoFn: () => T,
   deps: DependencyList | undefined,
 ) {
-  const context = useContext(AppContext);
-  return useMemo(memoFn, [...(deps || []), context.locale]);
+  const { locale } = useLocale();
+  return useMemo(memoFn, [...(deps || []), locale]);
 }
 
 export { useLocaleMemo };

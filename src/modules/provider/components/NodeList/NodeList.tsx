@@ -72,7 +72,7 @@ const getSidecarName = (item: ISidecar) => {
 };
 
 const getSidecarStatus = (item: ISidecar) => {
-  let statusName = t(`beacon-list.status.${item.status}`);
+  let statusName = t(`node-list.status.${item.status}`);
   if (item.status === 'SIDECAR_STATUS_UNKNOWN') {
     statusName = t('node-list.unknown');
   }

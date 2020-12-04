@@ -3,10 +3,9 @@ import intl from 'react-intl-universal';
 import { CssBaseline } from '@material-ui/core';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import { Router } from 'react-router';
-import { AppContext } from '../../src/components/AppBase/AppContext';
 import { mainTheme } from '../../src/common/themes/mainTheme';
 import { locales } from '../../src/common/locales';
-import { ReactReduxContext, Provider } from 'react-redux';
+import { Provider, ReactReduxContext } from 'react-redux';
 import { createMemoryHistory } from 'history';
 import { createApplicationStore } from '../../src/store/createStore';
 import { StkrSdk } from '../../src/modules/api';
@@ -42,15 +41,13 @@ export const AppShell = ({ children, locale = 'en-US' }) => {
   };
 
   return (
-    <AppContext.Provider value={{ locale }}>
-      <Provider store={store} context={ReactReduxContext}>
-        <MuiThemeProvider theme={mainTheme}>
-          <CssBaseline />
-          <Router history={history}>
-            <div style={styles}>{enabled && children}</div>
-          </Router>
-        </MuiThemeProvider>
-      </Provider>
-    </AppContext.Provider>
+    <Provider store={store} context={ReactReduxContext}>
+      <MuiThemeProvider theme={mainTheme}>
+        <CssBaseline />
+        <Router history={history}>
+          <div style={styles}>{enabled && children}</div>
+        </Router>
+      </MuiThemeProvider>
+    </Provider>
   );
 };

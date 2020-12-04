@@ -2,6 +2,7 @@ import { createMuiTheme, fade } from '@material-ui/core';
 import { ThemeOptions } from '@material-ui/core/styles/createMuiTheme';
 import { PaletteOptions } from '@material-ui/core/styles/createPalette';
 import { NOTIFICATION_AUTO_HIDE_DURATION } from '../const';
+import { ReactComponent as ArrowDownIcon } from './assets/arrowDown.svg';
 
 export const DEFAULT_FONT = '"Helvetica Neue", sans-serif';
 
@@ -98,6 +99,12 @@ const mainTheme = createMuiTheme({
       color: 'primary',
     },
     MuiIconButton: {
+      disableRipple: true,
+    },
+    MuiSelect: {
+      IconComponent: ArrowDownIcon,
+    },
+    MuiButtonBase: {
       disableRipple: true,
     },
   },
@@ -479,6 +486,57 @@ const mainTheme = createMuiTheme({
         '&::after': {
           content: 'none',
         },
+      },
+    },
+    MuiSelect: {
+      outlined: {
+        '&, &:focus': {
+          background: 'transparent',
+          border: '1px solid #3F3F3F',
+          borderRadius: 65,
+          fontSize: 14,
+          fontWeight: 500,
+          paddingTop: 8,
+          paddingBottom: 8,
+        },
+      },
+      iconOutlined: {
+        position: 'absolute',
+        top: 0,
+        bottom: 0,
+        margin: 'auto',
+        right: 10,
+      },
+    },
+    MuiPopover: {
+      paper: {
+        marginTop: 12,
+        border: '1px solid #3F3F3F',
+        boxShadow: 'none',
+        borderRadius: 12,
+      },
+    },
+    MuiList: {
+      padding: {
+        '&&': {
+          padding: 0,
+        },
+      },
+    },
+    MuiListItem: {
+      root: {
+        color: fade(defaultTheme.palette.common.white, 0.5),
+        '&.Mui-selected, &:hover': {
+          '&&': {
+            backgroundColor: 'transparent',
+            color: defaultTheme.palette.common.white,
+          },
+        },
+      },
+    },
+    MuiMenu: {
+      paper: {
+        backgroundColor: PALETTE.background.default,
       },
     },
   },
