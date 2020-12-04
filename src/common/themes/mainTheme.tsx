@@ -71,6 +71,12 @@ const mainTheme = createMuiTheme({
   palette: PALETTE as PaletteOptions,
   breakpoints: BREAKPOINTS,
   props: {
+    MuiTabs: {
+      variant: 'fullWidth',
+    },
+    MuiTab: {
+      disableRipple: true,
+    },
     MuiSnackbar: {
       autoHideDuration: NOTIFICATION_AUTO_HIDE_DURATION,
     },
@@ -246,6 +252,7 @@ const mainTheme = createMuiTheme({
         transitionDuration: '300ms',
         transitionProperty: 'color, background-color',
         transitionTimingFunction: 'linear',
+        borderRadius: 60,
         '&:hover, &:focus, &:active': {
           transform: 'scale(1.05)',
           backgroundColor: PALETTE.text.secondary,
@@ -537,6 +544,22 @@ const mainTheme = createMuiTheme({
     MuiMenu: {
       paper: {
         backgroundColor: PALETTE.background.default,
+      },
+    },
+    MuiTabs: {
+      indicator: {
+        display: 'none',
+      },
+    },
+    MuiTab: {
+      root: {
+        fontSize: 22,
+      },
+    },
+    MuiTimelineContent: {
+      root: {
+        fontSize: 16,
+        fontWeight: 400,
       },
     },
   },

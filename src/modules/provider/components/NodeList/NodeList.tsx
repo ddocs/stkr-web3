@@ -23,7 +23,7 @@ import { safeDiv } from '../../../../common/utils/safeDiv';
 import { formatDistanceToNowStrict } from 'date-fns';
 import { useHistory } from 'react-router';
 import {
-  PROVIDE_MIN_BALANCE,
+  PROVIDER_MIN_BALANCE,
   PROVIDER_CREATE_NODE_PATH,
   PROVIDER_TOP_UP_PATH,
 } from '../../../../common/const';
@@ -223,7 +223,7 @@ export const NodeListComponent = ({
         );
       }
 
-      if (balance.isLessThan(PROVIDE_MIN_BALANCE)) {
+      if (balance.isLessThan(PROVIDER_MIN_BALANCE)) {
         return (
           <div className={classes.noticeWrapper}>
             <NotEnoughBalance onSubmit={onTopUp} />

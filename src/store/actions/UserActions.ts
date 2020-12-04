@@ -1,5 +1,5 @@
 import { IUserInfo } from '../apiMappers/userApi';
-import { Locale, Providers } from '../../common/types';
+import { DepositType, Locale, Providers } from '../../common/types';
 import { StkrSdk } from '../../modules/api';
 import BigNumber from 'bignumber.js';
 import { SidecarReply } from '../../modules/api/gateway';
@@ -16,7 +16,6 @@ import { closeModalAction } from '../modals/actions';
 import { replace } from 'connected-react-router';
 import { update } from '../../common/utils/update';
 import { createAction } from 'redux-actions';
-import { DepositType } from '../../modules/provider/screens/TopUp/TopUpForm';
 import { mapProviderStats } from '../apiMappers/providerStatsApi';
 import { ICreateNodeValue } from '../../modules/provider/screens/CreateNode';
 

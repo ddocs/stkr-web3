@@ -199,24 +199,6 @@
       "sdk-not-initialized": "SDK not initialized"
     }
   },
-  "top-up": {
-    "title": "Top-up your balance",
-    "submit": "Top-up",
-    "form": {
-      "step-1": {
-        "caption": "Select a top-up method",
-        "deposit-ETH": "ETH",
-        "or": "or",
-        "deposit-ANKR": "ANKR"
-      },
-      "step-2": {
-        "caption-ANKR": "Top up ANKR tokens",
-        "text-ANKR": "For top-up you need to have minimum 100,000 ANKR on your account.\nThese funds will be blocked for participation in staking.",
-        "caption-ETH": "Top up ETH tokens",
-        "text-ETH": "Please note that if your insurance ever drops below 2 ETH due to slashing penalties, your node may stop running. To prevent this from happening, or to restart a node that has stopped because of this, please ensure your remaining insurance balance is at least 2 ETH. You can top this amount up here.<br/><br/>Also note that once deposited, any insurance amount remains locked in the Stkr system until the contract ends (Ethereum 2.0 Phase 1.5 release)."
-      }
-    }
-  },
   "top-up-form": {
     "your-balance": "Your ANKR balance",
     "needed": "Needed amount",
@@ -308,6 +290,29 @@
   "not-enough-balance": {
     "title": "To create the first beacon node, you need to top-up your balance",
     "submit": "Top-up your balance"
+  },
+  "top-up": {
+    "title": "Top-up your balance",
+    "ankr-min-deposit-notice": "You need {value} ANKR on your wallet",
+    "tab": {
+      "ankr": "ANKR",
+      "eth": "ETH"
+    },
+    "submit": {
+      "ankr-buy": "Buy ANKR",
+      "ankr-top-up": "Top-up {value} ANKR",
+      "ankr-allow": "Allow {value} ANKR",
+      "eth-top-up": "Top-up {value} ETH"
+    },
+    "step": {
+      "1": "You have enough tokens",
+      "2": "Allow {value} ANKR",
+      "3": "Top-up {value} ANKR"
+    },
+    "eth-top-up-note": "Please note that if your insurance ever drops below 2 ETH due to slashing penalties, your node may stop running. To prevent this from happening, or to restart a node that has stopped because of this, please ensure your remaining insurance balance is at least 2 ETH. You can top this amount up here.<br/><br/>Also note that once deposited, any insurance amount remains locked in the Stkr system until the contract ends (Ethereum 2.0 Phase 1.5 release)."
+  },
+  "provider-dashboard": {
+    "balance": "Your insurance deposit: {value} ETH"
   },
   "language": {
     "en-US": "EN",

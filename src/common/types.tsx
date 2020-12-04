@@ -21,6 +21,11 @@ export type Megabytes = number;
 export type Percentage = number;
 export type ETH = number;
 
+export enum DepositType {
+  ETH = 'ETH',
+  ANKR = 'ANKR',
+}
+
 // TODO
 export type WithUseStyles<
   USE_STYLES extends (props?: any) => ClassNameMap<string>

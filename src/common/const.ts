@@ -6,11 +6,11 @@ export const STAKER_STAKE_PATH = '/staker/stake';
 export const STAKER_PATH = '/staker';
 export const STAKER_DASHBOAR_PATH = STAKER_PATH;
 export const PROVIDER_PATH = '/provider';
-export const PROVIDER_NODES_PATH = `${PROVIDER_PATH}/nodes`;
+export const PROVIDER_NODES_PATH = `${PROVIDER_PATH}/nodes/list`;
 export const PROVIDER_TOP_UP_PATH = PROVIDER_PATH;
+export const PROVIDER_TOP_UP_ROUTE = `${PROVIDER_PATH}/:type?`;
 export const PROVIDER_CREATE_NODE_PATH = `${PROVIDER_PATH}/create-node`;
 export const PICKER_PATH = '/picker';
-export const SURVEY_PATH = 'https://ankr_stkr.typeform.com/to/pc5sgxl9';
 
 export const SOCIAL_LINK = {
   twitter: 'https://twitter.com/ankr',
@@ -50,5 +50,7 @@ export enum Chain {
 
 export const ENABLE_ANKR_DEPOSIT = false;
 export const ETH_SCALE_FACTOR = 10 ** 18;
+export const PROVIDER_MIN_BALANCE: ETH = 2;
+export const STAKING_AMOUNT_STEP = 0.5;
 export const PROVIDE_MIN_BALANCE: ETH = 2;
 export const ETHEREUM_PRICE = 590;

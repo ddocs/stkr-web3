@@ -1,12 +1,7 @@
 import React, { useCallback, useMemo } from 'react';
 import { Curtains } from '../../../../UiKit/Curtains';
 import { useStakeStyles } from './StakeStyles';
-import {
-  Body1,
-  Headline2,
-  Headline3,
-  Headline5,
-} from '../../../../UiKit/Typography';
+import { Body1, Headline2, Headline3, Headline5, } from '../../../../UiKit/Typography';
 import { t, tHTML } from '../../../../common/utils/intl';
 import { IconButton, Tooltip, Typography } from '@material-ui/core';
 import { CancelIcon } from '../../../../UiKit/Icons/CancelIcon';
@@ -14,17 +9,14 @@ import { BackgroundColorProvider } from '../../../../UiKit/BackgroundColorProvid
 import { Field, Form, FormRenderProps } from 'react-final-form';
 import { QuestionIcon } from '../../../../UiKit/Icons/QuestionIcon';
 import { SliderField } from '../../../../UiKit/RangeField';
-import {
-  UserActions,
-  UserActionTypes,
-} from '../../../../store/actions/UserActions';
+import { UserActions, UserActionTypes, } from '../../../../store/actions/UserActions';
 import { FormErrors } from '../../../../common/types/FormErrors';
 import { Mutation, useQuery } from '@redux-requests/react';
 import { IUserInfo } from '../../../../store/apiMappers/userApi';
 import BigNumber from 'bignumber.js';
 import { useRequestDispatch } from '../../../../common/utils/useRequestDispatch';
 import { useHistory } from 'react-router';
-import { STAKER_DASHBOAR_PATH, YEAR_INTEREST } from '../../../../common/const';
+import { STAKER_DASHBOAR_PATH, STAKING_AMOUNT_STEP, YEAR_INTEREST } from '../../../../common/const';
 import { success } from '@redux-requests/core';
 import { MutationErrorHandler } from '../../../../components/MutationErrorHandler/MutationErrorHandler';
 import { CheckboxField } from '../../../../UiKit/Checkbox/CheckboxField';
@@ -36,7 +28,6 @@ const MIN_AMOUNT = 0.5;
 const MAX_AMOUNT = 32;
 const INTEREST_PERIOD = 12;
 const FIXED_DECIMAL_PLACES = 2;
-const STEP = 0.5;
 
 interface IStakePayload {
   amount: number;
@@ -85,14 +76,14 @@ export const StakeComponent = ({
         ethereumBalance && ethereumBalance.isGreaterThan(MAX_AMOUNT)
           ? ethereumBalance.toNumber()
           : MAX_AMOUNT,
-        STEP,
+        STAKING_AMOUNT_STEP,
       ),
     [ethereumBalance],
   );
 
   const INIT_AMOUNT =
     ethereumBalance && ethereumBalance.isGreaterThan(MIN_AMOUNT)
-      ? floor(ethereumBalance.toNumber(), STEP)
+      ? floor(ethereumBalance.toNumber(), STAKING_AMOUNT_STEP)
       : MIN_AMOUNT;
 
   const renderForm = ({
@@ -112,7 +103,7 @@ export const StakeComponent = ({
             component={SliderField}
             min={MIN_AMOUNT}
             max={max}
-            step={STEP}
+            step={STAKING_AMOUNT_STEP}
             name="amount"
           />
         </label>
