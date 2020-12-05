@@ -53,9 +53,9 @@ const Item = ({
 };
 
 const FEATURES: Record<string, string> = {
-  api: 'about.become-provider-api-text',
-  knowledge: 'about.become-provider-knowledge-text',
-  governance: 'about.become-provider-governance-text',
+  api: 'become-provider.api-text',
+  knowledge: 'become-provider.knowledge-text',
+  governance: 'become-provider.governance-text',
 };
 
 interface IFeaturesProps {
@@ -73,11 +73,11 @@ export const BecomeProvider = ({ className }: IFeaturesProps) => {
     <section className={classNames(classes.component, className)}>
       <Curtains classes={{ root: classes.wrapper }}>
         <Headline1 className={classes.title} component="h2">
-          {tHTML('about.become-provider-title')}
+          {tHTML('become-provider.title')}
         </Headline1>
         <div className={classes.textWrapper}>
           <Typography className={classes.text} component="p">
-            {t('about.become-provider-text')}
+            {t('become-provider.text')}
           </Typography>
           <Button
             className={classes.button}
@@ -102,7 +102,7 @@ export const BecomeProvider = ({ className }: IFeaturesProps) => {
             return (
               <Item
                 key={key}
-                title={t(`about.become-provider-${key}-title`)}
+                title={t(`become-provider.${key}-title`)}
                 text={t(item)}
                 icon={key}
                 delay={200 * index}

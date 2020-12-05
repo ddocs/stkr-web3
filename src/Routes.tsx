@@ -5,14 +5,14 @@ import { QueryLoadingCentered } from './components/QueryLoading/QueryLoading';
 import { PageNotFound } from './components/PageNotFound/PageNotFound';
 import { withDefaultLayout } from './modules/layout';
 import {
-  INDEX_PATH,
-  PICKER_PATH,
-  PROVIDER_CREATE_NODE_PATH,
-  PROVIDER_NODES_PATH,
-  PROVIDER_PATH,
-  PROVIDER_TOP_UP_PATH,
-  STAKER_DASHBOAR_PATH,
-  STAKER_STAKE_PATH,
+    INDEX_PATH,
+    PICKER_PATH,
+    PROVIDER_CREATE_NODE_PATH,
+    PROVIDER_NODES_PATH,
+    PROVIDER_PATH,
+    PROVIDER_TOP_UP_ROUTE,
+    STAKER_DASHBOAR_PATH,
+    STAKER_STAKE_PATH,
 } from './common/const';
 import { PrivateRoute } from './UiKit/PrivateRoute';
 
@@ -83,7 +83,11 @@ export function Routes() {
         component={LoadableOverviewContainer}
       />
       <PrivateRoute
-        path={[PROVIDER_PATH, PROVIDER_TOP_UP_PATH, PROVIDER_NODES_PATH]}
+        path={[
+          PROVIDER_PATH,
+          PROVIDER_TOP_UP_ROUTE,
+          PROVIDER_NODES_PATH,
+        ]}
         component={ProviderContainer}
         exact={true}
       />

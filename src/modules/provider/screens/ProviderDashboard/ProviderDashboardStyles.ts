@@ -1,4 +1,4 @@
-import { Theme } from '@material-ui/core';
+import { fade, Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 export const useProviderDashboardStyles = makeStyles<Theme>(theme => ({
@@ -29,5 +29,10 @@ export const useProviderDashboardStyles = makeStyles<Theme>(theme => ({
   },
   table: {
     flexGrow: 1,
+  },
+  balance: {
+    fontSize: 14,
+    fontWeight: 500,
+    color: fade(theme.palette.common.white, 0.5),
   },
 }));

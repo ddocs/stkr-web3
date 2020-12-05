@@ -3,10 +3,10 @@ import { useCallback, useEffect } from 'react';
 import { useProviderDashboardStyles } from './ProviderDashboardStyles';
 import { NodeList } from '../../components/NodeList';
 import {
-  PROVIDE_MIN_BALANCE,
+  PROVIDER_MIN_BALANCE,
   PROVIDER_CREATE_NODE_PATH,
   PROVIDER_NODES_PATH,
-  PROVIDER_TOP_UP_PATH,
+  PROVIDER_TOP_UP_ROUTE,
 } from '../../../../common/const';
 import { ProviderTabs } from '../../components/ProviderTabs';
 import { t, tHTML } from '../../../../common/utils/intl';
@@ -30,6 +30,7 @@ import { useAuthentication } from '../../../../common/utils/useAuthentications';
 import { TopUpContainer } from '../TopUp';
 import { alwaysFalse } from '../../../../common/utils/alwaysFalse';
 import { IProviderStats } from '../../../../store/apiMappers/providerStatsApi';
+import { Typography } from '@material-ui/core';
 
 const SHORT_UPDATE_INTERVAL: Milliseconds = 30_000;
 const LONG_UPDATE_INTERVAL: Milliseconds = 60_000;
@@ -104,25 +105,44 @@ export const ProviderDashboardComponent = ({
           >
             {({ data }) => {
               const hasEnoughBalance = data?.balance.isGreaterThanOrEqualTo(
-                PROVIDE_MIN_BALANCE,
+                PROVIDER_MIN_BALANCE,
               );
 
               return (
-                <NavLink
-                  className={classes.create}
-                  href={PROVIDER_CREATE_NODE_PATH}
-                  variant="outlined"
-                  disabled={!hasEnoughBalance}
-                  color="primary"
-                >
-                  {t('navigation.create')}
-                </NavLink>
+                <>
+                  <Route
+                    path={[PROVIDER_NODES_PATH]}
+                    render={() => (
+                      <NavLink
+                        className={classes.create}
+                        href={PROVIDER_CREATE_NODE_PATH}
+                        variant="outlined"
+                        disabled={!hasEnoughBalance}
+                        color="primary"
+                      >
+                        {t('navigation.create')}
+                      </NavLink>
+                    )}
+                    exact={true}
+                  />
+                  <Route
+                    path={[PROVIDER_TOP_UP_ROUTE]}
+                    render={() => (
+                      <Typography className={classes.balance}>
+                        {t('provider-dashboard.balance', {
+                          value: data?.balance.toFormat(),
+                        })}
+                      </Typography>
+                    )}
+                    exact={true}
+                  />
+                </>
               );
             }}
           </Query>
         </div>
         <Route
-          path={[PROVIDER_TOP_UP_PATH]}
+          path={[PROVIDER_TOP_UP_ROUTE]}
           render={renderTopUp}
           exact={true}
         />

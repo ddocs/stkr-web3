@@ -6,11 +6,11 @@ import { useCalculateStyles } from './CalculateStyles';
 import { BackgroundColorProvider } from '../../../../UiKit/BackgroundColorProvider';
 import { Button } from '../../../../UiKit/Button';
 import { Slider } from '@material-ui/core';
-import { Body2, Headline1, Headline5 } from '../../../../UiKit/Typography';
+import { Headline1, Headline5 } from '../../../../UiKit/Typography';
 import BigNumber from 'bignumber.js';
 import { YEAR_INTEREST } from '../../../../common/const';
-import { UserActions } from "../../../../store/actions/UserActions";
-import { useDispatch } from "react-redux";
+import { UserActions } from '../../../../store/actions/UserActions';
+import { useDispatch } from 'react-redux';
 
 const DEFAULT_VALUE = 10;
 const FIXED_DECIMAL_PLACES = 2;
@@ -75,10 +75,7 @@ export const Calculate = ({
       <Curtains classes={{ root: classes.wrapper }}>
         <BackgroundColorProvider component="div" className={classes.content}>
           <Headline1 className={classes.title} component="h2">
-            {tHTML('about.calculate-title')}
-            <Body2 className={classes.note}>
-              {t('about.calculate-subtitle')}
-            </Body2>
+            {tHTML('calculate.title')}
           </Headline1>
           <div className={classes.form}>
             <Slider
@@ -91,12 +88,12 @@ export const Calculate = ({
               max={320}
             />
             <Value
-              title={t('about.calculate-note')}
+              title={t('calculate.note')}
               value={value}
               ratePrice={ethPrice}
             />
             <Value
-              title={t('about.calculate-yearly')}
+              title={t('calculate.yearly')}
               value={value * YEAR_INTEREST}
               ratePrice={ethPrice}
             />

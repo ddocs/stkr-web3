@@ -6,9 +6,9 @@ import classNames from 'classnames';
 import { Body1, Headline5 } from '../../../../UiKit/Typography';
 
 const ROLES: Record<string, string> = {
-  'eth-staker': 'about.roles-eth-staker-text',
-  'node-provider': 'about.roles-node-provider-text',
-  governance: 'about.roles-governance-text',
+  'eth-staker': 'roles.eth-staker-text',
+  'node-provider': 'roles.node-provider-text',
+  governance: 'roles.governance-text',
 };
 
 interface IFeaturesProps {
@@ -21,7 +21,7 @@ export const Roles = ({ className }: IFeaturesProps) => {
   return (
     <section className={classNames(classes.component, className)}>
       <Curtains classes={{ root: classes.wrapper }}>
-        <h2 className={classes.title}>{tHTML('about.roles-title')}</h2>
+        <h2 className={classes.title}>{tHTML('roles.title')}</h2>
         <ul className={classes.list}>
           {Object.keys(ROLES).map((key: string) => {
             const item = ROLES[key];
@@ -32,7 +32,7 @@ export const Roles = ({ className }: IFeaturesProps) => {
                   color="primary"
                   component="h3"
                 >
-                  {t(`about.roles-${key}-title`)}
+                  {t(`roles.${key}-title`)}
                 </Headline5>
                 <Body1 className={classes.itemText} component="p">
                   {t(item)}

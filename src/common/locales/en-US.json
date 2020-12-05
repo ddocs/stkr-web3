@@ -9,42 +9,21 @@
     "staker": "Staker",
     "provider": "Provider",
     "unlock-wallet": "Launch App",
-    "about": "About STKR",
     "whitepaper-en": "Whitepaper (En)",
     "whitepaper-ch": "Whitepaper (Ch)",
-    "join": "Join",
     "unlock-your-wallet": "Connect your wallet",
-    "apply-as-provider": "Apply as a provider",
-    "create-beacon-chain": "Create Beacon chain",
     "create-micropool": "Create micropool",
-    "become-provider": "Become a Provider",
-    "email": "Your email address",
-    "next": "Next",
     "create": "Create",
-    "edit": "Edit",
-    "push-manually": "Push Manually",
-    "download": "Download",
-    "micropool-list": "My micropool list",
     "top-up": "Top up",
     "beacon-list": "Beacon chain list",
     "select-wallet-provider": "Select a wallet provider",
     "connect": "Connect",
-    "install": "Install",
-    "submit": "Submit",
     "copyright": "© {year} Stkr All rights reserved | <a href=\"mailto: info@ankr.com\" rel=\"noopener noreferrer\">info@ankr.com</a>",
-    "share": "Share via social",
-    "micropool-name": "Micropool name",
-    "duration": "Duration",
-    "fee": "Fee range",
-    "beacon-name-node": "Beacon name node",
-    "create-pool": "Create pool",
-    "buy": "Buy 100,000 ANKR",
     "select": "Select",
     "disconnect": "Disconnect",
     "copy-address": "Copy Address",
     "view-on-etherscan": "View on Etherscan",
     "coming-soon": "Coming soon",
-    "node-name": "Enter node name",
     "community": "Community",
     "governance": "Governance",
     "docs": "Docs",
@@ -56,10 +35,7 @@
     "copied": "Address copied"
   },
   "validation": {
-    "email-error": "Not a valid email address",
-    "alphanumeric": "This field can contain only letters and numbers.",
     "required": "This field is required",
-    "min-length": "Should be limited to {size} characters.",
     "min-ETH-amount": "Minimum amount is {value} ETH",
     "alpha-numerical-and-underscore": "Must consists of only letters, numbers, and the _ sign.",
     "invalid-address-format": "Invalid address format"
@@ -69,86 +45,63 @@
     "text": "Stkr is a decentralized protocol and platform that combines staking and DeFi, implementing elements from traditional staking with non-custodial management, Micropools, instant liquidity and decentralized governance.",
     "stakers": "Stakers",
     "providers": "Providers",
-    "total": "Total Value Staked",
-    "pool-title": "{value} staking pools",
-    "pool-note": "Start staking today with STKR",
-    "calculate-title": "Calculate <br/>your earnings",
-    "calculate-subtitle": "This calculator is based on a estimation of 15 percent of annual staking rewards.",
-    "calculate-note": "Total Staked ETH",
-    "calculate-monthly": "Monthly Earning",
-    "calculate-yearly": "Yearly Earning",
-    "marketing-title": "Are you interested to stake, become a node provider or governor",
-    "marketing-text": "Please fill in this typeform<br />and we'll get in touch!",
-    "why-title": "Why Stkr?",
-    "why-text": "Stkr is built by the Ankr team, to provide the best user experience and highest level of safety, combined with an attractive reward mechanism and instant staking liquidity through a bond-like synthetic token called aETH.",
-    "why-micropool-title": "Micropool",
-    "why-micropool-text": "Stake from as little as 0.5 ETH and as much as 1,000 ETH, to automatically join other stakers in Micropools!",
-    "why-manager-title": "Staking Manager",
-    "why-manager-text": "Send all of your ETH in one transaction and Stkr will automatically allocate your funds to the best pools.",
-    "why-liquidity-title": "Staking Liquidity",
-    "why-liquidity-text": "With aETH, you can hold or trade your staked assets at any time, without having to wait until transactions are enabled on Ethereum 2.0.",
-    "why-security-title": "Security",
-    "why-security-text": "Keep your funds under your own custody, to always remain in full control of your assets.",
-    "roles-title": "<span>The 3 roles</span>in the Stkr system",
-    "roles-eth-staker-title": "Staker",
-    "roles-eth-staker-text": "Stakers can stake any amount of ETH tokens (minimum 0.5 ETH) to earn staking rewards and platform fees. The staked ETH will immediately be liquid in the form of aETH, which users can use to trade or participate in DeFi. Stakers can stake ANKR in addition to their ETH stake to increase rewards from platform fees.",
-    "roles-node-provider-title": "Node provider",
-    "roles-node-provider-text": "Node providers will be running Ethereum 2.0 nodes either on their own hardware or using the Ankr platform, to earn from the staking rewards and platform fees.",
-    "roles-ankr-staker-title": "ANKR staker",
-    "roles-ankr-staker-text": "ANKR token stakers will earn a percentage of the Stkr platform fees by simply staking ANKR tokens or providing liquidity to designated pools (such as aETH/ANKR and aETH/ETH) on Uniswap and other AMM's.",
-    "roles-governance-title": "Governance",
-    "roles-governance-text": "Governors will ensure the long term sustainability of the platform. A substantial stake of ANKR tokens is necessary to become part of the Stkr governance board (a governor does not necessary need to be a node provider).",
-    "become-provider-title": "Become <br />a provider ",
-    "become-provider-text": "Become a provider by running Ethereum 2.0 nodes on Ankr with no hardware or technical knowledge required.",
-    "become-provider-api-title": "Developer APIs",
-    "become-provider-api-text": "Easily build Web3 products with instant API access to Ethereum's various testnets and mainnets.",
-    "become-provider-knowledge-title": "No technical knowledge needed",
-    "become-provider-knowledge-text": "By running Ethereum 2.0 nodes on Ankr, no hardware or technical knowledge is required.",
-    "become-provider-governance-title": "Governance",
-    "become-provider-governance-text": "Become a Governor in order to influence decisions made about the Stkr platform!",
-    "faq-title": "FAQ",
-    "faq-question-1": "What is Stkr?",
-    "faq-answer-1": "<p>Stkr is a decentralized protocol and platform that combines staking and DeFi to remove entry barriers and democratize staking for everyone.</p>",
-    "faq-question-2": "Can I stake if I have less than 32 ETH?\n",
-    "faq-answer-2": "<p>Yes! To democratize access to Ethereum 2.0 for users who are unable to invest 32 ETH (the fixed amount required by the network), Stkr introduces Micropools – a proprietary solution that enables you to start staking with as little as 0.5 ETH. Simply choose the amount you want to delegate, and the system will automatically assign it to the best providers.\n</p>",
-    "faq-question-3": "What are Micropools?",
-    "faq-answer-3": "<p>The Micropools mechanism is our unique solution for breaking down the economic barriers for Ethereum 2.0 staking. As the name implies, Micropools allow users to chip in smaller portions of ETH towards a Validator, and receive a proportionate reward based on their contribution.</p>",
-    "faq-question-4": "Will my funds become illiquid if I stake them before transactions are enabled on Ethereum 2.0?",
-    "faq-answer-4": "<p>No – Stkr effectively tackles the illiquidity issue of Ethereum 2.0 by introducing aETH and other synthetic assets that will enable you to sell your stake at any point in time.</p>",
-    "faq-question-5": "I have more than 32 ETH. Can I still stake with Stkr?",
-    "faq-answer-5": "<p>Despite that Ethereum 2.0 only enables you to stake multiples of 32 ETH, with Stkr you can stake all your tokens at once, without having to allocate them to multiple nodes. This means you can even stake 1,000 ETH in just one click!</p>",
-    "faq-question-6": "Can I run my own Ethereum 2.0 node on Stkr?",
-    "faq-answer-6": "<p>Yes! You can become a provider and run your own node to collect staking rewards. If you don’t have any hardware or technical knowledge to set up a node, you can always use Ankr and deploy your Ethereum 2.0 node in one click.</p>",
-    "faq-question-7": "What do I need to become a provider on Stkr?",
-    "faq-answer-7": "<p>To become a provider in Stkr and earn platform fees, you need to set up an Ethereum 2.0 node with a minimum “insurance” stake of 2 ETH to compensate users in case of slashing events.</p>",
-    "faq-question-8": "Can I use my ANKR tokens on Stkr?",
-    "faq-answer-8": "<p>The Stkr protocol introduces a new utility for ANKR, the native ERC-20 token of Ankr platform. Providers can stake ANKR token as an insurance fund and increase their reward rate. In addition to that, ETH stakers can stake ANKR tokens to increase their staking rewards from the platform fees!</p>"
+    "total": "Total Value Staked"
   },
-  "dashboard": {
-    "hi": "Hi, {name}"
+  "calculate": {
+    "title": "Calculate <br/>your earnings",
+    "subtitle": "This calculator is based on a estimation of 15 percent of annual staking rewards.",
+    "note": "Total Staked ETH",
+    "yearly": "Yearly Earning"
   },
-  "pool-table": {
-    "name": "Name",
-    "provider": "Provider",
-    "status": "Status",
-    "fee": "Fee",
-    "total": "Total Stake"
+  "features": {
+    "title": "Why Stkr?",
+    "text": "Stkr is built by the Ankr team, to provide the best user experience and highest level of safety, combined with an attractive reward mechanism and instant staking liquidity through a bond-like synthetic token called aETH.",
+    "micropool-title": "Micropool",
+    "micropool-text": "Stake from as little as 0.5 ETH and as much as 1,000 ETH, to automatically join other stakers in Micropools!",
+    "manager-title": "Staking Manager",
+    "manager-text": "Send all of your ETH in one transaction and Stkr will automatically allocate your funds to the best pools.",
+    "liquidity-title": "Staking Liquidity",
+    "liquidity-text": "With aETH, you can hold or trade your staked assets at any time, without having to wait until transactions are enabled on Ethereum 2.0.",
+    "security-title": "Security",
+    "security-text": "Keep your funds under your own custody, to always remain in full control of your assets."
   },
-  "micro-pool-table": {
-    "poolIndex": "Pool Index",
-    "name": "Name",
-    "status": "Status",
-    "fee": "Fee",
-    "lastReward": "Rewarded",
-    "lastSlashing": "Slashed",
-    "duration": "Staking duration",
-    "startTime": "Started",
-    "total": "ETH in the pool",
-    "empty": {
-      "title": "Create your first micropool node",
-      "paragraph-1": "By creating a Micropool, you will be spinning up an Ethereum 2.0 node. The Micropool then becomes available for people to stake their ETH into. The more Micropools you run, the more rewards you can generate!",
-      "paragraph-2": "You can create multiple Micropools (and therefore Ethereum nodes) on your host, however be aware that too many nodes may degrade performance and cause slashing to occur on your existing nodes, so be careful to remain within the constraints your hardware permits."
-    }
+  "roles": {
+    "title": "<span>The 3 roles</span>in the Stkr system",
+    "eth-staker-title": "Staker",
+    "eth-staker-text": "Stakers can stake any amount of ETH tokens (minimum 0.5 ETH) to earn staking rewards and platform fees. The staked ETH will immediately be liquid in the form of aETH, which users can use to trade or participate in DeFi. Stakers can stake ANKR in addition to their ETH stake to increase rewards from platform fees.",
+    "node-provider-title": "Node provider",
+    "node-provider-text": "Node providers will be running Ethereum 2.0 nodes either on their own hardware or using the Ankr platform, to earn from the staking rewards and platform fees.",
+    "governance-title": "Governance",
+    "governance-text": "Governors will ensure the long term sustainability of the platform. A substantial stake of ANKR tokens is necessary to become part of the Stkr governance board (a governor does not necessary need to be a node provider)."
+  },
+  "become-provider": {
+    "title": "Become <br />a provider ",
+    "text": "Become a provider by running Ethereum 2.0 nodes on Ankr with no hardware or technical knowledge required.",
+    "api-title": "Developer APIs",
+    "api-text": "Easily build Web3 products with instant API access to Ethereum's various testnets and mainnets.",
+    "knowledge-title": "No technical knowledge needed",
+    "knowledge-text": "By running Ethereum 2.0 nodes on Ankr, no hardware or technical knowledge is required.",
+    "governance-title": "Governance",
+    "governance-text": "Become a Governor in order to influence decisions made about the Stkr platform!"
+  },
+  "faq": {
+    "title": "FAQ",
+    "question-1": "What is Stkr?",
+    "answer-1": "<p>Stkr is a decentralized protocol and platform that combines staking and DeFi to remove entry barriers and democratize staking for everyone.</p>",
+    "question-2": "Can I stake if I have less than 32 ETH?\n",
+    "answer-2": "<p>Yes! To democratize access to Ethereum 2.0 for users who are unable to invest 32 ETH (the fixed amount required by the network), Stkr introduces Micropools – a proprietary solution that enables you to start staking with as little as 0.5 ETH. Simply choose the amount you want to delegate, and the system will automatically assign it to the best providers.\n</p>",
+    "question-3": "What are Micropools?",
+    "answer-3": "<p>The Micropools mechanism is our unique solution for breaking down the economic barriers for Ethereum 2.0 staking. As the name implies, Micropools allow users to chip in smaller portions of ETH towards a Validator, and receive a proportionate reward based on their contribution.</p>",
+    "question-4": "Will my funds become illiquid if I stake them before transactions are enabled on Ethereum 2.0?",
+    "answer-4": "<p>No – Stkr effectively tackles the illiquidity issue of Ethereum 2.0 by introducing aETH and other synthetic assets that will enable you to sell your stake at any point in time.</p>",
+    "question-5": "I have more than 32 ETH. Can I still stake with Stkr?",
+    "answer-5": "<p>Despite that Ethereum 2.0 only enables you to stake multiples of 32 ETH, with Stkr you can stake all your tokens at once, without having to allocate them to multiple nodes. This means you can even stake 1,000 ETH in just one click!</p>",
+    "question-6": "Can I run my own Ethereum 2.0 node on Stkr?",
+    "answer-6": "<p>Yes! You can become a provider and run your own node to collect staking rewards. If you don’t have any hardware or technical knowledge to set up a node, you can always use Ankr and deploy your Ethereum 2.0 node in one click.</p>",
+    "question-7": "What do I need to become a provider on Stkr?",
+    "answer-7": "<p>To become a provider in Stkr and earn platform fees, you need to set up an Ethereum 2.0 node with a minimum “insurance” stake of 2 ETH to compensate users in case of slashing events.</p>",
+    "question-8": "Can I use my ANKR tokens on Stkr?",
+    "answer-8": "<p>The Stkr protocol introduces a new utility for ANKR, the native ERC-20 token of Ankr platform. Providers can stake ANKR token as an insurance fund and increase their reward rate. In addition to that, ETH stakers can stake ANKR tokens to increase their staking rewards from the platform fees!</p>"
   },
   "beacon-node-table": {
     "name": "Name",
@@ -215,20 +168,12 @@
   },
   "stake": {
     "title": "Staking manager",
-    "ankr": "Ankr",
-    "range-name": "Pool fullness",
-    "out-of-ETH": "{value} / {of} ETH",
     "i-want": "I want to stake",
     "staking-period": "Staking period:",
     "staking-period-tooltip": "This is the number of months your tokens will be locked for in the staking contract.",
     "yearly-earning": "Earnings",
     "yearly-earning-tooltip": "You should expect to earn this amount from your stake, per&nbsp;year. Note that this is an estimation only.",
-    "yearly-earning-tip": "Including commission: 10%",
-    "note": "*Your staking pool will only start running when all 32 ETH have been collected. You can ask your friend(s) to pool with you or wait for other people to join. ",
-    "tweet": "Tweet",
-    "copy": "Copy",
     "stake": "Stake",
-    "unstake": "Unstake",
     "validation": {
       "balance-exceed": "You entered a value that exceeds your balance",
       "agreement": "Confirmation required"
@@ -240,69 +185,21 @@
     "eth": "{value} ETH",
     "ankr": "{value} ANKR",
     "~eth": "~ {value} ETH",
-    "months": "{value} mo",
-    "~months": "~ {value} mo",
     "small-eth": "{value} <span style=\"font-size: 16px\">ETH</span>",
     "large-eth": "{value}<span> ETH</span>",
     "large-aeth": "{value}<span> aETH</span>",
-    "number": "{value, number}"
+    "number": "{value, number}",
+    "~months": "~ {value} mo"
   },
   "format": {
     "date": "{value, date, medium} {value, time, medium}"
   },
   "user-actions": {
     "error": {
-      "sdk-not-initialized": "Sdk not initialized"
+      "sdk-not-initialized": "SDK not initialized"
     }
   },
-  "micropool-list": {
-    "transaction": "https://goerli.etherscan.io/tx/{value}",
-    "pool-index": "#{value}",
-    "status": {
-      "MICRO_POOL_STATUS_CREATING": "Mining",
-      "MICRO_POOL_STATUS_PENDING": "Pending",
-      "MICRO_POOL_STATUS_PUSH_WAITING": "Waiting for push",
-      "MICRO_POOL_STATUS_ONGOING": "Ongoing",
-      "MICRO_POOL_STATUS_COMPLETED": "Completed",
-      "MICRO_POOL_STATUS_CANCELED": "Canceled"
-    }
-  },
-  "beacon-list": {
-    "status": {
-      "SIDECAR_STATUS_UNKNOWN": "Created",
-      "SIDECAR_STATUS_SYNCING": "Syncing",
-      "SIDECAR_STATUS_ACTIVE": "Active",
-      "SIDECAR_STATUS_DISABLED": "Disabled",
-      "SIDECAR_STATUS_BLOCKED": "Blocked",
-      "SIDECAR_STATUS_OFFLINE": "Offline"
-    },
-    "not-launched": "Not launched"
-  },
-  "create-micropool": {
-    "title": "Top-up your balance",
-    "submit": "Top-up",
-    "form": {
-      "step-1": {
-        "count": "Step 1",
-        "caption": "Enter the name",
-        "name": "Micropool name"
-      },
-      "step-2": {
-        "count": "Step 2",
-        "caption": "Select a top-up method",
-        "deposit-ETH": "ETH",
-        "or": "or",
-        "deposit-ANKR": "ANKR"
-      },
-      "step-3": {
-        "caption-ANKR": "Top up ANKR tokens",
-        "text-ANKR": "For top-up you need to have minimum 100,000 ANKR on your account.\nThese funds will be blocked for participation in staking.",
-        "caption-ETH": "Top up ETH tokens",
-        "text-ETH": "Please note that if your insurance ever drops below 2 ETH due to slashing penalties, your node may stop running. To prevent this from happening, or to restart a node that has stopped because of this, please ensure your remaining insurance balance is at least 2 ETH. You can top this amount up here.<br/><br/>Also note that once deposited, any insurance amount remains locked in the Stkr system until the contract ends (Ethereum 2.0 Phase 1.5 release)."
-      }
-    }
-  },
-  "create-micropool-form": {
+  "top-up-form": {
     "your-balance": "Your ANKR balance",
     "needed": "Needed amount",
     "allow": "Allow {value} ANKR",
@@ -311,10 +208,7 @@
   },
   "staked-dashboard": {
     "staked": "Staked amount",
-    "my-rewards": "My rewards",
     "stake-more": "Stake more",
-    "unstake-funds": "Unstake funds",
-    "eth": "ETH",
     "current-a-eth-balance": "Current balance",
     "redeem": "Redeem",
     "locked": "Any staked amounts will be locked for the duration of the ETH 2.0 contract. You will, however, receive aETH equivalent to your stake that you will be able to trade in the meantime, against your staked amount. Until aETH is made available, however, your funds will be locked and not redeemable.",
@@ -330,19 +224,23 @@
     "column": {
       "status": "Status",
       "transaction-hash": "Tx.Hash",
-      "date": "Date",
-      "staked": "Staked",
-      "rewards": "Reward"
+      "staked": "Staked"
     },
     "tip": {
-      "staked": "This is the amount you have currently committed from your wallet, into Stkr",
       "aeth-amount": "The amount of aETH redeemable"
     }
   },
   "node-list": {
     "unknown": "Not Activated",
     "syncing": "Syncing {value}%",
-    "ago": "{value} ago"
+    "status": {
+      "SIDECAR_STATUS_UNKNOWN": "Created",
+      "SIDECAR_STATUS_SYNCING": "Syncing",
+      "SIDECAR_STATUS_ACTIVE": "Active",
+      "SIDECAR_STATUS_DISABLED": "Disabled",
+      "SIDECAR_STATUS_BLOCKED": "Blocked",
+      "SIDECAR_STATUS_OFFLINE": "Offline"
+    }
   },
   "staker-dashboard": {
     "unstake": "Unstake"
@@ -370,8 +268,7 @@
     "option": {
       "i-have": "I have beacon chain node",
       "i-dont-have": "I don’t have beacon chain node"
-    },
-    "submit": "Create"
+    }
   },
   "global-stats": {
     "total-staked": "Total ETH Staked",
@@ -393,5 +290,32 @@
   "not-enough-balance": {
     "title": "To create the first beacon node, you need to top-up your balance",
     "submit": "Top-up your balance"
+  },
+  "top-up": {
+    "title": "Top-up your balance",
+    "ankr-min-deposit-notice": "You need {value} ANKR on your wallet",
+    "tab": {
+      "ankr": "ANKR",
+      "eth": "ETH"
+    },
+    "submit": {
+      "ankr-buy": "Buy ANKR",
+      "ankr-top-up": "Top-up {value} ANKR",
+      "ankr-allow": "Allow {value} ANKR",
+      "eth-top-up": "Top-up {value} ETH"
+    },
+    "step": {
+      "1": "You have enough tokens",
+      "2": "Allow {value} ANKR",
+      "3": "Top-up {value} ANKR"
+    },
+    "eth-top-up-note": "Please note that if your insurance ever drops below 2 ETH due to slashing penalties, your node may stop running. To prevent this from happening, or to restart a node that has stopped because of this, please ensure your remaining insurance balance is at least 2 ETH. You can top this amount up here.<br/><br/>Also note that once deposited, any insurance amount remains locked in the Stkr system until the contract ends (Ethereum 2.0 Phase 1.5 release)."
+  },
+  "provider-dashboard": {
+    "balance": "Your insurance deposit: {value} ETH"
+  },
+  "language": {
+    "en-US": "EN",
+    "zh-CN": "中文"
   }
 }

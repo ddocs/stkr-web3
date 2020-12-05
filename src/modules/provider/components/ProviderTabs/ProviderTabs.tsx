@@ -4,19 +4,21 @@ import classNames from 'classnames';
 import { t } from '../../../../common/utils/intl';
 import { NavLink, useRouteMatch } from 'react-router-dom';
 import {
-  PROVIDER_TOP_UP_PATH,
   PROVIDER_NODES_PATH,
+  PROVIDER_TOP_UP_PATH,
+  PROVIDER_TOP_UP_ROUTE,
 } from '../../../../common/const';
 import { useLocaleMemo } from '../../../../common/hooks/useLocaleMemo';
 
 interface IItemProps {
   to: string;
+  route: string;
   label: string;
 }
 
-const Item = ({ to, label }: IItemProps) => {
+const Item = ({ to, route, label }: IItemProps) => {
   const classes = useProviderTabsStyles();
-  const match = useRouteMatch({ path: to, exact: true });
+  const match = useRouteMatch({ path: route, exact: true });
 
   return (
     <li className={classes.item}>
@@ -41,11 +43,13 @@ export const ProviderTabs = ({ className }: IProviderTabsProps) => {
     () => [
       {
         label: t('navigation.beacon-list'),
-        link: PROVIDER_NODES_PATH,
+        path: PROVIDER_NODES_PATH,
+        route: PROVIDER_NODES_PATH,
       },
       {
         label: t('navigation.top-up'),
-        link: PROVIDER_TOP_UP_PATH,
+        path: PROVIDER_TOP_UP_PATH,
+        route: PROVIDER_TOP_UP_ROUTE,
       },
     ],
     [],
@@ -55,7 +59,12 @@ export const ProviderTabs = ({ className }: IProviderTabsProps) => {
     <div className={classNames(classes.component, className)}>
       <ul className={classes.list}>
         {TABS.map(tab => (
-          <Item to={tab.link} label={tab.label} key={tab.link} />
+          <Item
+            to={tab.path}
+            route={tab.route}
+            label={tab.label}
+            key={tab.path}
+          />
         ))}
       </ul>
     </div>

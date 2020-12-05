@@ -1,90 +1,48 @@
-import React from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { ConnectedRouter } from 'connected-react-router';
 import intl from 'react-intl-universal';
 import { CssBaseline } from '@material-ui/core';
-import { AppContext } from './AppContext';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import { locales } from '../../common/locales';
 import { mainTheme } from '../../common/themes/mainTheme';
 import { QueryLoadingCentered } from '../QueryLoading/QueryLoading';
-import { Provider, ReactReduxContext } from 'react-redux';
-import { persistor, store } from '../../store';
+import { ReactReduxContext } from 'react-redux';
 import '../../common/fonts/stylesheet.css';
-import { PersistGate } from 'redux-persist/integration/react';
 import { historyInstance } from '../../common/utils/historyInstance';
-import { StkrSdk } from '../../modules/api';
-import {
-  DEVELOP_CONFIG,
-  GOERLI_CONFIG,
-  LOCAL_CONFIG,
-  MAINNET_CONFIG,
-} from '../../modules/api/config';
+import { useLocale } from '../../common/utils/useLocale';
 
-interface IAppBaseProps {}
-
-interface IAppBaseState {
-  initDone: boolean;
-  locale: 'en-US';
+interface IAppBaseProps {
+  children: ReactNode;
 }
 
-export class AppBase extends React.Component<IAppBaseProps, IAppBaseState> {
-  constructor(props: any) {
-    super(props);
-    this.state = { initDone: false, locale: 'en-US' };
-  }
+export const AppBase = ({ children }: IAppBaseProps) => {
+  const [initDone, setInitDone] = useState(false);
+  const { locale } = useLocale();
 
-  public componentDidMount(): void {
-    const env = process.env.REACT_APP_STKR_ENV
-      ? process.env.REACT_APP_STKR_ENV
-      : 'develop';
-    console.log(`Current environment is: ${env}`);
-    if (env === 'mainnet') {
-      StkrSdk.factoryDefault(MAINNET_CONFIG);
-    } else if (env === 'goerli') {
-      StkrSdk.factoryDefault(GOERLI_CONFIG);
-    } else if (env === 'develop') {
-      StkrSdk.factoryDefault(DEVELOP_CONFIG);
-    } else {
-      StkrSdk.factoryDefault(LOCAL_CONFIG);
-    }
-    this.loadLocales();
-  }
-
-  public render() {
-    return (
-      <AppContext.Provider value={{ locale: this.state.locale }}>
-        <Provider store={store} context={ReactReduxContext}>
-          <MuiThemeProvider theme={mainTheme}>
-            <CssBaseline />
-            <PersistGate
-              loading={<QueryLoadingCentered />}
-              persistor={persistor}
-            >
-              {!this.state.initDone ? (
-                <QueryLoadingCentered />
-              ) : (
-                <ConnectedRouter
-                  history={historyInstance}
-                  context={ReactReduxContext}
-                >
-                  {this.props.children}
-                </ConnectedRouter>
-              )}
-            </PersistGate>
-          </MuiThemeProvider>
-        </Provider>
-      </AppContext.Provider>
-    );
-  }
-
-  protected loadLocales = () => {
+  useEffect(() => {
+    setInitDone(false);
     intl
       .init({
-        currentLocale: this.state.locale,
+        currentLocale: locale,
         locales,
+        fallbackLocale: 'en-US',
       })
       .then(() => {
-        this.setState({ initDone: true, locale: 'en-US' });
+        setInitDone(true);
       });
-  };
-}
+  }, [locale]);
+
+  return (
+    <MuiThemeProvider theme={mainTheme}>
+      <CssBaseline />
+
+      {!initDone ? (
+        <QueryLoadingCentered />
+      ) : (
+        <ConnectedRouter history={historyInstance} context={ReactReduxContext}>
+          {children}
+        </ConnectedRouter>
+      )}
+    </MuiThemeProvider>
+  );
+};

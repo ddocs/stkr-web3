@@ -12,6 +12,8 @@ import {
 } from '../../../../store/actions/UserActions';
 import { useDispatch } from 'react-redux';
 import { MutationErrorHandler } from '../../../../components/MutationErrorHandler/MutationErrorHandler';
+import { LocaleSwitcher } from '../LocaleSwitcher';
+import { Box } from '@material-ui/core';
 
 const FILTERED_ERRORS = ['Modal closed by user'];
 
@@ -61,6 +63,14 @@ export const UnauthorizedHeader = ({
       >
         {t('navigation.unlock-wallet')}
       </Button>
+      <Box
+        display="flex"
+        alignItems="center"
+        ml={{ xs: 'auto', md: 3 }}
+        mb={{ xs: 3, md: 0 }}
+      >
+        <LocaleSwitcher />
+      </Box>
     </HeaderFrame>
   );
 };
