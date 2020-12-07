@@ -9,7 +9,7 @@ export const PROVIDER_PATH = '/provider';
 export const PROVIDER_NODES_PATH = `${PROVIDER_PATH}/nodes/list`;
 export const PROVIDER_TOP_UP_PATH = PROVIDER_PATH;
 export const PROVIDER_TOP_UP_ROUTE = `${PROVIDER_PATH}/:type?`;
-export const PROVIDER_CREATE_NODE_PATH = `${PROVIDER_PATH}/create-node`;
+export const PROVIDER_CREATE_NODE_PATH = `${PROVIDER_PATH}/nodes/create-node`;
 export const PICKER_PATH = '/picker';
 
 export const SOCIAL_LINK = {
