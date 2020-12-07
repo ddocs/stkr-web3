@@ -1,49 +1,328 @@
 {
-  "about": {
-    "title": "<span>质押</span>去繁就简.",
-    "text": "Stkr是一个去中心化质押协议平台，它在传统质押的基础上加入了非托管、微池、即时流动性和去中心化治理等元素。"
-  },
-  "global-stats.total-staked": "STKR上已质押的ETH总量",
-  "global-stats.stakers": "STKR上的质押者数",
-  "navigation.unlock-your-wallet": "连接你的钱包",
-  "navigation.litepaper": "白皮书简版",
-  "navigation.community": "社区",
-  "navigation.governance": "治理",
-  "navigation.docs": "文档",
-  "navigation.unlock-wallet": "启动应用",
-  "calculate": {
-    "title": "计算您的收益",
-    "note": "以太坊质押量",
-    "yearly": "年收益"
-  },
-  "features": {
-    "title": "为什么选择Stkr",
-    "text": "Stkr由Ankr团队打造，旨在提供最佳的用户体验和最高级别的安全性，用户在获得丰厚质押奖励的同时， 也通过类债券的合成代币aETH获得了流动性。",
-    "micropool-title": "微池",
-    "micropool-text": "质押金额无门槛，从最低0.5ETH到最高1,000ETH，自动加入微池。",
-    "manager-title": "质押分配管理",
-    "manager-text": "发送所有ETH仅需一次交易，Stkr会自动把您的资金分配到表现良好的池子。",
-    "liquidity-title": "质押流动性",
-    "liquidity-text": "有了aETH，你可以持有或随时交易你的质押资金，不需要等到以太坊2.0转账功能开启。",
-    "security-title": "安全",
-    "security-text": "资金由您自己保管，始终保持对资产的完全控制。"
-  },
-  "become-provider": {
-    "title": "成为提供商",
-    "text": "通过在Ankr上运行以太坊2.0节点成为供应商，无需任何硬件或技术知识。",
-    "api-title": "开发者API",
-    "api-text": "通过即时API访问以太坊的各种测试网和主网，轻松构建Web3产品。",
-    "knowledge-title": "无需技术知识",
-    "knowledge-text": "通过在Ankr上运行以太坊 2.0节点，不需要任何硬件或技术知识。",
-    "governance-title": "治理",
-    "governance-text": "成为治理人，影响有关Stkr平台发展的决策。"
-  },
-  "roles": {
-    "eth-staker-title": "质押者",
-    "eth-staker-text": "质押者可以质押任意数量的ETH（最低0.5ETH）来赚取质押奖励和平台费用。质押的ETH将立即以aETH的形式进行流通，可交易或参与DeFi。质押者除了可以质押ETH外，还可以质押ANKR，以获得平台费奖励。",
-    "node-provider-title": "节点提供商",
-    "node-provider-text": "节点提供商可以通过自己的硬件或者Ankr平台运行以太坊2.0节点，从质押奖励和平台费中获得收益。",
-    "governance-title": "治理人",
-    "governance-text": "治理人将确保平台的长期可持续发展。要成为Stkr治理委员会的一部分，治理人必须要有大量的ANKR代币（治理人不一定要成为节点提供者）。"
-  }
+    "error": {
+        "unknown": "未知错误",
+        "not-authenticated": "未认证"
+    },
+    "coming-soon": "敬请期待",
+    "by-ankr": "",
+    "navigation": {
+        "staker": "质押者",
+        "provider": "提供商\n",
+        "unlock-wallet": "启动应用",
+        "whitepaper-en": "白皮书（英文版）",
+        "whitepaper-ch": "白皮书（中文版）",
+        "unlock-your-wallet": "连接你的钱包",
+        "create-micropool": "建立微池",
+        "create": "建立",
+        "top-up": "充值",
+        "beacon-list": "信标链列表",
+        "select-wallet-provider": "选择钱包提供商",
+        "connect": "连接",
+        "copyright": "© {year} Stkr 保留所有权利| <a href=\"mailto: info@ankr.com\" rel=\"noopener noreferrer\">info@ankr.com</a>",
+        "select": "选择",
+        "disconnect": "断开连接",
+        "copy-address": "粘贴地址\n",
+        "view-on-etherscan": "在Etherscan上查看",
+        "coming-soon": "敬请期待",
+        "community": "社区",
+        "governance": "治理",
+        "docs": "文档",
+        "litepaper": "简版白皮书",
+        "twitter": "推特",
+        "telegram-chat": "电报聊天组",
+        "telegram-announcements": "电报公告群",
+        "medium": "Medium",
+        "copied": "地址已粘贴"
+    },
+    "validation": {
+        "required": "这是必填栏",
+        "min-ETH-amount": "最低数目是 {value} ETH",
+        "alpha-numerical-and-underscore": "必须仅包含字母，数字和_符号。",
+        "invalid-address-format": "地址格式无效"
+    },
+    "about": {
+        "title": "<span>质押</span>去繁就简.",
+        "text": "Stkr是一个去中心化质押协议平台，它在传统质押的基础上加入了非托管、微池、即时流动性和去中心化治理等元素。",
+        "stakers": "质押者",
+        "providers": "提供商",
+        "total": "质押总值"
+    },
+    "calculate": {
+        "title": "计算您的收益",
+        "subtitle": "这个计算器是根据每年15%的质押奖励来估算的。",
+        "note": "以太坊质押量",
+        "yearly": "年收益"
+    },
+    "features": {
+        "title": "为什么选择Stkr",
+        "text": "Stkr由Ankr团队打造，旨在提供最佳的用户体验和最高级别的安全性，用户在获得丰厚质押奖励的同时， 也通过类债券的合成代币aETH获得了流动性。",
+        "micropool-title": "微池",
+        "micropool-text": "质押金额无门槛，从最低0.5ETH到最高1,000ETH，自动加入微池。",
+        "manager-title": "质押分配管理",
+        "manager-text": "发送所有ETH仅需一次交易，Stkr会自动把您的资金分配到表现良好的池子。",
+        "liquidity-title": "质押流动性",
+        "liquidity-text": "有了aETH，你可以持有或随时交易你的质押资金，不需要等到以太坊2.0转账功能开启。",
+        "security-title": "安全",
+        "security-text": "资金由您自己保管，始终保持对资产的完全控制。"
+    },
+    "roles": {
+        "title": "<span>Stkr系统中的</span>三个角色",
+        "eth-staker-title": "质押者",
+        "eth-staker-text": "质押者可以质押任意数量的ETH（最低0.5ETH）来赚取质押奖励和平台费用。质押的ETH将立即以aETH的形式进行流通，可交易或参与DeFi。质押者除了可以质押ETH外，还可以质押ANKR，以获得平台费奖励。",
+        "node-provider-title": "节点提供商",
+        "node-provider-text": "节点提供商可以通过自己的硬件或者Ankr平台运行以太坊2.0节点，从质押奖励和平台费中获得收益。",
+        "governance-title": "治理人",
+        "governance-text": "治理人将确保平台的长期可持续发展。要成为Stkr治理委员会的一部分，治理人必须要有大量的ANKR代币（治理人不一定要成为节点提供者）。"
+    },
+    "become-provider": {
+        "title": "成为提供商",
+        "text": "通过在Ankr上运行以太坊2.0节点成为供应商，无需任何硬件或技术知识。",
+        "api-title": "开发者API",
+        "api-text": "通过即时API访问以太坊的各种测试网和主网，轻松构建Web3产品。",
+        "knowledge-title": "无需技术知识",
+        "knowledge-text": "通过在Ankr上运行以太坊 2.0节点，不需要任何硬件或技术知识。",
+        "governance-title": "治理",
+        "governance-text": "成为治理人，影响有关Stkr平台发展的决策。"
+    },
+    "faq": {
+        "title": "常见问题解答",
+        "question-1": "什么是Stkr？",
+        "answer-1": "Stkr是一个去中心化的协议和平台，它将质押和DeFi结合起来，消除准入壁垒，实现质押的民主化。",
+        "question-2": "如果我的资金少于32 ETH，我可以参与质押吗？",
+        "answer-2": "可以! 为了让无法投资32 ETH（网络要求的固定金额）的用户也能使用以太坊 2.0，Stkr引入了微池--一个专有的解决方案，让您可以从0.5 ETH开始质押。只需选择您想要质押的金额，系统就会自动将其分配给表现最好的提供商。",
+        "question-3": "什么是微池？",
+        "answer-3": "微池机制是我们打破以太坊2.0质押金额门槛的独特解决方案。顾名思义，微池允许用户将较小部分的ETH投入到验证者节点中，并根据其贡献按比获得相应的奖励。\n",
+        "question-4": "如果我在以太坊 2.0上启用转账交易之前就参与质押，我的资金会变得缺乏流动性吗？\n",
+        "answer-4": "不会-- Stkr通过引入aETH和其他合成资产有效地解决了以太坊2.0的流动性不足的问题，您可以在任何时间点出售你正在质押的ETH。",
+        "question-5": "我的ETH超过32个。我还能用Stkr质押吗？",
+        "answer-5": "尽管以太坊 2.0只允许您以32 ETH的倍数进行质押，但通过Stkr，您可以一次性质押所有代币，而无需将它们分配到多个节点。这意味着您可以一键质押1000个ETH。\n",
+        "question-6": "我可以在Stkr上运行自己的以太坊 2.0节点吗？",
+        "answer-6": "可以。您可以成为提供商，运行自己的节点来收取质押奖励。如果您没有任何硬件或部署节点的技术知识，您可以随时使用Ankr并一键部署您的以太坊2.0节点。\n",
+        "question-7": "成为Stkr上的提供商需要什么条件？",
+        "answer-7": "要成为Stkr上的提供者并赚取平台费用，每个以太坊2.0节点需要存入至少2 ETH的保险金，以在发生罚没事件时补偿用户。",
+        "question-8": "我可以在Stkr上使用ANKR代币吗？",
+        "answer-8": "Stkr协议为Ankr平台的原生ERC-20代币ANKR引入了一个新的使用场景。提供商可以将ANKR代币作为保险基金进行质押，提高其回报率。除此以外，ETH的质押者可以质押ANKR代币，从平台费用中获取质押奖励。"
+    },
+    "beacon-node-table": {
+        "name": "名字",
+        "uptime": "上一次活动",
+        "date": "创建日期",
+        "certificate": "证书",
+        "status": "状态"
+    },
+    "picker": {
+        "staker": {
+            "title": "赚取质押奖励",
+            "features": {
+                "1": "质押任意数量的ETH（最低0.5ETH）来赚取奖励。",
+                "2": "让你的质押资金保持流动性，通过aETH交易，出售，参与DeFi应用。",
+                "3": "无需任何技术知识"
+            },
+            "link": "开始质押"
+        },
+        "provider": {
+            "title": "成为提供商",
+            "features": {
+                "1": "运行以太坊2.0节点，从质押奖励和平台费中获得收益。",
+                "2": "在你的节点上质押额外的Ankr获得更高的信誉等级，并让你的微池被优先考虑，赚取更多的奖励。",
+                "3": "使用Ankr平台托管您的节点，消除一切技术运营障碍，避免任何罚没风险。"
+            },
+            "link": "成为一个提供商"
+        }
+    },
+    "provider": {
+        "connecting-headline": "签名生成...",
+        "try-again-headline": "请允许签名",
+        "try-again": "再次尝试",
+        "create": {
+            "create-beacon-chain-stage-1": {
+                "title": "建立一个信标链节点",
+                "description": "Stkr是一个去中心化质押协议平台，它在传统质押的基础上加入了非托管、微池、即时流动性和去中心化治理等元素。"
+            },
+            "create-beacon-chain-stage-2": {
+                "title": "数据正在生成",
+                "note": "该过程可能需要一段时间"
+            },
+            "stage-7": {
+                "generation": "交易正在处理中...",
+                "note": "该过程可能需要一段时间"
+            }
+        },
+        "info": {
+            "totalEth2Stakes": "总质押ETH",
+            "activeValidators": "活跃验证者",
+            "pendingEthStakes": "等待质押的ETH",
+            "activeSidecars": "总活跃Sidecar数",
+            "totalStaked": "总质押ETH",
+            "totalStakers": "所有质押者",
+            "micropools": "我的微池"
+        }
+    },
+    "providers": {
+        "metamask": "Metamask",
+        "wallet": "WalletConnect（钱包连接）",
+        "trust": "Trust Wallet"
+    },
+    "total": {
+        "out-of": "{value} / {of}"
+    },
+    "stake": {
+        "title": "质押管理",
+        "i-want": "我想要质押",
+        "staking-period": "我想要质押",
+        "staking-period-tooltip": "这是您的代币在智能合约中被锁定的月数。",
+        "yearly-earning": "收益",
+        "yearly-earning-tooltip": "可期望每年从质押中赚取这个数额。请注意，这只是一个估计。",
+        "stake": "质押",
+        "validation": {
+            "balance-exceed": "您输入的数值超过了您的余额",
+            "agreement": "需要确认"
+        },
+        "agreement": "我明白我的质押资金在Eth 2.0质押期间被锁定，在此结束前不能赎回。"
+    },
+    "units": {
+        "$": " ${value}",
+        "eth": "\n {value} ETH",
+        "ankr": "{value} ANKR",
+        "~eth": "~ {value} ETH",
+        "small-eth": "{value} <span style=\"font-size: 16px\">ETH</span>",
+        "large-eth": "{value}<span> ETH</span>",
+        "large-aeth": "{value}<span> aETH</span>",
+        "number": "{value, number}"
+    },
+    "format": {
+        "date": "{value, date, medium} {value, time, medium}"
+    },
+    "user-actions": {
+        "error": {
+            "sdk-not-initialized": "SDK未初始化"
+        }
+    },
+    "top-up-form": {
+        "your-balance": "你的ANKR余额",
+        "needed": "需要数目",
+        "allow": "允许 {value} ANKR",
+        "buy": "买入",
+        "ankr-allowed": " {value} ANKR 被允许"
+    },
+    "staked-dashboard": {
+        "staked": "质押数目",
+        "stake-more": "质押更多",
+        "current-a-eth-balance": "当前余额",
+        "redeem": "赎回",
+        "locked": "所有质押金额将在ETH 2.0合约期间被锁定。 不过，您将获得相应的aETH，您可以交易aETH。在aETH可用之前，您的资金将被锁定且无法赎回。",
+        "statuses": {
+            "STAKE_ACTION_PENDING": "已建立",
+            "STAKE_ACTION_CONFIRMED": "已确认",
+            "STAKE_ACTION_UNSTAKE": "已移除"
+        },
+        "transaction": {
+            "goerli": "https://goerli.etherscan.io/tx/{value}",
+            "mainnet": "https://etherscan.io/tx/{value}"
+        },
+        "column": {
+            "status": "状态",
+            "transaction-hash": "交易哈希",
+            "staked": "已质押"
+        },
+        "tip": {
+            "aeth-amount": "可赎回aETH数目"
+        }
+    },
+    "node-list": {
+        "unknown": "未活跃",
+        "syncing": "同步中 {value}%",
+        "status": {
+            "SIDECAR_STATUS_UNKNOWN": "已建立",
+            "SIDECAR_STATUS_SYNCING": "同步中",
+            "SIDECAR_STATUS_ACTIVE": "活跃",
+            "SIDECAR_STATUS_DISABLED": "使失效",
+            "SIDECAR_STATUS_BLOCKED": "堵塞",
+            "SIDECAR_STATUS_OFFLINE": "下线"
+        }
+    },
+    "staker-dashboard": {
+        "unstake": "取消质押"
+    },
+    "staking-history-table": {
+        "tip": {
+            "status": "质押交易状态",
+            "amount": "此次交易中的质押量",
+            "txid": "以太坊交易ID。点击这里在以太坊浏览器上查看。"
+        }
+    },
+    "create-node": {
+        "title": "配置信标链节点",
+        "label": {
+            "node-name": "节点名称",
+            "eth-node": "提供以太坊节点",
+            "beacon-node": "提供信标链节点"
+        },
+        "note": {
+            "eth-node": "如果你没有，你可以通过 <a href=\"https://infura.io/\" target=\"_blank\" rel=\"noopener noreferrer\">Infura</a> or <a href=\"https://app.ankr.com/\" target=\"_blank\" rel=\"noopener noreferrer\">Ankr</a> 建立一个节点"
+        },
+        "placeholder": {
+            "eth-node": "复制你的以太坊节点链接到这里"
+        },
+        "option": {
+            "i-have": "我有信标链节点",
+            "i-dont-have": "我没有信标链节点"
+        }
+    },
+    "global-stats": {
+        "total-staked": "总质押ETH数",
+        "stakers": "质押者"
+    },
+    "chain": {
+        "1": "主网",
+        "3": "Ropsten",
+        "4": "Rinkeby",
+        "5": "Goerli",
+        "2018": "Dev",
+        "61": "Classic",
+        "63": "Mordor",
+        "6": "Kotti"
+    },
+    "empty-node-list": {
+        "submit": "建立信标链"
+    },
+    "not-enough-balance": {
+        "title": "要创建第一个信标节点，您需要充值余额",
+        "submit": "充值余额"
+    },
+    "top-up": {
+        "title": "充值余额",
+        "ankr-min-deposit-notice": "你的钱包中需要有{value} ANKR",
+        "tab": {
+            "ankr": "ANKR",
+            "eth": "ETH"
+        },
+        "submit": {
+            "ankr-buy": "购买ANKR",
+            "ankr-top-up": "充值 {value} ANKR",
+            "ankr-allow": "",
+            "eth-top-up": "充值{value} ETH"
+        },
+        "step": {
+            "1": "你有足够的代币",
+            "2": "",
+            "3": "充值 {value} ANKR"
+        },
+        "eth-top-up-note": "请注意，如果您的保险金因罚没而降至 2 ETH 以下，您的节点可能会停止运行。为了防止这种情况发生，或者为了重新启动因此而停止的节点，请确保您的剩余保险余额至少为 2 ETH。您可以在这里将此金额充值。<br/><br/>另外需要注意的是，一旦存入，任何保险金额都会被锁定在Stkr系统中，直到合约结束（Ethereum 2.0 1.5阶段发布）。"
+    },
+    "provider-dashboard": {
+        "balance": "您的保险金：{value} ETH"
+    },
+    "language": {
+        "en-US": "EN",
+        "zh-CN": "中文"
+    },
+    "global-stats.total-staked": "STKR上已质押的ETH总量",
+    "global-stats.stakers": "STKR上的质押者数",
+    "navigation.unlock-your-wallet": "连接你的钱包",
+    "navigation.litepaper": "白皮书简版",
+    "navigation.community": "社区",
+    "navigation.governance": "治理",
+    "navigation.docs": "文档",
+    "navigation.unlock-wallet": "启动应用"
 }
