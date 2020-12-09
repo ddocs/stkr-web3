@@ -99,9 +99,7 @@
     "question-6": "Can I run my own Ethereum 2.0 node on Stkr?",
     "answer-6": "<p>Yes! You can become a provider and run your own node to collect staking rewards. If you don’t have any hardware or technical knowledge to set up a node, you can always use Ankr and deploy your Ethereum 2.0 node in one click.</p>",
     "question-7": "What do I need to become a provider on Stkr?",
-    "answer-7": "<p>To become a provider in Stkr and earn platform fees, you need to set up an Ethereum 2.0 node with a minimum “insurance” stake of 2 ETH to compensate users in case of slashing events.</p>",
-    "question-8": "Can I use my ANKR tokens on Stkr?",
-    "answer-8": "<p>The Stkr protocol introduces a new utility for ANKR, the native ERC-20 token of Ankr platform. Providers can stake ANKR token as an insurance fund and increase their reward rate. In addition to that, ETH stakers can stake ANKR tokens to increase their staking rewards from the platform fees!</p>"
+    "answer-7": "<p>To become a provider in Stkr and earn platform fees, you need to set up an Ethereum 2.0 node with a minimum “insurance” stake of 2 ETH to compensate users in case of slashing events.</p>"
   },
   "beacon-node-table": {
     "name": "Name",

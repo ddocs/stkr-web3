@@ -48,11 +48,7 @@ const FAQ: Record<string, string>[] = [
   {
     question: 'faq.question-7',
     answer: 'faq.answer-7',
-  },
-  {
-    question: 'faq.question-8',
-    answer: 'faq.answer-8',
-  },
+  }
 ];
 
 export const Faq = ({ className }: IMarketingProps) => {
