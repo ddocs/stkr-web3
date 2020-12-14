@@ -16,8 +16,11 @@ export const useLinksStyles = makeStyles<Theme>(theme => ({
   },
   item: {
     position: 'relative',
-    marginRight: theme.spacing(8),
+    marginRight: theme.spacing(4),
     cursor: 'pointer',
+    [theme.breakpoints.up('lg')]: {
+      marginRight: theme.spacing(8),
+    },
     [theme.breakpoints.up('md')]: {
       '&:hover, &:focus': {
         '& $dropdown': {

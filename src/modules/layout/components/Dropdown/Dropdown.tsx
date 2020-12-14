@@ -96,19 +96,21 @@ export const DropdownComponent = ({
       component="div"
     >
       {address && provider && (
-        <div className={classes.info}>
-          <SubTitle className={classes.title}>
-            {t(providers[provider].caption)}
-          </SubTitle>
-          <span className={classes.address}>{walletConversion(address)}</span>
-          <Button
-            className={classes.disconnect}
-            onClick={dispatchDisconnect}
-            variant="text"
-            color="secondary"
-          >
-            {t('navigation.disconnect')}
-          </Button>
+        <>
+          <div className={classes.info}>
+            <SubTitle className={classes.title}>
+              {t(providers[provider].caption)}
+            </SubTitle>
+            <span className={classes.address}>{walletConversion(address)}</span>
+            <Button
+              className={classes.disconnect}
+              onClick={dispatchDisconnect}
+              variant="text"
+              color="secondary"
+            >
+              {t('navigation.disconnect')}
+            </Button>
+          </div>
           <div className={classes.navigation}>
             <div className={classes.copy}>
               <CopyToClipboard text={address} onCopy={() => setCopy(true)}>
@@ -142,7 +144,7 @@ export const DropdownComponent = ({
               {t('navigation.view-on-etherscan')}
             </NavLink>
           </div>
-        </div>
+        </>
       )}
       {providersList.length !== 0 && (
         <ul className={classes.list}>

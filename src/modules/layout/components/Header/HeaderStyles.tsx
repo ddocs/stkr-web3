@@ -13,7 +13,7 @@ export const useHeaderStyles = makeStyles<Theme, { height?: number }>(
     outer: {
       '&&': {
         display: 'grid',
-        gridTemplateColumns: '1fr auto 180px 99px',
+        gridTemplateColumns: '210px 1fr 180px 99px',
         justifyContent: 'space-between',
         padding: theme.spacing(0, 8.5),
         [theme.breakpoints.down('lg')]: {
@@ -30,8 +30,7 @@ export const useHeaderStyles = makeStyles<Theme, { height?: number }>(
     inner: {
       '&&': {
         display: 'grid',
-        gridTemplateColumns: '1fr 190px auto',
-        gridColumnGap: theme.spacing(4),
+        gridTemplateColumns: '210px 1fr auto 70px',
         alignItems: 'center',
         [theme.breakpoints.down('sm')]: {
           gridTemplateColumns: 'auto auto',
@@ -92,10 +91,12 @@ export const useHeaderStyles = makeStyles<Theme, { height?: number }>(
       flexDirection: 'column-reverse',
       alignItems: 'initial',
       justifyContent: 'flex-end',
+      borderLeft: `1px solid ${fade(theme.palette.grey[100], 0.1)}`,
     },
     authDropdown: {
       flexDirection: 'column-reverse',
       justifyContent: 'flex-end',
+      borderLeft: `1px solid ${fade(theme.palette.grey[100], 0.1)}`,
     },
   }),
 );

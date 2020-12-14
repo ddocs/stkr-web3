@@ -48,7 +48,9 @@ export const UnauthorizedHeader = ({
         resetOnShow={false}
         filter={isFilteredError}
       />
-      <Links className={classes.links} />
+      <Box display="flex" alignItems="center" margin={{ xs: 'auto' }}>
+        <Links className={classes.links} />
+      </Box>
       <Button
         onClick={() => {
           if (isAuth) {

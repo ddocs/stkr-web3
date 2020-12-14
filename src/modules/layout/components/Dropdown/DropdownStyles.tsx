@@ -11,13 +11,15 @@ export const useDropdownStyles = makeStyles<
   { currentProvider?: string; provider?: string }
 >(theme => ({
   component: {
-    minWidth: 320,
-    borderRadius: 2,
+    minWidth: 327,
+    borderRadius: 12,
     opacity: 0,
     transitionTimingFunction: 'linear',
     transitionDuration: '300ms',
     transitionProperty: 'opacity',
     pointerEvents: 'none',
+    backgroundColor: '#0F0F0F',
+    border: `1px solid ${theme.palette.grey[500]}`,
   },
   visible: {
     opacity: 1,
@@ -31,8 +33,10 @@ export const useDropdownStyles = makeStyles<
       '"icon title disconnect" "icon address address" "navigation navigation navigation"',
     gridColumnGap: theme.spacing(1.5),
     width: '100%',
-    padding: theme.spacing(3),
     boxSizing: 'border-box',
+    padding: `${theme.spacing(3)}px ${theme.spacing(3)}px ${theme.spacing(
+      2,
+    )}px`,
     '&::before': {
       position: 'relative',
       content: '""',
@@ -64,10 +68,14 @@ export const useDropdownStyles = makeStyles<
   },
   disconnect: {
     gridArea: 'disconnect',
+    border: `1px solid ${theme.palette.grey[500]}`,
+    borderRadius: 65,
+    padding: '7px 14px',
   },
   navigation: {
     gridArea: 'navigation',
-    marginTop: theme.spacing(3),
+    padding: `${theme.spacing(2)}px ${theme.spacing(3)}px`,
+    borderTop: `1px solid ${theme.palette.grey[500]}`,
   },
   copy: {
     position: 'relative',
