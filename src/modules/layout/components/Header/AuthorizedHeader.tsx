@@ -1,14 +1,19 @@
 import { useHeaderStyles } from './HeaderStyles';
 import { useLocation } from 'react-router';
-import { PROVIDER_PATH, STAKER_DASHBOAR_PATH } from '../../../../common/const';
-import { Tabs } from '../Tabs';
-import React from 'react';
+import {
+  PROVIDER_PATH,
+  STAKER_DASHBOAR_PATH,
+  PICKER_PATH,
+} from '../../../../common/const';
+import React, { useMemo } from 'react';
 import { HeaderFrame } from './HeaderFrame';
 import { Providers } from '../../../../common/types';
-import { ITab, NavTab } from '../types';
 import { Wallet } from '../Wallet';
 import { Links } from '../Links';
 import { useIsSMDown } from '../../../../common/hooks/useTheme';
+import { Box } from '@material-ui/core';
+import { LocaleSwitcher } from '../LocaleSwitcher';
+import { Switcher } from '../Switcher';
 
 const SHOW_SWITCHER_ON_ALL_PAGES = true;
 
@@ -19,19 +24,6 @@ export type IAuthorizedHeaderProps = {
   ethereumBalance: number;
   ankrBalance: number;
 };
-
-const TABS: ITab[] = [
-  {
-    label: 'navigation.staker',
-    value: NavTab.staker,
-    href: STAKER_DASHBOAR_PATH,
-  },
-  {
-    label: 'navigation.provider',
-    value: NavTab.provider,
-    href: PROVIDER_PATH,
-  } as ITab,
-];
 
 export const AuthorizedHeader = ({
   className,
@@ -45,6 +37,19 @@ export const AuthorizedHeader = ({
   const location = useLocation();
   const isSMDown = useIsSMDown();
 
+  const switcherPaths = useMemo(
+    () => [STAKER_DASHBOAR_PATH, PROVIDER_PATH],
+    [],
+  );
+
+  const showSwitcher = useMemo(
+    () =>
+      location.pathname !== PICKER_PATH &&
+      (SHOW_SWITCHER_ON_ALL_PAGES ||
+        switcherPaths.find(path => location.pathname.startsWith(path))),
+    [location.pathname, switcherPaths],
+  );
+
   return (
     <HeaderFrame
       outerClassName={className}
@@ -52,10 +57,9 @@ export const AuthorizedHeader = ({
       dropdownClassName={classes.authDropdown}
     >
       {isSMDown && <Links className={classes.links} />}
-      {([STAKER_DASHBOAR_PATH, PROVIDER_PATH].includes(location.pathname) ||
-        SHOW_SWITCHER_ON_ALL_PAGES) && (
-        <Tabs className={classes.tabs} values={TABS} />
-      )}
+      <Box display="flex" alignItems="center" pl={{ xs: 2 }}>
+        {showSwitcher && <Switcher />}
+      </Box>
       <Wallet
         className={classes.wallet}
         ethereumBalance={ethereumBalance}
@@ -63,6 +67,14 @@ export const AuthorizedHeader = ({
         address={walletAddress}
         provider={walletType}
       />
+      <Box
+        display="flex"
+        alignItems="center"
+        ml={{ xs: 'auto' }}
+        mb={{ xs: 3, md: 0 }}
+      >
+        <LocaleSwitcher />
+      </Box>
     </HeaderFrame>
   );
 };

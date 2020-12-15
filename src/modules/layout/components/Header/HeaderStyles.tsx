@@ -11,9 +11,9 @@ export const useHeaderStyles = makeStyles<Theme, { height?: number }>(
       borderBottom: `1px solid ${fade(theme.palette.grey[100], 0.1)}`,
     },
     outer: {
-      '&&': {
+      '&&&': {
         display: 'grid',
-        gridTemplateColumns: '1fr auto 180px 99px',
+        gridTemplateColumns: '210px 1fr 204px 78px',
         justifyContent: 'space-between',
         padding: theme.spacing(0, 8.5),
         [theme.breakpoints.down('lg')]: {
@@ -28,10 +28,9 @@ export const useHeaderStyles = makeStyles<Theme, { height?: number }>(
       },
     },
     inner: {
-      '&&': {
+      '&&&': {
         display: 'grid',
-        gridTemplateColumns: '1fr 190px auto',
-        gridColumnGap: theme.spacing(4),
+        gridTemplateColumns: '210px 1fr auto 78px',
         alignItems: 'center',
         [theme.breakpoints.down('sm')]: {
           gridTemplateColumns: 'auto auto',
@@ -92,10 +91,20 @@ export const useHeaderStyles = makeStyles<Theme, { height?: number }>(
       flexDirection: 'column-reverse',
       alignItems: 'initial',
       justifyContent: 'flex-end',
+      borderLeft: `1px solid ${fade(theme.palette.grey[100], 0.1)}`,
     },
     authDropdown: {
       flexDirection: 'column-reverse',
       justifyContent: 'flex-end',
+      borderLeft: `1px solid ${fade(theme.palette.grey[100], 0.1)}`,
+    },
+    button: {
+      '&&': {
+        marginRight: theme.spacing(3),
+        [theme.breakpoints.down('sm')]: {
+          marginRight: 'unset',
+        },
+      },
     },
   }),
 );

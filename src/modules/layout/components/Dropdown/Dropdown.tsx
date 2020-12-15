@@ -9,12 +9,12 @@ import { SubTitle } from '../../../../UiKit/Typography/Typography';
 import { walletConversion } from '../../../../common/utils/convertWallet';
 import { NavLink } from '../../../../UiKit/NavLink';
 import { CopyIcon } from '../../../../UiKit/Icons/CopyIcon';
+import { CopiedIcon } from '../../../../UiKit/Icons/CopiedIcon';
 import { ViewIcon } from '../../../../UiKit/Icons/ViewIcon';
 import { PROVIDERS } from '../const';
 import { useAction } from '../../../../store/redux';
 import { UserActions } from '../../../../store/actions/UserActions';
 import CopyToClipboard from 'react-copy-to-clipboard';
-import { Typography } from '@material-ui/core';
 import { getWalletLink } from '../../../../common/utils/getWalletLink';
 
 interface IItemProps {
@@ -96,19 +96,21 @@ export const DropdownComponent = ({
       component="div"
     >
       {address && provider && (
-        <div className={classes.info}>
-          <SubTitle className={classes.title}>
-            {t(providers[provider].caption)}
-          </SubTitle>
-          <span className={classes.address}>{walletConversion(address)}</span>
-          <Button
-            className={classes.disconnect}
-            onClick={dispatchDisconnect}
-            variant="text"
-            color="secondary"
-          >
-            {t('navigation.disconnect')}
-          </Button>
+        <>
+          <div className={classes.info}>
+            <SubTitle className={classes.title}>
+              {t(providers[provider].caption)}
+            </SubTitle>
+            <span className={classes.address}>{walletConversion(address)}</span>
+            <Button
+              className={classes.disconnect}
+              onClick={dispatchDisconnect}
+              variant="text"
+              color="secondary"
+            >
+              {t('navigation.disconnect')}
+            </Button>
+          </div>
           <div className={classes.navigation}>
             <div className={classes.copy}>
               <CopyToClipboard text={address} onCopy={() => setCopy(true)}>
@@ -118,19 +120,21 @@ export const DropdownComponent = ({
                   color="secondary"
                   size="small"
                 >
-                  <CopyIcon className={classes.icon} />
-                  {t('navigation.copy-address')}
+                  {isCopy ? (
+                    <>
+                      <CopiedIcon
+                        className={classNames(classes.icon, classes.copied)}
+                      />
+                      {t('navigation.copied')}
+                    </>
+                  ) : (
+                    <>
+                      <CopyIcon className={classes.icon} />
+                      {t('navigation.copy-address')}
+                    </>
+                  )}
                 </Button>
               </CopyToClipboard>
-              {isCopy && (
-                <Typography
-                  className={classes.copyMessage}
-                  component="span"
-                  color="secondary"
-                >
-                  {t('navigation.copied')}
-                </Typography>
-              )}
             </div>
             <NavLink
               className={classes.view}
@@ -142,7 +146,7 @@ export const DropdownComponent = ({
               {t('navigation.view-on-etherscan')}
             </NavLink>
           </div>
-        </div>
+        </>
       )}
       {providersList.length !== 0 && (
         <ul className={classes.list}>

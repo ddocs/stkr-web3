@@ -48,7 +48,9 @@ export const UnauthorizedHeader = ({
         resetOnShow={false}
         filter={isFilteredError}
       />
-      <Links className={classes.links} />
+      <Box display="flex" alignItems="center" margin={{ xs: 'auto' }}>
+        <Links className={classes.links} />
+      </Box>
       <Button
         onClick={() => {
           if (isAuth) {
@@ -66,7 +68,7 @@ export const UnauthorizedHeader = ({
       <Box
         display="flex"
         alignItems="center"
-        ml={{ xs: 'auto', md: 3 }}
+        ml={{ xs: 'auto', md: 0 }}
         mb={{ xs: 3, md: 0 }}
       >
         <LocaleSwitcher />
