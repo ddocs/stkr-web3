@@ -9,12 +9,12 @@ import { SubTitle } from '../../../../UiKit/Typography/Typography';
 import { walletConversion } from '../../../../common/utils/convertWallet';
 import { NavLink } from '../../../../UiKit/NavLink';
 import { CopyIcon } from '../../../../UiKit/Icons/CopyIcon';
+import { CopiedIcon } from '../../../../UiKit/Icons/CopiedIcon';
 import { ViewIcon } from '../../../../UiKit/Icons/ViewIcon';
 import { PROVIDERS } from '../const';
 import { useAction } from '../../../../store/redux';
 import { UserActions } from '../../../../store/actions/UserActions';
 import CopyToClipboard from 'react-copy-to-clipboard';
-import { Typography } from '@material-ui/core';
 import { getWalletLink } from '../../../../common/utils/getWalletLink';
 
 interface IItemProps {
@@ -120,19 +120,21 @@ export const DropdownComponent = ({
                   color="secondary"
                   size="small"
                 >
-                  <CopyIcon className={classes.icon} />
-                  {t('navigation.copy-address')}
+                  {isCopy ? (
+                    <>
+                      <CopiedIcon
+                        className={classNames(classes.icon, classes.copied)}
+                      />
+                      {t('navigation.copied')}
+                    </>
+                  ) : (
+                    <>
+                      <CopyIcon className={classes.icon} />
+                      {t('navigation.copy-address')}
+                    </>
+                  )}
                 </Button>
               </CopyToClipboard>
-              {isCopy && (
-                <Typography
-                  className={classes.copyMessage}
-                  component="span"
-                  color="secondary"
-                >
-                  {t('navigation.copied')}
-                </Typography>
-              )}
             </div>
             <NavLink
               className={classes.view}

@@ -68,7 +68,7 @@ export const UnauthorizedHeader = ({
       <Box
         display="flex"
         alignItems="center"
-        ml={{ xs: 'auto', md: 3 }}
+        ml={{ xs: 'auto', md: 0 }}
         mb={{ xs: 3, md: 0 }}
       >
         <LocaleSwitcher />

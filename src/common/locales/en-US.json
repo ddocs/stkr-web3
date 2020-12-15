@@ -32,7 +32,7 @@
     "telegram-chat": "Telegram Chat",
     "telegram-announcements": "Telegram Announcements",
     "medium": "Medium",
-    "copied": "Address copied"
+    "copied": "Copied"
   },
   "validation": {
     "required": "This field is required",

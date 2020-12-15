@@ -39,13 +39,15 @@ export const useLogotypeStyles = makeStyles(theme => ({
     },
   },
   poweredCaption: {
-    gridArea: 'company',
-    display: 'flex',
-    flexDirection: 'column',
-    fontSize: 12,
-    alignItems: 'flex-start',
-    '& svg': {
-      marginTop: theme.spacing(0.5),
+    '&&': {
+      gridArea: 'company',
+      display: 'flex',
+      flexDirection: 'column',
+      fontSize: 12,
+      alignItems: 'flex-start',
+      '& svg': {
+        marginTop: theme.spacing(0.5),
+      },
     },
   },
 }));

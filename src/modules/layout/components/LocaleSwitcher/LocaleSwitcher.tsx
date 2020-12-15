@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux';
 import { UserActions } from '../../../../store/actions/UserActions';
 import { useLocale } from '../../../../common/utils/useLocale';
 import { SelectProps } from '@material-ui/core';
+import { useLocaleSwitcher } from './LocaleSwitcherStyles';
 
 export interface ILanguageSwitcherProps {
   value: Locale;
@@ -19,6 +20,8 @@ export const LanguageSwitcherComponent = ({
   value,
   onChange,
 }: ILanguageSwitcherProps) => {
+  const classes = useLocaleSwitcher();
+
   const localeOptions = useLocaleMemo(() => {
     return [
       {
@@ -75,6 +78,7 @@ export const LanguageSwitcherComponent = ({
       onChange={handleChange}
       ref={ref}
       SelectProps={selectProps}
+      className={classes.root}
     >
       {items}
     </TextField>
