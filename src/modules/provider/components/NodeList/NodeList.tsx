@@ -105,6 +105,7 @@ const getSidecarStatus = (item: ISidecar) => {
       </svg>
       &nbsp;
       {statusName}
+      &nbsp; ({(100 * item.shareRatio).toFixed(2)}%)
     </div>
   );
 };
@@ -129,7 +130,7 @@ export const NodeListComponent = ({
       if (data.length > 0) {
         return (
           <Table
-            customCell="1.1fr 0.6fr 0.6fr 0.7fr 0.7fr"
+            customCell="0.7fr 0.8fr 0.6fr 0.7fr 0.7fr"
             columnsCount={captions.length}
             className={classes.table}
           >

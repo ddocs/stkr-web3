@@ -18,6 +18,7 @@ import { update } from '../../common/utils/update';
 import { createAction } from 'redux-actions';
 import { mapProviderStats } from '../apiMappers/providerStatsApi';
 import { ICreateNodeValue } from '../../modules/provider/screens/CreateNode';
+import { mapProviderRewards } from '../apiMappers/rewardsMapper';
 
 export interface ISetLanguagePayload {
   locale: Locale;
@@ -37,6 +38,10 @@ export const UserActionTypes = {
   CREATE_SIDECAR: 'CREATE_SIDECAR',
 
   FETCH_GLOBAL_STATS: 'FETCH_GLOBAL_STATS',
+
+  FETCH_PROVIDER_REWARDS: 'FETCH_PROVIDER_REWARDS',
+
+  FETCH_SIDECAR_REWARDS: 'FETCH_SIDECAR_REWARDS',
 
   FETCH_ALLOWANCE: 'FETCH_ALLOWANCE',
 
@@ -181,6 +186,30 @@ export const UserActions = {
     },
     meta: {
       getData: mapGlobalStats,
+    },
+  }),
+  fetchProviderRewards: () => ({
+    type: UserActionTypes.FETCH_PROVIDER_REWARDS,
+    request: {
+      promise: (async function () {
+        const stkrSdk = StkrSdk.getLastInstance();
+        return await stkrSdk.getProviderRewards();
+      })(),
+    },
+    meta: {
+      getData: mapProviderRewards,
+    },
+  }),
+  fetchSidecarRewards: ({ sidecar }: { sidecar: string }) => ({
+    type: UserActionTypes.FETCH_SIDECAR_REWARDS,
+    request: {
+      promise: (async function () {
+        const stkrSdk = StkrSdk.getLastInstance();
+        return await stkrSdk.getSidecarRewards(sidecar);
+      })(),
+    },
+    meta: {
+      getData: mapProviderRewards,
     },
   }),
   fetchAllowance: () => ({

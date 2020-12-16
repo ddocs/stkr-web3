@@ -31,6 +31,7 @@ import { TopUpContainer } from '../TopUp';
 import { alwaysFalse } from '../../../../common/utils/alwaysFalse';
 import { IProviderStats } from '../../../../store/apiMappers/providerStatsApi';
 import { Typography } from '@material-ui/core';
+import { IProviderRewards } from '../../../../store/apiMappers/rewardsMapper';
 
 const SHORT_UPDATE_INTERVAL: Milliseconds = 30_000;
 const LONG_UPDATE_INTERVAL: Milliseconds = 60_000;
@@ -79,22 +80,31 @@ export const ProviderDashboardComponent = ({
                 value: data.activePoolCount,
               },
               {
-                caption: 'provider.info.pendingEthStakes',
-                value: tHTML('units.small-eth', {
-                  value: 0,
-                }),
-              },
-              {
                 caption: 'provider.info.activeSidecars',
                 value: data.activeSidecarCount,
               },
             ];
-
             return (
               data.activePoolCount > 0 && (
                 <Info className={classes.info} data={info} small={true} />
               )
             );
+          }}
+        </Query>
+        <Query<IProviderRewards>
+          type={UserActionTypes.FETCH_PROVIDER_REWARDS}
+          showLoaderDuringRefetch={true}
+        >
+          {({ data }) => {
+            const info = [
+              {
+                caption: 'provider.info.yourCurrentProfit',
+                value: tHTML('units.small-eth', {
+                  value: data.rewards,
+                }),
+              },
+            ];
+            return <Info className={classes.info} data={info} small={true} />;
           }}
         </Query>
         <div className={classes.navigation}>

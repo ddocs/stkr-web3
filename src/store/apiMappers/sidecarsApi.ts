@@ -1,5 +1,6 @@
 import { SidecarReply, SidecarStatus } from '../../modules/api/gateway';
 import { Megabytes, Percentage, Seconds } from '../../common/types';
+import BigNumber from 'bignumber.js';
 
 export interface ISidecarMachine {
   host: string;
@@ -39,6 +40,8 @@ export interface ISidecar {
   status: SidecarStatus;
   machine?: ISidecarMachine;
   beaconChain?: ISidecarBeaconChain;
+  shareRatio: number;
+  shareEth: BigNumber;
   created: Date;
 }
 
@@ -50,6 +53,8 @@ export function mapSidecar(item: SidecarReply): ISidecar {
     status: item.status,
     machine: item.machine,
     beaconChain: item.beaconChain,
+    shareRatio: item.shareRatio,
+    shareEth: new BigNumber(item.shareEth),
     created: new Date(item.created * 1000),
   };
 }

@@ -103,10 +103,11 @@
   },
   "beacon-node-table": {
     "name": "Name",
+    "profit": "Profitability",
     "uptime": "Last activity",
     "date": "Creation Date",
-    "certificate": "Certificate",
-    "status": "Status"
+    "certificate": " ",
+    "status": "Status (Share)"
   },
   "picker": {
     "staker": {
@@ -153,6 +154,7 @@
       "activeSidecars": "Total Active Sidecars",
       "totalStaked": "Total Staked ETH",
       "totalStakers": "Total Stakers",
+      "yourCurrentProfit": "Your Current Profit",
       "micropools": "My micropools"
     }
   },

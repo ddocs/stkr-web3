@@ -87,6 +87,8 @@ export interface SidecarReply {
     peerCount: number;
     syncing: boolean;
   };
+  shareRatio: number;
+  shareEth: string;
   created: number;
 }
 
@@ -99,6 +101,11 @@ export interface GlobalStatsReply {
   totalStakedEthereum: string;
   totalStakers: number;
   validatorCount: number;
+}
+
+export interface IProviderRewardsReply {
+  globalRatio: number;
+  rewards: string;
 }
 
 export type UserStakeAction =
@@ -271,6 +278,26 @@ export class ApiGateway {
       `/v1alpha/stats`,
     );
     if (status !== 200) throw new Error("Can't fetch statistics");
+    return data;
+  }
+
+  public async getProviderRewards(
+    address: string,
+  ): Promise<IProviderRewardsReply> {
+    const { status, data } = await this.api.get<IProviderRewardsReply>(
+      `/v1alpha/rewards/provider/${address}`,
+    );
+    if (status !== 200) throw new Error("Can't fetch provider rewards");
+    return data;
+  }
+
+  public async getSidecarRewards(
+    sidecar: string,
+  ): Promise<IProviderRewardsReply> {
+    const { status, data } = await this.api.get<IProviderRewardsReply>(
+      `/v1alpha/rewards/sidecar/${sidecar}`,
+    );
+    if (status !== 200) throw new Error("Can't fetch sidecar rewards");
     return data;
   }
 

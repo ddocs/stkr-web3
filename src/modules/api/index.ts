@@ -5,6 +5,7 @@ import {
   ApiGateway,
   BalanceReply,
   GlobalStatsReply,
+  IProviderRewardsReply,
   SidecarReply,
   StakerStats,
   UserStakeReply,
@@ -220,6 +221,18 @@ export class StkrSdk {
 
   public async getGlobalStats(): Promise<GlobalStatsReply> {
     return await this.apiGateway.getGlobalStats();
+  }
+
+  public async getProviderRewards(): Promise<IProviderRewardsReply> {
+    const address = this.getKeyProvider().currentAccount();
+    return await this.apiGateway.getProviderRewards(address);
+  }
+
+  public async getSidecarRewards(
+    sidecar: string,
+  ): Promise<IProviderRewardsReply> {
+    this.getKeyProvider().currentAccount();
+    return await this.apiGateway.getSidecarRewards(sidecar);
   }
 
   public getKeyProvider(): KeyProvider {
