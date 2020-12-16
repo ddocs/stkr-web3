@@ -14,7 +14,14 @@ import { t } from '../../../../common/utils/intl';
 import { StkrSdk } from '../../../api';
 import { uid } from 'react-uid';
 import { ISidecar } from '../../../../store/apiMappers/sidecarsApi';
-import { Box, IconButton } from '@material-ui/core';
+import {
+  Box,
+  fade,
+  IconButton,
+  Paper,
+  Theme,
+  useTheme,
+} from '@material-ui/core';
 import { ReactComponent as WindowsIcon } from './assets/windows.svg';
 import { ReactComponent as LinuxIcon } from './assets/linux.svg';
 import { ReactComponent as MacIcon } from './assets/mac.svg';
@@ -71,7 +78,7 @@ const getSidecarName = (item: ISidecar) => {
   return name;
 };
 
-const getSidecarStatus = (item: ISidecar) => {
+const getSidecarStatus = (item: ISidecar, theme: Theme) => {
   let statusName = t(`node-list.status.${item.status}`);
   if (item.status === 'SIDECAR_STATUS_UNKNOWN') {
     statusName = t('node-list.unknown');
@@ -84,14 +91,19 @@ const getSidecarStatus = (item: ISidecar) => {
       ).toFixed(2)}`,
     });
   }
-  let color = '#FFE819';
-  if (item.status === 'SIDECAR_STATUS_UNKNOWN') {
-    color = '#7c7c7c';
-  } else if (item.status === 'SIDECAR_STATUS_SYNCING') {
-    color = '#cf8327';
-  } else if (item.status === 'SIDECAR_STATUS_OFFLINE') {
-    color = '#cb4129';
-  }
+
+  const color = (() => {
+    if (item.status === 'SIDECAR_STATUS_UNKNOWN') {
+      return fade(theme.palette.text.primary, 0.5);
+    } else if (item.status === 'SIDECAR_STATUS_SYNCING') {
+      return theme.palette.warning.main;
+    } else if (item.status === 'SIDECAR_STATUS_OFFLINE') {
+      return theme.palette.error.main;
+    }
+
+    return theme.palette.primary.main;
+  })();
+
   return (
     <div style={{ color: color }}>
       <svg
@@ -113,150 +125,133 @@ interface INodeListProps {
   data: ISidecar[];
   onCreateNode: () => void;
   onTopUp: () => void;
+  balance: BigNumber;
 }
 
 export const NodeListComponent = ({
   data,
   onCreateNode,
   onTopUp,
+  balance,
 }: INodeListProps) => {
   const classes = useNodeListStyles();
-
   const captions = useCaptions();
+  const hasTransactions = data.length > 0;
+  const theme = useTheme();
 
-  const render = useCallback(
-    (balance: BigNumber) => {
-      if (data.length > 0) {
-        return (
-          <Table
-            customCell="1.1fr 0.6fr 0.6fr 0.7fr 0.7fr"
-            columnsCount={captions.length}
-            className={classes.table}
-          >
-            <TableHead>
-              {captions.map(cell => (
-                <TableHeadCell key={cell.key} label={cell.label} />
-              ))}
-            </TableHead>
-            {data && (
-              <TableBody rowsCount={data.length}>
-                {data.map(item => (
-                  <TableRow key={uid(item)}>
-                    <TableBodyCell>{getSidecarName(item)}</TableBodyCell>
-                    <TableBodyCell>{getSidecarStatus(item)}</TableBodyCell>
-                    <TableBodyCell>
-                      {formatDistanceToNowStrict(
-                        item?.machine?.currentTime
-                          ? new Date(item.machine.currentTime * 1000)
-                          : new Date(),
-                        { addSuffix: true },
-                      )}
-                    </TableBodyCell>
-                    <TableBodyCell>
-                      {t('format.date', { value: item.created })}
-                    </TableBodyCell>
-                    <TableBodyCell classes={{ cellWrapper: classes.icons }}>
-                      <Box display="inline-block">
-                        <IconButton
-                          component="a"
-                          className={classes.icon}
-                          onClick={() => {
-                            StkrSdk.getLastInstance().downloadSidecar(
-                              item.id,
-                              'windows-amd64',
-                            );
-                          }}
-                          target="_blank"
-                        >
-                          <WindowsIcon />
-                        </IconButton>
+  if (hasTransactions) {
+    return (
+      <Table
+        customCell="1.1fr 0.6fr 0.6fr 0.7fr 0.7fr"
+        columnsCount={captions.length}
+        className={classes.table}
+      >
+        <TableHead>
+          {captions.map(cell => (
+            <TableHeadCell key={cell.key} label={cell.label} />
+          ))}
+        </TableHead>
+        {data && (
+          <TableBody rowsCount={data.length}>
+            {data.map(item => (
+              <TableRow key={uid(item)}>
+                <TableBodyCell>{getSidecarName(item)}</TableBodyCell>
+                <TableBodyCell>{getSidecarStatus(item, theme)}</TableBodyCell>
+                <TableBodyCell>
+                  {formatDistanceToNowStrict(
+                    item?.machine?.currentTime
+                      ? new Date(item.machine.currentTime * 1000)
+                      : new Date(),
+                    { addSuffix: true },
+                  )}
+                </TableBodyCell>
+                <TableBodyCell>
+                  {t('format.date', { value: item.created })}
+                </TableBodyCell>
+                <TableBodyCell classes={{ cellWrapper: classes.icons }}>
+                  <Box display="inline-block">
+                    <IconButton
+                      component="a"
+                      className={classes.icon}
+                      onClick={() => {
+                        StkrSdk.getLastInstance().downloadSidecar(
+                          item.id,
+                          'windows-amd64',
+                        );
+                      }}
+                      target="_blank"
+                    >
+                      <WindowsIcon />
+                    </IconButton>
 
-                        <IconButton
-                          component="a"
-                          className={classes.icon}
-                          onClick={() => {
-                            StkrSdk.getLastInstance().downloadSidecar(
-                              item.id,
-                              'linux-amd64',
-                            );
-                          }}
-                          target="_blank"
-                        >
-                          <LinuxIcon />
-                        </IconButton>
-                      </Box>
-                      <Box display="inline-block">
-                        <IconButton
-                          component="a"
-                          className={classes.icon}
-                          onClick={() => {
-                            StkrSdk.getLastInstance().downloadSidecar(
-                              item.id,
-                              'darwin-amd64',
-                            );
-                          }}
-                          target="_blank"
-                        >
-                          <MacIcon />
-                        </IconButton>
+                    <IconButton
+                      component="a"
+                      className={classes.icon}
+                      onClick={() => {
+                        StkrSdk.getLastInstance().downloadSidecar(
+                          item.id,
+                          'linux-amd64',
+                        );
+                      }}
+                      target="_blank"
+                    >
+                      <LinuxIcon />
+                    </IconButton>
+                  </Box>
+                  <Box display="inline-block">
+                    <IconButton
+                      component="a"
+                      className={classes.icon}
+                      onClick={() => {
+                        StkrSdk.getLastInstance().downloadSidecar(
+                          item.id,
+                          'darwin-amd64',
+                        );
+                      }}
+                      target="_blank"
+                    >
+                      <MacIcon />
+                    </IconButton>
 
-                        <IconButton
-                          component="a"
-                          className={classes.icon}
-                          onClick={() => {
-                            StkrSdk.getLastInstance().downloadSidecar(
-                              item.id,
-                              'docker',
-                            );
-                          }}
-                          target="_blank"
-                        >
-                          <DockerIcon />
-                        </IconButton>
-                      </Box>
-                    </TableBodyCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            )}
-          </Table>
-        );
-      }
+                    <IconButton
+                      component="a"
+                      className={classes.icon}
+                      onClick={() => {
+                        StkrSdk.getLastInstance().downloadSidecar(
+                          item.id,
+                          'docker',
+                        );
+                      }}
+                      target="_blank"
+                    >
+                      <DockerIcon />
+                    </IconButton>
+                  </Box>
+                </TableBodyCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        )}
+      </Table>
+    );
+  }
 
-      if (balance.isLessThan(PROVIDER_MIN_BALANCE)) {
-        return (
-          <div className={classes.noticeWrapper}>
-            <NotEnoughBalance onSubmit={onTopUp} />
-          </div>
-        );
-      }
+  if (balance.isLessThan(PROVIDER_MIN_BALANCE)) {
+    return (
+      <Paper
+        variant="outlined"
+        square={false}
+        className={classes.noticeWrapper}
+      >
+        <NotEnoughBalance onSubmit={onTopUp} />
+      </Paper>
+    );
+  }
 
-      return (
-        <div className={classes.noticeWrapper}>
-          <EmptyNodeList onSubmit={onCreateNode} />
-        </div>
-      );
-    },
-    [
-      captions,
-      classes.icon,
-      classes.icons,
-      classes.noticeWrapper,
-      classes.table,
-      data,
-      onCreateNode,
-      onTopUp,
-    ],
-  );
   return (
-    <Query<IProviderStats | null>
-      type={UserActionTypes.FETCH_PROVIDER_STATS}
-      showLoaderDuringRefetch={false}
-    >
-      {({ data }) => {
-        return <div>{data?.balance && render(data.balance)}</div>;
-      }}
-    </Query>
+    <Paper variant="outlined" square={false} className={classes.noticeWrapper}>
+      <EmptyNodeList onSubmit={onCreateNode} />
+    </Paper>
   );
 };
 
@@ -276,10 +271,22 @@ export const NodeList = ({
   }, [history]);
 
   return (
-    <NodeListComponent
-      data={data}
-      onCreateNode={handleCreateNode}
-      onTopUp={handleTopUp}
-    />
+    <Query<IProviderStats | null>
+      type={UserActionTypes.FETCH_PROVIDER_STATS}
+      showLoaderDuringRefetch={false}
+    >
+      {({ data: statsData }) => {
+        return (
+          statsData?.balance && (
+            <NodeListComponent
+              data={data}
+              onCreateNode={handleCreateNode}
+              onTopUp={handleTopUp}
+              balance={statsData.balance}
+            />
+          )
+        );
+      }}
+    </Query>
   );
 };

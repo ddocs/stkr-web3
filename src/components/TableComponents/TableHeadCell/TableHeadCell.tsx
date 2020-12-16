@@ -2,11 +2,11 @@ import React, { useContext } from 'react';
 import { AlignType, IStyleProps } from '../types';
 import classNames from 'classnames';
 import { useCellStyles } from './TableHeadCellStyles';
-import { BackgroundColorProvider } from '../../../UiKit/BackgroundColorProvider';
 import { TableContext } from '../Table/Table';
 import { WithUseStyles } from '../../../common/types';
 
-interface ITableHeadCellProps extends Partial<WithUseStyles<typeof useCellStyles>> {
+interface ITableHeadCellProps
+  extends Partial<WithUseStyles<typeof useCellStyles>> {
   className?: string;
   label: React.ReactNode;
   align?: AlignType;
@@ -18,7 +18,7 @@ const TableHeadCellComponent = (props: ITableHeadCellProps & IStyleProps) => {
   const classes = useCellStyles(props);
 
   return (
-    <BackgroundColorProvider
+    <div
       className={classNames(
         classes.cell,
         classes.headCell,
@@ -28,10 +28,9 @@ const TableHeadCellComponent = (props: ITableHeadCellProps & IStyleProps) => {
         className,
       )}
       role="cell"
-      component="div"
     >
       <div className={classes.content}>{label}</div>
-    </BackgroundColorProvider>
+    </div>
   );
 };
 

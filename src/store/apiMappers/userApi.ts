@@ -6,4 +6,5 @@ export interface IUserInfo {
   walletType: Providers;
   ethereumBalance: BigNumber;
   ankrBalance: BigNumber;
+  aEthBalance: BigNumber;
 }

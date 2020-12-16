@@ -11,7 +11,6 @@ export const useProviderTabsStyles = makeStyles<Theme>(theme => ({
     padding: 0,
     listStyle: 'none',
   },
-  item: {},
   tab: {
     display: 'inline-block',
     padding: theme.spacing(2, 0),
@@ -32,6 +31,5 @@ export const useProviderTabsStyles = makeStyles<Theme>(theme => ({
   },
   active: {
     color: theme.palette.primary.main,
-    borderColor: 'currentColor',
   },
 }));

@@ -1,5 +1,5 @@
 import { makeStyles } from '@material-ui/styles';
-import { fade, Theme } from '@material-ui/core';
+import { Theme } from '@material-ui/core';
 import { DEFENSE_HEADER_HEIGHT, HEADER_HEIGHT } from '../const';
 import icon from '../TableRow/assets/triangle.svg';
 
@@ -53,7 +53,7 @@ export const useTableBodyCellStyles = makeStyles<
       props.defense ? theme.spacing(0.75) : theme.spacing(3.5),
     fontSize: 16,
     lineHeight: 1.3,
-    color: fade(theme.palette.text.secondary, 0.7),
+    color: theme.palette.common.white,
   },
   centerCell: {},
   leftCell: {},
@@ -63,6 +63,7 @@ export const useTableBodyCellStyles = makeStyles<
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
     overflow: 'hidden',
+    fontSize: 14,
   },
   tableCell: {
     position: 'relative',

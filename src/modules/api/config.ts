@@ -14,7 +14,7 @@ export const LOCAL_CONFIG: IStkrConfig = {
     chainId: 5,
   },
   contractConfig: {
-    aethContract: '0x4530Ed00f795BB80C685359bb860ca9a4262A815',
+    aethContract: '0x63dc5749fa134ff3b752813388a7215460a8ab01',
     microPoolContract: '0x5f2935be5F981E706C757BC2e74E29bE7DC6d114',
     microPoolBlock: '3775707',
     ankrContract: '0x23f438234655Bf317af71088e135104A5532F937', // old

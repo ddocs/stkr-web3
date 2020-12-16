@@ -40,7 +40,7 @@ export const GlobalStats = () => {
                       {t('global-stats.stakers')}
                     </Headline5>
                     <Headline1 className={classes.value}>
-                      {t('units.number', { value: data?.totalStakers })}
+                      {t('units.number-value', { value: data?.totalStakers })}
                     </Headline1>
                   </Box>
                 </Grid>

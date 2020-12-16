@@ -6,6 +6,7 @@ import { EventLog } from 'web3-core';
 import { EventEmitter } from 'events';
 import {
   ContractManagerEvents,
+  IProviderToppedUpEthEvent,
   IStakeConfirmedEvent,
   IStakePendingEvent,
   IStakeRemovedEvent,
@@ -14,6 +15,7 @@ import { BlockHeader } from 'web3-eth';
 import { ETH_SCALE_FACTOR } from '../../common/const';
 
 const ABI_GLOBAL_POOL = require('./contract/GlobalPool.json');
+const ABI_AETH = require('./contract/AETH.json');
 const ABI_ANKR = require('./contract/ANKR.json');
 const ABI_STAKING = require('./contract/Staking.json');
 const ABI_SYSTEM = require('./contract/SystemParameters.json');
@@ -37,6 +39,7 @@ const ANKR_SCALE_FACTOR = 10 ** 18;
 
 export class ContractManager {
   private readonly microPoolContract: Contract;
+  private readonly aethContract: Contract;
   private readonly ankrContract?: Contract;
   private readonly stakingContract?: Contract;
   private readonly systemContract: Contract;
@@ -51,6 +54,10 @@ export class ContractManager {
     this.microPoolContract = this.keyProvider.createContract(
       ABI_GLOBAL_POOL,
       contractConfig.microPoolContract,
+    );
+    this.aethContract = this.keyProvider.createContract(
+      ABI_AETH,
+      contractConfig.aethContract,
     );
     if (contractConfig.ankrContract) {
       this.ankrContract = this.keyProvider.createContract(
@@ -109,6 +116,31 @@ export class ContractManager {
         data: {
           eventLog,
           staker: staker,
+          amount: new BigNumber(amount).dividedBy(ETH_SCALE_FACTOR),
+        },
+      };
+    });
+  }
+
+  public async queryProviderToppedUpEthEventLogs(): Promise<
+    IProviderToppedUpEthEvent[]
+  > {
+    const currentAddress = this.keyProvider.currentAccount();
+    const events = await this.microPoolContract.getPastEvents(
+      'ProviderToppedUpEth',
+      {
+        filter: { provider: currentAddress },
+        fromBlock: this.contractConfig.microPoolBlock,
+      },
+    );
+
+    return events.map((eventLog: EventLog) => {
+      const { provider, amount } = eventLog.returnValues;
+      return {
+        type: ContractManagerEvents.ProviderToppedUpEth,
+        data: {
+          eventLog,
+          provider,
           amount: new BigNumber(amount).dividedBy(ETH_SCALE_FACTOR),
         },
       };
@@ -642,6 +674,13 @@ export class ContractManager {
     return this.keyProvider.erc20Balance(this.ankrContract, address);
   }
 
+  public async aEthBalance(address: string): Promise<string> {
+    if (!this.aethContract) {
+      return '0';
+    }
+    return this.keyProvider.erc20Balance(this.aethContract, address);
+  }
+
   public async pendingEtherBalanceOf(provider: string): Promise<BigNumber> {
     return this.microPoolContract.methods
       .pendingEtherBalanceOf(provider)
@@ -667,5 +706,14 @@ export class ContractManager {
       .then((value: string) =>
         new BigNumber(value).dividedBy(ETH_SCALE_FACTOR),
       );
+  }
+
+  public async getAethRatio(): Promise<BigNumber> {
+    return this.aethContract.methods
+      .ratio()
+      .call()
+      .then((value: string) => {
+        return new BigNumber(value).div(ETH_SCALE_FACTOR);
+      });
   }
 }

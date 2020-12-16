@@ -6,7 +6,7 @@ import { t, tHTML } from '../../common/utils/intl';
 import { NavLink } from '../../UiKit/NavLink';
 import {
   ENABLE_PROVIDER,
-  PROVIDER_TOP_UP_PATH,
+  PROVIDER_MAIN_PATH,
   STAKER_DASHBOAR_PATH,
 } from '../../common/const';
 import { useDispatch } from 'react-redux';
@@ -101,7 +101,7 @@ export const Picker = () => {
 
   const LIST: Record<string, string> = {
     staker: STAKER_DASHBOAR_PATH,
-    provider: PROVIDER_TOP_UP_PATH,
+    provider: PROVIDER_MAIN_PATH,
   };
 
   const keys: string[] = Object.keys(LIST);

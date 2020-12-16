@@ -10,6 +10,7 @@ import {
 } from '../../../../store/actions/UserActions';
 import { Mutation } from '@redux-requests/react';
 import { useDispatch } from 'react-redux';
+import BigNumber from 'bignumber.js';
 import { useAuthentication } from '../../../../common/utils/useAuthentications';
 import { SliderField } from '../../../../UiKit/RangeField';
 import { Box, Grid, Typography } from '@material-ui/core';
@@ -19,12 +20,15 @@ import {
 } from '../../../../common/const';
 import { ETH_AMOUNT_FIELD_NAME } from './TopUp';
 
-interface ITopUpEthFormProps {}
+interface ITopUpEthFormProps {
+  deposited?: BigNumber;
+}
 
 export const TopUpEthForm = ({
   handleSubmit,
   values,
   initialValues,
+  deposited,
 }: FormRenderProps<any> & ITopUpEthFormProps) => {
   const classes = useTopUpStyles();
   const dispatch = useDispatch();
@@ -41,13 +45,13 @@ export const TopUpEthForm = ({
       <>
         <Box width="100%" mb={3}>
           <Headline4 align="right" className={classes.ethSliderAmount}>
-            {t('units.eth', {
+            {t('units.eth-value', {
               value: values[ETH_AMOUNT_FIELD_NAME],
             })}
           </Headline4>
           <Field
             component={SliderField}
-            min={PROVIDER_MIN_BALANCE}
+            min={deposited?.gt(0) ? STAKING_AMOUNT_STEP : PROVIDER_MIN_BALANCE}
             max={initialValues[ETH_AMOUNT_FIELD_NAME]}
             name={ETH_AMOUNT_FIELD_NAME}
             step={STAKING_AMOUNT_STEP}

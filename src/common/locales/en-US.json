@@ -13,8 +13,6 @@
     "whitepaper-ch": "Whitepaper (Ch)",
     "unlock-your-wallet": "Connect your wallet",
     "create-micropool": "Create micropool",
-    "create": "Create",
-    "top-up": "Top up",
     "beacon-list": "Beacon chain list",
     "select-wallet-provider": "Select a wallet provider",
     "connect": "Connect",
@@ -179,15 +177,16 @@
     "agreement": "I understand my staked funds will be locked for the duration of the Eth 2.0 staking period, and will not be redeemable until this ends."
   },
   "units": {
-    "$": "${value}",
-    "eth": "{value} ETH",
-    "ankr": "{value} ANKR",
-    "~eth": "~ {value} ETH",
-    "small-eth": "{value} <span style=\"font-size: 16px\">ETH</span>",
-    "large-eth": "{value}<span> ETH</span>",
-    "large-aeth": "{value}<span> aETH</span>",
-    "number": "{value, number}",
-    "~months": "~ {value} mo"
+    "$-value": "${value}",
+    "eth-value": "{value} ETH",
+    "aeth-value": "{value} aETH",
+    "eth": "ETH",
+    "~eth-value": "~ {value} ETH",
+    "aeth": "aETH",
+    "separated-eth-value": "{value}<span class=\"unit\"> ETH</span>",
+    "separated-aeth-value": "{value}<span class=\"unit\"> aETH</span>",
+    "number-value": "{value, number}",
+    "~months-value": "~ {value} mo"
   },
   "format": {
     "date": "{value, date, medium} {value, time, medium}"
@@ -204,17 +203,15 @@
     "buy": "Buy",
     "ankr-allowed": "{value} ANKR allowed"
   },
+  "stake-statuses": {
+    "STAKE_ACTION_PENDING": "Created",
+    "STAKE_ACTION_CONFIRMED": "Confirmed",
+    "STAKE_ACTION_UNSTAKE": "Removed"
+  },
   "staked-dashboard": {
-    "staked": "Staked amount",
+    "staked": "Total staked",
     "stake-more": "Stake more",
     "current-a-eth-balance": "Current balance",
-    "redeem": "Redeem",
-    "locked": "Any staked amounts will be locked for the duration of the ETH 2.0 contract. You will, however, receive aETH equivalent to your stake that you will be able to trade in the meantime, against your staked amount. Until aETH is made available, however, your funds will be locked and not redeemable.",
-    "statuses": {
-      "STAKE_ACTION_PENDING": "Created",
-      "STAKE_ACTION_CONFIRMED": "Confirmed",
-      "STAKE_ACTION_UNSTAKE": "Removed"
-    },
     "transaction": {
       "goerli": "https://goerli.etherscan.io/tx/{value}",
       "mainnet": "https://etherscan.io/tx/{value}"
@@ -223,9 +220,6 @@
       "status": "Status",
       "transaction-hash": "Tx.Hash",
       "staked": "Staked"
-    },
-    "tip": {
-      "aeth-amount": "The amount of aETH redeemable"
     }
   },
   "node-list": {
@@ -241,7 +235,13 @@
     }
   },
   "staker-dashboard": {
-    "unstake": "Unstake"
+    "unstake": "Unstake",
+    "aeth-price": "1 aETH = {value} ETH",
+    "on-stkr": "On Stkr",
+    "on-wallet": "On your wallet",
+    "claim": "Claim",
+    "profit": "Your profit",
+    "notice": "You can only claim aETH, it will be equal to ETH amount"
   },
   "staking-history-table": {
     "tip": {
@@ -252,6 +252,7 @@
   },
   "create-node": {
     "title": "Сonfigure beacon chain node",
+    "create": "Create",
     "label": {
       "node-name": "Node name",
       "eth-node": "Provide Ethereum node",
@@ -310,10 +311,23 @@
     "eth-top-up-note": "Please note that if your insurance ever drops below 2 ETH due to slashing penalties, your node may stop running. To prevent this from happening, or to restart a node that has stopped because of this, please ensure your remaining insurance balance is at least 2 ETH. You can top this amount up here.<br/><br/>Also note that once deposited, any insurance amount remains locked in the Stkr system until the contract ends (Ethereum 2.0 Phase 1.5 release)."
   },
   "provider-dashboard": {
-    "balance": "Your insurance deposit: {value} ETH"
+    "balance": "Your insurance deposit: {value} ETH",
+    "top-up": "Top-up",
+    "create": "Create"
+  },
+  "provider-tabs": {
+    "top-up": "Top-up",
+    "create": "Create"
   },
   "language": {
     "en-US": "EN",
     "zh-CN": "中文"
+  },
+  "top-up-list": {
+    "table-head": {
+      "status": "Status",
+      "txid": "Transaction Hash",
+      "amount": "Amount"
+    }
   }
 }

@@ -272,15 +272,14 @@ const mainTheme = createMuiTheme({
         '&$disabled': {},
       },
       containedSecondary: {
-        color: PALETTE.primary.contrastText,
-        backgroundColor: PALETTE.text.secondary,
+        color: PALETTE.primary.main,
+        backgroundColor: fade(PALETTE.primary.main, 0.15),
         transitionDuration: '300ms',
         transitionProperty: 'color, background-color',
         transitionTimingFunction: 'linear',
         '&:hover, &:focus, &:active': {
-          backgroundColor: PALETTE.text.primary,
+          backgroundColor: fade(PALETTE.primary.main, 0.2),
         },
-        '&$disabled': {},
       },
       outlined: {
         color: PALETTE.text.primary,
@@ -460,6 +459,9 @@ const mainTheme = createMuiTheme({
     MuiDivider: {
       root: {
         backgroundColor: fade('#fff', 0.2),
+      },
+      light: {
+        backgroundColor: PALETTE.primary.main,
       },
     },
     MuiFormHelperText: {

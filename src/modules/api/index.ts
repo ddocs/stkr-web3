@@ -14,7 +14,7 @@ import BigNumber from 'bignumber.js';
 import { EventEmitter } from 'events';
 import { TransactionReceipt } from 'web3-core';
 import { YEAR_INTEREST } from '../../common/const';
-import { t } from '../../common/utils/intl';
+import { ContractManagerEvent } from './event';
 
 export interface IStakeAction extends SendAsyncResult {
   waitForTxReceipt(): Promise<TransactionReceipt>;
@@ -42,13 +42,14 @@ export class StkrSdk {
 
   static getLastInstance() {
     if (!StkrSdk.instance) {
-      throw new Error(t('user-actions.error.sdk-not-initialized'));
+      throw new Error('SDK is not initialized yet');
     }
     return StkrSdk.instance;
   }
 
   public async connect() {
     /* download config from server only if its not provided yet */
+
     if (!this.stkrConfig.contractConfig) {
       const config = await this.apiGateway.downloadConfigFile(
         this.stkrConfig.configUrl,
@@ -234,76 +235,128 @@ export class StkrSdk {
   }
 
   public async getEtheremBalance(): Promise<BalanceReply> {
-    const currentAccount = this.getKeyProvider().currentAccount(),
-      balanceOf = await this.getKeyProvider().ethereumBalance(currentAccount);
+    const currentAccount = this.getKeyProvider().currentAccount();
+    const balanceOf = await this.getKeyProvider().ethereumBalance(
+      currentAccount,
+    );
     return { available: balanceOf, timestamp: new Date().getTime() };
   }
 
   public async getAnkrBalance(): Promise<BalanceReply> {
-    const currentAccount = this.getKeyProvider().currentAccount(),
-      balanceOf = await this.getContractManager().ankrBalance(currentAccount);
+    const currentAccount = this.getKeyProvider().currentAccount();
+    const balanceOf = await this.getContractManager().ankrBalance(
+      currentAccount,
+    );
+    return { available: balanceOf, timestamp: new Date().getTime() };
+  }
+
+  public async getAethBalance(): Promise<BalanceReply> {
+    const currentAccount = this.getKeyProvider().currentAccount();
+    const balanceOf = await this.getContractManager().aEthBalance(
+      currentAccount,
+    );
     return { available: balanceOf, timestamp: new Date().getTime() };
   }
 
   public async getStakerStats(): Promise<StakerStats> {
     console.log('fetching stake events from smart contract...');
-    const [pending, confirmed, removed] = await Promise.all([
+    const [toppedUp, pending, confirmed, removed] = await Promise.all([
+      this.getContractManager().queryProviderToppedUpEthEventLogs(),
       this.getContractManager().queryStakePendingEventLogs(),
       this.getContractManager().queryStakeConfirmedEventLogs(),
       this.getContractManager().queryStakeRemovedEventLogs(),
     ]);
+
     console.log(
-      `found ${pending.length} pending, ${confirmed.length} confirmed and ${removed.length} removed events`,
+      `found ${pending.length} pending, ${confirmed.length} confirmed, ${removed.length} removed and ${toppedUp.length} topped up events`,
     );
-    const stakes = [
-      ...pending.map(
-        (event): UserStakeReply => {
-          return {
-            user: event.data.staker,
-            amount: event.data.amount,
-            transactionHash: event.data.eventLog.transactionHash,
-            action: 'STAKE_ACTION_PENDING',
-            timestamp: event.data.eventLog.blockNumber,
-          };
-        },
-      ),
-      ...confirmed.map(
-        (event): UserStakeReply => {
-          return {
-            user: event.data.staker,
-            amount: event.data.amount,
-            transactionHash: event.data.eventLog.transactionHash,
-            action: 'STAKE_ACTION_CONFIRMED',
-            timestamp: event.data.eventLog.blockNumber,
-          };
-        },
-      ),
-      ...removed.map(
-        (event): UserStakeReply => {
-          return {
-            user: event.data.staker,
-            amount: event.data.amount,
-            transactionHash: event.data.eventLog.transactionHash,
-            action: 'STAKE_ACTION_UNSTAKE',
-            timestamp: event.data.eventLog.blockNumber,
-          };
-        },
-      ),
-    ].sort((a, b) => a.timestamp - b.timestamp);
+
+    function hasItem(
+      items: ContractManagerEvent[],
+      item: ContractManagerEvent,
+    ) {
+      return items.some(
+        toppedUpItem =>
+          toppedUpItem.data.eventLog.transactionHash ===
+          item.data.eventLog.transactionHash,
+      );
+    }
+
+    const pendingItems = pending.map(
+      (item): UserStakeReply => {
+        return {
+          user: item.data.staker,
+          amount: item.data.amount,
+          transactionHash: item.data.eventLog.transactionHash,
+          action: 'STAKE_ACTION_PENDING',
+          timestamp: item.data.eventLog.blockNumber,
+          isTopUp: hasItem(toppedUp, item),
+        };
+      },
+    );
+
+    const confirmedItems = confirmed.map(
+      (item): UserStakeReply => {
+        return {
+          user: item.data.staker,
+          amount: item.data.amount,
+          transactionHash: item.data.eventLog.transactionHash,
+          action: 'STAKE_ACTION_CONFIRMED',
+          timestamp: item.data.eventLog.blockNumber,
+          isTopUp: hasItem(toppedUp, item),
+        };
+      },
+    );
+
+    const unstakedItems = removed.map(
+      (item): UserStakeReply => {
+        return {
+          user: item.data.staker,
+          amount: item.data.amount,
+          transactionHash: item.data.eventLog.transactionHash,
+          action: 'STAKE_ACTION_UNSTAKE',
+          timestamp: item.data.eventLog.blockNumber,
+          isTopUp: hasItem(toppedUp, item),
+        };
+      },
+    );
+
+    const stakes = [...pendingItems, ...confirmedItems, ...unstakedItems].sort(
+      (a, b) => a.timestamp - b.timestamp,
+    );
+
+    const confirmedStakes = confirmedItems.reduce(
+      (acc, item) => acc.plus(item.amount),
+      new BigNumber(0),
+    );
+
+    const topUps = stakes.reduce((acc, item) => {
+      if (item.isTopUp) {
+        return acc.plus(item.amount);
+      }
+      return acc;
+    }, new BigNumber(0));
+
     const totalStakedAmount = stakes.reduce((result, stake) => {
-        if (stake.action === 'STAKE_ACTION_PENDING') {
-          return result.plus(stake.amount);
-        } else if (stake.action === 'STAKE_ACTION_UNSTAKE') {
-          return result.plus(stake.amount.negated());
-        }
-        return result;
-      }, new BigNumber(0)),
-      totalRewards = totalStakedAmount.multipliedBy(YEAR_INTEREST);
-    console.log(`total staked amount is ${totalStakedAmount.toString(10)}`);
+      if (stake.action === 'STAKE_ACTION_PENDING') {
+        return result.plus(stake.amount);
+      } else if (stake.action === 'STAKE_ACTION_UNSTAKE') {
+        return result.minus(stake.amount);
+      }
+
+      return result;
+    }, new BigNumber(0));
+
+    const totalRewards = totalStakedAmount.multipliedBy(YEAR_INTEREST);
+
     const stats = {
       totalRewards: totalRewards.toString(10),
       totalStakedAmount: totalStakedAmount.toString(10),
+      pendingAmount: totalStakedAmount.minus(confirmedStakes).toString(10),
+      topUpAmount: topUps.toString(10),
+      stakeAmount: totalStakedAmount.minus(topUps).toString(10),
     };
+
     return { stakes, stats };
   }
 
@@ -325,5 +378,9 @@ export class StkrSdk {
 
   public async topUpANKR(amount: BigNumber) {
     return await this.getContractManager().topUpANKR(amount);
+  }
+
+  public async getAethRatio() {
+    return await this.getContractManager().getAethRatio();
   }
 }
