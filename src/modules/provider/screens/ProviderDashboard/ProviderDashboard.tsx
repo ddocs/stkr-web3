@@ -180,6 +180,7 @@ export const ProviderDashboard = () => {
 
   useInterval(() => {
     dispatch(UserActions.fetchCurrentProviderSidecars());
+    dispatch(UserActions.fetchProviderRewards());
   }, SHORT_UPDATE_INTERVAL);
 
   useInterval(() => {
