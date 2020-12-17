@@ -93,7 +93,6 @@ export const ProviderDashboardComponent = ({
               const hasEnoughBalance = data?.balance.isGreaterThanOrEqualTo(
                 PROVIDER_MIN_BALANCE,
               );
-
               return (
                 <>
                   {hasEnoughBalance && sidecars && sidecars.length > 0 && (
@@ -161,13 +160,13 @@ export const ProviderDashboard = () => {
     if (isConnected) {
       dispatch(UserActions.fetchCurrentProviderSidecars());
       dispatch(UserActions.fetchGlobalStats());
+      dispatch(UserActions.fetchProviderRewards());
       dispatch(UserActions.fetchProviderStats());
     }
   }, [dispatch, isConnected]);
 
   useInterval(() => {
     dispatch(UserActions.fetchCurrentProviderSidecars());
-    dispatch(UserActions.fetchProviderRewards());
   }, SHORT_UPDATE_INTERVAL);
 
   useInterval(() => {

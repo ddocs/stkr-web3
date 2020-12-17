@@ -225,8 +225,8 @@ export class StkrSdk {
   }
 
   public async getProviderRewards(): Promise<IProviderRewardsReply> {
-    const address = this.getKeyProvider().currentAccount();
-    return await this.apiGateway.getProviderRewards(address);
+    this.getKeyProvider();
+    return await this.apiGateway.getProviderRewards();
   }
 
   public async getSidecarRewards(

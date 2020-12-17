@@ -282,11 +282,9 @@ export class ApiGateway {
     return data;
   }
 
-  public async getProviderRewards(
-    address: string,
-  ): Promise<IProviderRewardsReply> {
+  public async getProviderRewards(): Promise<IProviderRewardsReply> {
     const { status, data } = await this.api.get<IProviderRewardsReply>(
-      `/v1alpha/rewards/provider/${address}`,
+      `/v1alpha/reward/provider`,
     );
     if (status !== 200) throw new Error("Can't fetch provider rewards");
     return data;
@@ -296,7 +294,7 @@ export class ApiGateway {
     sidecar: string,
   ): Promise<IProviderRewardsReply> {
     const { status, data } = await this.api.get<IProviderRewardsReply>(
-      `/v1alpha/rewards/sidecar/${sidecar}`,
+      `/v1alpha/reward/sidecar/${sidecar}`,
     );
     if (status !== 200) throw new Error("Can't fetch sidecar rewards");
     return data;
