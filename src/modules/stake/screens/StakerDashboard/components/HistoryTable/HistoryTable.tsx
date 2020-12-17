@@ -105,7 +105,6 @@ export const HistoryTable = (props: IHistoryTableProps) => {
               </TableBodyCell>
               <TableBodyCell
                 className={classNames(classes.cell, classes.bodyCell)}
-                align="right"
               >
                 <NavLink
                   href={t(

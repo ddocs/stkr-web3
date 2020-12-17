@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Curtains } from '../../../../UiKit/Curtains';
 import { useStakerDashboardStyles } from './StakerDashboardStyles';
 import { t, tHTML } from '../../../../common/utils/intl';
@@ -27,7 +27,6 @@ import { MutationErrorHandler } from '../../../../components/MutationErrorHandle
 import { HistoryTable } from './components/HistoryTable';
 import { Link as RouterLink } from 'react-router-dom';
 import { ReactComponent as PlusIcon } from './assets/plus.svg';
-import { BalanceSwitcherMode, Switcher } from './components/Switcher/Switcher';
 import BigNumber from 'bignumber.js';
 
 const AMOUNT_FIXED_DECIMAL_PLACES = 2;
@@ -37,28 +36,46 @@ function AETHBalance({
   totalAEth,
   data,
   onClaim,
+  totalAEthToEthPrice,
 }: {
   totalAEth: BigNumber;
   data: IStakerStats;
   onClaim: () => void;
+  totalAEthToEthPrice: BigNumber;
 }) {
   const classes = useStakerDashboardStyles();
   const ENABLE_REDEEM = data?.aEthClaimableBalance.isGreaterThan(0);
   return (
     <>
-      <Box mt="auto" className={classes.amount}>
-        {tHTML('units.separated-aeth-value', {
-          value: totalAEth.toFormat(AMOUNT_FIXED_DECIMAL_PLACES),
-        })}
+      <Box mt="auto">
+        <Box fontSize={13} color="text.secondary" fontWeight={500}>
+          {t('units.~eth-value', {
+            value: totalAEthToEthPrice.toFormat(AMOUNT_FIXED_DECIMAL_PLACES),
+          })}
+        </Box>
+        <Box className={classes.amount}>
+          {tHTML('units.separated-aeth-value', {
+            value: totalAEth.toFormat(AMOUNT_FIXED_DECIMAL_PLACES),
+          })}
+        </Box>
       </Box>
+      <Hidden mdUp={true}>
+        <Box mt={1.5} mb={1.5}>
+          <Divider />
+        </Box>
+      </Hidden>
       <div className={classes.aETHRow}>
         <Box>
-          <Box mb={1}>
-            <Typography variant="body2">
-              {t('staker-dashboard.on-stkr')}
-            </Typography>
+          <Box
+            mb={1.5}
+            fontSize={16}
+            fontWeight={500}
+            color="text.secondary"
+            whiteSpace="no-wrap"
+          >
+            {t('staker-dashboard.on-stkr')}
           </Box>
-          <Box display="flex" alignItems="center" mb={1}>
+          <Box display="flex" alignItems="center" mb={{ xs: 3.5, md: 0 }}>
             <Typography variant="h5" noWrap={true}>
               {t('units.aeth-value', {
                 value: data.aEthClaimableBalance.toFormat(),
@@ -74,6 +91,7 @@ function AETHBalance({
                     variant="outlined"
                     onClick={onClaim}
                     disabled={loading || !ENABLE_REDEEM}
+                    className={classes.claim}
                   >
                     {t('staker-dashboard.claim')}
                   </Button>
@@ -82,20 +100,31 @@ function AETHBalance({
             </Box>
           </Box>
         </Box>
-        <Hidden xsDown={true}>
-          <Box ml={2} mr={2} height={63}>
+        <Hidden smDown={true}>
+          <Box ml={5} mr={5} height={63}>
             <Divider orientation="vertical" />
           </Box>
         </Hidden>
         <Box>
-          <Box mb={1.5}>
-            <Typography variant="body2" noWrap={true}>
-              {t('staker-dashboard.on-wallet')}
-            </Typography>
+          <Box
+            mb={1.5}
+            fontSize={16}
+            fontWeight={500}
+            color="text.secondary"
+            whiteSpace="nowrap"
+          >
+            {t('staker-dashboard.on-wallet')}
           </Box>
-          <Typography variant="h5">
-            {tHTML('units.number-value', {
-              value: data.aEthBalance.toFormat(),
+          <Typography
+            variant="h5"
+            color={
+              data.aEthBalance.isLessThanOrEqualTo(0)
+                ? 'textSecondary'
+                : undefined
+            }
+          >
+            {t('units.aeth-value', {
+              value: data.aEthBalance.toFormat(AMOUNT_FIXED_DECIMAL_PLACES),
             })}
           </Typography>
         </Box>
@@ -104,70 +133,9 @@ function AETHBalance({
   );
 }
 
-function ETHBalance({
-  totalAEthPrice,
-  totalAEth,
-  data,
-}: {
-  totalAEthPrice: BigNumber;
-  totalAEth: BigNumber;
-  data: IStakerStats;
-}) {
-  const classes = useStakerDashboardStyles();
-  return (
-    <>
-      <Box
-        mt="auto"
-        display="grid"
-        gridTemplateColumns="1fr 2fr"
-        gridTemplateRows="1fr 1fr"
-        gridColumnGap={24}
-      >
-        <Box gridColumn="1" gridRow="1 / 3" className={classes.amount}>
-          {tHTML('units.separated-eth-value', {
-            value: totalAEthPrice.toFormat(AMOUNT_FIXED_DECIMAL_PLACES),
-          })}
-        </Box>
-        <Box gridColumn="2" gridRow="1" pt={1.5}>
-          <Typography variant="body2">
-            {t('staker-dashboard.profit')}
-          </Typography>
-        </Box>
-        <Box gridColumn="2" gridRow="2" pt={0.5}>
-          <Typography variant="h5" color="primary">
-            {t('units.eth-value', {
-              value: totalAEth
-                .div(data.aEthRatio)
-                .minus(data.staked)
-                .toFixed(AMOUNT_FIXED_DECIMAL_PLACES),
-            })}
-          </Typography>
-        </Box>
-      </Box>
-      <Box display="flex" alignItems="center" mt="auto" pb={2} maxWidth={200}>
-        <Box mr={1.5}>
-          <Divider
-            orientation="vertical"
-            light={true}
-            className={classes.noteDivider}
-          />
-        </Box>
-        {t('staker-dashboard.notice')}
-      </Box>
-    </>
-  );
-}
-
 export const StakerDashboardComponent = () => {
   const classes = useStakerDashboardStyles();
   const dispatch = useDispatch();
-  const [balanceMode, setBalanceMode] = useState<BalanceSwitcherMode>(
-    BalanceSwitcherMode.aETH,
-  );
-
-  const handleSetBalanceMode = useCallback((mode: BalanceSwitcherMode) => {
-    setBalanceMode(mode);
-  }, []);
 
   const handleClaim = () => {
     dispatch(UserActions.claimAeth());
@@ -193,7 +161,7 @@ export const StakerDashboardComponent = () => {
             }
 
             const totalAEth = data.aEthClaimableBalance.plus(data.aEthBalance);
-            const totalAEthPrice = totalAEth?.div(data.aEthRatio);
+            const totalAEthToEthPrice = totalAEth.div(data.aEthRatio);
 
             return (
               <>
@@ -202,7 +170,7 @@ export const StakerDashboardComponent = () => {
                   square={false}
                   className={classes.stakedContent}
                 >
-                  <Box fontSize={20} fontWeight={500}>
+                  <Box fontSize={{ xs: 18, md: 20 }} fontWeight={500}>
                     {t('staked-dashboard.staked')}
                   </Box>
                   <MutationErrorHandler type={UserActionTypes.UNSTAKE} />
@@ -245,35 +213,32 @@ export const StakerDashboardComponent = () => {
                   square={false}
                   className={classes.earningContent}
                 >
-                  <Box>
-                    <Box fontSize={20} fontWeight={500} mb={1.5}>
-                      {t('staked-dashboard.current-a-eth-balance')}
-                    </Box>
-                    <Box fontSize={13} fontWeight={500} color="text.secondary">
-                      {t('staker-dashboard.aeth-price', {
-                        value: new BigNumber(1)
-                          .div(data.aEthRatio.toFormat())
-                          .toFixed(RATE_FIXED_DECIMAL_PLACES),
-                      })}
-                    </Box>
+                  <Box
+                    fontSize={{ xs: 18, md: 20 }}
+                    fontWeight={500}
+                    mb={{ md: 1.5 }}
+                  >
+                    {t('staked-dashboard.current-a-eth-balance')}
                   </Box>
-                  <Switcher
-                    onSetBalanceMode={handleSetBalanceMode}
-                    value={balanceMode}
+                  <Box
+                    fontSize={13}
+                    fontWeight={500}
+                    color="text.secondary"
+                    ml={{ md: 'auto' }}
+                    mb={{ xs: 6, md: undefined }}
+                  >
+                    {t('staker-dashboard.aeth-price', {
+                      value: new BigNumber(1)
+                        .div(data.aEthRatio.toFormat())
+                        .toFixed(RATE_FIXED_DECIMAL_PLACES),
+                    })}
+                  </Box>
+                  <AETHBalance
+                    totalAEth={totalAEth}
+                    data={data}
+                    onClaim={handleClaim}
+                    totalAEthToEthPrice={totalAEthToEthPrice}
                   />
-                  {balanceMode === BalanceSwitcherMode.aETH ? (
-                    <AETHBalance
-                      totalAEth={totalAEth}
-                      data={data}
-                      onClaim={handleClaim}
-                    />
-                  ) : (
-                    <ETHBalance
-                      totalAEthPrice={totalAEthPrice}
-                      totalAEth={totalAEth}
-                      data={data}
-                    />
-                  )}
                 </Paper>
                 {data.stakes.length > 0 && (
                   <HistoryTable

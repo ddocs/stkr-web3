@@ -181,12 +181,12 @@
     "eth-value": "{value} ETH",
     "aeth-value": "{value} aETH",
     "eth": "ETH",
-    "~eth-value": "~ {value} ETH",
+    "~eth-value": "~{value} ETH",
     "aeth": "aETH",
     "separated-eth-value": "{value}<span class=\"unit\"> ETH</span>",
     "separated-aeth-value": "{value}<span class=\"unit\"> aETH</span>",
     "number-value": "{value, number}",
-    "~months-value": "~ {value} mo"
+    "~months-value": "~{value} mo"
   },
   "format": {
     "date": "{value, date, medium} {value, time, medium}"
@@ -239,9 +239,7 @@
     "aeth-price": "1 aETH = {value} ETH",
     "on-stkr": "On Stkr",
     "on-wallet": "On your wallet",
-    "claim": "Claim",
-    "profit": "Your profit",
-    "notice": "You can only claim aETH, it will be equal to ETH amount"
+    "claim": "Claim"
   },
   "staking-history-table": {
     "tip": {

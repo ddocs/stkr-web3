@@ -15,8 +15,10 @@ export const useStakerDashboardStyles = makeStyles<Theme>(theme => ({
     display: 'grid',
     gridTemplateColumns: '1fr 1fr',
     padding: theme.spacing(5, 6.5, 3.5),
-    [theme.breakpoints.down('xs')]: {
+    borderRadius: 32,
+    [theme.breakpoints.down('sm')]: {
       gridColumn: '1 / 3',
+      padding: theme.spacing(3, 2.5),
     },
   },
   earningContent: {
@@ -24,9 +26,11 @@ export const useStakerDashboardStyles = makeStyles<Theme>(theme => ({
     gridTemplateColumns: '1fr auto',
     padding: theme.spacing(5, 6.5, 3.5),
     gridGap: theme.spacing(1),
-    [theme.breakpoints.down('xs')]: {
+    borderRadius: 32,
+    [theme.breakpoints.down('sm')]: {
       gridColumn: '1 / 3',
       gridTemplateColumns: '1fr',
+      padding: theme.spacing(3, 2.5),
     },
   },
   amount: {
@@ -35,6 +39,9 @@ export const useStakerDashboardStyles = makeStyles<Theme>(theme => ({
     whiteSpace: 'nowrap',
     '& .unit': {
       fontSize: 16,
+    },
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 36,
     },
   },
   history: {
@@ -62,14 +69,20 @@ export const useStakerDashboardStyles = makeStyles<Theme>(theme => ({
   aETHRow: {
     marginTop: 'auto',
     display: 'flex',
-    [theme.breakpoints.up('xs')]: {
+    alignItems: 'center',
+    [theme.breakpoints.up('sm')]: {
+      marginBottom: theme.spacing(1),
       justifySelf: 'end',
     },
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       flexDirection: 'column',
       alignItems: 'flex-start',
       justifyContent: 'flex-start',
       justifySelf: 'start',
     },
+  },
+  claim: {
+    marginTop: -theme.spacing(1.5),
+    marginBottom: -theme.spacing(1),
   },
 }));
