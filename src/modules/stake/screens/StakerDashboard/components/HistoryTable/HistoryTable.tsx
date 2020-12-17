@@ -16,11 +16,7 @@ import classNames from 'classnames';
 import { AlignType } from '../../../../../../components/TableComponents/types';
 import { IconButton, Tooltip } from '@material-ui/core';
 import { QuestionIcon } from '../../../../../../UiKit/Icons/QuestionIcon';
-
-interface IHistoryTableProps {
-  className?: string;
-  data: Array<Record<string, any>>;
-}
+import { WithUseStyles } from '../../../../../../common/types';
 
 type CaptionType = {
   label: string;
@@ -28,8 +24,15 @@ type CaptionType = {
   align?: AlignType;
 };
 
-export const HistoryTable = ({ className, data }: IHistoryTableProps) => {
-  const classes = useHistoryTableStyles();
+interface IHistoryTableProps
+  extends Partial<WithUseStyles<typeof useHistoryTableStyles>> {
+  className?: string;
+  data: Array<Record<string, any>>;
+}
+
+export const HistoryTable = (props: IHistoryTableProps) => {
+  const { data } = props;
+  const classes = useHistoryTableStyles(props);
 
   const captions: CaptionType[] = useLocaleMemo(
     () => [
@@ -51,7 +54,7 @@ export const HistoryTable = ({ className, data }: IHistoryTableProps) => {
   );
 
   return (
-    <div className={className}>
+    <div className={classes.root}>
       <Table
         className={classes.tableWrapper}
         customCell="1fr 1fr 1fr"
@@ -91,12 +94,12 @@ export const HistoryTable = ({ className, data }: IHistoryTableProps) => {
               <TableBodyCell
                 className={classNames(classes.cell, classes.bodyCell)}
               >
-                {t(`staked-dashboard.statuses.${item.action}`)}
+                {t(`stake-statuses.${item.action}`)}
               </TableBodyCell>
               <TableBodyCell
                 className={classNames(classes.cell, classes.bodyCell)}
               >
-                {t('units.eth', {
+                {t('units.eth-value', {
                   value: item.amount.toFormat(),
                 })}
               </TableBodyCell>

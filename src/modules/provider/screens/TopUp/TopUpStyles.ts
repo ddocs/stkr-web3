@@ -5,9 +5,10 @@ export const useTopUpStyles = makeStyles<Theme>(theme => ({
   paper: {
     padding: 0,
     maxWidth: 805,
-    margin: '0 auto',
+    margin: '0 auto auto auto',
   },
   title: {
+    marginTop: 'auto',
     marginBottom: theme.spacing(7),
   },
   tab: {
@@ -39,5 +40,13 @@ export const useTopUpStyles = makeStyles<Theme>(theme => ({
   },
   ethTopUpButton: {
     maxWidth: 226,
+  },
+  cancel: {
+    position: 'absolute',
+    right: theme.spacing(5),
+    top: theme.spacing(2),
+    [theme.breakpoints.down('xs')]: {
+      right: theme.spacing(2),
+    },
   },
 }));

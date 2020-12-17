@@ -1,17 +1,18 @@
 import * as React from 'react';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { useProviderDashboardStyles } from './ProviderDashboardStyles';
 import { NodeList } from '../../components/NodeList';
 import {
-  PROVIDER_MIN_BALANCE,
   PROVIDER_CREATE_NODE_PATH,
-  PROVIDER_NODES_PATH,
-  PROVIDER_TOP_UP_ROUTE,
+  PROVIDER_MAIN_PATH,
+  PROVIDER_MIN_BALANCE,
+  PROVIDER_NODE_LIST_PATH,
+  PROVIDER_TOP_UP_LIST_PATH,
+  PROVIDER_TOP_UP_PATH,
 } from '../../../../common/const';
 import { ProviderTabs } from '../../components/ProviderTabs';
-import { t, tHTML } from '../../../../common/utils/intl';
+import { t } from '../../../../common/utils/intl';
 import { Curtains } from '../../../../UiKit/Curtains';
-import { Info } from '../../../../components/Info';
 import { NavLink } from '../../../../UiKit/NavLink';
 import {
   UserActions,
@@ -21,31 +22,53 @@ import { Query } from '@redux-requests/react';
 import { QueryLoadingCentered } from '../../../../components/QueryLoading/QueryLoading';
 import { QueryError } from '../../../../components/QueryError/QueryError';
 import { Route } from 'react-router-dom';
-import { IGlobalStats } from '../../../../store/apiMappers/globalStatsApi';
 import { ISidecar } from '../../../../store/apiMappers/sidecarsApi';
 import { useDispatch } from 'react-redux';
 import { useInterval } from '../../../../common/utils/useInterval';
 import { Milliseconds } from '../../../../common/types';
 import { useAuthentication } from '../../../../common/utils/useAuthentications';
-import { TopUpContainer } from '../TopUp';
 import { alwaysFalse } from '../../../../common/utils/alwaysFalse';
 import { IProviderStats } from '../../../../store/apiMappers/providerStatsApi';
-import { Typography } from '@material-ui/core';
-import { IProviderRewards } from '../../../../store/apiMappers/rewardsMapper';
+import { Box, Typography } from '@material-ui/core';
+import { TopUpList } from '../../components/TopUpList';
+import { IItemProps } from '../../components/ProviderTabs/ProviderTabs';
+import { IStakerStats } from '../../../../store/apiMappers/stakerStatsApi';
 
 const SHORT_UPDATE_INTERVAL: Milliseconds = 30_000;
 const LONG_UPDATE_INTERVAL: Milliseconds = 60_000;
 
 interface IProviderDashboardStoreProps {
   sidecars: ISidecar[] | null;
+  hasTransactions: boolean;
 }
 
 interface IProviderDashboardProps extends IProviderDashboardStoreProps {}
 
 export const ProviderDashboardComponent = ({
   sidecars,
+  hasTransactions,
 }: IProviderDashboardProps) => {
   const classes = useProviderDashboardStyles();
+
+  const tabs = useMemo<IItemProps[]>(
+    () => [
+      {
+        label: t('navigation.beacon-list'),
+        path: PROVIDER_NODE_LIST_PATH,
+        route: PROVIDER_NODE_LIST_PATH,
+      },
+      ...(hasTransactions
+        ? [
+            {
+              label: t('provider-tabs.top-up'),
+              path: PROVIDER_TOP_UP_LIST_PATH,
+              route: PROVIDER_TOP_UP_LIST_PATH,
+            },
+          ]
+        : []),
+    ],
+    [hasTransactions],
+  );
 
   const renderNodeList = useCallback(
     () =>
@@ -53,62 +76,15 @@ export const ProviderDashboardComponent = ({
     [classes.table, sidecars],
   );
 
-  const renderTopUp = useCallback(() => {
-    return <TopUpContainer />;
+  const renderTopUpList = useCallback(() => {
+    return <TopUpList />;
   }, []);
-
-  const hasNodes = sidecars && sidecars.length > 0;
-  console.log('hasNodes will be used soon', hasNodes);
 
   return (
     <section className={classes.component}>
       <Curtains classes={{ root: classes.wrapper }}>
-        <Query<IGlobalStats>
-          type={UserActionTypes.FETCH_GLOBAL_STATS}
-          showLoaderDuringRefetch={false}
-        >
-          {({ data }) => {
-            const info = [
-              {
-                caption: 'provider.info.totalEth2Stakes',
-                value: tHTML('units.small-eth', {
-                  value: data.totalStakedEthereum.toString(),
-                }),
-              },
-              {
-                caption: 'provider.info.activeValidators',
-                value: data.activePoolCount,
-              },
-              {
-                caption: 'provider.info.activeSidecars',
-                value: data.activeSidecarCount,
-              },
-            ];
-            return (
-              data.activePoolCount > 0 && (
-                <Info className={classes.info} data={info} small={true} />
-              )
-            );
-          }}
-        </Query>
-        <Query<IProviderRewards>
-          type={UserActionTypes.FETCH_PROVIDER_REWARDS}
-          showLoaderDuringRefetch={true}
-        >
-          {({ data }) => {
-            const info = [
-              {
-                caption: 'provider.info.yourCurrentProfit',
-                value: tHTML('units.small-eth', {
-                  value: data.rewards,
-                }),
-              },
-            ];
-            return <Info className={classes.info} data={info} small={true} />;
-          }}
-        </Query>
         <div className={classes.navigation}>
-          <ProviderTabs className={classes.tabs} />
+          <ProviderTabs className={classes.tabs} tabs={tabs} />
           <Query<IProviderStats | null>
             type={UserActionTypes.FETCH_PROVIDER_STATS}
             showLoaderDuringRefetch={false}
@@ -120,29 +96,40 @@ export const ProviderDashboardComponent = ({
 
               return (
                 <>
+                  {hasEnoughBalance && sidecars && sidecars.length > 0 && (
+                    <Route
+                      path={[PROVIDER_MAIN_PATH, PROVIDER_NODE_LIST_PATH]}
+                      render={() => (
+                        <NavLink
+                          className={classes.create}
+                          href={PROVIDER_CREATE_NODE_PATH}
+                          variant="contained"
+                          color="primary"
+                        >
+                          {t('provider-dashboard.create')}
+                        </NavLink>
+                      )}
+                      exact={true}
+                    />
+                  )}
                   <Route
-                    path={[PROVIDER_NODES_PATH]}
+                    path={[PROVIDER_TOP_UP_LIST_PATH]}
                     render={() => (
-                      <NavLink
-                        className={classes.create}
-                        href={PROVIDER_CREATE_NODE_PATH}
-                        variant="outlined"
-                        disabled={!hasEnoughBalance}
-                        color="primary"
-                      >
-                        {t('navigation.create')}
-                      </NavLink>
-                    )}
-                    exact={true}
-                  />
-                  <Route
-                    path={[PROVIDER_TOP_UP_ROUTE]}
-                    render={() => (
-                      <Typography className={classes.balance}>
-                        {t('provider-dashboard.balance', {
-                          value: data?.balance.toFormat(),
-                        })}
-                      </Typography>
+                      <Box display="flex" alignItems="center">
+                        <Typography className={classes.balance}>
+                          {t('provider-dashboard.balance', {
+                            value: data?.balance.toFormat(),
+                          })}
+                        </Typography>
+                        <NavLink
+                          href={PROVIDER_TOP_UP_PATH}
+                          variant="contained"
+                          disabled={!hasEnoughBalance}
+                          color="primary"
+                        >
+                          {t('provider-dashboard.top-up')}
+                        </NavLink>
+                      </Box>
                     )}
                     exact={true}
                   />
@@ -152,13 +139,13 @@ export const ProviderDashboardComponent = ({
           </Query>
         </div>
         <Route
-          path={[PROVIDER_TOP_UP_ROUTE]}
-          render={renderTopUp}
+          path={[PROVIDER_MAIN_PATH, PROVIDER_NODE_LIST_PATH]}
+          render={renderNodeList}
           exact={true}
         />
         <Route
-          path={[PROVIDER_NODES_PATH]}
-          render={renderNodeList}
+          path={[PROVIDER_TOP_UP_LIST_PATH]}
+          render={renderTopUpList}
           exact={true}
         />
       </Curtains>
@@ -196,7 +183,23 @@ export const ProviderDashboard = () => {
       isDataEmpty={alwaysFalse}
     >
       {({ data: sidecars }) => {
-        return <ProviderDashboardComponent sidecars={sidecars} />;
+        return (
+          <Query<IStakerStats | null>
+            type={UserActionTypes.FETCH_STAKER_STATS}
+            errorComponent={QueryError}
+            loadingComponent={QueryLoadingCentered}
+            showLoaderDuringRefetch={false}
+          >
+            {({ data: stats }) => {
+              return (
+                <ProviderDashboardComponent
+                  sidecars={sidecars}
+                  hasTransactions={!!(stats && stats.stakes.length > 0)}
+                />
+              );
+            }}
+          </Query>
+        );
       }}
     </Query>
   );

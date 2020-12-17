@@ -1,7 +1,6 @@
 import { AlignType, IStyleProps } from '../types';
 import React, { useContext } from 'react';
 import classNames from 'classnames';
-import { BackgroundColorProvider } from '../../../UiKit/BackgroundColorProvider';
 import { useTableBodyCellStyles } from './TableBodyCellStyles';
 import { TableContext } from '../Table/Table';
 import { WithUseStyles } from '../../../common/types';
@@ -31,7 +30,7 @@ export const TableBodyCellComponent = ({
     ...rest,
   });
   return (
-    <BackgroundColorProvider
+    <div
       className={classNames(
         className,
         classes.tableCell,
@@ -42,10 +41,9 @@ export const TableBodyCellComponent = ({
         (alignCell === 'left' || align === 'left') && classes.leftCell,
       )}
       role="cell"
-      component="div"
     >
       <div className={classes.cellWrapper}>{children}</div>
-    </BackgroundColorProvider>
+    </div>
   );
 };
 

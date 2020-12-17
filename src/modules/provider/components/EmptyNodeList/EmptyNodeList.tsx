@@ -13,7 +13,13 @@ export const EmptyNodeList = ({ onSubmit }: IEmptyNodeList) => {
   return (
     <Box display="flex" flexDirection="column" alignItems="center">
       <EmptyNodeListImage className={classes.image} />
-      <Button color="primary" size="large" onClick={onSubmit}>
+      <Button
+        color="primary"
+        size="large"
+        onClick={onSubmit}
+        fullWidth={true}
+        className={classes.button}
+      >
         {t('empty-node-list.submit')}
       </Button>
     </Box>

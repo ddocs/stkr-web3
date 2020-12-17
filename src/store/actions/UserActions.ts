@@ -6,7 +6,11 @@ import { SidecarReply } from '../../modules/api/gateway';
 import { ISidecar, mapSidecar } from '../apiMappers/sidecarsApi';
 import { mapGlobalStats } from '../apiMappers/globalStatsApi';
 import { IAllowance } from '../apiMappers/allowance';
-import { IStakerStats, mapStakerStats } from '../apiMappers/stakerStatsApi';
+import {
+  IStakeHistoryItem,
+  IStakerStats,
+  mapStakerStats,
+} from '../apiMappers/stakerStatsApi';
 import { authenticatedRequestGuard } from '../../common/utils/authenticatedRequestGuard';
 import { RequestAction } from '@redux-requests/core';
 import { Store } from 'redux';
@@ -105,7 +109,6 @@ export const UserActions = {
     request: {
       promise: (async function () {
         const stkrSdk = StkrSdk.getLastInstance();
-
         const address = stkrSdk.getKeyProvider().currentAccount();
         const ankrBalance = await stkrSdk.getAnkrBalance();
         const ethereumBalance = await stkrSdk.getEtheremBalance();
@@ -294,11 +297,17 @@ export const UserActions = {
     request: {
       promise: (async function () {
         const stkrSdk = StkrSdk.getLastInstance();
-        const aEthBalance = await stkrSdk
+        const aEthClaimableBalance = await stkrSdk
           .getContractManager()
           .claimableRewardOf(stkrSdk.getKeyProvider().currentAccount());
+
+        const aEthRatio = await stkrSdk.getAethRatio();
+        const aEthBalance = await stkrSdk.getAethBalance();
+
         return {
-          aEthBalance,
+          aEthClaimableBalance,
+          aEthBalance: aEthBalance.available,
+          aEthRatio,
           ...(await stkrSdk.getStakerStats()),
         };
       })(),
@@ -325,7 +334,11 @@ export const UserActions = {
       getData: mapProviderStats,
     },
   }),
-  updateStakerStats: (payload: Partial<IStakerStats>) => {
+  updateStakerStats: (
+    payload: Partial<Omit<IStakerStats, 'stakes'>> & {
+      stakes?: Partial<IStakeHistoryItem>[];
+    },
+  ) => {
     return {
       type: update(UserActionTypes.FETCH_STAKER_STATS),
       payload: payload,

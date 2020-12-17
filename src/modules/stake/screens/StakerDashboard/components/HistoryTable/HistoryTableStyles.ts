@@ -1,6 +1,7 @@
 import { fade, makeStyles, Theme } from '@material-ui/core/styles';
 
 export const useHistoryTableStyles = makeStyles<Theme>(theme => ({
+  root: {},
   tableWrapper: {
     height: '100%',
   },

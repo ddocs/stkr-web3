@@ -10,7 +10,7 @@ import {
 import { Mutation } from '@redux-requests/react';
 import { success } from '@redux-requests/core';
 import { useHistory } from 'react-router';
-import { PROVIDER_NODES_PATH } from '../../../../common/const';
+import { PROVIDER_NODE_LIST_PATH } from '../../../../common/const';
 import { IRequestActionPromiseData } from '../../../../common/types';
 import { useRequestDispatch } from '../../../../common/utils/useRequestDispatch';
 import { MutationErrorHandler } from '../../../../components/MutationErrorHandler/MutationErrorHandler';
@@ -137,10 +137,10 @@ export const CreateNodeComponent = ({
             size="large"
             variant="contained"
             submit
-            aria-label={t('navigation.create')}
+            aria-label={t('create-node.create')}
             disabled={disabled}
           >
-            {t('navigation.create')}
+            {t('create-node.create')}
           </Button>
         </form>
       </Paper>
@@ -171,7 +171,7 @@ export const CreateNode = () => {
       dispatch(UserActions.createSidecar(data)).then(
         (data: IRequestActionPromiseData) => {
           if (data.action.type === success(UserActionTypes.CREATE_SIDECAR)) {
-            history.replace(PROVIDER_NODES_PATH);
+            history.replace(PROVIDER_NODE_LIST_PATH);
           }
         },
       );

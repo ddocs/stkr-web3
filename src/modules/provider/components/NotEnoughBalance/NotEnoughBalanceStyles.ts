@@ -4,4 +4,7 @@ export const useEmptyNodeListStyles = makeStyles(theme => ({
   title: {
     marginBottom: theme.spacing(3),
   },
+  button: {
+    maxWidth: 230,
+  },
 }));

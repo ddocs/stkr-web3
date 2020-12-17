@@ -14,8 +14,8 @@ export const useNodeListStyles = makeStyles<Theme>(theme => ({
     },
   },
   noticeWrapper: {
-    paddingTop: theme.spacing(10),
-    paddingBottom: theme.spacing(10),
+    paddingTop: theme.spacing(15),
+    paddingBottom: theme.spacing(12.5),
   },
   icons: {
     '&&': {
