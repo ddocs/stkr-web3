@@ -11,9 +11,10 @@ import {
 } from '../../../../store/dialogs/actions';
 import { useDialog } from '../../../../store/dialogs/selectors';
 import { Dialog, DialogContent } from '@material-ui/core';
+import { t } from '../../../../common/utils/intl';
 
 const COVER_URL = 'https://cdn.stkr.io/assets/stkr_presentation.mp4';
-const FULL_URL = 'https://www.youtube.com/embed/z5VYqaREVbE';
+const FULL_URL = 'https://www.youtube.com/embed/z5VYqaREVbE?autoplay=1';
 
 export const VideoTutorial = () => {
   const classes = useVideoTutorial();
@@ -42,7 +43,7 @@ export const VideoTutorial = () => {
           <DialogContent>
             <div className={classes.videoBox}>
               <iframe
-                title="Stake Eth2 with Stkr.io"
+                title={t('video-tutorial.title')}
                 width="560"
                 height="315"
                 src={FULL_URL}
