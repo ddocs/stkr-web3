@@ -3,23 +3,59 @@ import { useVideoTutorial } from './VideoTutorialStyles';
 import { Curtains } from '../../../../UiKit/Curtains';
 import ReactPlayer from 'react-player';
 import { ReactComponent as PlayIcon } from './assets/play.svg';
+import { useDispatch } from 'react-redux';
+import {
+  closeModalAction,
+  DIALOG_PRESENTATION,
+  openPresentationModal,
+} from '../../../../store/dialogs/actions';
+import { useDialog } from '../../../../store/dialogs/selectors';
+import { Dialog, DialogContent } from '@material-ui/core';
 
-const URL = 'https://cdn.stkr.io/assets/stkr_presentation.mp4';
+const COVER_URL = 'https://cdn.stkr.io/assets/stkr_presentation.mp4';
+const FULL_URL = 'https://www.youtube.com/embed/z5VYqaREVbE';
 
 export const VideoTutorial = () => {
   const classes = useVideoTutorial();
-  console.log('classes', classes);
+  const dispatch = useDispatch();
+
+  const isOpened = useDialog(DIALOG_PRESENTATION);
 
   const handlePlay = useCallback(() => {
-    console.log('handlePlay');
-  }, []);
+    dispatch(openPresentationModal());
+  }, [dispatch]);
+
+  const handleClose = useCallback(() => {
+    dispatch(closeModalAction());
+  }, [dispatch]);
 
   return (
     <section>
       <Curtains className={classes.root}>
+        <Dialog
+          open={isOpened}
+          onClose={handleClose}
+          fullWidth={true}
+          maxWidth="lg"
+          classes={{ paper: classes.dialogPaper }}
+        >
+          <DialogContent>
+            <div className={classes.videoBox}>
+              <iframe
+                title="Stake Eth2 with Stkr.io"
+                width="560"
+                height="315"
+                src={FULL_URL}
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
+          </DialogContent>
+        </Dialog>
         <div onClick={handlePlay}>
           <ReactPlayer
-            url={URL}
+            url={COVER_URL}
             controls={false}
             playing={true}
             muted={true}
@@ -27,17 +63,6 @@ export const VideoTutorial = () => {
             loop={true}
             width="100%"
             height={740}
-            config={{
-              youtube: {
-                playerVars: {
-                  controls: 0,
-                  iv_load_policy: 3,
-                  modestbranding: 1,
-                  disablekb: 1,
-                },
-              },
-            }}
-            onPlay={handlePlay}
           />
           <PlayIcon className={classes.play} />
         </div>

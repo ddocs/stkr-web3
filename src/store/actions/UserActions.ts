@@ -16,7 +16,7 @@ import { RequestAction } from '@redux-requests/core';
 import { Store } from 'redux';
 import { IStoreState } from '../reducers';
 import { PICKER_PATH } from '../../common/const';
-import { closeModalAction } from '../modals/actions';
+import { closeModalAction } from '../dialogs/actions';
 import { replace } from 'connected-react-router';
 import { update } from '../../common/utils/update';
 import { createAction } from 'redux-actions';

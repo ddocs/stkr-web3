@@ -4,7 +4,6 @@ import { Header } from '../Header';
 import { connect } from 'react-redux';
 import { IStoreState } from '../../../../store/reducers';
 import { isConnected } from '../../../../store/reducers/userReducer';
-import { UnlockWallet } from '../UnlockWallet';
 import { Footer } from '../Footer';
 
 interface ILayoutStoreProps {
@@ -25,7 +24,6 @@ export const DefaultLayoutComponent = ({ children }: ILayoutProps) => {
         <main className={classes.content}>{children}</main>
         <Footer />
       </div>
-      <UnlockWallet />
     </>
   );
 };
