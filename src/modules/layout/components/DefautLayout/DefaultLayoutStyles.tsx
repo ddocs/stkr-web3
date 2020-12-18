@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { DEFAULT_FONT } from '../../../../common/themes/mainTheme';
 
 export const useDefaultLayoutStyles = makeStyles(() => ({
-  component: {
+  root: {
     display: 'flex',
     flexDirection: 'column',
     minHeight: '100vh',

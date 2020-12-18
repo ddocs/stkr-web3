@@ -3,19 +3,17 @@ import { useTopUpStyles } from './TopUpStyles';
 import { Form } from 'react-final-form';
 import {
   MAX_PROVIDER_STAKING_AMOUNT,
-  PROVIDER_NODES_PATH,
+  PROVIDER_NODE_LIST_PATH,
+  PROVIDER_TOP_UP_ROUTE,
+  PROVIDE_MIN_BALANCE,
+  STAKING_AMOUNT_STEP,
 } from '../../../../common/const';
 import { FormErrors } from '../../../../common/types/FormErrors';
 import { t } from '../../../../common/utils/intl';
 import BigNumber from 'bignumber.js';
 import { MutationErrorHandler } from '../../../../components/MutationErrorHandler/MutationErrorHandler';
 import { useQuery } from '@redux-requests/react';
-import {
-  generatePath,
-  useHistory,
-  useParams,
-  useRouteMatch,
-} from 'react-router';
+import { generatePath, useHistory, useParams } from 'react-router';
 import { useRequestDispatch } from '../../../../common/utils/useRequestDispatch';
 import {
   UserActions,
@@ -25,11 +23,13 @@ import { IUserInfo } from '../../../../store/apiMappers/userApi';
 import { IAllowance } from '../../../../store/apiMappers/allowance';
 import { floor } from '../../../../common/utils/floor';
 import { Headline2 } from '../../../../UiKit/Typography';
-import { Box, Paper, Tab, Tabs } from '@material-ui/core';
+import { Box, IconButton, Paper, Tab, Tabs } from '@material-ui/core';
 import { TopUpAnkrForm } from './TopUpAnkrForm';
 import { TopUpEthForm } from './TopUpEthForm';
 import { DepositType } from '../../../../common/types';
 import { success } from '@redux-requests/core';
+import { CancelIcon } from '../../../../UiKit/Icons/CancelIcon';
+import { IProviderStats } from '../../../../store/apiMappers/providerStatsApi';
 
 enum TopUpCurreny {
   ankr = 'ankr',
@@ -39,7 +39,6 @@ enum TopUpCurreny {
 export const DEPOSIT_TYPE_FIELD_NAME = 'depositType';
 export const ETH_AMOUNT_FIELD_NAME = 'etheriumAmount';
 export const ANKR_AMOUNT_FIELD_NAME = 'ankrAmount';
-export const MIN_ETH_AMOUNT_DEPOSIT = 2;
 
 interface ITopUpPayload {
   [DEPOSIT_TYPE_FIELD_NAME]: DepositType;
@@ -47,24 +46,11 @@ interface ITopUpPayload {
   [ANKR_AMOUNT_FIELD_NAME]: number;
 }
 
-function validateTopUpForm({ ...data }: ITopUpPayload) {
-  const errors: FormErrors<ITopUpPayload> = {};
-
-  if (data[DEPOSIT_TYPE_FIELD_NAME] === DepositType.ETH) {
-    if (data[ETH_AMOUNT_FIELD_NAME] < MIN_ETH_AMOUNT_DEPOSIT) {
-      errors[ETH_AMOUNT_FIELD_NAME] = t('validation.min-ETH-amount', {
-        value: MIN_ETH_AMOUNT_DEPOSIT,
-      });
-    }
-  }
-
-  return errors;
-}
-
 interface ITopUpProps {
   onSubmit(x: ITopUpPayload): void;
   ankrBalance?: BigNumber;
   ethereumBalance?: BigNumber;
+  deposited?: BigNumber;
   currency: TopUpCurreny;
 }
 
@@ -73,6 +59,7 @@ export const TopUpComponent = ({
   ankrBalance,
   ethereumBalance,
   currency,
+  deposited,
 }: ITopUpProps) => {
   const maxStakingAmount = useMemo(
     () =>
@@ -80,6 +67,11 @@ export const TopUpComponent = ({
         ? MAX_PROVIDER_STAKING_AMOUNT
         : floor(ethereumBalance?.toNumber() ?? 0, 0.5),
     [ethereumBalance],
+  );
+
+  const minStakingAmount = useMemo(
+    () => (deposited?.gt(0) ? STAKING_AMOUNT_STEP : PROVIDE_MIN_BALANCE),
+    [deposited],
   );
 
   const INIT_VALUES = useMemo(
@@ -95,9 +87,26 @@ export const TopUpComponent = ({
       currency === TopUpCurreny.ankr ? (
         <TopUpAnkrForm ankrBalance={ankrBalance} {...formProps} />
       ) : (
-        <TopUpEthForm {...formProps} />
+        <TopUpEthForm deposited={deposited} {...formProps} />
       ),
-    [ankrBalance, currency],
+    [ankrBalance, currency, deposited],
+  );
+
+  const validateTopUpForm = useCallback(
+    ({ ...data }: ITopUpPayload) => {
+      const errors: FormErrors<ITopUpPayload> = {};
+
+      if (data[DEPOSIT_TYPE_FIELD_NAME] === DepositType.ETH) {
+        if (data[ETH_AMOUNT_FIELD_NAME] < minStakingAmount) {
+          errors[ETH_AMOUNT_FIELD_NAME] = t('validation.min-ETH-amount', {
+            value: minStakingAmount,
+          });
+        }
+      }
+
+      return errors;
+    },
+    [minStakingAmount],
   );
 
   return (
@@ -118,12 +127,20 @@ export const TopUpComponent = ({
   );
 };
 
-export const TopUpContainer = () => {
+export const TopUp = () => {
   const classes = useTopUpStyles();
   const history = useHistory();
   const dispatch = useRequestDispatch();
   const { data: allowanceData } = useQuery<IAllowance | null>({
     type: UserActionTypes.FETCH_ALLOWANCE,
+  });
+
+  const { data: accountData } = useQuery<IUserInfo | null>({
+    type: UserActionTypes.FETCH_ACCOUNT_DATA,
+  });
+
+  const { data: providerStats } = useQuery<IProviderStats | null>({
+    type: UserActionTypes.FETCH_PROVIDER_STATS,
   });
 
   const handleSubmit = useCallback(
@@ -136,7 +153,7 @@ export const TopUpContainer = () => {
           ),
         ).then(data => {
           if (data.action.type === success(UserActionTypes.TOP_UP)) {
-            history.push(PROVIDER_NODES_PATH);
+            history.push(PROVIDER_NODE_LIST_PATH);
           }
         });
       } else {
@@ -145,7 +162,7 @@ export const TopUpContainer = () => {
             UserActions.topUp(allowanceData.totalAllowance, DepositType.ANKR),
           ).then(data => {
             if (data.action.type === success(UserActionTypes.TOP_UP)) {
-              history.push(PROVIDER_NODES_PATH);
+              history.push(PROVIDER_NODE_LIST_PATH);
             }
           });
         }
@@ -155,26 +172,27 @@ export const TopUpContainer = () => {
     [allowanceData, dispatch, history],
   );
 
-  const { data } = useQuery<IUserInfo | null>({
-    type: UserActionTypes.FETCH_ACCOUNT_DATA,
-  });
+  const handleCancel = useCallback(() => {
+    history.goBack();
+  }, [history]);
 
-  const { type = TopUpCurreny.eth } = useParams();
+  const { type = TopUpCurreny.eth } = useParams() as { type: TopUpCurreny };
   const { push } = useHistory();
-  const route = useRouteMatch();
-
   const handleChange = useCallback(
     (event: ChangeEvent<{}>, value: TopUpCurreny) => {
-      push(generatePath(route.path, { type: value }));
+      push(generatePath(PROVIDER_TOP_UP_ROUTE, { type: value }));
     },
-    [push, route.path],
+    [push],
   );
 
   return (
-    <section>
+    <>
       <MutationErrorHandler type={UserActionTypes.TOP_UP} />
       <Headline2 align="center" className={classes.title}>
         {t('top-up.title')}
+        <IconButton className={classes.cancel}>
+          <CancelIcon onClick={handleCancel} />
+        </IconButton>
       </Headline2>
       <Paper variant="outlined" square={false} className={classes.paper}>
         <Tabs
@@ -197,11 +215,12 @@ export const TopUpContainer = () => {
         </Tabs>
         <TopUpComponent
           onSubmit={handleSubmit}
-          ankrBalance={data?.ankrBalance}
-          ethereumBalance={data?.ethereumBalance}
+          ankrBalance={accountData?.ankrBalance}
+          ethereumBalance={accountData?.ethereumBalance}
+          deposited={providerStats?.balance}
           currency={type}
         />
       </Paper>
-    </section>
+    </>
   );
 };

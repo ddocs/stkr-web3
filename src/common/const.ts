@@ -6,10 +6,12 @@ export const STAKER_STAKE_PATH = '/staker/stake';
 export const STAKER_PATH = '/staker';
 export const STAKER_DASHBOAR_PATH = STAKER_PATH;
 export const PROVIDER_PATH = '/provider';
-export const PROVIDER_NODES_PATH = `${PROVIDER_PATH}/nodes/list`;
-export const PROVIDER_TOP_UP_PATH = PROVIDER_PATH;
-export const PROVIDER_TOP_UP_ROUTE = `${PROVIDER_PATH}/:type?`;
-export const PROVIDER_CREATE_NODE_PATH = `${PROVIDER_PATH}/nodes/create-node`;
+export const PROVIDER_MAIN_PATH = PROVIDER_PATH;
+export const PROVIDER_NODE_LIST_PATH = PROVIDER_PATH;
+export const PROVIDER_CREATE_NODE_PATH = `${PROVIDER_PATH}/node/create-node`;
+export const PROVIDER_TOP_UP_PATH = `${PROVIDER_PATH}/top-up/create`;
+export const PROVIDER_TOP_UP_ROUTE = `${PROVIDER_PATH}/top-up/create/:type?`;
+export const PROVIDER_TOP_UP_LIST_PATH = `${PROVIDER_PATH}/top-up/list`;
 export const PICKER_PATH = '/picker';
 
 export const SOCIAL_LINK = {

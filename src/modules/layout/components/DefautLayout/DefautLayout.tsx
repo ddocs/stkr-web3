@@ -1,11 +1,9 @@
 import React from 'react';
-import classNames from 'classnames';
 import { useDefaultLayoutStyles } from './DefaultLayoutStyles';
 import { Header } from '../Header';
 import { connect } from 'react-redux';
 import { IStoreState } from '../../../../store/reducers';
 import { isConnected } from '../../../../store/reducers/userReducer';
-import { UnlockWallet } from '../UnlockWallet';
 import { Footer } from '../Footer';
 
 interface ILayoutStoreProps {
@@ -13,24 +11,19 @@ interface ILayoutStoreProps {
 }
 
 export interface ILayoutProps extends ILayoutStoreProps {
-  className?: string;
   children?: React.ReactNode;
 }
 
-export const DefaultLayoutComponent = ({
-  className,
-  children,
-}: ILayoutProps) => {
+export const DefaultLayoutComponent = ({ children }: ILayoutProps) => {
   const classes = useDefaultLayoutStyles();
 
   return (
     <>
-      <div className={classNames(classes.component, className)}>
+      <div className={classes.root}>
         <Header />
         <main className={classes.content}>{children}</main>
         <Footer />
       </div>
-      <UnlockWallet />
     </>
   );
 };

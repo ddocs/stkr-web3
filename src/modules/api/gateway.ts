@@ -112,6 +112,7 @@ export interface UserStakeReply {
   transactionHash: string;
   action: UserStakeAction;
   timestamp: number;
+  isTopUp: boolean;
 }
 
 export interface UserStatisticsReply {

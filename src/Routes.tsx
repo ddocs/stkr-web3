@@ -8,8 +8,9 @@ import {
     INDEX_PATH,
     PICKER_PATH,
     PROVIDER_CREATE_NODE_PATH,
-    PROVIDER_NODES_PATH,
-    PROVIDER_PATH,
+    PROVIDER_MAIN_PATH,
+    PROVIDER_NODE_LIST_PATH,
+    PROVIDER_TOP_UP_LIST_PATH,
     PROVIDER_TOP_UP_ROUTE,
     STAKER_DASHBOAR_PATH,
     STAKER_STAKE_PATH,
@@ -25,6 +26,16 @@ const LoadableOverviewContainer = withDefaultLayout(
 const ProviderContainer = withDefaultLayout(
   loadable(
     async () => import('./modules/provider').then(module => module.Provider),
+    {
+      fallback: <QueryLoadingCentered />,
+    },
+  ) as LoadableComponent<any>,
+);
+
+const TopUpContainer = withDefaultLayout(
+  loadable(
+    async () =>
+      import('./modules/provider/screens/TopUp').then(module => module.TopUp),
     {
       fallback: <QueryLoadingCentered />,
     },
@@ -83,18 +94,23 @@ export function Routes() {
         component={LoadableOverviewContainer}
       />
       <PrivateRoute
-        path={[
-          PROVIDER_PATH,
-          PROVIDER_TOP_UP_ROUTE,
-          PROVIDER_NODES_PATH,
-        ]}
-        component={ProviderContainer}
-        exact={true}
-      />
-      <PrivateRoute
         path={PROVIDER_CREATE_NODE_PATH}
         component={CreateBeaconChainContainer}
         exact={true}
+      />
+      <PrivateRoute
+        path={[PROVIDER_TOP_UP_ROUTE]}
+        component={TopUpContainer}
+        exact={true}
+      />
+      <PrivateRoute
+        path={[
+          PROVIDER_MAIN_PATH,
+          PROVIDER_NODE_LIST_PATH,
+          PROVIDER_TOP_UP_LIST_PATH,
+        ]}
+        exact={true}
+        component={ProviderContainer}
       />
       <PrivateRoute path={PICKER_PATH} component={PickerContainer} />
       <PrivateRoute

@@ -10,17 +10,12 @@ import { TableBodyCell } from '../../../../../../components/TableComponents/Tabl
 import { t } from '../../../../../../common/utils/intl';
 import { NavLink } from '../../../../../../UiKit/NavLink';
 import { isMainnet } from '../../../../../../common/const';
-import { walletConversion } from '../../../../../../common/utils/convertWallet';
 import { useLocaleMemo } from '../../../../../../common/hooks/useLocaleMemo';
 import classNames from 'classnames';
 import { AlignType } from '../../../../../../components/TableComponents/types';
 import { IconButton, Tooltip } from '@material-ui/core';
 import { QuestionIcon } from '../../../../../../UiKit/Icons/QuestionIcon';
-
-interface IHistoryTableProps {
-  className?: string;
-  data: Array<Record<string, any>>;
-}
+import { WithUseStyles } from '../../../../../../common/types';
 
 type CaptionType = {
   label: string;
@@ -28,8 +23,15 @@ type CaptionType = {
   align?: AlignType;
 };
 
-export const HistoryTable = ({ className, data }: IHistoryTableProps) => {
-  const classes = useHistoryTableStyles();
+interface IHistoryTableProps
+  extends Partial<WithUseStyles<typeof useHistoryTableStyles>> {
+  className?: string;
+  data: Array<Record<string, any>>;
+}
+
+export const HistoryTable = (props: IHistoryTableProps) => {
+  const { data } = props;
+  const classes = useHistoryTableStyles(props);
 
   const captions: CaptionType[] = useLocaleMemo(
     () => [
@@ -51,7 +53,7 @@ export const HistoryTable = ({ className, data }: IHistoryTableProps) => {
   );
 
   return (
-    <div className={className}>
+    <div className={classes.root}>
       <Table
         className={classes.tableWrapper}
         customCell="1fr 1fr 1fr"
@@ -91,12 +93,12 @@ export const HistoryTable = ({ className, data }: IHistoryTableProps) => {
               <TableBodyCell
                 className={classNames(classes.cell, classes.bodyCell)}
               >
-                {t(`staked-dashboard.statuses.${item.action}`)}
+                {t(`stake-statuses.${item.action}`)}
               </TableBodyCell>
               <TableBodyCell
                 className={classNames(classes.cell, classes.bodyCell)}
               >
-                {t('units.eth', {
+                {t('units.eth-value', {
                   value: item.amount.toFormat(),
                 })}
               </TableBodyCell>
@@ -114,7 +116,7 @@ export const HistoryTable = ({ className, data }: IHistoryTableProps) => {
                     },
                   )}
                 >
-                  {walletConversion(item.transactionHash)}
+                  {item.transactionHash}
                 </NavLink>
               </TableBodyCell>
             </TableRow>

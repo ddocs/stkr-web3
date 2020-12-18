@@ -48,6 +48,7 @@ export const useCellStyles = makeStyles<
     leftCell: {},
     rightCell: {},
     content: {
+      fontSize: 14,
       width: '100%',
       textOverflow: 'ellipsis',
       whiteSpace: 'nowrap',

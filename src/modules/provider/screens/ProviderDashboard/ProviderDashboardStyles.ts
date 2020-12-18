@@ -13,10 +13,6 @@ export const useProviderDashboardStyles = makeStyles<Theme>(theme => ({
     alignItems: 'initial',
     height: '100%',
   },
-  info: {
-    flexShrink: 0,
-    marginBottom: theme.spacing(4),
-  },
   navigation: {
     display: 'flex',
     flexDirection: 'row',
@@ -34,5 +30,6 @@ export const useProviderDashboardStyles = makeStyles<Theme>(theme => ({
     fontSize: 14,
     fontWeight: 500,
     color: fade(theme.palette.common.white, 0.5),
+    marginRight: theme.spacing(3),
   },
 }));

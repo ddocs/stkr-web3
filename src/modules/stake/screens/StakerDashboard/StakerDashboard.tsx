@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
 import { Curtains } from '../../../../UiKit/Curtains';
-import { useStakerDasboardStyles } from './StakerDashboardStyles';
+import { useStakerDashboardStyles } from './StakerDashboardStyles';
 import { t, tHTML } from '../../../../common/utils/intl';
-import { NavLink } from '../../../../UiKit/NavLink';
 import { STAKER_STAKE_PATH } from '../../../../common/const';
 import { Mutation, Query, useQuery } from '@redux-requests/react';
 import {
@@ -15,16 +14,127 @@ import { QueryEmpty } from '../../../../components/QueryEmpty/QueryEmpty';
 import { useDispatch } from 'react-redux';
 import { IStakerStats } from '../../../../store/apiMappers/stakerStatsApi';
 import { useAuthentication } from '../../../../common/utils/useAuthentications';
-import { Button, IconButton, Tooltip, Typography } from '@material-ui/core';
+import {
+  Box,
+  Button,
+  Divider,
+  Hidden,
+  IconButton,
+  Paper,
+  Typography,
+} from '@material-ui/core';
 import { MutationErrorHandler } from '../../../../components/MutationErrorHandler/MutationErrorHandler';
-import { Body1 } from '../../../../UiKit/Typography';
-import { useIsXSDown } from '../../../../common/hooks/useTheme';
-import classNames from 'classnames';
 import { HistoryTable } from './components/HistoryTable';
-import { QuestionIcon } from '../../../../UiKit/Icons/QuestionIcon';
+import { Link as RouterLink } from 'react-router-dom';
+import { ReactComponent as PlusIcon } from './assets/plus.svg';
+import BigNumber from 'bignumber.js';
+
+const AMOUNT_FIXED_DECIMAL_PLACES = 2;
+const RATE_FIXED_DECIMAL_PLACES = 4;
+
+function AETHBalance({
+  totalAEth,
+  data,
+  onClaim,
+  totalAEthToEthPrice,
+}: {
+  totalAEth: BigNumber;
+  data: IStakerStats;
+  onClaim: () => void;
+  totalAEthToEthPrice: BigNumber;
+}) {
+  const classes = useStakerDashboardStyles();
+  const ENABLE_REDEEM = data?.aEthClaimableBalance.isGreaterThan(0);
+  return (
+    <>
+      <Box mt="auto">
+        <Box fontSize={13} color="text.secondary" fontWeight={500}>
+          {t('units.~eth-value', {
+            value: totalAEthToEthPrice.toFormat(AMOUNT_FIXED_DECIMAL_PLACES),
+          })}
+        </Box>
+        <Box className={classes.amount}>
+          {tHTML('units.separated-aeth-value', {
+            value: totalAEth.toFormat(AMOUNT_FIXED_DECIMAL_PLACES),
+          })}
+        </Box>
+      </Box>
+      <Hidden mdUp={true}>
+        <Box mt={1.5} mb={1.5}>
+          <Divider />
+        </Box>
+      </Hidden>
+      <div className={classes.aETHRow}>
+        <Box>
+          <Box
+            mb={1.5}
+            fontSize={16}
+            fontWeight={500}
+            color="text.secondary"
+            whiteSpace="no-wrap"
+          >
+            {t('staker-dashboard.on-stkr')}
+          </Box>
+          <Box display="flex" alignItems="center" mb={{ xs: 3.5, md: 0 }}>
+            <Typography variant="h5" noWrap={true}>
+              {t('units.aeth-value', {
+                value: data.aEthClaimableBalance.toFormat(),
+              })}
+            </Typography>
+            <Box ml={1}>
+              <MutationErrorHandler type={UserActionTypes.CLAIM_A_ETH} />
+              <Mutation type={UserActionTypes.CLAIM_A_ETH}>
+                {({ loading }) => (
+                  <Button
+                    size="small"
+                    color="primary"
+                    variant="outlined"
+                    onClick={onClaim}
+                    disabled={loading || !ENABLE_REDEEM}
+                    className={classes.claim}
+                  >
+                    {t('staker-dashboard.claim')}
+                  </Button>
+                )}
+              </Mutation>
+            </Box>
+          </Box>
+        </Box>
+        <Hidden smDown={true}>
+          <Box ml={5} mr={5} height={63}>
+            <Divider orientation="vertical" />
+          </Box>
+        </Hidden>
+        <Box>
+          <Box
+            mb={1.5}
+            fontSize={16}
+            fontWeight={500}
+            color="text.secondary"
+            whiteSpace="nowrap"
+          >
+            {t('staker-dashboard.on-wallet')}
+          </Box>
+          <Typography
+            variant="h5"
+            color={
+              data.aEthBalance.isLessThanOrEqualTo(0)
+                ? 'textSecondary'
+                : undefined
+            }
+          >
+            {t('units.aeth-value', {
+              value: data.aEthBalance.toFormat(AMOUNT_FIXED_DECIMAL_PLACES),
+            })}
+          </Typography>
+        </Box>
+      </div>
+    </>
+  );
+}
 
 export const StakerDashboardComponent = () => {
-  const classes = useStakerDasboardStyles();
+  const classes = useStakerDashboardStyles();
   const dispatch = useDispatch();
 
   const handleClaim = () => {
@@ -35,11 +145,9 @@ export const StakerDashboardComponent = () => {
     dispatch(UserActions.unstake());
   };
 
-  const isXSDown = useIsXSDown();
-
   return (
-    <section className={classes.component}>
-      <Curtains classes={{ root: classes.wrapper }}>
+    <section className={classes.root}>
+      <Curtains classes={{ root: classes.content }}>
         <Query<IStakerStats | null>
           type={UserActionTypes.FETCH_STAKER_STATS}
           errorComponent={QueryError}
@@ -48,106 +156,93 @@ export const StakerDashboardComponent = () => {
           showLoaderDuringRefetch={false}
         >
           {({ data }) => {
-            const ENABLE_REDEEM = data?.aEthBalance.isGreaterThan(0);
+            if (!data) {
+              return null;
+            }
+
+            const totalAEth = data.aEthClaimableBalance.plus(data.aEthBalance);
+            const totalAEthToEthPrice = totalAEth.div(data.aEthRatio);
 
             return (
               <>
-                <div className={classes.content}>
-                  <Typography className={classes.balance} color="primary">
-                    <div className={classes.balanceHeader}>
-                      {t('staked-dashboard.staked')}
-                      <Tooltip title={t('stake.staking-period-tooltip')}>
-                        <IconButton className={classes.question}>
-                          <QuestionIcon size="xs" />
-                        </IconButton>
-                      </Tooltip>
-                    </div>
-
-                    {data?.staked && (
-                      <div className={classes.value}>
-                        {tHTML('units.large-eth', {
-                          value: data.staked.toFormat(),
-                        })}
-                      </div>
-                    )}
-                  </Typography>
-                  <NavLink
-                    className={classes.primaryAction}
-                    variant="outlined"
-                    color="primary"
-                    size={isXSDown ? 'medium' : 'large'}
-                    href={STAKER_STAKE_PATH}
-                  >
-                    {t('staked-dashboard.stake-more')}
-                  </NavLink>
+                <Paper
+                  variant="outlined"
+                  square={false}
+                  className={classes.stakedContent}
+                >
+                  <Box fontSize={{ xs: 18, md: 20 }} fontWeight={500}>
+                    {t('staked-dashboard.staked')}
+                  </Box>
                   <MutationErrorHandler type={UserActionTypes.UNSTAKE} />
-                  {data?.staked.isGreaterThan(0) && (
+                  {data.staked.isGreaterThan(0) ? (
                     <Mutation type={UserActionTypes.UNSTAKE}>
                       {({ loading }) => (
                         <Button
-                          className={classNames(
-                            classes.action,
-                            classes.unstake,
-                          )}
-                          size={isXSDown ? 'small' : 'large'}
+                          size="small"
                           onClick={handleUnstake}
                           disabled={loading}
-                          variant="text"
+                          variant="contained"
                           color="secondary"
+                          className={classes.unstakeButton}
                         >
                           {t('staker-dashboard.unstake')}
                         </Button>
                       )}
                     </Mutation>
+                  ) : (
+                    <div />
                   )}
-                </div>
-                <div className={classes.content}>
-                  <Typography
-                    className={classes.balance}
-                    color={ENABLE_REDEEM ? undefined : 'secondary'}
-                  >
-                    <div className={classes.balanceHeader}>
-                      {t('staked-dashboard.current-a-eth-balance')}
-                      <Tooltip title={t('staked-dashboard.tip.aeth-amount')}>
-                        <IconButton className={classes.question}>
-                          <QuestionIcon size="xs" />
-                        </IconButton>
-                      </Tooltip>
-                    </div>
-                    {data?.aEthBalance && (
-                      <span className={classes.value}>
-                        {tHTML('units.large-aeth', {
-                          value: data.aEthBalance.toFormat(),
-                        })}
-                      </span>
-                    )}
-                  </Typography>
-                  <MutationErrorHandler type={UserActionTypes.CLAIM_A_ETH} />
-                  <Mutation type={UserActionTypes.CLAIM_A_ETH}>
-                    {({ loading }) => (
-                      <Button
-                        className={classes.primaryAction}
-                        size={isXSDown ? 'medium' : 'large'}
-                        color="secondary"
-                        variant="outlined"
-                        onClick={handleClaim}
-                        disabled={loading || !ENABLE_REDEEM}
+                  <Box mt="auto" className={classes.amount}>
+                    {tHTML('units.separated-eth-value', {
+                      value: data.staked.toFormat(),
+                    })}
+                  </Box>
+                  <Box mt="auto" justifySelf="end">
+                    <RouterLink to={STAKER_STAKE_PATH}>
+                      <IconButton
+                        className={classes.stake}
+                        title={t('staked-dashboard.stake-more')}
                       >
-                        {t('staked-dashboard.redeem')}
-                      </Button>
-                    )}
-                  </Mutation>
-                  <Body1
-                    classes={{ root: classes.note }}
-                    component="p"
-                    color="primary"
+                        <PlusIcon />
+                      </IconButton>
+                    </RouterLink>
+                  </Box>
+                </Paper>
+                <Paper
+                  variant="outlined"
+                  square={false}
+                  className={classes.earningContent}
+                >
+                  <Box
+                    fontSize={{ xs: 18, md: 20 }}
+                    fontWeight={500}
+                    mb={{ md: 1.5 }}
                   >
-                    {t('staked-dashboard.locked')}
-                  </Body1>
-                </div>
-                {data && data.stakes.length > 0 && (
+                    {t('staked-dashboard.current-a-eth-balance')}
+                  </Box>
+                  <Box
+                    fontSize={13}
+                    fontWeight={500}
+                    color="text.secondary"
+                    ml={{ md: 'auto' }}
+                    mb={{ xs: 6, md: undefined }}
+                  >
+                    {t('staker-dashboard.aeth-price', {
+                      value: new BigNumber(1)
+                        .div(data.aEthRatio.toFormat())
+                        .toFixed(RATE_FIXED_DECIMAL_PLACES),
+                    })}
+                  </Box>
+                  <AETHBalance
+                    totalAEth={totalAEth}
+                    data={data}
+                    onClaim={handleClaim}
+                    totalAEthToEthPrice={totalAEthToEthPrice}
+                  />
+                </Paper>
+                {data.stakes.length > 0 && (
                   <HistoryTable
-                    className={classes.history}
+                    classes={{ root: classes.history }}
                     data={data.stakes}
                   />
                 )}

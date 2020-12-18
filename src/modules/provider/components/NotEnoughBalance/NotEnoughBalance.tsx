@@ -12,7 +12,7 @@ interface IEmptyNodeList {
 export const NotEnoughBalance = ({ onSubmit }: IEmptyNodeList) => {
   const classes = useEmptyNodeListStyles();
   return (
-    <Grid container={true} spacing={2} alignItems="center">
+    <Grid container={true} spacing={2} alignItems="flex-start">
       <Grid item={true} md={3} xs={12}>
         <NotEnoughBalanceImage />
       </Grid>
@@ -20,7 +20,13 @@ export const NotEnoughBalance = ({ onSubmit }: IEmptyNodeList) => {
         <Headline4 className={classes.title}>
           {t('not-enough-balance.title')}
         </Headline4>
-        <Button color="primary" size="large" onClick={onSubmit}>
+        <Button
+          color="primary"
+          size="large"
+          fullWidth={true}
+          onClick={onSubmit}
+          className={classes.button}
+        >
           {t('not-enough-balance.submit')}
         </Button>
       </Grid>
