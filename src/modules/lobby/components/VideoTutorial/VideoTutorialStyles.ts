@@ -1,6 +1,6 @@
-import { makeStyles } from '@material-ui/core/styles';
+import { fade, makeStyles } from '@material-ui/core/styles';
 
-export const useVideoTutorial = makeStyles(() => ({
+export const useVideoTutorial = makeStyles(theme => ({
   root: {
     position: 'relative',
   },
@@ -11,6 +11,16 @@ export const useVideoTutorial = makeStyles(() => ({
     top: 0,
     bottom: 0,
     margin: 'auto',
+    transition: 'transform 300ms',
+    '& circle': {
+      fill: fade(theme.palette.common.white, 0.5),
+    },
+    '&:hover ': {
+      transform: 'scale(1.17)',
+      '& circle': {
+        fill: fade(theme.palette.common.white, 0.8),
+      },
+    },
   },
   dialogPaper: {
     background: 'transparent',
