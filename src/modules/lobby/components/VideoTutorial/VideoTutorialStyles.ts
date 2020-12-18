@@ -12,6 +12,7 @@ export const useVideoTutorial = makeStyles(theme => ({
     bottom: 0,
     margin: 'auto',
     transition: 'transform 300ms',
+    cursor: 'pointer',
     '& circle': {
       fill: fade(theme.palette.common.white, 0.5),
     },
