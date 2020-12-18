@@ -10,8 +10,9 @@ import {
   openPresentationModal,
 } from '../../../../store/dialogs/actions';
 import { useDialog } from '../../../../store/dialogs/selectors';
-import { Dialog, DialogContent } from '@material-ui/core';
+import { Dialog, DialogContent, IconButton } from '@material-ui/core';
 import { t } from '../../../../common/utils/intl';
+import { CancelIcon } from '../../../../UiKit/Icons/CancelIcon';
 
 const COVER_URL = 'https://cdn.stkr.io/assets/stkr_presentation.mp4';
 const FULL_URL = 'https://www.youtube.com/embed/z5VYqaREVbE?autoplay=1';
@@ -39,6 +40,13 @@ export const VideoTutorial = () => {
           fullWidth={true}
           maxWidth="lg"
           classes={{ paper: classes.dialogPaper }}
+          BackdropProps={{
+            children: (
+              <IconButton className={classes.close}>
+                <CancelIcon onClick={handleClose} size="xmd" />
+              </IconButton>
+            ),
+          }}
         >
           <DialogContent>
             <div className={classes.videoBox}>

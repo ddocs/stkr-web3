@@ -40,4 +40,9 @@ export const useVideoTutorial = makeStyles(theme => ({
       height: '100%',
     },
   },
+  close: {
+    position: 'absolute',
+    right: 0,
+    top: 0,
+  },
 }));
