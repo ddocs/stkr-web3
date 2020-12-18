@@ -20,6 +20,7 @@ import {
   IconButton,
   Paper,
   Radio,
+  Tooltip,
 } from '@material-ui/core';
 import { Curtains } from '../../../../UiKit/Curtains';
 import { Body1, Headline4 } from '../../../../UiKit/Typography';
@@ -30,6 +31,7 @@ import { FormErrors } from '../../../../common/types/FormErrors';
 import { CancelIcon } from '../../../../UiKit/Icons/CancelIcon';
 import { isNodeNameValid } from '../../../../common/utils/isNodeNameValid';
 import { isValidUrl } from '../../../../common/utils/isValidUrl';
+import { QuestionIcon } from '../../../../UiKit/Icons/QuestionIcon';
 
 enum Choice {
   yes = 'yes',
@@ -99,12 +101,30 @@ export const CreateNodeComponent = ({
             classes={{ root: classes.space }}
             component={InputField}
             name="name"
-            label={t('create-node.label.node-name')}
+            label={
+              <>
+                {t('create-node.label.node-name')}
+                <Tooltip title={t('create-node.hint.node-name')}>
+                  <IconButton className={classes.question}>
+                    <QuestionIcon size="xs" />
+                  </IconButton>
+                </Tooltip>
+              </>
+            }
           />
           <Field
             component={InputField}
             name="eth1Url"
-            label={t('create-node.label.eth-node')}
+            label={
+              <>
+                {t('create-node.label.eth-node')}
+                <Tooltip title={t('create-node.hint.eth1Url')}>
+                  <IconButton className={classes.question}>
+                    <QuestionIcon size="xs" />
+                  </IconButton>
+                </Tooltip>
+              </>
+            }
             palceholder={t('create-node.placeholder.eth-node')}
           />
           <Body1 className={classNames(classes.space, classes.note)}>
