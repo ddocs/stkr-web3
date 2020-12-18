@@ -4,14 +4,15 @@ import { connectRouter, RouterState } from 'connected-react-router';
 import { userPersistConfig } from './webStorageConfigs';
 import { persistReducer } from 'redux-persist';
 import { IUserState, userReducer } from './userReducer';
-import { ModalState } from '../modals/selectors';
-import { modals } from '../modals/reducer';
+import { IDialogState } from '../dialogs/selectors';
+import { dialog } from '../dialogs/reducer';
 import { notificationReducer } from './notificationReducer';
 import { requestUpdateReducer } from './requestUpdateReducer';
 
-export interface IStoreState extends ModalState {
+export interface IStoreState {
   router: RouterState;
   user: IUserState;
+  dialog: IDialogState;
 }
 
 const createRootReducer = (history: History, requestsReducer: Reducer) =>
@@ -20,7 +21,7 @@ const createRootReducer = (history: History, requestsReducer: Reducer) =>
     user: persistReducer(userPersistConfig, userReducer),
     requests: (store: IStoreState, action: AnyAction) =>
       requestUpdateReducer(requestsReducer(store, action), action),
-    modals,
+    dialog,
     notification: notificationReducer,
   });
 

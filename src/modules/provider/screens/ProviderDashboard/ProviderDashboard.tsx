@@ -193,7 +193,12 @@ export const ProviderDashboard = () => {
               return (
                 <ProviderDashboardComponent
                   sidecars={sidecars}
-                  hasTransactions={!!(stats && stats.stakes.length > 0)}
+                  hasTransactions={
+                    !!(
+                      stats &&
+                      stats.stakes.filter(item => item.isTopUp).length > 0
+                    )
+                  }
                 />
               );
             }}

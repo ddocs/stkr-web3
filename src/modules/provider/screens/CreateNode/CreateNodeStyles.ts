@@ -35,4 +35,7 @@ export const useCreateNodeStyles = makeStyles(theme => ({
       right: theme.spacing(2),
     },
   },
+  question: {
+    padding: theme.spacing(1),
+  },
 }));

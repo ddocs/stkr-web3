@@ -265,6 +265,10 @@
     "option": {
       "i-have": "I have beacon chain node",
       "i-dont-have": "I don’t have beacon chain node"
+    },
+    "hint": {
+      "node-name": "Please, enter any name for your node",
+      "eth1Url": "Please, enter the ETH 1.0 API endpoint from your running node or service here"
     }
   },
   "global-stats": {
@@ -327,5 +331,8 @@
       "txid": "Transaction Hash",
       "amount": "Amount"
     }
+  },
+  "video-tutorial": {
+    "title": "Stake Eth2 with Stkr.io"
   }
 }

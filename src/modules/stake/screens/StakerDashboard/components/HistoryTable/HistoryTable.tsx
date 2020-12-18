@@ -10,7 +10,6 @@ import { TableBodyCell } from '../../../../../../components/TableComponents/Tabl
 import { t } from '../../../../../../common/utils/intl';
 import { NavLink } from '../../../../../../UiKit/NavLink';
 import { isMainnet } from '../../../../../../common/const';
-import { walletConversion } from '../../../../../../common/utils/convertWallet';
 import { useLocaleMemo } from '../../../../../../common/hooks/useLocaleMemo';
 import classNames from 'classnames';
 import { AlignType } from '../../../../../../components/TableComponents/types';
@@ -105,6 +104,7 @@ export const HistoryTable = (props: IHistoryTableProps) => {
               </TableBodyCell>
               <TableBodyCell
                 className={classNames(classes.cell, classes.bodyCell)}
+                align="right"
               >
                 <NavLink
                   href={t(
@@ -116,7 +116,7 @@ export const HistoryTable = (props: IHistoryTableProps) => {
                     },
                   )}
                 >
-                  {walletConversion(item.transactionHash)}
+                  {item.transactionHash}
                 </NavLink>
               </TableBodyCell>
             </TableRow>

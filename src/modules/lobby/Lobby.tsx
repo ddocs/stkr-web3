@@ -14,6 +14,7 @@ import { MuiThemeProvider } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 import { UserActions } from '../../store/actions/UserActions';
 import { ETHEREUM_PRICE } from '../../common/const';
+import { VideoTutorial } from './components/VideoTutorial';
 
 export const Lobby = () => {
   const { isConnected } = useAuthentication();
@@ -28,6 +29,7 @@ export const Lobby = () => {
       <MuiThemeProvider theme={invertTheme}>
         <GlobalStats />
       </MuiThemeProvider>
+      <VideoTutorial />
       <Features />
       <MuiThemeProvider theme={invertTheme}>
         <Calculate
