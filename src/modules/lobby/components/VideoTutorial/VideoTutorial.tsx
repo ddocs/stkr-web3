@@ -71,7 +71,7 @@ export const VideoTutorial = () => {
             volume={0.7}
             loop={true}
             width="100%"
-            height={740}
+            height="auto"
           />
           <PlayIcon className={classes.play} />
         </div>
