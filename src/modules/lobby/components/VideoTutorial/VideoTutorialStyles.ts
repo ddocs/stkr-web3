@@ -3,8 +3,10 @@ import { fade, makeStyles } from '@material-ui/core/styles';
 export const useVideoTutorial = makeStyles(theme => ({
   root: {
     position: 'relative',
-    paddingTop: theme.spacing(5),
-    paddingBottom: theme.spacing(5),
+    '&&': {
+      paddingTop: theme.spacing(5),
+      paddingBottom: theme.spacing(5),
+    },
   },
   play: {
     position: 'absolute',
