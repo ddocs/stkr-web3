@@ -78,7 +78,7 @@ function AETHBalance({
           <Box display="flex" alignItems="center" mb={{ xs: 3.5, md: 0 }}>
             <Typography variant="h5" noWrap={true}>
               {t('units.aeth-value', {
-                value: data.aEthClaimableBalance.toFormat(),
+                value: data.aEthClaimableBalance.toFormat(AMOUNT_FIXED_DECIMAL_PLACES),
               })}
             </Typography>
             <Box ml={1}>
@@ -194,7 +194,7 @@ export const StakerDashboardComponent = () => {
                   )}
                   <Box mt="auto" className={classes.amount}>
                     {tHTML('units.separated-eth-value', {
-                      value: data.staked.toFormat(),
+                      value: data.staked.toFormat(AMOUNT_FIXED_DECIMAL_PLACES),
                     })}
                   </Box>
                   <Box mt="auto" justifySelf="end">
