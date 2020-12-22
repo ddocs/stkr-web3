@@ -30,6 +30,7 @@
     "react": "^16.13.1",
     "react-copy-to-clipboard": "^5.0.2",
     "react-dom": "^16.13.1",
+    "react-ga": "^3.3.0",
     "react-intl-universal": "^2.4.1",
     "react-player": "^2.7.2",
     "react-redux": "^7.2.1",
