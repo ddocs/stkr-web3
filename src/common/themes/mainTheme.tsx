@@ -150,6 +150,11 @@ const mainTheme = createMuiTheme({
         '::selection': {
           ...selection,
         },
+        '.web3modal-modal-lightbox': {
+          '&&': {
+            zIndex: defaultTheme.zIndex.modal,
+          },
+        },
       },
     },
     MuiContainer: {
