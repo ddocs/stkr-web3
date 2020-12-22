@@ -37,7 +37,7 @@ const env = process.env.REACT_APP_STKR_ENV
   ? process.env.REACT_APP_STKR_ENV
   : 'develop';
 
-export const GOOGLE_TAG_MANAGER_KEY = process.env.REACT_APP_GOOGLE_TAG_MANAGER_KEY;
+export const GOOGLE_ANALYTICS_ID = process.env.REACT_APP_GOOGLE_ANALYTICS_ID;
 export const isMainnet = env === 'mainnet';
 export const ENABLE_PROVIDER = true;
 
