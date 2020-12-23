@@ -57,7 +57,7 @@ export const ProviderDashboardComponent = ({
         path: PROVIDER_NODE_LIST_PATH,
         route: PROVIDER_NODE_LIST_PATH,
       },
-      ...(hasTransactions || sidecars?.length > 0
+      ...(hasTransactions || (sidecars && sidecars.length > 0)
         ? [
             {
               label: t('provider-tabs.top-up'),
