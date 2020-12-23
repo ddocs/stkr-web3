@@ -57,7 +57,7 @@ export const ProviderDashboardComponent = ({
         path: PROVIDER_NODE_LIST_PATH,
         route: PROVIDER_NODE_LIST_PATH,
       },
-      ...(hasTransactions
+      ...(hasTransactions || sidecars?.length > 0
         ? [
             {
               label: t('provider-tabs.top-up'),
@@ -67,7 +67,7 @@ export const ProviderDashboardComponent = ({
           ]
         : []),
     ],
-    [hasTransactions],
+    [hasTransactions, sidecars],
   );
 
   const renderNodeList = useCallback(
