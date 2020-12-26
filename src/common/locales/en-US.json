@@ -240,7 +240,8 @@
     "aeth-price": "1 aETH = {value} ETH",
     "on-stkr": "On Stkr",
     "on-wallet": "On your wallet",
-    "claim": "Claim"
+    "claim": "Claim",
+    "pending": "Pending {value} ETH"
   },
   "staking-history-table": {
     "tip": {

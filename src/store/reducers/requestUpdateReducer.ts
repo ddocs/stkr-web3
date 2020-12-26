@@ -17,6 +17,12 @@ export const requestUpdateReducer = (
 
   const actionName = getInitActionName(action.type);
 
+  if (!state.queries[actionName].data) {
+    return {
+      ...state,
+    };
+  }
+
   if (action.meta?.mutation instanceof Function) {
     return {
       ...state,

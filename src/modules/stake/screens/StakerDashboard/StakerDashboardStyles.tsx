@@ -13,7 +13,7 @@ export const useStakerDashboardStyles = makeStyles<Theme>(theme => ({
   },
   stakedContent: {
     display: 'grid',
-    gridTemplateColumns: '1fr 1fr',
+    gridTemplateColumns: 'auto 1fr',
     padding: theme.spacing(5, 6.5, 3.5),
     borderRadius: 32,
     [theme.breakpoints.down('sm')]: {
@@ -54,7 +54,7 @@ export const useStakerDashboardStyles = makeStyles<Theme>(theme => ({
       gridRow: 'auto',
     },
   },
-  unstakeButton: {
+  buttonGroup: {
     justifySelf: 'end',
   },
   stake: {
@@ -84,5 +84,20 @@ export const useStakerDashboardStyles = makeStyles<Theme>(theme => ({
   claim: {
     marginTop: -theme.spacing(1.5),
     marginBottom: -theme.spacing(1),
+  },
+  pending: {
+    pointerEvents: 'none',
+  },
+  pendingIcon: {
+    marginRight: theme.spacing(1),
+    animationName: '$spin',
+    animationDuration: '1s',
+    animationDelay: '0s',
+    animationIterationCount: 'infinite',
+    animationTimingFunction: 'linear',
+    willChange: 'transform',
+  },
+  '@keyframes spin': {
+    '100%': { transform: 'rotate(360deg)' },
   },
 }));

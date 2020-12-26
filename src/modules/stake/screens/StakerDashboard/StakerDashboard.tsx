@@ -17,6 +17,7 @@ import { useAuthentication } from '../../../../common/utils/useAuthentications';
 import {
   Box,
   Button,
+  ButtonGroup,
   Divider,
   Hidden,
   IconButton,
@@ -28,6 +29,9 @@ import { HistoryTable } from './components/HistoryTable';
 import { Link as RouterLink } from 'react-router-dom';
 import { ReactComponent as PlusIcon } from './assets/plus.svg';
 import BigNumber from 'bignumber.js';
+import { ReactComponent as PendingIcon } from './assets/pending.svg';
+import { getStakedAmount } from '../../../../common/utils/getStakedAmount';
+import { getPendingAmount } from '../../../../common/utils/getPendingAmount';
 
 const AMOUNT_FIXED_DECIMAL_PLACES = 2;
 const RATE_FIXED_DECIMAL_PLACES = 4;
@@ -78,7 +82,9 @@ function AETHBalance({
           <Box display="flex" alignItems="center" mb={{ xs: 3.5, md: 0 }}>
             <Typography variant="h5" noWrap={true}>
               {t('units.aeth-value', {
-                value: data.aEthClaimableBalance.toFormat(AMOUNT_FIXED_DECIMAL_PLACES),
+                value: data.aEthClaimableBalance.toFormat(
+                  AMOUNT_FIXED_DECIMAL_PLACES,
+                ),
               })}
             </Typography>
             <Box ml={1}>
@@ -163,6 +169,9 @@ export const StakerDashboardComponent = () => {
             const totalAEth = data.aEthClaimableBalance.plus(data.aEthBalance);
             const totalAEthToEthPrice = totalAEth.div(data.aEthRatio);
 
+            const staked = getStakedAmount(data.stakes);
+            const pending = getPendingAmount(data.stakes, staked);
+
             return (
               <>
                 <Paper
@@ -174,19 +183,35 @@ export const StakerDashboardComponent = () => {
                     {t('staked-dashboard.staked')}
                   </Box>
                   <MutationErrorHandler type={UserActionTypes.UNSTAKE} />
-                  {data.staked.isGreaterThan(0) ? (
+                  {pending.isGreaterThan(0) ? (
                     <Mutation type={UserActionTypes.UNSTAKE}>
                       {({ loading }) => (
-                        <Button
-                          size="small"
-                          onClick={handleUnstake}
-                          disabled={loading}
-                          variant="contained"
-                          color="secondary"
-                          className={classes.unstakeButton}
-                        >
-                          {t('staker-dashboard.unstake')}
-                        </Button>
+                        <ButtonGroup className={classes.buttonGroup}>
+                          {pending.isGreaterThan(0) && (
+                            <Button
+                              size="small"
+                              variant="contained"
+                              color="secondary"
+                              disableElevation
+                              className={classes.pending}
+                            >
+                              <PendingIcon className={classes.pendingIcon} />
+                              {t('staker-dashboard.pending', {
+                                value: pending.toFormat(),
+                              })}
+                            </Button>
+                          )}
+                          <Button
+                            size="small"
+                            onClick={handleUnstake}
+                            disabled={loading}
+                            variant="contained"
+                            color="secondary"
+                            disableElevation
+                          >
+                            {t('staker-dashboard.unstake')}
+                          </Button>
+                        </ButtonGroup>
                       )}
                     </Mutation>
                   ) : (
@@ -194,7 +219,7 @@ export const StakerDashboardComponent = () => {
                   )}
                   <Box mt="auto" className={classes.amount}>
                     {tHTML('units.separated-eth-value', {
-                      value: data.staked.toFormat(AMOUNT_FIXED_DECIMAL_PLACES),
+                      value: staked.toFormat(AMOUNT_FIXED_DECIMAL_PLACES),
                     })}
                   </Box>
                   <Box mt="auto" justifySelf="end">

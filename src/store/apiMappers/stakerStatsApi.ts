@@ -15,11 +15,10 @@ export interface IStakeHistoryItem {
 }
 
 export interface IStakerStats {
-  reward: BigNumber;
-  staked: BigNumber;
   aEthClaimableBalance: BigNumber;
   aEthBalance: BigNumber;
   aEthRatio: BigNumber;
+  pendingStake: BigNumber;
   stakes: IStakeHistoryItem[];
 }
 
@@ -39,14 +38,14 @@ export function mapStakerStats(
     aEthClaimableBalance: string;
     aEthBalance: string;
     aEthRatio: BigNumber;
+    pendingStake: BigNumber;
   },
 ): IStakerStats {
   return {
+    stakes: data.stakes.map(mapStakeHistoryItem).reverse(),
     aEthClaimableBalance: new BigNumber(data.aEthClaimableBalance),
-    reward: new BigNumber(data.stats.totalRewards),
-    staked: new BigNumber(data.stats.totalStakedAmount),
     aEthBalance: new BigNumber(data.aEthBalance),
     aEthRatio: data.aEthRatio,
-    stakes: data.stakes.map(mapStakeHistoryItem).reverse(),
+    pendingStake: data.pendingStake,
   };
 }

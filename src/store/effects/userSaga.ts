@@ -99,8 +99,9 @@ function* listenKeyProviderEvents() {
           }),
         );
       } else if (event.type === ContractManagerEvents.AethBalanceChanged) {
+        // TODO test it
         yield put(
-          UserActions.updateStakerStats({ reward: event.data.balance }),
+          UserActions.updateStakerStats({ aEthClaimableBalance: event.data.balance }),
         );
       } else if (event.type === ContractManagerEvents.StakePending) {
         yield put(

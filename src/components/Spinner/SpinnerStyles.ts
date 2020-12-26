@@ -9,10 +9,10 @@ export const useSpinnerStyles = makeStyles<Theme, { size?: number }>(() => ({
     animationDelay: '0s',
     animationIterationCount: 'infinite',
     animationTimingFunction: 'linear',
+    willChange: 'transform',
     margin: 'auto',
     width: ({ size }) => size ?? DEFAULT_SIZE,
     height: ({ size }) => size ?? DEFAULT_SIZE,
-    willChange: 'transform',
   },
   '@keyframes spin': {
     '100%': { transform: 'rotate(360deg)' },
