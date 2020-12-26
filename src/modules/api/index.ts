@@ -13,7 +13,6 @@ import { IStkrConfig } from './config';
 import BigNumber from 'bignumber.js';
 import { EventEmitter } from 'events';
 import { TransactionReceipt } from 'web3-core';
-import { YEAR_INTEREST } from '../../common/const';
 import { ContractManagerEvent } from './event';
 
 export interface IStakeAction extends SendAsyncResult {
@@ -267,10 +266,6 @@ export class StkrSdk {
       this.getContractManager().queryStakeRemovedEventLogs(),
     ]);
 
-    console.log(
-      `found ${pending.length} pending, ${confirmed.length} confirmed, ${removed.length} removed and ${toppedUp.length} topped up events`,
-    );
-
     function hasItem(
       items: ContractManagerEvent[],
       item: ContractManagerEvent,
@@ -325,39 +320,7 @@ export class StkrSdk {
       (a, b) => a.timestamp - b.timestamp,
     );
 
-    const confirmedStakes = confirmedItems.reduce(
-      (acc, item) => acc.plus(item.amount),
-      new BigNumber(0),
-    );
-
-    const topUps = stakes.reduce((acc, item) => {
-      if (item.isTopUp) {
-        return acc.plus(item.amount);
-      }
-      return acc;
-    }, new BigNumber(0));
-
-    const totalStakedAmount = stakes.reduce((result, stake) => {
-      if (stake.action === 'STAKE_ACTION_PENDING') {
-        return result.plus(stake.amount);
-      } else if (stake.action === 'STAKE_ACTION_UNSTAKE') {
-        return result.minus(stake.amount);
-      }
-
-      return result;
-    }, new BigNumber(0));
-
-    const totalRewards = totalStakedAmount.multipliedBy(YEAR_INTEREST);
-
-    const stats = {
-      totalRewards: totalRewards.toString(10),
-      totalStakedAmount: totalStakedAmount.toString(10),
-      pendingAmount: totalStakedAmount.minus(confirmedStakes).toString(10),
-      topUpAmount: topUps.toString(10),
-      stakeAmount: totalStakedAmount.minus(topUps).toString(10),
-    };
-
-    return { stakes, stats };
+    return { stakes };
   }
 
   public getApiGateway(): ApiGateway {
@@ -382,5 +345,9 @@ export class StkrSdk {
 
   public async getAethRatio() {
     return await this.getContractManager().getAethRatio();
+  }
+
+  public async pendingStakesOf(token: string) {
+    return await this.getContractManager().pendingStakesOf(token);
   }
 }

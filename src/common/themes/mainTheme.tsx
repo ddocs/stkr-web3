@@ -247,7 +247,6 @@ const mainTheme = createMuiTheme({
         '&&': {
           height: 'auto',
           padding: 0,
-
           fontSize: 12,
         },
       },
@@ -259,7 +258,9 @@ const mainTheme = createMuiTheme({
         transitionTimingFunction: 'linear',
         borderRadius: 60,
         '&:hover, &:focus, &:active': {
-          transform: 'scale(1.05)',
+          '&:not($disableElevation)': {
+            transform: 'scale(1.05)',
+          },
           backgroundColor: PALETTE.text.secondary,
         },
         '&$disabled': {},
@@ -271,7 +272,9 @@ const mainTheme = createMuiTheme({
         transitionProperty: 'color, background-color, transform',
         transitionTimingFunction: 'linear',
         '&:hover, &:focus, &:active': {
-          transform: 'scale(1.05)',
+          '&:not($disableElevation)': {
+            transform: 'scale(1.05)',
+          },
           backgroundColor: PALETTE.primary.dark,
         },
         '&$disabled': {},
@@ -295,7 +298,6 @@ const mainTheme = createMuiTheme({
         transitionTimingFunction: 'linear',
         '&:hover, &:focus, &:active': {
           color: PALETTE.primary.contrastText,
-
           backgroundColor: PALETTE.text.primary,
         },
         '&$disabled': {},
@@ -328,7 +330,6 @@ const mainTheme = createMuiTheme({
         },
         '&$disabled': {},
       },
-
       text: {
         height: 'auto',
         padding: 0,
@@ -370,6 +371,13 @@ const mainTheme = createMuiTheme({
           backgroundColor: 'transparent',
         },
         '&$disabled': {},
+      },
+    },
+    MuiButtonGroup: {
+      groupedOutlinedHorizontal: {
+        '&:not(:first-child)': {
+          borderLeft: `1px solid ${PALETTE.background.default}`,
+        },
       },
     },
     MuiTypography: {

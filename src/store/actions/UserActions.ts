@@ -274,11 +274,15 @@ export const UserActions = {
 
         const aEthRatio = await stkrSdk.getAethRatio();
         const aEthBalance = await stkrSdk.getAethBalance();
+        const pendingStake = await stkrSdk.pendingStakesOf(
+          stkrSdk.getKeyProvider().currentAccount(),
+        );
 
         return {
           aEthClaimableBalance,
           aEthBalance: aEthBalance.available,
           aEthRatio,
+          pendingStake,
           ...(await stkrSdk.getStakerStats()),
         };
       })(),

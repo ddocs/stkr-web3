@@ -231,7 +231,8 @@
       "SIDECAR_STATUS_ACTIVE": "Active",
       "SIDECAR_STATUS_DISABLED": "Disabled",
       "SIDECAR_STATUS_BLOCKED": "Blocked",
-      "SIDECAR_STATUS_OFFLINE": "Offline"
+      "SIDECAR_STATUS_OFFLINE": "Offline",
+      "SIDECAR_STATUS_ATTESTING": "Attesting"
     }
   },
   "staker-dashboard": {
@@ -239,7 +240,8 @@
     "aeth-price": "1 aETH = {value} ETH",
     "on-stkr": "On Stkr",
     "on-wallet": "On your wallet",
-    "claim": "Claim"
+    "claim": "Claim",
+    "pending": "Pending {value} ETH"
   },
   "staking-history-table": {
     "tip": {

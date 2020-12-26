@@ -1,7 +1,12 @@
 import React, { useCallback, useMemo } from 'react';
 import { Curtains } from '../../../../UiKit/Curtains';
 import { useStakeStyles } from './StakeStyles';
-import { Body1, Headline2, Headline3, Headline5, } from '../../../../UiKit/Typography';
+import {
+  Body1,
+  Headline2,
+  Headline3,
+  Headline5,
+} from '../../../../UiKit/Typography';
 import { t, tHTML } from '../../../../common/utils/intl';
 import { IconButton, Tooltip, Typography } from '@material-ui/core';
 import { CancelIcon } from '../../../../UiKit/Icons/CancelIcon';
@@ -9,20 +14,28 @@ import { BackgroundColorProvider } from '../../../../UiKit/BackgroundColorProvid
 import { Field, Form, FormRenderProps } from 'react-final-form';
 import { QuestionIcon } from '../../../../UiKit/Icons/QuestionIcon';
 import { SliderField } from '../../../../UiKit/RangeField';
-import { UserActions, UserActionTypes, } from '../../../../store/actions/UserActions';
+import {
+  UserActions,
+  UserActionTypes,
+} from '../../../../store/actions/UserActions';
 import { FormErrors } from '../../../../common/types/FormErrors';
 import { Mutation, useQuery } from '@redux-requests/react';
 import { IUserInfo } from '../../../../store/apiMappers/userApi';
 import BigNumber from 'bignumber.js';
 import { useRequestDispatch } from '../../../../common/utils/useRequestDispatch';
 import { useHistory } from 'react-router';
-import { STAKER_DASHBOAR_PATH, STAKING_AMOUNT_STEP, YEAR_INTEREST } from '../../../../common/const';
+import {
+  STAKER_DASHBOAR_PATH,
+  STAKING_AMOUNT_STEP,
+  YEAR_INTEREST,
+} from '../../../../common/const';
 import { success } from '@redux-requests/core';
 import { MutationErrorHandler } from '../../../../components/MutationErrorHandler/MutationErrorHandler';
 import { CheckboxField } from '../../../../UiKit/Checkbox/CheckboxField';
 import { Button } from '../../../../UiKit/Button';
 import { useIsXSDown } from '../../../../common/hooks/useTheme';
 import { floor } from '../../../../common/utils/floor';
+import { logEvent } from '../../../../common/utils/logEvent';
 
 const MIN_AMOUNT = 0.5;
 const MAX_AMOUNT = 32;
@@ -96,7 +109,9 @@ export const StakeComponent = ({
           <Headline2 component="p" classes={{ root: classes.label }}>
             {t('stake.i-want')}
             <span className={classes.amount}>
-              {t('units.eth-value', { value: new BigNumber(amount).toFormat() })}
+              {t('units.eth-value', {
+                value: new BigNumber(amount).toFormat(),
+              })}
             </span>
           </Headline2>
           <Field
@@ -213,6 +228,8 @@ export const Stake = () => {
         replace(STAKER_DASHBOAR_PATH);
       }
     });
+
+    logEvent('user', 'Stake', amount);
   };
 
   const { data } = useQuery<IUserInfo | null>({

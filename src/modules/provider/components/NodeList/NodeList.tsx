@@ -93,15 +93,17 @@ const getSidecarStatus = (item: ISidecar, theme: Theme) => {
   }
 
   const color = (() => {
-    if (item.status === 'SIDECAR_STATUS_UNKNOWN') {
-      return fade(theme.palette.text.primary, 0.5);
-    } else if (item.status === 'SIDECAR_STATUS_SYNCING') {
+    if (item.status === 'SIDECAR_STATUS_ACTIVE') {
+      return theme.palette.primary.main;
+    } else if (
+      item.status === 'SIDECAR_STATUS_SYNCING' ||
+      item.status === 'SIDECAR_STATUS_ATTESTING'
+    ) {
       return theme.palette.warning.main;
     } else if (item.status === 'SIDECAR_STATUS_OFFLINE') {
       return theme.palette.error.main;
     }
-
-    return theme.palette.primary.main;
+    return fade(theme.palette.text.primary, 0.5);
   })();
 
   return (

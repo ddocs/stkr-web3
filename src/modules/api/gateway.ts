@@ -51,7 +51,8 @@ export type SidecarStatus =
   | 'SIDECAR_STATUS_ACTIVE'
   | 'SIDECAR_STATUS_DISABLED'
   | 'SIDECAR_STATUS_BLOCKED'
-  | 'SIDECAR_STATUS_OFFLINE';
+  | 'SIDECAR_STATUS_OFFLINE'
+  | 'SIDECAR_STATUS_ATTESTING';
 
 export interface SidecarReply {
   id: string;
@@ -115,14 +116,10 @@ export interface UserStakeReply {
   isTopUp: boolean;
 }
 
-export interface UserStatisticsReply {
-  totalStakedAmount: string;
-  totalRewards: string;
-}
+export interface UserStatisticsReply {}
 
 export interface StakerStats {
   stakes: UserStakeReply[];
-  stats: UserStatisticsReply;
 }
 
 export interface ConfigReply {
@@ -282,6 +279,7 @@ export class ApiGateway {
     return data;
   }
 
+  // @TODO Remove
   public async getUserStatistics(user: string): Promise<UserStatisticsReply> {
     const { data } = await this.api.get<UserStatisticsReply>(
       `/v1alpha/staker/stats/${user}`,
