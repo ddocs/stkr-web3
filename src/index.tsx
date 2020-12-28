@@ -2,16 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import { GOOGLE_ANALYTICS_ID } from './common/const';
-import ReactGA from 'react-ga';
-import { historyInstance } from './common/utils/historyInstance';
-
-if (GOOGLE_ANALYTICS_ID) {
-  ReactGA.initialize(GOOGLE_ANALYTICS_ID, { standardImplementation: true });
-  historyInstance.listen(location => {
-    ReactGA.pageview(location.pathname + location.search);
-  });
-}
 
 ReactDOM.render(
   <React.StrictMode>

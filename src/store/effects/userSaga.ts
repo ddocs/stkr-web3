@@ -24,6 +24,7 @@ import {
 } from '../../modules/api/event';
 import { IApplicationStore } from '../createStore';
 import { IUserInfo } from '../apiMappers/userApi';
+import { pushEvent } from '../../common/utils/pushEvent';
 
 function createEventChannel() {
   return eventChannel(emitter => {
@@ -101,7 +102,9 @@ function* listenKeyProviderEvents() {
       } else if (event.type === ContractManagerEvents.AethBalanceChanged) {
         // TODO test it
         yield put(
-          UserActions.updateStakerStats({ aEthClaimableBalance: event.data.balance }),
+          UserActions.updateStakerStats({
+            aEthClaimableBalance: event.data.balance,
+          }),
         );
       } else if (event.type === ContractManagerEvents.StakePending) {
         yield put(
@@ -150,6 +153,8 @@ function* listenKeyProviderEvents() {
 
 function* onConnectSuccess() {
   const listenKeyProviderEventsTask = yield fork(listenKeyProviderEvents);
+
+  pushEvent('login', { method: 'web3' });
 
   yield take([UserActionTypes.DISCONNECT, UserActionTypes.CONNECT]);
 

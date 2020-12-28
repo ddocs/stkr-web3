@@ -81,6 +81,25 @@ export class MetaMaskProvider extends KeyProvider {
           return provider;
         },
       },
+      'custom-huobi': {
+        display: {
+          logo: require('./assets/huobi.svg'),
+          name: 'Huobi',
+          description: 'Multi-currency support, practical and convenient',
+        },
+        package: WalletConnectProvider,
+        options: {
+          rpc: {
+            1: 'https://eth-03.dccn.ankr.com',
+            5: 'https://goerli.infura.io/v3/3c88c0ec7e57421fa7d019780d2e6768',
+          },
+        },
+        connector: async (ProviderPackage: any, options: any) => {
+          const provider = new ProviderPackage(options);
+          await provider.enable();
+          return provider;
+        },
+      },
       walletconnect: {
         package: WalletConnectProvider,
         options: {
