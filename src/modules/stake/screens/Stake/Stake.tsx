@@ -35,7 +35,7 @@ import { CheckboxField } from '../../../../UiKit/Checkbox/CheckboxField';
 import { Button } from '../../../../UiKit/Button';
 import { useIsXSDown } from '../../../../common/hooks/useTheme';
 import { floor } from '../../../../common/utils/floor';
-import { logEvent } from '../../../../common/utils/logEvent';
+import { pushEvent } from '../../../../common/utils/pushEvent';
 
 const MIN_AMOUNT = 0.5;
 const MAX_AMOUNT = 32;
@@ -229,7 +229,7 @@ export const Stake = () => {
       }
     });
 
-    logEvent('user', 'Stake', amount);
+    pushEvent('stake_submit', { stakingAmount: amount });
   };
 
   const { data } = useQuery<IUserInfo | null>({
