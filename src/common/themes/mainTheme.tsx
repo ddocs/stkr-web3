@@ -577,6 +577,17 @@ const mainTheme = createMuiTheme({
         fontWeight: 400,
       },
     },
+    MuiLinearProgress: {
+      colorSecondary: {
+        backgroundColor: PALETTE.background.default,
+        border: '1px solid rgba(254, 254, 254, 0.2)',
+        borderRadius: 12,
+        height: 8,
+      },
+      barColorSecondary: {
+        backgroundColor: '#ffffff',
+      },
+    },
   },
 } as ThemeOptions);
 

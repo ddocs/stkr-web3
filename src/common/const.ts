@@ -13,6 +13,8 @@ export const PROVIDER_TOP_UP_PATH = `${PROVIDER_PATH}/top-up/create`;
 export const PROVIDER_TOP_UP_ROUTE = `${PROVIDER_PATH}/top-up/create/:type?`;
 export const PROVIDER_TOP_UP_LIST_PATH = `${PROVIDER_PATH}/top-up/list`;
 export const PICKER_PATH = '/picker';
+export const GOVERNANCE_PATH = '/governance';
+export const GOVERNANCE_PROJECT_LIST_PATH = `${GOVERNANCE_PATH}/project/list`;
 
 export const SOCIAL_LINK = {
   twitter: 'https://twitter.com/ankr',

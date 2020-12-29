@@ -5,15 +5,16 @@ import { QueryLoadingCentered } from './components/QueryLoading/QueryLoading';
 import { PageNotFound } from './components/PageNotFound/PageNotFound';
 import { withDefaultLayout } from './modules/layout';
 import {
-    INDEX_PATH,
-    PICKER_PATH,
-    PROVIDER_CREATE_NODE_PATH,
-    PROVIDER_MAIN_PATH,
-    PROVIDER_NODE_LIST_PATH,
-    PROVIDER_TOP_UP_LIST_PATH,
-    PROVIDER_TOP_UP_ROUTE,
-    STAKER_DASHBOAR_PATH,
-    STAKER_STAKE_PATH,
+  GOVERNANCE_PROJECT_LIST_PATH,
+  INDEX_PATH,
+  PICKER_PATH,
+  PROVIDER_CREATE_NODE_PATH,
+  PROVIDER_MAIN_PATH,
+  PROVIDER_NODE_LIST_PATH,
+  PROVIDER_TOP_UP_LIST_PATH,
+  PROVIDER_TOP_UP_ROUTE,
+  STAKER_DASHBOAR_PATH,
+  STAKER_STAKE_PATH,
 } from './common/const';
 import { PrivateRoute } from './UiKit/PrivateRoute';
 
@@ -85,6 +86,18 @@ const StakerContainer = withDefaultLayout(
   ) as LoadableComponent<any>,
 );
 
+const GovernanceListContainer = withDefaultLayout(
+  loadable(
+    async () =>
+      import('./modules/governance/ProjectList').then(
+        module => module.ProjectList,
+      ),
+    {
+      fallback: <QueryLoadingCentered />,
+    },
+  ) as LoadableComponent<any>,
+);
+
 export function Routes() {
   return (
     <Switch>
@@ -119,6 +132,10 @@ export function Routes() {
         exact={true}
       />
       <PrivateRoute path={STAKER_STAKE_PATH} component={StakerContainer} />
+      <Route
+        path={GOVERNANCE_PROJECT_LIST_PATH}
+        component={GovernanceListContainer}
+      />
       <PrivateRoute component={PageNotFound} />
     </Switch>
   );

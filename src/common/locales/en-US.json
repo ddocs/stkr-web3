@@ -336,5 +336,21 @@
   },
   "video-tutorial": {
     "title": "Stake Eth2 with Stkr.io"
+  },
+  "project-list": {
+    "title": "Governance",
+    "power": "Your Voting Power:",
+    "create": "Create project"
+  },
+  "project-list-item": {
+    "support": "Support",
+    "against": "Against",
+    "votes": "{value} votes"
+  },
+  "moderation-status": {
+    "status": {
+      "moderation": "On moderation",
+      "live": "Live"
+    }
   }
 }
