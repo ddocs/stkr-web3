@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/interface-name-prefix */
 import Web3 from 'web3';
 import { AbiItem } from 'web3-utils';
 import { Contract } from 'web3-eth-contract';
@@ -47,11 +46,10 @@ export abstract class KeyProvider {
     protected providerConfig: ProviderConfig,
     protected eventEmitter: EventEmitter,
   ) {
-    // @ts-ignore
     this._fetchInterval = setInterval(async () => {
       if (!this._web3) return;
       this._latestBlockHeight = await this._web3.eth.getBlockNumber();
-    }, 10_000);
+    }, 10_000) as any;
   }
 
   public getWeb3(): Web3 {
@@ -104,7 +102,7 @@ export abstract class KeyProvider {
   }
 
   public abstract sign(
-    data: Buffer | string | object,
+    data: Buffer | string | Record<string, unknown>,
     address: string,
   ): Promise<string>;
 

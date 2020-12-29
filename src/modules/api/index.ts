@@ -180,8 +180,7 @@ export class StkrSdk {
       const CHECK_INTERVAL = 5000;
       const checkFunction = async () => {
         const remainingAmount = await this.getRemainingAllowance();
-        // @ts-ignore
-        if (!remainingAmount.lt(remainingAllowance)) {
+        if (!remainingAmount.lt(remainingAllowance as any)) {
           return;
         }
         resolve();

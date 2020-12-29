@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires,@typescript-eslint/interface-name-prefix */
 import { KeyProvider, SendAsyncResult } from './provider';
 import { Contract } from 'web3-eth-contract';
 import BigNumber from 'bignumber.js';
@@ -14,11 +13,11 @@ import {
 import { BlockHeader } from 'web3-eth';
 import { ETH_SCALE_FACTOR } from '../../common/const';
 
-const ABI_GLOBAL_POOL = require('./contract/GlobalPool.json');
-const ABI_AETH = require('./contract/AETH.json');
-const ABI_ANKR = require('./contract/ANKR.json');
-const ABI_STAKING = require('./contract/Staking.json');
-const ABI_SYSTEM = require('./contract/SystemParameters.json');
+import ABI_GLOBAL_POOL from './contract/GlobalPool.json';
+import ABI_AETH from './contract/AETH.json';
+import ABI_ANKR from './contract/ANKR.json';
+import ABI_STAKING from './contract/Staking.json';
+import ABI_SYSTEM from './contract/SystemParameters.json';
 
 export interface ContractConfig {
   aethContract: string;
@@ -52,27 +51,27 @@ export class ContractManager {
     private eventEmitter: EventEmitter,
   ) {
     this.microPoolContract = this.keyProvider.createContract(
-      ABI_GLOBAL_POOL,
+      ABI_GLOBAL_POOL as any,
       contractConfig.microPoolContract,
     );
     this.aethContract = this.keyProvider.createContract(
-      ABI_AETH,
+      ABI_AETH as any,
       contractConfig.aethContract,
     );
     if (contractConfig.ankrContract) {
       this.ankrContract = this.keyProvider.createContract(
-        ABI_ANKR,
+        ABI_ANKR as any,
         contractConfig.ankrContract,
       );
     }
     if (contractConfig.stakingContract) {
       this.stakingContract = this.keyProvider.createContract(
-        ABI_STAKING,
+        ABI_STAKING as any,
         contractConfig.stakingContract,
       );
     }
     this.systemContract = this.keyProvider.createContract(
-      ABI_SYSTEM,
+      ABI_SYSTEM as any,
       contractConfig.systemContract,
     );
     console.log(`subscribing for contract events`);

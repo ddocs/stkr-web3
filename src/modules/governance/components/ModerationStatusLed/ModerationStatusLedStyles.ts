@@ -1,8 +1,11 @@
 import { fade, makeStyles } from '@material-ui/core/styles';
 import { Theme } from '@material-ui/core';
-import { IModerationStatusProps, ModerationStatus } from './ModerationStatus';
+import {
+  IModerationStatusProps,
+  ModerationStatus,
+} from './ModerationStatusLed';
 
-export const useModerationStatusStyles = makeStyles<
+export const useModerationStatusLedStyles = makeStyles<
   Theme,
   IModerationStatusProps
 >(theme => {

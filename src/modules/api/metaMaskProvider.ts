@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/interface-name-prefix */
 import Web3 from 'web3';
 import { bytesToHex, numberToHex } from 'web3-utils';
 import {
@@ -184,10 +183,12 @@ export class MetaMaskProvider extends KeyProvider {
     return this._currentAccount ? [this._currentAccount] : [];
   }
 
-  async sign(data: Buffer | string | object, address: string): Promise<string> {
+  async sign(
+    data: Buffer | string | Record<string, unknown>,
+    address: string,
+  ): Promise<string> {
     try {
       if (typeof data === 'object') {
-        // @ts-ignore
         data = bytesToHex(data as any);
       }
       return this.getWeb3().eth.personal.sign(data, address, '');
@@ -249,8 +250,7 @@ export class MetaMaskProvider extends KeyProvider {
             `Found transaction in node: `,
             JSON.stringify(rawTx, null, 2),
           );
-          // @ts-ignore
-          const { v, r, s } = rawTx; /* this fields are not-documented */
+          const { v, r, s } = rawTx as any; /* this fields are not-documented */
           const newTx = new Transaction(
             {
               gasLimit: this.getWeb3().utils.numberToHex(rawTx.gas),

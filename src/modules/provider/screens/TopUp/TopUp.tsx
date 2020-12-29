@@ -179,7 +179,7 @@ export const TopUp = () => {
   const { type = TopUpCurreny.eth } = useParams() as { type: TopUpCurreny };
   const { push } = useHistory();
   const handleChange = useCallback(
-    (event: ChangeEvent<{}>, value: TopUpCurreny) => {
+    (event: ChangeEvent<Record<string, unknown>>, value: TopUpCurreny) => {
       push(generatePath(PROVIDER_TOP_UP_ROUTE, { type: value }));
     },
     [push],

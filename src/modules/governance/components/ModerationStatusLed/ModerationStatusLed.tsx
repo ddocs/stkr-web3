@@ -1,5 +1,5 @@
 import React from 'react';
-import { useModerationStatusStyles } from './ModerationStatusStyles';
+import { useModerationStatusLedStyles } from './ModerationStatusLedStyles';
 import { t } from '../../../../common/utils/intl';
 
 export type ModerationStatus = 'moderation' | 'live';
@@ -8,8 +8,8 @@ export interface IModerationStatusProps {
   status: ModerationStatus;
 }
 
-export const ModerationStatus = (props: IModerationStatusProps) => {
-  const classes = useModerationStatusStyles(props);
+export const ModerationStatusLed = (props: IModerationStatusProps) => {
+  const classes = useModerationStatusLedStyles(props);
   const { status } = props;
 
   return (

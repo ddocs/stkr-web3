@@ -19,7 +19,7 @@ export const SliderField = ({
   const errorText = getErrorText(meta);
 
   const handleOnChange = (
-    event: React.ChangeEvent<{}>,
+    event: React.ChangeEvent<any>,
     value: number | number[],
   ) => {
     onChange(value as any);

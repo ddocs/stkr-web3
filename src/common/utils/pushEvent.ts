@@ -1,6 +1,6 @@
 import { isProd } from './isProd';
 
-export function pushEvent(event: string, values: {}) {
+export function pushEvent(event: string, values: any) {
   debugger;
   if (!window.dataLayer) {
     if (isProd()) {

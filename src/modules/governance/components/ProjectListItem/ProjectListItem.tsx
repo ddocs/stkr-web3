@@ -1,13 +1,7 @@
 import React from 'react';
 import { useProjectListItemStyles } from './ProjectListItemStyles';
-import {
-  Box,
-  Divider,
-  LinearProgress,
-  Paper,
-  Typography,
-} from '@material-ui/core';
-import { ModerationStatus } from '../ModerationStatus';
+import { Box, Divider, LinearProgress, Paper, Typography, } from '@material-ui/core';
+import { ModerationStatus, ModerationStatusLed } from '../ModerationStatusLed';
 import { Timer } from '../Timer';
 import { t } from '../../../../common/utils/intl';
 
@@ -27,7 +21,7 @@ export const ProjectListItem = ({
   return (
     <Paper variant="outlined" square={false} className={classes.root}>
       <Box display="flex" justifyContent="space-between" mb={5}>
-        <ModerationStatus status={moderationStatus} />
+        <ModerationStatusLed status={moderationStatus} />
         <Timer />
       </Box>
       <Typography className={classes.name}>{name}</Typography>

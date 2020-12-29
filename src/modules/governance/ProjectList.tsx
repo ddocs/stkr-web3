@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useCallback } from 'react';
 import { Curtains } from '../../UiKit/Curtains';
 import { Headline1 } from '../../UiKit/Typography';
 import { t } from '../../common/utils/intl';
@@ -7,9 +8,29 @@ import { ReactComponent as PlusIcon } from './assets/plus.svg';
 import { ProjectListItem } from './components/ProjectListItem';
 import { useModerationStatusStyles } from './ProjectListStyles';
 import classNames from 'classnames';
+import { RulesDialog } from './components/RulesDialog';
+import { useDispatch } from 'react-redux';
+import { useDialog } from '../../store/dialogs/selectors';
+import {
+  closeModalAction,
+  DIALOG_GOVERNANCE_RULES_OF_PROPOSAL,
+  openGovernanceRulesOfProposalModal,
+} from '../../store/dialogs/actions';
 
 export const ProjectList = () => {
   const classes = useModerationStatusStyles();
+  const dispatch = useDispatch();
+
+  const isOpened = useDialog(DIALOG_GOVERNANCE_RULES_OF_PROPOSAL);
+
+  const handleOpen = useCallback(() => {
+    dispatch(openGovernanceRulesOfProposalModal());
+  }, [dispatch]);
+
+  const handleClose = useCallback(() => {
+    dispatch(closeModalAction());
+  }, [dispatch]);
+
   return (
     <section className={classes.root}>
       <Curtains>
@@ -32,7 +53,13 @@ export const ProjectList = () => {
             <PlusIcon />
           </IconButton>
           <Box width="100%" maxWidth={200} ml="auto">
-            <Button color="primary" size="large" fullWidth={true}>
+            <RulesDialog isOpened={isOpened} handleClose={handleClose} />
+            <Button
+              color="primary"
+              size="large"
+              fullWidth={true}
+              onClick={handleOpen}
+            >
               {t('project-list.create')}
             </Button>
           </Box>

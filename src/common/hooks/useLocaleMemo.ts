@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { DependencyList, useMemo } from 'react';
 import { useLocale } from '../utils/useLocale';
 
