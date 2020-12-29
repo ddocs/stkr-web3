@@ -84,7 +84,7 @@ export class MetaMaskProvider extends KeyProvider {
       'custom-huobi': {
         display: {
           logo: require('./assets/huobi.svg'),
-          name: 'Huobi',
+          name: 'Huobi Wallet',
           description: 'Multi-currency support, practical and convenient',
         },
         package: WalletConnectProvider,
