@@ -364,5 +364,8 @@
       "4": "An address can create at most 2 proposals in a month.",
       "5": "Once the voting period is ended, if the proposal has been accepted with a majorityvote, then the proposal will be implemented by the Stkr team in the following 15up to 30 days."
     }
+  },
+  "create-project": {
+    "title": "Create a New Proposal"
   }
 }

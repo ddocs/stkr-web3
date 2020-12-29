@@ -5,16 +5,17 @@ import { QueryLoadingCentered } from './components/QueryLoading/QueryLoading';
 import { PageNotFound } from './components/PageNotFound/PageNotFound';
 import { withDefaultLayout } from './modules/layout';
 import {
-  GOVERNANCE_PROJECT_LIST_PATH,
-  INDEX_PATH,
-  PICKER_PATH,
-  PROVIDER_CREATE_NODE_PATH,
-  PROVIDER_MAIN_PATH,
-  PROVIDER_NODE_LIST_PATH,
-  PROVIDER_TOP_UP_LIST_PATH,
-  PROVIDER_TOP_UP_ROUTE,
-  STAKER_DASHBOAR_PATH,
-  STAKER_STAKE_PATH,
+    GOVERNANCE_CREATE_PROJECT_PATH,
+    GOVERNANCE_PROJECT_LIST_PATH,
+    INDEX_PATH,
+    PICKER_PATH,
+    PROVIDER_CREATE_NODE_PATH,
+    PROVIDER_MAIN_PATH,
+    PROVIDER_NODE_LIST_PATH,
+    PROVIDER_TOP_UP_LIST_PATH,
+    PROVIDER_TOP_UP_ROUTE,
+    STAKER_DASHBOAR_PATH,
+    STAKER_STAKE_PATH,
 } from './common/const';
 import { PrivateRoute } from './UiKit/PrivateRoute';
 
@@ -98,6 +99,18 @@ const GovernanceListContainer = withDefaultLayout(
   ) as LoadableComponent<any>,
 );
 
+const CreateProjectContainer = withDefaultLayout(
+  loadable(
+    async () =>
+      import('./modules/governance/CreateProject').then(
+        module => module.CreateProject,
+      ),
+    {
+      fallback: <QueryLoadingCentered />,
+    },
+  ) as LoadableComponent<any>,
+);
+
 export function Routes() {
   return (
     <Switch>
@@ -135,6 +148,10 @@ export function Routes() {
       <Route
         path={GOVERNANCE_PROJECT_LIST_PATH}
         component={GovernanceListContainer}
+      />
+      <Route
+        path={GOVERNANCE_CREATE_PROJECT_PATH}
+        component={CreateProjectContainer}
       />
       <PrivateRoute component={PageNotFound} />
     </Switch>
