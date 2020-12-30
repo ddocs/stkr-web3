@@ -1,14 +1,9 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { useVideoTutorial } from './VideoTutorialStyles';
 import { Curtains } from '../../../../UiKit/Curtains';
 import ReactPlayer from 'react-player';
 import { ReactComponent as PlayIcon } from './assets/play.svg';
-import { useDispatch } from 'react-redux';
-import {
-  closeModalAction,
-  DIALOG_PRESENTATION,
-  openPresentationModal,
-} from '../../../../store/dialogs/actions';
+import { DIALOG_PRESENTATION } from '../../../../store/dialogs/actions';
 import { useDialog } from '../../../../store/dialogs/selectors';
 import { Dialog, DialogContent, IconButton } from '@material-ui/core';
 import { t } from '../../../../common/utils/intl';
@@ -19,17 +14,10 @@ const FULL_URL = 'https://www.youtube.com/embed/z5VYqaREVbE?autoplay=1';
 
 export const VideoTutorial = () => {
   const classes = useVideoTutorial();
-  const dispatch = useDispatch();
 
-  const isOpened = useDialog(DIALOG_PRESENTATION);
-
-  const handlePlay = useCallback(() => {
-    dispatch(openPresentationModal());
-  }, [dispatch]);
-
-  const handleClose = useCallback(() => {
-    dispatch(closeModalAction());
-  }, [dispatch]);
+  const { isOpened, handleOpen: handlePlay, handleClose } = useDialog(
+    DIALOG_PRESENTATION,
+  );
 
   return (
     <section>

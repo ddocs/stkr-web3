@@ -180,6 +180,7 @@
     "$-value": "${value}",
     "eth-value": "{value} ETH",
     "day-value": "{value, plural, =1 {# day} other {# days}}",
+    "vote-value": "{value, plural, =1 {# vote} other {# votes}}",
     "aeth-value": "{value} aETH",
     "eth": "ETH",
     "~eth-value": "~{value} ETH",
@@ -382,5 +383,25 @@
     "title": "Project created!",
     "subtitle": "Your project got moderation, it will be launched after verification",
     "submit": "I understand"
+  },
+  "project": {
+    "project-name": "Project Name",
+    "time-left": "<span class=\"bold\">Time left</span> 2d:14h:36m",
+    "support": "Support",
+    "against": "Against",
+    "submit": "Support with {value} ANKR",
+    "how-does-it-work": "How does voting work?",
+    "details": "Details"
+  },
+  "how-it-works-dialog": {
+    "title": "How does voting work?",
+    "submit": "I understand",
+    "item": {
+      "1": "To  participate  in  a  proposal,  users  must  give  allowance  to  Stkr’s  AnkrDepositContract.",
+      "2": "Every deposited ANKR token has only one voting power (i.e., more tokens morevote power).",
+      "3": "Users can deposit tokens before the voting period or while they vote.",
+      "4": "Users can participate multiple proposals by voting with the same deposited tokens(as long as the address has sufficient ANKR tokens).",
+      "5": "The voting power is equal to their deposit amount."
+    }
   }
 }

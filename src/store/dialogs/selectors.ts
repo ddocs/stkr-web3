@@ -1,13 +1,21 @@
-import { KnownModal } from './actions';
+import { closeModalAction, KnownModal, openModalAction } from './actions';
 import { IStoreState } from '../reducers';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useCallback } from 'react';
 
 export interface IDialogState {
   currentModal?: KnownModal;
 }
 
 export function useDialog(modalId: KnownModal) {
-  return useSelector((state: IStoreState) => {
-    return state.dialog.currentModal === modalId;
-  });
+  const dispatch = useDispatch();
+  return {
+    isOpened: useSelector((state: IStoreState) => {
+      return state.dialog.currentModal === modalId;
+    }),
+    handleClose: useCallback(() => {
+      dispatch(closeModalAction());
+    }, [dispatch]),
+    handleOpen: () => dispatch(openModalAction(modalId)),
+  };
 }

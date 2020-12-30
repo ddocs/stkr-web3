@@ -17,13 +17,8 @@ import { InputField } from '../../UiKit/InputField';
 import { Button } from '../../UiKit/Button';
 import { FormErrors } from '../../common/types/FormErrors';
 import { SliderField } from '../../UiKit/RangeField';
-import { useDispatch } from 'react-redux';
 import { useDialog } from '../../store/dialogs/selectors';
-import {
-  closeModalAction,
-  DIALOG_GOVERNANCE_PROJECT_CREATED,
-  openGovernanceProjectCreatedModal,
-} from '../../store/dialogs/actions';
+import { DIALOG_GOVERNANCE_PROJECT_CREATED } from '../../store/dialogs/actions';
 import { ProjectCreatedDialog } from './components/ProjectCreatedDialog';
 
 function SliderLabel({ value, children, open }: ValueLabelProps) {
@@ -65,20 +60,16 @@ function validateCreateProjectForm(data: ICreateProjectValue) {
 export const CreateProject = () => {
   const classes = useCreateProjectStyles();
 
-  const dispatch = useDispatch();
-
-  const isOpened = useDialog(DIALOG_GOVERNANCE_PROJECT_CREATED);
-
-  const handleClose = useCallback(() => {
-    dispatch(closeModalAction());
-  }, [dispatch]);
+  const { isOpened, handleClose, handleOpen } = useDialog(
+    DIALOG_GOVERNANCE_PROJECT_CREATED,
+  );
 
   const onSubmit = useCallback(
     (payload: ICreateProjectValue) => {
-      dispatch(openGovernanceProjectCreatedModal());
+      handleOpen();
       console.log('onSubmit', payload);
     },
-    [dispatch],
+    [handleOpen],
   );
 
   const renderForm = ({

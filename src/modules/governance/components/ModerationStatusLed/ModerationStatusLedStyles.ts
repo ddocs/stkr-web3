@@ -1,13 +1,13 @@
 import { fade, makeStyles } from '@material-ui/core/styles';
 import { Theme } from '@material-ui/core';
 import {
-  IModerationStatusProps,
+  IModerationStatusLedProps,
   ModerationStatus,
 } from './ModerationStatusLed';
 
 export const useModerationStatusLedStyles = makeStyles<
   Theme,
-  IModerationStatusProps
+  IModerationStatusLedProps
 >(theme => {
   function getColor(status: ModerationStatus) {
     return status === 'moderation'
@@ -16,17 +16,35 @@ export const useModerationStatusLedStyles = makeStyles<
   }
 
   return {
-    root: {
-      color: ({ status }) => getColor(status),
-      display: 'flex',
-      alignItems: 'center',
+    root: ({ status, variant }) => {
+      return {
+        color: getColor(status),
+        display: 'flex',
+        alignItems: 'center',
+        ...(variant === 'contained'
+          ? {
+              background: fade(getColor(status), 0.1),
+              borderRadius: 26,
+              padding: '4px 14px',
+              fontSize: 16,
+              fontWeight: 500,
+            }
+          : {}),
+      };
     },
-    led: {
-      width: 8,
-      height: 8,
-      borderRadius: '50%',
-      marginRight: theme.spacing(1),
-      background: ({ status }) => getColor(status),
+    led: ({ status, variant }) => {
+      return {
+        width: 8,
+        height: 8,
+        borderRadius: '50%',
+        marginRight: theme.spacing(1),
+        background: getColor(status),
+        ...(variant === 'contained'
+          ? {
+              marginRight: theme.spacing(1.5),
+            }
+          : {}),
+      };
     },
   };
 });
