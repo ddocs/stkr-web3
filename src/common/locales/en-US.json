@@ -377,5 +377,10 @@
     "description": {
       "timing": "Please set a time frame for the project. Select the number of days below"
     }
+  },
+  "project-created-dialog": {
+    "title": "Project created!",
+    "subtitle": "Your project got moderation, it will be launched after verification",
+    "submit": "I understand"
   }
 }

@@ -17,6 +17,14 @@ import { InputField } from '../../UiKit/InputField';
 import { Button } from '../../UiKit/Button';
 import { FormErrors } from '../../common/types/FormErrors';
 import { SliderField } from '../../UiKit/RangeField';
+import { useDispatch } from 'react-redux';
+import { useDialog } from '../../store/dialogs/selectors';
+import {
+  closeModalAction,
+  DIALOG_GOVERNANCE_PROJECT_CREATED,
+  openGovernanceProjectCreatedModal,
+} from '../../store/dialogs/actions';
+import { ProjectCreatedDialog } from './components/ProjectCreatedDialog';
 
 function SliderLabel({ value, children, open }: ValueLabelProps) {
   const classes = useCreateProjectStyles();
@@ -57,9 +65,21 @@ function validateCreateProjectForm(data: ICreateProjectValue) {
 export const CreateProject = () => {
   const classes = useCreateProjectStyles();
 
-  const onSubmit = useCallback((payload: ICreateProjectValue) => {
-    console.log('onSubmit');
-  }, []);
+  const dispatch = useDispatch();
+
+  const isOpened = useDialog(DIALOG_GOVERNANCE_PROJECT_CREATED);
+
+  const handleClose = useCallback(() => {
+    dispatch(closeModalAction());
+  }, [dispatch]);
+
+  const onSubmit = useCallback(
+    (payload: ICreateProjectValue) => {
+      dispatch(openGovernanceProjectCreatedModal());
+      console.log('onSubmit', payload);
+    },
+    [dispatch],
+  );
 
   const renderForm = ({
     handleSubmit,
@@ -125,21 +145,24 @@ export const CreateProject = () => {
   };
 
   return (
-    <section className={classes.root}>
-      <Curtains className={classes.content}>
-        <Box mb={4}>
-          <Headline2 align="center" component="h2">
-            {t('create-project.title')}
-          </Headline2>
-        </Box>
-        <Paper variant="outlined" square={false} className={classes.paper}>
-          <Form
-            render={renderForm}
-            validate={validateCreateProjectForm}
-            onSubmit={onSubmit}
-          />
-        </Paper>
-      </Curtains>
-    </section>
+    <>
+      <ProjectCreatedDialog isOpened={isOpened} handleClose={handleClose} />
+      <section className={classes.root}>
+        <Curtains className={classes.content}>
+          <Box mb={4}>
+            <Headline2 align="center" component="h2">
+              {t('create-project.title')}
+            </Headline2>
+          </Box>
+          <Paper variant="outlined" square={false} className={classes.paper}>
+            <Form
+              render={renderForm}
+              validate={validateCreateProjectForm}
+              onSubmit={onSubmit}
+            />
+          </Paper>
+        </Curtains>
+      </section>
+    </>
   );
 };
