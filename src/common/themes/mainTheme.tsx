@@ -588,6 +588,11 @@ const mainTheme = createMuiTheme({
         backgroundColor: '#ffffff',
       },
     },
+    MuiLink: {
+      root: {
+        cursor: 'pointer',
+      },
+    },
   },
 } as ThemeOptions);
 

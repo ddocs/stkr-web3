@@ -39,7 +39,11 @@ function SliderLabel({ value, children, open }: ValueLabelProps) {
         classes={{ tooltip: classes.tooltip }}
         open={open}
         enterTouchDelay={0}
-        title={t('units.number-value', { value })}
+        title={
+          <Typography variant="h3">
+            {t('units.number-value', { value })}
+          </Typography>
+        }
         placement="top"
       >
         {children}
@@ -69,9 +73,15 @@ export const Project = () => {
     return (
       <form onSubmit={handleSubmit} className={classes.form}>
         <Box display="flex" className={classes.amount}>
-          <Button variant="outlined">
+          <Button
+            variant="outlined"
+            classes={{
+              root: classes.voteButton,
+              label: classes.voteButtonLabel,
+            }}
+          >
             {t('project.support')}
-            <Typography color="textSecondary">
+            <Typography color="textSecondary" className={classes.voteCount}>
               {t('units.vote-value', { value: '670000' })}
             </Typography>
           </Button>
@@ -83,21 +93,34 @@ export const Project = () => {
             step={1}
             valueLabelDisplay="on"
             ValueLabelComponent={SliderLabel}
+            classes={{ root: classes.slider }}
           />
-          <Button variant="outlined">
+          <Button
+            variant="outlined"
+            classes={{
+              root: classes.voteButton,
+              label: classes.voteButtonLabel,
+            }}
+          >
             {t('project.against')}
-            <Typography color="textSecondary">
+            <Typography color="textSecondary" className={classes.voteCount}>
               {t('units.vote-value', { value: '670000' })}
             </Typography>
           </Button>
         </Box>
 
-        <Box maxWidth={298} width="100%" margin="0 auto">
+        <Box maxWidth={298} width="100%" margin="0 auto" mb={3}>
           <Button color="primary" type="submit" size="large" fullWidth={true}>
             {t('project.submit', { value: amount })}
           </Button>
         </Box>
-        <Link color="textSecondary" onClick={onHowItWorksClick}>
+        <Link
+          color="textSecondary"
+          align="center"
+          underline="none"
+          onClick={onHowItWorksClick}
+          display="block"
+        >
           {t('project.how-does-it-work')}
         </Link>
       </form>
@@ -115,7 +138,9 @@ export const Project = () => {
               variant="contained"
               classes={{ root: classes.led }}
             />
-            <Typography variant="h2">{t('project.project-name')}</Typography>
+            <Box mb={2.5}>
+              <Typography variant="h2">{t('project.project-name')}</Typography>
+            </Box>
             <Typography
               variant="body2"
               color="textSecondary"
@@ -124,7 +149,7 @@ export const Project = () => {
               {tHTML('project.time-left')}
             </Typography>
 
-            <Divider />
+            <Divider className={classes.divider} />
 
             <Form
               render={renderForm}
@@ -138,7 +163,7 @@ export const Project = () => {
               <Typography className={classes.details}>
                 {t('project.details')}
               </Typography>
-              <Typography color="textSecondary">
+              <Typography color="textSecondary" variant="body2">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                 eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
                 enim ad minim veniam, quis nostrud exercitation ullamco laboris
