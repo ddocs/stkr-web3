@@ -179,6 +179,7 @@
   "units": {
     "$-value": "${value}",
     "eth-value": "{value} ETH",
+    "day-value": "{value, plural, =1 {# day} other {# days}}",
     "aeth-value": "{value} aETH",
     "eth": "ETH",
     "~eth-value": "~{value} ETH",
@@ -366,6 +367,15 @@
     }
   },
   "create-project": {
-    "title": "Create a New Proposal"
+    "title": "Create a New Proposal",
+    "submit": "Create proposal",
+    "label": {
+      "name": "Project name",
+      "description": "Project description",
+      "timing": "Project Timing"
+    },
+    "description": {
+      "timing": "Please set a time frame for the project. Select the number of days below"
+    }
   }
 }
