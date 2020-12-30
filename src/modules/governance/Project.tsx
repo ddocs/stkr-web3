@@ -6,6 +6,7 @@ import {
   Box,
   Button,
   Divider,
+  IconButton,
   Link,
   Paper,
   Tooltip,
@@ -20,6 +21,9 @@ import { FormErrors } from '../../common/types/FormErrors';
 import { useDialog } from '../../store/dialogs/selectors';
 import { DIALOG_GOVERNANCE_HOW_IT_WORKS } from '../../store/dialogs/actions';
 import { HowItWorksDialog } from './components/HowItWorksDialog';
+import { CancelIcon } from '../../UiKit/Icons/CancelIcon';
+import { Link as RouterLink } from 'react-router-dom';
+import { GOVERNANCE_PROJECT_LIST_PATH } from '../../common/const';
 
 interface IVoteValue {
   amount: number;
@@ -132,6 +136,11 @@ export const Project = () => {
       <HowItWorksDialog isOpened={isOpened} handleClose={handleClose} />
       <section className={classes.root}>
         <Curtains className={classes.content}>
+          <RouterLink to={GOVERNANCE_PROJECT_LIST_PATH}>
+            <IconButton className={classes.close}>
+              <CancelIcon onClick={handleClose} size="xmd" />
+            </IconButton>
+          </RouterLink>
           <Paper variant="outlined" square={false} className={classes.paper}>
             <ModerationStatusLed
               status="live"

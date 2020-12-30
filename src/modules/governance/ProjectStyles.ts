@@ -74,4 +74,9 @@ export const useProjectStyles = makeStyles(theme => ({
   slider: {
     marginTop: theme.spacing(7),
   },
+  close: {
+    position: 'absolute',
+    right: 0,
+    top: 0,
+  },
 }));
