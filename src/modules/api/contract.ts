@@ -1,5 +1,5 @@
 import { KeyProvider, SendAsyncResult } from './provider';
-import { Contract } from 'web3-eth-contract';
+import { Contract, SendOptions } from 'web3-eth-contract';
 import BigNumber from 'bignumber.js';
 import { EventLog } from 'web3-core';
 import { EventEmitter } from 'events';
@@ -12,12 +12,15 @@ import {
 } from './event';
 import { BlockHeader } from 'web3-eth';
 import { ETH_SCALE_FACTOR } from '../../common/const';
+import Stkr from '@ankr.com/stkr-jssdk';
 
 import ABI_GLOBAL_POOL from './contract/GlobalPool.json';
 import ABI_AETH from './contract/AETH.json';
 import ABI_ANKR from './contract/ANKR.json';
 import ABI_STAKING from './contract/Staking.json';
 import ABI_SYSTEM from './contract/SystemParameters.json';
+
+const ERROR_SDK_NOT_INITIALIZED = new Error("Stkr SDK hasn't been initialized");
 
 export interface ContractConfig {
   aethContract: string;
@@ -42,6 +45,7 @@ export class ContractManager {
   private readonly ankrContract?: Contract;
   private readonly stakingContract?: Contract;
   private readonly systemContract: Contract;
+  private stkr: Stkr | undefined = undefined;
 
   private systemContractParameters: SystemContractParameters | null = null;
 
@@ -78,6 +82,14 @@ export class ContractManager {
     this.followEthereumEvents();
     this.followAnkrEvents();
     this.followGlobalPoolEvents();
+
+    // TODO sync init
+    keyProvider
+      .getWeb3()
+      .eth.net.getId()
+      .then(
+        networkId => (this.stkr = new Stkr(keyProvider.getWeb3(), networkId)),
+      );
   }
 
   public async queryStakePendingEventLogs(): Promise<IStakePendingEvent[]> {
@@ -714,5 +726,26 @@ export class ContractManager {
       .then((value: string) => {
         return new BigNumber(value).div(ETH_SCALE_FACTOR);
       });
+  }
+
+  public async vote(proposalId: string, vote: string, options?: SendOptions) {
+    if (!this.stkr) {
+      throw ERROR_SDK_NOT_INITIALIZED;
+    }
+
+    return await this.stkr.vote(proposalId, vote, options);
+  }
+
+  public async propose(
+    timeSpan: number,
+    topic: string,
+    content: string,
+    options?: SendOptions,
+  ) {
+    if (!this.stkr) {
+      throw ERROR_SDK_NOT_INITIALIZED;
+    }
+
+    return await this.stkr.propose(timeSpan, topic, content, options);
   }
 }

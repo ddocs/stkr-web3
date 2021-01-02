@@ -14,6 +14,7 @@ import BigNumber from 'bignumber.js';
 import { EventEmitter } from 'events';
 import { TransactionReceipt } from 'web3-core';
 import { ContractManagerEvent } from './event';
+import { SendOptions } from 'web3-eth-contract';
 
 export interface IStakeAction extends SendAsyncResult {
   waitForTxReceipt(): Promise<TransactionReceipt>;
@@ -348,5 +349,23 @@ export class StkrSdk {
 
   public async pendingStakesOf(token: string) {
     return await this.getContractManager().pendingStakesOf(token);
+  }
+
+  public async vote(proposalId: string, vote: string, options?: SendOptions) {
+    return await this.getContractManager().vote(proposalId, vote, options);
+  }
+
+  public async propose(
+    timeSpan: number,
+    topic: string,
+    content: string,
+    options?: SendOptions,
+  ) {
+    return await this.getContractManager().propose(
+      timeSpan,
+      topic,
+      content,
+      options,
+    );
   }
 }
