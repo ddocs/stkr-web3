@@ -179,6 +179,7 @@
   "units": {
     "$-value": "${value}",
     "eth-value": "{value} ETH",
+    "ankr-value": "{value} Ankr",
     "day-value": "{value, plural, =1 {# day} other {# days}}",
     "vote-value": "{value, plural, =1 {# vote} other {# votes}}",
     "aeth-value": "{value} aETH",

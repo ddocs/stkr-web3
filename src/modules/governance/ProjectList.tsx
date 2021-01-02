@@ -36,7 +36,7 @@ export const ProjectList = () => {
               {t('project-list.power')}
             </Typography>
             <Typography variant="body1" className={classes.statsText}>
-              {t('units.eth-value', { value: 0 })}
+              {t('units.ankr-value', { value: 0 })}
             </Typography>
             <IconButton className={classes.plusIcon}>
               <PlusIcon />
