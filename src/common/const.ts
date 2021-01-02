@@ -44,17 +44,6 @@ const env = process.env.REACT_APP_STKR_ENV
 export const isMainnet = env === 'mainnet';
 export const ENABLE_PROVIDER = true;
 
-export enum Chain {
-  mainnet = 1,
-  ropsten = 3,
-  rinkeby = 4,
-  goerli = 5,
-  dev = 2018,
-  classic = 61,
-  mordor = 63,
-  kotti = 6,
-}
-
 export const ENABLE_ANKR_DEPOSIT = false;
 export const ETH_SCALE_FACTOR = 10 ** 18;
 export const PROVIDER_MIN_BALANCE: ETH = 2;

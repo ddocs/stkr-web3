@@ -4,11 +4,11 @@ import { Contract } from 'web3-eth-contract';
 import { BigNumber } from 'bignumber.js';
 import { PromiEvent, TransactionReceipt } from 'web3-core';
 import { EventEmitter } from 'events';
-import { Chain } from '../../common/const';
+import { BlockchainNetworkId } from '@ankr.com/stkr-jssdk';
 
 export interface ProviderConfig {
-  networkId: Chain;
-  chainId: Chain;
+  networkId: BlockchainNetworkId;
+  chainId: BlockchainNetworkId;
 }
 
 export interface SendOptions {
@@ -81,11 +81,11 @@ export abstract class KeyProvider {
     return this._currentAccount;
   }
 
-  public currentChain(): Chain {
+  public currentChain(): BlockchainNetworkId {
     return this.providerConfig.chainId;
   }
 
-  public currentNetwork(): Chain {
+  public currentNetwork(): BlockchainNetworkId {
     return this.providerConfig.networkId;
   }
 
