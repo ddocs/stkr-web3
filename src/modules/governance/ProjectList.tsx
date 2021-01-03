@@ -10,9 +10,21 @@ import classNames from 'classnames';
 import { RulesDialog } from './components/RulesDialog';
 import { useDialog } from '../../store/dialogs/selectors';
 import { DIALOG_GOVERNANCE_RULES_OF_PROPOSAL } from '../../store/dialogs/actions';
+import { useDispatch } from 'react-redux';
+import { useInitEffect } from '../../common/hooks/useInitEffect';
+import {
+  GovernanceActions,
+  GovernanceActionTypes,
+} from '../../store/actions/GovernanceActions';
+import { Query } from '@redux-requests/react';
 
 export const ProjectList = () => {
   const classes = useModerationStatusStyles();
+  const dispatch = useDispatch();
+
+  useInitEffect(() => {
+    dispatch(GovernanceActions.proposal());
+  });
 
   const { isOpened, handleOpen, handleClose } = useDialog(
     DIALOG_GOVERNANCE_RULES_OF_PROPOSAL,
@@ -20,6 +32,12 @@ export const ProjectList = () => {
 
   return (
     <>
+      <Query type={GovernanceActionTypes.PROPOSAL}>
+        {({ data }) => {
+          console.log('data', data);
+          return null;
+        }}
+      </Query>
       <RulesDialog isOpened={isOpened} handleClose={handleClose} />
       <section className={classes.root}>
         <Curtains>
