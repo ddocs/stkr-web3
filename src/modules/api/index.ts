@@ -368,4 +368,8 @@ export class StkrSdk {
       options,
     );
   }
+
+  public async proposal() {
+    return await this.getContractManager().proposal();
+  }
 }

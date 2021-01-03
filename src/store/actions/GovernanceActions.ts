@@ -4,6 +4,7 @@ import { SendOptions } from 'web3-eth-contract';
 export const GovernanceActionTypes = {
   VOTE: 'VOTE',
   PROPOSE: 'PROPOSE',
+  PROPOSAL: 'PROPOSAL',
 };
 
 export const GovernanceActions = {
@@ -27,6 +28,15 @@ export const GovernanceActions = {
       promise: async function () {
         const stkrSdk = StkrSdk.getLastInstance();
         return await stkrSdk.propose(timeSpan, topic, content, options);
+      },
+    },
+  }),
+  proposal: () => ({
+    type: GovernanceActionTypes.PROPOSAL,
+    request: {
+      promise: async function () {
+        const stkrSdk = StkrSdk.getLastInstance();
+        return await stkrSdk.proposal();
       },
     },
   }),

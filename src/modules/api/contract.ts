@@ -748,4 +748,12 @@ export class ContractManager {
 
     return await this.stkr.propose(timeSpan, topic, content, options);
   }
+
+  public async proposal() {
+    if (!this.stkr) {
+      throw ERROR_SDK_NOT_INITIALIZED;
+    }
+
+    return await this.stkr.proposal();
+  }
 }
