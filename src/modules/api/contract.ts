@@ -19,6 +19,7 @@ import ABI_AETH from './contract/AETH.json';
 import ABI_ANKR from './contract/ANKR.json';
 import ABI_STAKING from './contract/Staking.json';
 import ABI_SYSTEM from './contract/SystemParameters.json';
+import { GovernanceEvents } from '@ankr.com/stkr-jssdk';
 
 const ERROR_SDK_NOT_INITIALIZED = new Error("Stkr SDK hasn't been initialized");
 
@@ -749,11 +750,13 @@ export class ContractManager {
     return await this.stkr.propose(timeSpan, topic, content, options);
   }
 
-  public async proposal() {
+  public async fetchProjects() {
     if (!this.stkr) {
       throw ERROR_SDK_NOT_INITIALIZED;
     }
 
-    return await this.stkr.proposal();
+    return await new GovernanceEvents(
+      this.stkr.contracts.governance.getWeb3ContractInstance(),
+    ).getPastPropose({});
   }
 }

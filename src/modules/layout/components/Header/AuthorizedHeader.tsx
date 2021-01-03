@@ -1,10 +1,6 @@
 import { useHeaderStyles } from './HeaderStyles';
 import { useLocation } from 'react-router';
-import {
-  PROVIDER_PATH,
-  STAKER_DASHBOAR_PATH,
-  PICKER_PATH,
-} from '../../../../common/const';
+import { PROVIDER_PATH, STAKER_DASHBOAR_PATH, } from '../../../../common/const';
 import React, { useMemo } from 'react';
 import { HeaderFrame } from './HeaderFrame';
 import { Providers } from '../../../../common/types';
@@ -44,9 +40,8 @@ export const AuthorizedHeader = ({
 
   const showSwitcher = useMemo(
     () =>
-      location.pathname !== PICKER_PATH &&
-      (SHOW_SWITCHER_ON_ALL_PAGES ||
-        switcherPaths.find(path => location.pathname.startsWith(path))),
+      SHOW_SWITCHER_ON_ALL_PAGES ||
+      switcherPaths.find(path => location.pathname.startsWith(path)),
     [location.pathname, switcherPaths],
   );
 

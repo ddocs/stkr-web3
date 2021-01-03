@@ -23,7 +23,7 @@ export const ProjectList = () => {
   const dispatch = useDispatch();
 
   useInitEffect(() => {
-    dispatch(GovernanceActions.proposal());
+    dispatch(GovernanceActions.fetchProjects());
   });
 
   const { isOpened, handleOpen, handleClose } = useDialog(
@@ -32,7 +32,7 @@ export const ProjectList = () => {
 
   return (
     <>
-      <Query type={GovernanceActionTypes.PROPOSAL}>
+      <Query type={GovernanceActionTypes.FETCH_PROJECTS}>
         {({ data }) => {
           console.log('data', data);
           return null;

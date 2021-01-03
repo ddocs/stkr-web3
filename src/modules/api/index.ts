@@ -369,7 +369,7 @@ export class StkrSdk {
     );
   }
 
-  public async proposal() {
-    return await this.getContractManager().proposal();
+  public async fetchProjects() {
+    return await this.getContractManager().fetchProjects();
   }
 }

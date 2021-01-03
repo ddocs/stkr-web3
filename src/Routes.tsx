@@ -156,15 +156,18 @@ export function Routes() {
         exact={true}
       />
       <PrivateRoute path={STAKER_STAKE_PATH} component={StakerContainer} />
-      <Route
+      <PrivateRoute
         path={GOVERNANCE_PROJECT_LIST_PATH}
         component={GovernanceListContainer}
       />
-      <Route
+      <PrivateRoute
         path={GOVERNANCE_CREATE_PROJECT_PATH}
         component={CreateProjectContainer}
       />
-      <Route path={GOVERNANCE_PROJECT_PATH} component={ProjectContainer} />
+      <PrivateRoute
+        path={GOVERNANCE_PROJECT_PATH}
+        component={ProjectContainer}
+      />
       <PrivateRoute component={PageNotFound} />
     </Switch>
   );
