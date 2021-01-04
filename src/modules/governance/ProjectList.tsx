@@ -85,7 +85,7 @@ export const ProjectList = () => {
                 </>
               )}
             </Query>
-            {!isMainnet ? (
+            {isMainnet ? (
               <IconButton
                 component="a"
                 target="_blank"
@@ -99,7 +99,7 @@ export const ProjectList = () => {
                 <PlusIcon />
               </IconButton>
             )}
-            <Box width="100%" maxWidth={200} ml="auto">
+            <div className={classes.createBlock}>
               <Button
                 color="primary"
                 size="large"
@@ -108,7 +108,7 @@ export const ProjectList = () => {
               >
                 {t('project-list.create')}
               </Button>
-            </Box>
+            </div>
           </Paper>
           <div className={classes.content}>
             <ProjectListItem moderationStatus="moderation" />

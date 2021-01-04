@@ -19,6 +19,7 @@ import ABI_AETH from './contract/AETH.json';
 import ABI_ANKR from './contract/ANKR.json';
 import ABI_STAKING from './contract/Staking.json';
 import ABI_SYSTEM from './contract/SystemParameters.json';
+import * as BN from 'bn.js';
 
 const ERROR_SDK_NOT_INITIALIZED = new Error("Stkr SDK hasn't been initialized");
 
@@ -727,7 +728,7 @@ export class ContractManager {
 
     return await new GovernanceEvents(
       this.stkr.contracts.governance.getWeb3ContractInstance(),
-    ).getPastPropose({});
+    ).getPastPropose({ fromBlock: 0 });
   }
 
   public async createProject(
@@ -748,6 +749,30 @@ export class ContractManager {
       throw ERROR_SDK_NOT_INITIALIZED;
     }
 
-    return await this.stkr.faucet(options);
+    return await this.stkr.faucet5m(options);
+  }
+
+  public async setAnkrAllowance(amount: string, options?: SendOptions) {
+    if (!this.stkr) {
+      throw ERROR_SDK_NOT_INITIALIZED;
+    }
+
+    return await this.stkr.setAnkrAllowance(amount, options);
+  }
+
+  public async getAnkrAllowance(owner: string, spender: string): Promise<BN> {
+    if (!this.stkr) {
+      throw ERROR_SDK_NOT_INITIALIZED;
+    }
+
+    return await this.stkr.getAnkrAllowance(owner, spender);
+  }
+
+  public async getProposalInfo(proposalId: string) {
+    if (!this.stkr) {
+      throw ERROR_SDK_NOT_INITIALIZED;
+    }
+
+    return await this.stkr.getProposalInfo(proposalId);
   }
 }

@@ -3,7 +3,14 @@ import { useCallback } from 'react';
 import { Curtains } from '../../UiKit/Curtains';
 import { Headline2 } from '../../UiKit/Typography';
 import { t } from '../../common/utils/intl';
-import { Box, Divider, Paper, Tooltip, Typography, ValueLabelProps, } from '@material-ui/core';
+import {
+  Box,
+  Divider,
+  Paper,
+  Tooltip,
+  Typography,
+  ValueLabelProps,
+} from '@material-ui/core';
 import { useCreateProjectStyles } from './CreateProjectStyles';
 import { Field, Form, FormRenderProps } from 'react-final-form';
 import { InputField } from '../../UiKit/InputField';
@@ -14,11 +21,16 @@ import { useDialog } from '../../store/dialogs/selectors';
 import { DIALOG_GOVERNANCE_PROJECT_CREATED } from '../../store/dialogs/actions';
 import { ProjectCreatedDialog } from './components/ProjectCreatedDialog';
 import { useDispatch } from 'react-redux';
-import { GovernanceActions, GovernanceActionTypes, } from '../../store/actions/GovernanceActions';
+import {
+  GovernanceActions,
+  GovernanceActionTypes,
+} from '../../store/actions/GovernanceActions';
 import { Mutation } from '@redux-requests/react';
 import { MutationErrorHandler } from '../../components/MutationErrorHandler/MutationErrorHandler';
 
 const SECONDS_IN_DAY = 60 * 60 * 24;
+
+const DEFAULT_TIME_SPAN = 3;
 
 function SliderLabel({ value, children, open }: ValueLabelProps) {
   const classes = useCreateProjectStyles();
@@ -54,6 +66,10 @@ function validateCreateProjectForm(data: ICreateProjectValue) {
     errors.content = t('validation.required');
   }
 
+  if (!data.timeSpanDays) {
+    errors.timeSpanDays = t('validation.required');
+  }
+
   return errors;
 }
 
@@ -61,13 +77,12 @@ export const CreateProject = () => {
   const classes = useCreateProjectStyles();
   const dispatch = useDispatch();
 
-  const { isOpened, handleClose, handleOpen } = useDialog(
+  const { isOpened, handleClose } = useDialog(
     DIALOG_GOVERNANCE_PROJECT_CREATED,
   );
 
   const onSubmit = useCallback(
     ({ timeSpanDays, topic, content }: ICreateProjectValue) => {
-      handleOpen();
       dispatch(
         GovernanceActions.createProject(
           timeSpanDays * SECONDS_IN_DAY,
@@ -76,7 +91,7 @@ export const CreateProject = () => {
         ),
       );
     },
-    [dispatch, handleOpen],
+    [dispatch],
   );
 
   const renderForm = ({
@@ -117,7 +132,7 @@ export const CreateProject = () => {
         <Box mb={6}>
           <Field
             component={SliderField}
-            min={3}
+            min={DEFAULT_TIME_SPAN}
             max={7}
             name="timeSpanDays"
             step={1}
@@ -163,6 +178,7 @@ export const CreateProject = () => {
               render={renderForm}
               validate={validateCreateProjectForm}
               onSubmit={onSubmit}
+              initialValues={{ timeSpanDays: DEFAULT_TIME_SPAN }}
             />
           </Paper>
         </Curtains>

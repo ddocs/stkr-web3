@@ -15,6 +15,7 @@ import { EventEmitter } from 'events';
 import { TransactionReceipt } from 'web3-core';
 import { ContractManagerEvent } from './event';
 import { SendOptions } from 'web3-eth-contract';
+import * as BN from 'bn.js';
 
 export interface IStakeAction extends SendAsyncResult {
   waitForTxReceipt(): Promise<TransactionReceipt>;
@@ -370,5 +371,23 @@ export class StkrSdk {
 
   public async faucet(options?: SendOptions) {
     return await this.getContractManager().faucet(options);
+  }
+
+  public async setAnkrAllowance(
+    amount: string,
+    options?: SendOptions,
+  ) {
+    return await this.getContractManager().setAnkrAllowance(
+      amount,
+      options,
+    );
+  }
+
+  public async getAnkrAllowance(owner: string, spender: string): Promise<BN> {
+    return await this.getContractManager().getAnkrAllowance(owner, spender);
+  }
+
+  public async getProposalInfo(proposalId: string) {
+    return await this.getContractManager().getProposalInfo(proposalId);
   }
 }

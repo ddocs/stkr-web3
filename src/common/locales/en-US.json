@@ -362,10 +362,10 @@
     "submit": "I agree",
     "item": {
       "1": "Once the proposal is created, it will be available for voting.",
-      "2": "The creator’s 5.000.000ANKR will be locked for 2 weeks.",
-      "3": "The creator will not be able to create another proposal with same locked tokens.However, he/she can still vote for other proposals.",
+      "2": "The creator’s 5.000.000 ANKR will be locked for 2 weeks.",
+      "3": "The creator will not be able to create another proposal with same locked tokens. However, he/she can still vote for other proposals.",
       "4": "An address can create at most 2 proposals in a month.",
-      "5": "Once the voting period is ended, if the proposal has been accepted with a majorityvote, then the proposal will be implemented by the Stkr team in the following 15up to 30 days."
+      "5": "Once the voting period is ended, if the proposal has been accepted with a majority vote, then the proposal will be implemented by the Stkr team in the following 15 up to 30 days."
     }
   },
   "create-project": {
