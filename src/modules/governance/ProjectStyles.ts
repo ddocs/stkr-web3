@@ -17,6 +17,9 @@ export const useProjectStyles = makeStyles(theme => ({
     flexDirection: 'column',
     alignItems: 'center',
     marginBottom: theme.spacing(3.5),
+    [theme.breakpoints.down('xs')]: {
+      padding: theme.spacing(2),
+    },
   },
   led: {
     marginBottom: theme.spacing(1.75),
