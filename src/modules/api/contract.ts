@@ -12,14 +12,13 @@ import {
 } from './event';
 import { BlockHeader } from 'web3-eth';
 import { ETH_SCALE_FACTOR } from '../../common/const';
-import Stkr from '@ankr.com/stkr-jssdk';
+import Stkr, { GovernanceEvents } from '@ankr.com/stkr-jssdk';
 
 import ABI_GLOBAL_POOL from './contract/GlobalPool.json';
 import ABI_AETH from './contract/AETH.json';
 import ABI_ANKR from './contract/ANKR.json';
 import ABI_STAKING from './contract/Staking.json';
 import ABI_SYSTEM from './contract/SystemParameters.json';
-import { GovernanceEvents } from '@ankr.com/stkr-jssdk';
 
 const ERROR_SDK_NOT_INITIALIZED = new Error("Stkr SDK hasn't been initialized");
 
@@ -640,22 +639,6 @@ export class ContractManager {
     return new BigNumber(allowance).dividedBy(ANKR_SCALE_FACTOR);
   }
 
-  public async faucet(): Promise<SendAsyncResult> {
-    if (!this.ankrContract || !this.contractConfig.ankrContract) {
-      throw new Error('Ankr contract is not available now');
-    }
-    const data: string = this.ankrContract.methods.faucet().encodeABI();
-    const currentAccount = await this.keyProvider.currentAccount();
-    console.log(`encoded [faucet] ABI: ${data}`);
-    return this.keyProvider.sendAsync(
-      currentAccount,
-      this.contractConfig.ankrContract,
-      {
-        data: data,
-      },
-    );
-  }
-
   public async approveAnkrToStakingContract(
     amount: BigNumber,
   ): Promise<SendAsyncResult> {
@@ -737,7 +720,17 @@ export class ContractManager {
     return await this.stkr.vote(proposalId, vote, options);
   }
 
-  public async propose(
+  public async fetchProjects() {
+    if (!this.stkr) {
+      throw ERROR_SDK_NOT_INITIALIZED;
+    }
+
+    return await new GovernanceEvents(
+      this.stkr.contracts.governance.getWeb3ContractInstance(),
+    ).getPastPropose({});
+  }
+
+  public async createProject(
     timeSpan: number,
     topic: string,
     content: string,
@@ -750,13 +743,11 @@ export class ContractManager {
     return await this.stkr.propose(timeSpan, topic, content, options);
   }
 
-  public async fetchProjects() {
+  public async faucet(options?: SendOptions) {
     if (!this.stkr) {
       throw ERROR_SDK_NOT_INITIALIZED;
     }
 
-    return await new GovernanceEvents(
-      this.stkr.contracts.governance.getWeb3ContractInstance(),
-    ).getPastPropose({});
+    return await this.stkr.faucet(options);
   }
 }

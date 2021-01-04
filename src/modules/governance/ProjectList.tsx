@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useCallback } from 'react';
 import { Curtains } from '../../UiKit/Curtains';
 import { Headline1 } from '../../UiKit/Typography';
 import { t } from '../../common/utils/intl';
@@ -17,6 +18,16 @@ import {
   GovernanceActionTypes,
 } from '../../store/actions/GovernanceActions';
 import { Query } from '@redux-requests/react';
+import { UserActions, UserActionTypes } from '../../store/actions/UserActions';
+import { IUserInfo } from '../../store/apiMappers/userApi';
+import { QueryError } from '../../components/QueryError/QueryError';
+import { QueryLoading } from '../../components/QueryLoading/QueryLoading';
+import { QueryEmpty } from '../../components/QueryEmpty/QueryEmpty';
+import {
+  ANKR_DEPOSIT_LINK,
+  DEFAULT_FIXED,
+  isMainnet,
+} from '../../common/const';
 
 export const ProjectList = () => {
   const classes = useModerationStatusStyles();
@@ -29,6 +40,10 @@ export const ProjectList = () => {
   const { isOpened, handleOpen, handleClose } = useDialog(
     DIALOG_GOVERNANCE_RULES_OF_PROPOSAL,
   );
+
+  const handleDeposit = useCallback(() => {
+    dispatch(UserActions.faucet());
+  }, [dispatch]);
 
   return (
     <>
@@ -47,18 +62,43 @@ export const ProjectList = () => {
             </Headline1>
           </Box>
           <Paper variant="outlined" square={false} className={classes.stats}>
-            <Typography
-              variant="body1"
-              className={classNames(classes.power, classes.statsText)}
+            <Query<IUserInfo | null>
+              type={UserActionTypes.FETCH_ACCOUNT_DATA}
+              errorComponent={QueryError}
+              loadingComponent={QueryLoading}
+              noDataMessage={<QueryEmpty />}
+              showLoaderDuringRefetch={false}
             >
-              {t('project-list.power')}
-            </Typography>
-            <Typography variant="body1" className={classes.statsText}>
-              {t('units.ankr-value', { value: 0 })}
-            </Typography>
-            <IconButton className={classes.plusIcon}>
-              <PlusIcon />
-            </IconButton>
+              {({ data }) => (
+                <>
+                  <Typography
+                    variant="body1"
+                    className={classNames(classes.power, classes.statsText)}
+                  >
+                    {t('project-list.power')}
+                  </Typography>
+                  <Typography variant="body1" className={classes.statsText}>
+                    {t('units.ankr-value', {
+                      value: data?.ankrBalance.toFormat(DEFAULT_FIXED),
+                    })}
+                  </Typography>
+                </>
+              )}
+            </Query>
+            {!isMainnet ? (
+              <IconButton
+                component="a"
+                target="_blank"
+                className={classes.plusIcon}
+                href={ANKR_DEPOSIT_LINK}
+              >
+                <PlusIcon />
+              </IconButton>
+            ) : (
+              <IconButton className={classes.plusIcon} onClick={handleDeposit}>
+                <PlusIcon />
+              </IconButton>
+            )}
             <Box width="100%" maxWidth={200} ml="auto">
               <Button
                 color="primary"

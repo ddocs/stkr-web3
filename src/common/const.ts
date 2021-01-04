@@ -43,9 +43,11 @@ const env = process.env.REACT_APP_STKR_ENV
 export const isMainnet = env === 'mainnet';
 export const ENABLE_PROVIDER = true;
 
-export const ENABLE_ANKR_DEPOSIT = false;
 export const ETH_SCALE_FACTOR = 10 ** 18;
 export const PROVIDER_MIN_BALANCE: ETH = 2;
 export const STAKING_AMOUNT_STEP = 0.5;
 export const PROVIDE_MIN_BALANCE: ETH = 2;
 export const ETHEREUM_PRICE = 590;
+export const DEFAULT_FIXED = 4;
+export const ANKR_DEPOSIT_LINK =
+  'https://app.uniswap.org/#/swap?inputCurrency=0x8290333cef9e6d528dd5618fb97a76f268f3edd4';

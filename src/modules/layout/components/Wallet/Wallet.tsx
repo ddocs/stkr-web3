@@ -5,15 +5,13 @@ import { Address } from '../Address';
 import { FocusOn } from 'react-focus-on';
 import { Providers } from '../../../../common/types';
 import { Dropdown } from '../Dropdown';
-import { fixedNumber } from '../../../../common/utils/fixedNumber';
 import BigNumber from 'bignumber.js';
-
-const FIXED = 4;
+import { DEFAULT_FIXED } from '../../../../common/const';
 
 interface IWalletProps {
   className?: string;
-  ethereumBalance: number;
-  ankrBalance: number;
+  ethereumBalance?: BigNumber;
+  ankrBalance?: BigNumber;
   address: string | undefined;
   provider: Providers | undefined;
 }
@@ -47,10 +45,10 @@ export const Wallet = ({
     <div className={classNames(classes.component, className)}>
       <button className={classes.toggle} onClick={handleOpen} ref={controlRef}>
         <span className={classes.ethereum}>
-          {new BigNumber(fixedNumber(ethereumBalance, FIXED)).toFormat()}
+          {ethereumBalance ? ethereumBalance.toFormat(DEFAULT_FIXED) : 0}
         </span>
         <span className={classes.ankr}>
-          {new BigNumber(fixedNumber(ankrBalance, FIXED)).toFormat()}
+          {ankrBalance ? ankrBalance.toFormat(DEFAULT_FIXED) : 0}
         </span>
         {address && provider && (
           <Address

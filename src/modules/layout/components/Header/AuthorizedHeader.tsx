@@ -10,6 +10,7 @@ import { useIsSMDown } from '../../../../common/hooks/useTheme';
 import { Box } from '@material-ui/core';
 import { LocaleSwitcher } from '../LocaleSwitcher';
 import { Switcher } from '../Switcher';
+import BigNumber from "bignumber.js";
 
 const SHOW_SWITCHER_ON_ALL_PAGES = true;
 
@@ -17,8 +18,8 @@ export type IAuthorizedHeaderProps = {
   className?: string;
   walletAddress: string | undefined;
   walletType: Providers | undefined;
-  ethereumBalance: number;
-  ankrBalance: number;
+  ethereumBalance?: BigNumber;
+  ankrBalance?: BigNumber;
 };
 
 export const AuthorizedHeader = ({

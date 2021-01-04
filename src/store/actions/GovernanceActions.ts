@@ -3,8 +3,8 @@ import { SendOptions } from 'web3-eth-contract';
 
 export const GovernanceActionTypes = {
   VOTE: 'VOTE',
-  PROPOSE: 'PROPOSE',
   FETCH_PROJECTS: 'FETCH_PROJECTS',
+  CREATE_PROJECT: 'CREATE_PROJECT',
 };
 
 export const GovernanceActions = {
@@ -17,26 +17,23 @@ export const GovernanceActions = {
       },
     },
   }),
-  propose: (
-    timeSpan: number,
-    topic: string,
-    content: string,
-    options?: SendOptions,
-  ) => ({
-    type: GovernanceActionTypes.PROPOSE,
-    request: {
-      promise: async function () {
-        const stkrSdk = StkrSdk.getLastInstance();
-        return await stkrSdk.propose(timeSpan, topic, content, options);
-      },
-    },
-  }),
   fetchProjects: () => ({
     type: GovernanceActionTypes.FETCH_PROJECTS,
     request: {
       promise: (async function () {
         const stkrSdk = StkrSdk.getLastInstance();
         return await stkrSdk.fetchProjects();
+      })(),
+    },
+  }),
+  createProject: (timeSpan: number, topic: string, content: string) => ({
+    type: GovernanceActionTypes.CREATE_PROJECT,
+    request: {
+      promise: (async function () {
+        const stkrSdk = StkrSdk.getLastInstance();
+        return await stkrSdk.createProject(timeSpan, topic, content, {
+          from: stkrSdk.getKeyProvider().currentAccount(),
+        });
       })(),
     },
   }),

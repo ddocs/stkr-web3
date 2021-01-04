@@ -137,11 +137,6 @@ export class StkrSdk {
     return false;
   }
 
-  public async faucet(): Promise<void> {
-    const contractManager = this.getContractManager();
-    await contractManager.faucet();
-  }
-
   public async getAllowanceAmount() {
     return await this.getContractManager().checkAnkrAllowance();
   }
@@ -355,13 +350,17 @@ export class StkrSdk {
     return await this.getContractManager().vote(proposalId, vote, options);
   }
 
-  public async propose(
+  public async fetchProjects() {
+    return await this.getContractManager().fetchProjects();
+  }
+
+  public async createProject(
     timeSpan: number,
     topic: string,
     content: string,
     options?: SendOptions,
   ) {
-    return await this.getContractManager().propose(
+    return await this.getContractManager().createProject(
       timeSpan,
       topic,
       content,
@@ -369,7 +368,7 @@ export class StkrSdk {
     );
   }
 
-  public async fetchProjects() {
-    return await this.getContractManager().fetchProjects();
+  public async faucet(options?: SendOptions) {
+    return await this.getContractManager().faucet(options);
   }
 }
