@@ -21,13 +21,17 @@ import { Query } from '@redux-requests/react';
 import { UserActions, UserActionTypes } from '../../store/actions/UserActions';
 import { IUserInfo } from '../../store/apiMappers/userApi';
 import { QueryError } from '../../components/QueryError/QueryError';
-import { QueryLoading } from '../../components/QueryLoading/QueryLoading';
+import {
+  QueryLoading,
+  QueryLoadingCentered,
+} from '../../components/QueryLoading/QueryLoading';
 import { QueryEmpty } from '../../components/QueryEmpty/QueryEmpty';
 import {
   ANKR_DEPOSIT_LINK,
   DEFAULT_FIXED,
   isMainnet,
 } from '../../common/const';
+import { IProject } from './types';
 
 export const ProjectList = () => {
   const classes = useModerationStatusStyles();
@@ -47,12 +51,6 @@ export const ProjectList = () => {
 
   return (
     <>
-      <Query type={GovernanceActionTypes.FETCH_PROJECTS}>
-        {({ data }) => {
-          console.log('data', data);
-          return null;
-        }}
-      </Query>
       <RulesDialog isOpened={isOpened} handleClose={handleClose} />
       <section className={classes.root}>
         <Curtains>
@@ -111,11 +109,27 @@ export const ProjectList = () => {
             </div>
           </Paper>
           <div className={classes.content}>
-            <ProjectListItem moderationStatus="moderation" />
-            <ProjectListItem moderationStatus="live" />
-            <ProjectListItem moderationStatus="moderation" />
-            <ProjectListItem moderationStatus="live" />
-            <ProjectListItem moderationStatus="moderation" />
+            <Query<IProject[] | null>
+              type={GovernanceActionTypes.FETCH_PROJECTS}
+              errorComponent={QueryError}
+              loadingComponent={QueryLoadingCentered}
+              showLoaderDuringRefetch={false}
+            >
+              {({ data }) => {
+                if (!data) {
+                  return null;
+                }
+
+                return data.map(item => (
+                  <ProjectListItem
+                    moderationStatus="moderation"
+                    topic={item.topic}
+                    content={item.content}
+                    id={item.id}
+                  />
+                ));
+              }}
+            </Query>
           </div>
         </Curtains>
       </section>

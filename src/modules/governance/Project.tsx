@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useCallback } from 'react';
+import { MouseEvent, useCallback } from 'react';
 import { Curtains } from '../../UiKit/Curtains';
 import { t, tHTML } from '../../common/utils/intl';
 import {
@@ -23,14 +23,38 @@ import { DIALOG_GOVERNANCE_HOW_IT_WORKS } from '../../store/dialogs/actions';
 import { HowItWorksDialog } from './components/HowItWorksDialog';
 import { CancelIcon } from '../../UiKit/Icons/CancelIcon';
 import { Link as RouterLink } from 'react-router-dom';
+import { useParams } from 'react-router';
 import { GOVERNANCE_PROJECT_LIST_PATH } from '../../common/const';
+import { useDispatch } from 'react-redux';
+import {
+  GovernanceActions,
+  GovernanceActionTypes,
+} from '../../store/actions/GovernanceActions';
+import { VoteStatus } from '@ankr.com/stkr-jssdk';
+import classNames from 'classnames';
+import { IUserInfo } from '../../store/apiMappers/userApi';
+import { UserActionTypes } from '../../store/actions/UserActions';
+import { QueryError } from '../../components/QueryError/QueryError';
+import {
+  QueryLoading,
+  QueryLoadingCentered,
+} from '../../components/QueryLoading/QueryLoading';
+import { QueryEmpty } from '../../components/QueryEmpty/QueryEmpty';
+import { Query } from '@redux-requests/react';
+import { IProject } from './types';
+import { getProject } from './utils/getProject';
 
 interface IVoteValue {
   amount: number;
+  voteStatus: VoteStatus;
 }
 
 function validateCreateProjectForm(data: IVoteValue) {
   const errors: FormErrors<IVoteValue> = {};
+
+  if (!data.voteStatus) {
+    errors.voteStatus = t('validation.required');
+  }
 
   return errors;
 }
@@ -58,21 +82,35 @@ function SliderLabel({ value, children, open }: ValueLabelProps) {
 
 export const Project = () => {
   const classes = useProjectStyles();
+  const dispatch = useDispatch();
 
   const { isOpened, handleClose, handleOpen } = useDialog(
     DIALOG_GOVERNANCE_HOW_IT_WORKS,
   );
 
-  const onSubmit = useCallback((payload: IVoteValue) => {
-    console.log('onSubmit', payload);
-  }, []);
+  const { projectId } = useParams<{ projectId: string }>();
+
+  const onSubmit = useCallback(
+    (payload: IVoteValue) => {
+      dispatch(GovernanceActions.vote('id', '0'));
+    },
+    [dispatch],
+  );
 
   const onHowItWorksClick = useCallback(() => {
     handleOpen();
   }, [handleOpen]);
 
-  const renderForm = ({ handleSubmit, form }: FormRenderProps<IVoteValue>) => {
-    const { amount } = form.getState().values;
+  const renderForm = ({
+    handleSubmit,
+    form,
+    initialValues,
+  }: FormRenderProps<IVoteValue>) => {
+    const { amount, voteStatus } = form.getState().values;
+
+    const handleVote = (event: MouseEvent) => {
+      form.change('voteStatus', (event.currentTarget as any).value);
+    };
 
     return (
       <form onSubmit={handleSubmit} className={classes.form}>
@@ -80,9 +118,14 @@ export const Project = () => {
           <Button
             variant="outlined"
             classes={{
-              root: classes.voteButton,
+              root: classNames(
+                classes.voteButton,
+                voteStatus === VoteStatus.YES && classes.active,
+              ),
               label: classes.voteButtonLabel,
             }}
+            value={VoteStatus.YES}
+            onClick={handleVote}
           >
             {t('project.support')}
             <Typography color="textSecondary" className={classes.voteCount}>
@@ -92,7 +135,7 @@ export const Project = () => {
           <Field
             component={SliderField}
             min={1}
-            max={30}
+            max={initialValues.amount}
             name="amount"
             step={1}
             valueLabelDisplay="on"
@@ -102,20 +145,29 @@ export const Project = () => {
           <Button
             variant="outlined"
             classes={{
-              root: classes.voteButton,
+              root: classNames(
+                classes.voteButton,
+                voteStatus === VoteStatus.NO && classes.active,
+              ),
               label: classes.voteButtonLabel,
             }}
+            value={VoteStatus.NO}
+            onClick={handleVote}
           >
             {t('project.against')}
             <Typography color="textSecondary" className={classes.voteCount}>
-              {t('units.vote-value', { value: '670000' })}
+              {t('units.vote-value', {
+                value: '622000',
+              })}
             </Typography>
           </Button>
         </Box>
 
         <Box maxWidth={298} width="100%" margin="0 auto" mb={3}>
           <Button color="primary" type="submit" size="large" fullWidth={true}>
-            {t('project.submit', { value: amount })}
+            {t('project.submit', {
+              value: t('units.number-value', { value: amount }),
+            })}
           </Button>
         </Box>
         <Link
@@ -141,48 +193,87 @@ export const Project = () => {
               <CancelIcon onClick={handleClose} size="xmd" />
             </IconButton>
           </RouterLink>
-          <Paper variant="outlined" square={false} className={classes.paper}>
-            <ModerationStatusLed
-              status="live"
-              variant="contained"
-              classes={{ root: classes.led }}
-            />
-            <Box mb={2.5}>
-              <Typography variant="h2">{t('project.project-name')}</Typography>
-            </Box>
-            <Typography
-              variant="body2"
-              color="textSecondary"
-              className={classes.time}
-            >
-              {tHTML('project.time-left')}
-            </Typography>
+          <Query<IProject[] | null>
+            type={GovernanceActionTypes.FETCH_PROJECTS}
+            errorComponent={QueryError}
+            loadingComponent={QueryLoadingCentered}
+            showLoaderDuringRefetch={false}
+          >
+            {({ data }) => {
+              if (!data) {
+                return null;
+              }
 
-            <Divider className={classes.divider} />
+              const project = getProject(data, projectId);
 
-            <Form
-              render={renderForm}
-              validate={validateCreateProjectForm}
-              onSubmit={onSubmit}
-              initialValues={{ amount: 1 }}
-            />
-          </Paper>
-          <Paper variant="outlined" square={false} className={classes.paper}>
-            <Box>
-              <Typography className={classes.details}>
-                {t('project.details')}
-              </Typography>
-              <Typography color="textSecondary" variant="body2">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est laborum.
-              </Typography>
-            </Box>
-          </Paper>
+              if (!project) {
+                return null;
+              }
+
+              return (
+                <>
+                  <Paper
+                    variant="outlined"
+                    square={false}
+                    className={classes.paper}
+                  >
+                    <ModerationStatusLed
+                      status="live"
+                      variant="contained"
+                      classes={{ root: classes.led }}
+                    />
+                    <Box mb={2.5}>
+                      <Typography variant="h2">
+                        {t('project.project-name')}
+                      </Typography>
+                    </Box>
+                    <Typography
+                      variant="body2"
+                      color="textSecondary"
+                      className={classes.time}
+                    >
+                      {tHTML('project.time-left')}
+                    </Typography>
+
+                    <Divider className={classes.divider} />
+
+                    <Query<IUserInfo | null>
+                      type={UserActionTypes.FETCH_ACCOUNT_DATA}
+                      errorComponent={QueryError}
+                      loadingComponent={QueryLoading}
+                      noDataMessage={<QueryEmpty />}
+                      showLoaderDuringRefetch={false}
+                    >
+                      {({ data }) => (
+                        <Form
+                          render={renderForm}
+                          validate={validateCreateProjectForm}
+                          onSubmit={onSubmit}
+                          initialValues={{
+                            amount: data?.ankrBalance.toNumber(),
+                          }}
+                        />
+                      )}
+                    </Query>
+                  </Paper>
+                  <Paper
+                    variant="outlined"
+                    square={false}
+                    className={classes.paper}
+                  >
+                    <Box width="100%">
+                      <Typography className={classes.details}>
+                        {t('project.details')}
+                      </Typography>
+                      <Typography color="textSecondary" variant="body2">
+                        {project.content}
+                      </Typography>
+                    </Box>
+                  </Paper>
+                </>
+              );
+            }}
+          </Query>
         </Curtains>
       </section>
     </>

@@ -6,6 +6,7 @@ import { t } from '../../common/utils/intl';
 import {
   Box,
   Divider,
+  IconButton,
   Paper,
   Tooltip,
   Typography,
@@ -27,6 +28,9 @@ import {
 } from '../../store/actions/GovernanceActions';
 import { Mutation } from '@redux-requests/react';
 import { MutationErrorHandler } from '../../components/MutationErrorHandler/MutationErrorHandler';
+import { Link as RouterLink } from 'react-router-dom';
+import { GOVERNANCE_PROJECT_LIST_PATH } from '../../common/const';
+import { CancelIcon } from '../../UiKit/Icons/CancelIcon';
 
 const SECONDS_IN_DAY = 60 * 60 * 24;
 
@@ -168,6 +172,11 @@ export const CreateProject = () => {
       <ProjectCreatedDialog isOpened={isOpened} handleClose={handleClose} />
       <section className={classes.root}>
         <Curtains className={classes.content}>
+          <RouterLink to={GOVERNANCE_PROJECT_LIST_PATH}>
+            <IconButton className={classes.close}>
+              <CancelIcon onClick={handleClose} size="xmd" />
+            </IconButton>
+          </RouterLink>
           <Box mb={4}>
             <Headline2 align="center" component="h2">
               {t('create-project.title')}

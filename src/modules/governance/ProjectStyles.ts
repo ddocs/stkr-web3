@@ -49,6 +49,9 @@ export const useProjectStyles = makeStyles(theme => ({
     gridGap: theme.spacing(3),
     gridTemplateColumns: 'auto 1fr auto',
     marginBottom: theme.spacing(4),
+    [theme.breakpoints.down('xs')]: {
+      gridTemplateColumns: '1fr',
+    },
   },
   voteButton: {
     height: 'auto',
@@ -56,7 +59,7 @@ export const useProjectStyles = makeStyles(theme => ({
     borderRadius: 24,
     fontSize: 20,
     fontWeight: 500,
-    '&:hover': {
+    '&:hover, &:focus': {
       backgroundColor: 'transparent',
       color: '#fff',
     },
@@ -81,5 +84,8 @@ export const useProjectStyles = makeStyles(theme => ({
     position: 'absolute',
     right: 0,
     top: 0,
+  },
+  active: {
+    border: `1px solid ${theme.palette.primary.main}`,
   },
 }));

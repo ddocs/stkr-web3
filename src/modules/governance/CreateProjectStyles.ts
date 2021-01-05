@@ -30,4 +30,9 @@ export const useCreateProjectStyles = makeStyles(theme => ({
     fontSize: 20,
     fontWeight: 'bold',
   },
+  close: {
+    position: 'absolute',
+    right: 0,
+    top: 0,
+  },
 }));

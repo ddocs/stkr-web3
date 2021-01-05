@@ -593,6 +593,11 @@ const mainTheme = createMuiTheme({
         cursor: 'pointer',
       },
     },
+    MuiTooltip: {
+      popper: {
+        zIndex: 1300,
+      },
+    },
   },
 } as ThemeOptions);
 

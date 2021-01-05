@@ -7,7 +7,7 @@ import { withDefaultLayout } from './modules/layout';
 import {
   GOVERNANCE_CREATE_PROJECT_PATH,
   GOVERNANCE_PROJECT_LIST_PATH,
-  GOVERNANCE_PROJECT_PATH,
+  GOVERNANCE_PROJECT_ROUTE,
   INDEX_PATH,
   PICKER_PATH,
   PROVIDER_CREATE_NODE_PATH,
@@ -159,14 +159,17 @@ export function Routes() {
       <PrivateRoute
         path={GOVERNANCE_PROJECT_LIST_PATH}
         component={GovernanceListContainer}
+        exact={true}
       />
       <PrivateRoute
         path={GOVERNANCE_CREATE_PROJECT_PATH}
         component={CreateProjectContainer}
+        exact={true}
       />
       <PrivateRoute
-        path={GOVERNANCE_PROJECT_PATH}
+        path={GOVERNANCE_PROJECT_ROUTE}
         component={ProjectContainer}
+        exact={true}
       />
       <PrivateRoute component={PageNotFound} />
     </Switch>

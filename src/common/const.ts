@@ -1,5 +1,6 @@
 import { ETH, Milliseconds } from './types';
-import Web3 from 'web3'
+import Web3 from 'web3';
+import { generatePath } from 'react-router';
 
 export const INDEX_PATH = '/';
 export const ANKR_PATH = 'https://www.ankr.com';
@@ -18,6 +19,11 @@ export const GOVERNANCE_PATH = '/governance';
 export const GOVERNANCE_PROJECT_LIST_PATH = `${GOVERNANCE_PATH}/project/list`;
 export const GOVERNANCE_CREATE_PROJECT_PATH = `${GOVERNANCE_PATH}/project/create`;
 export const GOVERNANCE_PROJECT_PATH = `${GOVERNANCE_PATH}/project/view`;
+export const GOVERNANCE_PROJECT_ROUTE = `${GOVERNANCE_PATH}/project/view/:projectId`;
+
+export function getGovernanceProjectPath(projectId: string) {
+  return generatePath(GOVERNANCE_PROJECT_ROUTE, { projectId });
+}
 
 export const SOCIAL_LINK = {
   twitter: 'https://twitter.com/ankr',
@@ -52,4 +58,4 @@ export const ETHEREUM_PRICE = 590;
 export const DEFAULT_FIXED = 4;
 export const ANKR_DEPOSIT_LINK =
   'https://app.uniswap.org/#/swap?inputCurrency=0x8290333cef9e6d528dd5618fb97a76f268f3edd4';
-export const MIN_GOVERNANCE_AMOUNT = Web3.utils.toWei("5000000");
+export const MIN_GOVERNANCE_AMOUNT = Web3.utils.toWei('5000000');
