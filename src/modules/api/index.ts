@@ -16,6 +16,7 @@ import { TransactionReceipt } from 'web3-core';
 import { ContractManagerEvent } from './event';
 import { SendOptions } from 'web3-eth-contract';
 import * as BN from 'bn.js';
+import { VoteStatus } from '@ankr.com/stkr-jssdk';
 
 export interface IStakeAction extends SendAsyncResult {
   waitForTxReceipt(): Promise<TransactionReceipt>;
@@ -347,7 +348,11 @@ export class StkrSdk {
     return await this.getContractManager().pendingStakesOf(token);
   }
 
-  public async vote(proposalId: string, vote: string, options?: SendOptions) {
+  public async vote(
+    proposalId: string,
+    vote: VoteStatus,
+    options?: SendOptions,
+  ) {
     return await this.getContractManager().vote(proposalId, vote, options);
   }
 
@@ -373,14 +378,8 @@ export class StkrSdk {
     return await this.getContractManager().faucet(options);
   }
 
-  public async setAnkrAllowance(
-    amount: string,
-    options?: SendOptions,
-  ) {
-    return await this.getContractManager().setAnkrAllowance(
-      amount,
-      options,
-    );
+  public async setAnkrAllowance(amount: string, options?: SendOptions) {
+    return await this.getContractManager().setAnkrAllowance(amount, options);
   }
 
   public async getAnkrAllowance(owner: string, spender: string): Promise<BN> {

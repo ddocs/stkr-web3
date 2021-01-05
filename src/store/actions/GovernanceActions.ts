@@ -2,6 +2,7 @@ import { StkrSdk } from '../../modules/api';
 import { SendOptions } from 'web3-eth-contract';
 import { MIN_GOVERNANCE_AMOUNT } from '../../common/const';
 import { mapProject } from '../../modules/governance/types';
+import { VoteStatus } from '@ankr.com/stkr-jssdk';
 
 export const GovernanceActionTypes = {
   VOTE: 'VOTE',
@@ -10,13 +11,21 @@ export const GovernanceActionTypes = {
 };
 
 export const GovernanceActions = {
-  vote: (proposalId: string, vote: string, options?: SendOptions) => ({
+  vote: (
+    proposalId: string,
+    vote: VoteStatus,
+    options?: Partial<SendOptions>,
+  ) => ({
     type: GovernanceActionTypes.VOTE,
     request: {
-      promise: async function () {
+      promise: (async function () {
         const stkrSdk = StkrSdk.getLastInstance();
-        return await stkrSdk.vote(proposalId, vote, options);
-      },
+        const currentAccount = stkrSdk.getKeyProvider().currentAccount();
+        return await stkrSdk.vote(proposalId, vote, {
+          ...options,
+          from: currentAccount,
+        });
+      })(),
     },
     meta: {
       asMutation: true,

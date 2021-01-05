@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { MouseEvent, useCallback } from 'react';
+import { useCallback } from 'react';
 import { Curtains } from '../../UiKit/Curtains';
 import { t, tHTML } from '../../common/utils/intl';
 import {
@@ -31,7 +31,6 @@ import {
   GovernanceActionTypes,
 } from '../../store/actions/GovernanceActions';
 import { VoteStatus } from '@ankr.com/stkr-jssdk';
-import classNames from 'classnames';
 import { IUserInfo } from '../../store/apiMappers/userApi';
 import { UserActionTypes } from '../../store/actions/UserActions';
 import { QueryError } from '../../components/QueryError/QueryError';
@@ -40,9 +39,11 @@ import {
   QueryLoadingCentered,
 } from '../../components/QueryLoading/QueryLoading';
 import { QueryEmpty } from '../../components/QueryEmpty/QueryEmpty';
-import { Query } from '@redux-requests/react';
+import { Mutation, Query } from '@redux-requests/react';
 import { IProject } from './types';
 import { getProject } from './utils/getProject';
+import { MutationErrorHandler } from '../../components/MutationErrorHandler/MutationErrorHandler';
+import { VoteField } from './VoteField';
 
 interface IVoteValue {
   amount: number;
@@ -92,9 +93,13 @@ export const Project = () => {
 
   const onSubmit = useCallback(
     (payload: IVoteValue) => {
-      dispatch(GovernanceActions.vote('id', '0'));
+      dispatch(
+        GovernanceActions.vote(projectId, payload.voteStatus, {
+          value: payload.amount,
+        }),
+      );
     },
-    [dispatch],
+    [dispatch, projectId],
   );
 
   const onHowItWorksClick = useCallback(() => {
@@ -106,69 +111,48 @@ export const Project = () => {
     form,
     initialValues,
   }: FormRenderProps<IVoteValue>) => {
-    const { amount, voteStatus } = form.getState().values;
-
-    const handleVote = (event: MouseEvent) => {
-      form.change('voteStatus', (event.currentTarget as any).value);
-    };
+    const state = form.getState();
+    const { amount } = state.values;
 
     return (
       <form onSubmit={handleSubmit} className={classes.form}>
+        <input type="hidden" name="voteStatus" />
         <Box display="flex" className={classes.amount}>
-          <Button
-            variant="outlined"
-            classes={{
-              root: classNames(
-                classes.voteButton,
-                voteStatus === VoteStatus.YES && classes.active,
-              ),
-              label: classes.voteButtonLabel,
-            }}
-            value={VoteStatus.YES}
-            onClick={handleVote}
-          >
-            {t('project.support')}
-            <Typography color="textSecondary" className={classes.voteCount}>
-              {t('units.vote-value', { value: '670000' })}
-            </Typography>
-          </Button>
-          <Field
-            component={SliderField}
-            min={1}
-            max={initialValues.amount}
-            name="amount"
-            step={1}
-            valueLabelDisplay="on"
-            ValueLabelComponent={SliderLabel}
-            classes={{ root: classes.slider }}
-          />
-          <Button
-            variant="outlined"
-            classes={{
-              root: classNames(
-                classes.voteButton,
-                voteStatus === VoteStatus.NO && classes.active,
-              ),
-              label: classes.voteButtonLabel,
-            }}
-            value={VoteStatus.NO}
-            onClick={handleVote}
-          >
-            {t('project.against')}
-            <Typography color="textSecondary" className={classes.voteCount}>
-              {t('units.vote-value', {
-                value: '622000',
-              })}
-            </Typography>
-          </Button>
+          <Field name="voteStatus" component={VoteField}>
+            <Field
+              component={SliderField}
+              min={1}
+              max={initialValues.amount}
+              name="amount"
+              step={1}
+              valueLabelDisplay="on"
+              ValueLabelComponent={SliderLabel}
+              classes={{ root: classes.slider }}
+            />
+          </Field>
         </Box>
 
         <Box maxWidth={298} width="100%" margin="0 auto" mb={3}>
-          <Button color="primary" type="submit" size="large" fullWidth={true}>
-            {t('project.submit', {
-              value: t('units.number-value', { value: amount }),
-            })}
-          </Button>
+          <MutationErrorHandler type={GovernanceActionTypes.VOTE} />
+          <Mutation type={GovernanceActionTypes.VOTE}>
+            {({ loading }) => {
+              return (
+                <Button
+                  color="primary"
+                  type="submit"
+                  size="large"
+                  fullWidth={true}
+                  disabled={loading}
+                >
+                  {loading
+                    ? t('project.processing')
+                    : t('project.submit', {
+                        value: t('units.number-value', { value: amount }),
+                      })}
+                </Button>
+              );
+            }}
+          </Mutation>
         </Box>
         <Link
           color="textSecondary"

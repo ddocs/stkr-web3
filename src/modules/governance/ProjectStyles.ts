@@ -53,29 +53,9 @@ export const useProjectStyles = makeStyles(theme => ({
       gridTemplateColumns: '1fr',
     },
   },
-  voteButton: {
-    height: 'auto',
-    padding: theme.spacing(3, 1.5),
-    borderRadius: 24,
-    fontSize: 20,
-    fontWeight: 500,
-    '&:hover, &:focus': {
-      backgroundColor: 'transparent',
-      color: '#fff',
-    },
-  },
-  voteButtonLabel: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
   divider: {
     width: '100%',
     marginBottom: theme.spacing(7),
-  },
-  voteCount: {
-    marginTop: theme.spacing(0.75),
-    fontSize: 16,
-    fontWeight: 500,
   },
   slider: {
     marginTop: theme.spacing(7),
@@ -84,8 +64,5 @@ export const useProjectStyles = makeStyles(theme => ({
     position: 'absolute',
     right: 0,
     top: 0,
-  },
-  active: {
-    border: `1px solid ${theme.palette.primary.main}`,
   },
 }));

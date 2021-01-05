@@ -158,7 +158,9 @@ export const CreateProject = () => {
                 fullWidth={true}
                 disabled={loading}
               >
-                {t('create-project.submit')}
+                {loading
+                  ? t('create-project.processing')
+                  : t('create-project.submit')}
               </Button>
             )}
           </Mutation>
