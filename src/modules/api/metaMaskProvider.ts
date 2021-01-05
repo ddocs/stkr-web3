@@ -1,13 +1,6 @@
 import Web3 from 'web3';
 import { bytesToHex, numberToHex } from 'web3-utils';
-import {
-  Address,
-  KeyProvider,
-  ProviderMessage,
-  ProviderRpcError,
-  SendAsyncResult,
-  SendOptions,
-} from './provider';
+import { Address, KeyProvider, ProviderMessage, ProviderRpcError, SendAsyncResult, SendOptions, } from './provider';
 import { Transaction } from 'ethereumjs-tx';
 import { KeyProviderEvents } from './event';
 import WalletConnectProvider from '@walletconnect/web3-provider';
@@ -15,6 +8,10 @@ import Web3Modal, { IProviderOptions } from 'web3modal';
 import { PALETTE } from '../../common/themes/mainTheme';
 import { fade } from '@material-ui/core';
 import { getNetworkName } from '../../common/utils/getNetworkName';
+import imTokenLogo from './assets/imToken.svg';
+import mathLogo from './assets/math.svg';
+import trustWalletLogo from './assets/trust.svg';
+import huobiLogo from './assets/huobi.svg';
 
 export class MetaMaskProvider extends KeyProvider {
   private web3Modal: Web3Modal | undefined;
@@ -25,7 +22,7 @@ export class MetaMaskProvider extends KeyProvider {
     const providerOptions: IProviderOptions = {
       'custom-imtoken': {
         display: {
-          logo: require('./assets/imToken.svg'),
+          logo: imTokenLogo,
           name: 'imToken',
           description: 'Easy and secure digital wallet trusted by millions',
         },
@@ -44,7 +41,7 @@ export class MetaMaskProvider extends KeyProvider {
       },
       'custom-math': {
         display: {
-          logo: require('./assets/math.svg'),
+          logo: mathLogo,
           name: 'Math Wallet',
           description: 'Gateway to the World of Blockchain',
         },
@@ -63,7 +60,7 @@ export class MetaMaskProvider extends KeyProvider {
       },
       'custom-trust': {
         display: {
-          logo: require('./assets/trust.svg'),
+          logo: trustWalletLogo,
           name: 'Trust Wallet',
           description: 'The most trusted & secure crypto wallet',
         },
@@ -82,7 +79,7 @@ export class MetaMaskProvider extends KeyProvider {
       },
       'custom-huobi': {
         display: {
-          logo: require('./assets/huobi.svg'),
+          logo: huobiLogo,
           name: 'Huobi Wallet',
           description: 'Multi-currency support, practical and convenient',
         },
