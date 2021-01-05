@@ -240,7 +240,7 @@
   },
   "staker-dashboard": {
     "unstake": "Unstake",
-    "aeth-price": "1 aETH = {value} ETH",
+    "aeth-price": "Current estimated annual return: 12.75% (85% of 15%)",
     "on-stkr": "On Stkr",
     "on-wallet": "On your wallet",
     "claim": "Claim",
