@@ -5,6 +5,7 @@ const HorizontalPadding = 7;
 export const useProjectListItemStyles = makeStyles(theme => ({
   root: {
     padding: theme.spacing(4.5, HorizontalPadding),
+    textDecoration: 'none',
   },
   name: {
     marginBottom: theme.spacing(2),
