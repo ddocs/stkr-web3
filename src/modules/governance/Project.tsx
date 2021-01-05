@@ -44,10 +44,14 @@ import { IProject } from './types';
 import { getProject } from './utils/getProject';
 import { MutationErrorHandler } from '../../components/MutationErrorHandler/MutationErrorHandler';
 import { VoteField } from './VoteField';
+import { convertToDuration } from '../../common/utils/convertToDuration';
 
 interface IVoteValue {
   amount: number;
   voteStatus: VoteStatus;
+
+  yes: number;
+  no: number;
 }
 
 function validateCreateProjectForm(data: IVoteValue) {
@@ -118,7 +122,12 @@ export const Project = () => {
       <form onSubmit={handleSubmit} className={classes.form}>
         <input type="hidden" name="voteStatus" />
         <Box display="flex" className={classes.amount}>
-          <Field name="voteStatus" component={VoteField}>
+          <Field
+            name="voteStatus"
+            component={VoteField}
+            yes={initialValues.yes}
+            no={initialValues.no}
+          >
             <Field
               component={SliderField}
               min={1}
@@ -173,8 +182,8 @@ export const Project = () => {
       <section className={classes.root}>
         <Curtains className={classes.content}>
           <RouterLink to={GOVERNANCE_PROJECT_LIST_PATH}>
-            <IconButton className={classes.close}>
-              <CancelIcon onClick={handleClose} size="xmd" />
+            <IconButton onClick={handleClose} className={classes.close}>
+              <CancelIcon size="xmd" />
             </IconButton>
           </RouterLink>
           <Query<IProject[] | null>
@@ -202,7 +211,7 @@ export const Project = () => {
                     className={classes.paper}
                   >
                     <ModerationStatusLed
-                      status="live"
+                      status={project.status}
                       variant="contained"
                       classes={{ root: classes.led }}
                     />
@@ -214,7 +223,12 @@ export const Project = () => {
                       color="textSecondary"
                       className={classes.time}
                     >
-                      {tHTML('project.time-left')}
+                      {tHTML('project.time-left', {
+                        value: convertToDuration(
+                          new Date(),
+                          project.endTime,
+                        ),
+                      })}
                     </Typography>
 
                     <Divider className={classes.divider} />
@@ -233,6 +247,8 @@ export const Project = () => {
                           onSubmit={onSubmit}
                           initialValues={{
                             amount: data?.ankrBalance.toNumber(),
+                            yes: project.yes,
+                            no: project.no,
                           }}
                         />
                       )}

@@ -10,12 +10,16 @@ import { VoteStatus } from '@ankr.com/stkr-jssdk';
 
 interface ISliderProps extends FieldRenderProps<HTMLElement>, SliderProps {
   label?: string;
+  yes: number;
+  no: number;
 }
 
 export const VoteField = ({
   input: { onChange, value, onBlur },
   meta,
   children,
+  yes,
+  no,
 }: ISliderProps) => {
   const error = hasError(meta);
   const errorText = getErrorText(meta);
@@ -46,7 +50,7 @@ export const VoteField = ({
       >
         {t('project.support')}
         <Typography color="textSecondary" className={classes.voteCount}>
-          {t('unit.vote-value', { value: '670000' })}
+          {t('unit.vote-value', { value: yes })}
         </Typography>
       </Button>
       {children}
@@ -66,7 +70,7 @@ export const VoteField = ({
         {t('project.against')}
         <Typography color="textSecondary" className={classes.voteCount}>
           {t('unit.vote-value', {
-            value: '622000',
+            value: no,
           })}
         </Typography>
       </Button>

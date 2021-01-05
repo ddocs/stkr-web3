@@ -348,12 +348,13 @@
   "project-list-item": {
     "support": "Support",
     "against": "Against",
-    "votes": "{value} votes"
+    "votes": "{value, number} votes"
   },
   "moderation-status": {
     "status": {
-      "moderation": "On moderation",
-      "live": "Live"
+      "0": "Voting",
+      "1": "Fail",
+      "2": "Passed"
     }
   },
   "rules-dialog": {
@@ -387,7 +388,7 @@
     "submit": "I understand"
   },
   "project": {
-    "time-left": "<span class=\"bold\">Time left</span> 2d:14h:36m",
+    "time-left": "<span class=\"bold\">Time left</span> {value}",
     "support": "Support",
     "against": "Against",
     "submit": "Support with {value} ANKR",

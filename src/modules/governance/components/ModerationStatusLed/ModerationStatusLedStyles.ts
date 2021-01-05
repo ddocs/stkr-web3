@@ -1,19 +1,21 @@
 import { fade, makeStyles } from '@material-ui/core/styles';
 import { Theme } from '@material-ui/core';
-import {
-  IModerationStatusLedProps,
-  ModerationStatus,
-} from './ModerationStatusLed';
+import { IModerationStatusLedProps, } from './ModerationStatusLed';
+import { ProposalStatus } from "@ankr.com/stkr-jssdk";
 
 export const useModerationStatusLedStyles = makeStyles<
   Theme,
   IModerationStatusLedProps
 >(theme => {
-  function getColor(status: ModerationStatus) {
-    return status === 'moderation'
-      ? fade(theme.palette.common.white, 0.6)
-      : theme.palette.primary.main;
-  }
+    function getColor(status: ProposalStatus) {
+      if (status === ProposalStatus.Voting) {
+        return theme.palette.primary.main;
+      } else if (status === ProposalStatus.Fail) {
+        return theme.palette.error.main;
+      }
+
+      return theme.palette.success.main; // Passed
+    }
 
   return {
     root: ({ status, variant }) => {

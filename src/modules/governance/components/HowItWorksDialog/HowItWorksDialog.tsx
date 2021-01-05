@@ -31,8 +31,8 @@ export const HowItWorksDialog = ({
       classes={{ paper: classes.dialogPaper }}
       BackdropProps={{
         children: (
-          <IconButton className={classes.close}>
-            <CancelIcon onClick={handleClose} size="xmd" />
+          <IconButton className={classes.close} onClick={handleClose}>
+            <CancelIcon size="xmd" />
           </IconButton>
         ),
       }}

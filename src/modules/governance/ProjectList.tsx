@@ -122,10 +122,14 @@ export const ProjectList = () => {
 
                 return data.map(item => (
                   <ProjectListItem
-                    moderationStatus="moderation"
+                    moderationStatus={item.status}
                     topic={item.topic}
                     content={item.content}
                     id={item.id}
+                    yes={item.yes}
+                    no={item.no}
+                    endTime={item.endTime}
+                    key={item.id}
                   />
                 ));
               }}

@@ -175,8 +175,8 @@ export const CreateProject = () => {
       <section className={classes.root}>
         <Curtains className={classes.content}>
           <RouterLink to={GOVERNANCE_PROJECT_LIST_PATH}>
-            <IconButton className={classes.close}>
-              <CancelIcon onClick={handleClose} size="xmd" />
+            <IconButton className={classes.close} onClick={handleClose}>
+              <CancelIcon size="xmd" />
             </IconButton>
           </RouterLink>
           <Box mb={4}>

@@ -2,11 +2,10 @@ import React from 'react';
 import { useModerationStatusLedStyles } from './ModerationStatusLedStyles';
 import { t } from '../../../../common/utils/intl';
 import { WithUseStyles } from '../../../../common/types';
-
-export type ModerationStatus = 'moderation' | 'live';
+import { ProposalStatus } from "@ankr.com/stkr-jssdk";
 
 export interface IModerationStatusLedProps {
-  status: ModerationStatus;
+  status: ProposalStatus;
   variant?: 'contained';
 }
 

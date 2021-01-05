@@ -7,17 +7,21 @@ import {
   Paper,
   Typography,
 } from '@material-ui/core';
-import { ModerationStatus, ModerationStatusLed } from '../ModerationStatusLed';
+import { ModerationStatusLed } from '../ModerationStatusLed';
 import { Timer } from '../Timer';
 import { t } from '../../../../common/utils/intl';
 import { Link as RouterLink } from 'react-router-dom';
 import { getGovernanceProjectPath } from '../../../../common/const';
+import { ProposalStatus } from '@ankr.com/stkr-jssdk';
 
 interface IProjectListItemProps {
-  moderationStatus: ModerationStatus;
+  moderationStatus: ProposalStatus;
   topic: string;
   content: string;
   id: string;
+  yes: number;
+  no: number;
+  endTime: Date;
 }
 
 export const ProjectListItem = ({
@@ -25,8 +29,13 @@ export const ProjectListItem = ({
   topic,
   content,
   id,
+  yes,
+  no,
+  endTime,
 }: IProjectListItemProps) => {
   const classes = useProjectListItemStyles({});
+
+  const progress = yes > 0 ? ((yes + no) / yes) * 100 : 0;
 
   return (
     <Paper
@@ -38,7 +47,7 @@ export const ProjectListItem = ({
     >
       <Box display="flex" justifyContent="space-between" mb={5}>
         <ModerationStatusLed status={moderationStatus} />
-        <Timer />
+        <Timer startTime={new Date()} endTime={endTime} />
       </Box>
       <Typography className={classes.name}>{topic}</Typography>
       <Typography className={classes.description}>{content}</Typography>
@@ -49,12 +58,12 @@ export const ProjectListItem = ({
             {t('project-list-item.support')}
           </Typography>
           <Typography className={classes.votes}>
-            {t('project-list-item.votes', { value: 0 })}
+            {t('project-list-item.votes', { value: yes })}
           </Typography>
         </Box>
         <LinearProgress
           variant="determinate"
-          value={77}
+          value={progress}
           color="secondary"
           className={classes.progressBar}
         />
@@ -63,7 +72,7 @@ export const ProjectListItem = ({
             {t('project-list-item.against')}
           </Typography>
           <Typography className={classes.votes}>
-            {t('project-list-item.votes', { value: 0 })}
+            {t('project-list-item.votes', { value: no })}
           </Typography>
         </Box>
       </Box>

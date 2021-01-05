@@ -14,10 +14,10 @@ export const LOCAL_CONFIG: IStkrConfig = {
     chainId: 5,
   },
   contractConfig: {
-    aethContract: '0x63dc5749fa134ff3b752813388a7215460a8ab01',
+    aethContract: '0xE195fe8fd7ED84fE6D5a3bd24D5586A31d299c8C',
     microPoolContract: '0x5f2935be5F981E706C757BC2e74E29bE7DC6d114',
     microPoolBlock: '3775707',
-    ankrContract: '0x75c60440ebb6daa845974b5d2432deb9bf67fc74',
+    ankrContract: '0xe195fe8fd7ed84fe6d5a3bd24d5586a31d299c8c',
     stakingContract: '0xe48cDc6146722C045566c6B614263e22D9bF1b50', // old
     systemContract: '0xF2dFBCbE94Ff3A402B8575b80E5e785BC936c1c3',
   },
@@ -33,10 +33,10 @@ export const DEVELOP_CONFIG: IStkrConfig = {
 export const GOERLI_CONFIG: IStkrConfig = {
   ...LOCAL_CONFIG,
   contractConfig: {
-    aethContract: '0x63dC5749fa134fF3B752813388a7215460a8aB01',
+    aethContract: '0x4530Ed00f795BB80C685359bb860ca9a4262A815',
     microPoolContract: '0x5ea4C3a6CA22B38a1D6776329bb8b4073C157B27',
     microPoolBlock: '3777622',
-    ankrContract: '0x75c60440ebb6daa845974b5d2432deb9bf67fc74',
+    ankrContract: '0xe195fe8fd7ed84fe6d5a3bd24d5586a31d299c8c',
     stakingContract: '0xe48cDc6146722C045566c6B614263e22D9bF1b50', // old
     systemContract: '0x19F75408fc6F08f22156a26c279Db7F033779d94',
   },

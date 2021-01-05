@@ -1,10 +1,16 @@
 import React from 'react';
 import { useTimerStyles } from './TimerStyles';
+import { convertToDuration } from '../../../../common/utils/convertToDuration';
 
-interface ITimerProps {}
+interface ITimerProps {
+  startTime: Date;
+  endTime: Date;
+}
 
-export const Timer = (props: ITimerProps) => {
+export const Timer = ({ startTime, endTime }: ITimerProps) => {
   const classes = useTimerStyles({});
 
-  return <div className={classes.root}>2d:14h:36m</div>;
+  return (
+    <div className={classes.root}>{convertToDuration(startTime, endTime)}</div>
+  );
 };
