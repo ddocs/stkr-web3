@@ -44,7 +44,7 @@ function SliderLabel({ value, children, open }: ValueLabelProps) {
         classes={{ tooltip: classes.tooltip }}
         open={open}
         enterTouchDelay={0}
-        title={t('units.day-value', { value })}
+        title={t('unit.day-value', { value })}
         placement="top"
       >
         {children}

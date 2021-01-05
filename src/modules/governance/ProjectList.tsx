@@ -76,8 +76,8 @@ export const ProjectList = () => {
                     {t('project-list.power')}
                   </Typography>
                   <Typography variant="body1" className={classes.statsText}>
-                    {t('units.ankr-value', {
-                      value: data?.ankrBalance.toFormat(DEFAULT_FIXED),
+                    {t('unit.ankr-value', {
+                      value: data?.ankrBalance.decimalPlaces(DEFAULT_FIXED),
                     })}
                   </Typography>
                 </>

@@ -32,14 +32,16 @@ const Value = ({
         {title}
       </Headline5>
       <span className={classes.itemValue}>
-        {t('units.eth-value', {
-          value: new BigNumber(value).toFormat(FIXED_DECIMAL_PLACES),
+        {t('unit.eth-value', {
+          value: new BigNumber(value).decimalPlaces(FIXED_DECIMAL_PLACES).toFormat(),
         })}
       </span>
       {ratePrice && (
         <span className={classes.itemConvertedValue}>
-          {t('units.$-value', {
-            value: ratePrice.multipliedBy(value).toFormat(FIXED_DECIMAL_PLACES),
+          {t('unit.$-value', {
+            value: ratePrice
+              .multipliedBy(value)
+              .decimalPlaces(FIXED_DECIMAL_PLACES),
           })}
         </span>
       )}

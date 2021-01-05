@@ -45,10 +45,14 @@ export const Wallet = ({
     <div className={classNames(classes.component, className)}>
       <button className={classes.toggle} onClick={handleOpen} ref={controlRef}>
         <span className={classes.ethereum}>
-          {ethereumBalance ? ethereumBalance.toFormat(DEFAULT_FIXED) : 0}
+          {ethereumBalance
+            ? ethereumBalance.decimalPlaces(DEFAULT_FIXED).toFormat()
+            : 0}
         </span>
         <span className={classes.ankr}>
-          {ankrBalance ? ankrBalance.toFormat(DEFAULT_FIXED) : 0}
+          {ankrBalance
+            ? ankrBalance.decimalPlaces(DEFAULT_FIXED).toFormat()
+            : 0}
         </span>
         {address && provider && (
           <Address

@@ -70,7 +70,7 @@ function SliderLabel({ value, children, open }: ValueLabelProps) {
         enterTouchDelay={0}
         title={
           <Typography variant="h3">
-            {t('units.number-value', { value })}
+            {t('unit.number-value', { value })}
           </Typography>
         }
         placement="top"
@@ -147,7 +147,7 @@ export const Project = () => {
                   {loading
                     ? t('project.processing')
                     : t('project.submit', {
-                        value: t('units.number-value', { value: amount }),
+                        value: t('unit.number-value', { value: amount }),
                       })}
                 </Button>
               );

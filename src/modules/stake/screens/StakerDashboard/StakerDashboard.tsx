@@ -33,8 +33,7 @@ import { ReactComponent as PendingIcon } from './assets/pending.svg';
 import { getStakedAmount } from '../../../../common/utils/getStakedAmount';
 import { getPendingAmount } from '../../../../common/utils/getPendingAmount';
 
-const AMOUNT_FIXED_DECIMAL_PLACES = 2;
-const RATE_FIXED_DECIMAL_PLACES = 4;
+const DECIMAL_PLACES = 4;
 
 function AETHBalance({
   totalAEth,
@@ -53,13 +52,13 @@ function AETHBalance({
     <>
       <Box mt="auto">
         <Box fontSize={13} color="text.secondary" fontWeight={500}>
-          {t('units.~eth-value', {
-            value: totalAEthToEthPrice.toFormat(AMOUNT_FIXED_DECIMAL_PLACES),
+          {t('unit.~eth-value', {
+            value: totalAEthToEthPrice.decimalPlaces(DECIMAL_PLACES),
           })}
         </Box>
         <Box className={classes.amount}>
-          {tHTML('units.separated-aeth-value', {
-            value: totalAEth.toFormat(AMOUNT_FIXED_DECIMAL_PLACES),
+          {tHTML('unit.separated-aeth-value', {
+            value: totalAEth.decimalPlaces(DECIMAL_PLACES),
           })}
         </Box>
       </Box>
@@ -81,10 +80,8 @@ function AETHBalance({
           </Box>
           <Box display="flex" alignItems="center" mb={{ xs: 3.5, md: 0 }}>
             <Typography variant="h5" noWrap={true}>
-              {t('units.aeth-value', {
-                value: data.aEthClaimableBalance.toFormat(
-                  AMOUNT_FIXED_DECIMAL_PLACES,
-                ),
+              {t('unit.aeth-value', {
+                value: data.aEthClaimableBalance.decimalPlaces(DECIMAL_PLACES),
               })}
             </Typography>
             <Box ml={1}>
@@ -129,8 +126,8 @@ function AETHBalance({
                 : undefined
             }
           >
-            {t('units.aeth-value', {
-              value: data.aEthBalance.toFormat(AMOUNT_FIXED_DECIMAL_PLACES),
+            {t('unit.aeth-value', {
+              value: data.aEthBalance.decimalPlaces(DECIMAL_PLACES),
             })}
           </Typography>
         </Box>
@@ -218,8 +215,8 @@ export const StakerDashboardComponent = () => {
                     <div />
                   )}
                   <Box mt="auto" className={classes.amount}>
-                    {tHTML('units.separated-eth-value', {
-                      value: staked.toFormat(AMOUNT_FIXED_DECIMAL_PLACES),
+                    {tHTML('unit.separated-eth-value', {
+                      value: staked.decimalPlaces(DECIMAL_PLACES),
                     })}
                   </Box>
                   <Box mt="auto" justifySelf="end">
@@ -254,8 +251,8 @@ export const StakerDashboardComponent = () => {
                   >
                     {t('staker-dashboard.aeth-price', {
                       value: new BigNumber(1)
-                        .div(data.aEthRatio.toFormat())
-                        .toFixed(RATE_FIXED_DECIMAL_PLACES),
+                        .div(data.aEthRatio)
+                        .decimalPlaces(DECIMAL_PLACES),
                     })}
                   </Box>
                   <AETHBalance

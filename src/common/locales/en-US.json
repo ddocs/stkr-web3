@@ -176,20 +176,20 @@
     },
     "agreement": "I understand my staked funds will be locked for the duration of the Eth 2.0 staking period, and will not be redeemable until this ends."
   },
-  "units": {
-    "$-value": "${value}",
-    "eth-value": "{value} ETH",
-    "ankr-value": "{value} Ankr",
+  "unit": {
+    "$-value": "${value, number}",
+    "eth-value": "{value, number} ETH",
+    "ankr-value": "{value, number} Ankr",
     "day-value": "{value, plural, =1 {# day} other {# days}}",
     "vote-value": "{value, plural, =1 {# vote} other {# votes}}",
-    "aeth-value": "{value} aETH",
+    "aeth-value": "{value, number} aETH",
     "eth": "ETH",
-    "~eth-value": "~{value} ETH",
+    "~eth-value": "~{value, number} ETH",
     "aeth": "aETH",
-    "separated-eth-value": "{value}<span class=\"unit\"> ETH</span>",
-    "separated-aeth-value": "{value}<span class=\"unit\"> aETH</span>",
+    "separated-eth-value": "{value, number}<span class=\"unit\"> ETH</span>",
+    "separated-aeth-value": "{value, number}<span class=\"unit\"> aETH</span>",
     "number-value": "{value, number}",
-    "~months-value": "~{value} mo"
+    "~months-value": "~{value, number} mo"
   },
   "format": {
     "date": "{value, date, medium} {value, time, medium}"

@@ -46,7 +46,7 @@ export const VoteField = ({
       >
         {t('project.support')}
         <Typography color="textSecondary" className={classes.voteCount}>
-          {t('units.vote-value', { value: '670000' })}
+          {t('unit.vote-value', { value: '670000' })}
         </Typography>
       </Button>
       {children}
@@ -65,7 +65,7 @@ export const VoteField = ({
       >
         {t('project.against')}
         <Typography color="textSecondary" className={classes.voteCount}>
-          {t('units.vote-value', {
+          {t('unit.vote-value', {
             value: '622000',
           })}
         </Typography>
