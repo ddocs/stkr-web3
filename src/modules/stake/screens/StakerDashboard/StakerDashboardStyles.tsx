@@ -56,6 +56,10 @@ export const useStakerDashboardStyles = makeStyles<Theme>(theme => ({
   },
   buttonGroup: {
     justifySelf: 'end',
+    [theme.breakpoints.down('xs')]: {
+      gridColumn: '1/3',
+      justifySelf: 'auto',
+    },
   },
   stake: {
     padding: 23,
