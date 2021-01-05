@@ -207,9 +207,7 @@ export const Project = () => {
                       classes={{ root: classes.led }}
                     />
                     <Box mb={2.5}>
-                      <Typography variant="h2">
-                        {t('project.project-name')}
-                      </Typography>
+                      <Typography variant="h2">{project.topic}</Typography>
                     </Box>
                     <Typography
                       variant="body2"
