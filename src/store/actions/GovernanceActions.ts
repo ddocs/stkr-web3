@@ -38,6 +38,7 @@ export const GovernanceActions = {
         const stkrSdk = StkrSdk.getLastInstance();
         const projects = await stkrSdk.fetchProjects();
 
+        // TODO Add extra data
         // console.log(
         //   'projects',
         //   projects,
@@ -57,8 +58,6 @@ export const GovernanceActions = {
         //     '0x0000000000000000000000003f804ddc6e3e6bf4ae383c6d7c843f33c323d234',
         //   ),
         // );
-
-        console.log('projects', projects);
 
         return { projects };
       })(),
