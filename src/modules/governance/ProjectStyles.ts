@@ -12,7 +12,7 @@ export const useProjectStyles = makeStyles(theme => ({
   paper: {
     width: '100%',
     maxWidth: 955,
-    padding: theme.spacing(6.5, 10, 3.5, 10),
+    padding: theme.spacing(6.5, 10),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
