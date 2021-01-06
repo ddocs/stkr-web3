@@ -1,17 +1,17 @@
 import * as React from 'react';
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 import { Curtains } from '../../UiKit/Curtains';
 import { t, tHTML } from '../../common/utils/intl';
 import {
-  Box,
-  Button,
-  Divider,
-  IconButton,
-  Link,
-  Paper,
-  Tooltip,
-  Typography,
-  ValueLabelProps,
+    Box,
+    Button,
+    Divider,
+    IconButton,
+    Link,
+    Paper,
+    Tooltip,
+    Typography,
+    ValueLabelProps,
 } from '@material-ui/core';
 import { useProjectStyles } from './ProjectStyles';
 import { ModerationStatusLed } from './components/ModerationStatusLed';
@@ -26,18 +26,12 @@ import { Link as RouterLink } from 'react-router-dom';
 import { useParams } from 'react-router';
 import { GOVERNANCE_PROJECT_LIST_PATH } from '../../common/const';
 import { useDispatch } from 'react-redux';
-import {
-  GovernanceActions,
-  GovernanceActionTypes,
-} from '../../store/actions/GovernanceActions';
+import { GovernanceActions, GovernanceActionTypes, } from '../../store/actions/GovernanceActions';
 import { VoteStatus } from '@ankr.com/stkr-jssdk';
 import { IUserInfo } from '../../store/apiMappers/userApi';
 import { UserActionTypes } from '../../store/actions/UserActions';
 import { QueryError } from '../../components/QueryError/QueryError';
-import {
-  QueryLoading,
-  QueryLoadingCentered,
-} from '../../components/QueryLoading/QueryLoading';
+import { QueryLoading, QueryLoadingCentered, } from '../../components/QueryLoading/QueryLoading';
 import { QueryEmpty } from '../../components/QueryEmpty/QueryEmpty';
 import { Mutation, Query } from '@redux-requests/react';
 import { IProject } from './types';
@@ -94,11 +88,6 @@ export const Project = () => {
   );
 
   const { projectId } = useParams<{ projectId: string }>();
-
-  useEffect(() => {
-    // TODO Remove
-    dispatch(GovernanceActions.getAnkrGovernanceAllowance());
-  }, [dispatch]);
 
   const onSubmit = useCallback(
     (payload: IVoteValue) => {
