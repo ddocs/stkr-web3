@@ -47,7 +47,7 @@ export const useProjectStyles = makeStyles(theme => ({
   amount: {
     display: 'grid',
     gridGap: theme.spacing(3),
-    gridTemplateColumns: 'auto 1fr auto',
+    gridTemplateColumns: 'minmax(0, 1fr) 3fr minmax(0, 1fr)',
     marginBottom: theme.spacing(4),
     [theme.breakpoints.down('xs')]: {
       gridTemplateColumns: '1fr',
