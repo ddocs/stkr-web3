@@ -12,14 +12,12 @@ import {
 } from './event';
 import { BlockHeader } from 'web3-eth';
 import { ETH_SCALE_FACTOR } from '../../common/const';
-import Stkr, { GovernanceEvents } from '@ankr.com/stkr-jssdk';
-import { VoteStatus } from '@ankr.com/stkr-jssdk';
+import Stkr, { GovernanceEvents, VoteStatus } from '@ankr.com/stkr-jssdk';
 import ABI_GLOBAL_POOL from './contract/GlobalPool.json';
 import ABI_AETH from './contract/AETH.json';
 import ABI_ANKR from './contract/ANKR.json';
 import ABI_STAKING from './contract/Staking.json';
 import ABI_SYSTEM from './contract/SystemParameters.json';
-import * as BN from 'bn.js';
 
 const ERROR_SDK_NOT_INITIALIZED = new Error("Stkr SDK hasn't been initialized");
 
@@ -713,7 +711,11 @@ export class ContractManager {
       });
   }
 
-  public async vote(proposalId: string, vote: VoteStatus, options?: SendOptions) {
+  public async vote(
+    proposalId: string,
+    vote: VoteStatus,
+    options?: SendOptions,
+  ) {
     if (!this.stkr) {
       throw ERROR_SDK_NOT_INITIALIZED;
     }
@@ -760,7 +762,7 @@ export class ContractManager {
     return await this.stkr.setAnkrAllowance(amount, options);
   }
 
-  public async getAnkrGovernanceAllowance(owner: string): Promise<BN> {
+  public async getAnkrGovernanceAllowance(owner: string): Promise<string> {
     if (!this.stkr) {
       throw ERROR_SDK_NOT_INITIALIZED;
     }

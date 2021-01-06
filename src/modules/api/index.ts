@@ -15,7 +15,6 @@ import { EventEmitter } from 'events';
 import { TransactionReceipt } from 'web3-core';
 import { ContractManagerEvent } from './event';
 import { SendOptions } from 'web3-eth-contract';
-import * as BN from 'bn.js';
 import { VoteStatus } from '@ankr.com/stkr-jssdk';
 
 export interface IStakeAction extends SendAsyncResult {
@@ -382,7 +381,7 @@ export class StkrSdk {
     return await this.getContractManager().setAnkrAllowance(amount, options);
   }
 
-  public async getAnkrGovernanceAllowance(owner: string): Promise<BN> {
+  public async getAnkrGovernanceAllowance(owner: string) {
     return await this.getContractManager().getAnkrGovernanceAllowance(owner);
   }
 

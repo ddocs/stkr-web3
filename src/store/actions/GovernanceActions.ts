@@ -1,8 +1,9 @@
 import { StkrSdk } from '../../modules/api';
-import { SendOptions } from 'web3-eth-contract';
 import { MIN_GOVERNANCE_AMOUNT } from '../../common/const';
 import { mapProject } from '../../modules/governance/types';
 import { VoteStatus } from '@ankr.com/stkr-jssdk';
+import BigNumber from 'bignumber.js';
+import Web3 from 'web3';
 
 export const GovernanceActionTypes = {
   VOTE: 'VOTE',
@@ -12,18 +13,25 @@ export const GovernanceActionTypes = {
 };
 
 export const GovernanceActions = {
-  vote: (
-    proposalId: string,
-    vote: VoteStatus,
-    options?: Partial<SendOptions>,
-  ) => ({
+  vote: (proposalId: string, vote: VoteStatus, amount: string) => ({
     type: GovernanceActionTypes.VOTE,
     request: {
       promise: (async function () {
+        const weiAmount = Web3.utils.toWei(amount);
         const stkrSdk = StkrSdk.getLastInstance();
+        const allowance = await stkrSdk.getAnkrGovernanceAllowance(
+          stkrSdk.getKeyProvider().currentAccount(),
+        );
+
         const currentAccount = stkrSdk.getKeyProvider().currentAccount();
+
+        if (!new BigNumber(allowance).isEqualTo(weiAmount)) {
+          await stkrSdk.setAnkrAllowance(weiAmount, {
+            from: currentAccount,
+          });
+        }
+
         return await stkrSdk.vote(proposalId, vote, {
-          ...options,
           from: currentAccount,
         });
       })(),
@@ -38,8 +46,6 @@ export const GovernanceActions = {
       promise: (async function () {
         const stkrSdk = StkrSdk.getLastInstance();
         const projects = await stkrSdk.fetchProjects();
-
-        console.log('projects', projects);
 
         const data = await Promise.all(
           projects.map(item =>
@@ -60,9 +66,17 @@ export const GovernanceActions = {
       promise: (async function () {
         const stkrSdk = StkrSdk.getLastInstance();
         const currentAccount = stkrSdk.getKeyProvider().currentAccount();
-        await stkrSdk.setAnkrAllowance(MIN_GOVERNANCE_AMOUNT, {
-          from: currentAccount,
-        });
+
+        const allowance = await stkrSdk.getAnkrGovernanceAllowance(
+          stkrSdk.getKeyProvider().currentAccount(),
+        );
+
+        if (new BigNumber(allowance).isLessThan(MIN_GOVERNANCE_AMOUNT)) {
+          await stkrSdk.setAnkrAllowance(MIN_GOVERNANCE_AMOUNT, {
+            from: currentAccount,
+          });
+        }
+
         return await stkrSdk.createProject(timeSpan, topic, content, {
           from: currentAccount,
         });
@@ -80,8 +94,6 @@ export const GovernanceActions = {
         const allowance = await stkrSdk.getAnkrGovernanceAllowance(
           stkrSdk.getKeyProvider().currentAccount(),
         );
-
-        console.log('allowance', allowance);
 
         return { allowance };
       })(),

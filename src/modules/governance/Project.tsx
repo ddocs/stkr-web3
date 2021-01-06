@@ -102,8 +102,13 @@ export const Project = () => {
 
   const onSubmit = useCallback(
     (payload: IVoteValue) => {
-      // TODO pass amount
-      dispatch(GovernanceActions.vote(projectId, payload.voteStatus));
+      dispatch(
+        GovernanceActions.vote(
+          projectId,
+          payload.voteStatus,
+          payload.amount.toString(),
+        ),
+      );
     },
     [dispatch, projectId],
   );
@@ -144,7 +149,10 @@ export const Project = () => {
         </Box>
 
         <Box maxWidth={298} width="100%" margin="0 auto" mb={3}>
-          <MutationErrorHandler type={GovernanceActionTypes.VOTE} />
+          <MutationErrorHandler
+            resetOnShow={false}
+            type={GovernanceActionTypes.VOTE}
+          />
           <Mutation type={GovernanceActionTypes.VOTE}>
             {({ loading }) => {
               return (

@@ -146,7 +146,10 @@ export const CreateProject = () => {
         </Box>
 
         <Box maxWidth={280} width="100%" margin="0 auto">
-          <MutationErrorHandler type={GovernanceActionTypes.CREATE_PROJECT} />
+          <MutationErrorHandler
+            resetOnShow={false}
+            type={GovernanceActionTypes.CREATE_PROJECT}
+          />
           <Mutation type={GovernanceActionTypes.CREATE_PROJECT}>
             {({ loading }) => (
               <Button
