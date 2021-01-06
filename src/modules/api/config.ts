@@ -28,19 +28,13 @@ export const LOCAL_CONFIG: IStkrConfig = {
 export const DEVELOP_CONFIG: IStkrConfig = {
   ...LOCAL_CONFIG,
   baseUrl: 'https://api.dev.stkr.io/',
+  configUrl: 'https://cdn.stkr.io/contracts/goerli/addresses.json',
 };
 
 export const GOERLI_CONFIG: IStkrConfig = {
   ...LOCAL_CONFIG,
-  contractConfig: {
-    aethContract: '0x63dC5749fa134fF3B752813388a7215460a8aB01',
-    microPoolContract: '0x5ea4C3a6CA22B38a1D6776329bb8b4073C157B27',
-    microPoolBlock: '3777622',
-    ankrContract: '0xe195fe8fd7ed84fe6d5a3bd24d5586a31d299c8c',
-    stakingContract: '0xe48cDc6146722C045566c6B614263e22D9bF1b50', // old
-    systemContract: '0x19F75408fc6F08f22156a26c279Db7F033779d94',
-  },
   baseUrl: 'https://api.goerli.stkr.io/',
+  configUrl: 'https://cdn.stkr.io/contracts/goerli/addresses.json',
 };
 
 export const MAINNET_CONFIG: IStkrConfig = {
