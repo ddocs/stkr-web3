@@ -352,9 +352,10 @@
   },
   "moderation-status": {
     "status": {
-      "0": "Voting",
-      "1": "Fail",
-      "2": "Passed"
+      "0": "Waiting",
+      "1": "Voting",
+      "2": "Fail",
+      "3": "Passed"
     }
   },
   "rules-dialog": {

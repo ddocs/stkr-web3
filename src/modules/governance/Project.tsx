@@ -97,11 +97,8 @@ export const Project = () => {
 
   const onSubmit = useCallback(
     (payload: IVoteValue) => {
-      dispatch(
-        GovernanceActions.vote(projectId, payload.voteStatus, {
-          value: payload.amount,
-        }),
-      );
+      // TODO pass amount
+      dispatch(GovernanceActions.vote(projectId, payload.voteStatus));
     },
     [dispatch, projectId],
   );
@@ -224,10 +221,7 @@ export const Project = () => {
                       className={classes.time}
                     >
                       {tHTML('project.time-left', {
-                        value: convertToDuration(
-                          new Date(),
-                          project.endTime,
-                        ),
+                        value: convertToDuration(new Date(), project.endTime),
                       })}
                     </Typography>
 
