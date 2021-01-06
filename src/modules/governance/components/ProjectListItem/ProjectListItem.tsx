@@ -1,10 +1,18 @@
 import React from 'react';
 import { useProjectListItemStyles } from './ProjectListItemStyles';
-import { Box, Divider, LinearProgress, Paper, Typography, } from '@material-ui/core';
+import {
+  Box,
+  Divider,
+  LinearProgress,
+  Paper,
+  Typography,
+} from '@material-ui/core';
 import { ModerationStatusLed } from '../ModerationStatusLed';
 import { Timer } from '../Timer';
 import { t } from '../../../../common/utils/intl';
 import { ProposalStatus } from '@ankr.com/stkr-jssdk';
+import { getGovernanceProjectPath } from '../../../../common/const';
+import { Link as RouterLink } from 'react-router-dom';
 
 interface IProjectListItemProps {
   moderationStatus: ProposalStatus;
@@ -31,10 +39,11 @@ export const ProjectListItem = ({
 
   return (
     <Paper
-      // component={RouterLink} {...({ to: getGovernanceProjectPath(id) } as any)}
+      component={RouterLink}
       variant="outlined"
       square={false}
       className={classes.root}
+      {...({ to: getGovernanceProjectPath(id) } as any)}
     >
       <Box display="flex" justifyContent="space-between" mb={5}>
         <ModerationStatusLed status={moderationStatus} />

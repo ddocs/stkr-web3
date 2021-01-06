@@ -18,9 +18,11 @@ export const useProjectListItemStyles = makeStyles(theme => ({
     color: fade(theme.palette.common.white, 0.7),
   },
   divider: {
-    marginLeft: -theme.spacing(HorizontalPadding),
-    marginRight: -theme.spacing(HorizontalPadding),
-    marginBottom: theme.spacing(4),
+    '&&': {
+      marginLeft: -theme.spacing(HorizontalPadding),
+      marginRight: -theme.spacing(HorizontalPadding),
+      marginBottom: theme.spacing(4),
+    },
   },
   progressBar: {
     flex: 1,
