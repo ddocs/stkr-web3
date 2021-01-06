@@ -13,6 +13,7 @@ import { t } from '../../../../common/utils/intl';
 import { ProposalStatus } from '@ankr.com/stkr-jssdk';
 import { getGovernanceProjectPath } from '../../../../common/const';
 import { Link as RouterLink } from 'react-router-dom';
+import { getProgress } from '../../../../common/utils/getProgress';
 
 interface IProjectListItemProps {
   moderationStatus: ProposalStatus;
@@ -34,8 +35,6 @@ export const ProjectListItem = ({
   endTime,
 }: IProjectListItemProps) => {
   const classes = useProjectListItemStyles({});
-
-  const progress = yes > 0 ? ((yes + no) / yes) * 100 : 0;
 
   return (
     <Paper
@@ -63,7 +62,7 @@ export const ProjectListItem = ({
         </Box>
         <LinearProgress
           variant="determinate"
-          value={progress}
+          value={getProgress(yes, no)}
           color="secondary"
           className={classes.progressBar}
         />

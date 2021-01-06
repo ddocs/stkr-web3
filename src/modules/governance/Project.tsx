@@ -3,15 +3,16 @@ import { useCallback } from 'react';
 import { Curtains } from '../../UiKit/Curtains';
 import { t, tHTML } from '../../common/utils/intl';
 import {
-    Box,
-    Button,
-    Divider,
-    IconButton,
-    Link,
-    Paper,
-    Tooltip,
-    Typography,
-    ValueLabelProps,
+  Box,
+  Button,
+  Divider,
+  IconButton,
+  LinearProgress,
+  Link,
+  Paper,
+  Tooltip,
+  Typography,
+  ValueLabelProps,
 } from '@material-ui/core';
 import { useProjectStyles } from './ProjectStyles';
 import { ModerationStatusLed } from './components/ModerationStatusLed';
@@ -26,12 +27,18 @@ import { Link as RouterLink } from 'react-router-dom';
 import { useParams } from 'react-router';
 import { GOVERNANCE_PROJECT_LIST_PATH } from '../../common/const';
 import { useDispatch } from 'react-redux';
-import { GovernanceActions, GovernanceActionTypes, } from '../../store/actions/GovernanceActions';
-import { VoteStatus } from '@ankr.com/stkr-jssdk';
+import {
+  GovernanceActions,
+  GovernanceActionTypes,
+} from '../../store/actions/GovernanceActions';
+import { ProposalStatus, VoteStatus } from '@ankr.com/stkr-jssdk';
 import { IUserInfo } from '../../store/apiMappers/userApi';
 import { UserActionTypes } from '../../store/actions/UserActions';
 import { QueryError } from '../../components/QueryError/QueryError';
-import { QueryLoading, QueryLoadingCentered, } from '../../components/QueryLoading/QueryLoading';
+import {
+  QueryLoading,
+  QueryLoadingCentered,
+} from '../../components/QueryLoading/QueryLoading';
 import { QueryEmpty } from '../../components/QueryEmpty/QueryEmpty';
 import { Mutation, Query } from '@redux-requests/react';
 import { IProject } from './types';
@@ -39,13 +46,11 @@ import { getProject } from './utils/getProject';
 import { MutationErrorHandler } from '../../components/MutationErrorHandler/MutationErrorHandler';
 import { VoteField } from './components/VoteField';
 import { convertToDuration } from '../../common/utils/convertToDuration';
+import { getProgress } from '../../common/utils/getProgress';
 
 interface IVoteValue {
   amount: number;
   voteStatus: VoteStatus;
-
-  yes: number;
-  no: number;
 }
 
 function validateCreateProjectForm(data: IVoteValue) {
@@ -105,75 +110,6 @@ export const Project = () => {
   const onHowItWorksClick = useCallback(() => {
     handleOpen();
   }, [handleOpen]);
-
-  const renderForm = ({
-    handleSubmit,
-    form,
-    initialValues,
-  }: FormRenderProps<IVoteValue>) => {
-    const state = form.getState();
-    const { amount } = state.values;
-
-    return (
-      <form onSubmit={handleSubmit} className={classes.form}>
-        <input type="hidden" name="voteStatus" />
-        <Box display="flex" className={classes.amount}>
-          <Field
-            name="voteStatus"
-            component={VoteField}
-            yes={initialValues.yes}
-            no={initialValues.no}
-          >
-            <Field
-              component={SliderField}
-              min={1}
-              max={initialValues.amount}
-              name="amount"
-              step={1}
-              valueLabelDisplay="on"
-              ValueLabelComponent={SliderLabel}
-              classes={{ root: classes.slider }}
-            />
-          </Field>
-        </Box>
-
-        <Box maxWidth={298} width="100%" margin="0 auto" mb={3}>
-          <MutationErrorHandler
-            resetOnShow={false}
-            type={GovernanceActionTypes.VOTE}
-          />
-          <Mutation type={GovernanceActionTypes.VOTE}>
-            {({ loading }) => {
-              return (
-                <Button
-                  color="primary"
-                  type="submit"
-                  size="large"
-                  fullWidth={true}
-                  disabled={loading}
-                >
-                  {loading
-                    ? t('project.processing')
-                    : t('project.submit', {
-                        value: t('unit.number-value', { value: amount }),
-                      })}
-                </Button>
-              );
-            }}
-          </Mutation>
-        </Box>
-        <Link
-          color="textSecondary"
-          align="center"
-          underline="none"
-          onClick={onHowItWorksClick}
-          display="block"
-        >
-          {t('project.how-does-it-work')}
-        </Link>
-      </form>
-    );
-  };
 
   return (
     <>
@@ -238,13 +174,110 @@ export const Project = () => {
                     >
                       {({ data }) => (
                         <Form
-                          render={renderForm}
+                          render={({
+                            // TODO extract render to component
+                            handleSubmit,
+                            form,
+                            initialValues,
+                          }: FormRenderProps<IVoteValue>) => {
+                            const state = form.getState();
+                            const { amount } = state.values;
+                            const disabled =
+                              project.status !== ProposalStatus.VOTING;
+
+                            return (
+                              <form
+                                onSubmit={handleSubmit}
+                                className={classes.form}
+                              >
+                                <input type="hidden" name="voteStatus" />
+                                <Box display="flex" className={classes.amount}>
+                                  <Field
+                                    name="voteStatus"
+                                    component={VoteField}
+                                    yes={project.yes}
+                                    no={project.no}
+                                    disabled={disabled}
+                                  >
+                                    {disabled ? (
+                                      <LinearProgress
+                                        variant="determinate"
+                                        value={getProgress(
+                                          project.yes,
+                                          project.no,
+                                        )}
+                                        color="secondary"
+                                        className={classes.progressBar}
+                                      />
+                                    ) : (
+                                      <Field
+                                        component={SliderField}
+                                        min={1}
+                                        max={initialValues.amount}
+                                        name="amount"
+                                        step={1}
+                                        valueLabelDisplay="on"
+                                        ValueLabelComponent={SliderLabel}
+                                        classes={{ root: classes.slider }}
+                                      />
+                                    )}
+                                  </Field>
+                                </Box>
+
+                                {!disabled && (
+                                  <Box
+                                    maxWidth={298}
+                                    width="100%"
+                                    margin="0 auto"
+                                    mb={3}
+                                  >
+                                    <MutationErrorHandler
+                                      resetOnShow={false}
+                                      type={GovernanceActionTypes.VOTE}
+                                    />
+                                    <Mutation type={GovernanceActionTypes.VOTE}>
+                                      {({ loading }) => {
+                                        return (
+                                          <Button
+                                            color="primary"
+                                            type="submit"
+                                            size="large"
+                                            fullWidth={true}
+                                            disabled={loading}
+                                          >
+                                            {loading
+                                              ? t('project.processing')
+                                              : t('project.submit', {
+                                                  value: t(
+                                                    'unit.number-value',
+                                                    {
+                                                      value: amount,
+                                                    },
+                                                  ),
+                                                })}
+                                          </Button>
+                                        );
+                                      }}
+                                    </Mutation>
+                                  </Box>
+                                )}
+
+                                <Link
+                                  color="textSecondary"
+                                  align="center"
+                                  underline="none"
+                                  onClick={onHowItWorksClick}
+                                  display="block"
+                                >
+                                  {t('project.how-does-it-work')}
+                                </Link>
+                              </form>
+                            );
+                          }}
                           validate={validateCreateProjectForm}
                           onSubmit={onSubmit}
                           initialValues={{
                             amount: data?.ankrBalance.toNumber(),
-                            yes: project.yes,
-                            no: project.no,
                           }}
                         />
                       )}

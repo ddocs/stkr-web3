@@ -12,6 +12,7 @@ interface ISliderProps extends FieldRenderProps<HTMLElement>, SliderProps {
   label?: string;
   yes: number;
   no: number;
+  disabled: boolean;
 }
 
 export const VoteField = ({
@@ -20,6 +21,7 @@ export const VoteField = ({
   children,
   yes,
   no,
+  disabled,
 }: ISliderProps) => {
   const error = hasError(meta);
   const errorText = getErrorText(meta);
@@ -47,6 +49,7 @@ export const VoteField = ({
         value={VoteStatus.YES}
         onClick={handleOnChange}
         onBlur={handleOnBlur}
+        disabled={disabled}
       >
         {t('project.support')}
         <Typography color="textSecondary" className={classes.voteCount}>
@@ -66,6 +69,7 @@ export const VoteField = ({
         value={VoteStatus.NO}
         onClick={handleOnChange}
         onBlur={handleOnBlur}
+        disabled={disabled}
       >
         {t('project.against')}
         <Typography color="textSecondary" className={classes.voteCount}>
