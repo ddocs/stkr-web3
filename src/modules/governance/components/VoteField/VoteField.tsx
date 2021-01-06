@@ -1,10 +1,10 @@
 import { Button, SliderProps, Typography } from '@material-ui/core';
 import React from 'react';
 import { FieldRenderProps } from 'react-final-form';
-import { getErrorText, hasError } from '../../common/utils/form';
+import { getErrorText, hasError } from '../../../../common/utils/form';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import classNames from 'classnames';
-import { t } from '../../common/utils/intl';
+import { t } from '../../../../common/utils/intl';
 import { useVoteFieldStyles } from './VoteFieldStyles';
 import { VoteStatus } from '@ankr.com/stkr-jssdk';
 

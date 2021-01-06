@@ -43,7 +43,7 @@ import { Mutation, Query } from '@redux-requests/react';
 import { IProject } from './types';
 import { getProject } from './utils/getProject';
 import { MutationErrorHandler } from '../../components/MutationErrorHandler/MutationErrorHandler';
-import { VoteField } from './VoteField';
+import { VoteField } from './components/VoteField/VoteField';
 import { convertToDuration } from '../../common/utils/convertToDuration';
 
 interface IVoteValue {
