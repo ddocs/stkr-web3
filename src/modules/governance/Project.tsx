@@ -96,6 +96,7 @@ export const Project = () => {
   const { projectId } = useParams<{ projectId: string }>();
 
   useEffect(() => {
+    // TODO Remove
     dispatch(GovernanceActions.getAnkrGovernanceAllowance());
   }, [dispatch]);
 
