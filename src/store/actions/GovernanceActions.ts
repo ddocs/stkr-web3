@@ -8,6 +8,7 @@ export const GovernanceActionTypes = {
   VOTE: 'VOTE',
   FETCH_PROJECTS: 'FETCH_PROJECTS',
   CREATE_PROJECT: 'CREATE_PROJECT',
+  GET_ANKR_GOVERNANCE_ALLOWANCE: 'GET_ANKR_GOVERNANCE_ALLOWANCE',
 };
 
 export const GovernanceActions = {
@@ -69,6 +70,21 @@ export const GovernanceActions = {
     },
     meta: {
       asMutation: true,
+    },
+  }),
+  getAnkrGovernanceAllowance: () => ({
+    type: GovernanceActionTypes.GET_ANKR_GOVERNANCE_ALLOWANCE,
+    request: {
+      promise: (async function () {
+        const stkrSdk = StkrSdk.getLastInstance();
+        const allowance = await stkrSdk.getAnkrGovernanceAllowance(
+          stkrSdk.getKeyProvider().currentAccount(),
+        );
+
+        console.log('allowance', allowance);
+
+        return { allowance };
+      })(),
     },
   }),
 };

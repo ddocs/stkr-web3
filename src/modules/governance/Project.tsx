@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { Curtains } from '../../UiKit/Curtains';
 import { t, tHTML } from '../../common/utils/intl';
 import {
@@ -94,6 +94,10 @@ export const Project = () => {
   );
 
   const { projectId } = useParams<{ projectId: string }>();
+
+  useEffect(() => {
+    dispatch(GovernanceActions.getAnkrGovernanceAllowance());
+  }, [dispatch]);
 
   const onSubmit = useCallback(
     (payload: IVoteValue) => {

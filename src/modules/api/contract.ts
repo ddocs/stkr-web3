@@ -760,12 +760,12 @@ export class ContractManager {
     return await this.stkr.setAnkrAllowance(amount, options);
   }
 
-  public async getAnkrAllowance(owner: string, spender: string): Promise<BN> {
+  public async getAnkrGovernanceAllowance(owner: string): Promise<BN> {
     if (!this.stkr) {
       throw ERROR_SDK_NOT_INITIALIZED;
     }
 
-    return await this.stkr.getAnkrAllowance(owner, spender);
+    return await this.stkr.getAnkrGovernanceAllowance(owner);
   }
 
   public async getProposalInfo(proposalId: string) {

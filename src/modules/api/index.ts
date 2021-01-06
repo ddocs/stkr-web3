@@ -382,8 +382,8 @@ export class StkrSdk {
     return await this.getContractManager().setAnkrAllowance(amount, options);
   }
 
-  public async getAnkrAllowance(owner: string, spender: string): Promise<BN> {
-    return await this.getContractManager().getAnkrAllowance(owner, spender);
+  public async getAnkrGovernanceAllowance(owner: string): Promise<BN> {
+    return await this.getContractManager().getAnkrGovernanceAllowance(owner);
   }
 
   public async getProposalInfo(proposalId: string) {
