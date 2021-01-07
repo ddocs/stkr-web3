@@ -2,7 +2,7 @@ version: 2.1
 
 build-template: &build-template
   docker:
-    - image: tarampampam/node:13-alpine
+    - image: tarampampam/node:14-alpine
   steps:
     - checkout
     - setup_remote_docker

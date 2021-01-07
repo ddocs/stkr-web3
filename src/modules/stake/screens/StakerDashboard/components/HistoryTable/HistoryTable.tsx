@@ -98,8 +98,8 @@ export const HistoryTable = (props: IHistoryTableProps) => {
               <TableBodyCell
                 className={classNames(classes.cell, classes.bodyCell)}
               >
-                {t('units.eth-value', {
-                  value: item.amount.toFormat(),
+                {t('unit.eth-value', {
+                  value: item.amount,
                 })}
               </TableBodyCell>
               <TableBodyCell

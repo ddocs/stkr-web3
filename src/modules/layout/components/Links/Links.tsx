@@ -2,12 +2,7 @@ import React, { SVGAttributes, useCallback, useState } from 'react';
 import classNames from 'classnames';
 import { NavLink } from '../../../../UiKit/NavLink';
 import { t } from '../../../../common/utils/intl';
-import {
-  DOCS_LINK,
-  GOVERNANCE_LINK,
-  SOCIAL_LINK,
-  LITEPAPER_LINK,
-} from '../../../../common/const';
+import { DOCS_LINK, LITEPAPER_LINK, SOCIAL_LINK, } from '../../../../common/const';
 import { useLinksStyles } from './LinksStyles';
 import { Button } from '../../../../UiKit/Button';
 import { useIsSMDown } from '../../../../common/hooks/useTheme';
@@ -27,7 +22,6 @@ const LINKS: Record<string, string | Record<string, string>> = {
     'telegram-announcements': SOCIAL_LINK.telegramAnnouncements,
     medium: SOCIAL_LINK.medium,
   },
-  governance: GOVERNANCE_LINK,
   docs: DOCS_LINK,
 };
 
@@ -77,15 +71,15 @@ export const Links = ({ className }: ILinksProps) => {
               {typeof link === 'string' ? (
                 <Tooltip
                   title={t('coming-soon')}
-                  disableHoverListener={link.startsWith('http')}
-                  disableTouchListener={link.startsWith('http')}
+                  disableHoverListener={!!link}
+                  disableTouchListener={!!link}
                 >
                   <NavLink
-                    href={link.startsWith('http') ? link : ''}
+                    href={link}
                     className={classes.link}
                     color="secondary"
                     size="large"
-                    disabled={!link.startsWith('http')}
+                    disabled={!link}
                   >
                     {t(`navigation.${key}`)}
                   </NavLink>

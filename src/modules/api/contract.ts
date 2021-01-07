@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/no-var-requires,@typescript-eslint/interface-name-prefix */
 import { KeyProvider, SendAsyncResult } from './provider';
-import { Contract } from 'web3-eth-contract';
+import { Contract, SendOptions } from 'web3-eth-contract';
 import BigNumber from 'bignumber.js';
 import { EventLog } from 'web3-core';
 import { EventEmitter } from 'events';
@@ -13,12 +12,14 @@ import {
 } from './event';
 import { BlockHeader } from 'web3-eth';
 import { ETH_SCALE_FACTOR } from '../../common/const';
+import Stkr, { GovernanceEvents, VoteStatus } from '@ankr.com/stkr-jssdk';
+import ABI_GLOBAL_POOL from './contract/GlobalPool.json';
+import ABI_AETH from './contract/AETH.json';
+import ABI_ANKR from './contract/ANKR.json';
+import ABI_STAKING from './contract/Staking.json';
+import ABI_SYSTEM from './contract/SystemParameters.json';
 
-const ABI_GLOBAL_POOL = require('./contract/GlobalPool.json');
-const ABI_AETH = require('./contract/AETH.json');
-const ABI_ANKR = require('./contract/ANKR.json');
-const ABI_STAKING = require('./contract/Staking.json');
-const ABI_SYSTEM = require('./contract/SystemParameters.json');
+const ERROR_SDK_NOT_INITIALIZED = new Error("Stkr SDK hasn't been initialized");
 
 export interface ContractConfig {
   aethContract: string;
@@ -43,6 +44,7 @@ export class ContractManager {
   private readonly ankrContract?: Contract;
   private readonly stakingContract?: Contract;
   private readonly systemContract: Contract;
+  private stkr: Stkr | undefined = undefined;
 
   private systemContractParameters: SystemContractParameters | null = null;
 
@@ -52,33 +54,41 @@ export class ContractManager {
     private eventEmitter: EventEmitter,
   ) {
     this.microPoolContract = this.keyProvider.createContract(
-      ABI_GLOBAL_POOL,
+      ABI_GLOBAL_POOL as any,
       contractConfig.microPoolContract,
     );
     this.aethContract = this.keyProvider.createContract(
-      ABI_AETH,
+      ABI_AETH as any,
       contractConfig.aethContract,
     );
     if (contractConfig.ankrContract) {
       this.ankrContract = this.keyProvider.createContract(
-        ABI_ANKR,
+        ABI_ANKR as any,
         contractConfig.ankrContract,
       );
     }
     if (contractConfig.stakingContract) {
       this.stakingContract = this.keyProvider.createContract(
-        ABI_STAKING,
+        ABI_STAKING as any,
         contractConfig.stakingContract,
       );
     }
     this.systemContract = this.keyProvider.createContract(
-      ABI_SYSTEM,
+      ABI_SYSTEM as any,
       contractConfig.systemContract,
     );
     console.log(`subscribing for contract events`);
     this.followEthereumEvents();
     this.followAnkrEvents();
     this.followGlobalPoolEvents();
+
+    // TODO sync init
+    keyProvider
+      .getWeb3()
+      .eth.net.getId()
+      .then(
+        networkId => (this.stkr = new Stkr(keyProvider.getWeb3(), networkId)),
+      );
   }
 
   public async queryStakePendingEventLogs(): Promise<IStakePendingEvent[]> {
@@ -628,22 +638,6 @@ export class ContractManager {
     return new BigNumber(allowance).dividedBy(ANKR_SCALE_FACTOR);
   }
 
-  public async faucet(): Promise<SendAsyncResult> {
-    if (!this.ankrContract || !this.contractConfig.ankrContract) {
-      throw new Error('Ankr contract is not available now');
-    }
-    const data: string = this.ankrContract.methods.faucet().encodeABI();
-    const currentAccount = await this.keyProvider.currentAccount();
-    console.log(`encoded [faucet] ABI: ${data}`);
-    return this.keyProvider.sendAsync(
-      currentAccount,
-      this.contractConfig.ankrContract,
-      {
-        data: data,
-      },
-    );
-  }
-
   public async approveAnkrToStakingContract(
     amount: BigNumber,
   ): Promise<SendAsyncResult> {
@@ -715,5 +709,72 @@ export class ContractManager {
       .then((value: string) => {
         return new BigNumber(value).div(ETH_SCALE_FACTOR);
       });
+  }
+
+  public async vote(
+    proposalId: string,
+    vote: VoteStatus,
+    options?: SendOptions,
+  ) {
+    if (!this.stkr) {
+      throw ERROR_SDK_NOT_INITIALIZED;
+    }
+
+    return await this.stkr.vote(proposalId, vote, options);
+  }
+
+  public async fetchProjects() {
+    if (!this.stkr) {
+      throw ERROR_SDK_NOT_INITIALIZED;
+    }
+
+    return await new GovernanceEvents(
+      this.stkr.contracts.governance.getWeb3ContractInstance(),
+    ).getPastPropose({ fromBlock: 0 });
+  }
+
+  public async createProject(
+    timeSpan: number,
+    topic: string,
+    content: string,
+    options?: SendOptions,
+  ) {
+    if (!this.stkr) {
+      throw ERROR_SDK_NOT_INITIALIZED;
+    }
+
+    return await this.stkr.propose(timeSpan, topic, content, options);
+  }
+
+  public async faucet(options?: SendOptions) {
+    if (!this.stkr) {
+      throw ERROR_SDK_NOT_INITIALIZED;
+    }
+
+    return await this.stkr.faucet5m(options);
+  }
+
+  public async setAnkrAllowance(amount: string, options?: SendOptions) {
+    if (!this.stkr) {
+      throw ERROR_SDK_NOT_INITIALIZED;
+    }
+
+    return await this.stkr.setAnkrAllowance(amount, options);
+  }
+
+  public async getAnkrGovernanceAllowance(owner: string): Promise<string> {
+    if (!this.stkr) {
+      throw ERROR_SDK_NOT_INITIALIZED;
+    }
+
+    return await this.stkr.getAnkrGovernanceAllowance(owner);
+  }
+
+  public async getProposalInfo(proposalId: string) {
+    if (!this.stkr) {
+      throw ERROR_SDK_NOT_INITIALIZED;
+    }
+
+    return await this.stkr.getProposalInfo(proposalId);
   }
 }

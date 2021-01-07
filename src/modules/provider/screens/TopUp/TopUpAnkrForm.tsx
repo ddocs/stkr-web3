@@ -45,7 +45,7 @@ export const TopUpAnkrForm = ({
 
   const handleBuy = useCallback(() => {
     // TODO Link for production
-    dispatch(UserActions.buyTokens());
+    dispatch(UserActions.faucet());
   }, [dispatch]);
 
   const handleAllowTokens = useCallback(() => {

@@ -14,6 +14,8 @@ import BigNumber from 'bignumber.js';
 import { EventEmitter } from 'events';
 import { TransactionReceipt } from 'web3-core';
 import { ContractManagerEvent } from './event';
+import { SendOptions } from 'web3-eth-contract';
+import { VoteStatus } from '@ankr.com/stkr-jssdk';
 
 export interface IStakeAction extends SendAsyncResult {
   waitForTxReceipt(): Promise<TransactionReceipt>;
@@ -136,11 +138,6 @@ export class StkrSdk {
     return false;
   }
 
-  public async faucet(): Promise<void> {
-    const contractManager = this.getContractManager();
-    await contractManager.faucet();
-  }
-
   public async getAllowanceAmount() {
     return await this.getContractManager().checkAnkrAllowance();
   }
@@ -180,8 +177,7 @@ export class StkrSdk {
       const CHECK_INTERVAL = 5000;
       const checkFunction = async () => {
         const remainingAmount = await this.getRemainingAllowance();
-        // @ts-ignore
-        if (!remainingAmount.lt(remainingAllowance)) {
+        if (!remainingAmount.lt(remainingAllowance as any)) {
           return;
         }
         resolve();
@@ -349,5 +345,47 @@ export class StkrSdk {
 
   public async pendingStakesOf(token: string) {
     return await this.getContractManager().pendingStakesOf(token);
+  }
+
+  public async vote(
+    proposalId: string,
+    vote: VoteStatus,
+    options?: SendOptions,
+  ) {
+    return await this.getContractManager().vote(proposalId, vote, options);
+  }
+
+  public async fetchProjects() {
+    return await this.getContractManager().fetchProjects();
+  }
+
+  public async createProject(
+    timeSpan: number,
+    topic: string,
+    content: string,
+    options?: SendOptions,
+  ) {
+    return await this.getContractManager().createProject(
+      timeSpan,
+      topic,
+      content,
+      options,
+    );
+  }
+
+  public async faucet(options?: SendOptions) {
+    return await this.getContractManager().faucet(options);
+  }
+
+  public async setAnkrAllowance(amount: string, options?: SendOptions) {
+    return await this.getContractManager().setAnkrAllowance(amount, options);
+  }
+
+  public async getAnkrGovernanceAllowance(owner: string) {
+    return await this.getContractManager().getAnkrGovernanceAllowance(owner);
+  }
+
+  public async getProposalInfo(proposalId: string) {
+    return await this.getContractManager().getProposalInfo(proposalId);
   }
 }

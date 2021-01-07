@@ -7,7 +7,6 @@ const withIntersectionObserver = (
   if ('IntersectionObserver' in window) {
     Promise.resolve(IntersectionObserver).then(cb);
   } else {
-    // @ts-ignore
     import('intersection-observer').then(() => withIntersectionObserver(cb));
   }
 };

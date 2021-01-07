@@ -176,17 +176,20 @@
     },
     "agreement": "I understand my staked funds will be locked for the duration of the Eth 2.0 staking period, and will not be redeemable until this ends."
   },
-  "units": {
-    "$-value": "${value}",
-    "eth-value": "{value} ETH",
-    "aeth-value": "{value} aETH",
+  "unit": {
+    "$-value": "${value, number}",
+    "eth-value": "{value, number} ETH",
+    "ankr-value": "{value, number} Ankr",
+    "day-value": "{value, plural, =1 {# day} other {# days}}",
+    "vote-value": "{value, plural, =1 {# vote} other {# votes}}",
+    "aeth-value": "{value, number} aETH",
     "eth": "ETH",
-    "~eth-value": "~{value} ETH",
+    "~eth-value": "~{value, number} ETH",
     "aeth": "aETH",
-    "separated-eth-value": "{value}<span class=\"unit\"> ETH</span>",
-    "separated-aeth-value": "{value}<span class=\"unit\"> aETH</span>",
+    "separated-eth-value": "{value, number}<span class=\"unit\"> ETH</span>",
+    "separated-aeth-value": "{value, number}<span class=\"unit\"> aETH</span>",
     "number-value": "{value, number}",
-    "~months-value": "~{value} mo"
+    "~months-value": "~{value, number} mo"
   },
   "format": {
     "date": "{value, date, medium} {value, time, medium}"
@@ -336,5 +339,73 @@
   },
   "video-tutorial": {
     "title": "Stake Eth2 with Stkr.io"
+  },
+  "project-list": {
+    "title": "Governance",
+    "power": "Your Voting Power:",
+    "create": "Create project"
+  },
+  "project-list-item": {
+    "support": "Support",
+    "against": "Against",
+    "votes": "{value, number} votes"
+  },
+  "moderation-status": {
+    "status": {
+      "0": "Waiting",
+      "1": "Voting",
+      "2": "Fail",
+      "3": "Passed"
+    }
+  },
+  "rules-dialog": {
+    "title": "Rules of a Proposal",
+    "subtitle": "For any proposal, the following rules have been defined",
+    "submit": "I agree",
+    "item": {
+      "1": "Once the proposal is created, it will be available for voting.",
+      "2": "The creator’s 5.000.000 ANKR will be locked for 2 weeks.",
+      "3": "The creator will not be able to create another proposal with same locked tokens. However, he/she can still vote for other proposals.",
+      "4": "An address can create at most 2 proposals in a month.",
+      "5": "Once the voting period is ended, if the proposal has been accepted with a majority vote, then the proposal will be implemented by the Stkr team in the following 15 up to 30 days."
+    }
+  },
+  "create-project": {
+    "title": "Create a New Proposal",
+    "submit": "Create proposal",
+    "processing": "Processing...",
+    "label": {
+      "name": "Project name",
+      "description": "Project description",
+      "timing": "Project Timing"
+    },
+    "description": {
+      "timing": "Please set a time frame for the project. Select the number of days below"
+    }
+  },
+  "project-created-dialog": {
+    "title": "Project created!",
+    "subtitle": "Your project got moderation, it will be launched after verification",
+    "submit": "I understand"
+  },
+  "project": {
+    "time-left": "<span class=\"bold\">Time left</span> {value}",
+    "support": "Support",
+    "against": "Against",
+    "submit": "Support with {value} ANKR",
+    "how-does-it-work": "How does voting work?",
+    "details": "Details",
+    "processing": "Processing..."
+  },
+  "how-it-works-dialog": {
+    "title": "How does voting work?",
+    "submit": "I understand",
+    "item": {
+      "1": "To  participate  in  a  proposal,  users  must  give  allowance  to  Stkr’s  AnkrDepositContract.",
+      "2": "Every deposited ANKR token has only one voting power (i.e., more tokens morevote power).",
+      "3": "Users can deposit tokens before the voting period or while they vote.",
+      "4": "Users can participate multiple proposals by voting with the same deposited tokens(as long as the address has sufficient ANKR tokens).",
+      "5": "The voting power is equal to their deposit amount."
+    }
   }
 }
