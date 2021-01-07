@@ -62,7 +62,7 @@ workflows:
       - approve-develop:
           type: approval
       - build-develop:
-          context: stkr_build_prod
+          context: stkr_build_develop
           requires:
             - approve-develop
       - upload-develop:
@@ -87,9 +87,9 @@ workflows:
       # prod
       - approve-prod:
           type: approval
-#          filters:
-#            branches:
-#              only: [ master ]
+          filters:
+            branches:
+              only: [ master ]
       - build-prod:
           context: stkr_build_prod
           requires:
