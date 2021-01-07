@@ -23,7 +23,7 @@ export const SOCIAL_LINK = {
   whitepaperEn: 'https://assets.ankr.com/files/stkr_whitepaper.pdf',
   whitepaperCh: 'https://assets.ankr.com/files/stkr_whitepaper_cn.pdf',
 };
-export const DOCS_LINK = '#';
+export const DOCS_LINK = 'https://ankr.gitbook.io/stkr-docs/.';
 export const GOVERNANCE_LINK = '#';
 export const LITEPAPER_LINK =
   'https://assets.ankr.com/files/stkr_litepaper.pdf';
