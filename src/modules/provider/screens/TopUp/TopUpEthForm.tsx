@@ -45,7 +45,7 @@ export const TopUpEthForm = ({
       <>
         <Box width="100%" mb={3}>
           <Headline4 align="right" className={classes.ethSliderAmount}>
-            {t('units.eth-value', {
+            {t('unit.eth-value', {
               value: values[ETH_AMOUNT_FIELD_NAME],
             })}
           </Headline4>

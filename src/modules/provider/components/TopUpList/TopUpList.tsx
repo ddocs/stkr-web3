@@ -60,7 +60,7 @@ export const TopUpListComponent = () => {
                     </TableBodyCell>
                     <TableBodyCell>{item.transactionHash}</TableBodyCell>
                     <TableBodyCell>
-                      {t('units.eth-value', { value: item.amount.toFormat() })}
+                      {t('unit.eth-value', { value: item.amount })}
                     </TableBodyCell>
                   </TableRow>
                 ))}

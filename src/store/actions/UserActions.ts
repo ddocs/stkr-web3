@@ -48,7 +48,7 @@ export const UserActionTypes = {
 
   ALLOW_ETH_TOKENS: 'ALLOW_ETH_TOKENS',
 
-  BUY_TOKENS: 'BUY_TOKENS',
+  FAUCET: 'FAUCET',
 
   STAKE: 'STAKE',
 
@@ -227,12 +227,14 @@ export const UserActions = {
       asMutation: true,
     },
   }),
-  buyTokens: () => ({
-    type: UserActionTypes.BUY_TOKENS,
+  faucet: () => ({
+    type: UserActionTypes.FAUCET,
     request: {
       promise: (async function () {
         const stkrSdk = StkrSdk.getLastInstance();
-        return stkrSdk.faucet();
+        return stkrSdk.faucet({
+          from: stkrSdk.getKeyProvider().currentAccount(),
+        });
       })(),
     },
     meta: {

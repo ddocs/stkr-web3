@@ -1,7 +1,6 @@
 import { isProd } from './isProd';
 
-export function pushEvent(event: string, values: {}) {
-  debugger;
+export function pushEvent(event: string, values: any) {
   if (!window.dataLayer) {
     if (isProd()) {
       console.warn("Data layer hasn't been initialized");

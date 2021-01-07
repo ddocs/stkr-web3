@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/interface-name-prefix,@typescript-eslint/no-inferrable-types */
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import { Megabytes, Percentage, Seconds } from '../../common/types';
 import BigNumber from 'bignumber.js';
@@ -134,7 +133,7 @@ export interface ConfigReply {
 export class ApiGateway {
   private readonly defaultConfig: AxiosRequestConfig;
   private api: AxiosInstance;
-  private authorized: boolean = false;
+  private authorized = false;
   private token: string | null = null;
 
   constructor(private gatewayConfig: GatewayConfig) {

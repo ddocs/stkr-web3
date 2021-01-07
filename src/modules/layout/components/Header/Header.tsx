@@ -31,10 +31,8 @@ const HeaderImp = ({ isAuth, className }: IHeaderProps) => {
             className={className}
             walletAddress={data?.address}
             walletType={data?.walletType}
-            ethereumBalance={
-              data?.ethereumBalance ? data.ethereumBalance.toNumber() : 0
-            }
-            ankrBalance={data?.ankrBalance ? data.ankrBalance.toNumber() : 0}
+            ethereumBalance={data?.ethereumBalance}
+            ankrBalance={data?.ankrBalance}
           />
         );
       }}

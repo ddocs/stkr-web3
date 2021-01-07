@@ -1,14 +1,6 @@
-/* eslint-disable @typescript-eslint/interface-name-prefix */
 import Web3 from 'web3';
 import { bytesToHex, numberToHex } from 'web3-utils';
-import {
-  Address,
-  KeyProvider,
-  ProviderMessage,
-  ProviderRpcError,
-  SendAsyncResult,
-  SendOptions,
-} from './provider';
+import { Address, KeyProvider, ProviderMessage, ProviderRpcError, SendAsyncResult, SendOptions, } from './provider';
 import { Transaction } from 'ethereumjs-tx';
 import { KeyProviderEvents } from './event';
 import WalletConnectProvider from '@walletconnect/web3-provider';
@@ -16,6 +8,10 @@ import Web3Modal, { IProviderOptions } from 'web3modal';
 import { PALETTE } from '../../common/themes/mainTheme';
 import { fade } from '@material-ui/core';
 import { getNetworkName } from '../../common/utils/getNetworkName';
+import imTokenLogo from './assets/imToken.svg';
+import mathLogo from './assets/math.svg';
+import trustWalletLogo from './assets/trust.svg';
+import huobiLogo from './assets/huobi.svg';
 
 export class MetaMaskProvider extends KeyProvider {
   private web3Modal: Web3Modal | undefined;
@@ -26,7 +22,7 @@ export class MetaMaskProvider extends KeyProvider {
     const providerOptions: IProviderOptions = {
       'custom-imtoken': {
         display: {
-          logo: require('./assets/imToken.svg'),
+          logo: imTokenLogo,
           name: 'imToken',
           description: 'Easy and secure digital wallet trusted by millions',
         },
@@ -45,7 +41,7 @@ export class MetaMaskProvider extends KeyProvider {
       },
       'custom-math': {
         display: {
-          logo: require('./assets/math.svg'),
+          logo: mathLogo,
           name: 'Math Wallet',
           description: 'Gateway to the World of Blockchain',
         },
@@ -64,7 +60,7 @@ export class MetaMaskProvider extends KeyProvider {
       },
       'custom-trust': {
         display: {
-          logo: require('./assets/trust.svg'),
+          logo: trustWalletLogo,
           name: 'Trust Wallet',
           description: 'The most trusted & secure crypto wallet',
         },
@@ -83,7 +79,7 @@ export class MetaMaskProvider extends KeyProvider {
       },
       'custom-huobi': {
         display: {
-          logo: require('./assets/huobi.svg'),
+          logo: huobiLogo,
           name: 'Huobi Wallet',
           description: 'Multi-currency support, practical and convenient',
         },
@@ -184,10 +180,12 @@ export class MetaMaskProvider extends KeyProvider {
     return this._currentAccount ? [this._currentAccount] : [];
   }
 
-  async sign(data: Buffer | string | object, address: string): Promise<string> {
+  async sign(
+    data: Buffer | string | Record<string, unknown>,
+    address: string,
+  ): Promise<string> {
     try {
       if (typeof data === 'object') {
-        // @ts-ignore
         data = bytesToHex(data as any);
       }
       return this.getWeb3().eth.personal.sign(data, address, '');
@@ -249,8 +247,7 @@ export class MetaMaskProvider extends KeyProvider {
             `Found transaction in node: `,
             JSON.stringify(rawTx, null, 2),
           );
-          // @ts-ignore
-          const { v, r, s } = rawTx; /* this fields are not-documented */
+          const { v, r, s } = rawTx as any; /* this fields are not-documented */
           const newTx = new Transaction(
             {
               gasLimit: this.getWeb3().utils.numberToHex(rawTx.gas),

@@ -109,8 +109,8 @@ export const StakeComponent = ({
           <Headline2 component="p" classes={{ root: classes.label }}>
             {t('stake.i-want')}
             <span className={classes.amount}>
-              {t('units.eth-value', {
-                value: new BigNumber(amount).toFormat(),
+              {t('unit.eth-value', {
+                value: new BigNumber(amount),
               })}
             </span>
           </Headline2>
@@ -133,7 +133,7 @@ export const StakeComponent = ({
             </Tooltip>
           </Typography>
           <Headline5 classes={{ root: classes.description }} component="dd">
-            {t('units.~months-value', { value: INTEREST_PERIOD })}
+            {t('unit.~months-value', { value: INTEREST_PERIOD })}
           </Headline5>
           <dt className={classes.term}>
             <Typography component="span">
@@ -146,10 +146,10 @@ export const StakeComponent = ({
             </Typography>
           </dt>
           <Headline3 component="dd" classes={{ root: classes.description }}>
-            {t('units.~eth-value', {
+            {t('unit.~eth-value', {
               value: new BigNumber(amount)
                 .multipliedBy(yearlyInterest)
-                .toFormat(FIXED_DECIMAL_PLACES),
+                .decimalPlaces(FIXED_DECIMAL_PLACES),
             })}
           </Headline3>
         </dl>
