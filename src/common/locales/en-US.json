@@ -189,7 +189,8 @@
     "separated-eth-value": "{value, number}<span class=\"unit\"> ETH</span>",
     "separated-aeth-value": "{value, number}<span class=\"unit\"> aETH</span>",
     "number-value": "{value, number}",
-    "~months-value": "~{value, number} mo"
+    "~months-value": "~{value, number} mo",
+    "%": "{value, number}%"
   },
   "format": {
     "date": "{value, date, medium} {value, time, medium}"
