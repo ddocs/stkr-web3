@@ -30,8 +30,10 @@ import {
   ANKR_DEPOSIT_LINK,
   DEFAULT_FIXED,
   isMainnet,
+  MIN_GOVERNANCE_BALANCE,
 } from '../../common/const';
 import { IProject } from './types';
+import BigNumber from 'bignumber.js';
 
 export const ProjectList = () => {
   const classes = useModerationStatusStyles();
@@ -48,6 +50,8 @@ export const ProjectList = () => {
   const handleDeposit = useCallback(() => {
     dispatch(UserActions.faucet());
   }, [dispatch]);
+
+  const [balance, setBalance] = React.useState<BigNumber>();
 
   return (
     <>
@@ -69,6 +73,7 @@ export const ProjectList = () => {
             >
               {({ data }) => (
                 <>
+                  {setBalance(data?.ankrBalance)}
                   <Typography
                     variant="body1"
                     className={classNames(classes.power, classes.statsText)}
@@ -102,6 +107,7 @@ export const ProjectList = () => {
                 color="primary"
                 size="large"
                 fullWidth={true}
+                disabled={balance?.isLessThan(MIN_GOVERNANCE_BALANCE)}
                 onClick={handleOpen}
               >
                 {t('project-list.create')}
