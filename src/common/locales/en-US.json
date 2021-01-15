@@ -361,6 +361,8 @@
   "rules-dialog": {
     "title": "Rules of a Proposal",
     "subtitle": "For any proposal, the following rules have been defined",
+    "tip": "You don’t have enough funds to create a project",
+    "buy-ankr": "Buy ANKR",
     "submit": "I agree",
     "item": {
       "1": "Once the proposal is created, it will be available for voting.",

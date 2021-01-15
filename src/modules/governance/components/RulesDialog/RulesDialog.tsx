@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useRulesDialogStyles } from './RulesDialogStyles';
 import {
   Box,
@@ -11,15 +11,33 @@ import {
 import { CancelIcon } from '../../../../UiKit/Icons/CancelIcon';
 import { t } from '../../../../common/utils/intl';
 import { NavLink } from 'react-router-dom';
-import { GOVERNANCE_CREATE_PROJECT_PATH } from '../../../../common/const';
+import {
+  ANKR_DEPOSIT_LINK,
+  GOVERNANCE_CREATE_PROJECT_PATH,
+  isMainnet,
+} from '../../../../common/const';
+import { ReactComponent as InfoIcon } from '../../assets/info.svg';
+import { UserActions } from '../../../../store/actions/UserActions';
+import { useDispatch } from 'react-redux';
 
 interface IRulesDialogProps {
   isOpened: boolean;
   handleClose: () => void;
+  hasEnoughBalance: boolean;
 }
 
-export const RulesDialog = ({ isOpened, handleClose }: IRulesDialogProps) => {
+export const RulesDialog = ({
+  isOpened,
+  handleClose,
+  hasEnoughBalance,
+}: IRulesDialogProps) => {
   const classes = useRulesDialogStyles();
+
+  const dispatch = useDispatch();
+
+  const handleDeposit = useCallback(() => {
+    dispatch(UserActions.faucet());
+  }, [dispatch]);
 
   return (
     <Dialog
@@ -64,16 +82,48 @@ export const RulesDialog = ({ isOpened, handleClose }: IRulesDialogProps) => {
             {t('rules-dialog.item.5')}
           </Typography>
         </ul>
+        {!hasEnoughBalance && (
+          <div className={classes.tip}>
+            <InfoIcon className={classes.icon} />
+            <Typography variant="body2">{t('rules-dialog.tip')}</Typography>
+          </div>
+        )}
         <Box maxWidth={276} margin="0 auto">
-          <Button
-            component={NavLink}
-            to={GOVERNANCE_CREATE_PROJECT_PATH}
-            size="large"
-            fullWidth={true}
-            color="primary"
-          >
-            {t('rules-dialog.submit')}
-          </Button>
+          {hasEnoughBalance ? (
+            <Button
+              component={NavLink}
+              to={GOVERNANCE_CREATE_PROJECT_PATH}
+              size="large"
+              fullWidth={true}
+              color="primary"
+            >
+              {t('rules-dialog.submit')}
+            </Button>
+          ) : (
+            <>
+              {isMainnet ? (
+                <Button size="large" fullWidth={true} color="primary">
+                  <a
+                    href={ANKR_DEPOSIT_LINK}
+                    target="_blank"
+                    rel="noreferrer"
+                    className={classes.link}
+                  >
+                    {t('rules-dialog.buy-ankr')}
+                  </a>
+                </Button>
+              ) : (
+                <Button
+                  size="large"
+                  fullWidth={true}
+                  color="primary"
+                  onClick={handleDeposit}
+                >
+                  {t('rules-dialog.buy-ankr')}
+                </Button>
+              )}
+            </>
+          )}
         </Box>
       </DialogContent>
     </Dialog>

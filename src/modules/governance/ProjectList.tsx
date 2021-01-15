@@ -43,6 +43,8 @@ export const ProjectList = () => {
     dispatch(GovernanceActions.fetchProjects());
   });
 
+  const [balance, setBalance] = React.useState<BigNumber>();
+
   const { isOpened, handleOpen, handleClose } = useDialog(
     DIALOG_GOVERNANCE_RULES_OF_PROPOSAL,
   );
@@ -51,11 +53,13 @@ export const ProjectList = () => {
     dispatch(UserActions.faucet());
   }, [dispatch]);
 
-  const [balance, setBalance] = React.useState<BigNumber>();
-
   return (
     <>
-      <RulesDialog isOpened={isOpened} handleClose={handleClose} />
+      <RulesDialog
+        isOpened={isOpened}
+        handleClose={handleClose}
+        hasEnoughBalance={!balance?.isLessThan(MIN_GOVERNANCE_BALANCE)}
+      />
       <section className={classes.root}>
         <Curtains>
           <Box mb={4}>
@@ -107,7 +111,6 @@ export const ProjectList = () => {
                 color="primary"
                 size="large"
                 fullWidth={true}
-                disabled={balance?.isLessThan(MIN_GOVERNANCE_BALANCE)}
                 onClick={handleOpen}
               >
                 {t('project-list.create')}
