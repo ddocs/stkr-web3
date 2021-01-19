@@ -33,7 +33,9 @@ const Value = ({
       </Headline5>
       <span className={classes.itemValue}>
         {t('unit.eth-value', {
-          value: new BigNumber(value).decimalPlaces(FIXED_DECIMAL_PLACES).toFormat(),
+          value: new BigNumber(value)
+            .decimalPlaces(FIXED_DECIMAL_PLACES)
+            .toFormat(),
         })}
       </span>
       {ratePrice && (

@@ -2,7 +2,7 @@ import React from 'react';
 import { useVideoTutorial } from './VideoTutorialStyles';
 import { Curtains } from '../../../../UiKit/Curtains';
 import ReactPlayer from 'react-player';
-import { ReactComponent as PlayIcon } from './assets/play.svg';
+import { ReactComponent as PlayIcon } from '../../../../common/assets/play.svg';
 import { DIALOG_PRESENTATION } from '../../../../store/dialogs/actions';
 import { useDialog } from '../../../../store/dialogs/selectors';
 import { Dialog, DialogContent, IconButton } from '@material-ui/core';

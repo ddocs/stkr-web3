@@ -52,6 +52,8 @@ export abstract class KeyProvider {
     }, 10_000) as any;
   }
 
+  public abstract get name(): string;
+
   public getWeb3(): Web3 {
     if (!this._web3) throw new Error('Web3 must be initialized');
     return this._web3;

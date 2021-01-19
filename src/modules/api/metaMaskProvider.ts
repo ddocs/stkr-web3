@@ -1,6 +1,13 @@
 import Web3 from 'web3';
 import { bytesToHex, numberToHex } from 'web3-utils';
-import { Address, KeyProvider, ProviderMessage, ProviderRpcError, SendAsyncResult, SendOptions, } from './provider';
+import {
+  Address,
+  KeyProvider,
+  ProviderMessage,
+  ProviderRpcError,
+  SendAsyncResult,
+  SendOptions,
+} from './provider';
 import { Transaction } from 'ethereumjs-tx';
 import { KeyProviderEvents } from './event';
 import WalletConnectProvider from '@walletconnect/web3-provider';
@@ -16,6 +23,7 @@ import huobiLogo from './assets/huobi.svg';
 export class MetaMaskProvider extends KeyProvider {
   private web3Modal: Web3Modal | undefined;
   private provider: any;
+  public name = 'Metamask';
 
   async connect(): Promise<void> {
     // TODO Move up the provider creation

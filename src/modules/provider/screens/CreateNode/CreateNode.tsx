@@ -10,7 +10,10 @@ import {
 import { Mutation } from '@redux-requests/react';
 import { success } from '@redux-requests/core';
 import { useHistory } from 'react-router';
-import { PROVIDER_NODE_LIST_PATH } from '../../../../common/const';
+import {
+  PROVIDER_MAIN_PATH,
+  PROVIDER_NODE_LIST_PATH,
+} from '../../../../common/const';
 import { IRequestActionPromiseData } from '../../../../common/types';
 import { useRequestDispatch } from '../../../../common/utils/useRequestDispatch';
 import { MutationErrorHandler } from '../../../../components/MutationErrorHandler/MutationErrorHandler';
@@ -183,7 +186,7 @@ export const CreateNode = () => {
   const history = useHistory();
 
   const handleCancel = useCallback(() => {
-    history.goBack();
+    history.push(PROVIDER_MAIN_PATH);
   }, [history]);
 
   const handleSubmit = useCallback(

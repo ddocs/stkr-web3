@@ -30,6 +30,9 @@ export const useProviderDashboardStyles = makeStyles<Theme>(theme => ({
     fontSize: 14,
     fontWeight: 500,
     color: fade(theme.palette.common.white, 0.5),
-    marginRight: theme.spacing(3),
+    textAlign: 'right',
+    '&&': {
+      marginRight: theme.spacing(3),
+    },
   },
 }));

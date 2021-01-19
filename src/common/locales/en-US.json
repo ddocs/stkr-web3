@@ -320,11 +320,33 @@
   "provider-dashboard": {
     "balance": "Your insurance deposit: {value} ETH",
     "top-up": "Top-up",
-    "create": "Create"
+    "create": "Create",
+    "configure-own-node": "Configure your own node",
+    "deploy-with-ankr": "Deploy with ANKR",
+    "continue": "Continue",
+    "continue-with-ankr": "Continue with ANKR",
+    "ankr-instructions": "Show instructions on how to run a node on ANKR. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum  dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
+    "create-node-options": {
+      "ankr": {
+        "zero-slashing": "Guaranteed zero slashing",
+        "no-hardware": "No hardware needed",
+        "few-clicks": "Deploy in a few clicks"
+      },
+      "own-node": {
+        "configure-manually": "Deploy and configure manually",
+        "manage-yourself": "Manage node yourself",
+        "slashing": "Slashing at your own risk"
+      }
+    }
   },
   "provider-tabs": {
-    "top-up": "Top-up",
+    "top-ups": "Top-ups",
     "create": "Create"
+  },
+  "iframe": {
+    "create-signature": {
+      "text": "We need you to sign login message to allow"
+    }
   },
   "language": {
     "en-US": "EN",

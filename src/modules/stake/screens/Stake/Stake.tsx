@@ -25,7 +25,7 @@ import BigNumber from 'bignumber.js';
 import { useRequestDispatch } from '../../../../common/utils/useRequestDispatch';
 import { useHistory } from 'react-router';
 import {
-  STAKER_DASHBOAR_PATH,
+  STAKER_DASHBOARD_PATH,
   STAKING_AMOUNT_STEP,
   YEAR_INTEREST,
 } from '../../../../common/const';
@@ -225,7 +225,7 @@ export const Stake = () => {
   const handleSubmit = ({ amount }: IStakePayload) => {
     dispatch(UserActions.stake(amount.toString(10))).then(data => {
       if (data.action.type === success(UserActionTypes.STAKE)) {
-        replace(STAKER_DASHBOAR_PATH);
+        replace(STAKER_DASHBOARD_PATH);
       }
     });
 
@@ -237,7 +237,7 @@ export const Stake = () => {
   });
 
   const handleCancel = useCallback(() => {
-    push(STAKER_DASHBOAR_PATH);
+    push(STAKER_DASHBOARD_PATH);
   }, [push]);
 
   return (
