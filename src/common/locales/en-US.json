@@ -13,6 +13,8 @@
     "whitepaper-ch": "Whitepaper (Ch)",
     "unlock-your-wallet": "Connect your wallet",
     "create-micropool": "Create micropool",
+    "create": "Create",
+    "top-up": "Top up",
     "beacon-list": "Beacon chain list",
     "select-wallet-provider": "Select a wallet provider",
     "connect": "Connect",
@@ -40,8 +42,8 @@
   },
   "about": {
     "title": "<span>Staking.</span>Simplified.",
-    "text": "Stkr is a decentralized protocol and platform that combines staking and DeFi, implementing elements from traditional staking with non-custodial management, Micropools, instant liquidity and decentralized governance.",
-    "stakers": "Stakers",
+    "text": "Ankr provides decentralized staking services for Ethereum 2.0. Ankr's Eth2 staking protocol and platform combines staking and DeFi, implementing elements from traditional staking with non-custodial management, Micropools, instant liquidity and decentralized governance",
+    "stakers": "Stakers with Ankr",
     "providers": "Providers",
     "total": "Total Value Staked"
   },
@@ -52,35 +54,35 @@
     "yearly": "Yearly Earning"
   },
   "features": {
-    "title": "Why Stkr?",
-    "text": "Stkr is built by the Ankr team, to provide the best user experience and highest level of safety, combined with an attractive reward mechanism and instant staking liquidity through a bond-like synthetic token called aETH.",
+    "title": "Why stake with Ankr?",
+    "text": "Stake platform is built by the Ankr team, to provide the best user experience and highest level of safety, combined with an attractive reward mechanism and instant staking liquidity through a bond-like synthetic token called aETH.",
     "micropool-title": "Micropool",
-    "micropool-text": "Stake from as little as 0.5 ETH and as much as 1,000 ETH, to automatically join other stakers in Micropools!",
+    "micropool-text": "Stake as little as 0.5 ETH and pool with other stakers while enjoy the same ROI",
     "manager-title": "Staking Manager",
-    "manager-text": "Send all of your ETH in one transaction and Stkr will automatically allocate your funds to the best pools.",
+    "manager-text": "Send all of your ETH in one transaction and the protocol will automatically allocate your funds to the best pools.",
     "liquidity-title": "Staking Liquidity",
     "liquidity-text": "With aETH, you can hold or trade your staked assets at any time, without having to wait until transactions are enabled on Ethereum 2.0.",
     "security-title": "Security",
     "security-text": "Keep your funds under your own custody, to always remain in full control of your assets."
   },
   "roles": {
-    "title": "<span>The 3 roles</span>in the Stkr system",
+    "title": "<span>The 3 roles</span>in Ankr's Eth2 staking ecosystem\n",
     "eth-staker-title": "Staker",
     "eth-staker-text": "Stakers can stake any amount of ETH tokens (minimum 0.5 ETH) to earn staking rewards and platform fees. The staked ETH will immediately be liquid in the form of aETH, which users can use to trade or participate in DeFi. Stakers can stake ANKR in addition to their ETH stake to increase rewards from platform fees.",
     "node-provider-title": "Node provider",
     "node-provider-text": "Node providers will be running Ethereum 2.0 nodes either on their own hardware or using the Ankr platform, to earn from the staking rewards and platform fees.",
     "governance-title": "Governance",
-    "governance-text": "Governors will ensure the long term sustainability of the platform. A substantial stake of ANKR tokens is necessary to become part of the Stkr governance board (a governor does not necessary need to be a node provider)."
+    "governance-text": "Governors will ensure the long term sustainability of the platform. A substantial stake of ANKR tokens is necessary to become part of the governance board (a governor does not necessary need to be a node provider)."
   },
   "become-provider": {
     "title": "Become <br />a provider ",
     "text": "Become a provider by running Ethereum 2.0 nodes on Ankr with no hardware or technical knowledge required.",
     "api-title": "Developer APIs",
-    "api-text": "Easily build Web3 products with instant API access to Ethereum's various testnets and mainnets.",
+    "api-text": "Integrate Ankr's Eth2 staking protocol with exchanges, wallets and custodian services\n",
     "knowledge-title": "No technical knowledge needed",
-    "knowledge-text": "By running Ethereum 2.0 nodes on Ankr, no hardware or technical knowledge is required.",
+    "knowledge-text": "Run Ethereum 2.0 nodes on Ankr, no hardware or technical knowledge required.\n",
     "governance-title": "Governance",
-    "governance-text": "Become a Governor in order to influence decisions made about the Stkr platform!"
+    "governance-text": "Participate in governance and be a part of the future of the platform!"
   },
   "faq": {
     "title": "FAQ",
@@ -97,7 +99,9 @@
     "question-6": "Can I run my own Ethereum 2.0 node on Stkr?",
     "answer-6": "<p>Yes! You can become a provider and run your own node to collect staking rewards. If you don’t have any hardware or technical knowledge to set up a node, you can always use Ankr and deploy your Ethereum 2.0 node in one click.</p>",
     "question-7": "What do I need to become a provider on Stkr?",
-    "answer-7": "<p>To become a provider in Stkr and earn platform fees, you need to set up an Ethereum 2.0 node with a minimum “insurance” stake of 2 ETH to compensate users in case of slashing events.</p>"
+    "answer-7": "<p>To become a provider in Stkr and earn platform fees, you need to set up an Ethereum 2.0 node with a minimum “insurance” stake of 2 ETH to compensate users in case of slashing events.</p>",
+    "question-8": "Can I use my ANKR tokens on Stkr?",
+    "answer-8": "<p>The Stkr protocol introduces a new utility for ANKR, the native ERC-20 token of Ankr platform. Providers can stake ANKR token as an insurance fund and increase their reward rate. In addition to that, ETH stakers can stake ANKR tokens to increase their staking rewards from the platform fees!</p>"
   },
   "beacon-node-table": {
     "name": "Name",
@@ -176,21 +180,6 @@
     },
     "agreement": "I understand my staked funds will be locked for the duration of the Eth 2.0 staking period, and will not be redeemable until this ends."
   },
-  "unit": {
-    "$-value": "${value, number}",
-    "eth-value": "{value, number} ETH",
-    "ankr-value": "{value, number} Ankr",
-    "day-value": "{value, plural, =1 {# day} other {# days}}",
-    "vote-value": "{value, plural, =1 {# vote} other {# votes}}",
-    "aeth-value": "{value, number} aETH",
-    "eth": "ETH",
-    "~eth-value": "~{value, number} ETH",
-    "aeth": "aETH",
-    "separated-eth-value": "{value, number}<span class=\"unit\"> ETH</span>",
-    "separated-aeth-value": "{value, number}<span class=\"unit\"> aETH</span>",
-    "number-value": "{value, number}",
-    "~months-value": "~{value, number} mo"
-  },
   "format": {
     "date": "{value, date, medium} {value, time, medium}"
   },
@@ -206,15 +195,17 @@
     "buy": "Buy",
     "ankr-allowed": "{value} ANKR allowed"
   },
-  "stake-statuses": {
-    "STAKE_ACTION_PENDING": "Created",
-    "STAKE_ACTION_CONFIRMED": "Confirmed",
-    "STAKE_ACTION_UNSTAKE": "Removed"
-  },
   "staked-dashboard": {
     "staked": "Total staked",
     "stake-more": "Stake more",
     "current-a-eth-balance": "Current balance",
+    "redeem": "Redeem",
+    "locked": "Any staked amounts will be locked for the duration of the ETH 2.0 contract. You will, however, receive aETH equivalent to your stake that you will be able to trade in the meantime, against your staked amount. Until aETH is made available, however, your funds will be locked and not redeemable.",
+    "statuses": {
+      "STAKE_ACTION_PENDING": "Created",
+      "STAKE_ACTION_CONFIRMED": "Confirmed",
+      "STAKE_ACTION_UNSTAKE": "Removed"
+    },
     "transaction": {
       "goerli": "https://goerli.etherscan.io/tx/{value}",
       "mainnet": "https://etherscan.io/tx/{value}"
@@ -223,6 +214,9 @@
       "status": "Status",
       "transaction-hash": "Tx.Hash",
       "staked": "Staked"
+    },
+    "tip": {
+      "aeth-amount": "The amount of aETH redeemable"
     }
   },
   "node-list": {
@@ -255,7 +249,6 @@
   },
   "create-node": {
     "title": "Сonfigure beacon chain node",
-    "create": "Create",
     "label": {
       "node-name": "Node name",
       "eth-node": "Provide Ethereum node",
@@ -271,13 +264,14 @@
       "i-have": "I have beacon chain node",
       "i-dont-have": "I don’t have beacon chain node"
     },
+    "create": "Create",
     "hint": {
       "node-name": "Please, enter any name for your node",
       "eth1Url": "Please, enter the ETH 1.0 API endpoint from your running node or service here"
     }
   },
   "global-stats": {
-    "total-staked": "Total ETH Staked",
+    "total-staked": "Total ETH Staked with Ankr",
     "stakers": "Stakers"
   },
   "chain": {
@@ -351,6 +345,34 @@
   "language": {
     "en-US": "EN",
     "zh-CN": "中文"
+  },
+  "global-stats.total-staked": "",
+  "global-stats.stakers": "",
+  "navigation.unlock-your-wallet": "",
+  "navigation.litepaper": "",
+  "navigation.community": "",
+  "navigation.governance": "",
+  "navigation.docs": "",
+  "navigation.unlock-wallet": "",
+  "unit": {
+    "$-value": "${value, number}",
+    "eth-value": "{value, number} ETH",
+    "ankr-value": "{value, number} Ankr",
+    "day-value": "{value, plural, =1 {# day} other {# days}}",
+    "vote-value": "{value, plural, =1 {# vote} other {# votes}}",
+    "aeth-value": "{value, number} aETH",
+    "eth": "ETH",
+    "~eth-value": "~{value, number} ETH",
+    "aeth": "aETH",
+    "separated-eth-value": "{value, number}<span class=\"unit\"> ETH</span>",
+    "separated-aeth-value": "{value, number}<span class=\"unit\"> aETH</span>",
+    "number-value": "{value, number}",
+    "~months-value": "~{value, number} mo"
+  },
+  "stake-statuses": {
+    "STAKE_ACTION_PENDING": "Created",
+    "STAKE_ACTION_CONFIRMED": "Confirmed",
+    "STAKE_ACTION_UNSTAKE": "Removed"
   },
   "top-up-list": {
     "table-head": {
@@ -429,5 +451,67 @@
       "4": "Users can participate multiple proposals by voting with the same deposited tokens(as long as the address has sufficient ANKR tokens).",
       "5": "The voting power is equal to their deposit amount."
     }
+  },
+  "aeth-promo": {
+    "title": "What is aETH?",
+    "text": "<b>aETH</b> is a synthetic derivative asset that enables instant liquidity for the Ethereum 2.0 network"
+  },
+  "aeth-reward": {
+    "title": "One asset. <br/>Combined value.",
+    "primary-text": "aETH represents the staked ETH plus all future staking rewards.",
+    "secondary-text": "Initially, aETH is issued at a ratio of 1:1 to the amount of ETH staked. Over time, 1 aETH is expected to grow in ETH value, as it contains the principal stake plus staking rewards.",
+    "rewards": "Rewards",
+    "staked": "Staked ETH"
+  },
+  "aeth-advantages": {
+    "title": "Instant liquidity",
+    "primary-text": "aETH allows you to stake Eth2 and redeem rewards before the phase 1.5 goes live and the lockup period ends (which can take up to several years!).",
+    "secondary-text": "aETH is listed on Uniswap for immediate liquidity. aETH holders can also provide liquidity to the aETH/ETH pair on the exchange platform and earn from transaction fees."
+  },
+  "aeth-ecosystem": {
+    "subtitle": "Ecosystem",
+    "title": "Access Ankr's Eth2 staking services and aETH here",
+    "services": {
+      "uniswap": "Decentralized liquidity pools and trading for aETH.",
+      "metamask": "Store aETH and connect with DeFi applications.",
+      "onx": "aETH staking pools and yield strategies for collateralized assets.",
+      "bitkeep": "Direct access to Ankr's Eth2 staking services.",
+      "trustwallet": "Mobile access to Ankr's Eth2 staking services.",
+      "imtoken": "Mobile access to Ankr's Eth2 staking services.",
+      "standcash": "aETH staking pool for algorithmic stablecoin protocol.",
+      "onto": "Direct access to Ankr's Eth2 staking services.",
+      "snowswap": "Incentivizing Eth2 adoption with aETH swaps and pools."
+    }
+  },
+  "aeth-start": {
+    "title": "New yield opportunities with aETH",
+    "text": "aETH is easily accessible and tradable on various DeFi platforms, with a growing number of yield earning opportunities. Start staking now and try it yourself!",
+    "start-staking": "Start staking"
+  },
+  "aeth-it-works": {
+    "title": "How it works",
+    "items": {
+      "deposit": {
+        "title": "Deposit",
+        "text": "Deposit ETH on eth2.ankr.com/stakingmanager (you can deposit any amount starting from 0.5 ETH) by connecting your wallet to the Ankr Staking platform."
+      },
+      "get-aeth": {
+        "title": "Get aETH",
+        "text": "Once your ETH is staked on the Beaconchain, your aETH balance will be added to the Ankr Staking platform for you to redeem."
+      },
+      "use-aeth": {
+        "title": "Use aETH",
+        "text": "You can store aETH in your wallet to keep full control of your funds. You can also trade aETH or use it in DeFi products to earn yield. Please note that if you are trading aETH, you are effectively trading your entire investment (both the invested amount and the expected reward)."
+      },
+      "redeem": {
+        "title": "Redeem your ETH + staking rewards",
+        "text": "As soon as Ethereum 2.0 transactions are activated, you can use your aETH to redeem your staked ETH + staking rewards on the Ankr Staking platform."
+      }
+    }
+  },
+  "aeth-banner": {
+    "title": "What is aETH?",
+    "text": "aETH is a synthetic derivative asset that enables instant liquidity for the Ethereum 2.0 network",
+    "btnText": "Learn more"
   }
 }

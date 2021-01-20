@@ -19,3 +19,23 @@ export const useIsLGDown = () => {
   const theme = useTheme();
   return useMediaQuery(theme.breakpoints.down('lg'));
 };
+
+export const useIsSMup = () => {
+  const theme = useTheme();
+  return useMediaQuery(theme.breakpoints.up('sm'));
+};
+
+export const useIsMDup = () => {
+  const theme = useTheme();
+  return useMediaQuery(theme.breakpoints.up('md'));
+};
+
+export const useIsLGup = () => {
+  const theme = useTheme();
+  return useMediaQuery(theme.breakpoints.up('lg'));
+};
+
+export const useIsXLup = () => {
+  const theme = useTheme();
+  return useMediaQuery(theme.breakpoints.up('xl'));
+};

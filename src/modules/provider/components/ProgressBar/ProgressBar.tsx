@@ -51,7 +51,7 @@ export const ProgressBar = ({ className, progress = 0 }: IProgressBarProps) => {
           width={SLIDER_WIDTH}
           height="5"
           rx="2"
-          fill="#FFE819"
+          fill="#006DFF"
         />
       </g>
     </svg>

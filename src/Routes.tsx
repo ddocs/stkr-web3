@@ -18,6 +18,7 @@ import {
   PROVIDER_TOP_UP_ROUTE,
   STAKER_DASHBOARD_PATH,
   STAKER_STAKE_PATH,
+  ABOUT_AETH_PATH,
 } from './common/const';
 import { PrivateRoute } from './UiKit/PrivateRoute';
 
@@ -123,6 +124,15 @@ const ProjectContainer = withDefaultLayout(
   ) as LoadableComponent<any>,
 );
 
+const AboutAethContainer = withDefaultLayout(
+  loadable(
+    async () => import('./modules/about-aeth').then(module => module.AboutAeth),
+    {
+      fallback: <QueryLoadingCentered />,
+    },
+  ) as LoadableComponent<any>,
+);
+
 const LoadableIframeContainer = withDefaultLayout(
   loadable(
     async () => import('./modules/iframe').then(module => module.Iframe),
@@ -180,6 +190,11 @@ export function Routes() {
       <PrivateRoute
         path={GOVERNANCE_PROJECT_ROUTE}
         component={ProjectContainer}
+        exact={true}
+      />
+      <Route
+        path={ABOUT_AETH_PATH}
+        component={AboutAethContainer}
         exact={true}
       />
       <PrivateRoute component={PageNotFound} />

@@ -324,5 +324,67 @@
     "navigation.community": "社区",
     "navigation.governance": "治理",
     "navigation.docs": "文档",
-    "navigation.unlock-wallet": "启动应用"
+    "navigation.unlock-wallet": "启动应用",
+    "aeth-promo": {
+        "title": "What is aETH?",
+        "text": "<b>aETH</b> is a synthetic derivative asset that enables instant liquidity for the Ethereum 2.0 network"
+    },
+    "aeth-reward": {
+        "title": "One asset. <br/>Combined value.",
+        "primary-text": "aETH represents the staked ETH plus all future staking rewards.",
+        "secondary-text": "Initially, aETH is issued at a ratio of 1:1 to the amount of ETH staked. Over time, 1 aETH is expected to grow in ETH value, as it contains the principal stake plus staking rewards.",
+        "rewards": "Rewards",
+        "staked": "Staked ETH"
+    },
+    "aeth-advantages": {
+        "title": "Instant liquidity",
+        "primary-text": "aETH allows you to stake Eth2 and redeem rewards before the phase 1.5 goes live and the lockup period ends (which can take up to several years!).",
+        "secondary-text": "aETH is listed on Uniswap for immediate liquidity. aETH holders can also provide liquidity to the aETH/ETH pair on the exchange platform and earn from transaction fees."
+    },
+    "aeth-ecosystem": {
+        "subtitle": "Ecosystem",
+        "title": "Access Ankr's Eth2 staking services and aETH here",
+        "services": {
+            "uniswap": "Decentralized liquidity pools and trading for aETH.",
+            "metamask": "Store aETH and connect with DeFi applications.",
+            "onx": "aETH staking pools and yield strategies for collateralized assets.",
+            "bitkeep": "Direct access to Ankr's Eth2 staking services.",
+            "trustwallet": "Mobile access to Ankr's Eth2 staking services.",
+            "imtoken": "Mobile access to Ankr's Eth2 staking services.",
+            "standcash": "aETH staking pool for algorithmic stablecoin protocol.",
+            "onto": "Direct access to Ankr's Eth2 staking services.",
+            "snowswap": "Incentivizing Eth2 adoption with aETH swaps and pools."
+        }
+    },
+    "aeth-start": {
+        "title": "New yield opportunities with aETH",
+        "text": "aETH is easily accessible and tradable on various DeFi platforms, with a growing number of yield earning opportunities. Start staking now and try it yourself!",
+        "start-staking": "Start staking"
+    },
+    "aeth-it-works": {
+        "title": "How it works",
+        "items": {
+            "deposit": {
+                "title": "Deposit",
+                "text": "Deposit ETH on eth2.ankr.com/stakingmanager (you can deposit any amount starting from 0.5 ETH) by connecting your wallet to the Ankr Staking platform."
+            },
+            "get-aeth": {
+                "title": "Get aETH",
+                "text": "Once your ETH is staked on the Beaconchain, your aETH balance will be added to the Ankr Staking platform for you to redeem."
+            },
+            "use-aeth": {
+                "title": "Use aETH",
+                "text": "You can store aETH in your wallet to keep full control of your funds. You can also trade aETH or use it in DeFi products to earn yield. Please note that if you are trading aETH, you are effectively trading your entire investment (both the invested amount and the expected reward)."
+            },
+            "redeem": {
+                "title": "Redeem your ETH + staking rewards",
+                "text": "As soon as Ethereum 2.0 transactions are activated, you can use your aETH to redeem your staked ETH + staking rewards on the Ankr Staking platform."
+            }
+        }
+    },
+    "aeth-banner": {
+        "title": "What is aETH?",
+        "text": "aETH is a synthetic derivative asset that enables instant liquidity for the Ethereum 2.0 network",
+        "btnText": "Learn more"
+    }
 }

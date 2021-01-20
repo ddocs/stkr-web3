@@ -2,7 +2,6 @@ import React from 'react';
 import { useRolesStyles } from './RolesStyles';
 import { Curtains } from '../../../../UiKit/Curtains';
 import { t, tHTML } from '../../../../common/utils/intl';
-import classNames from 'classnames';
 import { Body1, Headline5 } from '../../../../UiKit/Typography';
 
 const ROLES: Record<string, string> = {
@@ -11,15 +10,11 @@ const ROLES: Record<string, string> = {
   governance: 'roles.governance-text',
 };
 
-interface IFeaturesProps {
-  className?: string;
-}
-
-export const Roles = ({ className }: IFeaturesProps) => {
+export const Roles = () => {
   const classes = useRolesStyles({});
 
   return (
-    <section className={classNames(classes.component, className)}>
+    <section className={classes.root}>
       <Curtains classes={{ root: classes.wrapper }}>
         <h2 className={classes.title}>{tHTML('roles.title')}</h2>
         <ul className={classes.list}>
