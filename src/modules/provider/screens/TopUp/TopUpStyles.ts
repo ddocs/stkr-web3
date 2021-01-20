@@ -6,6 +6,7 @@ export const useTopUpStyles = makeStyles<Theme>(theme => ({
     padding: 0,
     maxWidth: 805,
     margin: '0 auto auto auto',
+    width: '100%',
   },
   title: {
     marginTop: 'auto',

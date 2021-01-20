@@ -110,7 +110,11 @@ export const TopUpComponent = ({
   );
 
   return (
-    <Box px={{ xs: 3, sm: 6 }} pb={{ xs: 3, sm: 7.5 }} pt={{ xs: 3, sm: 4.5 }}>
+    <Box
+      px={{ xs: 3, sm: 6 }}
+      pb={{ xs: 3, sm: 7.5 }}
+      pt={{ xs: 3, sm: 4.5 }}
+    >
       <Form
         render={render}
         onSubmit={onSubmit}
@@ -209,7 +213,6 @@ export const TopUp = () => {
             label={t('top-up.tab.ankr')}
             value={TopUpCurreny.ankr}
             className={classes.tab}
-            disabled={true}
           />
           <Tab label={t('top-up.tab.eth')} value={TopUpCurreny.eth} />
         </Tabs>
