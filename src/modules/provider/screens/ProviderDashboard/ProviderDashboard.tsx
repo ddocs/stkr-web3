@@ -3,9 +3,7 @@ import { useCallback, useEffect, useMemo } from 'react';
 import { useProviderDashboardStyles } from './ProviderDashboardStyles';
 import { NodeList } from '../../components/NodeList';
 import {
-  PROVIDER_CREATE_NODE_PATH,
   PROVIDER_MAIN_PATH,
-  PROVIDER_MIN_BALANCE,
   PROVIDER_NODE_LIST_PATH,
   PROVIDER_TOP_UP_LIST_PATH,
   PROVIDER_TOP_UP_PATH,
@@ -29,10 +27,13 @@ import { Milliseconds } from '../../../../common/types';
 import { useAuthentication } from '../../../../common/utils/useAuthentications';
 import { alwaysFalse } from '../../../../common/utils/alwaysFalse';
 import { IProviderStats } from '../../../../store/apiMappers/providerStatsApi';
-import { Box, Typography } from '@material-ui/core';
+import { Box, Button, Typography } from '@material-ui/core';
 import { TopUpList } from '../../components/TopUpList';
 import { IItemProps } from '../../components/ProviderTabs/ProviderTabs';
 import { IStakerStats } from '../../../../store/apiMappers/stakerStatsApi';
+import { useDialog } from '../../../../store/dialogs/selectors';
+import { DIALOG_CREATE_NODE } from '../../../../store/dialogs/actions';
+import { CreateNodeDialog } from '../../components/CreateNodeDialog';
 
 const SHORT_UPDATE_INTERVAL: Milliseconds = 30_000;
 const LONG_UPDATE_INTERVAL: Milliseconds = 60_000;
@@ -50,30 +51,44 @@ export const ProviderDashboardComponent = ({
 }: IProviderDashboardProps) => {
   const classes = useProviderDashboardStyles();
 
+  const {
+    isOpened: isCreateNodeDialogOpen,
+    handleClose: closeCreateNodeDialog,
+    handleOpen: openCreateNodeDialog,
+  } = useDialog(DIALOG_CREATE_NODE);
+
+  const handleCreateNode = useCallback(() => {
+    openCreateNodeDialog();
+  }, [openCreateNodeDialog]);
+
   const tabs = useMemo<IItemProps[]>(
     () => [
       {
         label: t('navigation.beacon-list'),
         path: PROVIDER_NODE_LIST_PATH,
-        route: PROVIDER_NODE_LIST_PATH,
+        route: [PROVIDER_NODE_LIST_PATH, PROVIDER_MAIN_PATH],
       },
-      ...(hasTransactions || (sidecars && sidecars.length > 0)
-        ? [
-            {
-              label: t('provider-tabs.top-up'),
-              path: PROVIDER_TOP_UP_LIST_PATH,
-              route: PROVIDER_TOP_UP_LIST_PATH,
-            },
-          ]
-        : []),
+      ...[
+        {
+          label: t('provider-tabs.top-ups'),
+          path: PROVIDER_TOP_UP_LIST_PATH,
+          route: PROVIDER_TOP_UP_LIST_PATH,
+        },
+      ],
     ],
-    [hasTransactions, sidecars],
+    [],
   );
 
   const renderNodeList = useCallback(
     () =>
-      sidecars ? <NodeList className={classes.table} data={sidecars} /> : null,
-    [classes.table, sidecars],
+      sidecars ? (
+        <NodeList
+          className={classes.table}
+          data={sidecars}
+          handleCreateNode={handleCreateNode}
+        />
+      ) : null,
+    [classes.table, sidecars, handleCreateNode],
   );
 
   const renderTopUpList = useCallback(() => {
@@ -81,75 +96,78 @@ export const ProviderDashboardComponent = ({
   }, []);
 
   return (
-    <section className={classes.component}>
-      <Curtains classes={{ root: classes.wrapper }}>
-        <div className={classes.navigation}>
-          <ProviderTabs className={classes.tabs} tabs={tabs} />
-          <Query<IProviderStats | null>
-            type={UserActionTypes.FETCH_PROVIDER_STATS}
-            showLoaderDuringRefetch={false}
-          >
-            {({ data }) => {
-              const hasEnoughBalance = data?.balance.isGreaterThanOrEqualTo(
-                PROVIDER_MIN_BALANCE,
-              );
-
-              return (
-                <>
-                  {hasEnoughBalance && sidecars && sidecars.length > 0 && (
-                    <Route
-                      path={[PROVIDER_MAIN_PATH, PROVIDER_NODE_LIST_PATH]}
-                      render={() => (
-                        <NavLink
-                          className={classes.create}
-                          href={PROVIDER_CREATE_NODE_PATH}
-                          variant="contained"
-                          color="primary"
-                        >
-                          {t('provider-dashboard.create')}
-                        </NavLink>
-                      )}
-                      exact={true}
-                    />
-                  )}
-                  <Route
-                    path={[PROVIDER_TOP_UP_LIST_PATH]}
-                    render={() => (
-                      <Box display="flex" alignItems="center">
-                        <Typography className={classes.balance}>
-                          {t('provider-dashboard.balance', {
-                            value: data?.balance.toFormat(),
-                          })}
-                        </Typography>
-                        <NavLink
-                          href={PROVIDER_TOP_UP_PATH}
-                          variant="contained"
-                          disabled={!hasEnoughBalance}
-                          color="primary"
-                        >
-                          {t('provider-dashboard.top-up')}
-                        </NavLink>
-                      </Box>
-                    )}
-                    exact={true}
-                  />
-                </>
-              );
-            }}
-          </Query>
-        </div>
-        <Route
-          path={[PROVIDER_MAIN_PATH, PROVIDER_NODE_LIST_PATH]}
-          render={renderNodeList}
-          exact={true}
-        />
-        <Route
-          path={[PROVIDER_TOP_UP_LIST_PATH]}
-          render={renderTopUpList}
-          exact={true}
-        />
-      </Curtains>
-    </section>
+    <>
+      <section className={classes.component}>
+        <Curtains classes={{ root: classes.wrapper }}>
+          <div className={classes.navigation}>
+            <ProviderTabs className={classes.tabs} tabs={tabs} />
+            <Query<IProviderStats | null>
+              type={UserActionTypes.FETCH_PROVIDER_STATS}
+              showLoaderDuringRefetch={false}
+              errorComponent={QueryError}
+              loadingComponent={QueryLoadingCentered}
+            >
+              {({ data }) => {
+                return (
+                  <>
+                    <Box display="flex" alignItems="center">
+                      <Typography className={classes.balance}>
+                        {t('provider-dashboard.balance', {
+                          value: data?.balance.toFormat(),
+                        })}
+                      </Typography>
+                      <Route
+                        path={[PROVIDER_TOP_UP_LIST_PATH]}
+                        exact={true}
+                        render={() => (
+                          <NavLink
+                            href={PROVIDER_TOP_UP_PATH}
+                            variant="contained"
+                            color="primary"
+                          >
+                            {t('provider-dashboard.top-up')}
+                          </NavLink>
+                        )}
+                      />
+                      {sidecars &&
+                        sidecars.length > 0 && ( // TODO: revert hasEnoughBalance
+                          <Route
+                            path={[PROVIDER_MAIN_PATH, PROVIDER_NODE_LIST_PATH]}
+                            exact={true}
+                            render={() => (
+                              <Button
+                                color="primary"
+                                size="medium"
+                                onClick={handleCreateNode}
+                              >
+                                {t('empty-node-list.submit')}
+                              </Button>
+                            )}
+                          />
+                        )}
+                    </Box>
+                  </>
+                );
+              }}
+            </Query>
+          </div>
+          <Route
+            path={[PROVIDER_MAIN_PATH, PROVIDER_NODE_LIST_PATH]}
+            render={renderNodeList}
+            exact={true}
+          />
+          <Route
+            path={[PROVIDER_TOP_UP_LIST_PATH]}
+            render={renderTopUpList}
+            exact={true}
+          />
+        </Curtains>
+      </section>
+      <CreateNodeDialog
+        isOpened={isCreateNodeDialogOpen}
+        handleClose={closeCreateNodeDialog}
+      />
+    </>
   );
 };
 

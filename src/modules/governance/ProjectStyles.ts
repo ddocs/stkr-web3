@@ -67,5 +67,5 @@ export const useProjectStyles = makeStyles(theme => ({
   },
   progressBar: {
     marginTop: theme.spacing(7),
-  }
+  },
 }));

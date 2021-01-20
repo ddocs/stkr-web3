@@ -6,10 +6,10 @@ export const INDEX_PATH = '/';
 export const ANKR_PATH = 'https://www.ankr.com';
 export const STAKER_STAKE_PATH = '/staker/stake';
 export const STAKER_PATH = '/staker';
-export const STAKER_DASHBOAR_PATH = STAKER_PATH;
+export const STAKER_DASHBOARD_PATH = STAKER_PATH;
 export const PROVIDER_PATH = '/provider';
 export const PROVIDER_MAIN_PATH = PROVIDER_PATH;
-export const PROVIDER_NODE_LIST_PATH = PROVIDER_PATH;
+export const PROVIDER_NODE_LIST_PATH = PROVIDER_MAIN_PATH;
 export const PROVIDER_CREATE_NODE_PATH = `${PROVIDER_PATH}/node/create-node`;
 export const PROVIDER_TOP_UP_PATH = `${PROVIDER_PATH}/top-up/create`;
 export const PROVIDER_TOP_UP_ROUTE = `${PROVIDER_PATH}/top-up/create/:type?`;
@@ -24,6 +24,8 @@ export const GOVERNANCE_PROJECT_ROUTE = `${GOVERNANCE_PATH}/project/view/:projec
 export function getGovernanceProjectPath(projectId: string) {
   return generatePath(GOVERNANCE_PROJECT_ROUTE, { projectId });
 }
+export const ANKR_IFRAME_PATH = '/3dparty';
+export const ANKR_IFRAME_SIGNATURE_PATH = '/3dparty/signature';
 
 export const SOCIAL_LINK = {
   twitter: 'https://twitter.com/ankr',

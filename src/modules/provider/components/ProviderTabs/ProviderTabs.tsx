@@ -6,7 +6,7 @@ import { NavLink, useRouteMatch } from 'react-router-dom';
 export interface IItemProps {
   label: string;
   path: string;
-  route: string;
+  route: string | string[];
 }
 
 const Item = ({ label, path, route }: IItemProps) => {
@@ -27,7 +27,7 @@ const Item = ({ label, path, route }: IItemProps) => {
 
 interface IProviderTabsProps {
   className?: string;
-  tabs: { label: string; path: string; route: string }[];
+  tabs: { label: string; path: string; route: string | string[] }[];
 }
 
 export const ProviderTabs = ({ className, tabs }: IProviderTabsProps) => {
