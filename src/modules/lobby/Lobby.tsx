@@ -32,7 +32,7 @@ export const Lobby = () => {
       </MuiThemeProvider>
       <VideoTutorial />
       <Features />
-      {isMainnet && <AethBanner />}
+      {!isMainnet && <AethBanner />}
       <MuiThemeProvider theme={invertTheme}>
         <Calculate
           ethPrice={new BigNumber(ETHEREUM_PRICE)}
