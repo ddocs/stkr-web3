@@ -7,6 +7,8 @@ export const useToggleStyles = makeStyles<Theme>(theme => ({
     flexDirection: 'column',
     width: 32,
     height: 32,
+    alignSelf: 'center',
+
     '& span': {
       display: 'flex',
       flexDirection: 'column',
