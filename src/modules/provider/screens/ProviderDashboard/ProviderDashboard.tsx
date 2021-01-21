@@ -27,7 +27,7 @@ import { Milliseconds } from '../../../../common/types';
 import { useAuthentication } from '../../../../common/utils/useAuthentications';
 import { alwaysFalse } from '../../../../common/utils/alwaysFalse';
 import { IProviderStats } from '../../../../store/apiMappers/providerStatsApi';
-import { Box, Button, Typography } from '@material-ui/core';
+import { Button, Typography } from '@material-ui/core';
 import { TopUpList } from '../../components/TopUpList';
 import { IItemProps } from '../../components/ProviderTabs/ProviderTabs';
 import { IStakerStats } from '../../../../store/apiMappers/stakerStatsApi';
