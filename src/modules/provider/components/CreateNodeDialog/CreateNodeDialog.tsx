@@ -5,11 +5,12 @@ import {
   Dialog,
   DialogContent,
   IconButton,
+  Link,
   Typography,
 } from '@material-ui/core';
 import { CancelIcon } from '../../../../UiKit/Icons/CancelIcon';
 import { t } from '../../../../common/utils/intl';
-import { useHistory } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { PROVIDER_CREATE_NODE_PATH } from '../../../../common/const';
 import { ANKR_DEPLOY_PATH } from '../../const';
 
@@ -35,7 +36,6 @@ export const CreateNodeDialog = ({
   handleClose,
 }: ICreateNodeDialogProps) => {
   const classes = useCreateNodeDialogStyles();
-  const history = useHistory();
 
   const renderButton = useCallback(
     (action?) => (
@@ -77,10 +77,9 @@ export const CreateNodeDialog = ({
               <li key={item}>{item}</li>
             ))}
           </ul>
-          {/*TODO Refactor it to anchor*/}
-          {renderButton(() => {
-            window.open(ANKR_DEPLOY_PATH, '_blank');
-          })}
+          <Link href={ANKR_DEPLOY_PATH} target="_blank">
+            {renderButton()}
+          </Link>
         </div>
         <div className={classes.separator} />
         <div className={classes.side}>
@@ -92,10 +91,11 @@ export const CreateNodeDialog = ({
               <li key={item}>{item}</li>
             ))}
           </ul>
-          {renderButton(() => {
-            handleClose();
-            history.push(PROVIDER_CREATE_NODE_PATH);
-          })}
+          <NavLink to={PROVIDER_CREATE_NODE_PATH}>
+            {renderButton(() => {
+              handleClose();
+            })}
+          </NavLink>
         </div>
       </DialogContent>
     </Dialog>

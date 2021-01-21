@@ -18,7 +18,7 @@ import { ITablesCaptionProps } from '../../../../components/TableComponents/type
 import { useLocaleMemo } from '../../../../common/hooks/useLocaleMemo';
 import { t } from '../../../../common/utils/intl';
 import { NotEnoughBalance } from '../NotEnoughBalance';
-import { Box } from '@material-ui/core';
+import { Box, Paper } from '@material-ui/core';
 import { QueryError } from '../../../../components/QueryError/QueryError';
 import { QueryLoadingCentered } from '../../../../components/QueryLoading/QueryLoading';
 
@@ -53,9 +53,11 @@ export const TopUpListComponent = () => {
       type={UserActionTypes.FETCH_STAKER_STATS}
       showLoaderDuringRefetch={false}
       noDataMessage={
-        <Box minHeight={440} display="flex" alignItems="center">
-          <NotEnoughBalance />
-        </Box>
+        <Paper variant="outlined" square={false}>
+          <Box minHeight={440} display="flex" alignItems="center" padding={5}>
+            <NotEnoughBalance />
+          </Box>
+        </Paper>
       }
       isDataEmpty={({ data }) => {
         return getTopUpTransactions(data?.stakes ?? []).length === 0;

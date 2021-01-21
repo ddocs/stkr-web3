@@ -288,7 +288,7 @@
     "submit": "Create Beacon Chain"
   },
   "not-enough-balance": {
-    "title": "To create the first beacon node, you need to top-up your balance",
+    "title": "To create your own node, you need to top-up your balance",
     "submit": "Top-up your balance"
   },
   "top-up": {
@@ -340,6 +340,9 @@
   "iframe": {
     "create-signature": {
       "text": "We need you to sign login message to allow"
+    },
+    "error": {
+      "4001": "Signature denied"
     }
   },
   "language": {

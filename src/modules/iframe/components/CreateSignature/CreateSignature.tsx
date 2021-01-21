@@ -7,6 +7,7 @@ import { StkrSdk } from '../../../api';
 import { getNetworkName } from '../../../../common/utils/getNetworkName';
 import { NotificationActions } from '../../../../store/actions/NotificationActions';
 import { useDispatch } from 'react-redux';
+import { t } from '../../../../common/utils/intl';
 
 const parseSearchQuery = (): any => {
   const query = new URL(window.location.href);
@@ -65,7 +66,7 @@ export const CreateSignature = () => {
     } catch (error) {
       dispatch(
         NotificationActions.showNotification({
-          message: error.toString(),
+          message: t(`iframe.error.${error.code}`),
           severity: 'error',
         }),
       );
