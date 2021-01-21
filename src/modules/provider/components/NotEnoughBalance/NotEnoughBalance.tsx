@@ -10,7 +10,12 @@ import { Link as RouterLink } from 'react-router-dom';
 export const NotEnoughBalance = () => {
   const classes = useEmptyNodeListStyles();
   return (
-    <Grid container={true} spacing={2} alignItems="flex-start">
+    <Grid
+      container={true}
+      spacing={2}
+      alignItems="flex-start"
+      className={classes.root}
+    >
       <Grid item={true} md={3} xs={12}>
         <NotEnoughBalanceImage />
       </Grid>
