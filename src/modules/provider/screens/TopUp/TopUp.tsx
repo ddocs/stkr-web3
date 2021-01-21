@@ -7,6 +7,7 @@ import {
   PROVIDER_TOP_UP_ROUTE,
   PROVIDE_MIN_BALANCE,
   STAKING_AMOUNT_STEP,
+  isMainnet,
 } from '../../../../common/const';
 import { FormErrors } from '../../../../common/types/FormErrors';
 import { t } from '../../../../common/utils/intl';
@@ -209,7 +210,7 @@ export const TopUp = () => {
             label={t('top-up.tab.ankr')}
             value={TopUpCurreny.ankr}
             className={classes.tab}
-            disabled={true}
+            disabled={isMainnet}
           />
           <Tab label={t('top-up.tab.eth')} value={TopUpCurreny.eth} />
         </Tabs>

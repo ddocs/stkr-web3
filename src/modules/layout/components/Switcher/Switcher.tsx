@@ -3,7 +3,11 @@ import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import { uid } from 'react-uid';
 import { SelectProps } from '@material-ui/core';
-import { GOVERNANCE_PROJECT_LIST_PATH, PROVIDER_PATH, STAKER_DASHBOAR_PATH, } from '../../../../common/const';
+import {
+  GOVERNANCE_PROJECT_LIST_PATH,
+  PROVIDER_PATH,
+  STAKER_DASHBOARD_PATH,
+} from '../../../../common/const';
 import { t } from '../../../../common/utils/intl';
 import { useHistory, useLocation } from 'react-router';
 import { useNavigationSelectorStyles } from './SwitcherStyles';
@@ -16,7 +20,7 @@ export const Switcher = () => {
     return [
       {
         label: t('navigation.staker'),
-        value: STAKER_DASHBOAR_PATH,
+        value: STAKER_DASHBOARD_PATH,
       },
       {
         label: t('navigation.provider'),

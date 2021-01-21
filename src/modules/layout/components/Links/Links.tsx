@@ -2,7 +2,11 @@ import React, { SVGAttributes, useCallback, useState } from 'react';
 import classNames from 'classnames';
 import { NavLink } from '../../../../UiKit/NavLink';
 import { t } from '../../../../common/utils/intl';
-import { DOCS_LINK, LITEPAPER_LINK, SOCIAL_LINK, } from '../../../../common/const';
+import {
+  DOCS_LINK,
+  LITEPAPER_LINK,
+  SOCIAL_LINK,
+} from '../../../../common/const';
 import { useLinksStyles } from './LinksStyles';
 import { Button } from '../../../../UiKit/Button';
 import { useIsSMDown } from '../../../../common/hooks/useTheme';

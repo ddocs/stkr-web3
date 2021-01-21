@@ -29,14 +29,9 @@ import { ReactComponent as DockerIcon } from './assets/docker.svg';
 import { safeDiv } from '../../../../common/utils/safeDiv';
 import { formatDistanceToNowStrict } from 'date-fns';
 import { useHistory } from 'react-router';
-import {
-  PROVIDER_MIN_BALANCE,
-  PROVIDER_CREATE_NODE_PATH,
-  PROVIDER_TOP_UP_PATH,
-} from '../../../../common/const';
+import { PROVIDER_TOP_UP_PATH } from '../../../../common/const';
 import { EmptyNodeList } from '../EmptyNodeList';
 import BigNumber from 'bignumber.js';
-import { NotEnoughBalance } from '../NotEnoughBalance';
 import { IProviderStats } from '../../../../store/apiMappers/providerStatsApi';
 import { UserActionTypes } from '../../../../store/actions/UserActions';
 import { Query } from '@redux-requests/react';
@@ -69,13 +64,11 @@ const useCaptions = (): ITablesCaptionProps[] =>
   );
 
 const getSidecarName = (item: ISidecar) => {
-  let name = item.id;
   if (item.name) {
-    return `${item.name}`;
-  } else if (item.machine) {
-    name = `${item.machine.cpuModel}`;
+    return item.name;
   }
-  return name;
+
+  return item.id;
 };
 
 const getSidecarStatus = (item: ISidecar, theme: Theme) => {
@@ -238,18 +231,6 @@ export const NodeListComponent = ({
     );
   }
 
-  if (balance.isLessThan(PROVIDER_MIN_BALANCE)) {
-    return (
-      <Paper
-        variant="outlined"
-        square={false}
-        className={classes.noticeWrapper}
-      >
-        <NotEnoughBalance onSubmit={onTopUp} />
-      </Paper>
-    );
-  }
-
   return (
     <Paper variant="outlined" square={false} className={classes.noticeWrapper}>
       <EmptyNodeList onSubmit={onCreateNode} />
@@ -259,14 +240,13 @@ export const NodeListComponent = ({
 
 export const NodeList = ({
   data,
+  handleCreateNode,
 }: {
   className?: string;
   data: ISidecar[];
+  handleCreateNode: () => void;
 }) => {
   const history = useHistory();
-  const handleCreateNode = useCallback(() => {
-    history.push(PROVIDER_CREATE_NODE_PATH);
-  }, [history]);
 
   const handleTopUp = useCallback(() => {
     history.push(PROVIDER_TOP_UP_PATH);
@@ -279,14 +259,16 @@ export const NodeList = ({
     >
       {({ data: statsData }) => {
         return (
-          statsData?.balance && (
-            <NodeListComponent
-              data={data}
-              onCreateNode={handleCreateNode}
-              onTopUp={handleTopUp}
-              balance={statsData.balance}
-            />
-          )
+          <>
+            {statsData?.balance && (
+              <NodeListComponent
+                data={data}
+                onCreateNode={handleCreateNode}
+                onTopUp={handleTopUp}
+                balance={statsData.balance}
+              />
+            )}
+          </>
         );
       }}
     </Query>

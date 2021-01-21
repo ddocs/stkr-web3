@@ -1,3 +1,3 @@
-export { default as metamask } from './raw_assets/meta.svg';
-export { default as wallet } from './raw_assets/wallet.svg';
-export { default as trust } from './raw_assets/trust.svg';
+export { default as metamask } from './assets/meta.svg';
+export { default as wallet } from './assets/wallet.svg';
+export { default as trust } from './assets/trust.svg';

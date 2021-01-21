@@ -11,7 +11,7 @@ const withIntersectionObserver = (
   }
 };
 
-interface IOptions {
+export interface IIntersectionObserverOptions {
   once?: boolean;
   rootMargin?: string;
   threshold?: number[];
@@ -22,7 +22,7 @@ interface IOptions {
 export const useIntersectionObserver = (
   callback: any,
   nodeRef: any,
-  options: IOptions = {},
+  options: IIntersectionObserverOptions = {},
 ) => {
   const [node, setNode] = useState(nodeRef?.current);
 

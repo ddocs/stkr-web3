@@ -1,7 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { Curtains } from '../../../../UiKit/Curtains';
 import { t, tHTML } from '../../../../common/utils/intl';
-import classNames from 'classnames';
 import { useCalculateStyles } from './CalculateStyles';
 import { BackgroundColorProvider } from '../../../../UiKit/BackgroundColorProvider';
 import { Button } from '../../../../UiKit/Button';
@@ -33,7 +32,9 @@ const Value = ({
       </Headline5>
       <span className={classes.itemValue}>
         {t('unit.eth-value', {
-          value: new BigNumber(value).decimalPlaces(FIXED_DECIMAL_PLACES).toFormat(),
+          value: new BigNumber(value)
+            .decimalPlaces(FIXED_DECIMAL_PLACES)
+            .toFormat(),
         })}
       </span>
       {ratePrice && (
@@ -50,16 +51,11 @@ const Value = ({
 };
 
 interface ICalculateProps {
-  className?: string;
   ethPrice?: BigNumber;
   isConnected: boolean;
 }
 
-export const Calculate = ({
-  className,
-  ethPrice,
-  isConnected,
-}: ICalculateProps) => {
+export const Calculate = ({ ethPrice, isConnected }: ICalculateProps) => {
   const classes = useCalculateStyles();
   const dispatch = useDispatch();
   const handleUnlockWallet = useCallback(() => {
@@ -73,7 +69,7 @@ export const Calculate = ({
   };
 
   return (
-    <section className={classNames(classes.component, className)}>
+    <section>
       <Curtains classes={{ root: classes.wrapper }}>
         <BackgroundColorProvider component="div" className={classes.content}>
           <Headline1 className={classes.title} component="h2">

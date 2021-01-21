@@ -2,7 +2,7 @@ import React from 'react';
 import { useModerationStatusLedStyles } from './ModerationStatusLedStyles';
 import { t } from '../../../../common/utils/intl';
 import { WithUseStyles } from '../../../../common/types';
-import { ProposalStatus } from "@ankr.com/stkr-jssdk";
+import { ProposalStatus } from '@ankr.com/stkr-jssdk';
 
 export interface IModerationStatusLedProps {
   status: ProposalStatus;

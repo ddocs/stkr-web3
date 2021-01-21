@@ -6,7 +6,7 @@ export function useAuthentication() {
     IStoreState,
     { isConnected: boolean; isProviderAuthenticated: boolean }
   >(state => ({
-    isConnected: !!state.user.isConnected,
+    isConnected: state.user.isConnected,
     isProviderAuthenticated: !!state.user.providerAccessToken,
   }));
 

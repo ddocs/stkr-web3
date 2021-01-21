@@ -18,6 +18,7 @@ import BigNumber from 'bignumber.js';
 import { MutationErrorHandler } from '../../../../components/MutationErrorHandler/MutationErrorHandler';
 import { useAuthentication } from '../../../../common/utils/useAuthentications';
 import { TopUpAnkrTimeline } from './TopUpAnkrTimeline';
+import { ANKR_DEPOSIT_LINK, isMainnet } from '../../../../common/const';
 
 export enum TopUpAnkrStep {
   'DEPOSIT',
@@ -44,7 +45,6 @@ export const TopUpAnkrForm = ({
   }, [dispatch, isConnected]);
 
   const handleBuy = useCallback(() => {
-    // TODO Link for production
     dispatch(UserActions.faucet());
   }, [dispatch]);
 
@@ -60,10 +60,8 @@ export const TopUpAnkrForm = ({
         noDataMessage={<QueryEmpty />}
         type={UserActionTypes.FETCH_ALLOWANCE}
       >
-        {({ data: { remainingAllowance, allowanceAmount } }) => {
-          const isNotEnoughBalance = ankrBalance?.isLessThan(allowanceAmount);
-
-          const totalAllowance = remainingAllowance.plus(allowanceAmount);
+        {({ data: { remainingAllowance, totalAllowance } }) => {
+          const isNotEnoughBalance = ankrBalance?.isLessThan(totalAllowance);
 
           if (isNotEnoughBalance) {
             return (
@@ -79,15 +77,29 @@ export const TopUpAnkrForm = ({
                 </Grid>
                 <Grid item={true} xs={12} sm={6}>
                   <Box display="flex" justifyContent="center">
-                    <Button
-                      size="large"
-                      color="primary"
-                      fullWidth={true}
-                      className={classes.buy}
-                      onClick={handleBuy}
-                    >
-                      {t('top-up.submit.ankr-buy')}
-                    </Button>
+                    {isMainnet ? (
+                      <Button
+                        size="large"
+                        color="primary"
+                        fullWidth={true}
+                        className={classes.buy}
+                        target="_blank"
+                        href={ANKR_DEPOSIT_LINK}
+                        {...({ component: 'a' } as any)}
+                      >
+                        {t('top-up.submit.ankr-buy')}
+                      </Button>
+                    ) : (
+                      <Button
+                        size="large"
+                        color="primary"
+                        fullWidth={true}
+                        className={classes.buy}
+                        onClick={handleBuy}
+                      >
+                        {t('top-up.submit.ankr-buy')}
+                      </Button>
+                    )}
                   </Box>
                 </Grid>
               </Grid>

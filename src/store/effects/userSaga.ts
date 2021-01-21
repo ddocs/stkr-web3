@@ -177,8 +177,8 @@ function* init() {
   const { isConnectionAvailable } = yield select((store: IStoreState) => ({
     isConnectionAvailable: store.user.isConnectionAvailable,
   }));
-
-  if (isConnectionAvailable) {
+  const isIframe = window.location.pathname.startsWith('/3dparty');
+  if (isConnectionAvailable && !isIframe) {
     yield put(UserActions.connect());
   }
 }

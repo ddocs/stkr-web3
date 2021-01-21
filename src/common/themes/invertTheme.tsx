@@ -9,10 +9,10 @@ const PALETTE = {
     light: '',
     main: '#000000',
     dark: '#0F0F0F',
-    contrastText: '#FFE819',
+    contrastText: '#006DFF',
   },
   background: {
-    paper: '#FFE819',
+    paper: '#006DFF',
   },
   text: {
     primary: '#000000',

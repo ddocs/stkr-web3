@@ -8,6 +8,7 @@ import {
   GOVERNANCE_CREATE_PROJECT_PATH,
   GOVERNANCE_PROJECT_LIST_PATH,
   GOVERNANCE_PROJECT_ROUTE,
+  ANKR_IFRAME_PATH,
   INDEX_PATH,
   PICKER_PATH,
   PROVIDER_CREATE_NODE_PATH,
@@ -15,8 +16,9 @@ import {
   PROVIDER_NODE_LIST_PATH,
   PROVIDER_TOP_UP_LIST_PATH,
   PROVIDER_TOP_UP_ROUTE,
-  STAKER_DASHBOAR_PATH,
+  STAKER_DASHBOARD_PATH,
   STAKER_STAKE_PATH,
+  ABOUT_AETH_PATH,
 } from './common/const';
 import { PrivateRoute } from './UiKit/PrivateRoute';
 
@@ -122,6 +124,24 @@ const ProjectContainer = withDefaultLayout(
   ) as LoadableComponent<any>,
 );
 
+const AboutAethContainer = withDefaultLayout(
+  loadable(
+    async () => import('./modules/about-aeth').then(module => module.AboutAeth),
+    {
+      fallback: <QueryLoadingCentered />,
+    },
+  ) as LoadableComponent<any>,
+);
+
+const LoadableIframeContainer = withDefaultLayout(
+  loadable(
+    async () => import('./modules/iframe').then(module => module.Iframe),
+    {
+      fallback: <QueryLoadingCentered />,
+    },
+  ) as LoadableComponent<any>,
+);
+
 export function Routes() {
   return (
     <Switch>
@@ -135,6 +155,7 @@ export function Routes() {
         component={CreateBeaconChainContainer}
         exact={true}
       />
+      <Route path={ANKR_IFRAME_PATH} component={LoadableIframeContainer} />
       <PrivateRoute
         path={[PROVIDER_TOP_UP_ROUTE]}
         component={TopUpContainer}
@@ -151,7 +172,7 @@ export function Routes() {
       />
       <PrivateRoute path={PICKER_PATH} component={PickerContainer} />
       <PrivateRoute
-        path={STAKER_DASHBOAR_PATH}
+        path={STAKER_DASHBOARD_PATH}
         component={StakerDashboardContainer}
         exact={true}
       />
@@ -169,6 +190,11 @@ export function Routes() {
       <PrivateRoute
         path={GOVERNANCE_PROJECT_ROUTE}
         component={ProjectContainer}
+        exact={true}
+      />
+      <Route
+        path={ABOUT_AETH_PATH}
+        component={AboutAethContainer}
         exact={true}
       />
       <PrivateRoute component={PageNotFound} />

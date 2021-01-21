@@ -14,11 +14,33 @@ export const useProviderDashboardStyles = makeStyles<Theme>(theme => ({
     height: '100%',
   },
   navigation: {
-    display: 'flex',
-    flexDirection: 'row',
+    display: 'grid',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    gridTemplateColumns: '1fr auto',
+    gridTemplateAreas: `
+      'tabs link'
+      'balance balance'
+    `,
+    gap: theme.spacing(1.5, 0),
     flexShrink: 0,
+    marginBottom: theme.spacing(5),
+
+    [theme.breakpoints.up('sm')]: {
+      gridTemplateColumns: '1fr auto auto',
+      gap: 0,
+      gridTemplateAreas: `'tabs balance link'`,
+      marginBottom: 0,
+    },
+  },
+  tabs: {
+    gridArea: 'tabs',
+  },
+  link: {
+    gridArea: 'link',
+
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: theme.spacing(3),
+    },
   },
   create: {
     minWidth: 170,
@@ -27,9 +49,18 @@ export const useProviderDashboardStyles = makeStyles<Theme>(theme => ({
     flexGrow: 1,
   },
   balance: {
+    gridArea: 'balance',
+    padding: theme.spacing(0.6, 1),
+    border: `1px solid ${fade(theme.palette.common.white, 0.2)}`,
+    borderRadius: 20,
+    textAlign: 'center',
     fontSize: 14,
     fontWeight: 500,
     color: fade(theme.palette.common.white, 0.5),
-    marginRight: theme.spacing(3),
+
+    [theme.breakpoints.up('sm')]: {
+      padding: 0,
+      border: 'none',
+    },
   },
 }));

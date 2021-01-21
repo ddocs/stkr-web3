@@ -7,7 +7,7 @@ import { NavLink } from '../../UiKit/NavLink';
 import {
   ENABLE_PROVIDER,
   PROVIDER_MAIN_PATH,
-  STAKER_DASHBOAR_PATH,
+  STAKER_DASHBOARD_PATH,
 } from '../../common/const';
 import { useDispatch } from 'react-redux';
 import { useAuthentication } from '../../common/utils/useAuthentications';
@@ -100,7 +100,7 @@ export const Picker = () => {
   );
 
   const LIST: Record<string, string> = {
-    staker: STAKER_DASHBOAR_PATH,
+    staker: STAKER_DASHBOARD_PATH,
     provider: PROVIDER_MAIN_PATH,
   };
 

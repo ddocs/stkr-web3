@@ -1,19 +1,26 @@
 import React from 'react';
 import {
-    Table,
-    TableBody,
-    TableBodyCell,
-    TableHead,
-    TableHeadCell,
-    TableRow,
+  Table,
+  TableBody,
+  TableBodyCell,
+  TableHead,
+  TableHeadCell,
+  TableRow,
 } from '../../../../components/TableComponents';
 import { uid } from 'react-uid';
 import { UserActionTypes } from '../../../../store/actions/UserActions';
 import { Query } from '@redux-requests/react';
-import { IStakerStats } from '../../../../store/apiMappers/stakerStatsApi';
+import {
+  IStakeHistoryItem,
+  IStakerStats,
+} from '../../../../store/apiMappers/stakerStatsApi';
 import { ITablesCaptionProps } from '../../../../components/TableComponents/types';
 import { useLocaleMemo } from '../../../../common/hooks/useLocaleMemo';
 import { t } from '../../../../common/utils/intl';
+import { NotEnoughBalance } from '../NotEnoughBalance';
+import { Box } from '@material-ui/core';
+import { QueryError } from '../../../../components/QueryError/QueryError';
+import { QueryLoadingCentered } from '../../../../components/QueryLoading/QueryLoading';
 
 const useCaptions = (): ITablesCaptionProps[] =>
   useLocaleMemo(
@@ -34,15 +41,30 @@ const useCaptions = (): ITablesCaptionProps[] =>
     [],
   );
 
+function getTopUpTransactions(items: IStakeHistoryItem[]) {
+  return items.filter(item => item.isTopUp);
+}
+
 export const TopUpListComponent = () => {
   const captions = useCaptions();
+
   return (
     <Query<IStakerStats | null>
       type={UserActionTypes.FETCH_STAKER_STATS}
       showLoaderDuringRefetch={false}
+      noDataMessage={
+        <Box minHeight={440} display="flex" alignItems="center">
+          <NotEnoughBalance />
+        </Box>
+      }
+      isDataEmpty={({ data }) => {
+        return getTopUpTransactions(data?.stakes ?? []).length === 0;
+      }}
+      errorComponent={QueryError}
+      loadingComponent={QueryLoadingCentered}
     >
       {({ data }) => {
-        const stakes = data?.stakes.filter(item => item.isTopUp);
+        const stakes = getTopUpTransactions(data?.stakes ?? []);
 
         return (
           <Table columnsCount={captions.length}>

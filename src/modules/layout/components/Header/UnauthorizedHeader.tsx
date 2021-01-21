@@ -37,6 +37,23 @@ export const UnauthorizedHeader = ({
   }, [dispatch]);
 
   const isSMDown = useIsSMDown();
+  const isIframe = window.location.pathname.startsWith('/iframe');
+  if (isIframe) {
+    return (
+      <HeaderFrame
+        outerClassName={className}
+        innerClassName={classes.outer}
+        dropdownClassName={classes.dropdown}
+      >
+        <MutationErrorHandler
+          type={UserActionTypes.CONNECT}
+          resetOnShow={false}
+          filter={isFilteredError}
+        />
+      </HeaderFrame>
+    );
+  }
+
   return (
     <HeaderFrame
       outerClassName={className}
