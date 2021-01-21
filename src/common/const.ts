@@ -1,6 +1,6 @@
-import { ETH, Milliseconds } from './types';
-import Web3 from 'web3';
 import { generatePath } from 'react-router';
+import Web3 from 'web3';
+import { ETH, Milliseconds } from './types';
 
 export const INDEX_PATH = '/';
 export const ANKR_PATH = 'https://www.ankr.com';
