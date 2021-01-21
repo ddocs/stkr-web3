@@ -3,7 +3,14 @@ import { createStyles } from '@material-ui/core';
 export const TABLE_MIN_WIDTH = 808;
 
 export const tableStyles = createStyles({
-  container: {},
+  container: {
+    overflow: 'hidden',
+    overflowX: 'auto',
+
+    '@media (min-width: 768px)': {
+      overflow: 'visible',
+    },
+  },
   table: {
     position: 'relative',
     minWidth: TABLE_MIN_WIDTH,

@@ -101,6 +101,7 @@ export const ProviderDashboardComponent = ({
         <Curtains classes={{ root: classes.wrapper }}>
           <div className={classes.navigation}>
             <ProviderTabs className={classes.tabs} tabs={tabs} />
+
             <Query<IProviderStats | null>
               type={UserActionTypes.FETCH_PROVIDER_STATS}
               showLoaderDuringRefetch={false}
@@ -110,42 +111,44 @@ export const ProviderDashboardComponent = ({
               {({ data }) => {
                 return (
                   <>
-                    <Box display="flex" alignItems="center">
-                      <Typography className={classes.balance}>
-                        {t('provider-dashboard.balance', {
-                          value: data?.balance.toFormat(),
-                        })}
-                      </Typography>
-                      <Route
-                        path={[PROVIDER_TOP_UP_LIST_PATH]}
-                        exact={true}
-                        render={() => (
-                          <NavLink
-                            href={PROVIDER_TOP_UP_PATH}
-                            variant="contained"
-                            color="primary"
-                          >
-                            {t('provider-dashboard.top-up')}
-                          </NavLink>
-                        )}
-                      />
-                      {sidecars &&
-                        sidecars.length > 0 && ( // TODO: revert hasEnoughBalance
-                          <Route
-                            path={[PROVIDER_MAIN_PATH, PROVIDER_NODE_LIST_PATH]}
-                            exact={true}
-                            render={() => (
-                              <Button
-                                color="primary"
-                                size="medium"
-                                onClick={handleCreateNode}
-                              >
-                                {t('empty-node-list.submit')}
-                              </Button>
-                            )}
-                          />
-                        )}
-                    </Box>
+                    <Typography className={classes.balance}>
+                      {t('provider-dashboard.balance', {
+                        value: data?.balance.toFormat(),
+                      })}
+                    </Typography>
+
+                    <Route
+                      path={[PROVIDER_TOP_UP_LIST_PATH]}
+                      exact={true}
+                      render={() => (
+                        <NavLink
+                          className={classes.link}
+                          href={PROVIDER_TOP_UP_PATH}
+                          variant="contained"
+                          color="primary"
+                        >
+                          {t('provider-dashboard.top-up')}
+                        </NavLink>
+                      )}
+                    />
+
+                    {sidecars &&
+                      sidecars.length > 0 && ( // TODO: revert hasEnoughBalance
+                        <Route
+                          path={[PROVIDER_MAIN_PATH, PROVIDER_NODE_LIST_PATH]}
+                          exact={true}
+                          render={() => (
+                            <Button
+                              className={classes.link}
+                              color="primary"
+                              size="medium"
+                              onClick={handleCreateNode}
+                            >
+                              {t('empty-node-list.submit')}
+                            </Button>
+                          )}
+                        />
+                      )}
                   </>
                 );
               }}
