@@ -46,12 +46,20 @@ jobs:
     <<: *build-template
   build-prod:
     <<: *build-template
+  build-bs-1:
+    <<: *build-template
+  build-bs-2:
+    <<: *build-template
   # upload
   upload-develop:
     <<: *upload-template
   upload-goerli:
     <<: *upload-template
   upload-prod:
+    <<: *upload-template
+  upload-bs-1:
+    <<: *upload-template
+  upload-bs-2:
     <<: *upload-template
 
 workflows:
