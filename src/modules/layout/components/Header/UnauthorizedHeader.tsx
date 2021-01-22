@@ -1,19 +1,19 @@
-import { useHeaderStyles } from './HeaderStyles';
-import { useIsSMDown } from '../../../../common/hooks/useTheme';
-import { Button } from '../../../../UiKit/Button';
-import { t } from '../../../../common/utils/intl';
+import { Box } from '@material-ui/core';
 import React, { useCallback } from 'react';
-import { HeaderFrame } from './HeaderFrame';
-import { Links } from '../Links';
+import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
+import { useIsSMDown } from '../../../../common/hooks/useTheme';
+import { t } from '../../../../common/utils/intl';
+import { MutationErrorHandler } from '../../../../components/MutationErrorHandler/MutationErrorHandler';
 import {
   UserActions,
   UserActionTypes,
 } from '../../../../store/actions/UserActions';
-import { useDispatch } from 'react-redux';
-import { MutationErrorHandler } from '../../../../components/MutationErrorHandler/MutationErrorHandler';
+import { Button } from '../../../../UiKit/Button';
+import { Links } from '../Links';
 import { LocaleSwitcher } from '../LocaleSwitcher';
-import { Box } from '@material-ui/core';
+import { HeaderFrame } from './HeaderFrame';
+import { useHeaderStyles } from './HeaderStyles';
 
 const FILTERED_ERRORS = ['Modal closed by user'];
 
@@ -57,17 +57,19 @@ export const UnauthorizedHeader = ({
   return (
     <HeaderFrame
       outerClassName={className}
-      innerClassName={classes.outer}
-      dropdownClassName={classes.dropdown}
+      innerClassName={classes.inner}
+      dropdownClassName={classes.mobileUnAuth}
     >
       <MutationErrorHandler
         type={UserActionTypes.CONNECT}
         resetOnShow={false}
         filter={isFilteredError}
       />
-      <Box display="flex" alignItems="center" margin={{ xs: 'auto' }}>
-        <Links className={classes.links} />
-      </Box>
+
+      <div className={classes.switcherWrap}>
+        <LocaleSwitcher />
+      </div>
+
       <Button
         onClick={() => {
           if (isAuth) {
@@ -82,13 +84,9 @@ export const UnauthorizedHeader = ({
       >
         {t('navigation.unlock-wallet')}
       </Button>
-      <Box
-        display="flex"
-        alignItems="center"
-        ml={{ xs: 'auto', md: 0 }}
-        mb={{ xs: 3, md: 0 }}
-      >
-        <LocaleSwitcher />
+
+      <Box m={{ lg: 'auto' }}>
+        <Links className={classes.links} />
       </Box>
     </HeaderFrame>
   );

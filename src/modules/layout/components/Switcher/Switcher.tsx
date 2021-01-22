@@ -1,15 +1,11 @@
-import React, { ChangeEvent, useCallback, useMemo, useRef } from 'react';
-import TextField from '@material-ui/core/TextField';
-import MenuItem from '@material-ui/core/MenuItem';
-import { uid } from 'react-uid';
 import { SelectProps } from '@material-ui/core';
-import {
-  GOVERNANCE_PROJECT_LIST_PATH,
-  PROVIDER_PATH,
-  STAKER_DASHBOARD_PATH,
-} from '../../../../common/const';
-import { t } from '../../../../common/utils/intl';
+import MenuItem from '@material-ui/core/MenuItem';
+import TextField from '@material-ui/core/TextField';
+import React, { ChangeEvent, useCallback, useMemo, useRef } from 'react';
 import { useHistory, useLocation } from 'react-router';
+import { uid } from 'react-uid';
+import { PROVIDER_PATH, STAKER_DASHBOARD_PATH } from '../../../../common/const';
+import { t } from '../../../../common/utils/intl';
 import { useNavigationSelectorStyles } from './SwitcherStyles';
 
 export const Switcher = () => {
@@ -25,10 +21,6 @@ export const Switcher = () => {
       {
         label: t('navigation.provider'),
         value: PROVIDER_PATH,
-      },
-      {
-        label: t('navigation.governance'),
-        value: GOVERNANCE_PROJECT_LIST_PATH,
       },
     ];
   }, []);

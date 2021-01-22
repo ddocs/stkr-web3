@@ -1,33 +1,24 @@
-import React, { SVGAttributes, useCallback, useState } from 'react';
+import { Tooltip } from '@material-ui/core';
 import classNames from 'classnames';
-import { NavLink } from '../../../../UiKit/NavLink';
-import { t } from '../../../../common/utils/intl';
+import React, { SVGAttributes, useCallback, useMemo, useState } from 'react';
 import {
   DOCS_LINK,
+  GOVERNANCE_PROJECT_LIST_PATH,
   LITEPAPER_LINK,
   SOCIAL_LINK,
 } from '../../../../common/const';
-import { useLinksStyles } from './LinksStyles';
+import { useIsMDDown } from '../../../../common/hooks/useTheme';
+import { t } from '../../../../common/utils/intl';
 import { Button } from '../../../../UiKit/Button';
-import { useIsSMDown } from '../../../../common/hooks/useTheme';
 import { FoldableSection } from '../../../../UiKit/FoldableSection';
+import { NavLink } from '../../../../UiKit/NavLink';
 import { Medium, Telegram, Twitter } from '../Icons/Icons';
-import { Tooltip } from '@material-ui/core';
+import { useLinksStyles } from './LinksStyles';
 
 export interface ILinksProps {
   className?: string;
+  isAuth?: boolean;
 }
-
-const LINKS: Record<string, string | Record<string, string>> = {
-  litepaper: LITEPAPER_LINK,
-  community: {
-    twitter: SOCIAL_LINK.twitter,
-    'telegram-chat': SOCIAL_LINK.telegram,
-    'telegram-announcements': SOCIAL_LINK.telegramAnnouncements,
-    medium: SOCIAL_LINK.medium,
-  },
-  docs: DOCS_LINK,
-};
 
 const Arrow = (props: SVGAttributes<SVGElement>) => {
   return (
@@ -50,7 +41,7 @@ const getIconByKey = (key: string) => {
   }
 };
 
-export const Links = ({ className }: ILinksProps) => {
+export const Links = ({ className, isAuth }: ILinksProps) => {
   const classes = useLinksStyles();
 
   const [open, setOpen] = useState(false);
@@ -63,13 +54,33 @@ export const Links = ({ className }: ILinksProps) => {
     }
   }, [open]);
 
-  const isMDDown = useIsSMDown();
+  const isMDDown = useIsMDDown();
+
+  const LINKS: Record<string, string | Record<string, string>> = useMemo(
+    () => ({
+      litepaper: LITEPAPER_LINK,
+      community: {
+        twitter: SOCIAL_LINK.twitter,
+        'telegram-chat': SOCIAL_LINK.telegram,
+        'telegram-announcements': SOCIAL_LINK.telegramAnnouncements,
+        medium: SOCIAL_LINK.medium,
+      },
+      docs: DOCS_LINK,
+      governance: isAuth ? GOVERNANCE_PROJECT_LIST_PATH : '',
+    }),
+    [isAuth],
+  );
 
   return (
     <div className={classNames(className, classes.component)}>
       <ul className={classes.list}>
         {Object.keys(LINKS).map(key => {
           const link = LINKS[key];
+
+          if (link.length === 0) {
+            return null;
+          }
+
           return (
             <li key={key} className={classes.item}>
               {typeof link === 'string' ? (
