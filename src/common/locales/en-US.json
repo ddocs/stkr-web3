@@ -342,7 +342,8 @@
       "text": "We need you to sign login message to allow"
     },
     "error": {
-      "4001": "Signature denied"
+      "4001": "Signature denied",
+      "undefined": "Unknown error"
     }
   },
   "language": {
