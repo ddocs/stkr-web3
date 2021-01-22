@@ -1,53 +1,60 @@
-import { fade, makeStyles } from '@material-ui/core/styles';
 import { Theme } from '@material-ui/core';
+import { fade, makeStyles } from '@material-ui/core/styles';
 
 export const useLinksStyles = makeStyles<Theme>(theme => ({
   component: {},
   list: {
     display: 'flex',
-    flexDirection: 'row',
+    flexDirection: 'column',
     alignItems: 'center',
     margin: 0,
     padding: 0,
     listStyle: 'none',
-    [theme.breakpoints.down('sm')]: {
-      flexDirection: 'column',
+
+    [theme.breakpoints.up('lg')]: {
+      display: 'inline-grid',
+      gridAutoFlow: 'column',
+      gap: theme.spacing(0, 4),
+    },
+
+    [theme.breakpoints.up('xl')]: {
+      gap: theme.spacing(0, 8),
     },
   },
   item: {
     position: 'relative',
-    marginRight: theme.spacing(4),
+    width: '100%',
+    padding: theme.spacing(2, 0),
+    borderTop: `1px solid ${theme.palette.text.secondary}`,
     cursor: 'pointer',
+
     [theme.breakpoints.up('lg')]: {
-      marginRight: theme.spacing(8),
-    },
-    [theme.breakpoints.up('md')]: {
+      width: 'auto',
+      padding: 0,
+      border: 'none',
+
       '&:hover, &:focus': {
         '& $dropdown': {
           opacity: 1,
           visibility: 'visible',
         },
+
         '& $link': {
           color: theme.palette.text.secondary,
           outline: 'none',
         },
+
         '& $link:not(.Mui-disabled)::after': {
           transform: 'scaleX(1)',
           transformOrigin: 'bottom left',
         },
       },
     },
-    [theme.breakpoints.down('sm')]: {
-      width: '100%',
-      margin: 0,
-      padding: theme.spacing(2, 0),
-
-      borderTop: `1px solid ${theme.palette.text.secondary}`,
-    },
   },
   link: {
     '&&': {
       fontWeight: 500,
+
       '&::after': {
         position: 'absolute',
         content: '""',
@@ -62,9 +69,11 @@ export const useLinksStyles = makeStyles<Theme>(theme => ({
         transitionTimingFunction: 'linear',
         transitionDuration: '200ms',
       },
+
       '&:hover, &:focus': {
         color: theme.palette.text.secondary,
       },
+
       '&.Mui-disabled': {
         color: fade(theme.palette.text.primary, 0.5),
         pointerEvents: 'auto',
@@ -72,54 +81,63 @@ export const useLinksStyles = makeStyles<Theme>(theme => ({
     },
   },
   button: {
-    [theme.breakpoints.down('sm')]: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      width: '100%',
+    display: 'flex',
+    justifyContent: 'space-between',
+    width: '100%',
+
+    [theme.breakpoints.up('lg')]: {
+      display: 'inline-flex',
+      justifyContent: 'normal',
+      width: 'auto',
     },
   },
   arrow: {
     margin: 'auto 0',
     marginLeft: theme.spacing(1.5),
-    [theme.breakpoints.up('md')]: {
+
+    [theme.breakpoints.up('lg')]: {
       display: 'none',
     },
   },
   dropdown: {
-    position: 'absolute',
+    position: 'static',
     top: 20,
     zIndex: 2000,
-    opacity: 0,
     transitionTimingFunction: 'linear',
     transitionDuration: '300ms',
     transitionProperty: 'z-index, opacity',
-    visibility: 'hidden',
-    [theme.breakpoints.down('sm')]: {
-      position: 'static',
-      opacity: 1,
-      visibility: 'visible',
+    opacity: 1,
+    visibility: 'visible',
+
+    [theme.breakpoints.up('lg')]: {
+      position: 'absolute',
+      opacity: 0,
+      visibility: 'hidden',
     },
   },
   subList: {
     margin: 0,
     marginTop: theme.spacing(2.5),
-    padding: theme.spacing(2, 0),
+    padding: theme.spacing(4, 0, 2.5),
     listStyle: 'none',
-    backgroundColor: '#181818',
     borderRadius: 4,
-    [theme.breakpoints.down('sm')]: {
-      margin: 0,
-      padding: theme.spacing(4, 0, 2.5),
-      backgroundColor: 'transparent',
+
+    [theme.breakpoints.up('lg')]: {
+      padding: theme.spacing(2, 0),
+      backgroundColor: '#181818',
     },
   },
   subItem: {
-    [theme.breakpoints.down('sm')]: {
-      display: 'flex',
-      flexDirection: 'row',
-      justifyContent: 'flex-start',
-      marginTop: theme.spacing(4),
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    marginTop: theme.spacing(4),
+
+    [theme.breakpoints.up('lg')]: {
+      display: 'block',
+      margin: 0,
     },
+
     '&:first-child': {
       marginTop: 0,
     },
@@ -128,18 +146,20 @@ export const useLinksStyles = makeStyles<Theme>(theme => ({
     '&&': {
       justifyContent: 'flex-start',
       width: '100%',
-      padding: theme.spacing(1.5, 3.5),
       boxSizing: 'border-box',
       transitionTimingFunction: 'linear',
       transitionDuration: '250ms',
       transitionProperty: 'color, background-color',
-      [theme.breakpoints.down('sm')]: {
-        padding: 0,
+
+      [theme.breakpoints.up('lg')]: {
+        padding: theme.spacing(1.5, 3.5),
       },
+
       '&:hover, &:focus': {
         color: theme.palette.primary.contrastText,
         backgroundColor: theme.palette.primary.main,
       },
+
       '& svg': {
         width: 24,
         height: 24,

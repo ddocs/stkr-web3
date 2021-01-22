@@ -1,5 +1,5 @@
-import { fade, makeStyles } from '@material-ui/core/styles';
 import { Theme } from '@material-ui/core';
+import { fade, makeStyles } from '@material-ui/core/styles';
 
 export const useHeaderStyles = makeStyles<Theme, { height?: number }>(
   theme => ({
@@ -10,100 +10,137 @@ export const useHeaderStyles = makeStyles<Theme, { height?: number }>(
       boxSizing: 'border-box',
       borderBottom: `1px solid ${fade(theme.palette.grey[100], 0.1)}`,
     },
-    outer: {
-      '&&&': {
-        display: 'grid',
+
+    inner: {
+      display: 'grid',
+      alignItems: 'center',
+      gridTemplateColumns: 'auto auto',
+      justifyContent: 'space-between',
+
+      [theme.breakpoints.up('lg')]: {
         gridTemplateColumns: '210px 1fr 204px 78px',
-        justifyContent: 'space-between',
-        padding: theme.spacing(0, 8.5),
-        [theme.breakpoints.down('lg')]: {
+        justifyContent: 'normal',
+      },
+
+      '&&': {
+        [theme.breakpoints.up('lg')]: {
+          maxWidth: 1460,
           padding: theme.spacing(0, 5),
         },
-        [theme.breakpoints.down('sm')]: {
-          gridTemplateColumns: 'auto auto',
-        },
-        [theme.breakpoints.down('xs')]: {
-          padding: theme.spacing(0, 3),
-        },
       },
     },
-    inner: {
-      '&&&': {
-        display: 'grid',
-        gridTemplateColumns: '210px 1fr auto 78px',
-        alignItems: 'center',
-        [theme.breakpoints.down('sm')]: {
-          gridTemplateColumns: 'auto auto',
-          justifyContent: 'space-between',
-        },
+
+    innerAuthorized: {
+      [theme.breakpoints.up('lg')]: {
+        gridTemplateColumns: '210px auto 1fr auto 78px',
+        justifyContent: 'normal',
       },
     },
-    tabs: {
-      width: '100%',
-      [theme.breakpoints.down('sm')]: {
-        marginTop: theme.spacing(4),
-      },
-    },
+
     wallet: {
-      width: 'auto',
-      [theme.breakpoints.down('sm')]: {
-        width: '100%',
+      width: '100%',
+
+      [theme.breakpoints.up('lg')]: {
+        width: 'auto',
+        order: 1,
       },
     },
+
     links: {
-      alignSelf: 'center',
-      [theme.breakpoints.down('sm')]: {
-        alignSelf: 'initial',
-        marginTop: theme.spacing(4),
+      marginTop: theme.spacing(4),
+
+      [theme.breakpoints.up('lg')]: {
+        alignSelf: 'center',
+        margin: 0,
       },
     },
+
+    linksAuthorized: {},
+
     mobile: {
       position: 'fixed',
-      top: 80,
-      left: '50%',
-      right: 0,
       zIndex: 10,
-      display: 'none',
-      width: '50%',
+      display: 'flex',
+      top: 80,
+      right: 0,
+      left: 0,
+
+      width: '100%',
       height: props => (props.height ? props.height - 80 : undefined),
-      padding: theme.spacing(6.5, 5),
-      boxSizing: 'border-box',
+      padding: theme.spacing(3.5, 3),
+
       backgroundColor: theme.palette.background.default,
-      transform: 'translateX(100vw)',
-      transitionTimingFunction: 'linear',
-      transitionDuration: '300ms',
-      transitionProperty: 'transform',
+      transition: 'transform 0.3s',
+      transform: 'translateX(100%)',
       pointerEvents: 'none',
-      [theme.breakpoints.down('sm')]: {
-        display: 'flex',
+      overflow: 'hidden',
+      overflowY: 'auto',
+
+      [theme.breakpoints.up('sm')]: {
+        width: 395,
+        left: 'auto',
+        padding: theme.spacing(6.5, 5),
       },
-      [theme.breakpoints.down('xs')]: {
-        left: 0,
-        width: '100%',
-        padding: theme.spacing(3.5, 3),
+
+      [theme.breakpoints.up('lg')]: {
+        display: 'none',
       },
     },
-    visible: {
+
+    mobileUnAuth: {
+      flexDirection: 'column',
+      borderLeft: `1px solid ${fade(theme.palette.grey[100], 0.1)}`,
+    },
+
+    mobileAuth: {
+      flexDirection: 'column',
+      borderLeft: `1px solid ${fade(theme.palette.grey[100], 0.1)}`,
+    },
+
+    mobileVisible: {
       transform: 'translateX(0)',
       pointerEvents: 'initial',
     },
-    dropdown: {
-      flexDirection: 'column-reverse',
-      alignItems: 'initial',
-      justifyContent: 'flex-end',
-      borderLeft: `1px solid ${fade(theme.palette.grey[100], 0.1)}`,
+
+    navShadow: {
+      display: 'none',
+
+      [theme.breakpoints.up('sm')]: {
+        position: 'fixed',
+        zIndex: 10,
+        top: 80,
+        bottom: 0,
+        left: 0,
+        right: 0,
+        display: 'block',
+        background: fade(theme.palette.background.default, 0.8),
+        transition: 'all 0.3s ease',
+        visibility: 'hidden',
+        opacity: 0,
+        pointerEvents: 'none',
+      },
     },
-    authDropdown: {
-      flexDirection: 'column-reverse',
-      justifyContent: 'flex-end',
-      borderLeft: `1px solid ${fade(theme.palette.grey[100], 0.1)}`,
+
+    navShadowActive: {
+      visibility: 'visible',
+      opacity: 1,
     },
+
     button: {
-      '&&': {
+      [theme.breakpoints.up('lg')]: {
         marginRight: theme.spacing(3),
-        [theme.breakpoints.down('sm')]: {
-          marginRight: 'unset',
-        },
+        order: 1,
+      },
+    },
+
+    switcherWrap: {
+      display: 'flex',
+      alignItems: 'center',
+      margin: theme.spacing(0, 0, 3, 'auto'),
+
+      [theme.breakpoints.up('lg')]: {
+        order: 2,
+        margin: 0,
       },
     },
   }),

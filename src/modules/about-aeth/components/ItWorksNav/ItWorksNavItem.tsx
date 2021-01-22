@@ -1,8 +1,8 @@
-import React, { useEffect, useRef, useState, useCallback } from 'react';
-import classNames from 'classnames';
-import { useItWorksNavStyles } from './ItWorksNavStyles';
 import { Typography } from '@material-ui/core';
-import { useIsLGup, useIsXLup } from '../../../../common/hooks/useTheme';
+import classNames from 'classnames';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useIsLGUp, useIsXLUp } from '../../../../common/hooks/useTheme';
+import { useItWorksNavStyles } from './ItWorksNavStyles';
 
 type ClickEventType = React.MouseEvent<HTMLElement, MouseEvent>;
 
@@ -23,8 +23,8 @@ export const ItWorksNavItem = ({
 }: IItWorksNavItemProps) => {
   const [textHeight, setTextHeight] = useState<string | number>('auto');
   const textRef = useRef<HTMLParagraphElement>(null);
-  const isXLUp = useIsXLup();
-  const isLGUp = useIsLGup();
+  const isXLUp = useIsXLUp();
+  const isLGUp = useIsLGUp();
 
   const activeTitleVariant = isXLUp ? 'h3' : 'h4';
 
