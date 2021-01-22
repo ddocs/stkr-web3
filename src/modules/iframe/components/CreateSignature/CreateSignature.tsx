@@ -66,7 +66,10 @@ export const CreateSignature = () => {
     } catch (error) {
       dispatch(
         NotificationActions.showNotification({
-          message: t(`iframe.error.${error.code}`),
+          message:
+            error instanceof Error
+              ? error.toString()
+              : t(`iframe.error.${error.code}`),
           severity: 'error',
         }),
       );
