@@ -100,3 +100,29 @@ workflows:
             - stkr_build_prod
           requires:
             - build-prod
+      # bs-1
+      - approve-develop:
+          type: approval
+      - build-develop:
+          context: stkr_build_develop
+          requires:
+            - approve-develop
+      - upload-develop:
+          context:
+            - cicd
+            - stkr_deploy_bs_1
+          requires:
+            - build-develop
+      # bs-2
+      - approve-develop:
+          type: approval
+      - build-develop:
+          context: stkr_build_develop
+          requires:
+            - approve-develop
+      - upload-develop:
+          context:
+            - cicd
+            - stkr_deploy_bs_2
+          requires:
+            - build-develop
