@@ -101,28 +101,28 @@ workflows:
           requires:
             - build-prod
       # bs-1
-      - approve-develop:
+      - approve-bs-1:
           type: approval
-      - build-develop:
-          context: stkr_build_develop
+      - build-bs-1:
+          context: stkr_build_goerli
           requires:
-            - approve-develop
-      - upload-develop:
+            - approve-bs-1
+      - upload-bs-1:
           context:
             - cicd
             - stkr_deploy_bs_1
           requires:
-            - build-develop
+            - build-bs-1
       # bs-2
-      - approve-develop:
+      - approve-bs-2:
           type: approval
-      - build-develop:
-          context: stkr_build_develop
+      - build-bs-2:
+          context: stkr_build_goerli
           requires:
-            - approve-develop
-      - upload-develop:
+            - approve-bs-2
+      - upload-bs-2:
           context:
             - cicd
             - stkr_deploy_bs_2
           requires:
-            - build-develop
+            - build-bs-2
