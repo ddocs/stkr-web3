@@ -1,7 +1,7 @@
+import { Box, Button } from '@material-ui/core';
 import React from 'react';
 import { t } from '../../../../common/utils/intl';
 import { ReactComponent as EmptyNodeListImage } from './assets/emptyNodeList.svg';
-import { Box, Button } from '@material-ui/core';
 import { useEmptyNodeListStyles } from './EmptyNodeListStyles';
 
 interface IEmptyNodeList {
@@ -20,7 +20,12 @@ export const EmptyNodeList = ({ onSubmit }: IEmptyNodeList) => {
         fullWidth={true}
         className={classes.button}
       >
-        {t('empty-node-list.submit')}
+        <span className={classes.buttonTextShort}>
+          {t('empty-node-list.submit-short')}
+        </span>
+        <span className={classes.buttonTextFull}>
+          {t('empty-node-list.submit-full')}
+        </span>
       </Button>
     </Box>
   );

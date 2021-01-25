@@ -1,39 +1,38 @@
-import * as React from 'react';
-import { useCallback, useEffect, useMemo } from 'react';
-import { useProviderDashboardStyles } from './ProviderDashboardStyles';
-import { NodeList } from '../../components/NodeList';
+import { Button, Typography } from '@material-ui/core';
+import { Query } from '@redux-requests/react';
+import React, { useCallback, useEffect, useMemo } from 'react';
+import { useDispatch } from 'react-redux';
+import { Route } from 'react-router-dom';
 import {
   PROVIDER_MAIN_PATH,
   PROVIDER_NODE_LIST_PATH,
   PROVIDER_TOP_UP_LIST_PATH,
   PROVIDER_TOP_UP_PATH,
 } from '../../../../common/const';
-import { ProviderTabs } from '../../components/ProviderTabs';
+import { Milliseconds } from '../../../../common/types';
+import { alwaysFalse } from '../../../../common/utils/alwaysFalse';
 import { t } from '../../../../common/utils/intl';
-import { Curtains } from '../../../../UiKit/Curtains';
-import { NavLink } from '../../../../UiKit/NavLink';
+import { useAuthentication } from '../../../../common/utils/useAuthentications';
+import { useInterval } from '../../../../common/utils/useInterval';
+import { QueryError } from '../../../../components/QueryError/QueryError';
+import { QueryLoadingCentered } from '../../../../components/QueryLoading/QueryLoading';
 import {
   UserActions,
   UserActionTypes,
 } from '../../../../store/actions/UserActions';
-import { Query } from '@redux-requests/react';
-import { QueryLoadingCentered } from '../../../../components/QueryLoading/QueryLoading';
-import { QueryError } from '../../../../components/QueryError/QueryError';
-import { Route } from 'react-router-dom';
-import { ISidecar } from '../../../../store/apiMappers/sidecarsApi';
-import { useDispatch } from 'react-redux';
-import { useInterval } from '../../../../common/utils/useInterval';
-import { Milliseconds } from '../../../../common/types';
-import { useAuthentication } from '../../../../common/utils/useAuthentications';
-import { alwaysFalse } from '../../../../common/utils/alwaysFalse';
 import { IProviderStats } from '../../../../store/apiMappers/providerStatsApi';
-import { Button, Typography } from '@material-ui/core';
-import { TopUpList } from '../../components/TopUpList';
-import { IItemProps } from '../../components/ProviderTabs/ProviderTabs';
+import { ISidecar } from '../../../../store/apiMappers/sidecarsApi';
 import { IStakerStats } from '../../../../store/apiMappers/stakerStatsApi';
-import { useDialog } from '../../../../store/dialogs/selectors';
 import { DIALOG_CREATE_NODE } from '../../../../store/dialogs/actions';
+import { useDialog } from '../../../../store/dialogs/selectors';
+import { Curtains } from '../../../../UiKit/Curtains';
+import { NavLink } from '../../../../UiKit/NavLink';
 import { CreateNodeDialog } from '../../components/CreateNodeDialog';
+import { NodeList } from '../../components/NodeList';
+import { ProviderTabs } from '../../components/ProviderTabs';
+import { IItemProps } from '../../components/ProviderTabs/ProviderTabs';
+import { TopUpList } from '../../components/TopUpList';
+import { useProviderDashboardStyles } from './ProviderDashboardStyles';
 
 const SHORT_UPDATE_INTERVAL: Milliseconds = 30_000;
 const LONG_UPDATE_INTERVAL: Milliseconds = 60_000;
@@ -144,7 +143,12 @@ export const ProviderDashboardComponent = ({
                               size="medium"
                               onClick={handleCreateNode}
                             >
-                              {t('empty-node-list.submit')}
+                              <span className={classes.linkTextShort}>
+                                {t('empty-node-list.submit-short')}
+                              </span>
+                              <span className={classes.linkTextFull}>
+                                {t('empty-node-list.submit-full')}
+                              </span>
                             </Button>
                           )}
                         />

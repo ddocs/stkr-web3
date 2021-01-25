@@ -284,7 +284,8 @@
         "6": "Kotti"
     },
     "empty-node-list": {
-        "submit": "建立信标链"
+        "submit-short": "創造",
+        "submit-full": "建立信标链"
     },
     "not-enough-balance": {
         "title": "要创建第一个信标节点，您需要充值余额",

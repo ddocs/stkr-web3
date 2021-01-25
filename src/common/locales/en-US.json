@@ -285,7 +285,8 @@
     "6": "Kotti"
   },
   "empty-node-list": {
-    "submit": "Create Beacon Chain"
+    "submit-short": "Create",
+    "submit-full": "Create Beacon Chain"
   },
   "not-enough-balance": {
     "title": "To create your own node, you need to top-up your balance",
