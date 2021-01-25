@@ -13,25 +13,29 @@ const imgHorizonAnimationTime: Seconds = 2;
 
 export const usePromoStyles = makeStyles(theme => ({
   root: {
-    padding: theme.spacing(16.5, 0, 7.5),
+    padding: theme.spacing(14, 0, 7.5),
     position: 'relative',
     zIndex: 0,
     overflow: 'hidden',
 
     [theme.breakpoints.up('sm')]: {
-      padding: `20vh 0 ${theme.spacing(15.5)}px`,
+      padding: `17vh 0 ${theme.spacing(15.5)}px`,
     },
   },
 
   img: {
     position: 'relative',
-    maxWidth: 170,
-    margin: '0 auto',
+    maxWidth: 183,
+    margin: theme.spacing(0, 'auto', 3),
     zIndex: -1,
 
     [theme.breakpoints.up('sm')]: {
-      maxWidth: 332,
-      margin: '0 auto -60px',
+      maxWidth: 280,
+      margin: theme.spacing(0, 'auto', 1.5),
+    },
+
+    [theme.breakpoints.up('md')]: {
+      maxWidth: 368,
     },
 
     '& svg': {
@@ -60,6 +64,10 @@ export const usePromoStyles = makeStyles(theme => ({
       transition: `opacity ${imgHorizonAnimationTime}s ease-in ${imgHorizonDelay}s`,
 
       [theme.breakpoints.up('sm')]: {
+        height: '1000px',
+      },
+
+      [theme.breakpoints.up('md')]: {
         height: '1528px',
       },
     },
