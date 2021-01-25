@@ -96,8 +96,8 @@ export const ProjectList = () => {
               <IconButton
                 component="a"
                 target="_blank"
-                className={classes.plusIcon}
                 href={ANKR_DEPOSIT_LINK}
+                className={classes.plusIcon}
               >
                 <PlusIcon />
               </IconButton>

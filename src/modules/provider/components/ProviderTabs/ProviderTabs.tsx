@@ -14,7 +14,7 @@ const Item = ({ label, path, route }: IItemProps) => {
   const match = useRouteMatch({ path: route, exact: true });
 
   return (
-    <li>
+    <li className={classes.listItem}>
       <NavLink
         className={classNames(classes.tab, match && classes.active)}
         to={path}

@@ -10,7 +10,7 @@ export const useBecomeProviderStyles = makeStyles<
   { icon?: string; delay?: number }
 >(theme => ({
   component: {
-    backgroundColor: theme.palette.primary.contrastText,
+    backgroundColor: theme.palette.background.default,
     padding: theme.spacing(20, 0),
     [theme.breakpoints.down('md')]: {
       padding: theme.spacing(16, 0),

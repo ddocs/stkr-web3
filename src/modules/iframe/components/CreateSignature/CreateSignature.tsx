@@ -1,6 +1,5 @@
 import React, { useCallback } from 'react';
 import { useBecomeProviderStyles } from './CreateSignatureStyles';
-import classNames from 'classnames';
 import { Headline1 } from '../../../../UiKit/Typography';
 import { Button } from '../../../../UiKit/Button';
 import { Typography } from '@material-ui/core';
@@ -8,10 +7,7 @@ import { StkrSdk } from '../../../api';
 import { getNetworkName } from '../../../../common/utils/getNetworkName';
 import { NotificationActions } from '../../../../store/actions/NotificationActions';
 import { useDispatch } from 'react-redux';
-
-interface IFeaturesProps {
-  className?: string;
-}
+import { t } from '../../../../common/utils/intl';
 
 const parseSearchQuery = (): any => {
   const query = new URL(window.location.href);
@@ -20,7 +16,7 @@ const parseSearchQuery = (): any => {
   };
 };
 
-export const CreateSignature = ({ className }: IFeaturesProps) => {
+export const CreateSignature = () => {
   const classes = useBecomeProviderStyles({});
   const dispatch = useDispatch();
   const handleCreateSignature = useCallback(async () => {
@@ -70,7 +66,10 @@ export const CreateSignature = ({ className }: IFeaturesProps) => {
     } catch (error) {
       dispatch(
         NotificationActions.showNotification({
-          message: error.toString(),
+          message:
+            error instanceof Error
+              ? error.toString()
+              : t(`iframe.error.${error.code}`),
           severity: 'error',
         }),
       );
@@ -82,10 +81,7 @@ export const CreateSignature = ({ className }: IFeaturesProps) => {
     throw new Error('Not [ankr.com] domain not allowed');
   }
   return (
-    <section
-      className={classNames(classes.component, className)}
-      style={{ textAlign: 'center' }}
-    >
+    <section className={classes.component} style={{ textAlign: 'center' }}>
       <Headline1 className={classes.title} component="h2">
         Access Request
       </Headline1>

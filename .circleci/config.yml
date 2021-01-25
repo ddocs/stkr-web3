@@ -46,12 +46,20 @@ jobs:
     <<: *build-template
   build-prod:
     <<: *build-template
+  build-bs-1:
+    <<: *build-template
+  build-bs-2:
+    <<: *build-template
   # upload
   upload-develop:
     <<: *upload-template
   upload-goerli:
     <<: *upload-template
   upload-prod:
+    <<: *upload-template
+  upload-bs-1:
+    <<: *upload-template
+  upload-bs-2:
     <<: *upload-template
 
 workflows:
@@ -100,3 +108,29 @@ workflows:
             - stkr_build_prod
           requires:
             - build-prod
+      # bs-1
+      - approve-bs-1:
+          type: approval
+      - build-bs-1:
+          context: stkr_build_goerli
+          requires:
+            - approve-bs-1
+      - upload-bs-1:
+          context:
+            - cicd
+            - stkr_deploy_bs_1
+          requires:
+            - build-bs-1
+      # bs-2
+      - approve-bs-2:
+          type: approval
+      - build-bs-2:
+          context: stkr_build_goerli
+          requires:
+            - approve-bs-2
+      - upload-bs-2:
+          context:
+            - cicd
+            - stkr_deploy_bs_2
+          requires:
+            - build-bs-2

@@ -8,7 +8,7 @@ import { useEffect } from 'react';
  * @param options
  */
 export const useEventListener = (
-  target: EventTarget,
+  target: EventTarget | null,
   type: string,
   listener: EventListenerOrEventListenerObject,
   options: AddEventListenerOptions,

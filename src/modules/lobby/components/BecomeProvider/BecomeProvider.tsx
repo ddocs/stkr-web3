@@ -58,11 +58,7 @@ const FEATURES: Record<string, string> = {
   governance: 'become-provider.governance-text',
 };
 
-interface IFeaturesProps {
-  className?: string;
-}
-
-export const BecomeProvider = ({ className }: IFeaturesProps) => {
+export const BecomeProvider = () => {
   const classes = useBecomeProviderStyles({});
   const dispatch = useDispatch();
   const handleUnlockWallet = useCallback(() => {
@@ -70,7 +66,7 @@ export const BecomeProvider = ({ className }: IFeaturesProps) => {
   }, [dispatch]);
 
   return (
-    <section className={classNames(classes.component, className)}>
+    <section className={classes.component}>
       <Curtains classes={{ root: classes.wrapper }}>
         <Headline1 className={classes.title} component="h2">
           {tHTML('become-provider.title')}

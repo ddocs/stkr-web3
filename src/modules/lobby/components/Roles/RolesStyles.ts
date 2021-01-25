@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { fade } from '@material-ui/core';
 
 export const useRolesStyles = makeStyles(theme => ({
-  component: {
+  root: {
     padding: theme.spacing(15, 0),
     [theme.breakpoints.down('md')]: {
       padding: theme.spacing(12, 0),

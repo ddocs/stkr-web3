@@ -2,7 +2,7 @@ import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import * as assetsReference from './assets';
 import { getImages } from '../../common/utils/getImages';
-import icon from './raw_assets/check.svg';
+import icon from './assets/check.svg';
 
 const assets = getImages(assetsReference);
 

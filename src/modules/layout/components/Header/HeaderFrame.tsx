@@ -1,24 +1,27 @@
-import React, { PropsWithChildren, useCallback, useRef, useState } from 'react';
-import { useHeaderStyles } from './HeaderStyles';
 import classNames from 'classnames';
+import React, { ReactNode, useCallback, useRef, useState } from 'react';
+import { FocusOn } from 'react-focus-on';
+import { useIsLGUp } from '../../../../common/hooks/useTheme';
+import { useWindowSize } from '../../../../common/hooks/useWindowSize';
 import { Curtains } from '../../../../UiKit/Curtains';
 import { Logotype } from '../Logotype';
 import { Toggle } from '../Toggle';
-import { useIsSMDown } from '../../../../common/hooks/useTheme';
-import { FocusOn } from 'react-focus-on';
-import { useWindowSize } from '../../../../common/hooks/useWindowSize';
+import { useHeaderStyles } from './HeaderStyles';
+
+interface IHeaderFrameProps {
+  outerClassName: string | undefined;
+  innerClassName: string | undefined;
+  dropdownClassName: string | undefined;
+  children?: ReactNode;
+}
 
 export const HeaderFrame = ({
   children,
   outerClassName,
   innerClassName,
   dropdownClassName,
-}: PropsWithChildren<{
-  outerClassName: string | undefined;
-  innerClassName: string | undefined;
-  dropdownClassName: string | undefined;
-}>) => {
-  const isSMDown = useIsSMDown();
+}: IHeaderFrameProps) => {
+  const isLGUp = useIsLGUp();
 
   const modalControlRef = useRef<HTMLButtonElement>(null);
 
@@ -59,30 +62,40 @@ export const HeaderFrame = ({
       <header className={classNames(classes.component, outerClassName)}>
         <Curtains classes={{ root: innerClassName }}>
           <Logotype className={classes.logo} />
-          {isSMDown ? (
-            <Toggle onClick={handleOpen} ref={modalControlRef} opened={on} />
-          ) : (
+          {isLGUp ? (
             children
+          ) : (
+            <Toggle onClick={handleOpen} ref={modalControlRef} opened={on} />
           )}
         </Curtains>
       </header>
-      {isSMDown && (
-        <FocusOn
-          enabled={on}
-          onEscapeKey={handleClose}
-          onClickOutside={handleClose}
-          shards={[modalControlRef]}
-        >
+
+      {!isLGUp && (
+        <>
           <div
             className={classNames(
-              classes.mobile,
-              on && classes.visible,
-              dropdownClassName,
+              classes.navShadow,
+              on && classes.navShadowActive,
             )}
+          />
+
+          <FocusOn
+            enabled={on}
+            onEscapeKey={handleClose}
+            onClickOutside={handleClose}
+            shards={[modalControlRef]}
           >
-            {children}
-          </div>
-        </FocusOn>
+            <div
+              className={classNames(
+                classes.mobile,
+                on && classes.mobileVisible,
+                dropdownClassName,
+              )}
+            >
+              {children}
+            </div>
+          </FocusOn>
+        </>
       )}
     </>
   );

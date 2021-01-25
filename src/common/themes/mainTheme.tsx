@@ -10,12 +10,12 @@ export const PALETTE = {
   type: 'dark',
   primary: {
     light: '',
-    main: '#FFE819',
-    dark: '#FFE600',
-    contrastText: '#000000',
+    main: '#006DFF',
+    dark: '#006DFF',
+    contrastText: '#ffffff',
   },
   secondary: {
-    main: '#FFE819',
+    main: '#006DFF',
   },
   background: {
     paper: '#1D1D1D',
@@ -88,6 +88,9 @@ const mainTheme = createMuiTheme({
         shrink: true,
       },
       InputProps: { disableUnderline: true },
+    },
+    MuiTypography: {
+      component: 'div',
     },
     MuiUseMediaQuery: {
       noSsr: true,
@@ -229,7 +232,6 @@ const mainTheme = createMuiTheme({
       sizeSmall: {
         height: 28,
         padding: defaultTheme.spacing(1, 2),
-
         fontSize: 14,
       },
       sizeLarge: {
