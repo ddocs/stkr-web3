@@ -1,31 +1,27 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/styles';
-import { Theme } from '@material-ui/core';
-import { Providers } from '../../../../common/types';
-import { AuthorizedHeader } from './AuthorizedHeader';
-import { UnauthorizedHeader } from './UnauthorizedHeader';
 import BigNumber from 'bignumber.js';
+import React from 'react';
+import { Providers } from '../../../../common/types';
+import { HeaderComponent } from './HeaderComponent';
 
-const useStyles = makeStyles<Theme>(() => ({
-  block: {},
-}));
+const UnAuthorizedStory = () => {
+  return <HeaderComponent isAuth={false} />;
+};
 
-const HeaderStory = () => {
-  const classes = useStyles();
+export const UnAuthorized = () => <UnAuthorizedStory />;
+
+const AuthorizedStory = () => {
   return (
-    <div className={classes.block}>
-      <UnauthorizedHeader />
-      <AuthorizedHeader
-        walletAddress="0x603366e08380EceB2E334621A27eeD36F34A9D50"
-        walletType={Providers.metamask}
-        ethereumBalance={new BigNumber(23.4536334)}
-        ankrBalance={new BigNumber(10500.45)}
-      />
-    </div>
+    <HeaderComponent
+      isAuth
+      walletAddress="0x603366e08380EceB2E334621A27eeD36F34A9D50"
+      walletType={Providers.metamask}
+      ethereumBalance={new BigNumber(23.4536334)}
+      ankrBalance={new BigNumber(10500.45)}
+    />
   );
 };
 
-export const HeaderExample = () => <HeaderStory />;
+export const Authorized = () => <AuthorizedStory />;
 
 export default {
   title: 'modules/Layout/components/Header',

@@ -1,6 +1,6 @@
-import { Action } from 'redux-actions';
 import { WithStyles } from '@material-ui/core';
 import { ClassNameMap } from '@material-ui/styles/withStyles';
+import { Action } from 'redux-actions';
 
 export interface IEmailPayload {
   email: string;
@@ -31,4 +31,7 @@ export type WithUseStyles<
   USE_STYLES extends (props?: any) => ClassNameMap<string>
 > = WithStyles<{ [key in keyof ReturnType<USE_STYLES>]?: any }>;
 
-export type Locale = 'en-US' | 'zh-CN';
+export enum Locale {
+  en = 'en-US',
+  zh = 'zh-CN',
+}

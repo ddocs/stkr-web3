@@ -1,27 +1,24 @@
-import React, { useCallback, useRef, useState } from 'react';
 import classNames from 'classnames';
-import { useWalletStyles } from './WalletStyles';
-import { Address } from '../Address';
+import React, { ReactNode, useCallback, useRef, useState } from 'react';
 import { FocusOn } from 'react-focus-on';
 import { Providers } from '../../../../common/types';
-import { Dropdown } from '../Dropdown';
-import BigNumber from 'bignumber.js';
-import { DEFAULT_FIXED } from '../../../../common/const';
+import { Address } from '../Address';
+import { useWalletStyles } from './WalletStyles';
 
 interface IWalletProps {
   className?: string;
-  ethereumBalance?: BigNumber;
-  ankrBalance?: BigNumber;
   address: string | undefined;
   provider: Providers | undefined;
+  balance: ReactNode;
+  children: ReactNode;
 }
 
 export const Wallet = ({
   className,
-  ethereumBalance,
-  ankrBalance,
   address,
   provider,
+  children,
+  balance,
 }: IWalletProps) => {
   const classes = useWalletStyles();
 
@@ -44,16 +41,8 @@ export const Wallet = ({
   return (
     <div className={classNames(classes.component, className)}>
       <button className={classes.toggle} onClick={handleOpen} ref={controlRef}>
-        <span className={classes.ethereum}>
-          {ethereumBalance
-            ? ethereumBalance.decimalPlaces(DEFAULT_FIXED).toFormat()
-            : 0}
-        </span>
-        <span className={classes.ankr}>
-          {ankrBalance
-            ? ankrBalance.decimalPlaces(DEFAULT_FIXED).toFormat()
-            : 0}
-        </span>
+        {balance}
+
         {address && provider && (
           <Address
             className={classes.address}
@@ -62,23 +51,24 @@ export const Wallet = ({
           />
         )}
       </button>
-      <div className={classes.wrapper}>
-        <FocusOn
-          enabled={isOpen}
-          onEscapeKey={handleClose}
-          onClickOutside={handleClose}
-          focusLock={true}
-          scrollLock={false}
-          shards={[controlRef]}
+
+      <FocusOn
+        enabled={isOpen}
+        onEscapeKey={handleClose}
+        onClickOutside={handleClose}
+        focusLock={true}
+        scrollLock={false}
+        shards={[controlRef]}
+      >
+        <div
+          className={classNames(
+            classes.dropdown,
+            isOpen && classes.dropdownActive,
+          )}
         >
-          <Dropdown
-            className={classes.dropdown}
-            visible={isOpen}
-            address={address}
-            provider={provider}
-          />
-        </FocusOn>
-      </div>
+          {children}
+        </div>
+      </FocusOn>
     </div>
   );
 };

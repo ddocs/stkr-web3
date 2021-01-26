@@ -5,7 +5,9 @@ import {
   DOCS_LINK,
   GOVERNANCE_PROJECT_LIST_PATH,
   LITEPAPER_LINK,
+  PROVIDER_PATH,
   SOCIAL_LINK,
+  STAKER_DASHBOARD_PATH,
 } from '../../../../common/const';
 import { useIsMDDown } from '../../../../common/hooks/useTheme';
 import { t } from '../../../../common/utils/intl';
@@ -42,8 +44,8 @@ const getIconByKey = (key: string) => {
 };
 
 export const Links = ({ className, isAuth }: ILinksProps) => {
+  const isMDDown = useIsMDDown();
   const classes = useLinksStyles();
-
   const [open, setOpen] = useState(false);
 
   const handleMobileOpen = useCallback(() => {
@@ -53,8 +55,6 @@ export const Links = ({ className, isAuth }: ILinksProps) => {
       setOpen(true);
     }
   }, [open]);
-
-  const isMDDown = useIsMDDown();
 
   const LINKS: Record<string, string | Record<string, string>> = useMemo(
     () => ({
@@ -67,8 +67,10 @@ export const Links = ({ className, isAuth }: ILinksProps) => {
       },
       docs: DOCS_LINK,
       governance: isAuth ? GOVERNANCE_PROJECT_LIST_PATH : '',
+      staker: isAuth && isMDDown ? STAKER_DASHBOARD_PATH : '',
+      provider: isAuth && isMDDown ? PROVIDER_PATH : '',
     }),
-    [isAuth],
+    [isAuth, isMDDown],
   );
 
   return (

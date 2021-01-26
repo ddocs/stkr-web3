@@ -1,56 +1,33 @@
-import React, { ChangeEvent, useCallback, useMemo, useRef } from 'react';
-import { Locale } from '../../../../common/types';
-import TextField from '@material-ui/core/TextField';
-import { useLocaleMemo } from '../../../../common/hooks/useLocaleMemo';
-import { t } from '../../../../common/utils/intl';
-import MenuItem from '@material-ui/core/MenuItem';
-import { uid } from 'react-uid';
-import { useDispatch } from 'react-redux';
-import { UserActions } from '../../../../store/actions/UserActions';
-import { useLocale } from '../../../../common/utils/useLocale';
 import { SelectProps } from '@material-ui/core';
+import MenuItem from '@material-ui/core/MenuItem';
+import TextField from '@material-ui/core/TextField';
+import React, { ChangeEvent, useCallback, useMemo, useRef } from 'react';
+import { uid } from 'react-uid';
+import { useLocaleOptions } from '../../../../common/hooks/useLocaleOptions';
+import { Locale } from '../../../../common/types';
 import { useLocaleSwitcher } from './LocaleSwitcherStyles';
 
-export interface ILanguageSwitcherProps {
-  value: Locale;
-  onChange: (language: Locale) => void;
-}
-
-export const LanguageSwitcherComponent = ({
-  value,
-  onChange,
-}: ILanguageSwitcherProps) => {
+export const LocaleSwitcher = () => {
   const classes = useLocaleSwitcher();
+  const { localeOptions, initialLocale, setLocale } = useLocaleOptions();
+  const ref = useRef<HTMLDivElement | null>(null);
 
-  const localeOptions = useLocaleMemo(() => {
-    return [
-      {
-        value: 'en-US',
-        label: t('language.en-US'),
-      },
-      {
-        value: 'zh-CN',
-        label: t('language.zh-CN'),
-      },
-    ];
-  }, []);
-
-  const handleChange = useCallback(
+  const onChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
-      onChange(event.target.value as Locale);
+      setLocale(event.target.value as Locale);
     },
-    [onChange],
+    [setLocale],
   );
 
-  const items = useMemo(() => {
-    return localeOptions.map(option => (
-      <MenuItem key={uid(option)} value={option.value}>
-        {option.label}
-      </MenuItem>
-    ));
-  }, [localeOptions]);
-
-  const ref = useRef<HTMLDivElement | null>(null);
+  const items = useMemo(
+    () =>
+      localeOptions.map(option => (
+        <MenuItem key={uid(option)} value={option.value}>
+          {option.label}
+        </MenuItem>
+      )),
+    [localeOptions],
+  );
 
   const selectProps = useMemo(
     () =>
@@ -73,9 +50,9 @@ export const LanguageSwitcherComponent = ({
 
   return (
     <TextField
-      value={value}
+      value={initialLocale}
       select={true}
-      onChange={handleChange}
+      onChange={onChange}
       ref={ref}
       SelectProps={selectProps}
       className={classes.root}
@@ -83,18 +60,4 @@ export const LanguageSwitcherComponent = ({
       {items}
     </TextField>
   );
-};
-
-export const LocaleSwitcher = () => {
-  const dispatch = useDispatch();
-  const { locale } = useLocale();
-
-  const handleChange = useCallback(
-    (value: Locale) => {
-      dispatch(UserActions.setLocale({ locale: value }));
-    },
-    [dispatch],
-  );
-
-  return <LanguageSwitcherComponent onChange={handleChange} value={locale} />;
 };

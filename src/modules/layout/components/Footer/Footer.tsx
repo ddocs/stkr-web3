@@ -1,15 +1,15 @@
-import React from 'react';
 import classNames from 'classnames';
-import { useHeaderStyles } from './FooterStyles';
-import { NavLink } from '../../../../UiKit/NavLink';
-import { t, tHTML } from '../../../../common/utils/intl';
-import { Curtains } from '../../../../UiKit/Curtains';
+import React from 'react';
 import { connect } from 'react-redux';
+import { uid } from 'react-uid';
+import { SOCIAL_LINK } from '../../../../common/const';
+import { t, tHTML } from '../../../../common/utils/intl';
 import { IStoreState } from '../../../../store/reducers';
 import { isConnected } from '../../../../store/reducers/userReducer';
-import { uid } from 'react-uid';
+import { Curtains } from '../../../../UiKit/Curtains';
+import { NavLink } from '../../../../UiKit/NavLink';
 import { Social } from '../Social';
-import { SOCIAL_LINK } from '../../../../common/const';
+import { useHeaderStyles } from './FooterStyles';
 
 interface IFooterStoreProps {
   isAuth: boolean;
@@ -47,6 +47,7 @@ export const FooterComponent = ({ className, isAuth }: IFooterProps) => {
         <p className={classes.copyright}>
           {tHTML('navigation.copyright', { year: year })}
         </p>
+
         <ul className={classes.list}>
           {LINKS.map(link => (
             <li className={classes.item} key={uid(link)}>
@@ -62,6 +63,7 @@ export const FooterComponent = ({ className, isAuth }: IFooterProps) => {
             </li>
           ))}
         </ul>
+
         <Social className={classes.social} />
       </Curtains>
     </footer>

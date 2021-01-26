@@ -1,21 +1,21 @@
-import React, { useCallback, useEffect, useState } from 'react';
 import classNames from 'classnames';
-import { useDropdownStyles } from './DropdownStyles';
-import { Providers } from '../../../../common/types';
-import { BackgroundColorProvider } from '../../../../UiKit/BackgroundColorProvider';
-import { t } from '../../../../common/utils/intl';
-import { Button } from '../../../../UiKit/Button';
-import { SubTitle } from '../../../../UiKit/Typography/Typography';
-import { walletConversion } from '../../../../common/utils/convertWallet';
-import { NavLink } from '../../../../UiKit/NavLink';
-import { CopyIcon } from '../../../../UiKit/Icons/CopyIcon';
-import { CopiedIcon } from '../../../../UiKit/Icons/CopiedIcon';
-import { ViewIcon } from '../../../../UiKit/Icons/ViewIcon';
-import { PROVIDERS } from '../const';
-import { useAction } from '../../../../store/redux';
-import { UserActions } from '../../../../store/actions/UserActions';
+import React, { ReactNode, useCallback, useEffect, useState } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
+import { Providers } from '../../../../common/types';
+import { walletConversion } from '../../../../common/utils/convertWallet';
 import { getWalletLink } from '../../../../common/utils/getWalletLink';
+import { t } from '../../../../common/utils/intl';
+import { UserActions } from '../../../../store/actions/UserActions';
+import { useAction } from '../../../../store/redux';
+import { BackgroundColorProvider } from '../../../../UiKit/BackgroundColorProvider';
+import { Button } from '../../../../UiKit/Button';
+import { CopiedIcon } from '../../../../UiKit/Icons/CopiedIcon';
+import { CopyIcon } from '../../../../UiKit/Icons/CopyIcon';
+import { ViewIcon } from '../../../../UiKit/Icons/ViewIcon';
+import { NavLink } from '../../../../UiKit/NavLink';
+import { SubTitle } from '../../../../UiKit/Typography/Typography';
+import { PROVIDERS } from '../const';
+import { useWalletCardStyles } from './WalletCardStyles';
 
 interface IItemProps {
   caption: string;
@@ -26,7 +26,7 @@ interface IItemProps {
 }
 
 const Item = ({ caption, reference, icon, onSelect }: IItemProps) => {
-  const classes = useDropdownStyles({ provider: icon });
+  const classes = useWalletCardStyles({ provider: icon });
 
   const handleSelect = useCallback(() => onSelect(reference), [
     onSelect,
@@ -53,19 +53,22 @@ const Item = ({ caption, reference, icon, onSelect }: IItemProps) => {
 
 interface IWalletProps {
   className?: string;
-  visible: boolean;
+  visible?: boolean;
   address: string | undefined;
   provider: Providers | undefined;
+  providers?: Record<string, any>;
+  balance?: ReactNode;
 }
 
-export const DropdownComponent = ({
+export const WalletCard = ({
   className,
   address,
   provider,
-  visible,
-  providers,
-}: IWalletProps & { providers: Record<string, any> }) => {
-  const classes = useDropdownStyles({ currentProvider: provider });
+  visible = true,
+  providers = PROVIDERS,
+  balance,
+}: IWalletProps) => {
+  const classes = useWalletCardStyles({ currentProvider: provider });
   const dispatchDisconnect = useAction(UserActions.disconnect);
 
   const providersKeys = Object.keys(providers);
@@ -89,7 +92,7 @@ export const DropdownComponent = ({
   return (
     <BackgroundColorProvider
       className={classNames(
-        classes.component,
+        classes.root,
         visible && classes.visible,
         className,
       )}
@@ -101,7 +104,9 @@ export const DropdownComponent = ({
             <SubTitle className={classes.title}>
               {t(providers[provider].caption)}
             </SubTitle>
+
             <span className={classes.address}>{walletConversion(address)}</span>
+
             <Button
               className={classes.disconnect}
               onClick={dispatchDisconnect}
@@ -110,7 +115,10 @@ export const DropdownComponent = ({
             >
               {t('navigation.disconnect')}
             </Button>
+
+            {balance && <div className={classes.balance}>{balance}</div>}
           </div>
+
           <div className={classes.navigation}>
             <div className={classes.copy}>
               <CopyToClipboard text={address} onCopy={() => setCopy(true)}>
@@ -136,6 +144,7 @@ export const DropdownComponent = ({
                 </Button>
               </CopyToClipboard>
             </div>
+
             <NavLink
               className={classes.view}
               color="secondary"
@@ -148,6 +157,7 @@ export const DropdownComponent = ({
           </div>
         </>
       )}
+
       {providersList.length !== 0 && (
         <ul className={classes.list}>
           {providersList.map(key => {
@@ -167,7 +177,3 @@ export const DropdownComponent = ({
     </BackgroundColorProvider>
   );
 };
-
-export const Dropdown = (props: IWalletProps) => (
-  <DropdownComponent providers={PROVIDERS} {...props} />
-);

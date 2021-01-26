@@ -1,9 +1,11 @@
-import React from 'react';
 import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import { Wallet } from './Wallet';
-import { Providers } from '../../../../common/types';
 import BigNumber from 'bignumber.js';
+import React from 'react';
+import { Providers } from '../../../../common/types';
+import { WalletBalance } from '../WalletBalance';
+import { WalletCard } from '../WalletCard';
+import { Wallet } from './Wallet';
 
 const useStyles = makeStyles<Theme>(() => ({
   block: {
@@ -14,15 +16,23 @@ const useStyles = makeStyles<Theme>(() => ({
 
 const WalletStory = () => {
   const classes = useStyles();
+  const address = '0x603366e08380EceB2E334621A27eeD36F34A9D50';
+  const provider = Providers.metamask;
 
   return (
     <div className={classes.block}>
       <Wallet
-        address="0x603366e08380EceB2E334621A27eeD36F34A9D50"
-        provider={Providers.metamask}
-        ethereumBalance={new BigNumber(23)}
-        ankrBalance={new BigNumber(10500)}
-      />
+        address={address}
+        provider={provider}
+        balance={
+          <WalletBalance
+            ethereum={new BigNumber(23)}
+            ankr={new BigNumber(10500)}
+          />
+        }
+      >
+        <WalletCard address={address} provider={provider} />
+      </Wallet>
     </div>
   );
 };

@@ -1,41 +1,34 @@
 import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import * as assetsReference from '../assets/assets';
 import { getImages } from '../../../../common/utils/getImages';
+import * as assetsReference from '../assets/assets';
 
 const assets = getImages(assetsReference);
 
-export const useDropdownStyles = makeStyles<
+export const useWalletCardStyles = makeStyles<
   Theme,
   { currentProvider?: string; provider?: string }
 >(theme => ({
-  component: {
+  root: {
     minWidth: 327,
     borderRadius: 12,
-    opacity: 0,
-    transitionTimingFunction: 'linear',
-    transitionDuration: '300ms',
-    transitionProperty: 'opacity',
-    pointerEvents: 'none',
     backgroundColor: '#0F0F0F',
     border: `1px solid ${theme.palette.grey[500]}`,
   },
-  visible: {
-    opacity: 1,
-    pointerEvents: 'initial',
-  },
+
   info: {
     display: 'grid',
-    gridTemplateRows: 'auto auto auto',
     gridTemplateColumns: '44px 1fr auto',
-    gridTemplateAreas:
-      '"icon title disconnect" "icon address address" "navigation navigation navigation"',
+    gridTemplateAreas: `
+      "icon title disconnect"
+      "icon address address"
+      "balance balance balance"
+    `,
     gridColumnGap: theme.spacing(1.5),
     width: '100%',
     boxSizing: 'border-box',
-    padding: `${theme.spacing(3)}px ${theme.spacing(3)}px ${theme.spacing(
-      2,
-    )}px`,
+    padding: theme.spacing(3, 3, 2),
+
     '&::before': {
       position: 'relative',
       content: '""',
@@ -51,36 +44,45 @@ export const useDropdownStyles = makeStyles<
       backgroundPosition: 'center',
       backgroundRepeat: 'no-repeat',
       backgroundSize: 'contain',
-      backgroundColor: '#0F0F0F',
     },
   },
+
   title: {
     gridArea: 'title',
     margin: 0,
     marginBottom: theme.spacing(0.5),
   },
+
   address: {
     gridArea: 'address',
     fontSize: 14,
     lineHeight: 1.2,
     color: theme.palette.text.secondary,
   },
+
   disconnect: {
     gridArea: 'disconnect',
     border: `1px solid ${theme.palette.grey[500]}`,
     borderRadius: 65,
     padding: '7px 14px',
   },
+
+  balance: {
+    gridArea: 'balance',
+    marginTop: theme.spacing(3),
+  },
+
   navigation: {
-    gridArea: 'navigation',
-    padding: `${theme.spacing(2)}px ${theme.spacing(3)}px`,
+    padding: theme.spacing(2, 3),
     borderTop: `1px solid ${theme.palette.grey[500]}`,
   },
+
   copy: {
     position: 'relative',
     display: 'inline-block',
     marginRight: theme.spacing(3),
   },
+
   copyAction: {
     minWidth: 105,
     justifyContent: 'left',
@@ -88,24 +90,29 @@ export const useDropdownStyles = makeStyles<
       color: 'inherit',
     },
   },
+
   view: {
     '& svg': {
       color: 'inherit',
     },
   },
+
   icon: {
     marginRight: theme.spacing(0.5),
   },
+
   copied: {
     marginBottom: -5,
     marginLeft: 2,
   },
+
   list: {
     margin: 0,
     padding: 0,
     listStyle: 'none',
     borderTop: `1px solid ${theme.palette.grey[500]}`,
   },
+
   item: {
     display: 'grid',
     gridTemplateColumns: '44px 1fr auto',
@@ -114,6 +121,7 @@ export const useDropdownStyles = makeStyles<
     alignItems: 'center',
     width: '100%',
     padding: theme.spacing(2.5, 3),
+
     '&::before': {
       position: 'relative',
       content: '""',
@@ -132,9 +140,11 @@ export const useDropdownStyles = makeStyles<
       backgroundColor: '#0F0F0F',
     },
   },
+
   caption: {
     gridArea: 'caption',
   },
+
   select: {
     gridArea: 'select',
   },

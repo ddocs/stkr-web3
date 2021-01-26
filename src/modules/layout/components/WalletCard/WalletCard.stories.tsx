@@ -1,9 +1,10 @@
-import React from 'react';
-
 import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import { DropdownComponent } from './Dropdown';
+import BigNumber from 'bignumber.js';
+import React from 'react';
 import { Providers } from '../../../../common/types';
+import { WalletBalance } from '../WalletBalance';
+import { WalletCard } from './WalletCard';
 
 const useStyles = makeStyles<Theme>(theme => ({
   block: {
@@ -62,33 +63,39 @@ const PROVIDERS_2: Record<string, any> = {
   },
 };
 
-const DropdownStory = () => {
+const DefaultStory = () => {
   const classes = useStyles();
 
   return (
     <div className={classes.block}>
-      <DropdownComponent
+      <WalletCard
         className={classes.content}
         visible={true}
         address="0x603366e08380EceB2E334621A27eeD36F34A9D50"
         provider={Providers.metamask}
         providers={PROVIDERS_1}
+        balance={
+          <WalletBalance
+            ethereum={new BigNumber(23)}
+            ankr={new BigNumber(10500)}
+          />
+        }
       />
-      <DropdownComponent
+      <WalletCard
         className={classes.content}
         visible={true}
         address="0x603366e08380EceB2E334621A27eeD36F34A9D50"
         provider={Providers.wallet}
         providers={PROVIDERS_3}
       />
-      <DropdownComponent
+      <WalletCard
         className={classes.content}
         visible={true}
         address="0x603366e08380EceB2E334621A27eeD36F34A9D50"
         provider={Providers.metamask}
         providers={PROVIDERS_2}
       />
-      <DropdownComponent
+      <WalletCard
         className={classes.content}
         visible={true}
         address="0x603366e08380EceB2E334621A27eeD36F34A9D50"
@@ -99,8 +106,8 @@ const DropdownStory = () => {
   );
 };
 
-export const DropdownExample = () => <DropdownStory />;
+export const Default = () => <DefaultStory />;
 
 export default {
-  title: 'modules/Layout/components/Dropdown',
+  title: 'modules/Layout/components/WalletCard',
 };

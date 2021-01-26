@@ -1,10 +1,11 @@
 import { fade, Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import ankr from './assets/ankr.svg';
-import ethereum from './assets/ethereum.svg';
 
 export const useWalletStyles = makeStyles<Theme>(theme => ({
-  component: {},
+  component: {
+    position: 'relative',
+  },
+
   toggle: {
     display: 'flex',
     flexDirection: 'row',
@@ -20,45 +21,11 @@ export const useWalletStyles = makeStyles<Theme>(theme => ({
     backgroundColor: 'transparent',
     cursor: 'pointer',
 
-    [theme.breakpoints.up('lg')]: {
-      padding: theme.spacing(0.5, 2),
+    '&:focus': {
+      outline: 'none',
     },
   },
-  ethereum: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginRight: theme.spacing(2),
-    '&::before': {
-      position: 'relative',
-      content: '""',
-      display: 'block',
-      width: 16,
-      height: 16,
-      marginRight: theme.spacing(0.5),
-      backgroundImage: `url(${ethereum})`,
-      backgroundPosition: 'center',
-      backgroundRepeat: 'no-repeat',
-      backgroundSize: 'contain',
-    },
-  },
-  ankr: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    '&::before': {
-      position: 'relative',
-      content: '""',
-      display: 'block',
-      width: 16,
-      height: 16,
-      marginRight: theme.spacing(0.5),
-      backgroundImage: `url(${ankr})`,
-      backgroundPosition: 'center',
-      backgroundRepeat: 'no-repeat',
-      backgroundSize: 'contain',
-    },
-  },
+
   address: {
     '&::after': {
       position: 'relative',
@@ -71,18 +38,28 @@ export const useWalletStyles = makeStyles<Theme>(theme => ({
       backgroundColor: fade(theme.palette.text.primary, 0.2),
     },
   },
-  wrapper: {
-    position: 'relative',
-    width: '100%',
-  },
+
   dropdown: {
     position: 'absolute',
     zIndex: theme.zIndex.tooltip,
-    top: theme.spacing(1),
+    top: '100%',
     right: 0,
-    [theme.breakpoints.down('sm')]: {
-      right: 0,
-      left: 0,
+    left: 0,
+    marginTop: theme.spacing(1),
+
+    pointerEvents: 'none',
+    opacity: 0,
+    transform: `translateY(-${theme.spacing(1)}px)`,
+    transition: 'opacity 0.2s, transform 0.2s',
+
+    [theme.breakpoints.up('md')]: {
+      left: 'auto',
     },
+  },
+
+  dropdownActive: {
+    opacity: 1,
+    transform: 'translateY(0)',
+    pointerEvents: 'initial',
   },
 }));
