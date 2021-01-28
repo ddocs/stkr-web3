@@ -3,10 +3,10 @@ import { makeStyles } from '@material-ui/core/styles';
 
 export const useRewardsStyles = makeStyles<Theme>(theme => ({
   root: {
-    padding: theme.spacing(12.5, 0, 6),
+    padding: theme.spacing(6, 0),
 
     [theme.breakpoints.up('md')]: {
-      padding: theme.spacing(25, 0, 3),
+      padding: theme.spacing(12, 0, 3),
     },
   },
 
