@@ -72,7 +72,6 @@ export const useItWorksStyles = makeStyles<Theme>(theme => ({
     left: 0,
     right: 0,
     height: '100%',
-    width: '100%',
     margin: 'auto',
     objectFit: 'contain',
 

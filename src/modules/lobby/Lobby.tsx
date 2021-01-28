@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js';
 import * as React from 'react';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { ETHEREUM_PRICE } from '../../common/const';
+import { ETHEREUM_PRICE, isMainnet } from '../../common/const';
 import { invertTheme } from '../../common/themes/invertTheme';
 import { useAuthentication } from '../../common/utils/useAuthentications';
 import { UserActions } from '../../store/actions/UserActions';
@@ -32,7 +32,7 @@ export const Lobby = () => {
       </MuiThemeProvider>
       <VideoTutorial />
       <Features />
-      <AethBanner />
+      {!isMainnet && <AethBanner />}
       <MuiThemeProvider theme={invertTheme}>
         <Calculate
           ethPrice={new BigNumber(ETHEREUM_PRICE)}
