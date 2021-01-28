@@ -52,6 +52,7 @@ const env = process.env.REACT_APP_STKR_ENV
   : 'develop';
 
 export const isMainnet = env === 'mainnet';
+export const DEV_ONLY = !isMainnet;
 export const ENABLE_PROVIDER = true;
 
 export const ETH_SCALE_FACTOR = 10 ** 18;

@@ -4,8 +4,10 @@ import { t } from '../../../../common/utils/intl';
 import { Button } from '../../../../UiKit/Button';
 import { Curtains } from '../../../../UiKit/Curtains';
 import { useStartStyles } from './StartStyles';
+import { useStart } from './useStart';
 
 export const Start = () => {
+  const { onClick } = useStart();
   const classes = useStartStyles();
 
   return (
@@ -21,7 +23,12 @@ export const Start = () => {
           </Typography>
 
           <div className={classes.btnWrap}>
-            <Button className={classes.btn} color="primary" size="large">
+            <Button
+              className={classes.btn}
+              color="primary"
+              size="large"
+              onClick={onClick}
+            >
               {t('aeth-start.start-staking')}
             </Button>
           </div>
