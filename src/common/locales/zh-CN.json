@@ -367,7 +367,7 @@
         "items": {
             "deposit": {
                 "title": "Deposit",
-                "text": "Deposit ETH on eth2.ankr.com/stakingmanager (you can deposit any amount starting from 0.5 ETH) by connecting your wallet to the Ankr Staking platform."
+                "text": "Deposit ETH on Staking Manager (you can deposit any amount starting from 0.5 ETH) by connecting your wallet to the Ankr Staking platform."
             },
             "get-aeth": {
                 "title": "Get aETH",

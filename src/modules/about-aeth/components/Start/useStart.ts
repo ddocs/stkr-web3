@@ -15,7 +15,7 @@ export const useStart = () => {
     if (isAuth) {
       history.push(STAKER_STAKE_PATH);
     } else {
-      dispatch(UserActions.connect());
+      dispatch(UserActions.connect(STAKER_STAKE_PATH));
     }
   }, [dispatch, history, isAuth]);
 

@@ -138,11 +138,11 @@ export const ItWorks = () => {
               variant="h4"
               component="div"
             >
-              {t(title)}
+              {title}
             </Typography>
 
             <Typography className={classes.itemText} component="p">
-              {t(text)}
+              {text}
             </Typography>
           </div>
         );
