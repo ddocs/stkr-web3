@@ -39,7 +39,19 @@ export const useProviderDashboardStyles = makeStyles<Theme>(theme => ({
     gridArea: 'link',
 
     [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing(3),
+      marginLeft: theme.spacing(2),
+    },
+  },
+  linkTextShort: {
+    [theme.breakpoints.up('sm')]: {
+      display: 'none',
+    },
+  },
+  linkTextFull: {
+    display: 'none',
+
+    [theme.breakpoints.up('sm')]: {
+      display: 'inline',
     },
   },
   create: {
@@ -52,15 +64,14 @@ export const useProviderDashboardStyles = makeStyles<Theme>(theme => ({
     gridArea: 'balance',
     padding: theme.spacing(0.6, 1),
     border: `1px solid ${fade(theme.palette.common.white, 0.2)}`,
-    borderRadius: 20,
+    borderRadius: 8,
     textAlign: 'center',
     fontSize: 14,
     fontWeight: 500,
     color: fade(theme.palette.common.white, 0.5),
 
     [theme.breakpoints.up('sm')]: {
-      padding: 0,
-      border: 'none',
+      padding: theme.spacing(1, 2),
     },
   },
 }));

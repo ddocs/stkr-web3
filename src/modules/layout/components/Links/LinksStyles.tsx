@@ -12,9 +12,10 @@ export const useLinksStyles = makeStyles<Theme>(theme => ({
     listStyle: 'none',
 
     [theme.breakpoints.up('lg')]: {
-      display: 'inline-grid',
+      display: 'grid',
       gridAutoFlow: 'column',
-      gap: theme.spacing(0, 4),
+      justifyContent: 'center',
+      gap: theme.spacing(0, 3),
     },
 
     [theme.breakpoints.up('xl')]: {
@@ -25,7 +26,7 @@ export const useLinksStyles = makeStyles<Theme>(theme => ({
     position: 'relative',
     width: '100%',
     padding: theme.spacing(2, 0),
-    borderTop: `1px solid ${theme.palette.text.secondary}`,
+    borderBottom: `1px solid ${fade(theme.palette.common.white, 0.2)}`,
     cursor: 'pointer',
 
     [theme.breakpoints.up('lg')]: {
@@ -50,8 +51,14 @@ export const useLinksStyles = makeStyles<Theme>(theme => ({
         },
       },
     },
+
+    '&:last-child': {
+      border: 'none',
+    },
   },
   link: {
+    display: 'block',
+
     '&&': {
       fontWeight: 500,
 

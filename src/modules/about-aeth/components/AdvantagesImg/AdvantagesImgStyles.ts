@@ -40,7 +40,7 @@ export const useAdvantagesImgStyles = makeStyles<Theme>(theme => ({
     position: 'absolute',
     left: getEm(10, rootSize),
     top: getEm(120, rootSize),
-    width: getEm(202, rootSize),
+    width: getEm(185, rootSize),
   },
 
   logo: {

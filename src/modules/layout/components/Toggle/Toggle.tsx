@@ -1,8 +1,8 @@
-import React, { SVGAttributes } from 'react';
-import classNames from 'classnames';
-import { useToggleStyles } from './ToggleStyles';
-import { Button } from '../../../../UiKit/Button';
 import { ButtonProps } from '@material-ui/core';
+import classNames from 'classnames';
+import React, { SVGAttributes } from 'react';
+import { Button } from '../../../../UiKit/Button';
+import { useToggleStyles } from './ToggleStyles';
 
 const Line = (props: SVGAttributes<SVGElement>) => {
   return (
@@ -12,25 +12,29 @@ const Line = (props: SVGAttributes<SVGElement>) => {
   );
 };
 
-export const Toggle = React.forwardRef<
-  HTMLButtonElement,
-  ButtonProps & { opened?: boolean; className?: string }
->(({ className, opened, ...props }, ref) => {
-  const classes = useToggleStyles();
-  return (
-    <Button
-      className={classNames(
-        classes.component,
-        opened && classes.componentOpened,
-        className,
-      )}
-      ref={ref}
-      variant="text"
-      aria-label="open/close"
-      {...props}
-    >
-      <Line className={classNames(classes.line, classes.top)} />
-      <Line className={classNames(classes.line, classes.bottom)} />
-    </Button>
-  );
-});
+interface IToggleProps extends ButtonProps {
+  opened?: boolean;
+  className?: string;
+}
+
+export const Toggle = React.forwardRef<HTMLButtonElement, IToggleProps>(
+  ({ className, opened, ...props }, ref) => {
+    const classes = useToggleStyles();
+    return (
+      <Button
+        className={classNames(
+          classes.component,
+          opened && classes.componentOpened,
+          className,
+        )}
+        ref={ref}
+        variant="text"
+        aria-label="open/close"
+        {...props}
+      >
+        <Line className={classNames(classes.line, classes.top)} />
+        <Line className={classNames(classes.line, classes.bottom)} />
+      </Button>
+    );
+  },
+);

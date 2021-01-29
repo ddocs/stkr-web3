@@ -1,17 +1,18 @@
 import React from 'react';
-import { VideoTutorial } from './components/VideoTutorial';
+import { DISABLE_VIDEO } from '../../common/const';
+import { Advantages } from './components/Advantages';
+import { ItWorks } from './components/ItWorks';
 import { Promo } from './components/Promo';
 import { Rewards } from './components/Rewards';
-import { Advantages } from './components/Advantages';
 import { Services } from './components/Services';
-import { ItWorks } from './components/ItWorks';
 import { Start } from './components/Start';
+import { VideoTutorial } from './components/VideoTutorial';
 
 export const AboutAeth = () => {
   return (
     <>
       <Promo />
-      <VideoTutorial />
+      {!DISABLE_VIDEO && <VideoTutorial />}
       <Rewards />
       <Advantages />
       <Services />

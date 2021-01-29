@@ -1,15 +1,15 @@
-import { ISetLanguagePayload, UserActionTypes } from '../actions/UserActions';
+import { success } from '@redux-requests/core';
+import { Action } from 'redux-actions';
+import { Locale } from '../../common/types';
+import { createAPIReducer } from '../../common/utils/createAPIReducer';
+import { createReducer } from '../../common/utils/createReducer';
 import {
   requestInactive,
   RequestStatus,
 } from '../../common/utils/requestStatus';
-import { createReducer } from '../../common/utils/createReducer';
-import { createAPIReducer } from '../../common/utils/createAPIReducer';
-import { success } from '@redux-requests/core';
-import { SuccessResponseAction } from '../apiMappers/successResponseAction';
+import { ISetLanguagePayload, UserActionTypes } from '../actions/UserActions';
 import { IAuthorizeProviderResponse } from '../apiMappers/authorizeProvider';
-import { Locale } from '../../common/types';
-import { Action } from 'redux-actions';
+import { SuccessResponseAction } from '../apiMappers/successResponseAction';
 
 export function isConnected(state: IUserState) {
   return state.isConnected;
@@ -31,7 +31,7 @@ const initialState: IUserState = {
   disconnectStatus: requestInactive(),
   isConnected: false,
   isConnectionAvailable: false,
-  locale: 'en-US',
+  locale: Locale.en,
 };
 
 export const userReducer = createReducer(initialState, {

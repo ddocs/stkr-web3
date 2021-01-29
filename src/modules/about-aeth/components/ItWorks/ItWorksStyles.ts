@@ -70,15 +70,30 @@ export const useItWorksStyles = makeStyles<Theme>(theme => ({
     position: 'absolute',
     top: 0,
     left: 0,
-    width: '100%',
+    right: 0,
     height: '100%',
-    objectFit: 'scale-down',
+    width: '100%',
+    margin: 'auto',
+    objectFit: 'contain',
 
     [theme.breakpoints.up('lg')]: {
       opacity: 0,
       visibility: 'hidden',
       transition: 'all 0.3s ease',
     },
+  },
+
+  deposit: {
+    maxWidth: 713,
+  },
+  getAeth: {
+    maxWidth: 584,
+  },
+  useAeth: {
+    maxWidth: 374,
+  },
+  redeem: {
+    maxWidth: 489,
   },
 
   imgActive: {

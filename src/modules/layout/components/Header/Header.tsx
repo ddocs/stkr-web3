@@ -1,23 +1,19 @@
-import * as React from 'react';
-import { connect } from 'react-redux';
-import { IStoreState } from '../../../../store/reducers';
-import { isConnected } from '../../../../store/reducers/userReducer';
 import { Query } from '@redux-requests/react';
-import { UserActionTypes } from '../../../../store/actions/UserActions';
-import { IUserInfo } from '../../../../store/apiMappers/userApi';
-import { AuthorizedHeader } from './AuthorizedHeader';
-import { UnauthorizedHeader } from './UnauthorizedHeader';
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { QueryEmpty } from '../../../../components/QueryEmpty/QueryEmpty';
 import { QueryError } from '../../../../components/QueryError/QueryError';
 import { QueryLoading } from '../../../../components/QueryLoading/QueryLoading';
-import { QueryEmpty } from '../../../../components/QueryEmpty/QueryEmpty';
+import { UserActionTypes } from '../../../../store/actions/UserActions';
+import { IUserInfo } from '../../../../store/apiMappers/userApi';
+import { IStoreState } from '../../../../store/reducers';
+import { isConnected } from '../../../../store/reducers/userReducer';
+import { HeaderComponent } from './HeaderComponent';
 
-interface IHeaderProps {
-  isAuth: boolean;
-  className?: string;
-}
+export const Header = () => {
+  const isAuth = useSelector((state: IStoreState) => isConnected(state.user));
 
-const HeaderImp = ({ isAuth, className }: IHeaderProps) => {
-  return isAuth ? (
+  const authorized = (
     <Query<IUserInfo | null>
       type={UserActionTypes.FETCH_ACCOUNT_DATA}
       errorComponent={QueryError}
@@ -27,8 +23,8 @@ const HeaderImp = ({ isAuth, className }: IHeaderProps) => {
     >
       {({ data }) => {
         return (
-          <AuthorizedHeader
-            className={className}
+          <HeaderComponent
+            isAuth={isAuth}
             walletAddress={data?.address}
             walletType={data?.walletType}
             ethereumBalance={data?.ethereumBalance}
@@ -37,11 +33,9 @@ const HeaderImp = ({ isAuth, className }: IHeaderProps) => {
         );
       }}
     </Query>
-  ) : (
-    <UnauthorizedHeader className={className} isAuth={isAuth} />
   );
-};
 
-export const Header = connect((state: IStoreState) => ({
-  isAuth: isConnected(state.user),
-}))(HeaderImp);
+  const notAuthorized = <HeaderComponent isAuth={isAuth} />;
+
+  return isAuth ? authorized : notAuthorized;
+};

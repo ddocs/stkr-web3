@@ -1,10 +1,10 @@
 import React from 'react';
-import { useDefaultLayoutStyles } from './DefaultLayoutStyles';
-import { Header } from '../Header';
 import { connect } from 'react-redux';
 import { IStoreState } from '../../../../store/reducers';
 import { isConnected } from '../../../../store/reducers/userReducer';
 import { Footer } from '../Footer';
+import { Header } from '../Header';
+import { useDefaultLayoutStyles } from './DefaultLayoutStyles';
 
 interface ILayoutStoreProps {
   isAuth: boolean;

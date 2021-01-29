@@ -1,27 +1,27 @@
-import { IUserInfo } from '../apiMappers/userApi';
-import { DepositType, Locale, Providers } from '../../common/types';
-import { StkrSdk } from '../../modules/api';
+import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
+import { replace } from 'connected-react-router';
+import { Store } from 'redux';
+import { createAction } from 'redux-actions';
+import { PICKER_PATH } from '../../common/const';
+import { DepositType, Locale, Providers } from '../../common/types';
+import { authenticatedRequestGuard } from '../../common/utils/authenticatedRequestGuard';
+import { update } from '../../common/utils/update';
+import { StkrSdk } from '../../modules/api';
 import { SidecarReply } from '../../modules/api/gateway';
-import { ISidecar, mapSidecar } from '../apiMappers/sidecarsApi';
-import { mapGlobalStats } from '../apiMappers/globalStatsApi';
+import { ICreateNodeValue } from '../../modules/provider/screens/CreateNode';
 import { IAllowance } from '../apiMappers/allowance';
+import { mapGlobalStats } from '../apiMappers/globalStatsApi';
+import { mapProviderStats } from '../apiMappers/providerStatsApi';
+import { ISidecar, mapSidecar } from '../apiMappers/sidecarsApi';
 import {
   IStakeHistoryItem,
   IStakerStats,
   mapStakerStats,
 } from '../apiMappers/stakerStatsApi';
-import { authenticatedRequestGuard } from '../../common/utils/authenticatedRequestGuard';
-import { RequestAction } from '@redux-requests/core';
-import { Store } from 'redux';
-import { IStoreState } from '../reducers';
-import { PICKER_PATH } from '../../common/const';
+import { IUserInfo } from '../apiMappers/userApi';
 import { closeModalAction } from '../dialogs/actions';
-import { replace } from 'connected-react-router';
-import { update } from '../../common/utils/update';
-import { createAction } from 'redux-actions';
-import { mapProviderStats } from '../apiMappers/providerStatsApi';
-import { ICreateNodeValue } from '../../modules/provider/screens/CreateNode';
+import { IStoreState } from '../reducers';
 
 export interface ISetLanguagePayload {
   locale: Locale;
@@ -66,7 +66,7 @@ export const UserActionTypes = {
 };
 
 export const UserActions = {
-  connect: () => ({
+  connect: (redirectOnSuccess: string = PICKER_PATH) => ({
     type: UserActionTypes.CONNECT,
     request: {
       promise: (async function () {
@@ -84,7 +84,7 @@ export const UserActions = {
         setTimeout(() => {
           store.dispatch(UserActions.fetchAccountData());
           store.dispatch(closeModalAction());
-          store.dispatch(replace(PICKER_PATH));
+          store.dispatch(replace(redirectOnSuccess));
         });
       },
     },

@@ -284,7 +284,8 @@
         "6": "Kotti"
     },
     "empty-node-list": {
-        "submit": "建立信标链"
+        "submit-short": "創造",
+        "submit-full": "建立信标链"
     },
     "not-enough-balance": {
         "title": "要创建第一个信标节点，您需要充值余额",
@@ -366,7 +367,7 @@
         "items": {
             "deposit": {
                 "title": "Deposit",
-                "text": "Deposit ETH on eth2.ankr.com/stakingmanager (you can deposit any amount starting from 0.5 ETH) by connecting your wallet to the Ankr Staking platform."
+                "text": "Deposit ETH on Staking Manager (you can deposit any amount starting from 0.5 ETH) by connecting your wallet to the Ankr Staking platform."
             },
             "get-aeth": {
                 "title": "Get aETH",

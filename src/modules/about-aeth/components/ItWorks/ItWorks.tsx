@@ -1,22 +1,22 @@
-import React, { useMemo, useState } from 'react';
 import { Typography } from '@material-ui/core';
 import classNames from 'classnames';
-import { Curtains } from '../../../../UiKit/Curtains';
-import { InView } from '../../../../components/InView';
-import { ItWorksNav, IItWorksNavProps } from '../ItWorksNav';
-import { useItWorksStyles } from './ItWorksStyles';
+import React, { useMemo, useState } from 'react';
+import { useLocaleMemo } from '../../../../common/hooks/useLocaleMemo';
+import { t } from '../../../../common/utils/intl';
 import { scrollToKey } from '../../../../common/utils/scrollToKey';
+import { InView } from '../../../../components/InView';
+import { Curtains } from '../../../../UiKit/Curtains';
+import { IItWorksNavProps, ItWorksNav } from '../ItWorksNav';
 import imgDeposit from './assets/deposit.svg';
 import imgGetAeth from './assets/get-aeth.svg';
 import imgRedeem from './assets/redeem.svg';
 import imgUseAeth from './assets/use-aeth.svg';
-import { t } from '../../../../common/utils/intl';
-import { useLocaleMemo } from '../../../../common/hooks/useLocaleMemo';
+import { useItWorksStyles } from './ItWorksStyles';
 
 enum NavItemsKeys {
   deposit = 'deposit',
-  get = 'get',
-  use = 'use',
+  get = 'getAeth',
+  use = 'useAeth',
   redeem = 'redeem',
 }
 
@@ -99,13 +99,14 @@ export const ItWorks = () => {
             alt={title}
             className={classNames(
               classes.img,
+              classes[key],
               key === activeNavKey && classes.imgActive,
             )}
             key={key}
           />
         );
       }),
-    [activeNavKey, classes.img, classes.imgActive, items],
+    [activeNavKey, classes, items],
   );
 
   const renderedItems = useMemo(
@@ -125,7 +126,11 @@ export const ItWorks = () => {
             key={key}
           >
             <div className={classes.imgWrap}>
-              <img src={imgSrc} alt={title} className={classes.img} />
+              <img
+                src={imgSrc}
+                alt={title}
+                className={classNames(classes.img, classes[key])}
+              />
             </div>
 
             <Typography
@@ -133,28 +138,16 @@ export const ItWorks = () => {
               variant="h4"
               component="div"
             >
-              {t(title)}
+              {title}
             </Typography>
 
             <Typography className={classes.itemText} component="p">
-              {t(text)}
+              {text}
             </Typography>
           </div>
         );
       }),
-    [
-      activeIndex,
-      activeNavKey,
-      classes.img,
-      classes.imgWrap,
-      classes.item,
-      classes.itemActive,
-      classes.itemNotViewed,
-      classes.itemText,
-      classes.itemTitle,
-      classes.itemViewed,
-      items,
-    ],
+    [activeIndex, activeNavKey, classes, items],
   );
 
   return (

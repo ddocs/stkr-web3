@@ -285,7 +285,8 @@
     "6": "Kotti"
   },
   "empty-node-list": {
-    "submit": "Create Beacon Chain"
+    "submit-short": "Create",
+    "submit-full": "Create Beacon Chain"
   },
   "not-enough-balance": {
     "title": "To create your own node, you need to top-up your balance",
@@ -409,6 +410,8 @@
   "rules-dialog": {
     "title": "Rules of a Proposal",
     "subtitle": "For any proposal, the following rules have been defined",
+    "tip": "You don’t have enough funds to create a project",
+    "buy-ankr": "Buy ANKR",
     "submit": "I agree",
     "item": {
       "1": "Once the proposal is created, it will be available for voting.",
@@ -497,7 +500,7 @@
     "items": {
       "deposit": {
         "title": "Deposit",
-        "text": "Deposit ETH on eth2.ankr.com/stakingmanager (you can deposit any amount starting from 0.5 ETH) by connecting your wallet to the Ankr Staking platform."
+        "text": "Deposit ETH on Staking Manager (you can deposit any amount starting from 0.5 ETH) by connecting your wallet to the Ankr Staking platform."
       },
       "get-aeth": {
         "title": "Get aETH",

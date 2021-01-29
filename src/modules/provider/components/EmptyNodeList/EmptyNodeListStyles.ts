@@ -7,4 +7,16 @@ export const useEmptyNodeListStyles = makeStyles(theme => ({
   button: {
     maxWidth: 244,
   },
+  buttonTextShort: {
+    [theme.breakpoints.up('sm')]: {
+      display: 'none',
+    },
+  },
+  buttonTextFull: {
+    display: 'none',
+
+    [theme.breakpoints.up('sm')]: {
+      display: 'inline',
+    },
+  },
 }));
