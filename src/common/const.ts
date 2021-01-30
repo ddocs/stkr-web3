@@ -21,6 +21,7 @@ export const GOVERNANCE_CREATE_PROJECT_PATH = `${GOVERNANCE_PATH}/project/create
 export const GOVERNANCE_PROJECT_PATH = `${GOVERNANCE_PATH}/project/view`;
 export const GOVERNANCE_PROJECT_ROUTE = `${GOVERNANCE_PATH}/project/view/:projectId`;
 export const ABOUT_AETH_PATH = '/what-is-aeth';
+export const CONVERT_ROUTE = '/convert/:from/:to';
 
 export function getGovernanceProjectPath(projectId: string) {
   return generatePath(GOVERNANCE_PROJECT_ROUTE, { projectId });
@@ -56,12 +57,13 @@ export const ENABLE_PROVIDER = true;
 
 export const ETH_SCALE_FACTOR = 10 ** 18;
 export const PROVIDER_MIN_BALANCE: ETH = 2;
-export const STAKING_AMOUNT_STEP = 0.5;
+export const STAKING_AMOUNT_STEP = 0.012; // TODO Revert to 0.5
 export const PROVIDE_MIN_BALANCE: ETH = 2;
 export const ETHEREUM_PRICE = 1400;
 export const DEFAULT_FIXED = 4;
 export const ANKR_DEPOSIT_LINK =
   'https://app.uniswap.org/#/swap?outputCurrency=0x8290333cef9e6d528dd5618fb97a76f268f3edd4';
+export const ETH_DIVIDER = 10 ** 18;
 export const MIN_GOVERNANCE_BALANCE = '5000000';
 export const MIN_GOVERNANCE_AMOUNT = Web3.utils.toWei(MIN_GOVERNANCE_BALANCE);
 

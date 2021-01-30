@@ -9,6 +9,7 @@ import { BlockchainNetworkId } from '@ankr.com/stkr-jssdk';
 export interface ProviderConfig {
   networkId: BlockchainNetworkId;
   chainId: BlockchainNetworkId;
+  smartchainNetworkId: BlockchainNetworkId;
 }
 
 export interface SendOptions {
@@ -34,6 +35,10 @@ export interface ProviderRpcError extends Error {
 export interface ProviderMessage {
   type: string;
   data: unknown;
+}
+
+export interface IConnectResult {
+  chainId: BlockchainNetworkId;
 }
 
 export abstract class KeyProvider {
@@ -74,7 +79,7 @@ export abstract class KeyProvider {
     return new this._web3.eth.Contract(abi, address);
   }
 
-  public abstract connect(): Promise<void>;
+  public abstract connect(): Promise<IConnectResult>;
 
   public abstract disconnect(): Promise<void>;
 
@@ -87,7 +92,7 @@ export abstract class KeyProvider {
     return this.providerConfig.chainId;
   }
 
-  public currentNetwork(): BlockchainNetworkId {
+  public currentNetwork(): BlockchainNetworkId | undefined {
     return this.providerConfig.networkId;
   }
 

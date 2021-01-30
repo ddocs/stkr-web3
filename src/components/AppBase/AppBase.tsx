@@ -5,7 +5,7 @@ import { CssBaseline } from '@material-ui/core';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import { locales } from '../../common/locales';
 import { mainTheme } from '../../common/themes/mainTheme';
-import { QueryLoadingCentered } from '../QueryLoading/QueryLoading';
+import { QueryLoadingAbsolute } from '../QueryLoading/QueryLoading';
 import { ReactReduxContext } from 'react-redux';
 import '../../common/fonts/stylesheet.css';
 import { historyInstance } from '../../common/utils/historyInstance';
@@ -37,7 +37,7 @@ export const AppBase = ({ children }: IAppBaseProps) => {
       <CssBaseline />
 
       {!initDone ? (
-        <QueryLoadingCentered />
+        <QueryLoadingAbsolute />
       ) : (
         <ConnectedRouter history={historyInstance} context={ReactReduxContext}>
           {children}

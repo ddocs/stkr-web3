@@ -25,6 +25,8 @@ import {
 import { IApplicationStore } from '../createStore';
 import { IUserInfo } from '../apiMappers/userApi';
 import { pushEvent } from '../../common/utils/pushEvent';
+import { IConnectResponse } from '../apiMappers/connectApi';
+import { BlockchainNetworkId } from '@ankr.com/stkr-jssdk';
 
 function createEventChannel() {
   return eventChannel(emitter => {
@@ -151,14 +153,16 @@ function* listenKeyProviderEvents() {
   }
 }
 
-function* onConnectSuccess() {
-  const listenKeyProviderEventsTask = yield fork(listenKeyProviderEvents);
-
-  pushEvent('login', { method: 'web3' });
-
-  yield take([UserActionTypes.DISCONNECT, UserActionTypes.CONNECT]);
-
-  yield cancel(listenKeyProviderEventsTask);
+function* onConnectSuccess(action: {
+  type: string;
+  response: { data: IConnectResponse };
+}) {
+  if (action.response.data.chainId !== BlockchainNetworkId.smartchain) {
+    pushEvent('login', { method: 'web3' });
+    const listenKeyProviderEventsTask = yield fork(listenKeyProviderEvents);
+    yield take([UserActionTypes.DISCONNECT, UserActionTypes.CONNECT]);
+    yield cancel(listenKeyProviderEventsTask);
+  }
 }
 
 function* onDisconnectSuccess() {

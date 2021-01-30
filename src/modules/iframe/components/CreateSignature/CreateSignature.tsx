@@ -36,6 +36,11 @@ export const CreateSignature = () => {
       const provider = stkrSdk.getKeyProvider();
       const address = provider.currentAccount();
       const networkId = provider.currentNetwork();
+
+      if (!networkId) {
+        throw new Error('Not connected');
+      }
+
       const network = getNetworkName(networkId);
       const sidecars = (await stkrSdk?.getProviderSidecars())
         .filter(sidecar =>

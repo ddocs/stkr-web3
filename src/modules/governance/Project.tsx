@@ -37,7 +37,7 @@ import { UserActionTypes } from '../../store/actions/UserActions';
 import { QueryError } from '../../components/QueryError/QueryError';
 import {
   QueryLoading,
-  QueryLoadingCentered,
+  QueryLoadingAbsolute,
 } from '../../components/QueryLoading/QueryLoading';
 import { QueryEmpty } from '../../components/QueryEmpty/QueryEmpty';
 import { Mutation, Query } from '@redux-requests/react';
@@ -124,7 +124,7 @@ export const Project = () => {
           <Query<IProject[] | null>
             type={GovernanceActionTypes.FETCH_PROJECTS}
             errorComponent={QueryError}
-            loadingComponent={QueryLoadingCentered}
+            loadingComponent={QueryLoadingAbsolute}
             showLoaderDuringRefetch={false}
           >
             {({ data }) => {

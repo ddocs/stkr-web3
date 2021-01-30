@@ -12,6 +12,7 @@ export const LOCAL_CONFIG: IStkrConfig = {
   providerConfig: {
     networkId: 5,
     chainId: 5,
+    smartchainNetworkId: 56,
   },
   contractConfig: {
     aethContract: '0x63dC5749fa134fF3B752813388a7215460a8aB01',
@@ -41,6 +42,7 @@ export const MAINNET_CONFIG: IStkrConfig = {
   providerConfig: {
     networkId: 1,
     chainId: 1,
+    smartchainNetworkId: 56,
   },
   contractConfig: {
     aethContract: '0xE95A203B1a91a908F9B9CE46459d101078c2c3cb',

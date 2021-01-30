@@ -20,7 +20,7 @@ import { t } from '../../../../common/utils/intl';
 import { NotEnoughBalance } from '../NotEnoughBalance';
 import { Box, Paper } from '@material-ui/core';
 import { QueryError } from '../../../../components/QueryError/QueryError';
-import { QueryLoadingCentered } from '../../../../components/QueryLoading/QueryLoading';
+import { QueryLoadingAbsolute } from '../../../../components/QueryLoading/QueryLoading';
 
 const useCaptions = (): ITablesCaptionProps[] =>
   useLocaleMemo(
@@ -63,7 +63,7 @@ export const TopUpListComponent = () => {
         return getTopUpTransactions(data?.stakes ?? []).length === 0;
       }}
       errorComponent={QueryError}
-      loadingComponent={QueryLoadingCentered}
+      loadingComponent={QueryLoadingAbsolute}
     >
       {({ data }) => {
         const stakes = getTopUpTransactions(data?.stakes ?? []);

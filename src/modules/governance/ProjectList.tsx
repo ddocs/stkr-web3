@@ -13,14 +13,25 @@ import { useDialog } from '../../store/dialogs/selectors';
 import { DIALOG_GOVERNANCE_RULES_OF_PROPOSAL } from '../../store/dialogs/actions';
 import { useDispatch } from 'react-redux';
 import { useInitEffect } from '../../common/hooks/useInitEffect';
-import { GovernanceActions, GovernanceActionTypes, } from '../../store/actions/GovernanceActions';
+import {
+  GovernanceActions,
+  GovernanceActionTypes,
+} from '../../store/actions/GovernanceActions';
 import { Query } from '@redux-requests/react';
 import { UserActions, UserActionTypes } from '../../store/actions/UserActions';
 import { IUserInfo } from '../../store/apiMappers/userApi';
 import { QueryError } from '../../components/QueryError/QueryError';
-import { QueryLoading, QueryLoadingCentered, } from '../../components/QueryLoading/QueryLoading';
+import {
+  QueryLoading,
+  QueryLoadingAbsolute,
+} from '../../components/QueryLoading/QueryLoading';
 import { QueryEmpty } from '../../components/QueryEmpty/QueryEmpty';
-import { ANKR_DEPOSIT_LINK, DEFAULT_FIXED, isMainnet, MIN_GOVERNANCE_BALANCE, } from '../../common/const';
+import {
+  ANKR_DEPOSIT_LINK,
+  DEFAULT_FIXED,
+  isMainnet,
+  MIN_GOVERNANCE_BALANCE,
+} from '../../common/const';
 import { IProject } from './types';
 
 export const ProjectList = () => {
@@ -108,7 +119,7 @@ export const ProjectList = () => {
             <Query<IProject[] | null>
               type={GovernanceActionTypes.FETCH_PROJECTS}
               errorComponent={QueryError}
-              loadingComponent={QueryLoadingCentered}
+              loadingComponent={QueryLoadingAbsolute}
               showLoaderDuringRefetch={false}
             >
               {({ data }) => {
