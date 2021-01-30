@@ -2,6 +2,7 @@ import Web3 from 'web3';
 import { bytesToHex, numberToHex } from 'web3-utils';
 import {
   Address,
+  IConnectResult,
   KeyProvider,
   ProviderMessage,
   ProviderRpcError,
@@ -19,13 +20,15 @@ import imTokenLogo from './assets/imToken.svg';
 import mathLogo from './assets/math.svg';
 import trustWalletLogo from './assets/trust.svg';
 import huobiLogo from './assets/huobi.svg';
+import { BlockchainNetworkId } from '@ankr.com/stkr-jssdk';
 
 export class MetaMaskProvider extends KeyProvider {
   private web3Modal: Web3Modal | undefined;
   private provider: any;
   public name = 'Metamask';
+  public chainId: BlockchainNetworkId | undefined = undefined;
 
-  async connect(): Promise<void> {
+  async connect(): Promise<IConnectResult> {
     // TODO Move up the provider creation
     const providerOptions: IProviderOptions = {
       'custom-imtoken': {
@@ -39,6 +42,7 @@ export class MetaMaskProvider extends KeyProvider {
           rpc: {
             1: 'https://eth-03.dccn.ankr.com',
             5: 'https://goerli.infura.io/v3/3c88c0ec7e57421fa7d019780d2e6768',
+            56: 'https://bsc-dataseed.binance.org/',
           },
         },
         connector: async (ProviderPackage: any, options: any) => {
@@ -58,6 +62,7 @@ export class MetaMaskProvider extends KeyProvider {
           rpc: {
             1: 'https://eth-03.dccn.ankr.com',
             5: 'https://goerli.infura.io/v3/3c88c0ec7e57421fa7d019780d2e6768',
+            56: 'https://bsc-dataseed.binance.org/',
           },
         },
         connector: async (ProviderPackage: any, options: any) => {
@@ -77,6 +82,7 @@ export class MetaMaskProvider extends KeyProvider {
           rpc: {
             1: 'https://eth-03.dccn.ankr.com',
             5: 'https://goerli.infura.io/v3/3c88c0ec7e57421fa7d019780d2e6768',
+            56: 'https://bsc-dataseed.binance.org/',
           },
         },
         connector: async (ProviderPackage: any, options: any) => {
@@ -96,6 +102,7 @@ export class MetaMaskProvider extends KeyProvider {
           rpc: {
             1: 'https://eth-03.dccn.ankr.com',
             5: 'https://goerli.infura.io/v3/3c88c0ec7e57421fa7d019780d2e6768',
+            56: 'https://bsc-dataseed.binance.org/',
           },
         },
         connector: async (ProviderPackage: any, options: any) => {
@@ -110,6 +117,7 @@ export class MetaMaskProvider extends KeyProvider {
           rpc: {
             1: 'https://eth-03.dccn.ankr.com',
             5: 'https://goerli.infura.io/v3/3c88c0ec7e57421fa7d019780d2e6768',
+            56: 'https://bsc-dataseed.binance.org/',
           },
         },
       },
@@ -132,12 +140,11 @@ export class MetaMaskProvider extends KeyProvider {
 
     const web3 = new Web3(provider);
 
-    const chainId = provider.networkVersion ?? provider.chainId;
+    const chainId = Number(provider.networkVersion ?? provider.chainId);
 
     if (
-      chainId &&
-      this.providerConfig.networkId &&
-      Number(chainId) !== this.providerConfig.networkId
+      chainId !== this.providerConfig.networkId &&
+      chainId !== this.providerConfig.smartchainNetworkId
     ) {
       console.error(
         `ethereum networks mismatched ${provider.networkVersion} != ${this.providerConfig.networkId}`,
@@ -147,7 +154,7 @@ export class MetaMaskProvider extends KeyProvider {
       throw new Error(
         `Please, change your wallet network to ${getNetworkName(
           this.providerConfig.networkId,
-        )}.`,
+        )} or ${getNetworkName(this.providerConfig.smartchainNetworkId)}.`,
       );
     }
     await this.unlockAccounts(web3);
@@ -168,13 +175,23 @@ export class MetaMaskProvider extends KeyProvider {
         chainId,
       });
       console.log(`detected MetaMask chainId change to ${chainId}`);
+      // TODO Extract reload
+      document.location.reload();
     });
     provider.autoRefreshOnNetworkChange = false;
     this._latestBlockHeight = await web3.eth.getBlockNumber();
     this._web3 = web3;
+    this.chainId = chainId;
+
+    return { chainId };
+  }
+
+  public currentNetwork(): BlockchainNetworkId | undefined {
+    return this.chainId;
   }
 
   disconnect(): Promise<void> {
+    this.chainId = undefined;
     try {
       this.provider?.close();
       this.web3Modal?.clearCachedProvider();
@@ -223,6 +240,37 @@ export class MetaMaskProvider extends KeyProvider {
     }
   }
 
+  private tryGetRawTx(rawTx: any): string {
+    const allowedChains = ['1', '3', '4', '42', '5'];
+    if (!allowedChains.includes(`${this.chainId}`)) {
+      console.warn(`raw tx can't be greated for this chain id ${this.chainId}`);
+      return '';
+    }
+    const { v, r, s } = rawTx as any; /* this fields are not-documented */
+    const newTx = new Transaction(
+      {
+        gasLimit: this.getWeb3().utils.numberToHex(rawTx.gas),
+        gasPrice: this.getWeb3().utils.numberToHex(Number(rawTx.gasPrice)),
+        to: `${rawTx.to}`,
+        nonce: this.getWeb3().utils.numberToHex(rawTx.nonce),
+        data: rawTx.input,
+        v: v,
+        r: r,
+        s: s,
+        value: this.getWeb3().utils.numberToHex(rawTx.value),
+      },
+      {
+        chain: this.chainId,
+      },
+    );
+    if (!newTx.verifySignature())
+      throw new Error(`The signature is not valid for this transaction`);
+    console.log(`New Tx: `, JSON.stringify(newTx, null, 2));
+    const rawTxHex = newTx.serialize().toString('hex');
+    console.log(`Raw transaction hex is: `, rawTxHex);
+    return rawTxHex;
+  }
+
   public async sendAsync(
     from: string,
     to: string,
@@ -240,7 +288,7 @@ export class MetaMaskProvider extends KeyProvider {
       gasPrice: gasPrice,
       data: sendOptions.data,
       nonce: nonce,
-      chainId: Number(this.providerConfig.chainId),
+      chainId: this.chainId,
     };
     console.log('Sending transaction via Web3: ', tx);
     return new Promise<SendAsyncResult>((resolve, reject) => {
@@ -255,30 +303,7 @@ export class MetaMaskProvider extends KeyProvider {
             `Found transaction in node: `,
             JSON.stringify(rawTx, null, 2),
           );
-          const { v, r, s } = rawTx as any; /* this fields are not-documented */
-          const newTx = new Transaction(
-            {
-              gasLimit: this.getWeb3().utils.numberToHex(rawTx.gas),
-              gasPrice: this.getWeb3().utils.numberToHex(
-                Number(rawTx.gasPrice),
-              ),
-              to: `${rawTx.to}`,
-              nonce: this.getWeb3().utils.numberToHex(rawTx.nonce),
-              data: rawTx.input,
-              v: v,
-              r: r,
-              s: s,
-              value: this.getWeb3().utils.numberToHex(rawTx.value),
-            },
-            {
-              chain: Number(this.providerConfig.chainId),
-            },
-          );
-          if (!newTx.verifySignature())
-            throw new Error(`The signature is not valid for this transaction`);
-          console.log(`New Tx: `, JSON.stringify(newTx, null, 2));
-          const rawTxHex = newTx.serialize().toString('hex');
-          console.log(`Raw transaction hex is: `, rawTxHex);
+          const rawTxHex = this.tryGetRawTx(rawTx);
           resolve({
             receiptPromise: promise,
             transactionHash: transactionHash,

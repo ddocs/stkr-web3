@@ -1,14 +1,16 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import loadable, { LoadableComponent } from '@loadable/component';
-import { QueryLoadingCentered } from './components/QueryLoading/QueryLoading';
+import { QueryLoadingAbsolute } from './components/QueryLoading/QueryLoading';
 import { PageNotFound } from './components/PageNotFound/PageNotFound';
 import { withDefaultLayout } from './modules/layout';
 import {
+  ABOUT_AETH_PATH,
+  ANKR_IFRAME_PATH,
+  CONVERT_ROUTE,
   GOVERNANCE_CREATE_PROJECT_PATH,
   GOVERNANCE_PROJECT_LIST_PATH,
   GOVERNANCE_PROJECT_ROUTE,
-  ANKR_IFRAME_PATH,
   INDEX_PATH,
   PICKER_PATH,
   PROVIDER_CREATE_NODE_PATH,
@@ -18,13 +20,12 @@ import {
   PROVIDER_TOP_UP_ROUTE,
   STAKER_DASHBOARD_PATH,
   STAKER_STAKE_PATH,
-  ABOUT_AETH_PATH,
 } from './common/const';
 import { PrivateRoute } from './UiKit/PrivateRoute';
 
 const LoadableOverviewContainer = withDefaultLayout(
   loadable(async () => import('./modules/lobby').then(module => module.Lobby), {
-    fallback: <QueryLoadingCentered />,
+    fallback: <QueryLoadingAbsolute />,
   }) as LoadableComponent<any>,
 );
 
@@ -32,7 +33,7 @@ const ProviderContainer = withDefaultLayout(
   loadable(
     async () => import('./modules/provider').then(module => module.Provider),
     {
-      fallback: <QueryLoadingCentered />,
+      fallback: <QueryLoadingAbsolute />,
     },
   ) as LoadableComponent<any>,
 );
@@ -42,7 +43,7 @@ const TopUpContainer = withDefaultLayout(
     async () =>
       import('./modules/provider/screens/TopUp').then(module => module.TopUp),
     {
-      fallback: <QueryLoadingCentered />,
+      fallback: <QueryLoadingAbsolute />,
     },
   ) as LoadableComponent<any>,
 );
@@ -54,7 +55,7 @@ const CreateBeaconChainContainer = withDefaultLayout(
         module => module.CreateNode,
       ),
     {
-      fallback: <QueryLoadingCentered />,
+      fallback: <QueryLoadingAbsolute />,
     },
   ) as LoadableComponent<any>,
 );
@@ -63,7 +64,7 @@ const PickerContainer = withDefaultLayout(
   loadable(
     async () => import('./modules/picker').then(module => module.Picker),
     {
-      fallback: <QueryLoadingCentered />,
+      fallback: <QueryLoadingAbsolute />,
     },
   ) as LoadableComponent<any>,
 );
@@ -75,7 +76,7 @@ const StakerDashboardContainer = withDefaultLayout(
         module => module.StakerDashboard,
       ),
     {
-      fallback: <QueryLoadingCentered />,
+      fallback: <QueryLoadingAbsolute />,
     },
   ) as LoadableComponent<any>,
 );
@@ -85,7 +86,7 @@ const StakerContainer = withDefaultLayout(
     async () =>
       import('./modules/stake/screens/Stake').then(module => module.Stake),
     {
-      fallback: <QueryLoadingCentered />,
+      fallback: <QueryLoadingAbsolute />,
     },
   ) as LoadableComponent<any>,
 );
@@ -97,7 +98,7 @@ const GovernanceListContainer = withDefaultLayout(
         module => module.ProjectList,
       ),
     {
-      fallback: <QueryLoadingCentered />,
+      fallback: <QueryLoadingAbsolute />,
     },
   ) as LoadableComponent<any>,
 );
@@ -109,7 +110,7 @@ const CreateProjectContainer = withDefaultLayout(
         module => module.CreateProject,
       ),
     {
-      fallback: <QueryLoadingCentered />,
+      fallback: <QueryLoadingAbsolute />,
     },
   ) as LoadableComponent<any>,
 );
@@ -119,7 +120,7 @@ const ProjectContainer = withDefaultLayout(
     async () =>
       import('./modules/governance/Project').then(module => module.Project),
     {
-      fallback: <QueryLoadingCentered />,
+      fallback: <QueryLoadingAbsolute />,
     },
   ) as LoadableComponent<any>,
 );
@@ -128,7 +129,7 @@ const AboutAethContainer = withDefaultLayout(
   loadable(
     async () => import('./modules/about-aeth').then(module => module.AboutAeth),
     {
-      fallback: <QueryLoadingCentered />,
+      fallback: <QueryLoadingAbsolute />,
     },
   ) as LoadableComponent<any>,
 );
@@ -137,9 +138,17 @@ const LoadableIframeContainer = withDefaultLayout(
   loadable(
     async () => import('./modules/iframe').then(module => module.Iframe),
     {
-      fallback: <QueryLoadingCentered />,
+      fallback: <QueryLoadingAbsolute />,
     },
   ) as LoadableComponent<any>,
+);
+
+const LoadableConvertContainer = loadable(
+  async () =>
+    import('./modules/convert/screens/Convert').then(module => module.Convert),
+  {
+    fallback: <QueryLoadingAbsolute />,
+  },
 );
 
 export function Routes() {
@@ -195,6 +204,12 @@ export function Routes() {
       <Route
         path={ABOUT_AETH_PATH}
         component={AboutAethContainer}
+        exact={true}
+      />
+      {/*TODO Only Smartchain Route*/}
+      <PrivateRoute
+        path={CONVERT_ROUTE}
+        component={LoadableConvertContainer}
         exact={true}
       />
       <PrivateRoute component={PageNotFound} />

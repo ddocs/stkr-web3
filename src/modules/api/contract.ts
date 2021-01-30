@@ -12,7 +12,11 @@ import {
 } from './event';
 import { BlockHeader } from 'web3-eth';
 import { ETH_SCALE_FACTOR } from '../../common/const';
-import Stkr, { GovernanceEvents, VoteStatus } from '@ankr.com/stkr-jssdk';
+import Stkr, {
+  BlockchainNetworkId,
+  GovernanceEvents,
+  VoteStatus,
+} from '@ankr.com/stkr-jssdk';
 import ABI_GLOBAL_POOL from './contract/GlobalPool.json';
 import ABI_AETH from './contract/AETH.json';
 import ABI_ANKR from './contract/ANKR.json';
@@ -86,9 +90,11 @@ export class ContractManager {
     keyProvider
       .getWeb3()
       .eth.net.getId()
-      .then(
-        networkId => (this.stkr = new Stkr(keyProvider.getWeb3(), networkId)),
-      );
+      .then(networkId => {
+        if (networkId !== BlockchainNetworkId.smartchain) {
+          return (this.stkr = new Stkr(keyProvider.getWeb3(), networkId));
+        }
+      });
   }
 
   public async queryStakePendingEventLogs(): Promise<IStakePendingEvent[]> {

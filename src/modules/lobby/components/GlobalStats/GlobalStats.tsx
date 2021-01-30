@@ -5,7 +5,7 @@ import { Headline1, Headline5 } from '../../../../UiKit/Typography';
 import { t } from '../../../../common/utils/intl';
 import { Box, Grid } from '@material-ui/core';
 import { Query } from '@redux-requests/react';
-import { QueryLoadingCentered } from '../../../../components/QueryLoading/QueryLoading';
+import { QueryLoadingAbsolute } from '../../../../components/QueryLoading/QueryLoading';
 import { QueryEmpty } from '../../../../components/QueryEmpty/QueryEmpty';
 import { UserActionTypes } from '../../../../store/actions/UserActions';
 import { IGlobalStats } from '../../../../store/apiMappers/globalStatsApi';
@@ -16,7 +16,7 @@ export const GlobalStats = () => {
   return (
     <section className={classes.root}>
       <Query<IGlobalStats | null>
-        loadingComponent={QueryLoadingCentered}
+        loadingComponent={QueryLoadingAbsolute}
         noDataMessage={<QueryEmpty />}
         type={UserActionTypes.FETCH_GLOBAL_STATS}
       >

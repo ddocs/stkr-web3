@@ -9,7 +9,7 @@ import {
   UserActionTypes,
 } from '../../../../store/actions/UserActions';
 import { QueryError } from '../../../../components/QueryError/QueryError';
-import { QueryLoadingCentered } from '../../../../components/QueryLoading/QueryLoading';
+import { QueryLoadingAbsolute } from '../../../../components/QueryLoading/QueryLoading';
 import { QueryEmpty } from '../../../../components/QueryEmpty/QueryEmpty';
 import { useDispatch } from 'react-redux';
 import { IStakerStats } from '../../../../store/apiMappers/stakerStatsApi';
@@ -154,7 +154,7 @@ export const StakerDashboardComponent = () => {
         <Query<IStakerStats | null>
           type={UserActionTypes.FETCH_STAKER_STATS}
           errorComponent={QueryError}
-          loadingComponent={QueryLoadingCentered}
+          loadingComponent={QueryLoadingAbsolute}
           noDataMessage={<QueryEmpty />}
           showLoaderDuringRefetch={false}
         >

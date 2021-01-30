@@ -15,7 +15,7 @@ import { t } from '../../../../common/utils/intl';
 import { useAuthentication } from '../../../../common/utils/useAuthentications';
 import { useInterval } from '../../../../common/utils/useInterval';
 import { QueryError } from '../../../../components/QueryError/QueryError';
-import { QueryLoadingCentered } from '../../../../components/QueryLoading/QueryLoading';
+import { QueryLoadingAbsolute } from '../../../../components/QueryLoading/QueryLoading';
 import {
   UserActions,
   UserActionTypes,
@@ -105,7 +105,7 @@ export const ProviderDashboardComponent = ({
               type={UserActionTypes.FETCH_PROVIDER_STATS}
               showLoaderDuringRefetch={false}
               errorComponent={QueryError}
-              loadingComponent={QueryLoadingCentered}
+              loadingComponent={QueryLoadingAbsolute}
             >
               {({ data }) => {
                 return (
@@ -202,7 +202,7 @@ export const ProviderDashboard = () => {
     <Query<ISidecar[] | null>
       type={UserActionTypes.FETCH_CURRENT_PROVIDER_SIDECARS}
       errorComponent={QueryError}
-      loadingComponent={QueryLoadingCentered}
+      loadingComponent={QueryLoadingAbsolute}
       showLoaderDuringRefetch={false}
       isDataEmpty={alwaysFalse}
     >
@@ -211,7 +211,7 @@ export const ProviderDashboard = () => {
           <Query<IStakerStats | null>
             type={UserActionTypes.FETCH_STAKER_STATS}
             errorComponent={QueryError}
-            loadingComponent={QueryLoadingCentered}
+            loadingComponent={QueryLoadingAbsolute}
             showLoaderDuringRefetch={false}
           >
             {({ data: stats }) => {

@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js';
 import { replace } from 'connected-react-router';
 import { Store } from 'redux';
 import { createAction } from 'redux-actions';
-import { PICKER_PATH } from '../../common/const';
+import { CONVERT_ROUTE, PICKER_PATH } from '../../common/const';
 import { DepositType, Locale, Providers } from '../../common/types';
 import { authenticatedRequestGuard } from '../../common/utils/authenticatedRequestGuard';
 import { update } from '../../common/utils/update';
@@ -19,9 +19,12 @@ import {
   IStakerStats,
   mapStakerStats,
 } from '../apiMappers/stakerStatsApi';
+import { IStoreState } from '../reducers';
 import { IUserInfo } from '../apiMappers/userApi';
 import { closeModalAction } from '../dialogs/actions';
-import { IStoreState } from '../reducers';
+import { IConnectResult } from '../../modules/api/provider';
+import { BlockchainNetworkId } from '@ankr.com/stkr-jssdk';
+import { generatePath } from 'react-router';
 
 export interface ISetLanguagePayload {
   locale: Locale;
@@ -71,21 +74,32 @@ export const UserActions = {
     request: {
       promise: (async function () {
         const stkrSdk = StkrSdk.getLastInstance();
-        return stkrSdk?.connect();
+        return await stkrSdk?.connect();
       })(),
     },
     meta: {
       asMutation: true,
       onSuccess: (
-        request: null,
+        request: { data: IConnectResult },
         action: RequestAction,
         store: Store<IStoreState>,
       ) => {
         setTimeout(() => {
-          store.dispatch(UserActions.fetchAccountData());
           store.dispatch(closeModalAction());
-          store.dispatch(replace(redirectOnSuccess));
+
+          if (request.data.chainId === BlockchainNetworkId.smartchain) {
+            store.dispatch(
+              replace(
+                generatePath(CONVERT_ROUTE, { from: 'Peg-ETH', to: 'ETH' }),
+              ),
+            );
+          } else {
+            store.dispatch(UserActions.fetchAccountData());
+            store.dispatch(replace(redirectOnSuccess));
+          }
         });
+
+        return request;
       },
     },
   }),
@@ -106,7 +120,7 @@ export const UserActions = {
         const stkrSdk = StkrSdk.getLastInstance();
         const address = stkrSdk.getKeyProvider().currentAccount();
         const ankrBalance = await stkrSdk.getAnkrBalance();
-        const ethereumBalance = await stkrSdk.getEtheremBalance();
+        const ethereumBalance = await stkrSdk.getEthBalance();
 
         return {
           address,

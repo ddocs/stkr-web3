@@ -8,6 +8,9 @@ import { resetRequests } from '@redux-requests/core';
 
 interface IMutationErrorHandlerProps {
   type: string;
+  /*
+   * @deprecated Deprecate it since leads to wrong request status
+   */
   resetOnShow?: boolean;
   filter?: (error: any) => boolean;
 }

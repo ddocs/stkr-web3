@@ -20,6 +20,7 @@ export const createAPIReducer = <
     onError?: (state: STATE, action: Action<ERROR>) => STATE;
     onSuccess?: (state: STATE, action: Action<SUCCESS>) => STATE;
     onReset?: (state: STATE, action: Action<RESET>) => STATE;
+    onAbort?: (state: STATE, action: Action<RESET>) => STATE;
   },
 ) => ({
   [action]: (state: STATE): STATE => {
@@ -63,6 +64,17 @@ export const createAPIReducer = <
     return {
       ...(subReducers && subReducers.onReset
         ? subReducers.onReset(newState, action)
+        : newState),
+    };
+  },
+  [`${action}_ABORT`]: (state: STATE, action: Action<RESET>): STATE => {
+    const newState: STATE = {
+      ...state,
+      [statusProperty]: requestInactive(),
+    };
+    return {
+      ...(subReducers && subReducers.onAbort
+        ? subReducers.onAbort(newState, action)
         : newState),
     };
   },

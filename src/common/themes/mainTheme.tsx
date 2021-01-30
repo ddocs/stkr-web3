@@ -3,6 +3,7 @@ import { ThemeOptions } from '@material-ui/core/styles/createMuiTheme';
 import { PaletteOptions } from '@material-ui/core/styles/createPalette';
 import { NOTIFICATION_AUTO_HIDE_DURATION } from '../const';
 import { ReactComponent as ArrowDownIcon } from './assets/arrowDown.svg';
+import { StepIcon } from './components/StepIcon/StepIcon';
 
 export const DEFAULT_FONT = '"Helvetica Neue", sans-serif';
 
@@ -115,6 +116,9 @@ const mainTheme = createMuiTheme({
     },
     MuiButtonBase: {
       disableRipple: true,
+    },
+    MuiStepLabel: {
+      StepIconComponent: StepIcon,
     },
   },
   overrides: {
@@ -383,6 +387,12 @@ const mainTheme = createMuiTheme({
       },
     },
     MuiTypography: {
+      root: {
+        '& a': {
+          color: PALETTE.primary.main,
+          textDecoration: 'none',
+        },
+      },
       h1: {
         fontSize: 48,
         fontWeight: 700,
@@ -599,6 +609,15 @@ const mainTheme = createMuiTheme({
       popper: {
         zIndex: 1300,
       },
+    },
+    MuiStepper: {
+      root: {
+        background: 'none',
+      },
+    },
+    MuiStepIcon: {
+      root: {},
+      active: {},
     },
   },
 } as ThemeOptions);

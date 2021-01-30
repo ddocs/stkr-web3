@@ -50,7 +50,6 @@ export class StkrSdk {
 
   public async connect() {
     /* download config from server only if its not provided yet */
-
     if (!this.stkrConfig.contractConfig) {
       const config = await this.apiGateway.downloadConfigFile(
         this.stkrConfig.configUrl,
@@ -70,7 +69,7 @@ export class StkrSdk {
       this.stkrConfig.providerConfig,
       this.eventEmitter,
     );
-    await metaMaskProvider.connect();
+    const connectResult = await metaMaskProvider.connect();
     const contractManage = new ContractManager(
       metaMaskProvider,
       this.stkrConfig.contractConfig,
@@ -78,6 +77,8 @@ export class StkrSdk {
     );
     this.keyProvider = metaMaskProvider;
     this.contractManager = contractManage;
+
+    return connectResult;
   }
 
   public isConnected() {
@@ -207,11 +208,15 @@ export class StkrSdk {
     return this.getContractManager().unstake();
   }
 
-  public currentAccount(): string | undefined {
+  public currentAccount(): string {
     if (!this.keyProvider) {
       return '';
     }
-    return this.keyProvider?.currentAccount();
+    return this.keyProvider.currentAccount();
+  }
+
+  public currentAccountOrThrow(): string {
+    return this.getKeyProvider().currentAccount();
   }
 
   public async getGlobalStats(): Promise<GlobalStatsReply> {
@@ -229,7 +234,7 @@ export class StkrSdk {
     return this.contractManager;
   }
 
-  public async getEtheremBalance(): Promise<BalanceReply> {
+  public async getEthBalance(): Promise<BalanceReply> {
     const currentAccount = this.getKeyProvider().currentAccount();
     const balanceOf = await this.getKeyProvider().ethereumBalance(
       currentAccount,

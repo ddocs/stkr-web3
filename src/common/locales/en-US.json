@@ -282,7 +282,8 @@
     "2018": "Dev",
     "61": "Classic",
     "63": "Mordor",
-    "6": "Kotti"
+    "6": "Kotti",
+    "56": "Binance Smartchain"
   },
   "empty-node-list": {
     "submit-short": "Create",
@@ -367,6 +368,7 @@
     "vote-value": "{value, plural, =1 {# vote} other {# votes}}",
     "aeth-value": "{value, number} aETH",
     "eth": "ETH",
+    "peg-eth": "{value, number} Peg-ETH",
     "~eth-value": "~{value, number} ETH",
     "aeth": "aETH",
     "separated-eth-value": "{value, number}<span class=\"unit\"> ETH</span>",
@@ -520,5 +522,34 @@
     "title": "What is aETH?",
     "text": "aETH is a synthetic derivative asset that enables instant liquidity for the Ethereum 2.0 network",
     "btnText": "Learn more"
+  },
+  "peg-eth-steps": {
+    "1": "Convert Peg-ETH to ETH",
+    "2": "Stake ETH"
+  },
+  "convert": {
+    "quote": "You are using the Binance Smart Chain network. Please convert your Peg-ETH to start staking.",
+    "title": "Peg-ETH to ETH converter",
+    "step": {
+      "convert": "Convert Peg-ETH to ETH",
+      "stake": "Stake ETH"
+    },
+    "target": "I want to convert",
+    "fee": "Network fee",
+    "receive": "ETH to receive",
+    "terms-of-use": "I have read and I agree with <a href=\"https://www.binance.org/en/new-bridge/terms\" target=\"_blank\" rel=\"noopener noreferrer\">Terms of Use</a>",
+    "submit": "Convert",
+    "validation": {
+      "min-amount": "The value must be at least {value, number} Peg-ETH"
+    }
+  },
+  "confirms": {
+    "title": "Transaction in progress",
+    "notice": "Please don’t close this window while the transaction is in progress",
+    "confirmation": "Confirmations received: {current, number}/{required, number}"
+  },
+  "transaction-completed": {
+    "title": "Transaction completed!",
+    "notice": "Please switch your network to Ethereum Mainnet to continue"
   }
 }
