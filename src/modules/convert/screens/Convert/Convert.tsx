@@ -35,7 +35,7 @@ import { TransactionCompleted } from '../../components/TransactionCompleted';
 import { useInterval } from '../../../../common/utils/useInterval';
 import { Milliseconds } from '../../../../common/types';
 
-const MIN_AMOUNT = 0.012; // TODO Set to 0.5
+const MIN_AMOUNT = 0.5; // TODO Set to 0.5
 const MAX_AMOUNT = 32;
 const UPDATE_INTERVAL: Milliseconds = 10000;
 const NETWORK_FEE = 0.005;
