@@ -32,7 +32,8 @@
     "telegram-chat": "Telegram Chat",
     "telegram-announcements": "Telegram Announcements",
     "medium": "Medium",
-    "copied": "Copied"
+    "copied": "Copied",
+    "BSC": "BSC"
   },
   "validation": {
     "required": "This field is required",
@@ -66,7 +67,7 @@
     "security-text": "Keep your funds under your own custody, to always remain in full control of your assets."
   },
   "roles": {
-    "title": "<span>The 3 roles</span>in Ankr's Eth2 staking ecosystem\n",
+    "title": "<span>The 3 roles</span>in Ankr's Eth2 staking ecosystem",
     "eth-staker-title": "Staker",
     "eth-staker-text": "Stakers can stake any amount of ETH tokens (minimum 0.5 ETH) to earn staking rewards and platform fees. The staked ETH will immediately be liquid in the form of aETH, which users can use to trade or participate in DeFi. Stakers can stake ANKR in addition to their ETH stake to increase rewards from platform fees.",
     "node-provider-title": "Node provider",
@@ -78,9 +79,9 @@
     "title": "Become <br />a provider ",
     "text": "Become a provider by running Ethereum 2.0 nodes on Ankr with no hardware or technical knowledge required.",
     "api-title": "Developer APIs",
-    "api-text": "Integrate Ankr's Eth2 staking protocol with exchanges, wallets and custodian services\n",
+    "api-text": "Integrate Ankr's Eth2 staking protocol with exchanges, wallets and custodian services",
     "knowledge-title": "No technical knowledge needed",
-    "knowledge-text": "Run Ethereum 2.0 nodes on Ankr, no hardware or technical knowledge required.\n",
+    "knowledge-text": "Run Ethereum 2.0 nodes on Ankr, no hardware or technical knowledge required.",
     "governance-title": "Governance",
     "governance-text": "Participate in governance and be a part of the future of the platform!"
   },
@@ -88,7 +89,7 @@
     "title": "FAQ",
     "question-1": "What is Stkr?",
     "answer-1": "<p>Stkr is a decentralized protocol and platform that combines staking and DeFi to remove entry barriers and democratize staking for everyone.</p>",
-    "question-2": "Can I stake if I have less than 32 ETH?\n",
+    "question-2": "Can I stake if I have less than 32 ETH?",
     "answer-2": "<p>Yes! To democratize access to Ethereum 2.0 for users who are unable to invest 32 ETH (the fixed amount required by the network), Stkr introduces Micropools – a proprietary solution that enables you to start staking with as little as 0.5 ETH. Simply choose the amount you want to delegate, and the system will automatically assign it to the best providers.\n</p>",
     "question-3": "What are Micropools?",
     "answer-3": "<p>The Micropools mechanism is our unique solution for breaking down the economic barriers for Ethereum 2.0 staking. As the name implies, Micropools allow users to chip in smaller portions of ETH towards a Validator, and receive a proportionate reward based on their contribution.</p>",
@@ -551,5 +552,17 @@
   "transaction-completed": {
     "title": "Transaction completed!",
     "notice": "Please switch your network to Ethereum Mainnet to continue"
+  },
+  "about-smartchain": {
+    "title": "Binance Smart Chain",
+    "submit": "Launch App",
+    "text": {
+      "0": "To use Ankr Staking for Binance Smart Chain–pegged ETH you first need to add the Binance Smart Chain network to your MetaMask wallet by following these steps. If you have already added the Binance Smart Chain (BSC) network, please go straight to step 4.",
+      "1": "1. In your MetaMask, click the menu which is set to “Main Ethereum Network” by default. In the dropdown click “Custom RPC”.",
+      "2": "2. A form will appear, where you need to fill in certain parameters to connect to the Binance Smart Chain network.",
+      "3": "3. Fill in the following parameters: Network name: Binance Smart Chain New RPC URL: https://bsc-dataseed.binance.org ChainID: 56 Symbol: BNB Block Explorer: https://bscscan.com",
+      "4": "4. Now switch in the menu from Mainnet Ethereum Network to Binance Smart Chain and you will see the default currency change from ETH to BNB.",
+      "5": "5. Click Launch App button to connect your MetaMask account. You will automatically taken to the converter page."
+    }
   }
 }

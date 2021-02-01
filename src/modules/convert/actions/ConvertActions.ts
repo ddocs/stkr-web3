@@ -1,7 +1,7 @@
 import { StkrSdk } from '../../api';
 import { BridgeSdk } from '../../bridge-sdk';
 import { createAction } from 'redux-smart-actions';
-import { IConversionStats } from '../api/conertApi';
+import { IConversionStats } from '../api/convertApi';
 
 export const ConvertActions = {
   fetchConversionStats: createAction('FETCH_CONVERSION_STATS', () => ({

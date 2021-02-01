@@ -6,6 +6,7 @@ import { PageNotFound } from './components/PageNotFound/PageNotFound';
 import { withDefaultLayout } from './modules/layout';
 import {
   ABOUT_AETH_PATH,
+  ABOUT_SMARTCHAIN_PATH,
   ANKR_IFRAME_PATH,
   CONVERT_ROUTE,
   GOVERNANCE_CREATE_PROJECT_PATH,
@@ -151,6 +152,18 @@ const LoadableConvertContainer = loadable(
   },
 );
 
+const LoadableAboutSmartchainContainer = withDefaultLayout(
+  loadable(
+    async () =>
+      import('./modules/convert/screens/AboutSmartchain').then(
+        module => module.AboutSmartchain,
+      ),
+    {
+      fallback: <QueryLoadingAbsolute />,
+    },
+  ) as LoadableComponent<any>,
+);
+
 export function Routes() {
   return (
     <Switch>
@@ -204,6 +217,16 @@ export function Routes() {
       <Route
         path={ABOUT_AETH_PATH}
         component={AboutAethContainer}
+        exact={true}
+      />
+      <Route
+        path={ABOUT_AETH_PATH}
+        component={AboutAethContainer}
+        exact={true}
+      />
+      <Route
+        path={ABOUT_SMARTCHAIN_PATH}
+        component={LoadableAboutSmartchainContainer}
         exact={true}
       />
       {/*TODO Only Smartchain Route*/}
