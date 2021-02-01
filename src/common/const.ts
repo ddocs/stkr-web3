@@ -22,6 +22,7 @@ export const GOVERNANCE_PROJECT_PATH = `${GOVERNANCE_PATH}/project/view`;
 export const GOVERNANCE_PROJECT_ROUTE = `${GOVERNANCE_PATH}/project/view/:projectId`;
 export const ABOUT_AETH_PATH = '/what-is-aeth';
 export const CONVERT_ROUTE = '/convert/:from/:to';
+export const ABOUT_SMARTCHAIN_PATH = '/bsc';
 
 export function getGovernanceProjectPath(projectId: string) {
   return generatePath(GOVERNANCE_PROJECT_ROUTE, { projectId });
@@ -57,7 +58,7 @@ export const ENABLE_PROVIDER = true;
 
 export const ETH_SCALE_FACTOR = 10 ** 18;
 export const PROVIDER_MIN_BALANCE: ETH = 2;
-export const STAKING_AMOUNT_STEP = 0.5; // TODO Revert to 0.5
+export const STAKING_AMOUNT_STEP = 0.5;
 export const PROVIDE_MIN_BALANCE: ETH = 2;
 export const ETHEREUM_PRICE = 1400;
 export const DEFAULT_FIXED = 4;

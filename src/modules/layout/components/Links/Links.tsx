@@ -2,13 +2,14 @@ import { Tooltip } from '@material-ui/core';
 import classNames from 'classnames';
 import React, { SVGAttributes, useCallback, useMemo, useState } from 'react';
 import {
+  ABOUT_SMARTCHAIN_PATH,
   DOCS_LINK,
   GOVERNANCE_PROJECT_LIST_PATH,
   LITEPAPER_LINK,
   PROVIDER_PATH,
   SOCIAL_LINK,
-  STAKER_DASHBOARD_PATH,
-} from '../../../../common/const';
+  STAKER_DASHBOARD_PATH
+} from "../../../../common/const";
 import { useIsMDDown } from '../../../../common/hooks/useTheme';
 import { t } from '../../../../common/utils/intl';
 import { Button } from '../../../../UiKit/Button';
@@ -66,6 +67,7 @@ export const Links = ({ className, isAuth }: ILinksProps) => {
         medium: SOCIAL_LINK.medium,
       },
       docs: DOCS_LINK,
+      BSC: ABOUT_SMARTCHAIN_PATH,
       governance: isAuth ? GOVERNANCE_PROJECT_LIST_PATH : '',
       staker: isAuth && isMDDown ? STAKER_DASHBOARD_PATH : '',
       provider: isAuth && isMDDown ? PROVIDER_PATH : '',
