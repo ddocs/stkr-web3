@@ -109,7 +109,7 @@ export const CreateNodeComponent = ({
                 {t('create-node.label.node-name')}
                 <Tooltip title={t('create-node.hint.node-name')}>
                   <IconButton className={classes.question}>
-                    <QuestionIcon size="xs" />
+                    <QuestionIcon size="sm" />
                   </IconButton>
                 </Tooltip>
               </>
@@ -123,7 +123,7 @@ export const CreateNodeComponent = ({
                 {t('create-node.label.eth-node')}
                 <Tooltip title={t('create-node.hint.eth1Url')}>
                   <IconButton className={classes.question}>
-                    <QuestionIcon size="xs" />
+                    <QuestionIcon size="sm" />
                   </IconButton>
                 </Tooltip>
               </>
