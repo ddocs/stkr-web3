@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { Curtains } from '../../../../UiKit/Curtains';
 import { Box, Button, Paper, Typography } from '@material-ui/core';
-import { t } from '../../../../common/utils/intl';
+import { t, tHTML } from "../../../../common/utils/intl";
 import { useAboutSmartchainStyles } from './AboutSmartchainStyles';
 import step1Img from './assets/step1.png';
 import step2Img from './assets/step2.png';
@@ -52,23 +52,23 @@ export const AboutSmartchain = () => {
                 className={classes.image2}
               />
             </Box>
-            <Typography variant="body1">
+            <Typography variant="body2">
               {t('about-smartchain.text.1')}
             </Typography>
-            <Typography variant="body1">
+            <Typography variant="body2">
               {t('about-smartchain.text.2')}
             </Typography>
-            <Typography variant="body1">
-              {t('about-smartchain.text.3')}
+            <Typography variant="body2">
+              {tHTML('about-smartchain.text.3')}
             </Typography>
           </Box>
           <Box mb={7}>
-            <Typography variant="body1">
+            <Typography variant="body2">
               {t('about-smartchain.text.4')}
             </Typography>
           </Box>
           <Box mb={10}>
-            <Typography variant="body1">
+            <Typography variant="body2">
               {t('about-smartchain.text.5')}
             </Typography>
           </Box>

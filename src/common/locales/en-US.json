@@ -560,7 +560,7 @@
       "0": "To use Ankr Staking for Binance Smart Chain–pegged ETH you first need to add the Binance Smart Chain network to your MetaMask wallet by following these steps. If you have already added the Binance Smart Chain (BSC) network, please go straight to step 4.",
       "1": "1. In your MetaMask, click the menu which is set to “Main Ethereum Network” by default. In the dropdown click “Custom RPC”.",
       "2": "2. A form will appear, where you need to fill in certain parameters to connect to the Binance Smart Chain network.",
-      "3": "3. Fill in the following parameters: Network name: Binance Smart Chain New RPC URL: https://bsc-dataseed.binance.org ChainID: 56 Symbol: BNB Block Explorer: https://bscscan.com",
+      "3": "3. Fill in the following parameters:<br/>Network name: Binance Smart Chain<br/>New RPC URL: https://bsc-dataseed.binance.org<br/>ChainID: 56<br/>Symbol: BNB Block Explorer: https://bscscan.com",
       "4": "4. Now switch in the menu from Mainnet Ethereum Network to Binance Smart Chain and you will see the default currency change from ETH to BNB.",
       "5": "5. Click Launch App button to connect your MetaMask account. You will automatically taken to the converter page."
     }
