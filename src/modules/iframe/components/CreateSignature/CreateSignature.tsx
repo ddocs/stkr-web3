@@ -65,7 +65,7 @@ export const CreateSignature = () => {
             networkId,
             provider: provider.name,
             sidecars,
-            insuranceBalance: insuranceBalance.toFormat(),
+            insuranceBalance: insuranceBalance.toString(),
           },
           '*',
         );
