@@ -125,7 +125,7 @@ workflows:
       - approve-bs-2:
           type: approval
       - build-bs-2:
-          context: stkr_build_prod
+          context: stkr_build_goerli
           requires:
             - approve-bs-2
       - upload-bs-2:
