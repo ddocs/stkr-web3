@@ -36,6 +36,9 @@ export const CreateSignature = () => {
       const provider = stkrSdk.getKeyProvider();
       const address = provider.currentAccount();
       const networkId = provider.currentNetwork();
+      const insuranceBalance = await stkrSdk
+        .getContractManager()
+        .etherBalanceOf(address);
 
       if (!networkId) {
         throw new Error('Not connected');
@@ -62,6 +65,7 @@ export const CreateSignature = () => {
             networkId,
             provider: provider.name,
             sidecars,
+            insuranceBalance: insuranceBalance.toString(),
           },
           '*',
         );
