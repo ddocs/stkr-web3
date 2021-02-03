@@ -1,1 +1,1 @@
-export { RulesDialog } from './RulesDialog';
+export * from './RulesDialog';

@@ -1,5 +1,3 @@
-import React, { useCallback } from 'react';
-import { useRulesDialogStyles } from './RulesDialogStyles';
 import {
   Box,
   Button,
@@ -8,17 +6,21 @@ import {
   IconButton,
   Typography,
 } from '@material-ui/core';
-import { CancelIcon } from '../../../../UiKit/Icons/CancelIcon';
-import { t } from '../../../../common/utils/intl';
+import classNames from 'classnames';
+import React, { useCallback, useMemo } from 'react';
+import { useDispatch } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import { uid } from 'react-uid';
 import {
   ANKR_DEPOSIT_LINK,
   GOVERNANCE_CREATE_PROJECT_PATH,
   isMainnet,
 } from '../../../../common/const';
-import { ReactComponent as InfoIcon } from '../../assets/info.svg';
+import { t } from '../../../../common/utils/intl';
 import { UserActions } from '../../../../store/actions/UserActions';
-import { useDispatch } from 'react-redux';
+import { CloseIcon } from '../../../../UiKit/Icons/CloseIcon';
+import { ReactComponent as InfoIcon } from '../../assets/info.svg';
+import { useRulesDialogStyles } from './RulesDialogStyles';
 
 interface IRulesDialogProps {
   isOpened: boolean;
@@ -39,56 +41,71 @@ export const RulesDialog = ({
     dispatch(UserActions.faucet());
   }, [dispatch]);
 
+  const paragraphs = useMemo(
+    () => [
+      t('rules-dialog.item.1'),
+      t('rules-dialog.item.2'),
+      t('rules-dialog.item.3'),
+      t('rules-dialog.item.4'),
+      t('rules-dialog.item.5'),
+    ],
+    [],
+  );
+
   return (
     <Dialog
       open={isOpened}
       onClose={handleClose}
       fullWidth={true}
       maxWidth="sm"
+      scroll="body"
       classes={{ paper: classes.dialogPaper }}
-      BackdropProps={{
-        children: (
-          <IconButton className={classes.close} onClick={handleClose}>
-            <CancelIcon size="xmd" />
-          </IconButton>
-        ),
-      }}
     >
-      <DialogContent>
+      <DialogContent className={classes.dialogContent}>
         <Box mb={2.5}>
-          <Typography variant="h2" align="center">
+          <Typography variant="h2" align="center" className={classes.title}>
             {t('rules-dialog.title')}
           </Typography>
         </Box>
-        <Box mb={6.5}>
-          <Typography variant="body2" align="center" color="textSecondary">
-            {t('rules-dialog.subtitle')}
-          </Typography>
-        </Box>
-        <ul className={classes.list}>
-          <Typography variant="body2" component="li" className={classes.item}>
-            {t('rules-dialog.item.1')}
-          </Typography>
-          <Typography variant="body2" component="li" className={classes.item}>
-            {t('rules-dialog.item.2')}
-          </Typography>
-          <Typography variant="body2" component="li" className={classes.item}>
-            {t('rules-dialog.item.3')}
-          </Typography>
-          <Typography variant="body2" component="li" className={classes.item}>
-            {t('rules-dialog.item.4')}
-          </Typography>
-          <Typography variant="body2" component="li" className={classes.item}>
-            {t('rules-dialog.item.5')}
-          </Typography>
+
+        <Typography
+          variant="body2"
+          align="center"
+          color="textSecondary"
+          className={classes.text}
+        >
+          {t('rules-dialog.subtitle')}
+        </Typography>
+
+        <ul
+          className={classNames(
+            classes.list,
+            hasEnoughBalance && classes.listBigOffset,
+          )}
+        >
+          {paragraphs.map(text => (
+            <Typography
+              variant="body2"
+              component="li"
+              className={classes.item}
+              key={uid(text)}
+            >
+              {text}
+            </Typography>
+          ))}
         </ul>
+
         {!hasEnoughBalance && (
-          <div className={classes.tip}>
-            <InfoIcon className={classes.icon} />
-            <Typography variant="body2">{t('rules-dialog.tip')}</Typography>
+          <div className={classes.warning}>
+            <InfoIcon className={classes.warningIcon} />
+
+            <Typography variant="body2" color="textPrimary">
+              {t('rules-dialog.tip')}
+            </Typography>
           </div>
         )}
-        <Box maxWidth={276} margin="0 auto">
+
+        <Box className={classes.btnWrap}>
           {hasEnoughBalance ? (
             <Button
               component={NavLink}
@@ -96,6 +113,7 @@ export const RulesDialog = ({
               size="large"
               fullWidth={true}
               color="primary"
+              onClick={handleClose}
             >
               {t('rules-dialog.submit')}
             </Button>
@@ -108,6 +126,7 @@ export const RulesDialog = ({
                     target="_blank"
                     rel="noreferrer"
                     className={classes.link}
+                    onClick={handleClose}
                   >
                     {t('rules-dialog.buy-ankr')}
                   </a>
@@ -125,6 +144,10 @@ export const RulesDialog = ({
             </>
           )}
         </Box>
+
+        <IconButton className={classes.close} onClick={handleClose}>
+          <CloseIcon size="sm" />
+        </IconButton>
       </DialogContent>
     </Dialog>
   );

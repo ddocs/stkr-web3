@@ -1,11 +1,11 @@
+import { Dialog, DialogContent, IconButton } from '@material-ui/core';
 import React from 'react';
-import { useVideoStyles } from './VideoStyles';
 import ReactPlayer from 'react-player';
 import { ReactComponent as PlayIcon } from '../../common/assets/play.svg';
 import { DIALOG_PRESENTATION } from '../../store/dialogs/actions';
 import { useDialog } from '../../store/dialogs/selectors';
-import { Dialog, DialogContent, IconButton } from '@material-ui/core';
 import { CancelIcon } from '../../UiKit/Icons/CancelIcon';
+import { useVideoStyles } from './VideoStyles';
 
 interface IVideoProps {
   coverUrl: string;

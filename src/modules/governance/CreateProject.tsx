@@ -1,8 +1,3 @@
-import * as React from 'react';
-import { useCallback } from 'react';
-import { Curtains } from '../../UiKit/Curtains';
-import { Headline2 } from '../../UiKit/Typography';
-import { t } from '../../common/utils/intl';
 import {
   Box,
   Divider,
@@ -12,25 +7,29 @@ import {
   Typography,
   ValueLabelProps,
 } from '@material-ui/core';
-import { useCreateProjectStyles } from './CreateProjectStyles';
+import { Mutation } from '@redux-requests/react';
+import * as React from 'react';
+import { useCallback } from 'react';
 import { Field, Form, FormRenderProps } from 'react-final-form';
-import { InputField } from '../../UiKit/InputField';
-import { Button } from '../../UiKit/Button';
-import { FormErrors } from '../../common/types/FormErrors';
-import { SliderField } from '../../UiKit/RangeField';
-import { useDialog } from '../../store/dialogs/selectors';
-import { DIALOG_GOVERNANCE_PROJECT_CREATED } from '../../store/dialogs/actions';
-import { ProjectCreatedDialog } from './components/ProjectCreatedDialog';
 import { useDispatch } from 'react-redux';
+import { Link as RouterLink } from 'react-router-dom';
+import { GOVERNANCE_PROJECT_LIST_PATH } from '../../common/const';
+import { FormErrors } from '../../common/types/FormErrors';
+import { t } from '../../common/utils/intl';
+import { MutationErrorHandler } from '../../components/MutationErrorHandler/MutationErrorHandler';
 import {
   GovernanceActions,
   GovernanceActionTypes,
 } from '../../store/actions/GovernanceActions';
-import { Mutation } from '@redux-requests/react';
-import { MutationErrorHandler } from '../../components/MutationErrorHandler/MutationErrorHandler';
-import { Link as RouterLink } from 'react-router-dom';
-import { GOVERNANCE_PROJECT_LIST_PATH } from '../../common/const';
+import { DIALOG_GOVERNANCE_PROJECT_CREATED } from '../../store/dialogs/actions';
+import { useDialog } from '../../store/dialogs/selectors';
+import { Button } from '../../UiKit/Button';
+import { Curtains } from '../../UiKit/Curtains';
 import { CancelIcon } from '../../UiKit/Icons/CancelIcon';
+import { InputField } from '../../UiKit/InputField';
+import { SliderField } from '../../UiKit/RangeField';
+import { ProjectCreatedDialog } from './components/ProjectCreatedDialog';
+import { useCreateProjectStyles } from './CreateProjectStyles';
 
 const SECONDS_IN_DAY = 60 * 60 * 24;
 
@@ -39,17 +38,15 @@ const DEFAULT_TIME_SPAN = 3;
 function SliderLabel({ value, children, open }: ValueLabelProps) {
   const classes = useCreateProjectStyles();
   return (
-    <>
-      <Tooltip
-        classes={{ tooltip: classes.tooltip }}
-        open={open}
-        enterTouchDelay={0}
-        title={t('unit.day-value', { value })}
-        placement="top"
-      >
-        {children}
-      </Tooltip>
-    </>
+    <Tooltip
+      classes={{ tooltip: classes.tooltip }}
+      open={open}
+      enterTouchDelay={0}
+      title={t('unit.day-value', { value })}
+      placement="top"
+    >
+      {children}
+    </Tooltip>
   );
 }
 
@@ -111,10 +108,12 @@ export const CreateProject = () => {
             fullWidth={true}
           />
         </Box>
-        <Box mb={8.5}>
+
+        <Box mb={5}>
           <Field
             component={InputField}
             name="content"
+            multiline
             label={t('create-project.label.description')}
             fullWidth={true}
           />
@@ -127,6 +126,7 @@ export const CreateProject = () => {
             {t('create-project.label.timing')}
           </Typography>
         </Box>
+
         <Box mb={11}>
           <Typography variant="body2" color="textSecondary" align="center">
             {t('create-project.description.timing')}
@@ -145,11 +145,12 @@ export const CreateProject = () => {
           />
         </Box>
 
-        <Box maxWidth={280} width="100%" margin="0 auto">
+        <Box className={classes.btnWrap}>
           <MutationErrorHandler
             resetOnShow={false}
             type={GovernanceActionTypes.CREATE_PROJECT}
           />
+
           <Mutation type={GovernanceActionTypes.CREATE_PROJECT}>
             {({ loading }) => (
               <Button
@@ -172,22 +173,40 @@ export const CreateProject = () => {
     );
   };
 
+  const headingText = t('create-project.title');
+
   return (
     <>
       <ProjectCreatedDialog isOpened={isOpened} handleClose={handleClose} />
+
       <section className={classes.root}>
         <Curtains className={classes.content}>
-          <RouterLink to={GOVERNANCE_PROJECT_LIST_PATH}>
-            <IconButton className={classes.close} onClick={handleClose}>
+          <RouterLink
+            to={GOVERNANCE_PROJECT_LIST_PATH}
+            className={classes.closeLink}
+          >
+            <IconButton onClick={handleClose} className={classes.closeBtn}>
               <CancelIcon size="xmd" />
             </IconButton>
           </RouterLink>
-          <Box mb={4}>
-            <Headline2 align="center" component="h2">
-              {t('create-project.title')}
-            </Headline2>
-          </Box>
+
+          <Typography
+            align="center"
+            variant="h2"
+            className={classes.titleTablet}
+          >
+            {headingText}
+          </Typography>
+
           <Paper variant="outlined" square={false} className={classes.paper}>
+            <Typography
+              variant="h4"
+              component="h2"
+              className={classes.titleMobile}
+            >
+              {headingText}
+            </Typography>
+
             <Form
               render={renderForm}
               validate={validateCreateProjectForm}
