@@ -21,7 +21,7 @@ export const CreateSignature = () => {
   const dispatch = useDispatch();
   const handleCreateSignature = useCallback(async () => {
     try {
-      const stkrSdk = StkrSdk.getLastInstance();
+      const stkrSdk = StkrSdk.getForEnv();
       if (!stkrSdk) {
         throw new Error('there is not stkr sdk instance available');
       }
@@ -33,9 +33,9 @@ export const CreateSignature = () => {
         throw new Error('unable to obtain access token from stkr sdk');
       }
 
-      const provider = stkrSdk.getKeyProvider();
-      const address = provider.currentAccount();
-      const networkId = provider.currentNetwork();
+      const keyProvider = stkrSdk.getKeyProvider();
+      const address = keyProvider.currentAccount();
+      const networkId = keyProvider.currentNetwork();
 
       if (!networkId) {
         throw new Error('Not connected');
@@ -56,18 +56,18 @@ export const CreateSignature = () => {
       if (window.opener) {
         window.opener.postMessage(
           {
-            accessToken: accessToken.token,
+            accessToken: accessToken,
             address,
             network,
             networkId,
-            provider: provider.name,
+            provider: keyProvider.name,
             sidecars,
           },
           '*',
         );
         window.close();
       }
-      window.parent?.postMessage({ accessToken: accessToken.token }, '*');
+      window.parent?.postMessage({ accessToken: accessToken }, '*');
     } catch (error) {
       dispatch(
         NotificationActions.showNotification({

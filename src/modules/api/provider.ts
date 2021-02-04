@@ -1,15 +1,32 @@
 import Web3 from 'web3';
-import { AbiItem } from 'web3-utils';
+import {
+  AbiItem,
+  bytesToHex,
+  numberToHex,
+  toChecksumAddress,
+} from 'web3-utils';
 import { Contract } from 'web3-eth-contract';
 import { BigNumber } from 'bignumber.js';
 import { PromiEvent, TransactionReceipt } from 'web3-core';
 import { EventEmitter } from 'events';
 import { BlockchainNetworkId } from '@ankr.com/stkr-jssdk';
+import Web3Modal, { IProviderOptions } from 'web3modal';
+import binanceWalletLogo from './assets/binanceWallet.svg';
+import WalletConnectProvider from '@walletconnect/web3-provider';
+import { BscConnector } from '@binance-chain/bsc-connector';
+import imTokenLogo from './assets/imToken.svg';
+import mathLogo from './assets/math.svg';
+import trustWalletLogo from './assets/trust.svg';
+import huobiLogo from './assets/huobi.svg';
+import { PALETTE } from '../../common/themes/mainTheme';
+import { fade } from '@material-ui/core';
+import { getNetworkName } from '../../common/utils/getNetworkName';
+import { KeyProviderEvents } from './event';
+import { Transaction } from 'ethereumjs-tx';
 
-export interface ProviderConfig {
-  networkId: BlockchainNetworkId;
-  chainId: BlockchainNetworkId;
-  smartchainNetworkId: BlockchainNetworkId;
+export interface IProviderConfig {
+  ethereumChainId: BlockchainNetworkId;
+  binanceChainId: BlockchainNetworkId;
 }
 
 export interface SendOptions {
@@ -18,7 +35,7 @@ export interface SendOptions {
   value?: string;
 }
 
-export interface SendAsyncResult {
+export interface ISendAsyncResult {
   receiptPromise: PromiEvent<TransactionReceipt>;
   transactionHash: string;
   rawTransaction: string;
@@ -48,7 +65,7 @@ export abstract class KeyProvider {
   protected _fetchInterval = 0;
 
   constructor(
-    protected providerConfig: ProviderConfig,
+    protected providerConfig: IProviderConfig,
     protected eventEmitter: EventEmitter,
   ) {
     this._fetchInterval = setInterval(async () => {
@@ -56,6 +73,8 @@ export abstract class KeyProvider {
       this._latestBlockHeight = await this._web3.eth.getBlockNumber();
     }, 10_000) as any;
   }
+
+  public abstract isBinanceSmartChain(): boolean;
 
   public abstract get name(): string;
 
@@ -89,11 +108,11 @@ export abstract class KeyProvider {
   }
 
   public currentChain(): BlockchainNetworkId {
-    return this.providerConfig.chainId;
+    return this.providerConfig.ethereumChainId;
   }
 
   public currentNetwork(): BlockchainNetworkId | undefined {
-    return this.providerConfig.networkId;
+    return this.providerConfig.ethereumChainId;
   }
 
   public abstract findAccounts(): Promise<string[]>;
@@ -117,7 +136,7 @@ export abstract class KeyProvider {
     from: string,
     to: string,
     sendOptions: SendOptions,
-  ): Promise<SendAsyncResult>;
+  ): Promise<ISendAsyncResult>;
 
   public async signLoginData(ttl: number): Promise<string> {
     const currentTime = Math.floor(new Date().getTime()),
@@ -128,22 +147,383 @@ export abstract class KeyProvider {
     return new Buffer(formData, 'utf-8').toString('base64');
   }
 
-  public async ethereumBalance(address: string): Promise<string> {
+  public async getNativeBalance(address: string): Promise<string> {
     const balance = await this.getWeb3().eth.getBalance(address);
     return new BigNumber(`${balance}`)
       .dividedBy(new BigNumber(10).pow(18))
       .toString(10);
   }
 
-  public async erc20Balance(
+  public async getErc20Balance(
     contract: Contract,
     address: string,
-  ): Promise<string> {
+  ): Promise<BigNumber> {
     const balance = await contract.methods.balanceOf(address).call();
-    let decimals = await contract.methods.decimals().call();
-    if (!Number(decimals)) decimals = 18;
-    return new BigNumber(`${balance}`)
-      .dividedBy(new BigNumber(10).pow(decimals))
-      .toString(10);
+    let decimals = 18;
+    try {
+      decimals = await contract.methods.decimals().call();
+      if (!Number(decimals)) {
+        decimals = 18;
+      }
+    } catch (e) {
+      console.error(`Unable to calculate contract decimals: ${e}`);
+    }
+    return new BigNumber(`${balance}`).dividedBy(
+      new BigNumber(10).pow(decimals),
+    );
+  }
+}
+
+export class Web3ModalKeyProvider extends KeyProvider {
+  private web3Modal: Web3Modal | undefined;
+  private provider: any;
+  private binanceWallet = false;
+  public name = 'Metamask';
+  public chainId: BlockchainNetworkId | undefined = undefined;
+
+  async connect(): Promise<IConnectResult> {
+    this.binanceWallet = false;
+    // TODO Move up the provider creation
+    const providerOptions: IProviderOptions = {
+      'custom-binancewallet': {
+        display: {
+          logo: binanceWalletLogo,
+          name: 'binanceWallet',
+          description: 'Binance Wallet',
+        },
+        package: WalletConnectProvider,
+        options: {},
+        connector: async () => {
+          const bsc = new BscConnector({
+            // 56 - mainnet
+            // 97 - testnet
+            supportedChainIds: [56, 97],
+          });
+          const connectionResult = await bsc.activate();
+          console.log(
+            `BSC is connected: ${JSON.stringify(connectionResult, null, 2)}`,
+          );
+          const account = await bsc.getAccount(),
+            chain = await bsc.getChainId();
+          console.log(`Detected BSC account: ${account}`);
+          console.log(`Detected BSC chain: ${chain}`);
+          this.chainId = parseInt(
+            `${chain}`,
+            `${chain}`.startsWith('0x') ? 16 : 10,
+          );
+          this.binanceWallet = true;
+          return await bsc.getProvider();
+        },
+      },
+      'custom-imtoken': {
+        display: {
+          logo: imTokenLogo,
+          name: 'imToken',
+          description: 'Easy and secure digital wallet trusted by millions',
+        },
+        package: WalletConnectProvider,
+        options: {
+          rpc: {
+            1: 'https://eth-03.dccn.ankr.com',
+            5: 'https://goerli.infura.io/v3/3c88c0ec7e57421fa7d019780d2e6768',
+            56: 'https://bsc-dataseed.binance.org/',
+          },
+        },
+        connector: async (ProviderPackage: any, options: any) => {
+          const provider = new ProviderPackage(options);
+          await provider.enable();
+          return provider;
+        },
+      },
+      'custom-math': {
+        display: {
+          logo: mathLogo,
+          name: 'Math Wallet',
+          description: 'Gateway to the World of Blockchain',
+        },
+        package: WalletConnectProvider,
+        options: {
+          rpc: {
+            1: 'https://eth-03.dccn.ankr.com',
+            5: 'https://goerli.infura.io/v3/3c88c0ec7e57421fa7d019780d2e6768',
+            56: 'https://bsc-dataseed.binance.org/',
+          },
+        },
+        connector: async (ProviderPackage: any, options: any) => {
+          const provider = new ProviderPackage(options);
+          await provider.enable();
+          return provider;
+        },
+      },
+      'custom-trust': {
+        display: {
+          logo: trustWalletLogo,
+          name: 'Trust Wallet',
+          description: 'The most trusted & secure crypto wallet',
+        },
+        package: WalletConnectProvider,
+        options: {
+          rpc: {
+            1: 'https://eth-03.dccn.ankr.com',
+            5: 'https://goerli.infura.io/v3/3c88c0ec7e57421fa7d019780d2e6768',
+            56: 'https://bsc-dataseed.binance.org/',
+          },
+        },
+        connector: async (ProviderPackage: any, options: any) => {
+          const provider = new ProviderPackage(options);
+          await provider.enable();
+          return provider;
+        },
+      },
+      'custom-huobi': {
+        display: {
+          logo: huobiLogo,
+          name: 'Huobi Wallet',
+          description: 'Multi-currency support, practical and convenient',
+        },
+        package: WalletConnectProvider,
+        options: {
+          rpc: {
+            1: 'https://eth-03.dccn.ankr.com',
+            5: 'https://goerli.infura.io/v3/3c88c0ec7e57421fa7d019780d2e6768',
+            56: 'https://bsc-dataseed.binance.org/',
+          },
+        },
+        connector: async (ProviderPackage: any, options: any) => {
+          const provider = new ProviderPackage(options);
+          await provider.enable();
+          return provider;
+        },
+      },
+      walletconnect: {
+        package: WalletConnectProvider,
+        options: {
+          rpc: {
+            1: 'https://eth-03.dccn.ankr.com',
+            5: 'https://goerli.infura.io/v3/3c88c0ec7e57421fa7d019780d2e6768',
+            56: 'https://bsc-dataseed.binance.org/',
+          },
+        },
+      },
+    };
+
+    this.web3Modal = new Web3Modal({
+      cacheProvider: false,
+      providerOptions,
+      theme: {
+        background: PALETTE.background.paper,
+        main: PALETTE.text.primary,
+        secondary: fade(PALETTE.text.primary, 0.5),
+        border: PALETTE.background.default,
+        hover: PALETTE.background.paper,
+      },
+    } as any);
+
+    const provider = await this.web3Modal.connect();
+    this.provider = provider;
+
+    const web3 = new Web3(provider);
+    const chainId = Number(
+      this.chainId ?? provider.networkVersion ?? provider.chainId,
+    );
+
+    if (
+      chainId !== this.providerConfig.ethereumChainId &&
+      chainId !== this.providerConfig.binanceChainId
+    ) {
+      console.error(
+        `ethereum networks mismatched ${chainId} != ${this.providerConfig.ethereumChainId} or ${this.providerConfig.binanceChainId}`,
+      );
+      await this.disconnect();
+
+      throw new Error(
+        `Please, change your wallet network to ${getNetworkName(
+          this.providerConfig.ethereumChainId,
+        )} or ${getNetworkName(this.providerConfig.binanceChainId)}.`,
+      );
+    }
+    await this.unlockAccounts(web3);
+    provider.on('accountsChanged', (accounts: Address[]) => {
+      this.eventEmitter.emit(KeyProviderEvents.AccountChanged, { accounts });
+    });
+    provider.on('disconnect', (error: ProviderRpcError) => {
+      this.eventEmitter.emit(KeyProviderEvents.Disconnect, { error });
+      console.log(
+        `You've disconnected from MetaMask: ${JSON.stringify(error)}`,
+      );
+    });
+    provider.on('message', (message: ProviderMessage) => {
+      this.eventEmitter.emit(KeyProviderEvents.Message, message);
+    });
+    provider.on('chainChanged', (chainId: string) => {
+      this.eventEmitter.emit(KeyProviderEvents.ChainChanged, {
+        chainId,
+      });
+      console.log(`detected MetaMask chainId change to ${chainId}`);
+      // TODO Extract reload
+      document.location.reload();
+    });
+    provider.autoRefreshOnNetworkChange = false;
+    this._latestBlockHeight = await web3.eth.getBlockNumber();
+    this._web3 = web3;
+    this.chainId = chainId;
+
+    return { chainId };
+  }
+
+  public isBinanceSmartChain(): boolean {
+    return this.chainId === 97 || this.chainId === 56;
+  }
+
+  public isBinanceWallet(): boolean {
+    return this.binanceWallet;
+  }
+
+  public currentNetwork(): BlockchainNetworkId | undefined {
+    return this.chainId;
+  }
+
+  disconnect(): Promise<void> {
+    this.chainId = undefined;
+    try {
+      this.provider?.close();
+      this.web3Modal?.clearCachedProvider();
+    } catch (error) {
+      console.error(error);
+    }
+    return Promise.resolve();
+  }
+
+  async findAccounts(): Promise<string[]> {
+    return this._currentAccount ? [this._currentAccount] : [];
+  }
+
+  async sign(
+    data: Buffer | string | Record<string, unknown>,
+    address: string,
+  ): Promise<string> {
+    try {
+      if (typeof data === 'object') {
+        data = bytesToHex(data as any);
+      }
+      if (this.isBinanceWallet()) {
+        return this.getWeb3().eth.sign(data, toChecksumAddress(address));
+      }
+      return this.getWeb3().eth.personal.sign(data, address, '');
+    } catch (e) {
+      console.error(e);
+      const message = e.message.substr(0, e.message.indexOf('\n')),
+        parts = message.split(':');
+      /* try to detect angry MetaMask messages */
+      if (parts.length > 0) {
+        /* special case for Firefox that doesn't return any errors, only extension stack trace */
+        if (
+          message.includes('@moz-extension') &&
+          message.includes('Returned error: value')
+        ) {
+          throw new Error('User denied message signature');
+        }
+        /* cases for other browsers (tested in Chrome, Opera, Brave) */
+        if (
+          message.includes('MetaMask') ||
+          message.includes('Returned error') ||
+          message.includes('RPC Error')
+        ) {
+          throw new Error(parts[parts.length - 1]);
+        }
+      }
+      throw e;
+    }
+  }
+
+  private tryGetRawTx(rawTx: any): string {
+    const allowedChains = ['1', '3', '4', '42', '5'];
+    if (!allowedChains.includes(`${this.chainId}`)) {
+      console.warn(`raw tx can't be greated for this chain id ${this.chainId}`);
+      return '';
+    }
+    const { v, r, s } = rawTx as any; /* this fields are not-documented */
+    const newTx = new Transaction(
+      {
+        gasLimit: this.getWeb3().utils.numberToHex(rawTx.gas),
+        gasPrice: this.getWeb3().utils.numberToHex(Number(rawTx.gasPrice)),
+        to: `${rawTx.to}`,
+        nonce: this.getWeb3().utils.numberToHex(rawTx.nonce),
+        data: rawTx.input,
+        v: v,
+        r: r,
+        s: s,
+        value: this.getWeb3().utils.numberToHex(rawTx.value),
+      },
+      {
+        chain: this.chainId,
+      },
+    );
+    if (!newTx.verifySignature())
+      throw new Error(`The signature is not valid for this transaction`);
+    console.log(`New Tx: `, JSON.stringify(newTx, null, 2));
+    const rawTxHex = newTx.serialize().toString('hex');
+    console.log(`Raw transaction hex is: `, rawTxHex);
+    return rawTxHex;
+  }
+
+  public async sendAsync(
+    from: string,
+    to: string,
+    sendOptions: SendOptions,
+  ): Promise<ISendAsyncResult> {
+    const gasPrice = await this.getWeb3().eth.getGasPrice();
+    console.log('Gas Price: ' + gasPrice);
+    const nonce = await this.getWeb3().eth.getTransactionCount(from);
+    console.log('Nonce: ' + nonce);
+    const tx = {
+      from: from,
+      to: to,
+      value: numberToHex(sendOptions.value || '0'),
+      gas: numberToHex(sendOptions.gasLimit || '500000'),
+      gasPrice: gasPrice,
+      data: sendOptions.data,
+      nonce: nonce,
+      chainId: this.chainId,
+    };
+    console.log('Sending transaction via Web3: ', tx);
+    return new Promise<ISendAsyncResult>((resolve, reject) => {
+      const promise = this.getWeb3().eth.sendTransaction(tx);
+      promise
+        .once('transactionHash', async (transactionHash: string) => {
+          console.log(`Just signed transaction has is: ${transactionHash}`);
+          const rawTx = await this.getWeb3().eth.getTransaction(
+            transactionHash,
+          );
+          console.log(
+            `Found transaction in node: `,
+            JSON.stringify(rawTx, null, 2),
+          );
+          const rawTxHex = this.tryGetRawTx(rawTx);
+          resolve({
+            receiptPromise: promise,
+            transactionHash: transactionHash,
+            rawTransaction: rawTxHex,
+          });
+        })
+        .catch(reject);
+    });
+  }
+
+  private async unlockAccounts(web3: Web3): Promise<string[]> {
+    let unlockedAccounts: string[] = [];
+    try {
+      unlockedAccounts = await web3.eth.getAccounts();
+    } catch (error) {
+      console.error(error);
+      throw new Error('User denied access to account');
+    }
+    console.log(`unlocked metamask accounts: ${unlockedAccounts}`);
+    if (!unlockedAccounts.length || !unlockedAccounts[0]) {
+      throw new Error('Unable to detect unlocked MetaMask account');
+    }
+    this._currentAccount = unlockedAccounts[0];
+    console.log(`current account is ${this._currentAccount}`);
+    return unlockedAccounts;
   }
 }

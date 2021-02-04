@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js';
-import { MicroPoolReply, MicroPoolStatus } from '../../modules/api/gateway';
+import { IMicroPoolReply, MicroPoolStatus } from '../../modules/api/gateway';
 import { DEFAULT_STAKING_AMOUNT } from '../../common/const';
 import { differenceInCalendarMonths } from 'date-fns';
 
@@ -22,7 +22,7 @@ export interface IMicropool {
   validator: string;
 }
 
-export function mapMicropool(item: MicroPoolReply) {
+export function mapMicropool(item: IMicroPoolReply) {
   return {
     balance: new BigNumber(
       item.status === 'MICRO_POOL_STATUS_ONGOING'

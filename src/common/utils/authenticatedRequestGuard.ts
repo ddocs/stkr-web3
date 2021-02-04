@@ -10,7 +10,7 @@ export const authenticatedRequestGuard = function (
   action: RequestAction,
   store: Store<IStoreState>,
 ) {
-  const stkrSdk = StkrSdk.getLastInstance();
+  const stkrSdk = StkrSdk.getForEnv();
   const providerAccessToken = store.getState().user.providerAccessToken;
 
   return {

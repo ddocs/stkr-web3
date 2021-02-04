@@ -8,7 +8,7 @@ import { DepositType, Locale, Providers } from '../../common/types';
 import { authenticatedRequestGuard } from '../../common/utils/authenticatedRequestGuard';
 import { update } from '../../common/utils/update';
 import { StkrSdk } from '../../modules/api';
-import { SidecarReply } from '../../modules/api/gateway';
+import { ISidecarReply } from '../../modules/api/gateway';
 import { ICreateNodeValue } from '../../modules/provider/screens/CreateNode';
 import { IAllowance } from '../apiMappers/allowance';
 import { mapGlobalStats } from '../apiMappers/globalStatsApi';
@@ -73,7 +73,7 @@ export const UserActions = {
     type: UserActionTypes.CONNECT,
     request: {
       promise: (async function () {
-        const stkrSdk = StkrSdk.getLastInstance();
+        const stkrSdk = StkrSdk.getForEnv();
         return await stkrSdk?.connect();
       })(),
     },
@@ -87,7 +87,10 @@ export const UserActions = {
         setTimeout(() => {
           store.dispatch(closeModalAction());
 
-          if (request.data.chainId === BlockchainNetworkId.smartchain) {
+          if (
+            false &&
+            request.data.chainId === BlockchainNetworkId.smartchain
+          ) {
             store.dispatch(
               replace(
                 generatePath(CONVERT_ROUTE, { from: 'Peg-ETH', to: 'ETH' }),
@@ -108,7 +111,7 @@ export const UserActions = {
     type: UserActionTypes.DISCONNECT,
     request: {
       promise: (async function () {
-        const stkrSdk = StkrSdk.getLastInstance();
+        const stkrSdk = StkrSdk.getForEnv();
         return await stkrSdk.disconnect();
       })(),
     },
@@ -117,16 +120,18 @@ export const UserActions = {
     type: UserActionTypes.FETCH_ACCOUNT_DATA,
     request: {
       promise: (async function () {
-        const stkrSdk = StkrSdk.getLastInstance();
+        const stkrSdk = StkrSdk.getForEnv();
         const address = stkrSdk.getKeyProvider().currentAccount();
         const ankrBalance = await stkrSdk.getAnkrBalance();
         const ethereumBalance = await stkrSdk.getEthBalance();
+        const nativeBalance = await stkrSdk.getNativeBalance();
 
         return {
           address,
           walletType: Providers.metamask,
-          ethereumBalance: new BigNumber(ethereumBalance.available),
-          ankrBalance: new BigNumber(ankrBalance.available),
+          ethereumBalance: new BigNumber(ethereumBalance),
+          ankrBalance: new BigNumber(ankrBalance),
+          nativeBalance: nativeBalance,
         } as IUserInfo;
       })(),
     },
@@ -138,8 +143,9 @@ export const UserActions = {
     type: UserActionTypes.AUTHORIZE_PROVIDER,
     request: {
       promise: (async function () {
-        const stkrSdk = StkrSdk.getLastInstance();
-        return await stkrSdk.authorizeProvider();
+        const stkrSdk = StkrSdk.getForEnv();
+        const token = await stkrSdk.authorizeProvider();
+        return { token };
       })(),
     },
     meta: {
@@ -150,15 +156,15 @@ export const UserActions = {
     type: UserActionTypes.FETCH_CURRENT_PROVIDER_SIDECARS,
     request: {
       promise: async function () {
-        const stkrSdk = StkrSdk.getLastInstance();
-        const data: SidecarReply[] = await stkrSdk?.getProviderSidecars();
+        const stkrSdk = StkrSdk.getForEnv();
+        const data: ISidecarReply[] = await stkrSdk?.getProviderSidecars();
 
         return data;
       },
     },
     meta: {
       onRequest: authenticatedRequestGuard,
-      getData: (data: SidecarReply[]): ISidecar[] => {
+      getData: (data: ISidecarReply[]): ISidecar[] => {
         return data.map(mapSidecar);
       },
     },
@@ -167,7 +173,7 @@ export const UserActions = {
     type: UserActionTypes.CREATE_SIDECAR,
     request: {
       promise: async function () {
-        const stkrSdk = StkrSdk.getLastInstance();
+        const stkrSdk = StkrSdk.getForEnv();
         return await stkrSdk.createSidecar(
           data.name,
           data.eth1Url,
@@ -181,7 +187,7 @@ export const UserActions = {
       mutations: {
         [UserActionTypes.FETCH_CURRENT_PROVIDER_SIDECARS]: (
           data: ISidecar[],
-          sidecar: SidecarReply,
+          sidecar: ISidecarReply,
         ) => {
           return [...data, mapSidecar(sidecar)] as ISidecar[];
         },
@@ -192,7 +198,7 @@ export const UserActions = {
     type: UserActionTypes.FETCH_GLOBAL_STATS,
     request: {
       promise: (async function () {
-        const stkrSdk = StkrSdk.getLastInstance();
+        const stkrSdk = StkrSdk.getForEnv();
         return await stkrSdk.getGlobalStats();
       })(),
     },
@@ -204,7 +210,7 @@ export const UserActions = {
     type: UserActionTypes.FETCH_ALLOWANCE,
     request: {
       promise: (async function () {
-        const stkrSdk = StkrSdk.getLastInstance();
+        const stkrSdk = StkrSdk.getForEnv();
         const allowanceAmount = await stkrSdk.getAllowanceAmount();
         const remainingAllowance = await stkrSdk.getRemainingAllowance();
         const totalAllowance = allowanceAmount.plus(remainingAllowance);
@@ -221,7 +227,7 @@ export const UserActions = {
     type: UserActionTypes.ALLOW_TOKENS,
     request: {
       promise: (async function () {
-        const stkrSdk = StkrSdk.getLastInstance();
+        const stkrSdk = StkrSdk.getForEnv();
         return (await stkrSdk.allowTokens()).transactionHash;
       })(),
     },
@@ -245,7 +251,7 @@ export const UserActions = {
     type: UserActionTypes.FAUCET,
     request: {
       promise: (async function () {
-        const stkrSdk = StkrSdk.getLastInstance();
+        const stkrSdk = StkrSdk.getForEnv();
         return stkrSdk.faucet({
           from: stkrSdk.getKeyProvider().currentAccount(),
         });
@@ -259,7 +265,7 @@ export const UserActions = {
     type: UserActionTypes.STAKE,
     request: {
       promise: (async function () {
-        const stkrSdk = StkrSdk.getLastInstance();
+        const stkrSdk = StkrSdk.getForEnv();
         return stkrSdk.stake(amount);
       })(),
     },
@@ -271,7 +277,7 @@ export const UserActions = {
     type: UserActionTypes.UNSTAKE,
     request: {
       promise: (async function () {
-        const stkrSdk = StkrSdk.getLastInstance();
+        const stkrSdk = StkrSdk.getForEnv();
         return stkrSdk.unstake();
       })(),
     },
@@ -283,10 +289,8 @@ export const UserActions = {
     type: UserActionTypes.FETCH_STAKER_STATS,
     request: {
       promise: (async function () {
-        const stkrSdk = StkrSdk.getLastInstance();
-        const aEthClaimableBalance = await stkrSdk
-          .getContractManager()
-          .claimableRewardOf(stkrSdk.getKeyProvider().currentAccount());
+        const stkrSdk = StkrSdk.getForEnv();
+        const aEthClaimableBalance = await stkrSdk.getClaimableAethBalance();
 
         const aEthRatio = await stkrSdk.getAethRatio();
         const aEthBalance = await stkrSdk.getAethBalance();
@@ -296,7 +300,7 @@ export const UserActions = {
 
         return {
           aEthClaimableBalance,
-          aEthBalance: aEthBalance.available,
+          aEthBalance: aEthBalance,
           aEthRatio,
           pendingStake,
           ...(await stkrSdk.getStakerStats()),
@@ -314,7 +318,7 @@ export const UserActions = {
         if (localStorage.getItem('__ultimateAdminAccess') === 'enabled') {
           return { providerEthBalance: new BigNumber('3') };
         }
-        const stkrSdk = StkrSdk.getLastInstance();
+        const stkrSdk = StkrSdk.getForEnv();
         const providerEthBalance = await stkrSdk
           .getContractManager()
           .etherBalanceOf(stkrSdk.getKeyProvider().currentAccount());
@@ -379,7 +383,7 @@ export const UserActions = {
     type: UserActionTypes.CLAIM_A_ETH,
     request: {
       promise: (async function () {
-        const stkrSdk = StkrSdk.getLastInstance();
+        const stkrSdk = StkrSdk.getForEnv();
         return stkrSdk.claimAeth();
       })(),
     },
@@ -391,7 +395,7 @@ export const UserActions = {
     type: UserActionTypes.TOP_UP,
     request: {
       promise: (async function () {
-        const stkrSdk = StkrSdk.getLastInstance();
+        const stkrSdk = StkrSdk.getForEnv();
 
         if (type === DepositType.ETH) {
           return stkrSdk.topUpETH(amount);

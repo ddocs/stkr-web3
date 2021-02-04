@@ -30,7 +30,7 @@ import { BlockchainNetworkId } from '@ankr.com/stkr-jssdk';
 
 function createEventChannel() {
   return eventChannel(emitter => {
-    const events = StkrSdk.getLastInstance().getEventEmitter();
+    const events = StkrSdk.getForEnv().getEventEmitter();
 
     [
       ...Object.values(KeyProviderEvents),
@@ -170,7 +170,7 @@ function* onDisconnectSuccess() {
   yield put(replace(INDEX_PATH));
   try {
     // TODO Can be excess
-    const stkrSdk = StkrSdk.getLastInstance();
+    const stkrSdk = StkrSdk.getForEnv();
     yield stkrSdk?.disconnect();
   } catch (error) {
     console.error(error);

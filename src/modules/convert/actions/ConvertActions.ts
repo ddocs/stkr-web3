@@ -7,7 +7,7 @@ export const ConvertActions = {
   fetchConversionStats: createAction('FETCH_CONVERSION_STATS', () => ({
     request: {
       promise: (async function () {
-        const stkrSdk = StkrSdk.getLastInstance();
+        const stkrSdk = StkrSdk.getForEnv();
         const bridgeSdk = new BridgeSdk(stkrSdk);
 
         const availablePegETH = await bridgeSdk.getPegEthBalance();
@@ -30,7 +30,7 @@ export const ConvertActions = {
   convert: createAction('CONVERT', (amount: number) => ({
     request: {
       promise: (async function () {
-        const stkrSdk = StkrSdk.getLastInstance();
+        const stkrSdk = StkrSdk.getForEnv();
         const bridgeSdk = new BridgeSdk(stkrSdk);
         const result = await bridgeSdk.swapPegEthToEthForBEP20(amount);
         const txResult = await bridgeSdk.sendPegEthToBEP20(
@@ -49,7 +49,7 @@ export const ConvertActions = {
     (depositAddress: string, amount: number) => ({
       request: {
         promise: (async function () {
-          const stkrSdk = StkrSdk.getLastInstance();
+          const stkrSdk = StkrSdk.getForEnv();
           const bridgeSdk = new BridgeSdk(stkrSdk);
           const txResult = await bridgeSdk.sendPegEthToBEP20(
             amount,

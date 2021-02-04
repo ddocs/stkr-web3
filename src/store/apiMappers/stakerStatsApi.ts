@@ -1,7 +1,7 @@
 import {
-  StakerStats,
+  IStakerStats as StakerStats,
   UserStakeAction,
-  UserStakeReply,
+  IUserStakeReply,
 } from '../../modules/api/gateway';
 import BigNumber from 'bignumber.js';
 
@@ -22,7 +22,7 @@ export interface IStakerStats {
   stakes: IStakeHistoryItem[];
 }
 
-function mapStakeHistoryItem(data: UserStakeReply): IStakeHistoryItem {
+function mapStakeHistoryItem(data: IUserStakeReply): IStakeHistoryItem {
   return {
     user: data.user,
     microPoolName: 'no name',

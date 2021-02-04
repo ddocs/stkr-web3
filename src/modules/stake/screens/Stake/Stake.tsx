@@ -37,7 +37,7 @@ import { useIsXSDown } from '../../../../common/hooks/useTheme';
 import { floor } from '../../../../common/utils/floor';
 import { pushEvent } from '../../../../common/utils/pushEvent';
 
-const MIN_AMOUNT = 0.5;
+const MIN_AMOUNT = 0.1;
 const MAX_AMOUNT = 32;
 const INTEREST_PERIOD = 12;
 const FIXED_DECIMAL_PLACES = 2;

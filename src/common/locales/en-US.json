@@ -284,7 +284,8 @@
     "61": "Classic",
     "63": "Mordor",
     "6": "Kotti",
-    "56": "Binance Smartchain"
+    "56": "Binance SmartChain",
+    "97": "Binance SmartChain Testnet"
   },
   "empty-node-list": {
     "submit-short": "Create",

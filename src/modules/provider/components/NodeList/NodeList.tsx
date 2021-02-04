@@ -169,7 +169,7 @@ export const NodeListComponent = ({
                       component="a"
                       className={classes.icon}
                       onClick={() => {
-                        StkrSdk.getLastInstance().downloadSidecar(
+                        StkrSdk.getForEnv().downloadSidecar(
                           item.id,
                           'windows-amd64',
                         );
@@ -183,7 +183,7 @@ export const NodeListComponent = ({
                       component="a"
                       className={classes.icon}
                       onClick={() => {
-                        StkrSdk.getLastInstance().downloadSidecar(
+                        StkrSdk.getForEnv().downloadSidecar(
                           item.id,
                           'linux-amd64',
                         );
@@ -198,7 +198,7 @@ export const NodeListComponent = ({
                       component="a"
                       className={classes.icon}
                       onClick={() => {
-                        StkrSdk.getLastInstance().downloadSidecar(
+                        StkrSdk.getForEnv().downloadSidecar(
                           item.id,
                           'darwin-amd64',
                         );
@@ -212,10 +212,7 @@ export const NodeListComponent = ({
                       component="a"
                       className={classes.icon}
                       onClick={() => {
-                        StkrSdk.getLastInstance().downloadSidecar(
-                          item.id,
-                          'docker',
-                        );
+                        StkrSdk.getForEnv().downloadSidecar(item.id, 'docker');
                       }}
                       target="_blank"
                     >
