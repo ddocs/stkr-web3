@@ -122,16 +122,26 @@ export const UserActions = {
       promise: (async function () {
         const stkrSdk = StkrSdk.getForEnv();
         const address = stkrSdk.getKeyProvider().currentAccount();
-        const ankrBalance = await stkrSdk.getAnkrBalance();
         const ethereumBalance = await stkrSdk.getEthBalance();
         const nativeBalance = await stkrSdk.getNativeBalance();
-
+        let walletType = Providers.metamask;
+        let bnbBalance = undefined,
+          ankrBalance = undefined;
+        if (stkrSdk.getKeyProvider().isBinanceWallet()) {
+          walletType = Providers.binance;
+        }
+        if (stkrSdk.getKeyProvider().isBinanceSmartChain()) {
+          bnbBalance = nativeBalance;
+        } else {
+          ankrBalance = await stkrSdk.getAnkrBalance();
+        }
         return {
           address,
-          walletType: Providers.metamask,
+          walletType,
           ethereumBalance: new BigNumber(ethereumBalance),
-          ankrBalance: new BigNumber(ankrBalance),
-          nativeBalance: nativeBalance,
+          ankrBalance: ankrBalance,
+          nativeBalance,
+          bnbBalance,
         } as IUserInfo;
       })(),
     },

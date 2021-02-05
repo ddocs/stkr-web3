@@ -9,6 +9,7 @@ export interface IEmailPayload {
 export enum Providers {
   metamask = 'metamask',
   wallet = 'wallet',
+  binance = 'binance',
 }
 
 export interface IRequestActionPromiseData<T = any> {

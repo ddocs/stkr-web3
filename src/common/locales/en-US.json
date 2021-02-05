@@ -162,6 +162,7 @@
   "providers": {
     "metamask": "MetaMask",
     "wallet": "WalletConnect",
+    "binance": "Binance Chain",
     "trust": "Trust Walet"
   },
   "total": {

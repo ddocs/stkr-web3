@@ -8,4 +8,5 @@ export interface IUserInfo {
   ankrBalance: BigNumber;
   aEthBalance: BigNumber;
   nativeBalance: BigNumber;
+  bnbBalance?: BigNumber;
 }

@@ -25,6 +25,7 @@ interface IHeaderFrameProps {
   walletType?: Providers;
   ethereumBalance?: BigNumber;
   ankrBalance?: BigNumber;
+  bnbBalance?: BigNumber;
 }
 
 export const HeaderComponent = ({
@@ -33,6 +34,7 @@ export const HeaderComponent = ({
   walletType,
   ethereumBalance,
   ankrBalance,
+  bnbBalance,
 }: IHeaderFrameProps) => {
   const {
     mobileNavShowed,
@@ -51,7 +53,11 @@ export const HeaderComponent = ({
   const renderedSwitcher = showSwitcher && <Switcher />;
 
   const renderedBalance = (
-    <WalletBalance ethereum={ethereumBalance} ankr={ankrBalance} />
+    <WalletBalance
+      ethereum={ethereumBalance}
+      ankr={ankrBalance}
+      bnbBalance={bnbBalance}
+    />
   );
 
   const renderedAppButton = (

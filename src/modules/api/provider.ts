@@ -76,6 +76,8 @@ export abstract class KeyProvider {
 
   public abstract isBinanceSmartChain(): boolean;
 
+  public abstract isBinanceWallet(): boolean;
+
   public abstract get name(): string;
 
   public getWeb3(): Web3 {
@@ -188,8 +190,8 @@ export class Web3ModalKeyProvider extends KeyProvider {
       'custom-binancewallet': {
         display: {
           logo: binanceWalletLogo,
-          name: 'binanceWallet',
-          description: 'Binance Wallet',
+          name: 'Binance Chain',
+          description: 'Binance Chain & Smart Chain Wallet',
         },
         package: WalletConnectProvider,
         options: {},

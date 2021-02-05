@@ -29,6 +29,7 @@ export const Header = () => {
             walletType={data?.walletType}
             ethereumBalance={data?.ethereumBalance}
             ankrBalance={data?.ankrBalance}
+            bnbBalance={data?.bnbBalance}
           />
         );
       }}
