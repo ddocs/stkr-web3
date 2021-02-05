@@ -45,7 +45,7 @@ export const CreateSignature = () => {
       }
 
       const network = getNetworkName(networkId);
-      const sidecars = (await stkrSdk?.getProviderSidecars())
+      const sidecars = (await stkrSdk?.getProviderSidecars(0, 999))
         .filter(sidecar =>
           ['SIDECAR_STATUS_UNKNOWN', 'SIDECAR_STATUS_BLOCKED'].includes(
             sidecar.status,

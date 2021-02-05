@@ -146,12 +146,18 @@ export const UserActions = {
       asMutation: true,
     },
   }),
-  fetchCurrentProviderSidecars: () => ({
+  fetchCurrentProviderSidecars: (
+    page: string | number,
+    size?: string | number,
+  ) => ({
     type: UserActionTypes.FETCH_CURRENT_PROVIDER_SIDECARS,
     request: {
       promise: async function () {
         const stkrSdk = StkrSdk.getLastInstance();
-        const data: SidecarReply[] = await stkrSdk?.getProviderSidecars();
+        const data: SidecarReply[] = await stkrSdk?.getProviderSidecars(
+          page,
+          size,
+        );
 
         return data;
       },
