@@ -1,21 +1,6 @@
-import {
-  Box,
-  fade,
-  IconButton,
-  Paper,
-  Theme,
-  useTheme,
-} from '@material-ui/core';
-import { Query } from '@redux-requests/react';
-import BigNumber from 'bignumber.js';
-import { formatDistanceToNowStrict } from 'date-fns';
-import React, { useCallback, useMemo } from 'react';
-import { useHistory } from 'react-router';
-import { uid } from 'react-uid';
-import { PROVIDER_TOP_UP_PATH } from '../../../../common/const';
-import { useLocaleMemo } from '../../../../common/hooks/useLocaleMemo';
-import { t } from '../../../../common/utils/intl';
-import { safeDiv } from '../../../../common/utils/safeDiv';
+import React, { useCallback } from 'react';
+import { useNodeListStyles } from './NodeListStyles';
+import { ITablesCaptionProps } from '../../../../components/TableComponents/types';
 import {
   Table,
   TableBody,
@@ -24,18 +9,32 @@ import {
   TableHeadCell,
   TableRow,
 } from '../../../../components/TableComponents';
-import { ITablesCaptionProps } from '../../../../components/TableComponents/types';
-import { UserActionTypes } from '../../../../store/actions/UserActions';
-import { IProviderStats } from '../../../../store/apiMappers/providerStatsApi';
-import { ISidecar } from '../../../../store/apiMappers/sidecarsApi';
+import { useLocaleMemo } from '../../../../common/hooks/useLocaleMemo';
+import { t } from '../../../../common/utils/intl';
 import { StkrSdk } from '../../../api';
-import { EmptyNodeList } from '../EmptyNodeList';
-import { NodeListLoader } from '../NodeListLoader';
-import { ReactComponent as DockerIcon } from './assets/docker.svg';
+import { uid } from 'react-uid';
+import { ISidecar } from '../../../../store/apiMappers/sidecarsApi';
+import {
+  Box,
+  fade,
+  IconButton,
+  Paper,
+  Theme,
+  useTheme,
+} from '@material-ui/core';
+import { ReactComponent as WindowsIcon } from './assets/windows.svg';
 import { ReactComponent as LinuxIcon } from './assets/linux.svg';
 import { ReactComponent as MacIcon } from './assets/mac.svg';
-import { ReactComponent as WindowsIcon } from './assets/windows.svg';
-import { useNodeListStyles } from './NodeListStyles';
+import { ReactComponent as DockerIcon } from './assets/docker.svg';
+import { safeDiv } from '../../../../common/utils/safeDiv';
+import { formatDistanceToNowStrict } from 'date-fns';
+import { useHistory } from 'react-router';
+import { PROVIDER_TOP_UP_PATH } from '../../../../common/const';
+import { EmptyNodeList } from '../EmptyNodeList';
+import BigNumber from 'bignumber.js';
+import { IProviderStats } from '../../../../store/apiMappers/providerStatsApi';
+import { UserActionTypes } from '../../../../store/actions/UserActions';
+import { Query } from '@redux-requests/react';
 
 const useCaptions = (): ITablesCaptionProps[] =>
   useLocaleMemo(
@@ -135,126 +134,100 @@ export const NodeListComponent = ({
   const hasTransactions = data.length > 0;
   const theme = useTheme();
 
-  const renderedCells = useMemo(
-    () =>
-      data.map((item, i) => {
-        const commonCellProps = {
-          style: { animationDelay: `${i * 0.1}s` },
-          className: classes.tableCell,
-        };
-
-        return (
-          <TableRow key={uid(item)}>
-            <TableBodyCell {...commonCellProps}>
-              {getSidecarName(item)}
-            </TableBodyCell>
-
-            <TableBodyCell {...commonCellProps}>
-              {getSidecarStatus(item, theme)}
-            </TableBodyCell>
-
-            <TableBodyCell {...commonCellProps}>
-              {formatDistanceToNowStrict(
-                item?.machine?.currentTime
-                  ? new Date(item.machine.currentTime * 1000)
-                  : new Date(),
-                { addSuffix: true },
-              )}
-            </TableBodyCell>
-
-            <TableBodyCell {...commonCellProps}>
-              {t('format.date', { value: item.created })}
-            </TableBodyCell>
-
-            <TableBodyCell
-              {...commonCellProps}
-              classes={{ cellWrapper: classes.icons }}
-            >
-              <Box display="inline-block">
-                <IconButton
-                  component="a"
-                  className={classes.icon}
-                  onClick={() => {
-                    StkrSdk.getLastInstance().downloadSidecar(
-                      item.id,
-                      'windows-amd64',
-                    );
-                  }}
-                  target="_blank"
-                >
-                  <WindowsIcon />
-                </IconButton>
-
-                <IconButton
-                  component="a"
-                  className={classes.icon}
-                  onClick={() => {
-                    StkrSdk.getLastInstance().downloadSidecar(
-                      item.id,
-                      'linux-amd64',
-                    );
-                  }}
-                  target="_blank"
-                >
-                  <LinuxIcon />
-                </IconButton>
-              </Box>
-              <Box display="inline-block">
-                <IconButton
-                  component="a"
-                  className={classes.icon}
-                  onClick={() => {
-                    StkrSdk.getLastInstance().downloadSidecar(
-                      item.id,
-                      'darwin-amd64',
-                    );
-                  }}
-                  target="_blank"
-                >
-                  <MacIcon />
-                </IconButton>
-
-                <IconButton
-                  component="a"
-                  className={classes.icon}
-                  onClick={() => {
-                    StkrSdk.getLastInstance().downloadSidecar(
-                      item.id,
-                      'docker',
-                    );
-                  }}
-                  target="_blank"
-                >
-                  <DockerIcon />
-                </IconButton>
-              </Box>
-            </TableBodyCell>
-          </TableRow>
-        );
-      }),
-    [classes.icon, classes.icons, classes.tableCell, data, theme],
-  );
-
   if (hasTransactions) {
     return (
-      <>
-        <Table
-          customCell="1.1fr 0.6fr 0.6fr 0.7fr 0.7fr"
-          columnsCount={captions.length}
-          className={classes.table}
-        >
-          <TableHead>
-            {captions.map(cell => (
-              <TableHeadCell key={cell.key} label={cell.label} />
-            ))}
-          </TableHead>
-          {data && (
-            <TableBody rowsCount={data.length}>{renderedCells}</TableBody>
-          )}
-        </Table>
+      <Table
+        customCell="1.1fr 0.6fr 0.6fr 0.7fr 0.7fr"
+        columnsCount={captions.length}
+        className={classes.table}
+      >
+        <TableHead>
+          {captions.map(cell => (
+            <TableHeadCell key={cell.key} label={cell.label} />
+          ))}
+        </TableHead>
+        {data && (
+          <TableBody rowsCount={data.length}>
+            {data.map(item => (
+              <TableRow key={uid(item)}>
+                <TableBodyCell>{getSidecarName(item)}</TableBodyCell>
+                <TableBodyCell>{getSidecarStatus(item, theme)}</TableBodyCell>
+                <TableBodyCell>
+                  {formatDistanceToNowStrict(
+                    item?.machine?.currentTime
+                      ? new Date(item.machine.currentTime * 1000)
+                      : new Date(),
+                    { addSuffix: true },
+                  )}
+                </TableBodyCell>
+                <TableBodyCell>
+                  {t('format.date', { value: item.created })}
+                </TableBodyCell>
+                <TableBodyCell classes={{ cellWrapper: classes.icons }}>
+                  <Box display="inline-block">
+                    <IconButton
+                      component="a"
+                      className={classes.icon}
+                      onClick={() => {
+                        StkrSdk.getLastInstance().downloadSidecar(
+                          item.id,
+                          'windows-amd64',
+                        );
+                      }}
+                      target="_blank"
+                    >
+                      <WindowsIcon />
+                    </IconButton>
 
-        <NodeListLoader />
-      </>
+                    <IconButton
+                      component="a"
+                      className={classes.icon}
+                      onClick={() => {
+                        StkrSdk.getLastInstance().downloadSidecar(
+                          item.id,
+                          'linux-amd64',
+                        );
+                      }}
+                      target="_blank"
+                    >
+                      <LinuxIcon />
+                    </IconButton>
+                  </Box>
+                  <Box display="inline-block">
+                    <IconButton
+                      component="a"
+                      className={classes.icon}
+                      onClick={() => {
+                        StkrSdk.getLastInstance().downloadSidecar(
+                          item.id,
+                          'darwin-amd64',
+                        );
+                      }}
+                      target="_blank"
+                    >
+                      <MacIcon />
+                    </IconButton>
+
+                    <IconButton
+                      component="a"
+                      className={classes.icon}
+                      onClick={() => {
+                        StkrSdk.getLastInstance().downloadSidecar(
+                          item.id,
+                          'docker',
+                        );
+                      }}
+                      target="_blank"
+                    >
+                      <DockerIcon />
+                    </IconButton>
+                  </Box>
+                </TableBodyCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        )}
+      </Table>
     );
   }
 

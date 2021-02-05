@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { Curtains } from '../../../../UiKit/Curtains';
 import { Box, Button, Paper, Typography } from '@material-ui/core';
-import { t, tHTML } from '../../../../common/utils/intl';
+import { t, tHTML } from "../../../../common/utils/intl";
 import { useAboutSmartchainStyles } from './AboutSmartchainStyles';
 import step1Img from './assets/step1.png';
 import step2Img from './assets/step2.png';

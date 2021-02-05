@@ -1,11 +1,6 @@
-import { VoteStatus } from '@ankr.com/stkr-jssdk';
-import BigNumber from 'bignumber.js';
-import { EventEmitter } from 'events';
-import { TransactionReceipt } from 'web3-core';
-import { SendOptions } from 'web3-eth-contract';
-import { IStkrConfig } from './config';
+import { MetaMaskProvider } from './metaMaskProvider';
+import { KeyProvider, SendAsyncResult } from './provider';
 import { ContractManager } from './contract';
-import { ContractManagerEvent } from './event';
 import {
   ApiGateway,
   BalanceReply,
@@ -14,8 +9,13 @@ import {
   StakerStats,
   UserStakeReply,
 } from './gateway';
-import { MetaMaskProvider } from './metaMaskProvider';
-import { KeyProvider, SendAsyncResult } from './provider';
+import { IStkrConfig } from './config';
+import BigNumber from 'bignumber.js';
+import { EventEmitter } from 'events';
+import { TransactionReceipt } from 'web3-core';
+import { ContractManagerEvent } from './event';
+import { SendOptions } from 'web3-eth-contract';
+import { VoteStatus } from '@ankr.com/stkr-jssdk';
 
 export interface IStakeAction extends SendAsyncResult {
   waitForTxReceipt(): Promise<TransactionReceipt>;
@@ -119,11 +119,8 @@ export class StkrSdk {
     return this.apiGateway.createSidecar(name, eth1Url, eth2Url);
   }
 
-  public async getProviderSidecars(
-    page: string | number,
-    size?: string | number,
-  ): Promise<SidecarReply[]> {
-    return this.apiGateway.getProviderSidecars(page, size);
+  public async getProviderSidecars(): Promise<SidecarReply[]> {
+    return this.apiGateway.getProviderSidecars();
   }
 
   public async isAuthorized(token?: string): Promise<boolean> {
