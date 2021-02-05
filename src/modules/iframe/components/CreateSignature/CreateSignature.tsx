@@ -46,14 +46,11 @@ export const CreateSignature = () => {
 
       const network = getNetworkName(networkId);
       const sidecars = (await stkrSdk?.getProviderSidecars())
-        .filter(sidecar =>
-          ['SIDECAR_STATUS_UNKNOWN', 'SIDECAR_STATUS_BLOCKED'].includes(
-            sidecar.status,
-          ),
-        )
+        .sort(a => (a.status === 'SIDECAR_STATUS_UNKNOWN' ? 0 : -1))
         .map(sidecar => ({
           name: sidecar.name,
           id: sidecar.id,
+          status: sidecar.status,
         }));
 
       if (window.opener) {
