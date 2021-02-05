@@ -4,7 +4,12 @@ import { replace } from 'connected-react-router';
 import { Store } from 'redux';
 import { createAction } from 'redux-actions';
 import { CONVERT_ROUTE, PICKER_PATH } from '../../common/const';
-import { DepositType, Locale, Providers } from '../../common/types';
+import {
+  Blockchains,
+  DepositType,
+  Locale,
+  Providers,
+} from '../../common/types';
 import { authenticatedRequestGuard } from '../../common/utils/authenticatedRequestGuard';
 import { update } from '../../common/utils/update';
 import { StkrSdk } from '../../modules/api';
@@ -124,7 +129,8 @@ export const UserActions = {
         const address = stkrSdk.getKeyProvider().currentAccount();
         const ethereumBalance = await stkrSdk.getEthBalance();
         const nativeBalance = await stkrSdk.getNativeBalance();
-        let walletType = Providers.metamask;
+        let walletType = Providers.metamask,
+          blockchainType = Blockchains.ethereum;
         let bnbBalance = undefined,
           ankrBalance = undefined;
         if (stkrSdk.getKeyProvider().isBinanceWallet()) {
@@ -132,11 +138,13 @@ export const UserActions = {
         }
         if (stkrSdk.getKeyProvider().isBinanceSmartChain()) {
           bnbBalance = nativeBalance;
+          blockchainType = Blockchains.binance;
         } else {
           ankrBalance = await stkrSdk.getAnkrBalance();
         }
         return {
           address,
+          blockchainType,
           walletType,
           ethereumBalance: new BigNumber(ethereumBalance),
           ankrBalance: ankrBalance,

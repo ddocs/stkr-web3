@@ -26,6 +26,7 @@ export const Header = () => {
           <HeaderComponent
             isAuth={isAuth}
             walletAddress={data?.address}
+            blockchainType={data?.blockchainType}
             walletType={data?.walletType}
             ethereumBalance={data?.ethereumBalance}
             ankrBalance={data?.ankrBalance}

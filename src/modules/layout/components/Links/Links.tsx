@@ -17,10 +17,13 @@ import { FoldableSection } from '../../../../UiKit/FoldableSection';
 import { NavLink } from '../../../../UiKit/NavLink';
 import { Medium, Telegram, Twitter } from '../Icons/Icons';
 import { useLinksStyles } from './LinksStyles';
+import { Blockchains, Providers } from '../../../../common/types';
 
 export interface ILinksProps {
   className?: string;
   isAuth?: boolean;
+  blockchainType?: Blockchains;
+  walletType?: Providers;
 }
 
 const Arrow = (props: SVGAttributes<SVGElement>) => {
@@ -44,7 +47,7 @@ const getIconByKey = (key: string) => {
   }
 };
 
-export const Links = ({ className, isAuth }: ILinksProps) => {
+export const Links = ({ className, isAuth, blockchainType }: ILinksProps) => {
   const isMDDown = useIsMDDown();
   const classes = useLinksStyles();
   const [open, setOpen] = useState(false);
@@ -68,7 +71,10 @@ export const Links = ({ className, isAuth }: ILinksProps) => {
       },
       docs: DOCS_LINK,
       BSC: !isAuth ? ABOUT_SMARTCHAIN_PATH : '',
-      governance: isAuth ? GOVERNANCE_PROJECT_LIST_PATH : '',
+      governance:
+        isAuth && blockchainType === Blockchains.ethereum
+          ? GOVERNANCE_PROJECT_LIST_PATH
+          : '',
       staker: isAuth && isMDDown ? STAKER_DASHBOARD_PATH : '',
       provider: isAuth && isMDDown ? PROVIDER_PATH : '',
     }),

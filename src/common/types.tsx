@@ -12,6 +12,11 @@ export enum Providers {
   binance = 'binance',
 }
 
+export enum Blockchains {
+  ethereum = 'ethereum',
+  binance = 'binance',
+}
+
 export interface IRequestActionPromiseData<T = any> {
   action: Action<T>;
 }

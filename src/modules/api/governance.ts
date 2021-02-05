@@ -13,16 +13,14 @@ export class GovernanceManager implements IGovernanceManager {
   private stkr: Stkr | undefined = undefined;
 
   public constructor(keyProvider: KeyProvider) {
-    console.log(keyProvider);
-    // TODO sync init
-    // keyProvider
-    //   .getWeb3()
-    //   .eth.net.getId()
-    //   .then(networkId => {
-    //     if (networkId !== BlockchainNetworkId.smartchain) {
-    //       return (this.stkr = new Stkr(keyProvider.getWeb3(), networkId));
-    //     }
-    //   });
+    keyProvider
+      .getWeb3()
+      .eth.net.getId()
+      .then(networkId => {
+        if ([1, 5].includes(networkId)) {
+          this.stkr = new Stkr(keyProvider.getWeb3(), networkId);
+        }
+      });
   }
 
   public async vote(

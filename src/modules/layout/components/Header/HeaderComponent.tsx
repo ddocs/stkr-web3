@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
 import React from 'react';
 import { FocusOn } from 'react-focus-on';
-import { Providers } from '../../../../common/types';
+import { Blockchains, Providers } from '../../../../common/types';
 import { t } from '../../../../common/utils/intl';
 import { MutationErrorHandler } from '../../../../components/MutationErrorHandler/MutationErrorHandler';
 import { UserActionTypes } from '../../../../store/actions/UserActions';
@@ -22,6 +22,7 @@ import { useHeader } from './useHeader';
 interface IHeaderFrameProps {
   isAuth: boolean;
   walletAddress?: string;
+  blockchainType?: Blockchains;
   walletType?: Providers;
   ethereumBalance?: BigNumber;
   ankrBalance?: BigNumber;
@@ -31,6 +32,7 @@ interface IHeaderFrameProps {
 export const HeaderComponent = ({
   isAuth,
   walletAddress,
+  blockchainType,
   walletType,
   ethereumBalance,
   ankrBalance,
@@ -80,7 +82,13 @@ export const HeaderComponent = ({
     />
   );
 
-  const renderedLinks = <Links isAuth={isAuth} />;
+  const renderedLinks = (
+    <Links
+      isAuth={isAuth}
+      blockchainType={blockchainType}
+      walletType={walletType}
+    />
+  );
 
   const renderedMobileNav = (
     <>

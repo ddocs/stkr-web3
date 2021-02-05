@@ -75,6 +75,8 @@ interface IProviderSdk {
 }
 
 interface IGovernanceSdk {
+  isGovernanceSupported(): boolean;
+
   vote(
     proposalId: string,
     vote: VoteStatus,
@@ -469,6 +471,10 @@ export class StkrSdk implements IStkrSdk {
 
   public async pendingStakesOf(token: string): Promise<BigNumber> {
     return await this.getContractManager().pendingStakesOf(token);
+  }
+
+  public isGovernanceSupported(): boolean {
+    return !this.getKeyProvider().isBinanceSmartChain();
   }
 
   public async vote(
