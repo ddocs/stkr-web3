@@ -1,8 +1,9 @@
-import React from 'react';
-import { CancelIcon } from './CancelIcon';
-import { ToggleIcon } from './ToggleIcon';
 import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
+import React from 'react';
+import { CancelIcon } from './CancelIcon';
+import { CloseIcon } from './CloseIcon';
+import { ToggleIcon } from './ToggleIcon';
 
 const useStyles = makeStyles<Theme>(() => ({
   wrapper: {
@@ -18,6 +19,7 @@ const IconsStory = () => {
       <CancelIcon size="sm" />
       <ToggleIcon size="sm" />
       <ToggleIcon size="md" />
+      <CloseIcon size="md" />
     </div>
   );
 };
