@@ -409,12 +409,15 @@ export class Web3ModalKeyProvider extends KeyProvider {
         data = bytesToHex(data as any);
       }
       if (this.isBinanceWallet()) {
-        return this.getWeb3().eth.sign(data, toChecksumAddress(address));
+        return window.BinanceChain.request({
+          method: 'eth_sign',
+          params: [address, data],
+        });
       }
       return this.getWeb3().eth.personal.sign(data, address, '');
     } catch (e) {
       console.error(e);
-      const message = e.message.substr(0, e.message.indexOf('\n')),
+      const message = (e.message || e.error).substr(0, e.message.indexOf('\n')),
         parts = message.split(':');
       /* try to detect angry MetaMask messages */
       if (parts.length > 0) {
