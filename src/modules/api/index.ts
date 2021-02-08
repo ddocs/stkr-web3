@@ -102,6 +102,8 @@ interface IGovernanceSdk {
 }
 
 export interface IStkrSdk extends IStakerSdk, IProviderSdk, IGovernanceSdk {
+  createExplorerLink(txHash: string): string;
+
   authorizeProvider(ttl?: number): Promise<string>;
 
   isAuthorized(token?: string): Promise<boolean>;
@@ -206,6 +208,17 @@ export class StkrSdk implements IStkrSdk {
     }
     this.keyProvider = null;
     this.contractManager = null;
+  }
+
+  public createExplorerLink(txHash: string): string {
+    const network = Number(this.getKeyProvider().currentNetwork());
+    const urls: any = {
+      1: 'https://etherscan.io/tx/{value}',
+      5: 'https://goerli.etherscan.io/tx/{value}',
+      56: 'https://testnet.bscscan.com/tx/{value}',
+      97: 'https://testnet.bscscan.com/tx/{value}',
+    };
+    return (urls[network] || '').replace('{value}', txHash);
   }
 
   private static readonly TWELVE_HOURS = 12 * 60 * 60 * 1000;

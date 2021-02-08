@@ -52,9 +52,10 @@ function AETHBalance({
     <>
       <Box mt="auto">
         <Box fontSize={13} color="text.secondary" fontWeight={500}>
-          {t('unit.~eth-value', {
-            value: totalAEthToEthPrice.decimalPlaces(DECIMAL_PLACES),
-          })}
+          {!totalAEthToEthPrice.isZero() &&
+            t('unit.~eth-value', {
+              value: totalAEthToEthPrice.decimalPlaces(DECIMAL_PLACES),
+            })}
         </Box>
         <Box className={classes.amount}>
           {tHTML('unit.separated-aeth-value', {
@@ -164,7 +165,10 @@ export const StakerDashboardComponent = () => {
             }
 
             const totalAEth = data.aEthClaimableBalance.plus(data.aEthBalance);
-            const totalAEthToEthPrice = totalAEth.div(data.aEthRatio);
+            let totalAEthToEthPrice = totalAEth.div(data.aEthRatio);
+            if (data.aEthRatio.isZero()) {
+              totalAEthToEthPrice = new BigNumber('0');
+            }
 
             const staked = getStakedAmount(data.stakes);
             const pending = getPendingAmount(data.stakes, staked);

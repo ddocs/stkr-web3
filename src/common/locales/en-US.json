@@ -208,10 +208,6 @@
       "STAKE_ACTION_CONFIRMED": "Confirmed",
       "STAKE_ACTION_UNSTAKE": "Removed"
     },
-    "transaction": {
-      "goerli": "https://goerli.etherscan.io/tx/{value}",
-      "mainnet": "https://etherscan.io/tx/{value}"
-    },
     "column": {
       "status": "Status",
       "transaction-hash": "Tx.Hash",
@@ -229,7 +225,7 @@
       "SIDECAR_STATUS_SYNCING": "Syncing",
       "SIDECAR_STATUS_ACTIVE": "Active",
       "SIDECAR_STATUS_DISABLED": "Disabled",
-      "SIDECAR_STATUS_BLOCKED": "Blocked",
+      "SIDECAR_STATUS_BLOCKED": "Insufficient funds",
       "SIDECAR_STATUS_OFFLINE": "Offline",
       "SIDECAR_STATUS_ATTESTING": "Attesting"
     }

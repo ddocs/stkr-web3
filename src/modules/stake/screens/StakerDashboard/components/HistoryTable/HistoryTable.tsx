@@ -16,6 +16,7 @@ import { AlignType } from '../../../../../../components/TableComponents/types';
 import { IconButton, Tooltip } from '@material-ui/core';
 import { QuestionIcon } from '../../../../../../UiKit/Icons/QuestionIcon';
 import { WithUseStyles } from '../../../../../../common/types';
+import { StkrSdk } from '../../../../../api';
 
 type CaptionType = {
   label: string;
@@ -107,13 +108,8 @@ export const HistoryTable = (props: IHistoryTableProps) => {
                 align="right"
               >
                 <NavLink
-                  href={t(
-                    `staked-dashboard.transaction.${
-                      isMainnet ? 'mainnet' : 'goerli'
-                    }`,
-                    {
-                      value: item.transactionHash,
-                    },
+                  href={StkrSdk.getForEnv().createExplorerLink(
+                    item.transactionHash,
                   )}
                 >
                   {item.transactionHash}

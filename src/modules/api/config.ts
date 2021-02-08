@@ -23,7 +23,7 @@ const LOCAL_CONFIG: IStkrConfig = {
     systemContract: '0xF2dFBCbE94Ff3A402B8575b80E5e785BC936c1c3',
   },
   binanceConfig: {
-    globalPoolContract: '0x7027a219e6Fe1e2864E21857e31172D57B772838',
+    globalPoolContract: '0x5314E0E396Be9C54eC4228de1484abeD8B1aE0cD',
     globalPoolBlock: '5963975',
     pegEthContract: '0xd66c6b4f0be8ce5b39d52e0fd1344c389929b378',
   },

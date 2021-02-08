@@ -983,4 +983,8 @@ export class BinanceContractManager extends EthereumContractManager {
     const result = await this.pegEthContract?.methods.balanceOf(address).call();
     return new BigNumber(result).div(EthereumContractManager.ETH_SCALE_FACTOR);
   }
+
+  public async aethRatio(): Promise<BigNumber> {
+    return new BigNumber('1');
+  }
 }
