@@ -78,7 +78,7 @@ export const Links = ({ className, isAuth, blockchainType }: ILinksProps) => {
       staker: isAuth && isMDDown ? STAKER_DASHBOARD_PATH : '',
       provider: isAuth && isMDDown ? PROVIDER_PATH : '',
     }),
-    [isAuth, isMDDown],
+    [blockchainType, isAuth, isMDDown],
   );
 
   return (

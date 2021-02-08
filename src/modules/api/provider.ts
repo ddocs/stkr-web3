@@ -1,10 +1,5 @@
 import Web3 from 'web3';
-import {
-  AbiItem,
-  bytesToHex,
-  numberToHex,
-  toChecksumAddress,
-} from 'web3-utils';
+import { AbiItem, bytesToHex, numberToHex } from 'web3-utils';
 import { Contract } from 'web3-eth-contract';
 import { BigNumber } from 'bignumber.js';
 import { PromiEvent, TransactionReceipt } from 'web3-core';

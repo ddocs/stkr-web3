@@ -1,7 +1,4 @@
-import Stkr, {
-  GovernanceEvents,
-  VoteStatus,
-} from '@ankr.com/stkr-jssdk/dist/types';
+import Stkr, { GovernanceEvents, VoteStatus } from '@ankr.com/stkr-jssdk';
 import { SendOptions } from 'web3-eth-contract';
 import { KeyProvider } from './provider';
 
@@ -17,7 +14,9 @@ export class GovernanceManager implements IGovernanceManager {
       .getWeb3()
       .eth.net.getId()
       .then(networkId => {
+        debugger;
         if ([1, 5].includes(networkId)) {
+          debugger;
           this.stkr = new Stkr(keyProvider.getWeb3(), networkId);
         }
       });
@@ -39,7 +38,7 @@ export class GovernanceManager implements IGovernanceManager {
       throw ERROR_SDK_NOT_INITIALIZED;
     }
     return new GovernanceEvents(
-      this.stkr.contracts.governance.getWeb3ContractInstance(),
+      this.stkr.contracts.Governance.getWeb3ContractInstance(),
     ).getPastPropose({ fromBlock: 0 });
   }
 
@@ -73,7 +72,9 @@ export class GovernanceManager implements IGovernanceManager {
     if (!this.stkr) {
       throw ERROR_SDK_NOT_INITIALIZED;
     }
-    return this.stkr.getAnkrGovernanceAllowance(owner);
+    return this.stkr
+      .getAnkrGovernanceAllowance(owner.toString())
+      .then(data => data.toString(10));
   }
 
   public async getProposalInfo(proposalId: string) {
