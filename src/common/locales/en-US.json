@@ -315,7 +315,7 @@
     "eth-top-up-note": "Please note that if your insurance ever drops below 2 ETH due to slashing penalties, your node may stop running. To prevent this from happening, or to restart a node that has stopped because of this, please ensure your remaining insurance balance is at least 2 ETH. You can top this amount up here.<br/><br/>Also note that once deposited, any insurance amount remains locked in the Stkr system until the contract ends (Ethereum 2.0 Phase 1.5 release)."
   },
   "provider-dashboard": {
-    "balance": "Your insurance deposit: {value} ETH",
+    "balance": "Your insurance deposit",
     "top-up": "Top-up",
     "create": "Create",
     "configure-own-node": "Configure your own node",

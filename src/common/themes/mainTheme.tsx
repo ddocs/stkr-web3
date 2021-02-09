@@ -162,6 +162,9 @@ const mainTheme = createMuiTheme({
             zIndex: defaultTheme.zIndex.modal,
           },
         },
+        a: {
+          textDecoration: 'none',
+        },
       },
     },
     MuiContainer: {

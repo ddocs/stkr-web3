@@ -5,4 +5,6 @@ const ANKR_STKR_NODE_VERSION =
 const ANKR_STKR_NODE_APP_VERSION =
   process.env.REACT_APP_ANKR_STKR_NODE_APP_VERSION || '1.0.5';
 
+export const SIDECARS_PER_PAGE = 50;
+
 export const ANKR_DEPLOY_PATH = `${ANKR_ROOT}/apps/deploy?name=ankr-eth2&repository=stable&type=chart&version=${ANKR_STKR_NODE_VERSION}&appversion=v${ANKR_STKR_NODE_APP_VERSION}`;
