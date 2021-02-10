@@ -1,8 +1,8 @@
 /* eslint-disable import/no-anonymous-default-export */
+import { Theme } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import { ServicesLogo, servicesLogoMap } from './ServicesLogo';
-import { makeStyles } from '@material-ui/core/styles';
-import { Theme } from '@material-ui/core';
 
 const logos = Object.keys(servicesLogoMap) as Array<
   keyof typeof servicesLogoMap
@@ -53,5 +53,5 @@ const IconsListStory = () => {
 export const IconsList = () => <IconsListStory />;
 
 export default {
-  title: 'modules/AboutAeth/component/ServicesLogo',
+  title: 'components/ServicesLogo',
 };

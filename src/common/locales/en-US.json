@@ -43,7 +43,7 @@
   },
   "about": {
     "title": "<span>Staking.</span>Simplified.",
-    "text": "Ankr provides decentralized staking services for Ethereum 2.0. Ankr's Eth2 staking protocol and platform combines staking and DeFi, implementing elements from traditional staking with non-custodial management, Micropools, instant liquidity and decentralized governance",
+    "text": "Ankr provides decentralized staking services for Ethereum 2.0. Ankr's Eth2 staking protocol and platform combines staking and DeFi, implementing elements from traditional staking with non-custodial management, Micropools, instant liquidity and decentralized governance.",
     "stakers": "Stakers with Ankr",
     "providers": "Providers",
     "total": "Total Value Staked"
@@ -56,7 +56,7 @@
   },
   "features": {
     "title": "Why stake with Ankr?",
-    "text": "Stake platform is built by the Ankr team, to provide the best user experience and highest level of safety, combined with an attractive reward mechanism and instant staking liquidity through a bond-like synthetic token called aETH.",
+    "text": "Ankr's Eth2 staking solution provides the best user experience and highest level of safety, combined with an attractive reward mechanism and instant staking liquidity through a bond-like synthetic token called aETH.",
     "micropool-title": "Micropool",
     "micropool-text": "Stake as little as 0.5 ETH and pool with other stakers while enjoy the same ROI",
     "manager-title": "Staking Manager",
@@ -65,15 +65,6 @@
     "liquidity-text": "With aETH, you can hold or trade your staked assets at any time, without having to wait until transactions are enabled on Ethereum 2.0.",
     "security-title": "Security",
     "security-text": "Keep your funds under your own custody, to always remain in full control of your assets."
-  },
-  "roles": {
-    "title": "<span>The 3 roles</span>in Ankr's Eth2 staking ecosystem",
-    "eth-staker-title": "Staker",
-    "eth-staker-text": "Stakers can stake any amount of ETH tokens (minimum 0.5 ETH) to earn staking rewards and platform fees. The staked ETH will immediately be liquid in the form of aETH, which users can use to trade or participate in DeFi. Stakers can stake ANKR in addition to their ETH stake to increase rewards from platform fees.",
-    "node-provider-title": "Node provider",
-    "node-provider-text": "Node providers will be running Ethereum 2.0 nodes either on their own hardware or using the Ankr platform, to earn from the staking rewards and platform fees.",
-    "governance-title": "Governance",
-    "governance-text": "Governors will ensure the long term sustainability of the platform. A substantial stake of ANKR tokens is necessary to become part of the governance board (a governor does not necessary need to be a node provider)."
   },
   "become-provider": {
     "title": "Become <br />a provider ",
@@ -520,8 +511,8 @@
     }
   },
   "aeth-banner": {
-    "title": "What is aETH?",
-    "text": "aETH is a synthetic derivative asset that enables instant liquidity for the Ethereum 2.0 network",
+    "title": "How aETH works?",
+    "text": "Learn how aETH works and how you can use it.",
     "btnText": "Learn more"
   },
   "peg-eth-steps": {

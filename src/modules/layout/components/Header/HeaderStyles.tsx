@@ -118,8 +118,8 @@ export const useHeaderStyles = makeStyles<Theme>(theme => ({
   appButton: {
     margin: theme.spacing(0, 0, 2),
 
-    [theme.breakpoints.up('lg')]: {
-      margin: theme.spacing(0, 3, 0, 0),
+    [theme.breakpoints.up('sm')]: {
+      margin: 0,
     },
   },
 

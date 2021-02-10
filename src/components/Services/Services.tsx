@@ -1,12 +1,12 @@
-import React, { useMemo, useRef, useState } from 'react';
-import classNames from 'classnames';
 import { Grid, Typography } from '@material-ui/core';
-import { t } from '../../../../common/utils/intl';
-import { Curtains } from '../../../../UiKit/Curtains';
-import { ServicesLogoNameType } from '../ServicesLogo';
+import classNames from 'classnames';
+import React, { useMemo, useRef, useState } from 'react';
+import { useIntersectionObserver } from '../../common/hooks/useIntersectionObserver';
+import { t } from '../../common/utils/intl';
+import { Curtains } from '../../UiKit/Curtains';
 import { ServicesItem } from '../ServicesItem';
+import { ServicesLogoNameType } from '../ServicesLogo';
 import { useServicesStyles } from './ServicesStyles';
-import { useIntersectionObserver } from '../../../../common/hooks/useIntersectionObserver';
 
 const services: ServicesLogoNameType[] = [
   'uniswap',
@@ -20,7 +20,11 @@ const services: ServicesLogoNameType[] = [
   'snowswap',
 ];
 
-export const Services = () => {
+interface IServicesProps {
+  className?: string;
+}
+
+export const Services = ({ className }: IServicesProps) => {
   const classes = useServicesStyles();
   const gridRef = useRef<HTMLDivElement>(null);
   const [isVisible, setVisible] = useState(false);
@@ -64,7 +68,7 @@ export const Services = () => {
   );
 
   return (
-    <section className={classes.root}>
+    <section className={classNames(classes.root, className)}>
       <Curtains>
         <Typography className={classes.subtitle} color="textSecondary">
           {t('aeth-ecosystem.subtitle')}

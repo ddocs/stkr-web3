@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import { ETHEREUM_PRICE } from '../../common/const';
 import { invertTheme } from '../../common/themes/invertTheme';
 import { useAuthentication } from '../../common/utils/useAuthentications';
+import { Services } from '../../components/Services';
 import { UserActions } from '../../store/actions/UserActions';
 import { AethBanner } from './components/AethBanner';
 import { BecomeProvider } from './components/BecomeProvider';
@@ -14,8 +15,8 @@ import { Faq } from './components/Faq';
 import { Features } from './components/Features';
 import { GlobalStats } from './components/GlobalStats';
 import { Promo } from './components/Promo';
-import { Roles } from './components/Roles';
 import { VideoTutorial } from './components/VideoTutorial';
+import { useLobbyStyles } from './LobbyStyles';
 
 export const Lobby = () => {
   const { isConnected } = useAuthentication();
@@ -23,23 +24,20 @@ export const Lobby = () => {
   useEffect(() => {
     dispatch(UserActions.fetchGlobalStats());
   }, [dispatch]);
+  const classes = useLobbyStyles();
 
   return (
     <>
       <Promo />
-      <MuiThemeProvider theme={invertTheme}>
-        <GlobalStats />
-      </MuiThemeProvider>
+      <GlobalStats />
       <VideoTutorial />
       <Features />
       <AethBanner />
-      <MuiThemeProvider theme={invertTheme}>
-        <Calculate
-          ethPrice={new BigNumber(ETHEREUM_PRICE)}
-          isConnected={isConnected}
-        />
-      </MuiThemeProvider>
-      <Roles />
+      <Calculate
+        ethPrice={new BigNumber(ETHEREUM_PRICE)}
+        isConnected={isConnected}
+      />
+      <Services className={classes.services} />
       <BecomeProvider />
       <MuiThemeProvider theme={invertTheme}>
         <Faq />

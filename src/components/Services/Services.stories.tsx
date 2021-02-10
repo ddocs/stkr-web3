@@ -9,5 +9,5 @@ const DefaultStory = () => {
 export const Default = () => <DefaultStory />;
 
 export default {
-  title: 'modules/AboutAeth/component/Services',
+  title: 'components/Services',
 };

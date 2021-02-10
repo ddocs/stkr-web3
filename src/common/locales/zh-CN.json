@@ -55,7 +55,7 @@
     },
     "features": {
         "title": "为什么选择Stkr",
-        "text": "Stkr由Ankr团队打造，旨在提供最佳的用户体验和最高级别的安全性，用户在获得丰厚质押奖励的同时， 也通过类债券的合成代币aETH获得了流动性。",
+        "text": "Ankr's Eth2 staking 解旨在提供最佳的用户体验和最高级别的安全性，用户在获得丰厚质押奖励的同时， 也通过类债券的合成代币aETH获得了流动性。",
         "micropool-title": "微池",
         "micropool-text": "质押金额无门槛，从最低0.5ETH到最高1,000ETH，自动加入微池。",
         "manager-title": "质押分配管理",
@@ -64,15 +64,6 @@
         "liquidity-text": "有了aETH，你可以持有或随时交易你的质押资金，不需要等到以太坊2.0转账功能开启。",
         "security-title": "安全",
         "security-text": "资金由您自己保管，始终保持对资产的完全控制。"
-    },
-    "roles": {
-        "title": "<span>Stkr系统中的</span>三个角色",
-        "eth-staker-title": "质押者",
-        "eth-staker-text": "质押者可以质押任意数量的ETH（最低0.5ETH）来赚取质押奖励和平台费用。质押的ETH将立即以aETH的形式进行流通，可交易或参与DeFi。质押者除了可以质押ETH外，还可以质押ANKR，以获得平台费奖励。",
-        "node-provider-title": "节点提供商",
-        "node-provider-text": "节点提供商可以通过自己的硬件或者Ankr平台运行以太坊2.0节点，从质押奖励和平台费中获得收益。",
-        "governance-title": "治理人",
-        "governance-text": "治理人将确保平台的长期可持续发展。要成为Stkr治理委员会的一部分，治理人必须要有大量的ANKR代币（治理人不一定要成为节点提供者）。"
     },
     "become-provider": {
         "title": "成为提供商",
@@ -384,8 +375,8 @@
         }
     },
     "aeth-banner": {
-        "title": "What is aETH?",
-        "text": "aETH is a synthetic derivative asset that enables instant liquidity for the Ethereum 2.0 network",
+        "title": "How aETH works?",
+        "text": "Learn how aETH works and how you can use it.",
         "btnText": "Learn more"
     }
 }

@@ -108,11 +108,11 @@ export const HeaderComponent = ({
             />
           )}
 
-          {!isAuth && renderedAppButton}
+          {!isSMUp && !isAuth && renderedAppButton}
 
           {renderedLinks}
 
-          {!isSMUp && <LocaleLinks className={classes.localLinks} />}
+          {!isLGUp && <LocaleLinks className={classes.localLinks} />}
         </div>
       </FocusOn>
     </>
@@ -134,7 +134,7 @@ export const HeaderComponent = ({
 
           {isLGUp && renderedLinks}
 
-          {!isAuth && isLGUp && renderedAppButton}
+          {!isAuth && isSMUp && renderedAppButton}
 
           {isAuth && isMDUp && (
             <Wallet
@@ -147,7 +147,7 @@ export const HeaderComponent = ({
             </Wallet>
           )}
 
-          {isSMUp && <LocaleSwitcher />}
+          {isLGUp && <LocaleSwitcher />}
 
           {!isLGUp && (
             <Toggle
