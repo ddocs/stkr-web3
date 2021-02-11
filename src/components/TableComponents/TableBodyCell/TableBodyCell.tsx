@@ -1,9 +1,9 @@
-import { AlignType, IStyleProps } from '../types';
-import React, { useContext } from 'react';
 import classNames from 'classnames';
-import { useTableBodyCellStyles } from './TableBodyCellStyles';
-import { TableContext } from '../Table/Table';
+import React, { CSSProperties, useContext } from 'react';
 import { WithUseStyles } from '../../../common/types';
+import { TableContext } from '../Table/Table';
+import { AlignType, IStyleProps } from '../types';
+import { useTableBodyCellStyles } from './TableBodyCellStyles';
 
 interface ITableBodyCellProps
   extends Partial<WithUseStyles<typeof useTableBodyCellStyles>> {
@@ -11,6 +11,7 @@ interface ITableBodyCellProps
   align?: AlignType;
   children: React.ReactNode;
   tableWidth: number;
+  style?: CSSProperties;
 }
 
 export const TableBodyCellComponent = ({
@@ -21,6 +22,7 @@ export const TableBodyCellComponent = ({
   paddingCollapse,
   children,
   tableWidth,
+  style,
   ...rest
 }: ITableBodyCellProps & IStyleProps) => {
   const classes = useTableBodyCellStyles({
@@ -41,6 +43,7 @@ export const TableBodyCellComponent = ({
         (alignCell === 'left' || align === 'left') && classes.leftCell,
       )}
       role="cell"
+      style={style}
     >
       <div className={classes.cellWrapper}>{children}</div>
     </div>

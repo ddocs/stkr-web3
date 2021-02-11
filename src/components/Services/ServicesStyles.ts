@@ -6,7 +6,7 @@ export const useServicesStyles = makeStyles<Theme>(theme => ({
     padding: theme.spacing(6, 0),
 
     [theme.breakpoints.up('sm')]: {
-      padding: theme.spacing(12, 0, 7),
+      padding: theme.spacing(8, 0),
     },
   },
 

@@ -45,7 +45,7 @@ export const CreateSignature = () => {
       }
 
       const network = getNetworkName(networkId);
-      const sidecars = (await stkrSdk?.getProviderSidecars())
+      const sidecars = (await stkrSdk?.getProviderSidecars(0, 999))
         .sort(a => (a.status === 'SIDECAR_STATUS_UNKNOWN' ? 0 : -1))
         .map(sidecar => ({
           name: sidecar.name,

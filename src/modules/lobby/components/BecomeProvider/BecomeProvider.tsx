@@ -1,14 +1,15 @@
-import React, { useCallback, useRef, useState } from 'react';
-import { useBecomeProviderStyles } from './BecomeProviderStyles';
-import { Curtains } from '../../../../UiKit/Curtains';
-import { t, tHTML } from '../../../../common/utils/intl';
-import classNames from 'classnames';
-import { Body1, Headline1, Headline5 } from '../../../../UiKit/Typography';
-import { Button } from '../../../../UiKit/Button';
-import { useIntersectionObserver } from '../../../../common/hooks/useIntersectionObserver';
 import { Typography } from '@material-ui/core';
+import classNames from 'classnames';
+import React, { useCallback, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useIntersectionObserver } from '../../../../common/hooks/useIntersectionObserver';
+import { Seconds } from '../../../../common/types';
+import { t, tHTML } from '../../../../common/utils/intl';
 import { UserActions } from '../../../../store/actions/UserActions';
+import { Button } from '../../../../UiKit/Button';
+import { Curtains } from '../../../../UiKit/Curtains';
+import { Body1, Headline1, Headline5 } from '../../../../UiKit/Typography';
+import { useBecomeProviderStyles } from './BecomeProviderStyles';
 
 const Item = ({
   title,
@@ -29,7 +30,7 @@ const Item = ({
   useIntersectionObserver(
     (isVisible: boolean) => {
       if (isVisible) {
-        setItemVisible(true);
+        setItemVisible(isVisible);
       }
     },
     itemRef,
@@ -42,9 +43,14 @@ const Item = ({
       className={classNames(classes.item, !isItemVisible && classes.hidden)}
       ref={itemRef}
     >
-      <Headline5 className={classes.itemCaption} color="primary" component="h3">
+      <Headline5
+        className={classes.itemCaption}
+        color="textPrimary"
+        component="h3"
+      >
         {title}
       </Headline5>
+
       <Body1 className={classes.itemText} component="p">
         {text}
       </Body1>
@@ -66,15 +72,17 @@ export const BecomeProvider = () => {
   }, [dispatch]);
 
   return (
-    <section className={classes.component}>
+    <section className={classes.root}>
       <Curtains classes={{ root: classes.wrapper }}>
         <Headline1 className={classes.title} component="h2">
           {tHTML('become-provider.title')}
         </Headline1>
+
         <div className={classes.textWrapper}>
           <Typography className={classes.text} component="p">
             {t('become-provider.text')}
           </Typography>
+
           <Button
             className={classes.button}
             color="primary"
@@ -84,28 +92,32 @@ export const BecomeProvider = () => {
             {t('navigation.unlock-wallet')}
           </Button>
         </div>
-        <Button
-          className={classes.mobileButton}
-          color="primary"
-          size="large"
-          onClick={handleUnlockWallet}
-        >
-          {t('navigation.unlock-wallet')}
-        </Button>
+
         <ul className={classes.list}>
           {Object.keys(FEATURES).map((key: string, index) => {
             const item = FEATURES[key];
+            const appearanceDelay: Seconds = 0.15 * index;
             return (
               <Item
                 key={key}
                 title={t(`become-provider.${key}-title`)}
                 text={t(item)}
                 icon={key}
-                delay={200 * index}
+                delay={appearanceDelay}
               />
             );
           })}
         </ul>
+
+        <Button
+          className={classes.mobileButton}
+          color="primary"
+          size="large"
+          onClick={handleUnlockWallet}
+          fullWidth
+        >
+          {t('navigation.unlock-wallet')}
+        </Button>
       </Curtains>
     </section>
   );

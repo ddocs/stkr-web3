@@ -1,15 +1,14 @@
-import React, { useCallback, useState } from 'react';
-import { Curtains } from '../../../../UiKit/Curtains';
-import { t, tHTML } from '../../../../common/utils/intl';
-import { useCalculateStyles } from './CalculateStyles';
-import { BackgroundColorProvider } from '../../../../UiKit/BackgroundColorProvider';
-import { Button } from '../../../../UiKit/Button';
 import { Slider } from '@material-ui/core';
-import { Headline1, Headline5 } from '../../../../UiKit/Typography';
 import BigNumber from 'bignumber.js';
-import { YEAR_INTEREST } from '../../../../common/const';
-import { UserActions } from '../../../../store/actions/UserActions';
+import React, { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { YEAR_INTEREST } from '../../../../common/const';
+import { t, tHTML } from '../../../../common/utils/intl';
+import { UserActions } from '../../../../store/actions/UserActions';
+import { Button } from '../../../../UiKit/Button';
+import { Curtains } from '../../../../UiKit/Curtains';
+import { Headline1, Headline5 } from '../../../../UiKit/Typography';
+import { useCalculateStyles } from './CalculateStyles';
 
 const DEFAULT_VALUE = 10;
 const FIXED_DECIMAL_PLACES = 2;
@@ -71,10 +70,11 @@ export const Calculate = ({ ethPrice, isConnected }: ICalculateProps) => {
   return (
     <section>
       <Curtains classes={{ root: classes.wrapper }}>
-        <BackgroundColorProvider component="div" className={classes.content}>
+        <div className={classes.content}>
           <Headline1 className={classes.title} component="h2">
             {tHTML('calculate.title')}
           </Headline1>
+
           <div className={classes.form}>
             <Slider
               className={classes.range}
@@ -85,16 +85,19 @@ export const Calculate = ({ ethPrice, isConnected }: ICalculateProps) => {
               min={0}
               max={320}
             />
+
             <Value
               title={t('calculate.note')}
               value={value}
               ratePrice={ethPrice}
             />
+
             <Value
               title={t('calculate.yearly')}
               value={value * YEAR_INTEREST}
               ratePrice={ethPrice}
             />
+
             {!isConnected && (
               <Button
                 className={classes.unlock}
@@ -106,7 +109,7 @@ export const Calculate = ({ ethPrice, isConnected }: ICalculateProps) => {
               </Button>
             )}
           </div>
-        </BackgroundColorProvider>
+        </div>
       </Curtains>
     </section>
   );

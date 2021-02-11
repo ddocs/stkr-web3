@@ -14,5 +14,5 @@ const DefaultStory = () => {
 export const Default = () => <DefaultStory />;
 
 export default {
-  title: 'modules/AboutAeth/component/ServicesItem',
+  title: 'components/ServicesItem',
 };
