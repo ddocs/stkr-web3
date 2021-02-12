@@ -1,7 +1,7 @@
 import { fade, Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-export const useTopUpStyles = makeStyles<Theme>(theme => ({
+export const useDepositStyles = makeStyles<Theme>(theme => ({
   paper: {
     padding: 0,
     maxWidth: 805,

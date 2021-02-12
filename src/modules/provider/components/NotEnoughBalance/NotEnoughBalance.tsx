@@ -1,39 +1,38 @@
+import { Button, Paper } from '@material-ui/core';
 import React from 'react';
-import { t } from '../../../../common/utils/intl';
-import { ReactComponent as NotEnoughBalanceImage } from './assets/notEnoughBalance.svg';
-import { Button, Grid } from '@material-ui/core';
-import { useEmptyNodeListStyles } from './NotEnoughBalanceStyles';
-import { Headline4 } from '../../../../UiKit/Typography';
-import { PROVIDER_TOP_UP_PATH } from '../../../../common/const';
 import { Link as RouterLink } from 'react-router-dom';
+import { PROVIDER_DEPOSIT_PATH } from '../../../../common/const';
+import { t } from '../../../../common/utils/intl';
+import { Body2, Headline4 } from '../../../../UiKit/Typography';
+import { ReactComponent as NotEnoughBalanceImage } from './assets/notEnoughBalance.svg';
+import { useEmptyNodeListStyles } from './NotEnoughBalanceStyles';
 
 export const NotEnoughBalance = () => {
   const classes = useEmptyNodeListStyles();
   return (
-    <Grid
-      container={true}
-      spacing={2}
-      alignItems="flex-start"
-      className={classes.root}
-    >
-      <Grid item={true} md={3} xs={12}>
+    <Paper variant="outlined" square={false} className={classes.root}>
+      <i className={classes.img}>
         <NotEnoughBalanceImage />
-      </Grid>
-      <Grid item={true} md={9} xs={12}>
+      </i>
+
+      <div className={classes.content}>
         <Headline4 className={classes.title}>
           {t('not-enough-balance.title')}
         </Headline4>
+
+        <Body2 className={classes.text}>{t('not-enough-balance.text')}</Body2>
+
         <Button
+          className={classes.btn}
           component={RouterLink}
-          to={PROVIDER_TOP_UP_PATH}
+          to={PROVIDER_DEPOSIT_PATH}
           color="primary"
           size="large"
-          fullWidth={true}
-          className={classes.button}
+          fullWidth
         >
           {t('not-enough-balance.submit')}
         </Button>
-      </Grid>
-    </Grid>
+      </div>
+    </Paper>
   );
 };

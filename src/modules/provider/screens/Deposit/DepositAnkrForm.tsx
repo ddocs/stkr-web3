@@ -1,40 +1,40 @@
-import { FormRenderProps } from 'react-final-form';
-import { t } from '../../../../common/utils/intl';
-import { Button } from '../../../../UiKit/Button';
-import React, { useCallback, useEffect } from 'react';
-import { useTopUpStyles } from './TopUpStyles';
 import { Box, Grid, Typography } from '@material-ui/core';
+import { Mutation, Query } from '@redux-requests/react';
+import BigNumber from 'bignumber.js';
+import React, { useCallback, useEffect } from 'react';
+import { FormRenderProps } from 'react-final-form';
+import { useDispatch } from 'react-redux';
+import { ANKR_DEPOSIT_LINK, isMainnet } from '../../../../common/const';
+import { t } from '../../../../common/utils/intl';
+import { useAuthentication } from '../../../../common/utils/useAuthentications';
+import { MutationErrorHandler } from '../../../../components/MutationErrorHandler/MutationErrorHandler';
+import { QueryEmpty } from '../../../../components/QueryEmpty/QueryEmpty';
+import { QueryError } from '../../../../components/QueryError/QueryError';
+import { QueryLoading } from '../../../../components/QueryLoading/QueryLoading';
 import {
   UserActions,
   UserActionTypes,
 } from '../../../../store/actions/UserActions';
-import { Mutation, Query } from '@redux-requests/react';
 import { IAllowance } from '../../../../store/apiMappers/allowance';
-import { QueryError } from '../../../../components/QueryError/QueryError';
-import { QueryLoading } from '../../../../components/QueryLoading/QueryLoading';
-import { QueryEmpty } from '../../../../components/QueryEmpty/QueryEmpty';
-import { useDispatch } from 'react-redux';
-import BigNumber from 'bignumber.js';
-import { MutationErrorHandler } from '../../../../components/MutationErrorHandler/MutationErrorHandler';
-import { useAuthentication } from '../../../../common/utils/useAuthentications';
-import { TopUpAnkrTimeline } from './TopUpAnkrTimeline';
-import { ANKR_DEPOSIT_LINK, isMainnet } from '../../../../common/const';
+import { Button } from '../../../../UiKit/Button';
+import { DepositAnkrTimeline } from './DepositAnkrTimeline';
+import { useDepositStyles } from './DepositStyles';
 
-export enum TopUpAnkrStep {
+export enum DepositAnkrStep {
   'DEPOSIT',
   'ALLOWANCE',
   'TOP_UP',
 }
 
-interface ITopUpAnkrFormProps {
+interface IDepositAnkrFormProps {
   ankrBalance?: BigNumber;
 }
 
-export const TopUpAnkrForm = ({
+export const DepositAnkrForm = ({
   handleSubmit,
   ankrBalance,
-}: FormRenderProps<any> & ITopUpAnkrFormProps) => {
-  const classes = useTopUpStyles();
+}: FormRenderProps<any> & IDepositAnkrFormProps) => {
+  const classes = useDepositStyles();
   const dispatch = useDispatch();
   const { isConnected } = useAuthentication();
 
@@ -107,14 +107,14 @@ export const TopUpAnkrForm = ({
           }
 
           const step = remainingAllowance.isGreaterThan(0)
-            ? TopUpAnkrStep.ALLOWANCE
-            : TopUpAnkrStep.TOP_UP;
+            ? DepositAnkrStep.ALLOWANCE
+            : DepositAnkrStep.TOP_UP;
 
           return (
             <Grid container={true} spacing={5}>
               <Grid item={true} xs={12} sm={6}>
                 <Box>
-                  <TopUpAnkrTimeline
+                  <DepositAnkrTimeline
                     totalAllowance={totalAllowance}
                     current={step}
                   />
@@ -127,7 +127,7 @@ export const TopUpAnkrForm = ({
                   height="100%"
                   alignItems="center"
                 >
-                  {step === TopUpAnkrStep.ALLOWANCE ? (
+                  {step === DepositAnkrStep.ALLOWANCE ? (
                     <>
                       <MutationErrorHandler
                         type={UserActionTypes.ALLOW_TOKENS}

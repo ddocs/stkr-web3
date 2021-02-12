@@ -1,4 +1,10 @@
+import { Query } from '@redux-requests/react';
 import React from 'react';
+import { uid } from 'react-uid';
+import { useLocaleMemo } from '../../../../common/hooks/useLocaleMemo';
+import { t } from '../../../../common/utils/intl';
+import { QueryError } from '../../../../components/QueryError/QueryError';
+import { QueryLoadingAbsolute } from '../../../../components/QueryLoading/QueryLoading';
 import {
   Table,
   TableBody,
@@ -7,20 +13,13 @@ import {
   TableHeadCell,
   TableRow,
 } from '../../../../components/TableComponents';
-import { uid } from 'react-uid';
+import { ITablesCaptionProps } from '../../../../components/TableComponents/types';
 import { UserActionTypes } from '../../../../store/actions/UserActions';
-import { Query } from '@redux-requests/react';
 import {
   IStakeHistoryItem,
   IStakerStats,
 } from '../../../../store/apiMappers/stakerStatsApi';
-import { ITablesCaptionProps } from '../../../../components/TableComponents/types';
-import { useLocaleMemo } from '../../../../common/hooks/useLocaleMemo';
-import { t } from '../../../../common/utils/intl';
 import { NotEnoughBalance } from '../NotEnoughBalance';
-import { Box, Paper } from '@material-ui/core';
-import { QueryError } from '../../../../components/QueryError/QueryError';
-import { QueryLoadingAbsolute } from '../../../../components/QueryLoading/QueryLoading';
 
 const useCaptions = (): ITablesCaptionProps[] =>
   useLocaleMemo(
@@ -45,20 +44,14 @@ function getTopUpTransactions(items: IStakeHistoryItem[]) {
   return items.filter(item => item.isTopUp);
 }
 
-export const TopUpListComponent = () => {
+export const DepositListComponent = () => {
   const captions = useCaptions();
 
   return (
     <Query<IStakerStats | null>
       type={UserActionTypes.FETCH_STAKER_STATS}
       showLoaderDuringRefetch={false}
-      noDataMessage={
-        <Paper variant="outlined" square={false}>
-          <Box minHeight={440} display="flex" alignItems="center" padding={5}>
-            <NotEnoughBalance />
-          </Box>
-        </Paper>
-      }
+      noDataMessage={<NotEnoughBalance />}
       isDataEmpty={({ data }) => {
         return getTopUpTransactions(data?.stakes ?? []).length === 0;
       }}
@@ -97,6 +90,6 @@ export const TopUpListComponent = () => {
   );
 };
 
-export const TopUpList = () => {
-  return <TopUpListComponent />;
+export const DepositList = () => {
+  return <DepositListComponent />;
 };

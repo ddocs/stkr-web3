@@ -1,12 +1,14 @@
-import React from 'react';
 import classNames from 'classnames';
+import React from 'react';
 import { ReactComponent as BitKeep } from './assets/bitkeep.svg';
+import { ReactComponent as Curve } from './assets/curve.svg';
 import { ReactComponent as ImToken } from './assets/imtoken.svg';
 import { ReactComponent as MetaMask } from './assets/metamask.svg';
 import { ReactComponent as Onto } from './assets/onto.svg';
 import { ReactComponent as OnX } from './assets/onx.svg';
 import { ReactComponent as SnowSwap } from './assets/snowswap.svg';
 import { ReactComponent as StandCash } from './assets/standcash.svg';
+import { ReactComponent as Sushiswap } from './assets/sushiswap.svg';
 import { ReactComponent as TrustWallet } from './assets/trustwallet.svg';
 import { ReactComponent as Uniswap } from './assets/uniswap.svg';
 import { useServicesLogoStyles } from './ServicesLogoStyles';
@@ -21,6 +23,8 @@ export const servicesLogoMap = {
   standcash: StandCash,
   trustwallet: TrustWallet,
   uniswap: Uniswap,
+  curve: Curve,
+  sushiswap: Sushiswap,
 };
 
 export type ServicesLogoNameType = keyof typeof servicesLogoMap;

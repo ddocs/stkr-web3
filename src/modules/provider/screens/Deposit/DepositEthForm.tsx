@@ -1,36 +1,36 @@
-import { Field, FormRenderProps } from 'react-final-form';
-import { t, tHTML } from '../../../../common/utils/intl';
-import { Button } from '../../../../UiKit/Button';
-import React, { useEffect } from 'react';
-import { useTopUpStyles } from './TopUpStyles';
-import { Headline4 } from '../../../../UiKit/Typography';
-import {
-  UserActions,
-  UserActionTypes,
-} from '../../../../store/actions/UserActions';
-import { Mutation } from '@redux-requests/react';
-import { useDispatch } from 'react-redux';
-import BigNumber from 'bignumber.js';
-import { useAuthentication } from '../../../../common/utils/useAuthentications';
-import { SliderField } from '../../../../UiKit/RangeField';
 import { Box, Grid, Typography } from '@material-ui/core';
+import { Mutation } from '@redux-requests/react';
+import BigNumber from 'bignumber.js';
+import React, { useEffect } from 'react';
+import { Field, FormRenderProps } from 'react-final-form';
+import { useDispatch } from 'react-redux';
 import {
   PROVIDER_MIN_BALANCE,
   STAKING_AMOUNT_STEP,
 } from '../../../../common/const';
-import { ETH_AMOUNT_FIELD_NAME } from './TopUp';
+import { t, tHTML } from '../../../../common/utils/intl';
+import { useAuthentication } from '../../../../common/utils/useAuthentications';
+import {
+  UserActions,
+  UserActionTypes,
+} from '../../../../store/actions/UserActions';
+import { Button } from '../../../../UiKit/Button';
+import { SliderField } from '../../../../UiKit/RangeField';
+import { Headline4 } from '../../../../UiKit/Typography';
+import { ETH_AMOUNT_FIELD_NAME } from './Deposit';
+import { useDepositStyles } from './DepositStyles';
 
-interface ITopUpEthFormProps {
+interface IDepositEthFormProps {
   deposited?: BigNumber;
 }
 
-export const TopUpEthForm = ({
+export const DepositEthForm = ({
   handleSubmit,
   values,
   initialValues,
   deposited,
-}: FormRenderProps<any> & ITopUpEthFormProps) => {
-  const classes = useTopUpStyles();
+}: FormRenderProps<any> & IDepositEthFormProps) => {
+  const classes = useDepositStyles();
   const dispatch = useDispatch();
   const { isConnected } = useAuthentication();
 

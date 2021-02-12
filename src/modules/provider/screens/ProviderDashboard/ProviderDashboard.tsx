@@ -2,10 +2,10 @@ import { Box, Button, Typography } from '@material-ui/core';
 import React, { useCallback, useMemo } from 'react';
 import { Route } from 'react-router-dom';
 import {
+  PROVIDER_DEPOSIT_LIST_PATH,
+  PROVIDER_DEPOSIT_PATH,
   PROVIDER_MAIN_PATH,
   PROVIDER_NODE_LIST_PATH,
-  PROVIDER_TOP_UP_LIST_PATH,
-  PROVIDER_TOP_UP_PATH,
 } from '../../../../common/const';
 import { t } from '../../../../common/utils/intl';
 import { QueryError } from '../../../../components/QueryError/QueryError';
@@ -13,10 +13,10 @@ import { QueryLoading } from '../../../../components/QueryLoading/QueryLoading';
 import { Curtains } from '../../../../UiKit/Curtains';
 import { NavLink } from '../../../../UiKit/NavLink';
 import { CreateNodeDialog } from '../../components/CreateNodeDialog';
+import { DepositList } from '../../components/DepositList';
 import { NodeList } from '../../components/NodeList';
 import { ProviderTabs } from '../../components/ProviderTabs';
 import { IItemProps } from '../../components/ProviderTabs/ProviderTabs';
-import { TopUpList } from '../../components/TopUpList';
 import { useProviderDashboardStyles } from './ProviderDashboardStyles';
 import { useProviderDashboard } from './useProviderDashboard';
 
@@ -44,9 +44,9 @@ export const ProviderDashboard = () => {
       },
       ...[
         {
-          label: t('provider-tabs.top-ups'),
-          path: PROVIDER_TOP_UP_LIST_PATH,
-          route: PROVIDER_TOP_UP_LIST_PATH,
+          label: t('provider-tabs.deposits'),
+          path: PROVIDER_DEPOSIT_LIST_PATH,
+          route: PROVIDER_DEPOSIT_LIST_PATH,
         },
       ],
     ],
@@ -66,18 +66,18 @@ export const ProviderDashboard = () => {
   );
 
   const renderTopUpList = useCallback(() => {
-    return <TopUpList />;
+    return <DepositList />;
   }, []);
 
   const renderTopUpLink = useCallback(
     () => (
       <NavLink
         className={classes.link}
-        href={PROVIDER_TOP_UP_PATH}
+        href={PROVIDER_DEPOSIT_PATH}
         variant="contained"
         color="primary"
       >
-        {t('provider-dashboard.top-up')}
+        {t('provider-dashboard.deposit')}
       </NavLink>
     ),
     [classes.link],
@@ -129,7 +129,7 @@ export const ProviderDashboard = () => {
             </Typography>
 
             <Route
-              path={[PROVIDER_TOP_UP_LIST_PATH]}
+              path={[PROVIDER_DEPOSIT_LIST_PATH]}
               exact={true}
               render={renderTopUpLink}
             />
@@ -150,7 +150,7 @@ export const ProviderDashboard = () => {
           />
 
           <Route
-            path={[PROVIDER_TOP_UP_LIST_PATH]}
+            path={[PROVIDER_DEPOSIT_LIST_PATH]}
             render={renderTopUpList}
             exact={true}
           />

@@ -1,4 +1,3 @@
-import BigNumber from 'bignumber.js';
 import {
   Timeline,
   TimelineConnector,
@@ -6,20 +5,21 @@ import {
   TimelineItem,
   TimelineSeparator,
 } from '@material-ui/lab';
-import { useTopUpStyles } from './TopUpStyles';
+import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
-import { t } from '../../../../common/utils/intl';
 import React from 'react';
-import { TopUpAnkrStep } from './TopUpAnkrForm';
+import { useIsSMDown } from '../../../../common/hooks/useTheme';
+import { t } from '../../../../common/utils/intl';
+import { DepositAnkrStep } from './DepositAnkrForm';
+import { useDepositStyles } from './DepositStyles';
 import {
   TimelineStatus,
   TimelineStatusDot,
 } from './TimelineStatusDot/TimelineStatusDot';
-import { useIsSMDown } from '../../../../common/hooks/useTheme';
 
 function getTimelineDotStatus(
-  itemStep: TopUpAnkrStep,
-  currentStep: TopUpAnkrStep,
+  itemStep: DepositAnkrStep,
+  currentStep: DepositAnkrStep,
 ): TimelineStatus {
   if (itemStep === currentStep) {
     return 'current';
@@ -32,29 +32,29 @@ function getTimelineDotStatus(
   return 'done';
 }
 
-interface ITopUpAnkrTimelineProps {
+interface IDepositAnkrTimelineProps {
   totalAllowance: BigNumber;
-  current: TopUpAnkrStep;
+  current: DepositAnkrStep;
 }
 
-export function TopUpAnkrTimeline({
+export function DepositAnkrTimeline({
   totalAllowance,
   current,
-}: ITopUpAnkrTimelineProps) {
-  const classes = useTopUpStyles();
+}: IDepositAnkrTimelineProps) {
+  const classes = useDepositStyles();
   const isSmDown = useIsSMDown();
   return (
     <Timeline align={isSmDown ? 'alternate' : 'left'}>
       <TimelineItem>
         <TimelineSeparator>
           <TimelineStatusDot
-            status={getTimelineDotStatus(TopUpAnkrStep.DEPOSIT, current)}
+            status={getTimelineDotStatus(DepositAnkrStep.DEPOSIT, current)}
           />
           <TimelineConnector />
         </TimelineSeparator>
         <TimelineContent
           className={classNames(
-            current !== TopUpAnkrStep.DEPOSIT &&
+            current !== DepositAnkrStep.DEPOSIT &&
               classes.timelineNotCurrentContent,
           )}
         >
@@ -64,13 +64,13 @@ export function TopUpAnkrTimeline({
       <TimelineItem>
         <TimelineSeparator>
           <TimelineStatusDot
-            status={getTimelineDotStatus(TopUpAnkrStep.ALLOWANCE, current)}
+            status={getTimelineDotStatus(DepositAnkrStep.ALLOWANCE, current)}
           />
           <TimelineConnector />
         </TimelineSeparator>
         <TimelineContent
           className={classNames(
-            current !== TopUpAnkrStep.ALLOWANCE &&
+            current !== DepositAnkrStep.ALLOWANCE &&
               classes.timelineNotCurrentContent,
           )}
         >
@@ -82,12 +82,12 @@ export function TopUpAnkrTimeline({
       <TimelineItem>
         <TimelineSeparator>
           <TimelineStatusDot
-            status={getTimelineDotStatus(TopUpAnkrStep.TOP_UP, current)}
+            status={getTimelineDotStatus(DepositAnkrStep.TOP_UP, current)}
           />
         </TimelineSeparator>
         <TimelineContent
           className={classNames(
-            current !== TopUpAnkrStep.TOP_UP &&
+            current !== DepositAnkrStep.TOP_UP &&
               classes.timelineNotCurrentContent,
           )}
         >

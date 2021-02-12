@@ -1,36 +1,36 @@
+import { Box, IconButton, Paper, Tab, Tabs } from '@material-ui/core';
+import { success } from '@redux-requests/core';
+import { useQuery } from '@redux-requests/react';
+import BigNumber from 'bignumber.js';
 import React, { ChangeEvent, useCallback, useMemo } from 'react';
-import { useTopUpStyles } from './TopUpStyles';
 import { Form } from 'react-final-form';
+import { generatePath, useHistory, useParams } from 'react-router';
 import {
+  isMainnet,
   MAX_PROVIDER_STAKING_AMOUNT,
+  PROVIDER_DEPOSIT_ROUTE,
   PROVIDER_NODE_LIST_PATH,
-  PROVIDER_TOP_UP_ROUTE,
   PROVIDE_MIN_BALANCE,
   STAKING_AMOUNT_STEP,
-  isMainnet,
 } from '../../../../common/const';
+import { DepositType } from '../../../../common/types';
 import { FormErrors } from '../../../../common/types/FormErrors';
+import { floor } from '../../../../common/utils/floor';
 import { t } from '../../../../common/utils/intl';
-import BigNumber from 'bignumber.js';
-import { MutationErrorHandler } from '../../../../components/MutationErrorHandler/MutationErrorHandler';
-import { useQuery } from '@redux-requests/react';
-import { generatePath, useHistory, useParams } from 'react-router';
 import { useRequestDispatch } from '../../../../common/utils/useRequestDispatch';
+import { MutationErrorHandler } from '../../../../components/MutationErrorHandler/MutationErrorHandler';
 import {
   UserActions,
   UserActionTypes,
 } from '../../../../store/actions/UserActions';
-import { IUserInfo } from '../../../../store/apiMappers/userApi';
 import { IAllowance } from '../../../../store/apiMappers/allowance';
-import { floor } from '../../../../common/utils/floor';
-import { Headline2 } from '../../../../UiKit/Typography';
-import { Box, IconButton, Paper, Tab, Tabs } from '@material-ui/core';
-import { TopUpAnkrForm } from './TopUpAnkrForm';
-import { TopUpEthForm } from './TopUpEthForm';
-import { DepositType } from '../../../../common/types';
-import { success } from '@redux-requests/core';
-import { CancelIcon } from '../../../../UiKit/Icons/CancelIcon';
 import { IProviderStats } from '../../../../store/apiMappers/providerStatsApi';
+import { IUserInfo } from '../../../../store/apiMappers/userApi';
+import { CancelIcon } from '../../../../UiKit/Icons/CancelIcon';
+import { Headline2 } from '../../../../UiKit/Typography';
+import { DepositAnkrForm } from './DepositAnkrForm';
+import { DepositEthForm } from './DepositEthForm';
+import { useDepositStyles } from './DepositStyles';
 
 enum TopUpCurreny {
   ankr = 'ankr',
@@ -41,27 +41,27 @@ export const DEPOSIT_TYPE_FIELD_NAME = 'depositType';
 export const ETH_AMOUNT_FIELD_NAME = 'etheriumAmount';
 export const ANKR_AMOUNT_FIELD_NAME = 'ankrAmount';
 
-interface ITopUpPayload {
+interface IDepositPayload {
   [DEPOSIT_TYPE_FIELD_NAME]: DepositType;
   [ETH_AMOUNT_FIELD_NAME]: number;
   [ANKR_AMOUNT_FIELD_NAME]: number;
 }
 
-interface ITopUpProps {
-  onSubmit(x: ITopUpPayload): void;
+interface IDepositProps {
+  onSubmit(x: IDepositPayload): void;
   ankrBalance?: BigNumber;
   ethereumBalance?: BigNumber;
   deposited?: BigNumber;
   currency: TopUpCurreny;
 }
 
-export const TopUpComponent = ({
+export const DepositComponent = ({
   onSubmit,
   ankrBalance,
   ethereumBalance,
   currency,
   deposited,
-}: ITopUpProps) => {
+}: IDepositProps) => {
   const maxStakingAmount = useMemo(
     () =>
       ethereumBalance?.isGreaterThan(MAX_PROVIDER_STAKING_AMOUNT)
@@ -86,16 +86,16 @@ export const TopUpComponent = ({
   const render = useCallback(
     formProps =>
       currency === TopUpCurreny.ankr ? (
-        <TopUpAnkrForm ankrBalance={ankrBalance} {...formProps} />
+        <DepositAnkrForm ankrBalance={ankrBalance} {...formProps} />
       ) : (
-        <TopUpEthForm deposited={deposited} {...formProps} />
+        <DepositEthForm deposited={deposited} {...formProps} />
       ),
     [ankrBalance, currency, deposited],
   );
 
   const validateTopUpForm = useCallback(
-    ({ ...data }: ITopUpPayload) => {
-      const errors: FormErrors<ITopUpPayload> = {};
+    ({ ...data }: IDepositPayload) => {
+      const errors: FormErrors<IDepositPayload> = {};
 
       if (data[DEPOSIT_TYPE_FIELD_NAME] === DepositType.ETH) {
         if (data[ETH_AMOUNT_FIELD_NAME] < minStakingAmount) {
@@ -128,8 +128,8 @@ export const TopUpComponent = ({
   );
 };
 
-export const TopUp = () => {
-  const classes = useTopUpStyles();
+export const Deposit = () => {
+  const classes = useDepositStyles();
   const history = useHistory();
   const dispatch = useRequestDispatch();
   const { data: allowanceData } = useQuery<IAllowance | null>({
@@ -145,7 +145,7 @@ export const TopUp = () => {
   });
 
   const handleSubmit = useCallback(
-    (payload: ITopUpPayload) => {
+    (payload: IDepositPayload) => {
       if (payload[DEPOSIT_TYPE_FIELD_NAME] === DepositType.ETH) {
         dispatch(
           UserActions.topUp(
@@ -181,7 +181,7 @@ export const TopUp = () => {
   const { push } = useHistory();
   const handleChange = useCallback(
     (event: ChangeEvent<Record<string, unknown>>, value: TopUpCurreny) => {
-      push(generatePath(PROVIDER_TOP_UP_ROUTE, { type: value }));
+      push(generatePath(PROVIDER_DEPOSIT_ROUTE, { type: value }));
     },
     [push],
   );
@@ -214,7 +214,7 @@ export const TopUp = () => {
           />
           <Tab label={t('top-up.tab.eth')} value={TopUpCurreny.eth} />
         </Tabs>
-        <TopUpComponent
+        <DepositComponent
           onSubmit={handleSubmit}
           ankrBalance={accountData?.ankrBalance}
           ethereumBalance={accountData?.ethereumBalance}
