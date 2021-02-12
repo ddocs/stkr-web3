@@ -282,11 +282,12 @@
     "submit-full": "Create Beacon Chain"
   },
   "not-enough-balance": {
-    "title": "To create your own node, you need to top-up your balance",
-    "submit": "Top-up your balance"
+    "title": "To create your own node, you need to make deposit",
+    "text": "To become a provider in Ankr Staking and earn platform fees, you need to set up an Ethereum 2.0 node with a minimum “insurance” stake of 2 ETH to compensate users in case of slashing events.",
+    "submit": "Deposit"
   },
   "top-up": {
-    "title": "Top-up your balance",
+    "title": "Insurance deposit",
     "ankr-min-deposit-notice": "You need {value} ANKR on your wallet",
     "tab": {
       "ankr": "ANKR",
@@ -294,20 +295,20 @@
     },
     "submit": {
       "ankr-buy": "Buy ANKR",
-      "ankr-top-up": "Top-up {value} ANKR",
+      "ankr-top-up": "Deposit {value} ANKR",
       "ankr-allow": "Allow {value} ANKR",
-      "eth-top-up": "Top-up {value} ETH"
+      "eth-top-up": "Deposit {value} ETH"
     },
     "step": {
       "1": "You have enough tokens",
       "2": "Allow {value} ANKR",
-      "3": "Top-up {value} ANKR"
+      "3": "Deposit {value} ANKR"
     },
     "eth-top-up-note": "Please note that if your insurance ever drops below 2 ETH due to slashing penalties, your node may stop running. To prevent this from happening, or to restart a node that has stopped because of this, please ensure your remaining insurance balance is at least 2 ETH. You can top this amount up here.<br/><br/>Also note that once deposited, any insurance amount remains locked in the Stkr system until the contract ends (Ethereum 2.0 Phase 1.5 release)."
   },
   "provider-dashboard": {
     "balance": "Your insurance deposit",
-    "top-up": "Top-up",
+    "deposit": "Deposit",
     "create": "Create",
     "configure-own-node": "Configure your own node",
     "deploy-with-ankr": "Deploy with ANKR",
@@ -328,7 +329,7 @@
     }
   },
   "provider-tabs": {
-    "top-ups": "Top-ups",
+    "deposits": "Deposits",
     "create": "Create"
   },
   "iframe": {

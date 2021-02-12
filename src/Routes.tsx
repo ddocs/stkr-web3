@@ -1,9 +1,6 @@
+import loadable, { LoadableComponent } from '@loadable/component';
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import loadable, { LoadableComponent } from '@loadable/component';
-import { QueryLoadingAbsolute } from './components/QueryLoading/QueryLoading';
-import { PageNotFound } from './components/PageNotFound/PageNotFound';
-import { withDefaultLayout } from './modules/layout';
 import {
   ABOUT_AETH_PATH,
   ABOUT_SMARTCHAIN_PATH,
@@ -15,13 +12,16 @@ import {
   INDEX_PATH,
   PICKER_PATH,
   PROVIDER_CREATE_NODE_PATH,
+  PROVIDER_DEPOSIT_LIST_PATH,
+  PROVIDER_DEPOSIT_ROUTE,
   PROVIDER_MAIN_PATH,
   PROVIDER_NODE_LIST_PATH,
-  PROVIDER_TOP_UP_LIST_PATH,
-  PROVIDER_TOP_UP_ROUTE,
   STAKER_DASHBOARD_PATH,
   STAKER_STAKE_PATH,
 } from './common/const';
+import { PageNotFound } from './components/PageNotFound/PageNotFound';
+import { QueryLoadingAbsolute } from './components/QueryLoading/QueryLoading';
+import { withDefaultLayout } from './modules/layout';
 import { PrivateRoute } from './UiKit/PrivateRoute';
 
 const LoadableOverviewContainer = withDefaultLayout(
@@ -42,7 +42,9 @@ const ProviderContainer = withDefaultLayout(
 const TopUpContainer = withDefaultLayout(
   loadable(
     async () =>
-      import('./modules/provider/screens/TopUp').then(module => module.TopUp),
+      import('./modules/provider/screens/Deposit').then(
+        module => module.Deposit,
+      ),
     {
       fallback: <QueryLoadingAbsolute />,
     },
@@ -179,7 +181,7 @@ export function Routes() {
       />
       <Route path={ANKR_IFRAME_PATH} component={LoadableIframeContainer} />
       <PrivateRoute
-        path={[PROVIDER_TOP_UP_ROUTE]}
+        path={[PROVIDER_DEPOSIT_ROUTE]}
         component={TopUpContainer}
         exact={true}
       />
@@ -187,7 +189,7 @@ export function Routes() {
         path={[
           PROVIDER_MAIN_PATH,
           PROVIDER_NODE_LIST_PATH,
-          PROVIDER_TOP_UP_LIST_PATH,
+          PROVIDER_DEPOSIT_LIST_PATH,
         ]}
         exact={true}
         component={ProviderContainer}

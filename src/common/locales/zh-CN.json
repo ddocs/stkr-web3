@@ -279,8 +279,9 @@
         "submit-full": "建立信标链"
     },
     "not-enough-balance": {
-        "title": "要创建第一个信标节点，您需要充值余额",
-        "submit": "充值余额"
+        "title": "To create your own node, you need to make deposit",
+        "text": "To become a provider in Ankr Staking and earn platform fees, you need to set up an Ethereum 2.0 node with a minimum “insurance” stake of 2 ETH to compensate users in case of slashing events.",
+        "submit": "Deposit"
     },
     "top-up": {
         "title": "充值余额",
