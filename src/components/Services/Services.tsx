@@ -10,14 +10,15 @@ import { useServicesStyles } from './ServicesStyles';
 
 const services: ServicesLogoNameType[] = [
   'uniswap',
+  'sushiswap',
   'metamask',
   'onx',
   'bitkeep',
   'trustwallet',
   'imtoken',
-  'standcash',
   'onto',
   'snowswap',
+  'curve',
 ];
 
 interface IServicesProps {

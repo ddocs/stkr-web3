@@ -7,11 +7,11 @@ export const useServicesItemStyles = makeStyles<Theme>(theme => ({
     padding: theme.spacing(4, 4),
     border: '1px solid rgba(255,255,255, 0.2)',
     borderRadius: 48,
-    opacity: 0.5,
     transition: 'all 0.3s ease',
 
     [theme.breakpoints.up('sm')]: {
       padding: theme.spacing(5, 5),
+      opacity: 0.5,
     },
 
     '&:hover': {

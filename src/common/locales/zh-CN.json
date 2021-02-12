@@ -344,9 +344,10 @@
             "bitkeep": "Direct access to Ankr's Eth2 staking services.",
             "trustwallet": "Mobile access to Ankr's Eth2 staking services.",
             "imtoken": "Mobile access to Ankr's Eth2 staking services.",
-            "standcash": "aETH staking pool for algorithmic stablecoin protocol.",
             "onto": "Direct access to Ankr's Eth2 staking services.",
-            "snowswap": "Incentivizing Eth2 adoption with aETH swaps and pools."
+            "snowswap": "Incentivizing Eth2 adoption with aETH swaps and pools.",
+            "sushiswap": "Decentralized trading and incentivized aETH liquidity pools.",
+            "curve": "Decentralized liquidity pool for aETH with double reward mechanism."
         }
     },
     "aeth-start": {
