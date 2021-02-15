@@ -1,39 +1,31 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { Curtains } from '../../../../UiKit/Curtains';
-import { useConvertStyles } from './ConvertStyles';
-import { Body1 } from '../../../../UiKit/Typography';
-import { t, tHTML } from '../../../../common/utils/intl';
-import { Field, Form, FormRenderProps } from 'react-final-form';
-import { SliderField } from '../../../../UiKit/RangeField';
-import { FormErrors } from '../../../../common/types/FormErrors';
-import { Mutation, Query } from '@redux-requests/react';
-import { STAKING_AMOUNT_STEP } from '../../../../common/const';
-import { MutationErrorHandler } from '../../../../components/MutationErrorHandler/MutationErrorHandler';
-import { CheckboxField } from '../../../../UiKit/Checkbox/CheckboxField';
-import { Button } from '../../../../UiKit/Button';
-import { Quote } from '../../../../components/Quote';
-import {
-  Box,
-  Divider,
-  Paper,
-  Step as MuiStep,
-  StepLabel,
-  Stepper,
-  Typography,
-} from '@material-ui/core';
-import { useRequestDispatch } from '../../../../common/utils/useRequestDispatch';
-import { ConvertActions } from '../../actions/ConvertActions';
-import { QueryError } from '../../../../components/QueryError/QueryError';
-import { QueryLoadingCentered } from '../../../../components/QueryLoading/QueryLoading';
-import { IConversionStats } from '../../api/convertApi';
-import { floor } from '../../../../common/utils/floor';
-import { Deposit } from '../../components/Deposit';
-import { Confirms } from '../../components/Confirms';
-import { QueryState } from '@redux-requests/core';
-import { useMutationStatus } from '../../../../common/hooks/useMutationStatus';
-import { TransactionCompleted } from '../../components/TransactionCompleted';
-import { useInterval } from '../../../../common/utils/useInterval';
-import { Milliseconds } from '../../../../common/types';
+import React, { useCallback, useEffect, useState } from "react";
+import { Curtains } from "../../../../UiKit/Curtains";
+import { useConvertStyles } from "./ConvertStyles";
+import { Body1 } from "../../../../UiKit/Typography";
+import { t, tHTML } from "../../../../common/utils/intl";
+import { Field, Form, FormRenderProps } from "react-final-form";
+import { SliderField } from "../../../../UiKit/RangeField";
+import { FormErrors } from "../../../../common/types/FormErrors";
+import { Mutation, Query } from "@redux-requests/react";
+import { MutationErrorHandler } from "../../../../components/MutationErrorHandler/MutationErrorHandler";
+import { CheckboxField } from "../../../../UiKit/Checkbox/CheckboxField";
+import { Button } from "../../../../UiKit/Button";
+import { Quote } from "../../../../components/Quote";
+import { Box, Divider, Paper, Step as MuiStep, StepLabel, Stepper, Typography } from "@material-ui/core";
+import { useRequestDispatch } from "../../../../common/utils/useRequestDispatch";
+import { ConvertActions } from "../../actions/ConvertActions";
+import { QueryError } from "../../../../components/QueryError/QueryError";
+import { QueryLoadingCentered } from "../../../../components/QueryLoading/QueryLoading";
+import { IConversionStats } from "../../api/convertApi";
+import { floor } from "../../../../common/utils/floor";
+import { Deposit } from "../../components/Deposit";
+import { Confirms } from "../../components/Confirms";
+import { QueryState } from "@redux-requests/core";
+import { useMutationStatus } from "../../../../common/hooks/useMutationStatus";
+import { TransactionCompleted } from "../../components/TransactionCompleted";
+import { useInterval } from "../../../../common/utils/useInterval";
+import { Milliseconds } from "../../../../common/types";
+import { useFeaturesAvailable } from "../../../../common/hooks/useFeaturesAvailable";
 
 const MIN_AMOUNT = 0.5;
 const MAX_AMOUNT = 32;
@@ -69,6 +61,8 @@ const RenderForm = ({
 }: FormRenderProps<IConvertPayload>) => {
   const classes = useConvertStyles();
 
+  const { stakingAmountStep } = useFeaturesAvailable();
+
   return (
     <Query<IConversionStats | null>
       type={(ConvertActions.fetchConversionStats as any) as string}
@@ -83,7 +77,7 @@ const RenderForm = ({
           data.availablePegETH.isLessThanOrEqualTo(MAX_AMOUNT)
             ? data.availablePegETH.toNumber()
             : MAX_AMOUNT,
-          STAKING_AMOUNT_STEP,
+          stakingAmountStep,
         );
 
         return (
@@ -105,7 +99,7 @@ const RenderForm = ({
                   component={SliderField}
                   min={MIN_AMOUNT}
                   max={max}
-                  step={STAKING_AMOUNT_STEP}
+                  step={stakingAmountStep}
                   name="amount"
                 />
               </Box>
@@ -179,6 +173,8 @@ const Content = ({ query: { data } }: IContentProps) => {
     },
     [dispatch],
   );
+
+  const { stakingAmountStep } = useFeaturesAvailable();
 
   const handleSubmit = (payload: IConvertPayload) => {
     dispatch(ConvertActions.convert(payload.amount));
@@ -263,10 +259,7 @@ const Content = ({ query: { data } }: IContentProps) => {
     );
   }
 
-  const INIT_AMOUNT = floor(
-    data.availablePegETH.toNumber(),
-    STAKING_AMOUNT_STEP,
-  );
+  const INIT_AMOUNT = floor(data.availablePegETH.toNumber(), stakingAmountStep);
 
   return (
     <Form
