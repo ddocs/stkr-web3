@@ -2,12 +2,12 @@ import React from 'react';
 import classNames from 'classnames';
 import { useAddressStyles } from './AddressStyles';
 import { walletConversion } from '../../../../common/utils/convertWallet';
-import { Providers } from '../../../../common/types';
+import { Provider } from '../../../../common/types';
 
 export interface IAddressProps {
   className?: string;
   address: string;
-  provider: Providers;
+  provider: Provider;
 }
 
 export const Address = ({ className, address, provider }: IAddressProps) => {

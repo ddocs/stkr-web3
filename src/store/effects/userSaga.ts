@@ -26,7 +26,6 @@ import { IApplicationStore } from '../createStore';
 import { IUserInfo } from '../apiMappers/userApi';
 import { pushEvent } from '../../common/utils/pushEvent';
 import { IConnectResponse } from '../apiMappers/connectApi';
-import { BlockchainNetworkId } from '@ankr.com/stkr-jssdk';
 
 function createEventChannel() {
   return eventChannel(emitter => {

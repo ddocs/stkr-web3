@@ -6,7 +6,7 @@ export interface IEmailPayload {
   email: string;
 }
 
-export enum Providers {
+export enum Provider {
   metamask = 'metamask',
   wallet = 'wallet',
   binance = 'binance',

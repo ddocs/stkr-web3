@@ -1,10 +1,10 @@
-import { Blockchains, Providers } from '../../common/types';
+import { Blockchains, Provider } from '../../common/types';
 import BigNumber from 'bignumber.js';
 
 export interface IUserInfo {
   address: string;
   blockchainType: Blockchains;
-  walletType: Providers;
+  walletType: Provider;
   ethereumBalance: BigNumber;
   ankrBalance: BigNumber;
   aEthBalance: BigNumber;

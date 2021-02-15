@@ -1,7 +1,7 @@
 import classNames from 'classnames';
-import React, { ReactNode, useCallback, useEffect, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
-import { Providers } from '../../../../common/types';
+import { Provider } from '../../../../common/types';
 import { walletConversion } from '../../../../common/utils/convertWallet';
 import { getWalletLink } from '../../../../common/utils/getWalletLink';
 import { t } from '../../../../common/utils/intl';
@@ -14,72 +14,28 @@ import { CopyIcon } from '../../../../UiKit/Icons/CopyIcon';
 import { ViewIcon } from '../../../../UiKit/Icons/ViewIcon';
 import { NavLink } from '../../../../UiKit/NavLink';
 import { SubTitle } from '../../../../UiKit/Typography/Typography';
-import { PROVIDERS } from '../const';
+import { IProvider, PROVIDERS } from '../const';
 import { useWalletCardStyles } from './WalletCardStyles';
-
-interface IItemProps {
-  caption: string;
-  reference: string;
-  icon: string;
-
-  onSelect(e: string): void;
-}
-
-const Item = ({ caption, reference, icon, onSelect }: IItemProps) => {
-  const classes = useWalletCardStyles({ provider: icon });
-
-  const handleSelect = useCallback(() => onSelect(reference), [
-    onSelect,
-    reference,
-  ]);
-
-  return (
-    <li className={classes.item}>
-      <SubTitle className={classes.caption} component="span">
-        {caption}
-      </SubTitle>
-      <Button
-        className={classes.select}
-        variant="outlined"
-        size="small"
-        color="secondary"
-        onClick={handleSelect}
-      >
-        {t('navigation.select')}
-      </Button>
-    </li>
-  );
-};
 
 interface IWalletProps {
   className?: string;
   visible?: boolean;
-  address: string | undefined;
-  provider: Providers | undefined;
-  providers?: Record<string, any>;
+  address: string;
+  provider: Provider;
   balance?: ReactNode;
+  providers?: Record<string, IProvider>;
 }
 
 export const WalletCard = ({
   className,
   address,
   provider,
-  visible = true,
   providers = PROVIDERS,
+  visible = true,
   balance,
 }: IWalletProps) => {
   const classes = useWalletCardStyles({ currentProvider: provider });
   const dispatchDisconnect = useAction(UserActions.disconnect);
-
-  const providersKeys = Object.keys(providers);
-
-  const providersList = providersKeys.filter(
-    key => key !== provider && providers[key].available,
-  );
-
-  const handleSelect = useCallback((selectedItem: string) => {
-    alert(`selected ${selectedItem}`);
-  }, []);
 
   const [isCopy, setCopy] = useState<boolean>(false);
 
@@ -156,23 +112,6 @@ export const WalletCard = ({
             </NavLink>
           </div>
         </>
-      )}
-
-      {providersList.length !== 0 && (
-        <ul className={classes.list}>
-          {providersList.map(key => {
-            const item = providers[key];
-            return (
-              <Item
-                key={key}
-                caption={t(item.caption)}
-                onSelect={handleSelect}
-                reference={key}
-                icon={key}
-              />
-            );
-          })}
-        </ul>
       )}
     </BackgroundColorProvider>
   );

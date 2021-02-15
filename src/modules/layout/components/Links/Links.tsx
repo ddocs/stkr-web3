@@ -17,13 +17,13 @@ import { FoldableSection } from '../../../../UiKit/FoldableSection';
 import { NavLink } from '../../../../UiKit/NavLink';
 import { Medium, Telegram, Twitter } from '../Icons/Icons';
 import { useLinksStyles } from './LinksStyles';
-import { Blockchains, Providers } from '../../../../common/types';
+import { Blockchains, Provider } from '../../../../common/types';
 
 export interface ILinksProps {
   className?: string;
   isAuth?: boolean;
   blockchainType?: Blockchains;
-  walletType?: Providers;
+  walletType?: Provider;
 }
 
 const Arrow = (props: SVGAttributes<SVGElement>) => {

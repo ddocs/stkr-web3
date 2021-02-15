@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
 import React from 'react';
 import { FocusOn } from 'react-focus-on';
-import { Blockchains, Providers } from '../../../../common/types';
+import { Blockchains, Provider } from '../../../../common/types';
 import { t } from '../../../../common/utils/intl';
 import { MutationErrorHandler } from '../../../../components/MutationErrorHandler/MutationErrorHandler';
 import { UserActionTypes } from '../../../../store/actions/UserActions';
@@ -23,7 +23,7 @@ interface IHeaderFrameProps {
   isAuth: boolean;
   walletAddress?: string;
   blockchainType?: Blockchains;
-  walletType?: Providers;
+  walletType?: Provider;
   ethereumBalance?: BigNumber;
   ankrBalance?: BigNumber;
   bnbBalance?: BigNumber;
@@ -113,7 +113,7 @@ export const HeaderComponent = ({
         >
           {!isAuth && renderedErrorHandler}
 
-          {isAuth && !isMDUp && (
+          {isAuth && walletAddress && walletType && !isMDUp && (
             <WalletCard
               className={classes.walletCard}
               address={walletAddress}
@@ -150,7 +150,7 @@ export const HeaderComponent = ({
 
           {!isAuth && isLGUp && renderedAppButton}
 
-          {isAuth && isMDUp && (
+          {isAuth && walletAddress && walletType && isMDUp && (
             <Wallet
               className={classes.wallet}
               address={walletAddress}

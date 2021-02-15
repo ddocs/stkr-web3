@@ -8,7 +8,7 @@ import {
   Blockchains,
   DepositType,
   Locale,
-  Providers,
+  Provider,
 } from '../../common/types';
 import { authenticatedRequestGuard } from '../../common/utils/authenticatedRequestGuard';
 import { update } from '../../common/utils/update';
@@ -129,12 +129,12 @@ export const UserActions = {
         const address = stkrSdk.getKeyProvider().currentAccount();
         const ethereumBalance = await stkrSdk.getEthBalance();
         const nativeBalance = await stkrSdk.getNativeBalance();
-        let walletType = Providers.metamask,
+        let walletType = Provider.metamask,
           blockchainType = Blockchains.ethereum;
         let bnbBalance = undefined,
           ankrBalance = undefined;
         if (stkrSdk.getKeyProvider().isBinanceWallet()) {
-          walletType = Providers.binance;
+          walletType = Provider.binance;
         }
         if (stkrSdk.getKeyProvider().isBinanceSmartChain()) {
           bnbBalance = nativeBalance;

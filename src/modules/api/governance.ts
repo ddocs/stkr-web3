@@ -14,9 +14,7 @@ export class GovernanceManager implements IGovernanceManager {
       .getWeb3()
       .eth.net.getId()
       .then(networkId => {
-        debugger;
         if ([1, 5].includes(networkId)) {
-          debugger;
           this.stkr = new Stkr(keyProvider.getWeb3(), networkId);
         }
       });
