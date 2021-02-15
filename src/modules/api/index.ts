@@ -67,7 +67,10 @@ interface IProviderSdk {
     eth2Url?: string,
   ): Promise<ISidecarReply>;
 
-  getProviderSidecars(): Promise<ISidecarReply[]>;
+  getProviderSidecars(
+    page: string | number,
+    size?: string | number,
+  ): Promise<ISidecarReply[]>;
 
   topUpETH(amount: BigNumber): Promise<ISendAsyncResult>;
 
@@ -266,8 +269,11 @@ export class StkrSdk implements IStkrSdk {
     return this.apiGateway.createSidecar(name, eth1Url, eth2Url);
   }
 
-  public async getProviderSidecars(): Promise<ISidecarReply[]> {
-    return this.apiGateway.getProviderSidecars();
+  public async getProviderSidecars(
+    page: string | number,
+    size?: string | number,
+  ): Promise<ISidecarReply[]> {
+    return this.apiGateway.getProviderSidecars(page, size);
   }
 
   public async getAllowanceAmount(): Promise<BigNumber> {

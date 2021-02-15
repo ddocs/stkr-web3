@@ -1,19 +1,17 @@
+import { BlockchainNetworkId } from '@ankr.com/stkr-jssdk';
 import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { replace } from 'connected-react-router';
+import { generatePath } from 'react-router';
 import { Store } from 'redux';
 import { createAction } from 'redux-actions';
 import { CONVERT_ROUTE, PICKER_PATH } from '../../common/const';
-import {
-  Blockchains,
-  DepositType,
-  Locale,
-  Provider,
-} from '../../common/types';
+import { Blockchains, DepositType, Locale, Provider } from '../../common/types';
 import { authenticatedRequestGuard } from '../../common/utils/authenticatedRequestGuard';
 import { update } from '../../common/utils/update';
 import { StkrSdk } from '../../modules/api';
 import { ISidecarReply } from '../../modules/api/gateway';
+import { IConnectResult } from '../../modules/api/provider';
 import { ICreateNodeValue } from '../../modules/provider/screens/CreateNode';
 import { IAllowance } from '../apiMappers/allowance';
 import { mapGlobalStats } from '../apiMappers/globalStatsApi';
@@ -24,15 +22,23 @@ import {
   IStakerStats,
   mapStakerStats,
 } from '../apiMappers/stakerStatsApi';
-import { IStoreState } from '../reducers';
 import { IUserInfo } from '../apiMappers/userApi';
 import { closeModalAction } from '../dialogs/actions';
-import { IConnectResult } from '../../modules/api/provider';
-import { BlockchainNetworkId } from '@ankr.com/stkr-jssdk';
-import { generatePath } from 'react-router';
+import { IStoreState } from '../reducers';
 
 export interface ISetLanguagePayload {
   locale: Locale;
+}
+
+export enum QueryStatus {
+  done = 'done',
+  inProgress = 'inProgress',
+}
+
+export interface ISidecarsQuery {
+  status: string;
+  items: ISidecar[];
+  page: number;
 }
 
 export const UserActionTypes = {
@@ -170,20 +176,34 @@ export const UserActions = {
       asMutation: true,
     },
   }),
-  fetchCurrentProviderSidecars: () => ({
+  fetchCurrentProviderSidecars: (page: number, size = 50) => ({
     type: UserActionTypes.FETCH_CURRENT_PROVIDER_SIDECARS,
     request: {
       promise: async function () {
         const stkrSdk = StkrSdk.getForEnv();
-        const data: ISidecarReply[] = await stkrSdk?.getProviderSidecars();
+        const data: ISidecarReply[] = await stkrSdk?.getProviderSidecars(
+          page,
+          size,
+        );
 
         return data;
       },
     },
     meta: {
       onRequest: authenticatedRequestGuard,
-      getData: (data: ISidecarReply[]): ISidecar[] => {
-        return data.map(mapSidecar);
+      getData: (data: ISidecarReply[], currentData: ISidecarsQuery) => {
+        const mappedSidecars = data.map(mapSidecar);
+
+        const queryData: ISidecarsQuery = {
+          page,
+          status:
+            data.length < size ? QueryStatus.done : QueryStatus.inProgress,
+          items: currentData
+            ? [...currentData.items, ...mappedSidecars]
+            : mappedSidecars,
+        };
+
+        return queryData;
       },
     },
   }),

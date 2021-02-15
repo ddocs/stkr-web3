@@ -1,16 +1,13 @@
-import React, { SVGAttributes, useState } from 'react';
 import classNames from 'classnames';
-import { useFaqStyles } from './FaqStyles';
-import { Curtains } from '../../../../UiKit/Curtains';
-import { Body2, Headline1 } from '../../../../UiKit/Typography';
+import React, { SVGAttributes, useMemo, useState } from 'react';
+import { uid } from 'react-uid';
+import { Milliseconds } from '../../../../common/types';
 import { t, tHTML } from '../../../../common/utils/intl';
 import { BackgroundColorProvider } from '../../../../UiKit/BackgroundColorProvider';
-import { uid } from 'react-uid';
+import { Curtains } from '../../../../UiKit/Curtains';
 import { FoldableSection } from '../../../../UiKit/FoldableSection';
-
-interface IMarketingProps {
-  className?: string;
-}
+import { Body2, Headline1 } from '../../../../UiKit/Typography';
+import { useFaqStyles } from './FaqStyles';
 
 const Arrow = (props: SVGAttributes<SVGElement>) => {
   return (
@@ -48,56 +45,78 @@ const FAQ: Record<string, string>[] = [
   {
     question: 'faq.question-7',
     answer: 'faq.answer-7',
-  }
+  },
 ];
+interface IFaqProps {
+  className?: string;
+}
 
-export const Faq = ({ className }: IMarketingProps) => {
+const foldingAnimationTime: Milliseconds = 300;
+
+export const Faq = ({ className }: IFaqProps) => {
   const classes = useFaqStyles();
 
   const [value, setValue] = useState<Record<string, string> | undefined>(
     FAQ[0],
   );
 
+  const items = useMemo(
+    () =>
+      FAQ.map(item => {
+        const isActive = value === item;
+        const onQuestionClick = () => setValue(item);
+        const onArrowClick = () => {
+          if (value !== item) return setValue(item);
+          else return setValue(undefined);
+        };
+
+        return (
+          <li className={classes.item} key={uid(item)}>
+            <p className={classes.question}>
+              <button onClick={onQuestionClick}>{t(item.question)}</button>
+              <span
+                className={classNames(
+                  classes.arrow,
+                  isActive && classes.rotate,
+                )}
+                onClick={onArrowClick}
+              >
+                <Arrow />
+              </span>
+            </p>
+            <FoldableSection
+              open={isActive}
+              timeout={foldingAnimationTime}
+              ssr={false}
+            >
+              <Body2 className={classes.answer} component="div">
+                {tHTML(item.answer)}
+              </Body2>
+            </FoldableSection>
+          </li>
+        );
+      }),
+    [
+      classes.answer,
+      classes.arrow,
+      classes.item,
+      classes.question,
+      classes.rotate,
+      value,
+    ],
+  );
+
   return (
     <BackgroundColorProvider
-      className={classNames(classes.component, className)}
+      className={classNames(classes.root, className)}
       component="section"
     >
       <Curtains classes={{ root: classes.wrapper }}>
         <Headline1 className={classes.title} component="h2">
           {t('faq.title')}
         </Headline1>
-        <ul className={classes.list}>
-          {FAQ.map(item => {
-            const visible = value === item;
-            return (
-              <li className={classes.item} key={uid(item)}>
-                <p className={classes.question}>
-                  <button onClick={() => setValue(item)}>
-                    {t(item.question)}
-                  </button>
-                  <span
-                    className={classNames(
-                      classes.arrow,
-                      visible && classes.rotate,
-                    )}
-                    onClick={() => {
-                      if (value !== item) return setValue(item);
-                      else return setValue(undefined);
-                    }}
-                  >
-                    <Arrow />
-                  </span>
-                </p>
-                <FoldableSection open={visible} timeout={300} ssr={false}>
-                  <Body2 className={classes.answer} component="div">
-                    {tHTML(item.answer)}
-                  </Body2>
-                </FoldableSection>
-              </li>
-            );
-          })}
-        </ul>
+
+        <ul className={classes.list}>{items}</ul>
       </Curtains>
     </BackgroundColorProvider>
   );

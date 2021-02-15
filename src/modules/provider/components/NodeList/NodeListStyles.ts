@@ -1,10 +1,18 @@
-import makeStyles from '@material-ui/core/styles/makeStyles';
 import { Theme } from '@material-ui/core';
+import makeStyles from '@material-ui/core/styles/makeStyles';
 
 export const useNodeListStyles = makeStyles<Theme>(theme => ({
   table: {
     width: '100%',
   },
+
+  tableCell: {
+    opacity: 0,
+    animationName: '$cellAnimation',
+    animationDuration: '0.5s',
+    animationFillMode: 'forwards',
+  },
+
   icon: {
     padding: 0,
     marginRight: theme.spacing(0.5),
@@ -20,6 +28,17 @@ export const useNodeListStyles = makeStyles<Theme>(theme => ({
   icons: {
     '&&': {
       whiteSpace: 'normal',
+    },
+  },
+
+  '@keyframes cellAnimation': {
+    '0%': {
+      opacity: 0,
+      transform: 'scale(0.95)',
+    },
+    '100%': {
+      opacity: 1,
+      transform: 'scale(1)',
     },
   },
 }));

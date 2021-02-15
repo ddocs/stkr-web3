@@ -1,39 +1,91 @@
-import { makeStyles } from '@material-ui/core/styles';
+import { fade, makeStyles } from '@material-ui/core/styles';
 
 export const useRulesDialogStyles = makeStyles(theme => ({
   close: {
     position: 'absolute',
-    right: 0,
-    top: 0,
+    right: theme.spacing(2),
+    top: theme.spacing(2),
+    fontSize: 28,
+
+    [theme.breakpoints.up('sm')]: {
+      right: theme.spacing(3),
+      top: theme.spacing(3),
+    },
   },
-  tip: {
-    display: 'flex',
-    alignItems: 'center',
-    color: theme.palette.primary.main,
-    marginBottom: theme.spacing(5.5),
-    backgroundColor: 'rgba(255, 232, 25, 0.1)',
-    borderRadius: 60,
-    height: theme.spacing(5),
-    lineHeight: '40px',
-    padding: '0 10px',
+
+  dialogPaper: {
+    padding: theme.spacing(8, 2, 6),
+
+    [theme.breakpoints.up('sm')]: {
+      padding: theme.spacing(10),
+    },
+  },
+
+  dialogContent: {
+    maxWidth: 500,
     margin: '0 auto',
-    maxWidth: 420,
+    overflow: 'visible',
+
+    '&&': {
+      padding: theme.spacing(1, 0),
+    },
   },
-  icon: {
+
+  title: {
+    margin: theme.spacing(0, 0, 2.5),
+
+    [theme.breakpoints.down('xs')]: {
+      fontSize: 24,
+    },
+  },
+
+  text: {
+    margin: theme.spacing(0, 0, 4),
+
+    [theme.breakpoints.up('sm')]: {
+      margin: theme.spacing(0, 0, 6.5),
+    },
+  },
+
+  warning: {
+    display: 'flex',
+
+    padding: theme.spacing(1.8),
+    margin: theme.spacing(0, 'auto', 5.5),
+    maxWidth: 420,
+    minHeight: 40,
+
+    backgroundColor: fade(theme.palette.common.white, 0.2),
+    borderRadius: 18,
+  },
+
+  warningIcon: {
     marginRight: 10,
   },
+
   link: {
     display: 'block',
     color: 'inherit',
     textDecoration: 'none',
   },
+
   item: {
-    marginBottom: theme.spacing(4),
+    marginBottom: theme.spacing(3.5),
   },
+
   list: {
-    marginBottom: theme.spacing(7.5),
+    margin: theme.spacing(0, 0, 5),
+    padding: theme.spacing(0, 0, 0, 3.5),
   },
-  dialogPaper: {
-    padding: theme.spacing(10),
+
+  listBigOffset: {
+    margin: theme.spacing(0, 0, 7.5),
+  },
+
+  btnWrap: {
+    [theme.breakpoints.up('sm')]: {
+      maxWidth: 276,
+      margin: '0 auto',
+    },
   },
 }));

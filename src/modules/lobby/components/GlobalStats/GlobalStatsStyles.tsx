@@ -2,52 +2,77 @@ import { fade, Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
 export const useMarketingStyles = makeStyles<Theme>(theme => ({
-  root: {
+  placeHolder: {
     position: 'relative',
     minHeight: 100,
+
     [theme.breakpoints.up('sm')]: {
-      minHeight: 257,
+      minHeight: 200,
     },
   },
-  content: {
-    width: '100%',
+
+  root: {
+    padding: theme.spacing(2, 0, 2.5),
+
+    [theme.breakpoints.up('sm')]: {
+      padding: theme.spacing(0, 0, 5),
+    },
   },
+
+  container: {
+    [theme.breakpoints.up('sm')]: {
+      display: 'grid',
+      gridTemplateColumns: 'repeat(2, 1fr)',
+    },
+  },
+
   header: {
+    marginBottom: theme.spacing(2.5),
+
     [theme.breakpoints.down('xs')]: {
-      marginBottom: theme.spacing(3),
-      fontSize: 16,
+      fontWeight: 500,
     },
+
     [theme.breakpoints.up('sm')]: {
       marginBottom: theme.spacing(1.5),
     },
   },
+
   cell: {
     borderTop: `1px solid ${fade(theme.palette.common.white, 0.2)}`,
-    '&:first-child': {
-      borderRight: `1px solid ${fade(theme.palette.common.white, 0.2)}`,
+    padding: theme.spacing(2.5, 0),
+
+    [theme.breakpoints.up('sm')]: {
+      padding: theme.spacing(5, 0, 1.5),
     },
 
-    '&:nth-child(even)': {
-      '& $cellContent': {
-        paddingLeft: theme.spacing(1.5),
-        [theme.breakpoints.up('sm')]: {
-          paddingLeft: theme.spacing(9),
-        },
+    '&:first-child': {
+      [theme.breakpoints.down('xs')]: {
+        borderTop: 'none',
+        paddingTop: 0,
+      },
+
+      [theme.breakpoints.up('sm')]: {
+        borderRight: `1px solid ${fade(theme.palette.common.white, 0.2)}`,
+      },
+    },
+
+    '&:last-child': {
+      [theme.breakpoints.down('xs')]: {
+        paddingBottom: 0,
+      },
+
+      [theme.breakpoints.up('sm')]: {
+        paddingLeft: theme.spacing(10),
       },
     },
   },
-  cellContent: {
-    paddingTop: theme.spacing(2),
-    paddingBottom: theme.spacing(2),
-    [theme.breakpoints.up('sm')]: {
-      paddingTop: theme.spacing(5),
-      paddingBottom: theme.spacing(1),
-    },
-  },
+
   value: {
-    fontSize: 72,
-    [theme.breakpoints.down('xs')]: {
-      fontSize: 32,
+    fontSize: 48,
+
+    [theme.breakpoints.up('sm')]: {
+      fontSize: 72,
     },
   },
 }));

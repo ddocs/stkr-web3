@@ -33,24 +33,24 @@ export const CreateSignature = () => {
         throw new Error('unable to obtain access token from stkr sdk');
       }
 
-      const keyProvider = stkrSdk.getKeyProvider();
-      const address = keyProvider.currentAccount();
-      const networkId = keyProvider.currentNetwork();
+      const provider = stkrSdk.getKeyProvider();
+      const address = provider.currentAccount();
+      const networkId = provider.currentNetwork();
+      const insuranceBalance = await stkrSdk
+        .getContractManager()
+        .etherBalanceOf(address);
 
       if (!networkId) {
         throw new Error('Not connected');
       }
 
       const network = getNetworkName(networkId);
-      const sidecars = (await stkrSdk?.getProviderSidecars())
-        .filter(sidecar =>
-          ['SIDECAR_STATUS_UNKNOWN', 'SIDECAR_STATUS_BLOCKED'].includes(
-            sidecar.status,
-          ),
-        )
+      const sidecars = (await stkrSdk?.getProviderSidecars(0, 999))
+        .sort(a => (a.status === 'SIDECAR_STATUS_UNKNOWN' ? 0 : -1))
         .map(sidecar => ({
           name: sidecar.name,
           id: sidecar.id,
+          status: sidecar.status,
         }));
 
       if (window.opener) {
@@ -60,8 +60,9 @@ export const CreateSignature = () => {
             address,
             network,
             networkId,
-            provider: keyProvider.name,
+            provider: provider.name,
             sidecars,
+            insuranceBalance: insuranceBalance.toString(),
           },
           '*',
         );

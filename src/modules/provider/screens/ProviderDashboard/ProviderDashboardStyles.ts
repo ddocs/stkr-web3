@@ -62,7 +62,10 @@ export const useProviderDashboardStyles = makeStyles<Theme>(theme => ({
   },
   balance: {
     gridArea: 'balance',
+    display: 'flex',
+    alignItems: 'center',
     padding: theme.spacing(0.6, 1),
+
     border: `1px solid ${fade(theme.palette.common.white, 0.2)}`,
     borderRadius: 8,
     textAlign: 'center',

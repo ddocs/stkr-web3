@@ -1,140 +1,123 @@
-import { makeStyles } from '@material-ui/core/styles';
-import * as assetsReference from './assets';
-import { getImages } from '../../../../common/utils/getImages';
 import { Theme } from '@material-ui/core';
+import { lighten, makeStyles } from '@material-ui/core/styles';
+import { Seconds } from '../../../../common/types';
+import { getImages } from '../../../../common/utils/getImages';
+import * as assetsReference from './assets';
 
 const assets = getImages(assetsReference);
 
 export const useBecomeProviderStyles = makeStyles<
   Theme,
-  { icon?: string; delay?: number }
+  { icon?: string; delay?: Seconds }
 >(theme => ({
-  component: {
-    backgroundColor: theme.palette.background.default,
-    padding: theme.spacing(20, 0),
-    [theme.breakpoints.down('md')]: {
-      padding: theme.spacing(16, 0),
-    },
-    [theme.breakpoints.down('sm')]: {
+  root: {
+    backgroundColor: theme.palette.common.black,
+    padding: theme.spacing(8, 0),
+
+    [theme.breakpoints.up('sm')]: {
       padding: theme.spacing(12, 0),
     },
-    [theme.breakpoints.down('xs')]: {
-      padding: theme.spacing(8, 0),
+
+    [theme.breakpoints.up('md')]: {
+      padding: theme.spacing(16, 0),
+    },
+
+    [theme.breakpoints.up('lg')]: {
+      padding: theme.spacing(20, 0),
     },
   },
+
   wrapper: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(9, 1fr)',
-    gridTemplateRows: 'auto 1fr',
-    gridColumnGap: theme.spacing(1.5),
-    [theme.breakpoints.down('sm')]: {
-      gridTemplateColumns: '100%',
-      gridTemplateRows: 'auto auto auto',
-    },
-    [theme.breakpoints.down('xs')]: {
-      gridTemplateRows: 'auto auto auto auto',
+
+    [theme.breakpoints.up('md')]: {
+      gridColumnGap: theme.spacing(0.5),
+      gridTemplateColumns: 'repeat(9, 1fr)',
+      gridTemplateRows: 'auto 1fr',
     },
   },
+
   title: {
-    gridColumn: '1/4',
-    gridRow: '1/2',
-    margin: 0,
-    [theme.breakpoints.down('sm')]: {
-      gridColumn: '-1/1',
-      marginBottom: theme.spacing(3),
+    marginBottom: theme.spacing(3),
+
+    [theme.breakpoints.up('md')]: {
+      gridColumn: '1/4',
+      margin: theme.spacing(-1, 0, 0),
     },
   },
+
   textWrapper: {
-    gridColumn: '4/10',
-    gridRow: '1/2',
-    alignSelf: 'end',
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'flex-start',
-    [theme.breakpoints.down('sm')]: {
-      gridColumn: '-1/1',
-      gridRow: '2/3',
+
+    [theme.breakpoints.up('md')]: {
+      gridColumn: '4/10',
     },
   },
+
   text: {
     margin: 0,
-    fontSize: 24,
-    [theme.breakpoints.down('lg')]: {
+
+    [theme.breakpoints.up('sm')]: {
       fontSize: 18,
     },
-    [theme.breakpoints.down('xs')]: {
-      fontSize: 16,
+
+    [theme.breakpoints.up('xl')]: {
+      fontSize: 24,
     },
   },
+
   button: {
     '&&': {
       minWidth: 220,
       marginLeft: theme.spacing(9.5),
+
       [theme.breakpoints.down('sm')]: {
         display: 'none',
       },
     },
   },
+
   mobileButton: {
-    '&&': {
-      gridRow: '4/5',
-      width: '100%',
-      margin: 0,
-      marginTop: theme.spacing(3.5),
-      [theme.breakpoints.up('md')]: {
-        display: 'none',
-      },
+    marginTop: theme.spacing(3.5),
+
+    [theme.breakpoints.up('md')]: {
+      display: 'none',
     },
   },
+
   list: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(9, 1fr)',
-    gridGap: theme.spacing(1.5),
-    gridColumn: '-1/1',
-    gridRow: '2/3',
-    margin: 0,
-    marginTop: theme.spacing(15),
+    gridGap: theme.spacing(0.5),
+    margin: theme.spacing(7, 0, 0),
     padding: 0,
     listStyle: 'none',
-    [theme.breakpoints.down('sm')]: {
-      gridTemplateColumns: '100%',
+
+    [theme.breakpoints.up('md')]: {
+      gridTemplateColumns: 'repeat(3, 1fr)',
       gridColumn: '-1/1',
-      gridRow: '3/4',
-      marginTop: theme.spacing(7),
+      marginTop: theme.spacing(15),
     },
   },
+
   item: {
     display: 'grid',
     gridTemplateColumns: '100%',
     gridTemplateRows: 'auto auto 1fr',
     gridTemplateAreas: '"icon" "title" "text"',
-    padding: theme.spacing(5, 5, 6.5),
+
+    padding: theme.spacing(5, 2.5, 6.5),
     backgroundColor: theme.palette.background.default,
-    transitionTimingFunction: 'linear',
-    transitionDuration: '350ms',
-    transitionProperty: 'opacity, transform',
-    transitionDelay: props => (props.delay ? `${props.delay}ms` : '0ms'),
-    [theme.breakpoints.down('md')]: {
-      padding: theme.spacing(5, 2.5, 6.5),
+
+    transition: 'opacity 0.4s, transform 0.4s, background 0.2s',
+    transitionDelay: props =>
+      props.delay ? `${props.delay}s, ${props.delay}s, 0s` : '0s',
+
+    [theme.breakpoints.up('lg')]: {
+      padding: theme.spacing(5, 5, 6.5),
     },
-    '&:nth-child(1)': {
-      gridColumn: '1/4',
-      [theme.breakpoints.down('sm')]: {
-        gridColumn: '-1/1',
-      },
-    },
-    '&:nth-child(2)': {
-      gridColumn: '4/7',
-      [theme.breakpoints.down('sm')]: {
-        gridColumn: '-1/1',
-      },
-    },
-    '&:nth-child(3)': {
-      gridColumn: '7/10',
-      [theme.breakpoints.down('sm')]: {
-        gridColumn: '-1/1',
-      },
-    },
+
     '&::before': {
       position: 'relative',
       content: '""',
@@ -148,18 +131,25 @@ export const useBecomeProviderStyles = makeStyles<
       backgroundRepeat: 'no-repeat',
       backgroundSize: 'auto',
     },
+
+    '&:hover': {
+      backgroundColor: lighten(theme.palette.background.default, 0.02),
+    },
   },
+
   hidden: {
     '&&': {
       opacity: 0,
-      transform: 'translateY(20%)',
+      transform: 'translateY(10px)',
     },
   },
+
   itemCaption: {
     gridArea: 'title',
     margin: 0,
     whiteSpace: 'nowrap',
   },
+
   itemText: {
     gridArea: 'text',
     margin: 0,

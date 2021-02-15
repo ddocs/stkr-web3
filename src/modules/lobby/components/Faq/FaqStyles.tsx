@@ -2,40 +2,63 @@ import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
 export const useFaqStyles = makeStyles<Theme>(theme => ({
-  component: {
-    padding: theme.spacing(12.5, 0),
-    [theme.breakpoints.down('md')]: {
+  root: {
+    padding: theme.spacing(7.5, 0),
+
+    [theme.breakpoints.up('sm')]: {
       padding: theme.spacing(10, 0),
     },
-    [theme.breakpoints.down('xs')]: {
-      padding: theme.spacing(7.5, 0),
+
+    [theme.breakpoints.up('lg')]: {
+      padding: theme.spacing(12.5, 0),
     },
   },
+
   wrapper: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(9, 1fr)',
     gridGap: theme.spacing(1.5),
-  },
-  title: {
-    gridColumn: '1/4',
-    margin: 0,
-    [theme.breakpoints.down('sm')]: {
-      gridColumn: '1/-1',
+
+    [theme.breakpoints.up('md')]: {
+      gridTemplateColumns: 'repeat(9, 1fr)',
     },
   },
+
+  title: {
+    margin: 0,
+
+    [theme.breakpoints.up('md')]: {
+      gridColumn: '1/4',
+    },
+  },
+
   list: {
-    gridColumn: '4/10',
     margin: 0,
     padding: 0,
     listStyle: 'none',
-    [theme.breakpoints.down('sm')]: {
-      gridColumn: '1/-1',
+
+    [theme.breakpoints.up('md')]: {
+      gridColumn: '4/10',
     },
   },
+
   item: {
-    padding: theme.spacing(3, 0, 6),
-    borderTop: `2px solid ${theme.palette.primary.main}`,
+    padding: theme.spacing(1.5, 0),
+    border: `solid ${theme.palette.primary.main}`,
+    borderWidth: '2px 0 0',
+
+    '&:first-of-type': {
+      [theme.breakpoints.down('sm')]: {
+        borderTop: 'none',
+      },
+    },
+
+    '&:last-of-type': {
+      [theme.breakpoints.up('md')]: {
+        borderWidth: '2px 0',
+      },
+    },
   },
+
   question: {
     display: 'inline-flex',
     flexDirection: 'row',
@@ -43,6 +66,8 @@ export const useFaqStyles = makeStyles<Theme>(theme => ({
     justifyContent: 'space-between',
     width: '100%',
     margin: 0,
+    minHeight: theme.spacing(7),
+
     '& button': {
       padding: 0,
       margin: 0,
@@ -53,8 +78,10 @@ export const useFaqStyles = makeStyles<Theme>(theme => ({
       border: 0,
       backgroundColor: 'transparent',
       cursor: 'pointer',
+      color: 'inherit',
     },
   },
+
   arrow: {
     display: 'inline-flex',
     flexDirection: 'row',
@@ -67,14 +94,15 @@ export const useFaqStyles = makeStyles<Theme>(theme => ({
     transitionDuration: '250ms',
     transitionProperty: 'transform',
   },
+
   rotate: {
     transform: 'rotate(90deg)',
     transformOrigin: 'center',
   },
+
   answer: {
     '& p': {
-      margin: 0,
-      marginTop: theme.spacing(3),
+      margin: theme.spacing(1, 0, 0),
     },
   },
 }));

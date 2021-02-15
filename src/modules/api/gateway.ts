@@ -1,6 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
-import { Megabytes, Percentage, Seconds } from '../../common/types';
 import BigNumber from 'bignumber.js';
+import { Megabytes, Percentage, Seconds } from '../../common/types';
 
 export interface IGatewayConfig {
   baseUrl: string;
@@ -236,9 +236,12 @@ export class ApiGateway {
     return data;
   }
 
-  public async getProviderSidecars(): Promise<ISidecarReply[]> {
+  public async getProviderSidecars(
+    page: number | string = 0,
+    size: number | string = 10,
+  ): Promise<ISidecarReply[]> {
     const { status, data, statusText } = await this.api.get<ISidecarReply[]>(
-      `/v1alpha/sidecar`,
+      `/v1alpha/sidecar?size=${size}&page=${page}`,
     );
     if (status !== 200)
       throw new Error(`Unable to fetch ethereum balance: ${statusText}`);

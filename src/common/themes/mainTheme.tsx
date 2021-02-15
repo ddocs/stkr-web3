@@ -162,6 +162,9 @@ const mainTheme = createMuiTheme({
             zIndex: defaultTheme.zIndex.modal,
           },
         },
+        a: {
+          textDecoration: 'none',
+        },
       },
     },
     MuiContainer: {
@@ -205,7 +208,11 @@ const mainTheme = createMuiTheme({
         },
       },
       rounded: {
-        borderRadius: 48,
+        borderRadius: 32,
+
+        [defaultTheme.breakpoints.up('sm')]: {
+          padding: 45,
+        },
       },
     },
     MuiSlider: {
@@ -481,6 +488,30 @@ const mainTheme = createMuiTheme({
         },
       },
     },
+    MuiDialog: {
+      paper: {
+        width: 'calc(100% - 10px)',
+        marginLeft: 5,
+        marginRight: 5,
+        borderRadius: 32,
+
+        [defaultTheme.breakpoints.up('sm')]: {
+          borderRadius: 45,
+        },
+
+        '&&&': {
+          [defaultTheme.breakpoints.down('xs')]: {
+            maxWidth: 'calc(100% - 10px)',
+          },
+        },
+      },
+
+      paperFullWidth: {
+        [defaultTheme.breakpoints.down('xs')]: {
+          width: 'calc(100% - 10px)',
+        },
+      },
+    },
     MuiDivider: {
       root: {
         backgroundColor: fade('#fff', 0.2),
@@ -505,12 +536,19 @@ const mainTheme = createMuiTheme({
     MuiInput: {
       input: {
         fontSize: 18,
-        height: 35,
+        height: 48,
         background: '#292929',
         borderRadius: 4,
         paddingLeft: 16,
         paddingRight: 16,
+        boxSizing: 'border-box',
       },
+
+      inputMultiline: {
+        minHeight: 130,
+        padding: '14px 16px',
+      },
+
       formControl: {
         'label + &': {
           marginTop: 42,

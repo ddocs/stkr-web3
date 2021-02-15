@@ -1,22 +1,22 @@
-import { ThemeOptions } from '@material-ui/core/styles/createMuiTheme';
-import { DEFAULT_FONT, defaultTheme, mainTheme, MAX_WIDTH } from './mainTheme';
 import { createMuiTheme, fade } from '@material-ui/core';
+import { ThemeOptions } from '@material-ui/core/styles/createMuiTheme';
 import { PaletteOptions } from '@material-ui/core/styles/createPalette';
+import { defaultTheme, DEFAULT_FONT, mainTheme, MAX_WIDTH } from './mainTheme';
 
 const PALETTE = {
   type: 'dark',
   primary: {
     light: '',
-    main: '#000000',
-    dark: '#0F0F0F',
+    main: '#FFF',
+    dark: fade('#FFF', 0.5),
     contrastText: '#006DFF',
   },
   background: {
     paper: '#006DFF',
   },
   text: {
-    primary: '#000000',
-    secondary: fade('#ffffff', 0.5),
+    primary: '#FFF',
+    secondary: fade('#FFF', 0.5),
   },
   grey: {
     900: '#1D1D1D',
