@@ -1,21 +1,29 @@
-import * as React from "react";
-import { useHistoryTableStyles } from "./HistoryTableStyles";
-import { Table } from "../../../../../../components/TableComponents/Table";
-import { TableHead } from "../../../../../../components/TableComponents/TableHead";
-import { TableHeadCell } from "../../../../../../components/TableComponents/TableHeadCell";
-import { TableBody } from "../../../../../../components/TableComponents/TableBody";
-import { TableRow } from "../../../../../../components/TableComponents/TableRow";
-import { uid } from "react-uid";
-import { TableBodyCell } from "../../../../../../components/TableComponents/TableBodyCell";
-import { t } from "../../../../../../common/utils/intl";
-import { NavLink } from "../../../../../../UiKit/NavLink";
-import { useLocaleMemo } from "../../../../../../common/hooks/useLocaleMemo";
-import classNames from "classnames";
-import { AlignType } from "../../../../../../components/TableComponents/types";
-import { IconButton, Tooltip } from "@material-ui/core";
-import { QuestionIcon } from "../../../../../../UiKit/Icons/QuestionIcon";
-import { WithUseStyles } from "../../../../../../common/types";
-import { StkrSdk } from "../../../../../api";
+import * as React from 'react';
+import { useHistoryTableStyles } from './HistoryTableStyles';
+import { Table } from '../../../../../../components/TableComponents/Table';
+import { TableHead } from '../../../../../../components/TableComponents/TableHead';
+import { TableHeadCell } from '../../../../../../components/TableComponents/TableHeadCell';
+import { TableBody } from '../../../../../../components/TableComponents/TableBody';
+import { TableRow } from '../../../../../../components/TableComponents/TableRow';
+import { uid } from 'react-uid';
+import { TableBodyCell } from '../../../../../../components/TableComponents/TableBodyCell';
+import { t } from '../../../../../../common/utils/intl';
+import { NavLink } from '../../../../../../UiKit/NavLink';
+import { useLocaleMemo } from '../../../../../../common/hooks/useLocaleMemo';
+import classNames from 'classnames';
+import { AlignType } from '../../../../../../components/TableComponents/types';
+import { IconButton, Tooltip } from '@material-ui/core';
+import { QuestionIcon } from '../../../../../../UiKit/Icons/QuestionIcon';
+import { WithUseStyles } from '../../../../../../common/types';
+import { StkrSdk } from '../../../../../api';
+
+function getTxLink(txID: string) {
+  try {
+    return StkrSdk.getForEnv().createExplorerLink(txID);
+  } catch (error) {
+    return '';
+  }
+}
 
 type CaptionType = {
   label: string;
@@ -106,11 +114,7 @@ export const HistoryTable = (props: IHistoryTableProps) => {
                 className={classNames(classes.cell, classes.bodyCell)}
                 align="right"
               >
-                <NavLink
-                  href={StkrSdk.getForEnv().createExplorerLink(
-                    item.transactionHash,
-                  )}
-                >
+                <NavLink href={getTxLink(item.transactionHash)}>
                   {item.transactionHash}
                 </NavLink>
               </TableBodyCell>
