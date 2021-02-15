@@ -12,7 +12,7 @@ export enum Provider {
   binance = 'binance',
 }
 
-export enum Blockchains {
+export enum Blockchain {
   ethereum = 'ethereum',
   binance = 'binance',
 }

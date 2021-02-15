@@ -17,12 +17,12 @@ import { FoldableSection } from '../../../../UiKit/FoldableSection';
 import { NavLink } from '../../../../UiKit/NavLink';
 import { Medium, Telegram, Twitter } from '../Icons/Icons';
 import { useLinksStyles } from './LinksStyles';
-import { Blockchains, Provider } from '../../../../common/types';
+import { Blockchain, Provider } from '../../../../common/types';
 
 export interface ILinksProps {
   className?: string;
   isAuth?: boolean;
-  blockchainType?: Blockchains;
+  blockchainType?: Blockchain;
   walletType?: Provider;
 }
 
@@ -72,7 +72,7 @@ export const Links = ({ className, isAuth, blockchainType }: ILinksProps) => {
       docs: DOCS_LINK,
       BSC: !isAuth ? ABOUT_SMARTCHAIN_PATH : '',
       governance:
-        isAuth && blockchainType === Blockchains.ethereum
+        isAuth && blockchainType === Blockchain.ethereum
           ? GOVERNANCE_PROJECT_LIST_PATH
           : '',
       staker: isAuth && isMDDown ? STAKER_DASHBOARD_PATH : '',

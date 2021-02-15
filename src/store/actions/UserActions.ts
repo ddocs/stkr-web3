@@ -6,7 +6,7 @@ import { generatePath } from 'react-router';
 import { Store } from 'redux';
 import { createAction } from 'redux-actions';
 import { CONVERT_ROUTE, PICKER_PATH } from '../../common/const';
-import { Blockchains, DepositType, Locale, Provider } from '../../common/types';
+import { Blockchain, DepositType, Locale, Provider } from '../../common/types';
 import { authenticatedRequestGuard } from '../../common/utils/authenticatedRequestGuard';
 import { update } from '../../common/utils/update';
 import { StkrSdk } from '../../modules/api';
@@ -136,7 +136,7 @@ export const UserActions = {
         const ethereumBalance = await stkrSdk.getEthBalance();
         const nativeBalance = await stkrSdk.getNativeBalance();
         let walletType = Provider.metamask,
-          blockchainType = Blockchains.ethereum;
+          blockchainType = Blockchain.ethereum;
         let bnbBalance = undefined,
           ankrBalance = undefined;
         if (stkrSdk.getKeyProvider().isBinanceWallet()) {
@@ -144,7 +144,7 @@ export const UserActions = {
         }
         if (stkrSdk.getKeyProvider().isBinanceSmartChain()) {
           bnbBalance = nativeBalance;
-          blockchainType = Blockchains.binance;
+          blockchainType = Blockchain.binance;
         } else {
           ankrBalance = await stkrSdk.getAnkrBalance();
         }

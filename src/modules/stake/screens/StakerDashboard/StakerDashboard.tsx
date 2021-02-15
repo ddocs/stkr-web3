@@ -32,6 +32,7 @@ import BigNumber from 'bignumber.js';
 import { ReactComponent as PendingIcon } from './assets/pending.svg';
 import { getStakedAmount } from '../../../../common/utils/getStakedAmount';
 import { getPendingAmount } from '../../../../common/utils/getPendingAmount';
+import { useFeaturesAvailable } from '../../../../common/hooks/useFeaturesAvailable';
 
 const DECIMAL_PLACES = 4;
 
@@ -43,7 +44,7 @@ function AETHBalance({
 }: {
   totalAEth: BigNumber;
   data: IStakerStats;
-  onClaim: () => void;
+  onClaim?: () => void;
   totalAEthToEthPrice: BigNumber;
 }) {
   const classes = useStakerDashboardStyles();
@@ -85,23 +86,25 @@ function AETHBalance({
                 value: data.aEthClaimableBalance.decimalPlaces(DECIMAL_PLACES),
               })}
             </Typography>
-            <Box ml={1}>
-              <MutationErrorHandler type={UserActionTypes.CLAIM_A_ETH} />
-              <Mutation type={UserActionTypes.CLAIM_A_ETH}>
-                {({ loading }) => (
-                  <Button
-                    size="small"
-                    color="primary"
-                    variant="outlined"
-                    onClick={onClaim}
-                    disabled={loading || !ENABLE_REDEEM}
-                    className={classes.claim}
-                  >
-                    {t('staker-dashboard.claim')}
-                  </Button>
-                )}
-              </Mutation>
-            </Box>
+            {onClaim && (
+              <Box ml={1}>
+                <MutationErrorHandler type={UserActionTypes.CLAIM_A_ETH} />
+                <Mutation type={UserActionTypes.CLAIM_A_ETH}>
+                  {({ loading }) => (
+                    <Button
+                      size="small"
+                      color="primary"
+                      variant="outlined"
+                      onClick={onClaim}
+                      disabled={loading || !ENABLE_REDEEM}
+                      className={classes.claim}
+                    >
+                      {t('staker-dashboard.claim')}
+                    </Button>
+                  )}
+                </Mutation>
+              </Box>
+            )}
           </Box>
         </Box>
         <Hidden smDown={true}>
@@ -148,6 +151,8 @@ export const StakerDashboardComponent = () => {
   const handleUnstake = () => {
     dispatch(UserActions.unstake());
   };
+
+  const { isClaimAvailable } = useFeaturesAvailable();
 
   return (
     <section className={classes.root}>
@@ -262,7 +267,7 @@ export const StakerDashboardComponent = () => {
                   <AETHBalance
                     totalAEth={totalAEth}
                     data={data}
-                    onClaim={handleClaim}
+                    onClaim={isClaimAvailable ? handleClaim : undefined}
                     totalAEthToEthPrice={totalAEthToEthPrice}
                   />
                 </Paper>
