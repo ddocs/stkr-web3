@@ -1,14 +1,14 @@
 import classNames from 'classnames';
 import React, { ReactNode, useCallback, useRef, useState } from 'react';
 import { FocusOn } from 'react-focus-on';
-import { Providers } from '../../../../common/types';
+import { Provider } from '../../../../common/types';
 import { Address } from '../Address';
 import { useWalletStyles } from './WalletStyles';
 
 interface IWalletProps {
   className?: string;
   address: string | undefined;
-  provider: Providers | undefined;
+  provider: Provider | undefined;
   balance: ReactNode;
   children: ReactNode;
 }

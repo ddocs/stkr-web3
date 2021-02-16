@@ -24,11 +24,7 @@ import { IUserInfo } from '../../../../store/apiMappers/userApi';
 import BigNumber from 'bignumber.js';
 import { useRequestDispatch } from '../../../../common/utils/useRequestDispatch';
 import { useHistory } from 'react-router';
-import {
-  STAKER_DASHBOARD_PATH,
-  STAKING_AMOUNT_STEP,
-  YEAR_INTEREST,
-} from '../../../../common/const';
+import { STAKER_DASHBOARD_PATH, YEAR_INTEREST } from '../../../../common/const';
 import { success } from '@redux-requests/core';
 import { MutationErrorHandler } from '../../../../components/MutationErrorHandler/MutationErrorHandler';
 import { CheckboxField } from '../../../../UiKit/Checkbox/CheckboxField';
@@ -36,8 +32,8 @@ import { Button } from '../../../../UiKit/Button';
 import { useIsXSDown } from '../../../../common/hooks/useTheme';
 import { floor } from '../../../../common/utils/floor';
 import { pushEvent } from '../../../../common/utils/pushEvent';
+import { useFeaturesAvailable } from '../../../../common/hooks/useFeaturesAvailable';
 
-const MIN_AMOUNT = 0.5;
 const MAX_AMOUNT = 32;
 const INTEREST_PERIOD = 12;
 const FIXED_DECIMAL_PLACES = 2;
@@ -61,6 +57,8 @@ export const StakeComponent = ({
   yearlyInterest,
 }: IStakeComponentProps) => {
   const classes = useStakeStyles();
+
+  const { stakingAmountStep } = useFeaturesAvailable();
 
   const validateStakeForm = useCallback(
     ({ amount, agreement }: IStakePayload) => {
@@ -89,15 +87,15 @@ export const StakeComponent = ({
         ethereumBalance && ethereumBalance.isGreaterThan(MAX_AMOUNT)
           ? ethereumBalance.toNumber()
           : MAX_AMOUNT,
-        STAKING_AMOUNT_STEP,
+        stakingAmountStep,
       ),
-    [ethereumBalance],
+    [ethereumBalance, stakingAmountStep],
   );
 
   const INIT_AMOUNT =
-    ethereumBalance && ethereumBalance.isGreaterThan(MIN_AMOUNT)
-      ? floor(ethereumBalance.toNumber(), STAKING_AMOUNT_STEP)
-      : MIN_AMOUNT;
+    ethereumBalance && ethereumBalance.isGreaterThan(stakingAmountStep)
+      ? floor(ethereumBalance.toNumber(), stakingAmountStep)
+      : stakingAmountStep;
 
   const renderForm = ({
     handleSubmit,
@@ -116,9 +114,9 @@ export const StakeComponent = ({
           </Headline2>
           <Field
             component={SliderField}
-            min={MIN_AMOUNT}
+            min={stakingAmountStep}
             max={max}
-            step={STAKING_AMOUNT_STEP}
+            step={stakingAmountStep}
             name="amount"
           />
         </label>

@@ -2,16 +2,16 @@ import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import BigNumber from 'bignumber.js';
 import { Megabytes, Percentage, Seconds } from '../../common/types';
 
-export interface GatewayConfig {
+export interface IGatewayConfig {
   baseUrl: string;
 }
 
-export interface BalanceReply {
+export interface IBalanceReply {
   available: string;
   timestamp: number;
 }
 
-export interface AuthorizationReply {
+export interface IAuthorizationReply {
   address?: string;
   expiresAfter?: number;
   timeToLive?: number;
@@ -25,8 +25,8 @@ export type MicroPoolStatus =
   | 'MICRO_POOL_STATUS_COMPLETED'
   | 'MICRO_POOL_STATUS_CANCELED';
 
-export interface MicroPoolReply {
-  balance: string; // / 32
+export interface IMicroPoolReply {
+  balance: string;
   beaconDeposit: string;
   blockHeight: number;
   created: number;
@@ -53,7 +53,7 @@ export type SidecarStatus =
   | 'SIDECAR_STATUS_OFFLINE'
   | 'SIDECAR_STATUS_ATTESTING';
 
-export interface SidecarReply {
+export interface ISidecarReply {
   id: string;
   provider: string;
   name?: string;
@@ -90,7 +90,7 @@ export interface SidecarReply {
   created: number;
 }
 
-export interface GlobalStatsReply {
+export interface IGlobalStatsReply {
   activePoolCount: number;
   activeSidecarCount: number;
   pendingEthereum: string;
@@ -106,7 +106,7 @@ export type UserStakeAction =
   | 'STAKE_ACTION_CONFIRMED'
   | 'STAKE_ACTION_UNSTAKE';
 
-export interface UserStakeReply {
+export interface IUserStakeReply {
   user: string;
   amount: BigNumber;
   transactionHash: string;
@@ -115,13 +115,13 @@ export interface UserStakeReply {
   isTopUp: boolean;
 }
 
-export interface UserStatisticsReply {}
+export interface IUserStatisticsReply {}
 
-export interface StakerStats {
-  stakes: UserStakeReply[];
+export interface IStakerStats {
+  stakes: IUserStakeReply[];
 }
 
-export interface ConfigReply {
+export interface IConfigReply {
   AETH: string;
   Config: string;
   GlobalPool: string;
@@ -136,7 +136,7 @@ export class ApiGateway {
   private authorized = false;
   private token: string | null = null;
 
-  constructor(private gatewayConfig: GatewayConfig) {
+  constructor(private gatewayConfig: IGatewayConfig) {
     this.defaultConfig = {
       baseURL: gatewayConfig.baseUrl,
       headers: {
@@ -148,8 +148,8 @@ export class ApiGateway {
     this.token = null;
   }
 
-  public async downloadConfigFile(configFile: string): Promise<ConfigReply> {
-    const { data } = await this.api.get<ConfigReply>(`${configFile}`);
+  public async downloadConfigFile(configFile: string): Promise<IConfigReply> {
+    const { data } = await this.api.get<IConfigReply>(`${configFile}`);
     return data;
   }
 
@@ -161,7 +161,7 @@ export class ApiGateway {
 
   public async authorizeWithSignedData(
     token: string,
-  ): Promise<AuthorizationReply> {
+  ): Promise<IAuthorizationReply> {
     this.api = axios.create(
       Object.assign({}, this.defaultConfig, {
         headers: {
@@ -171,9 +171,9 @@ export class ApiGateway {
       }),
     );
     if (this.authorized) throw new Error("You're already authorized");
-    const { status, statusText, data } = await this.api.get<AuthorizationReply>(
-      `/v1alpha/auth`,
-    );
+    const { status, statusText, data } = await this.api.get<
+      IAuthorizationReply
+    >(`/v1alpha/auth`);
     if (status !== 200) {
       return { status, statusText };
     }
@@ -226,8 +226,8 @@ export class ApiGateway {
     name: string,
     eth1Url: string,
     eth2Url?: string,
-  ): Promise<SidecarReply> {
-    const { status, data, statusText } = await this.api.post<SidecarReply>(
+  ): Promise<ISidecarReply> {
+    const { status, data, statusText } = await this.api.post<ISidecarReply>(
       `/v1alpha/sidecar`,
       { name, eth1Url, eth2Url },
     );
@@ -239,8 +239,8 @@ export class ApiGateway {
   public async getProviderSidecars(
     page: number | string = 0,
     size: number | string = 10,
-  ): Promise<SidecarReply[]> {
-    const { status, data, statusText } = await this.api.get<SidecarReply[]>(
+  ): Promise<ISidecarReply[]> {
+    const { status, data, statusText } = await this.api.get<ISidecarReply[]>(
       `/v1alpha/sidecar?size=${size}&page=${page}`,
     );
     if (status !== 200)
@@ -248,8 +248,8 @@ export class ApiGateway {
     return data;
   }
 
-  public async getEtheremBalance(address: string): Promise<BalanceReply> {
-    const { status, data, statusText } = await this.api.get<BalanceReply>(
+  public async getEtheremBalance(address: string): Promise<IBalanceReply> {
+    const { status, data, statusText } = await this.api.get<IBalanceReply>(
       `/v1alpha/balance/${address}/ethereum`,
     );
     if (status !== 200)
@@ -257,8 +257,8 @@ export class ApiGateway {
     return data;
   }
 
-  public async getAnkrBalance(address: string): Promise<BalanceReply> {
-    const { status, data, statusText } = await this.api.get<BalanceReply>(
+  public async getAnkrBalance(address: string): Promise<IBalanceReply> {
+    const { status, data, statusText } = await this.api.get<IBalanceReply>(
       `/v1alpha/balance/${address}/ankr`,
     );
     if (status !== 200)
@@ -266,24 +266,24 @@ export class ApiGateway {
     return data;
   }
 
-  public async getGlobalStats(): Promise<GlobalStatsReply> {
-    const { status, data } = await this.api.get<GlobalStatsReply>(
+  public async getGlobalStats(): Promise<IGlobalStatsReply> {
+    const { status, data } = await this.api.get<IGlobalStatsReply>(
       `/v1alpha/stats`,
     );
     if (status !== 200) throw new Error("Can't fetch statistics");
     return data;
   }
 
-  public async getUserStakes(user: string): Promise<UserStakeReply[]> {
-    const { data } = await this.api.get<UserStakeReply[]>(
+  public async getUserStakes(user: string): Promise<IUserStakeReply[]> {
+    const { data } = await this.api.get<IUserStakeReply[]>(
       `/v1alpha/staker/stakes/${user}`,
     );
     return data;
   }
 
   // @TODO Remove
-  public async getUserStatistics(user: string): Promise<UserStatisticsReply> {
-    const { data } = await this.api.get<UserStatisticsReply>(
+  public async getUserStatistics(user: string): Promise<IUserStatisticsReply> {
+    const { data } = await this.api.get<IUserStatisticsReply>(
       `/v1alpha/staker/stats/${user}`,
     );
     return data;

@@ -6,9 +6,15 @@ export interface IEmailPayload {
   email: string;
 }
 
-export enum Providers {
+export enum Provider {
   metamask = 'metamask',
   wallet = 'wallet',
+  binance = 'binance',
+}
+
+export enum Blockchain {
+  ethereum = 'ethereum',
+  binance = 'binance',
 }
 
 export interface IRequestActionPromiseData<T = any> {

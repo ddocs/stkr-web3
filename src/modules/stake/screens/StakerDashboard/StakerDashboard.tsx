@@ -32,6 +32,7 @@ import BigNumber from 'bignumber.js';
 import { ReactComponent as PendingIcon } from './assets/pending.svg';
 import { getStakedAmount } from '../../../../common/utils/getStakedAmount';
 import { getPendingAmount } from '../../../../common/utils/getPendingAmount';
+import { useFeaturesAvailable } from '../../../../common/hooks/useFeaturesAvailable';
 
 const DECIMAL_PLACES = 4;
 
@@ -43,7 +44,7 @@ function AETHBalance({
 }: {
   totalAEth: BigNumber;
   data: IStakerStats;
-  onClaim: () => void;
+  onClaim?: () => void;
   totalAEthToEthPrice: BigNumber;
 }) {
   const classes = useStakerDashboardStyles();
@@ -52,9 +53,10 @@ function AETHBalance({
     <>
       <Box mt="auto">
         <Box fontSize={13} color="text.secondary" fontWeight={500}>
-          {t('unit.~eth-value', {
-            value: totalAEthToEthPrice.decimalPlaces(DECIMAL_PLACES),
-          })}
+          {!totalAEthToEthPrice.isZero() &&
+            t('unit.~eth-value', {
+              value: totalAEthToEthPrice.decimalPlaces(DECIMAL_PLACES),
+            })}
         </Box>
         <Box className={classes.amount}>
           {tHTML('unit.separated-aeth-value', {
@@ -84,23 +86,25 @@ function AETHBalance({
                 value: data.aEthClaimableBalance.decimalPlaces(DECIMAL_PLACES),
               })}
             </Typography>
-            <Box ml={1}>
-              <MutationErrorHandler type={UserActionTypes.CLAIM_A_ETH} />
-              <Mutation type={UserActionTypes.CLAIM_A_ETH}>
-                {({ loading }) => (
-                  <Button
-                    size="small"
-                    color="primary"
-                    variant="outlined"
-                    onClick={onClaim}
-                    disabled={loading || !ENABLE_REDEEM}
-                    className={classes.claim}
-                  >
-                    {t('staker-dashboard.claim')}
-                  </Button>
-                )}
-              </Mutation>
-            </Box>
+            {onClaim && (
+              <Box ml={1}>
+                <MutationErrorHandler type={UserActionTypes.CLAIM_A_ETH} />
+                <Mutation type={UserActionTypes.CLAIM_A_ETH}>
+                  {({ loading }) => (
+                    <Button
+                      size="small"
+                      color="primary"
+                      variant="outlined"
+                      onClick={onClaim}
+                      disabled={loading || !ENABLE_REDEEM}
+                      className={classes.claim}
+                    >
+                      {t('staker-dashboard.claim')}
+                    </Button>
+                  )}
+                </Mutation>
+              </Box>
+            )}
           </Box>
         </Box>
         <Hidden smDown={true}>
@@ -148,6 +152,8 @@ export const StakerDashboardComponent = () => {
     dispatch(UserActions.unstake());
   };
 
+  const { isClaimAvailable } = useFeaturesAvailable();
+
   return (
     <section className={classes.root}>
       <Curtains classes={{ root: classes.content }}>
@@ -164,7 +170,10 @@ export const StakerDashboardComponent = () => {
             }
 
             const totalAEth = data.aEthClaimableBalance.plus(data.aEthBalance);
-            const totalAEthToEthPrice = totalAEth.div(data.aEthRatio);
+            let totalAEthToEthPrice = totalAEth.div(data.aEthRatio);
+            if (data.aEthRatio.isZero()) {
+              totalAEthToEthPrice = new BigNumber('0');
+            }
 
             const staked = getStakedAmount(data.stakes);
             const pending = getPendingAmount(data.stakes, staked);
@@ -258,7 +267,7 @@ export const StakerDashboardComponent = () => {
                   <AETHBalance
                     totalAEth={totalAEth}
                     data={data}
-                    onClaim={handleClaim}
+                    onClaim={isClaimAvailable ? handleClaim : undefined}
                     totalAEthToEthPrice={totalAEthToEthPrice}
                   />
                 </Paper>

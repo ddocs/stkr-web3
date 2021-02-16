@@ -4,10 +4,7 @@ import BigNumber from 'bignumber.js';
 import React, { useEffect } from 'react';
 import { Field, FormRenderProps } from 'react-final-form';
 import { useDispatch } from 'react-redux';
-import {
-  PROVIDER_MIN_BALANCE,
-  STAKING_AMOUNT_STEP,
-} from '../../../../common/const';
+import { PROVIDER_MIN_BALANCE } from '../../../../common/const';
 import { t, tHTML } from '../../../../common/utils/intl';
 import { useAuthentication } from '../../../../common/utils/useAuthentications';
 import {
@@ -19,6 +16,7 @@ import { SliderField } from '../../../../UiKit/RangeField';
 import { Headline4 } from '../../../../UiKit/Typography';
 import { ETH_AMOUNT_FIELD_NAME } from './Deposit';
 import { useDepositStyles } from './DepositStyles';
+import { useFeaturesAvailable } from '../../../../common/hooks/useFeaturesAvailable';
 
 interface IDepositEthFormProps {
   deposited?: BigNumber;
@@ -40,6 +38,8 @@ export const DepositEthForm = ({
     }
   }, [dispatch, isConnected]);
 
+  const { stakingAmountStep } = useFeaturesAvailable();
+
   return (
     <form onSubmit={handleSubmit} className={classes.form}>
       <>
@@ -51,10 +51,10 @@ export const DepositEthForm = ({
           </Headline4>
           <Field
             component={SliderField}
-            min={deposited?.gt(0) ? STAKING_AMOUNT_STEP : PROVIDER_MIN_BALANCE}
+            min={deposited?.gt(0) ? stakingAmountStep : PROVIDER_MIN_BALANCE}
             max={initialValues[ETH_AMOUNT_FIELD_NAME]}
             name={ETH_AMOUNT_FIELD_NAME}
-            step={STAKING_AMOUNT_STEP}
+            step={stakingAmountStep}
           />
         </Box>
         <Grid container={true} spacing={5}>

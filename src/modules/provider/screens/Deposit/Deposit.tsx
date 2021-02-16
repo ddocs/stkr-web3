@@ -8,10 +8,9 @@ import { generatePath, useHistory, useParams } from 'react-router';
 import {
   isMainnet,
   MAX_PROVIDER_STAKING_AMOUNT,
+  PROVIDE_MIN_BALANCE,
   PROVIDER_DEPOSIT_ROUTE,
   PROVIDER_NODE_LIST_PATH,
-  PROVIDE_MIN_BALANCE,
-  STAKING_AMOUNT_STEP,
 } from '../../../../common/const';
 import { DepositType } from '../../../../common/types';
 import { FormErrors } from '../../../../common/types/FormErrors';
@@ -31,6 +30,7 @@ import { Headline2 } from '../../../../UiKit/Typography';
 import { DepositAnkrForm } from './DepositAnkrForm';
 import { DepositEthForm } from './DepositEthForm';
 import { useDepositStyles } from './DepositStyles';
+import { useFeaturesAvailable } from '../../../../common/hooks/useFeaturesAvailable';
 
 enum TopUpCurreny {
   ankr = 'ankr',
@@ -62,6 +62,8 @@ export const DepositComponent = ({
   currency,
   deposited,
 }: IDepositProps) => {
+  const { stakingAmountStep } = useFeaturesAvailable();
+
   const maxStakingAmount = useMemo(
     () =>
       ethereumBalance?.isGreaterThan(MAX_PROVIDER_STAKING_AMOUNT)
@@ -71,8 +73,8 @@ export const DepositComponent = ({
   );
 
   const minStakingAmount = useMemo(
-    () => (deposited?.gt(0) ? STAKING_AMOUNT_STEP : PROVIDE_MIN_BALANCE),
-    [deposited],
+    () => (deposited?.gt(0) ? stakingAmountStep : PROVIDE_MIN_BALANCE),
+    [deposited, stakingAmountStep],
   );
 
   const INIT_VALUES = useMemo(

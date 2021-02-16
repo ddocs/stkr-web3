@@ -44,24 +44,24 @@ export const SidecarLauncher = ({ id }: ISidecarLauncherProps) => {
       label: 'Windows',
       icon: <WindowsIcon />,
       action: () =>
-        StkrSdk.getLastInstance().downloadSidecar(id, 'windows-amd64'),
+        StkrSdk.getForEnv().downloadSidecar(id, 'windows-amd64'),
     },
     {
       label: 'Linux',
       icon: <LinuxIcon />,
       action: () =>
-        StkrSdk.getLastInstance().downloadSidecar(id, 'linux-amd64'),
+        StkrSdk.getForEnv().downloadSidecar(id, 'linux-amd64'),
     },
     {
       label: 'Mac OS',
       icon: <MacIcon />,
       action: () =>
-        StkrSdk.getLastInstance().downloadSidecar(id, 'darwin-amd64'),
+        StkrSdk.getForEnv().downloadSidecar(id, 'darwin-amd64'),
     },
     {
       label: 'Docker',
       icon: <DockerIcon />,
-      action: () => StkrSdk.getLastInstance().downloadSidecar(id, 'docker'),
+      action: () => StkrSdk.getForEnv().downloadSidecar(id, 'docker'),
     },
   ];
 
