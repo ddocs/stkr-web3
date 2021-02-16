@@ -156,12 +156,10 @@ function* onConnectSuccess(action: {
   type: string;
   response: { data: IConnectResponse };
 }) {
-  //if (action.response.data.chainId !== BlockchainNetworkId.smartchain) {
   pushEvent('login', { method: 'web3' });
   const listenKeyProviderEventsTask = yield fork(listenKeyProviderEvents);
   yield take([UserActionTypes.DISCONNECT, UserActionTypes.CONNECT]);
   yield cancel(listenKeyProviderEventsTask);
-  //}
 }
 
 function* onDisconnectSuccess() {
