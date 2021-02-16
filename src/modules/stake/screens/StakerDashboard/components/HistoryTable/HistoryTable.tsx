@@ -1,27 +1,21 @@
-import { IconButton, Tooltip } from '@material-ui/core';
-import classNames from 'classnames';
-import * as React from 'react';
-import { uid } from 'react-uid';
-import { isMainnet } from '../../../../../../common/const';
-import { useLocaleMemo } from '../../../../../../common/hooks/useLocaleMemo';
-import { WithUseStyles } from '../../../../../../common/types';
-import { t } from '../../../../../../common/utils/intl';
-import { Table } from '../../../../../../components/TableComponents/Table';
-import { TableBody } from '../../../../../../components/TableComponents/TableBody';
-import { TableBodyCell } from '../../../../../../components/TableComponents/TableBodyCell';
-import { TableHead } from '../../../../../../components/TableComponents/TableHead';
-import { TableHeadCell } from '../../../../../../components/TableComponents/TableHeadCell';
-import { TableRow } from '../../../../../../components/TableComponents/TableRow';
-import { uid } from 'react-uid';
-import { TableBodyCell } from '../../../../../../components/TableComponents/TableBodyCell';
-import { t } from '../../../../../../common/utils/intl';
-import { NavLink } from '../../../../../../UiKit/NavLink';
-import { useLocaleMemo } from '../../../../../../common/hooks/useLocaleMemo';
-import classNames from 'classnames';
-import { AlignType } from '../../../../../../components/TableComponents/types';
-import { QuestionIcon } from '../../../../../../UiKit/Icons/QuestionIcon';
-import { WithUseStyles } from '../../../../../../common/types';
-import { StkrSdk } from '../../../../../api';
+import { IconButton, Tooltip } from "@material-ui/core";
+import classNames from "classnames";
+import * as React from "react";
+import { uid } from "react-uid";
+import { useLocaleMemo } from "../../../../../../common/hooks/useLocaleMemo";
+import { WithUseStyles } from "../../../../../../common/types";
+import { t } from "../../../../../../common/utils/intl";
+import { Table } from "../../../../../../components/TableComponents/Table";
+import { TableBody } from "../../../../../../components/TableComponents/TableBody";
+import { TableBodyCell } from "../../../../../../components/TableComponents/TableBodyCell";
+import { TableHead } from "../../../../../../components/TableComponents/TableHead";
+import { TableHeadCell } from "../../../../../../components/TableComponents/TableHeadCell";
+import { TableRow } from "../../../../../../components/TableComponents/TableRow";
+import { NavLink } from "../../../../../../UiKit/NavLink";
+import { AlignType } from "../../../../../../components/TableComponents/types";
+import { QuestionIcon } from "../../../../../../UiKit/Icons/QuestionIcon";
+import { StkrSdk } from "../../../../../api";
+import { useHistoryTableStyles } from "./HistoryTableStyles";
 
 function getTxLink(txID: string) {
   try {
@@ -30,8 +24,6 @@ function getTxLink(txID: string) {
     return '';
   }
 }
-import { NavLink } from '../../../../../../UiKit/NavLink';
-import { useHistoryTableStyles } from './HistoryTableStyles';
 
 type CaptionType = {
   label: string;
