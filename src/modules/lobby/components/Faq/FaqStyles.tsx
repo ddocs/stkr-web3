@@ -28,6 +28,9 @@ export const useFaqStyles = makeStyles<Theme>(theme => ({
 
     [theme.breakpoints.up('md')]: {
       gridColumn: '1/4',
+      position: 'sticky',
+      top: 0,
+      alignSelf: 'start',
     },
   },
 
@@ -83,12 +86,14 @@ export const useFaqStyles = makeStyles<Theme>(theme => ({
   },
 
   arrow: {
+    flexShrink: 0,
     display: 'inline-flex',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     width: 24,
     height: 24,
+    marginLeft: theme.spacing(1),
     cursor: 'pointer',
     transitionTimingFunction: 'linear',
     transitionDuration: '250ms',
@@ -103,6 +108,11 @@ export const useFaqStyles = makeStyles<Theme>(theme => ({
   answer: {
     '& p': {
       margin: theme.spacing(1, 0, 0),
+    },
+
+    '& a': {
+      color: 'inherit',
+      textDecoration: 'underline',
     },
   },
 }));

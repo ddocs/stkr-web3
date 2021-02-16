@@ -34,8 +34,12 @@ export const useHeaderStyles = makeStyles<Theme>(theme => ({
   },
 
   innerAuthorized: {
+    [theme.breakpoints.up('sm')]: {
+      gridTemplateColumns: '1fr auto',
+    },
+
     [theme.breakpoints.up('md')]: {
-      gridTemplateColumns: '1fr auto auto auto',
+      gridTemplateColumns: '1fr auto auto',
     },
 
     [theme.breakpoints.up('lg')]: {

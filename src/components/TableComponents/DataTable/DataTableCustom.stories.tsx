@@ -1,9 +1,8 @@
-import React from 'react';
-
-import { makeStyles } from '@material-ui/styles';
 import { Theme } from '@material-ui/core';
-import { DataTable } from './DataTable';
+import { makeStyles } from '@material-ui/styles';
+import React from 'react';
 import { CAPTIONS, DATA } from '../mocks';
+import { DataTable } from './DataTable';
 
 const useStyles = makeStyles<Theme>(theme => ({
   block: {},
@@ -14,9 +13,6 @@ const useStyles = makeStyles<Theme>(theme => ({
     marginTop: 32,
     marginBottom: 16,
     backgroundColor: theme.palette.grey[100],
-  },
-  limitHeight: {
-    height: '200px',
   },
 }));
 
@@ -39,12 +35,7 @@ const TableStory = () => {
       <hr className={classes.divider} />
 
       <h3 className={classes.title}>Table with fixed sticky header</h3>
-      <DataTable
-        className={classes.limitHeight}
-        captions={CAPTIONS}
-        rows={DATA}
-      />
-      <p>Just add limit height for Simple Table</p>
+      <DataTable captions={CAPTIONS} rows={DATA} stickyHeader />
       <hr className={classes.divider} />
 
       <h3 className={classes.title}>Table with custom cell's size</h3>
