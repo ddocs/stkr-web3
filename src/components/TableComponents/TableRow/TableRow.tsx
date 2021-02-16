@@ -1,8 +1,8 @@
-import { ICustomProps, IStyleProps } from '../types';
-import React, { ReactNode, useContext } from 'react';
 import classNames from 'classnames';
-import { useTableRowStyles } from './TableRowStyles';
+import React, { ReactNode, useContext } from 'react';
 import { TableContext } from '../Table/Table';
+import { ICustomProps, IStyleProps } from '../types';
+import { useTableRowStyles } from './TableRowStyles';
 
 interface ITableRowProps {
   className?: string;
@@ -18,7 +18,7 @@ export const TableRowComponent = ({
   const classes = useTableRowStyles();
 
   return (
-    <div
+    <ul
       className={classNames(
         className,
         classes.row,
@@ -27,7 +27,7 @@ export const TableRowComponent = ({
       role="row"
     >
       {children}
-    </div>
+    </ul>
   );
 };
 

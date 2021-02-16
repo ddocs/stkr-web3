@@ -1,11 +1,4 @@
-import {
-  Box,
-  fade,
-  IconButton,
-  Paper,
-  Theme,
-  useTheme,
-} from '@material-ui/core';
+import { fade, Paper, Theme, useTheme } from '@material-ui/core';
 import { Query } from '@redux-requests/react';
 import { formatDistanceToNowStrict } from 'date-fns';
 import React, { useMemo } from 'react';
@@ -25,13 +18,9 @@ import { ITablesCaptionProps } from '../../../../components/TableComponents/type
 import { UserActionTypes } from '../../../../store/actions/UserActions';
 import { IProviderStats } from '../../../../store/apiMappers/providerStatsApi';
 import { ISidecar } from '../../../../store/apiMappers/sidecarsApi';
-import { StkrSdk } from '../../../api';
 import { EmptyNodeList } from '../EmptyNodeList';
 import { NodeListLoader } from '../NodeListLoader';
-import { ReactComponent as DockerIcon } from './assets/docker.svg';
-import { ReactComponent as LinuxIcon } from './assets/linux.svg';
-import { ReactComponent as MacIcon } from './assets/mac.svg';
-import { ReactComponent as WindowsIcon } from './assets/windows.svg';
+import { SidecarLauncher } from '../SidecarLauncher';
 import { useNodeListStyles } from './NodeListStyles';
 
 const useCaptions = (): ITablesCaptionProps[] =>
@@ -127,22 +116,30 @@ export const NodeListComponent = ({ data, onCreateNode }: INodeListProps) => {
 
   const renderedCells = useMemo(
     () =>
-      data.map((item, i) => {
-        const commonCellProps = {
-          className: classes.tableCell,
-        };
+      data.map(item => {
+        const sidecarName = getSidecarName(item);
+        const sidecarDate = t('format.date', { value: item.created });
 
         return (
           <TableRow key={uid(item)}>
-            <TableBodyCell {...commonCellProps}>
-              {getSidecarName(item)}
+            <TableBodyCell
+              className={classes.tableCell}
+              label={`${captions[0].label}`}
+            >
+              <span title={sidecarName}>{sidecarName}</span>
             </TableBodyCell>
 
-            <TableBodyCell {...commonCellProps}>
+            <TableBodyCell
+              className={classes.tableCell}
+              label={`${captions[1].label}`}
+            >
               {getSidecarStatus(item, theme)}
             </TableBodyCell>
 
-            <TableBodyCell {...commonCellProps}>
+            <TableBodyCell
+              className={classes.tableCell}
+              label={`${captions[2].label}`}
+            >
               {formatDistanceToNowStrict(
                 item?.machine?.currentTime
                   ? new Date(item.machine.currentTime * 1000)
@@ -151,95 +148,45 @@ export const NodeListComponent = ({ data, onCreateNode }: INodeListProps) => {
               )}
             </TableBodyCell>
 
-            <TableBodyCell {...commonCellProps}>
-              {t('format.date', { value: item.created })}
+            <TableBodyCell
+              className={classes.tableCell}
+              label={`${captions[3].label}`}
+            >
+              <span title={sidecarDate}>{sidecarDate}</span>
             </TableBodyCell>
 
             <TableBodyCell
-              {...commonCellProps}
+              className={classes.tableCell}
+              label={`${captions[4].label}`}
               classes={{ cellWrapper: classes.icons }}
             >
-              <Box display="inline-block">
-                <IconButton
-                  component="a"
-                  className={classes.icon}
-                  onClick={() => {
-                    StkrSdk.getLastInstance().downloadSidecar(
-                      item.id,
-                      'windows-amd64',
-                    );
-                  }}
-                  target="_blank"
-                >
-                  <WindowsIcon />
-                </IconButton>
-
-                <IconButton
-                  component="a"
-                  className={classes.icon}
-                  onClick={() => {
-                    StkrSdk.getLastInstance().downloadSidecar(
-                      item.id,
-                      'linux-amd64',
-                    );
-                  }}
-                  target="_blank"
-                >
-                  <LinuxIcon />
-                </IconButton>
-              </Box>
-              <Box display="inline-block">
-                <IconButton
-                  component="a"
-                  className={classes.icon}
-                  onClick={() => {
-                    StkrSdk.getLastInstance().downloadSidecar(
-                      item.id,
-                      'darwin-amd64',
-                    );
-                  }}
-                  target="_blank"
-                >
-                  <MacIcon />
-                </IconButton>
-
-                <IconButton
-                  component="a"
-                  className={classes.icon}
-                  onClick={() => {
-                    StkrSdk.getLastInstance().downloadSidecar(
-                      item.id,
-                      'docker',
-                    );
-                  }}
-                  target="_blank"
-                >
-                  <DockerIcon />
-                </IconButton>
-              </Box>
+              <SidecarLauncher id={item.id} />
             </TableBodyCell>
           </TableRow>
         );
       }),
-    [classes.icon, classes.icons, classes.tableCell, data, theme],
+    [captions, classes.icons, classes.tableCell, data, theme],
   );
 
   if (hasTransactions) {
     return (
       <>
         <Table
-          customCell="1.1fr 0.6fr 0.6fr 0.7fr 0.7fr"
+          customCell="1fr 1fr 1fr 1fr 230px"
           columnsCount={captions.length}
           className={classes.table}
+          paddingCollapse
+          stickyHeader
+          classes={{
+            table: classes.tableInner,
+          }}
         >
           <TableHead>
             {captions.map(cell => (
               <TableHeadCell key={cell.key} label={cell.label} />
             ))}
           </TableHead>
-          {data && (
-            <TableBody rowsCount={data.length}>{renderedCells}</TableBody>
-          )}
+          {data && <TableBody>{renderedCells}</TableBody>}
         </Table>
 
         <NodeListLoader />

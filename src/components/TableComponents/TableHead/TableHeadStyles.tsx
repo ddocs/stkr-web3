@@ -1,4 +1,4 @@
-import { fade, Theme } from '@material-ui/core';
+import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
 export const useTableHeadStyles = makeStyles<
@@ -10,23 +10,26 @@ export const useTableHeadStyles = makeStyles<
   }
 >(theme => ({
   head: {
-    borderBottom: `1px solid ${fade('#fff', 0.2)}`,
-    display: 'grid',
-    gridTemplateColumns: props =>
-      props.customCell ? props.customCell : `repeat(${props.count}, 1fr)`,
-    alignItems: 'stretch',
-    paddingLeft: props => (props.paddingCollapse ? theme.spacing(4) : 0),
-    paddingRight: props => (props.paddingCollapse ? theme.spacing(4) : 0),
-    boxSizing: 'border-box',
-    [theme.breakpoints.down('md')]: {
-      paddingLeft: props => (props.paddingCollapse ? theme.spacing(3) : 0),
-      paddingRight: props => (props.paddingCollapse ? theme.spacing(3) : 0),
-    },
-    [theme.breakpoints.down('xs')]: {
-      paddingLeft: props => (props.paddingCollapse ? theme.spacing(2) : 0),
-      paddingRight: props => (props.paddingCollapse ? theme.spacing(2) : 0),
+    display: 'none',
+
+    [theme.breakpoints.up('sm')]: {
+      display: 'grid',
+      gridTemplateColumns: props =>
+        props.customCell ? props.customCell : `repeat(${props.count}, 1fr)`,
+      alignItems: 'stretch',
+      boxSizing: 'border-box',
     },
   },
+
+  headSticky: {
+    [theme.breakpoints.up('sm')]: {
+      position: 'sticky',
+      zIndex: 1,
+      top: 0,
+      backgroundColor: theme.palette.background.default,
+    },
+  },
+
   row: {
     display: 'contents',
   },
