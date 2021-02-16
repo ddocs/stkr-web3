@@ -1,6 +1,7 @@
 import { SelectProps } from '@material-ui/core';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
+import classNames from 'classnames';
 import React, { ChangeEvent, useCallback, useMemo, useRef } from 'react';
 import { uid } from 'react-uid';
 import { useLocaleOptions } from '../../../../common/hooks/useLocaleOptions';
@@ -55,7 +56,7 @@ export const LocaleSwitcher = () => {
       onChange={onChange}
       ref={ref}
       SelectProps={selectProps}
-      className={classes.root}
+      className={classNames(classes.root, classes.darkened)}
     >
       {items}
     </TextField>

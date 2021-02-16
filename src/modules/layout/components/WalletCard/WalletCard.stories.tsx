@@ -5,7 +5,7 @@ import React from 'react';
 import { Provider } from '../../../../common/types';
 import { WalletBalance } from '../WalletBalance';
 import { WalletCard } from './WalletCard';
-import { IProvider } from "../const";
+import { IProvider } from '../const';
 
 const useStyles = makeStyles<Theme>(theme => ({
   block: {

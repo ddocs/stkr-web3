@@ -20,6 +20,8 @@ import { IItemProps } from '../../components/ProviderTabs/ProviderTabs';
 import { useProviderDashboardStyles } from './ProviderDashboardStyles';
 import { useProviderDashboard } from './useProviderDashboard';
 
+const BALANCE_PRECISION = 4;
+
 export const ProviderDashboard = () => {
   const classes = useProviderDashboardStyles();
   const {
@@ -38,7 +40,7 @@ export const ProviderDashboard = () => {
   const tabs = useMemo<IItemProps[]>(
     () => [
       {
-        label: t('navigation.beacon-list'),
+        label: t('navigation.sidecar-list'),
         path: PROVIDER_NODE_LIST_PATH,
         route: [PROVIDER_NODE_LIST_PATH, PROVIDER_MAIN_PATH],
       },
@@ -124,7 +126,9 @@ export const ProviderDashboard = () => {
                   <QueryLoading size={24} />
                 </Box>
               ) : (
-                `${providerStats?.balance.toFormat()} ETH`
+                t('provider-dashboard.balance-eth', {
+                  balance: providerStats?.balance.toFormat(BALANCE_PRECISION),
+                })
               )}
             </Typography>
 

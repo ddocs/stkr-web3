@@ -37,6 +37,9 @@ export const useProviderDashboardStyles = makeStyles<Theme>(theme => ({
   },
   link: {
     gridArea: 'link',
+    minWidth: 115,
+    paddingLeft: theme.spacing(4),
+    paddingRight: theme.spacing(4),
 
     [theme.breakpoints.up('sm')]: {
       marginLeft: theme.spacing(2),

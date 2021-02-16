@@ -10,7 +10,6 @@ export const useLocaleLinksStyles = makeStyles<Theme>(theme => ({
   label: {
     flexShrink: 0,
     marginRight: theme.spacing(2),
-    fontWeight: 500,
   },
 
   list: {
@@ -29,7 +28,6 @@ export const useLocaleLinksStyles = makeStyles<Theme>(theme => ({
     background: 'none',
     border: 'none',
     cursor: 'pointer',
-    fontWeight: 500,
     fontSize: 14,
   },
 

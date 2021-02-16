@@ -1,4 +1,4 @@
-import { Theme } from '@material-ui/core';
+import { fade, Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
 export const useTableHeadStyles = makeStyles<
@@ -18,6 +18,7 @@ export const useTableHeadStyles = makeStyles<
         props.customCell ? props.customCell : `repeat(${props.count}, 1fr)`,
       alignItems: 'stretch',
       boxSizing: 'border-box',
+      borderBottom: `1px solid ${fade(theme.palette.common.white, 0.2)}`,
     },
   },
 
