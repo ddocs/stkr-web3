@@ -5,6 +5,5 @@ declare global {
     BinanceChain: any;
     web3: Web3;
     dataLayer?: object[];
-    dataLayer?: object[];
   }
 }

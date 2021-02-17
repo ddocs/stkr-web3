@@ -72,6 +72,23 @@ export class BridgeSdk {
     );
   }
 
+  public async calcStakingFeeRate(): Promise<BigNumber> {
+    let networkFee = 0.005;
+    try {
+      const network = await this.requestManager.getNetworkByName(
+        SYMBOL_ETHEREUM,
+        'OUT',
+        SYMBOL_BSC,
+      );
+      networkFee = network.networkFee;
+    } catch (e) {
+      console.error(`Unable to calculate Binance Bridge network fee: ${e}`);
+    }
+    const stakingFeeRate = new BigNumber(`${networkFee * 4}`);
+    console.log(`Current staking fee rate is: ${stakingFeeRate.toString(10)}`);
+    return stakingFeeRate;
+  }
+
   public async getPegEthToEthSwapDetails(): Promise<IPegEthToEthSwapDetails> {
     const token = await this.getEthToken(),
       network = await this.requestManager.getNetworkByName(

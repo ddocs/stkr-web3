@@ -166,6 +166,8 @@
     "staking-period-tooltip": "This is the number of months your tokens will be locked for in the staking contract.",
     "yearly-earning": "Earnings",
     "yearly-earning-tooltip": "You should expect to earn this amount from your stake, per&nbsp;year. Note that this is an estimation only.",
+    "operation-fee": "Fee",
+    "operation-fee-tooltip": "We charge some fee for Peg-ETH conversion.",
     "stake": "Stake",
     "validation": {
       "balance-exceed": "You entered a value that exceeds your balance",

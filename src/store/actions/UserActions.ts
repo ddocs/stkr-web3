@@ -25,6 +25,7 @@ import {
 import { IUserInfo } from '../apiMappers/userApi';
 import { closeModalAction } from '../dialogs/actions';
 import { IStoreState } from '../reducers';
+import { BridgeSdk } from '../../modules/bridge-sdk';
 
 export interface ISetLanguagePayload {
   locale: Locale;
@@ -148,6 +149,11 @@ export const UserActions = {
         } else {
           ankrBalance = await stkrSdk.getAnkrBalance();
         }
+        let stakingFeeRate = new BigNumber('0');
+        if (stkrSdk.getKeyProvider().isBinanceSmartChain()) {
+          const bridgeSdk = new BridgeSdk(stkrSdk);
+          stakingFeeRate = await bridgeSdk.calcStakingFeeRate();
+        }
         return {
           address,
           blockchainType,
@@ -156,6 +162,7 @@ export const UserActions = {
           ankrBalance: ankrBalance,
           nativeBalance,
           bnbBalance,
+          stakingFeeRate,
         } as IUserInfo;
       })(),
     },
@@ -304,6 +311,13 @@ export const UserActions = {
     request: {
       promise: (async function () {
         const stkrSdk = StkrSdk.getForEnv();
+        if (stkrSdk.getKeyProvider().isBinanceSmartChain()) {
+          const bridgeSdk = new BridgeSdk(stkrSdk);
+          const stakingFeeRate = await bridgeSdk.calcStakingFeeRate();
+          const fee = stakingFeeRate.multipliedBy(amount).dividedBy(32);
+          amount = new BigNumber(amount).plus(fee);
+          console.log(`New staking amount is: ${amount.toString(10)}`);
+        }
         return stkrSdk.stake(amount);
       })(),
     },
