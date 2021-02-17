@@ -127,7 +127,9 @@ export const ProviderDashboard = () => {
                 </Box>
               ) : (
                 t('provider-dashboard.balance-eth', {
-                  balance: providerStats?.balance.toFormat(BALANCE_PRECISION),
+                  balance: providerStats?.balance.decimalPlaces(
+                    BALANCE_PRECISION,
+                  ),
                 })
               )}
             </Typography>
