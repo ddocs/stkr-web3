@@ -18,6 +18,7 @@ import { Wallet } from '../Wallet';
 import { WalletBalance } from '../WalletBalance';
 import { WalletCard } from '../WalletCard';
 import { useHeader } from './useHeader';
+import { useFeaturesAvailable } from "../../../../common/hooks/useFeaturesAvailable";
 
 interface IHeaderFrameProps {
   isAuth: boolean;
@@ -51,8 +52,10 @@ export const HeaderComponent = ({
     handleMobileNavClose,
     handleMobileNavOpen,
   } = useHeader();
+  
+  const { isProviderAvailable } = useFeaturesAvailable();
 
-  const renderedSwitcher = showSwitcher && <Switcher />;
+  const renderedSwitcher = isProviderAvailable && showSwitcher && <Switcher />;
 
   const renderedBalance = (
     <WalletBalance

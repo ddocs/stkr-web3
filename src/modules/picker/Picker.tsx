@@ -12,6 +12,7 @@ import { Curtains } from '../../UiKit/Curtains';
 import { NavLink } from '../../UiKit/NavLink';
 import { Body2, Headline4 } from '../../UiKit/Typography';
 import { usePickerStyles } from './PickerStyles';
+import { useFeaturesAvailable } from '../../common/hooks/useFeaturesAvailable';
 
 interface IItemProps {
   title: string;
@@ -73,6 +74,8 @@ export const Picker = () => {
     }
   }, [dispatch, isConnected]);
 
+  const { isProviderAvailable } = useFeaturesAvailable();
+
   const DATA: Record<
     string,
     { disabled: boolean; features: string[]; comingSoon?: boolean }
@@ -87,7 +90,7 @@ export const Picker = () => {
         ],
       },
       provider: {
-        disabled: !ENABLE_PROVIDER,
+        disabled: !ENABLE_PROVIDER || !isProviderAvailable,
         comingSoon: !ENABLE_PROVIDER,
         features: [
           'picker.provider.features.1',
@@ -96,7 +99,7 @@ export const Picker = () => {
         ],
       },
     }),
-    [],
+    [isProviderAvailable],
   );
 
   const LIST: Record<string, string> = {

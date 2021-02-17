@@ -11,6 +11,7 @@ export function useFeaturesAvailable() {
   const isSmartChain = data?.blockchainType === Blockchain.binance;
 
   return {
+    isProviderAvailable: !isSmartChain,
     isClaimAvailable: !isSmartChain,
     stakingAmountStep: isSmartChain ? 0.1 : 0.5,
     stakingFeeRate: data?.stakingFeeRate,

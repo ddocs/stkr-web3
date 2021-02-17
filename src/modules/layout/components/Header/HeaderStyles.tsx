@@ -50,6 +50,7 @@ export const useHeaderStyles = makeStyles<Theme>(theme => ({
 
   wallet: {
     width: '100%',
+    marginLeft: 'auto',
 
     [theme.breakpoints.up('lg')]: {
       width: 'auto',
