@@ -57,7 +57,7 @@ export const StakeComponent = ({
 }: IStakeComponentProps) => {
   const classes = useStakeStyles();
 
-  const { stakingAmountStep } = useFeaturesAvailable();
+  const { stakingAmountStep, stakingFeeRate } = useFeaturesAvailable();
 
   const validateStakeForm = useCallback(
     ({ amount, agreement }: IStakePayload) => {
@@ -117,7 +117,6 @@ export const StakeComponent = ({
             name="amount"
           />
         </label>
-
         <dl className={classes.list}>
           <Typography classes={{ root: classes.term }} component="dt">
             {t('stake.staking-period')}
@@ -130,6 +129,34 @@ export const StakeComponent = ({
           <Headline5 classes={{ root: classes.description }} component="dd">
             {t('unit.~months-value', { value: INTEREST_PERIOD })}
           </Headline5>
+          {stakingFeeRate && !stakingFeeRate.isZero() && (
+            <>
+              <Typography
+                style={{ marginTop: '-50px' }}
+                classes={{ root: classes.term }}
+                component="dt"
+              >
+                {t('stake.operation-fee')}
+                <Tooltip title={t('stake.operation-fee-tooltip')}>
+                  <IconButton className={classes.question}>
+                    <QuestionIcon size="xs" />
+                  </IconButton>
+                </Tooltip>
+              </Typography>
+              <Headline5
+                style={{ marginTop: '-50px' }}
+                component="dd"
+                classes={{ root: classes.description }}
+              >
+                ~
+                {stakingFeeRate
+                  .multipliedBy(amount / MAX_AMOUNT)
+                  .toNumber()
+                  .toFixed(6)}
+                &nbsp;ETH
+              </Headline5>
+            </>
+          )}
           <dt className={classes.term}>
             <Typography component="span">
               {t('stake.yearly-earning')}

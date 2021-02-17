@@ -950,7 +950,7 @@ export class BinanceContractManager extends EthereumContractManager {
     const result = await this.keyProvider.sendAsync(
       currentAccount,
       this.contractConfig.microPoolContract,
-      { data },
+      { data, gasLimit: '200000' },
     );
     console.log(`emitting manual stake pending event`);
     this.eventEmitter.emit(ContractManagerEvents.StakePending, {

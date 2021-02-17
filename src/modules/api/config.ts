@@ -23,7 +23,7 @@ const LOCAL_CONFIG: IStkrConfig = {
     systemContract: '0xF2dFBCbE94Ff3A402B8575b80E5e785BC936c1c3',
   },
   binanceConfig: {
-    globalPoolContract: '0x4546e62E38dEE4202aA4121346425090A2bE2321',
+    globalPoolContract: '0x46a4933170b9B57c5BB7e4D345E451C195652b47',
     globalPoolBlock: '5963975',
     pegEthContract: '0xd66c6b4f0be8ce5b39d52e0fd1344c389929b378',
   },
@@ -60,9 +60,9 @@ const MAINNET_CONFIG: IStkrConfig = {
     systemContract: '0x3bFce37B5401BEF13C78830D3A9FB14294d18c4F',
   },
   binanceConfig: {
-    globalPoolContract: '0x0000000000000000000000000000000000000000',
+    globalPoolContract: '0x3bFce37B5401BEF13C78830D3A9FB14294d18c4F',
     globalPoolBlock: '0',
-    pegEthContract: '0x0000000000000000000000000000000000000000',
+    pegEthContract: '0x2170ed0880ac9a755fd29b2688956bd959f933f8',
   },
   gatewayConfig: {
     baseUrl: 'https://api.stkr.io/',

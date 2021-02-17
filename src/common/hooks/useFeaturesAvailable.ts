@@ -8,10 +8,11 @@ export function useFeaturesAvailable() {
     type: UserActionTypes.FETCH_ACCOUNT_DATA,
   });
 
-  const isSmartchain = data?.blockchainType === Blockchain.binance;
+  const isSmartChain = data?.blockchainType === Blockchain.binance;
 
   return {
-    isClaimAvailable: !isSmartchain,
-    stakingAmountStep: isSmartchain ? 0.1 : 0.5,
+    isClaimAvailable: !isSmartChain,
+    stakingAmountStep: isSmartChain ? 0.1 : 0.5,
+    stakingFeeRate: data?.stakingFeeRate,
   };
 }
