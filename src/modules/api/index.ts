@@ -1,129 +1,240 @@
-import { VoteStatus } from '@ankr.com/stkr-jssdk';
-import BigNumber from 'bignumber.js';
-import { EventEmitter } from 'events';
-import { TransactionReceipt } from 'web3-core';
-import { SendOptions } from 'web3-eth-contract';
-import { IStkrConfig } from './config';
-import { ContractManager } from './contract';
-import { ContractManagerEvent } from './event';
+import {
+  IConnectResult,
+  ISendAsyncResult,
+  KeyProvider,
+  Web3ModalKeyProvider,
+} from './provider';
+import {
+  BinanceContractManager,
+  EthereumContractManager,
+  IContractManager,
+} from './contract';
 import {
   ApiGateway,
-  BalanceReply,
-  GlobalStatsReply,
-  SidecarReply,
-  StakerStats,
-  UserStakeReply,
+  IGlobalStatsReply,
+  ISidecarReply,
+  IStakerStats,
+  IUserStakeReply,
 } from './gateway';
-import { MetaMaskProvider } from './metaMaskProvider';
-import { KeyProvider, SendAsyncResult } from './provider';
+import { configFromEnv, IStkrConfig } from './config';
+import BigNumber from 'bignumber.js';
+import { EventEmitter } from 'events';
+import { ContractManagerEvent } from './event';
+import { SendOptions } from 'web3-eth-contract';
+import { VoteStatus } from '@ankr.com/stkr-jssdk';
+import { GovernanceManager } from './governance';
 
-export interface IStakeAction extends SendAsyncResult {
-  waitForTxReceipt(): Promise<TransactionReceipt>;
+interface IStakerSdk {
+  allowTokens(remainingAllowance?: BigNumber): Promise<ISendAsyncResult>;
+
+  waitForAllowance(remainingAllowance?: BigNumber): Promise<void>;
+
+  stake(stakingAmount: BigNumber | BigNumber.Value): Promise<ISendAsyncResult>;
+
+  unstake(): Promise<ISendAsyncResult>;
+
+  getClaimableAethBalance(): Promise<BigNumber>;
+
+  getNativeBalance(): Promise<BigNumber>;
+
+  getEthBalance(): Promise<BigNumber>;
+
+  getAnkrBalance(): Promise<BigNumber>;
+
+  getAethBalance(): Promise<BigNumber>;
+
+  getStakerStats(): Promise<IStakerStats>;
+
+  claimAeth(): Promise<ISendAsyncResult>;
+
+  getAethRatio(): Promise<BigNumber>;
+
+  pendingStakesOf(token: string): Promise<BigNumber>;
+
+  getAllowanceAmount(): Promise<BigNumber>;
+
+  getStakerMinimalStakingAmount(): Promise<BigNumber>;
+
+  getRemainingAllowance(): Promise<BigNumber>;
 }
 
-export class StkrSdk {
+interface IProviderSdk {
+  downloadSidecar(sidecar: string, platform: string): void;
+
+  createSidecar(
+    name: string,
+    eth1Url: string,
+    eth2Url?: string,
+  ): Promise<ISidecarReply>;
+
+  getProviderSidecars(
+    page: string | number,
+    size?: string | number,
+  ): Promise<ISidecarReply[]>;
+
+  topUpETH(amount: BigNumber): Promise<ISendAsyncResult>;
+
+  topUpANKR(amount: BigNumber): Promise<ISendAsyncResult>;
+}
+
+interface IGovernanceSdk {
+  isGovernanceSupported(): boolean;
+
+  vote(
+    proposalId: string,
+    vote: VoteStatus,
+    options?: SendOptions,
+  ): Promise<any>;
+
+  fetchProjects(): Promise<any>;
+
+  createProject(
+    timeSpan: number,
+    topic: string,
+    content: string,
+    options?: SendOptions,
+  ): Promise<any>;
+
+  faucet(options?: SendOptions): Promise<any>;
+
+  setAnkrAllowance(amount: string, options?: SendOptions): Promise<any>;
+
+  getAnkrGovernanceAllowance(owner: string): Promise<any>;
+
+  getProposalInfo(proposalId: string): Promise<any>;
+}
+
+export interface IStkrSdk extends IStakerSdk, IProviderSdk, IGovernanceSdk {
+  createExplorerLink(txHash: string): string;
+
+  authorizeProvider(ttl?: number): Promise<string>;
+
+  isAuthorized(token?: string): Promise<boolean>;
+
+  getContractManager(): IContractManager;
+
+  getKeyProvider(): KeyProvider;
+
+  getGovernanceManager(): GovernanceManager;
+
+  getApiGateway(): ApiGateway;
+
+  getEventEmitter(): EventEmitter;
+
+  connect(): Promise<IConnectResult>;
+
+  isConnected(): boolean;
+
+  disconnect(): Promise<void>;
+
+  currentAccountOrThrow(): string;
+
+  currentAccount(): string;
+
+  getGlobalStats(): Promise<IGlobalStatsReply>;
+}
+
+export class StkrSdk implements IStkrSdk {
+  private static _cachedSdk: IStkrSdk | undefined;
+
+  public static getForConfig(stkrConfig: IStkrConfig): IStkrSdk {
+    const apiGateway = new ApiGateway(stkrConfig.gatewayConfig);
+    return new StkrSdk(stkrConfig, apiGateway, new EventEmitter());
+  }
+
+  public static getForEnv(): IStkrSdk {
+    if (StkrSdk._cachedSdk) return StkrSdk._cachedSdk;
+    const stkrConfig = configFromEnv();
+    StkrSdk._cachedSdk = StkrSdk.getForConfig(stkrConfig);
+    return StkrSdk._cachedSdk;
+  }
+
+  private governanceManager: GovernanceManager | null = null;
   private keyProvider: KeyProvider | null = null;
-  private contractManager: ContractManager | null = null;
-  private eventEmitter: EventEmitter = new EventEmitter();
+  private contractManager: IContractManager | null = null;
 
   constructor(
     private stkrConfig: IStkrConfig,
     private apiGateway: ApiGateway,
+    private eventEmitter: EventEmitter,
   ) {}
 
-  static factoryDefault(stkrConfig: IStkrConfig): StkrSdk {
-    const apiGateway = new ApiGateway({
-      baseUrl: stkrConfig.baseUrl,
-    });
-    StkrSdk.instance = new StkrSdk(stkrConfig, apiGateway);
-    return StkrSdk.instance;
+  public getApiGateway(): ApiGateway {
+    return this.apiGateway;
   }
 
-  private static instance: StkrSdk | undefined = undefined;
-
-  static getLastInstance() {
-    if (!StkrSdk.instance) {
-      throw new Error('SDK is not initialized yet');
-    }
-    return StkrSdk.instance;
+  public getEventEmitter(): EventEmitter {
+    return this.eventEmitter;
   }
 
-  public async connect() {
-    /* download config from server only if its not provided yet */
-    if (!this.stkrConfig.contractConfig) {
-      const config = await this.apiGateway.downloadConfigFile(
-        this.stkrConfig.configUrl,
-      );
-      console.log(
-        `downloaded config from server: ${JSON.stringify(config, null, 2)}`,
-      );
-      this.stkrConfig.contractConfig = {
-        aethContract: config.AETH,
-        microPoolContract: config.GlobalPool,
-        ankrContract: config.ANKR,
-        stakingContract: config.Staking,
-        systemContract: config.SystemParameters,
-      };
-    }
-    const metaMaskProvider = new MetaMaskProvider(
+  public async connect(): Promise<IConnectResult> {
+    this.keyProvider = new Web3ModalKeyProvider(
       this.stkrConfig.providerConfig,
       this.eventEmitter,
     );
-    const connectResult = await metaMaskProvider.connect();
-    const contractManage = new ContractManager(
-      metaMaskProvider,
-      this.stkrConfig.contractConfig,
-      this.eventEmitter,
-    );
-    this.keyProvider = metaMaskProvider;
-    this.contractManager = contractManage;
-
-    return connectResult;
+    const result = await this.keyProvider.connect();
+    if (this.keyProvider.isBinanceSmartChain()) {
+      if (!this.stkrConfig.binanceConfig) {
+        throw new Error(`BSC config is not provided`);
+      }
+      this.contractManager = new BinanceContractManager(
+        this.eventEmitter,
+        this.keyProvider,
+        this.stkrConfig.binanceConfig,
+      );
+    } else {
+      this.contractManager = new EthereumContractManager(
+        this.eventEmitter,
+        this.keyProvider,
+        this.stkrConfig.contractConfig,
+      );
+    }
+    await this.contractManager.connect();
+    this.governanceManager = new GovernanceManager(this.keyProvider);
+    return result;
   }
 
-  public isConnected() {
-    return this.keyProvider && this.contractManager;
+  public isConnected(): boolean {
+    return !!this.keyProvider && !!this.contractManager;
   }
 
-  public async disconnect() {
-    await this.getKeyProvider()?.disconnect();
-    await this.apiGateway.logout();
+  public async disconnect(): Promise<void> {
+    try {
+      await this.getKeyProvider().disconnect();
+    } catch (e) {
+      console.error(`Failed to disconnect key provider: ${e}`);
+    }
+    try {
+      await this.getApiGateway().logout();
+    } catch (e) {
+      console.error(`Failed to disconnect api gateway: ${e}`);
+    }
     this.keyProvider = null;
     this.contractManager = null;
   }
 
-  public async authorizeProvider(
-    ttl: number = 12 * 60 * 60 * 1000,
-  ): Promise<{ token: string }> {
+  public createExplorerLink(txHash: string): string {
+    const network = Number(this.getKeyProvider().currentNetwork());
+    const urls: any = {
+      1: 'https://etherscan.io/tx/{value}',
+      5: 'https://goerli.etherscan.io/tx/{value}',
+      56: 'https://testnet.bscscan.com/tx/{value}',
+      97: 'https://testnet.bscscan.com/tx/{value}',
+    };
+    return (urls[network] || '').replace('{value}', txHash);
+  }
+
+  private static readonly TWELVE_HOURS = 12 * 60 * 60 * 1000;
+
+  public async authorizeProvider(ttl?: number): Promise<string> {
     if (!this.keyProvider) {
       throw new Error('Key provider must be connected');
     }
-    const token = await this.keyProvider.signLoginData(ttl);
-    await this.apiGateway.authorizeWithSignedData(token);
-    return { token };
-  }
-
-  public downloadSidecar(sidecar: string, platform: string) {
-    const downloadLink = this.apiGateway.createSidecarDownloadLink(
-      sidecar,
-      platform,
+    const token = await this.keyProvider.signLoginData(
+      ttl || StkrSdk.TWELVE_HOURS,
     );
-    window.open(downloadLink);
-  }
-
-  public async createSidecar(
-    name: string,
-    eth1Url: string,
-    eth2Url?: string,
-  ): Promise<SidecarReply> {
-    return this.apiGateway.createSidecar(name, eth1Url, eth2Url);
-  }
-
-  public async getProviderSidecars(
-    page: string | number,
-    size?: string | number,
-  ): Promise<SidecarReply[]> {
-    return this.apiGateway.getProviderSidecars(page, size);
+    await this.apiGateway.authorizeWithSignedData(token);
+    return token;
   }
 
   public async isAuthorized(token?: string): Promise<boolean> {
@@ -142,24 +253,46 @@ export class StkrSdk {
     return false;
   }
 
-  public async getAllowanceAmount() {
+  public downloadSidecar(sidecar: string, platform: string): void {
+    const downloadLink = this.apiGateway.createSidecarDownloadLink(
+      sidecar,
+      platform,
+    );
+    window.open(downloadLink);
+  }
+
+  public async createSidecar(
+    name: string,
+    eth1Url: string,
+    eth2Url?: string,
+  ): Promise<ISidecarReply> {
+    return this.apiGateway.createSidecar(name, eth1Url, eth2Url);
+  }
+
+  public async getProviderSidecars(
+    page: string | number,
+    size?: string | number,
+  ): Promise<ISidecarReply[]> {
+    return this.apiGateway.getProviderSidecars(page, size);
+  }
+
+  public async getAllowanceAmount(): Promise<BigNumber> {
     return await this.getContractManager().checkAnkrAllowance();
   }
 
-  public async getProviderMinimalStakingAmount() {
-    const systemParams = await this.getContractManager().getSystemContractParameters();
-    return systemParams.providerMinimumStaking;
+  public async getStakerMinimalStakingAmount(): Promise<BigNumber> {
+    return this.getContractManager().requesterMinimumStaking();
   }
 
-  public async getRemainingAllowance() {
-    const allowanceAmount = await this.getAllowanceAmount();
-    const minimalStaking = await this.getProviderMinimalStakingAmount();
+  public async getRemainingAllowance(): Promise<BigNumber> {
+    const allowanceAmount = await this.getAllowanceAmount(),
+      minimalStaking = await this.getContractManager().providerMinimumStaking();
     return minimalStaking.minus(allowanceAmount);
   }
 
   public async allowTokens(
     remainingAllowance?: BigNumber,
-  ): Promise<SendAsyncResult> {
+  ): Promise<ISendAsyncResult> {
     if (!remainingAllowance) {
       remainingAllowance = await this.getRemainingAllowance();
     }
@@ -192,11 +325,9 @@ export class StkrSdk {
 
   public async stake(
     stakingAmount: BigNumber | BigNumber.Value,
-  ): Promise<SendAsyncResult> {
+  ): Promise<ISendAsyncResult> {
     stakingAmount = new BigNumber(stakingAmount);
-    const {
-      requesterMinimumStaking,
-    } = await this.getContractManager().getSystemContractParameters();
+    const requesterMinimumStaking = await this.getStakerMinimalStakingAmount();
     if (stakingAmount.isLessThan(requesterMinimumStaking)) {
       throw new Error(
         `Minimum staking amount is ${requesterMinimumStaking.toString(10)}`,
@@ -206,7 +337,7 @@ export class StkrSdk {
     return this.getContractManager().stake(stakingAmount);
   }
 
-  public async unstake(): Promise<SendAsyncResult> {
+  public async unstake(): Promise<ISendAsyncResult> {
     console.log(`unstaking funds from global pool`);
     return this.getContractManager().unstake();
   }
@@ -222,7 +353,7 @@ export class StkrSdk {
     return this.getKeyProvider().currentAccount();
   }
 
-  public async getGlobalStats(): Promise<GlobalStatsReply> {
+  public async getGlobalStats(): Promise<IGlobalStatsReply> {
     return await this.apiGateway.getGlobalStats();
   }
 
@@ -231,43 +362,58 @@ export class StkrSdk {
     return this.keyProvider;
   }
 
-  public getContractManager(): ContractManager {
+  public getContractManager(): IContractManager {
     if (!this.contractManager)
-      throw new Error('Key provider must be connected');
+      throw new Error('Contract manager is not initialized');
     return this.contractManager;
   }
 
-  public async getEthBalance(): Promise<BalanceReply> {
-    const currentAccount = this.getKeyProvider().currentAccount();
-    const balanceOf = await this.getKeyProvider().ethereumBalance(
-      currentAccount,
-    );
-    return { available: balanceOf, timestamp: new Date().getTime() };
+  public getGovernanceManager(): GovernanceManager {
+    if (!this.governanceManager) throw new Error(`Governance is not available`);
+    return this.governanceManager;
   }
 
-  public async getAnkrBalance(): Promise<BalanceReply> {
-    const currentAccount = this.getKeyProvider().currentAccount();
-    const balanceOf = await this.getContractManager().ankrBalance(
-      currentAccount,
-    );
-    return { available: balanceOf, timestamp: new Date().getTime() };
+  public async getClaimableAethBalance(): Promise<BigNumber> {
+    if (this.getKeyProvider().isBinanceSmartChain()) {
+      return new BigNumber('0');
+    }
+    const address = this.getKeyProvider().currentAccount();
+    return this.getContractManager().claimableRewardOf(address);
   }
 
-  public async getAethBalance(): Promise<BalanceReply> {
+  public async getNativeBalance(): Promise<BigNumber> {
     const currentAccount = this.getKeyProvider().currentAccount();
-    const balanceOf = await this.getContractManager().aEthBalance(
+    const balanceOf = await this.getKeyProvider().getNativeBalance(
       currentAccount,
     );
-    return { available: balanceOf, timestamp: new Date().getTime() };
+    return new BigNumber(balanceOf);
   }
 
-  public async getStakerStats(): Promise<StakerStats> {
+  public async getEthBalance(): Promise<BigNumber> {
+    const currentAccount = this.getKeyProvider().currentAccount();
+    return this.getContractManager().etherBalanceOf(currentAccount);
+  }
+
+  public async getAnkrBalance(): Promise<BigNumber> {
+    const currentAccount = this.getKeyProvider().currentAccount();
+    if (this.getKeyProvider().isBinanceSmartChain()) {
+      return new BigNumber('0');
+    }
+    return this.getContractManager().ankrBalanceOf(currentAccount);
+  }
+
+  public async getAethBalance(): Promise<BigNumber> {
+    const currentAccount = this.getKeyProvider().currentAccount();
+    return this.getContractManager().aethBalanceOf(currentAccount);
+  }
+
+  public async getStakerStats(): Promise<IStakerStats> {
     console.log('fetching stake events from smart contract...');
-    const [toppedUp, pending, confirmed, removed] = await Promise.all([
-      this.getContractManager().queryProviderToppedUpEthEventLogs(),
-      this.getContractManager().queryStakePendingEventLogs(),
-      this.getContractManager().queryStakeConfirmedEventLogs(),
-      this.getContractManager().queryStakeRemovedEventLogs(),
+    const [pending, confirmed, removed, toppedUp] = await Promise.all([
+      this.getContractManager().stakePendingEventLogs(),
+      this.getContractManager().stakeConfirmedEventLogs(),
+      this.getContractManager().stakeRemovedEventLogs(),
+      this.getContractManager().providerToppedUpEthEventLogs(),
     ]);
 
     function hasItem(
@@ -282,7 +428,7 @@ export class StkrSdk {
     }
 
     const pendingItems = pending.map(
-      (item): UserStakeReply => {
+      (item): IUserStakeReply => {
         return {
           user: item.data.staker,
           amount: item.data.amount,
@@ -293,9 +439,8 @@ export class StkrSdk {
         };
       },
     );
-
     const confirmedItems = confirmed.map(
-      (item): UserStakeReply => {
+      (item): IUserStakeReply => {
         return {
           user: item.data.staker,
           amount: item.data.amount,
@@ -306,9 +451,8 @@ export class StkrSdk {
         };
       },
     );
-
     const unstakedItems = removed.map(
-      (item): UserStakeReply => {
+      (item): IUserStakeReply => {
         return {
           user: item.data.staker,
           amount: item.data.amount,
@@ -319,40 +463,37 @@ export class StkrSdk {
         };
       },
     );
-
     const stakes = [...pendingItems, ...confirmedItems, ...unstakedItems].sort(
       (a, b) => a.timestamp - b.timestamp,
     );
-
     return { stakes };
   }
 
-  public getApiGateway(): ApiGateway {
-    return this.apiGateway;
-  }
-
-  public getEventEmitter(): EventEmitter {
-    return this.eventEmitter;
-  }
-
-  public async claimAeth() {
+  public async claimAeth(): Promise<ISendAsyncResult> {
     return await this.getContractManager().claim();
   }
 
-  public async topUpETH(amount: BigNumber) {
+  public async topUpETH(amount: BigNumber): Promise<ISendAsyncResult> {
     return await this.getContractManager().topUpETH(amount);
   }
 
-  public async topUpANKR(amount: BigNumber) {
+  public async topUpANKR(amount: BigNumber): Promise<ISendAsyncResult> {
     return await this.getContractManager().topUpANKR(amount);
   }
 
-  public async getAethRatio() {
-    return await this.getContractManager().getAethRatio();
+  public async getAethRatio(): Promise<BigNumber> {
+    if (this.getKeyProvider().isBinanceSmartChain()) {
+      return new BigNumber('0');
+    }
+    return await this.getContractManager().aethRatio();
   }
 
-  public async pendingStakesOf(token: string) {
+  public async pendingStakesOf(token: string): Promise<BigNumber> {
     return await this.getContractManager().pendingStakesOf(token);
+  }
+
+  public isGovernanceSupported(): boolean {
+    return !this.getKeyProvider().isBinanceSmartChain();
   }
 
   public async vote(
@@ -360,11 +501,11 @@ export class StkrSdk {
     vote: VoteStatus,
     options?: SendOptions,
   ) {
-    return await this.getContractManager().vote(proposalId, vote, options);
+    return this.getGovernanceManager().vote(proposalId, vote, options);
   }
 
   public async fetchProjects() {
-    return await this.getContractManager().fetchProjects();
+    return this.getGovernanceManager().fetchProjects();
   }
 
   public async createProject(
@@ -373,7 +514,7 @@ export class StkrSdk {
     content: string,
     options?: SendOptions,
   ) {
-    return await this.getContractManager().createProject(
+    return this.getGovernanceManager().createProject(
       timeSpan,
       topic,
       content,
@@ -382,18 +523,18 @@ export class StkrSdk {
   }
 
   public async faucet(options?: SendOptions) {
-    return await this.getContractManager().faucet(options);
+    return this.getGovernanceManager().faucet(options);
   }
 
   public async setAnkrAllowance(amount: string, options?: SendOptions) {
-    return await this.getContractManager().setAnkrAllowance(amount, options);
+    return this.getGovernanceManager().setAnkrAllowance(amount, options);
   }
 
   public async getAnkrGovernanceAllowance(owner: string) {
-    return await this.getContractManager().getAnkrGovernanceAllowance(owner);
+    return this.getGovernanceManager().getAnkrGovernanceAllowance(owner);
   }
 
   public async getProposalInfo(proposalId: string) {
-    return await this.getContractManager().getProposalInfo(proposalId);
+    return this.getGovernanceManager().getProposalInfo(proposalId);
   }
 }

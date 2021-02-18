@@ -26,11 +26,10 @@ import { IApplicationStore } from '../createStore';
 import { IUserInfo } from '../apiMappers/userApi';
 import { pushEvent } from '../../common/utils/pushEvent';
 import { IConnectResponse } from '../apiMappers/connectApi';
-import { BlockchainNetworkId } from '@ankr.com/stkr-jssdk';
 
 function createEventChannel() {
   return eventChannel(emitter => {
-    const events = StkrSdk.getLastInstance().getEventEmitter();
+    const events = StkrSdk.getForEnv().getEventEmitter();
 
     [
       ...Object.values(KeyProviderEvents),
@@ -157,12 +156,10 @@ function* onConnectSuccess(action: {
   type: string;
   response: { data: IConnectResponse };
 }) {
-  if (action.response.data.chainId !== BlockchainNetworkId.smartchain) {
-    pushEvent('login', { method: 'web3' });
-    const listenKeyProviderEventsTask = yield fork(listenKeyProviderEvents);
-    yield take([UserActionTypes.DISCONNECT, UserActionTypes.CONNECT]);
-    yield cancel(listenKeyProviderEventsTask);
-  }
+  pushEvent('login', { method: 'web3' });
+  const listenKeyProviderEventsTask = yield fork(listenKeyProviderEvents);
+  yield take([UserActionTypes.DISCONNECT, UserActionTypes.CONNECT]);
+  yield cancel(listenKeyProviderEventsTask);
 }
 
 function* onDisconnectSuccess() {
@@ -170,7 +167,7 @@ function* onDisconnectSuccess() {
   yield put(replace(INDEX_PATH));
   try {
     // TODO Can be excess
-    const stkrSdk = StkrSdk.getLastInstance();
+    const stkrSdk = StkrSdk.getForEnv();
     yield stkrSdk?.disconnect();
   } catch (error) {
     console.error(error);

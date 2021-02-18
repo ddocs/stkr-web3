@@ -59,32 +59,28 @@ export const useLinksStyles = makeStyles<Theme>(theme => ({
   link: {
     display: 'block',
 
-    '&&': {
-      fontWeight: 500,
+    '&::after': {
+      position: 'absolute',
+      content: '""',
+      bottom: -7,
+      left: 0,
+      width: '100%',
+      height: 1,
+      backgroundColor: theme.palette.text.secondary,
+      transform: 'scaleX(0)',
+      transformOrigin: 'bottom right',
+      transitionProperty: 'transform',
+      transitionTimingFunction: 'linear',
+      transitionDuration: '200ms',
+    },
 
-      '&::after': {
-        position: 'absolute',
-        content: '""',
-        bottom: -8,
-        left: 0,
-        width: '100%',
-        height: 2,
-        backgroundColor: theme.palette.text.secondary,
-        transform: 'scaleX(0)',
-        transformOrigin: 'bottom right',
-        transitionProperty: 'transform',
-        transitionTimingFunction: 'linear',
-        transitionDuration: '200ms',
-      },
+    '&:hover, &:focus': {
+      color: theme.palette.text.secondary,
+    },
 
-      '&:hover, &:focus': {
-        color: theme.palette.text.secondary,
-      },
-
-      '&.Mui-disabled': {
-        color: fade(theme.palette.text.primary, 0.5),
-        pointerEvents: 'auto',
-      },
+    '&.Mui-disabled': {
+      color: fade(theme.palette.text.primary, 0.5),
+      pointerEvents: 'auto',
     },
   },
   button: {

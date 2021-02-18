@@ -1,8 +1,8 @@
-import React, { ReactNode, useContext } from 'react';
-import { useTableHeadStyles } from './TableHeadStyles';
-import { ICustomProps, IStyleProps } from '../types';
-import { TableContext } from '../Table/Table';
 import classNames from 'classnames';
+import React, { ReactNode, useContext } from 'react';
+import { TableContext } from '../Table/Table';
+import { ICustomProps, IStyleProps } from '../types';
+import { useTableHeadStyles } from './TableHeadStyles';
 
 interface ITableHeadProps {
   className?: string;
@@ -15,6 +15,7 @@ export const TableHeadComponent = ({
   customCell,
   paddingCollapse,
   count,
+  stickyHeader,
 }: ITableHeadProps & ICustomProps & IStyleProps & { count: number }) => {
   const classes = useTableHeadStyles({
     count,
@@ -23,7 +24,14 @@ export const TableHeadComponent = ({
   });
 
   return (
-    <div className={classNames(classes.head, className)} role="rowgroup">
+    <div
+      className={classNames(
+        classes.head,
+        className,
+        stickyHeader && classes.headSticky,
+      )}
+      role="rowgroup"
+    >
       <div className={classes.row} role="row">
         {children}
       </div>

@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
 import React from 'react';
 import { FocusOn } from 'react-focus-on';
-import { Providers } from '../../../../common/types';
+import { Blockchain, Provider } from '../../../../common/types';
 import { t } from '../../../../common/utils/intl';
 import { MutationErrorHandler } from '../../../../components/MutationErrorHandler/MutationErrorHandler';
 import { UserActionTypes } from '../../../../store/actions/UserActions';
@@ -18,21 +18,26 @@ import { Wallet } from '../Wallet';
 import { WalletBalance } from '../WalletBalance';
 import { WalletCard } from '../WalletCard';
 import { useHeader } from './useHeader';
+import { useFeaturesAvailable } from "../../../../common/hooks/useFeaturesAvailable";
 
 interface IHeaderFrameProps {
   isAuth: boolean;
   walletAddress?: string;
-  walletType?: Providers;
+  blockchainType?: Blockchain;
+  walletType?: Provider;
   ethereumBalance?: BigNumber;
   ankrBalance?: BigNumber;
+  bnbBalance?: BigNumber;
 }
 
 export const HeaderComponent = ({
   isAuth,
   walletAddress,
+  blockchainType,
   walletType,
   ethereumBalance,
   ankrBalance,
+  bnbBalance,
 }: IHeaderFrameProps) => {
   const {
     mobileNavShowed,
@@ -47,11 +52,17 @@ export const HeaderComponent = ({
     handleMobileNavClose,
     handleMobileNavOpen,
   } = useHeader();
+  
+  const { isProviderAvailable } = useFeaturesAvailable();
 
-  const renderedSwitcher = showSwitcher && <Switcher />;
+  const renderedSwitcher = isProviderAvailable && showSwitcher && <Switcher />;
 
   const renderedBalance = (
-    <WalletBalance ethereum={ethereumBalance} ankr={ankrBalance} />
+    <WalletBalance
+      ethereum={ethereumBalance}
+      ankr={ankrBalance}
+      bnbBalance={bnbBalance}
+    />
   );
 
   const renderedAppButton = (
@@ -74,7 +85,13 @@ export const HeaderComponent = ({
     />
   );
 
-  const renderedLinks = <Links isAuth={isAuth} />;
+  const renderedLinks = (
+    <Links
+      isAuth={isAuth}
+      blockchainType={blockchainType}
+      walletType={walletType}
+    />
+  );
 
   const renderedMobileNav = (
     <>
@@ -99,7 +116,7 @@ export const HeaderComponent = ({
         >
           {!isAuth && renderedErrorHandler}
 
-          {isAuth && !isMDUp && (
+          {isAuth && walletAddress && walletType && !isMDUp && (
             <WalletCard
               className={classes.walletCard}
               address={walletAddress}
@@ -136,7 +153,7 @@ export const HeaderComponent = ({
 
           {!isAuth && isSMUp && renderedAppButton}
 
-          {isAuth && isMDUp && (
+          {isAuth && walletAddress && walletType && isMDUp && (
             <Wallet
               className={classes.wallet}
               address={walletAddress}

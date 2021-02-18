@@ -10,8 +10,8 @@ interface ITableBodyCellProps
   className?: string;
   align?: AlignType;
   children: React.ReactNode;
-  tableWidth: number;
   style?: CSSProperties;
+  label: string;
 }
 
 export const TableBodyCellComponent = ({
@@ -21,18 +21,17 @@ export const TableBodyCellComponent = ({
   defense,
   paddingCollapse,
   children,
-  tableWidth,
   style,
+  label,
   ...rest
 }: ITableBodyCellProps & IStyleProps) => {
   const classes = useTableBodyCellStyles({
     defense,
     paddingCollapse,
-    tableWidth,
     ...rest,
   });
   return (
-    <div
+    <li
       className={classNames(
         className,
         classes.tableCell,
@@ -44,15 +43,14 @@ export const TableBodyCellComponent = ({
       )}
       role="cell"
       style={style}
+      data-label={label}
     >
       <div className={classes.cellWrapper}>{children}</div>
-    </div>
+    </li>
   );
 };
 
-export const TableBodyCell = (
-  props: Omit<ITableBodyCellProps, 'tableWidth'>,
-) => {
+export const TableBodyCell = (props: ITableBodyCellProps) => {
   const context = useContext(TableContext);
   return <TableBodyCellComponent {...context} {...props} />;
 };

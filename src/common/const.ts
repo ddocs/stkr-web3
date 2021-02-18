@@ -58,7 +58,6 @@ export const ENABLE_PROVIDER = true;
 
 export const ETH_SCALE_FACTOR = 10 ** 18;
 export const PROVIDER_MIN_BALANCE: ETH = 2;
-export const STAKING_AMOUNT_STEP = 0.5;
 export const PROVIDE_MIN_BALANCE: ETH = 2;
 export const ETHEREUM_PRICE = 1400;
 export const DEFAULT_FIXED = 4;

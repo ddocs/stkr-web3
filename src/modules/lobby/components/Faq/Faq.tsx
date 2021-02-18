@@ -1,8 +1,9 @@
 import classNames from 'classnames';
 import React, { SVGAttributes, useMemo, useState } from 'react';
 import { uid } from 'react-uid';
+import { ABOUT_AETH_PATH } from '../../../../common/const';
 import { Milliseconds } from '../../../../common/types';
-import { t, tHTML } from '../../../../common/utils/intl';
+import { t, tHTMLWithRouter } from '../../../../common/utils/intl';
 import { BackgroundColorProvider } from '../../../../UiKit/BackgroundColorProvider';
 import { Curtains } from '../../../../UiKit/Curtains';
 import { FoldableSection } from '../../../../UiKit/FoldableSection';
@@ -45,6 +46,18 @@ const FAQ: Record<string, string>[] = [
   {
     question: 'faq.question-7',
     answer: 'faq.answer-7',
+  },
+  {
+    question: 'faq.question-8',
+    answer: 'faq.answer-8',
+  },
+  {
+    question: 'faq.question-9',
+    answer: 'faq.answer-9',
+  },
+  {
+    question: 'faq.question-10',
+    answer: 'faq.answer-10',
   },
 ];
 interface IFaqProps {
@@ -89,8 +102,10 @@ export const Faq = ({ className }: IFaqProps) => {
               timeout={foldingAnimationTime}
               ssr={false}
             >
-              <Body2 className={classes.answer} component="div">
-                {tHTML(item.answer)}
+              <Body2 className={classes.answer}>
+                {tHTMLWithRouter(item.answer, {
+                  aETHLink: ABOUT_AETH_PATH,
+                })}
               </Body2>
             </FoldableSection>
           </li>

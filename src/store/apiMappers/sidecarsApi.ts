@@ -1,4 +1,4 @@
-import { SidecarReply, SidecarStatus } from '../../modules/api/gateway';
+import { ISidecarReply, SidecarStatus } from '../../modules/api/gateway';
 import { Megabytes, Percentage, Seconds } from '../../common/types';
 
 export interface ISidecarMachine {
@@ -42,7 +42,7 @@ export interface ISidecar {
   created: Date;
 }
 
-export function mapSidecar(item: SidecarReply): ISidecar {
+export function mapSidecar(item: ISidecarReply): ISidecar {
   return {
     id: item.id,
     provider: item.provider,

@@ -15,4 +15,15 @@ export const useNavigationSelectorStyles = makeStyles(theme => ({
       right: 12,
     },
   },
+
+  darkened: {
+    '& .MuiInput-root': {
+      color: theme.palette.text.secondary,
+      transition: 'color 0.2s',
+
+      '&:hover, &.Mui-focused': {
+        color: theme.palette.text.primary,
+      },
+    },
+  },
 }));

@@ -229,7 +229,7 @@ const mainTheme = createMuiTheme({
     },
     MuiButton: {
       root: {
-        height: 36,
+        height: 40,
         padding: defaultTheme.spacing(1, 2),
         boxSizing: 'border-box',
         fontFamily: DEFAULT_FONT,
@@ -266,7 +266,7 @@ const mainTheme = createMuiTheme({
       contained: {
         color: PALETTE.primary.contrastText,
         backgroundColor: PALETTE.text.primary,
-        transitionDuration: '300ms',
+        transitionDuration: '0.2s',
         transitionProperty: 'color, background-color',
         transitionTimingFunction: 'linear',
         borderRadius: 60,
@@ -281,7 +281,7 @@ const mainTheme = createMuiTheme({
       containedPrimary: {
         color: PALETTE.primary.contrastText,
         backgroundColor: PALETTE.primary.main,
-        transitionDuration: '300ms',
+        transitionDuration: '0.2s',
         transitionProperty: 'color, background-color, transform',
         transitionTimingFunction: 'linear',
         '&:hover, &:focus, &:active': {
@@ -295,7 +295,7 @@ const mainTheme = createMuiTheme({
       containedSecondary: {
         color: PALETTE.primary.main,
         backgroundColor: fade(PALETTE.primary.main, 0.15),
-        transitionDuration: '300ms',
+        transitionDuration: '0.2s',
         transitionProperty: 'color, background-color',
         transitionTimingFunction: 'linear',
         '&:hover, &:focus, &:active': {
@@ -306,8 +306,9 @@ const mainTheme = createMuiTheme({
         color: PALETTE.text.primary,
         border: `1px solid ${PALETTE.text.primary}`,
         backgroundColor: 'transparent',
-        transitionDuration: '300ms',
+        transitionDuration: '0.2s',
         transitionProperty: 'color, border-color, background-color',
+        borderRadius: 60,
         transitionTimingFunction: 'linear',
         '&:hover, &:focus, &:active': {
           color: PALETTE.primary.contrastText,
@@ -319,7 +320,7 @@ const mainTheme = createMuiTheme({
         color: PALETTE.primary.main,
         border: `1px solid ${PALETTE.primary.main}`,
         backgroundColor: 'transparent',
-        transitionDuration: '300ms',
+        transitionDuration: '0.2s',
         transitionProperty: 'color, border-color, background-color',
         transitionTimingFunction: 'linear',
         '&:hover, &:focus, &:active': {
@@ -331,15 +332,15 @@ const mainTheme = createMuiTheme({
       },
       outlinedSecondary: {
         color: PALETTE.text.secondary,
-        border: `1px solid ${PALETTE.text.secondary}`,
+        border: `1px solid ${fade(PALETTE.text.primary, 0.2)}`,
         backgroundColor: 'transparent',
-        transitionDuration: '300ms',
+        transitionDuration: '0.2s',
         transitionProperty: 'color, border-color, background-color',
         transitionTimingFunction: 'linear',
         '&:hover, &:focus, &:active': {
-          color: PALETTE.primary.contrastText,
-          backgroundColor: PALETTE.text.secondary,
-          border: `1px solid ${PALETTE.grey['900']}`,
+          color: PALETTE.text.primary,
+          backgroundColor: 'transparent',
+          border: `1px solid ${PALETTE.text.primary}`,
         },
         '&$disabled': {},
       },
@@ -351,7 +352,7 @@ const mainTheme = createMuiTheme({
         fontWeight: 400,
         whiteSpace: 'nowrap',
         backgroundColor: 'transparent',
-        transitionDuration: '300ms',
+        transitionDuration: '0.2s',
         transitionProperty: 'color',
         transitionTimingFunction: 'linear',
         '&:hover, &:focus, &:active': {
@@ -363,7 +364,7 @@ const mainTheme = createMuiTheme({
       textPrimary: {
         color: PALETTE.primary.main,
         backgroundColor: 'transparent',
-        transitionDuration: '300ms',
+        transitionDuration: '0.2s',
         transitionProperty: 'color',
         transitionTimingFunction: 'linear',
         '&:hover, &:focus, &:active': {
@@ -376,7 +377,7 @@ const mainTheme = createMuiTheme({
       textSecondary: {
         color: PALETTE.text.secondary,
         backgroundColor: 'transparent',
-        transitionDuration: '300ms',
+        transitionDuration: '0.2s',
         transitionProperty: 'color',
         transitionTimingFunction: 'linear',
         '&:hover, &:focus, &:active': {

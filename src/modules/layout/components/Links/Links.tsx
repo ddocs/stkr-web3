@@ -17,10 +17,14 @@ import { FoldableSection } from '../../../../UiKit/FoldableSection';
 import { NavLink } from '../../../../UiKit/NavLink';
 import { Medium, Telegram, Twitter } from '../Icons/Icons';
 import { useLinksStyles } from './LinksStyles';
+import { Blockchain, Provider } from '../../../../common/types';
+import { useFeaturesAvailable } from '../../../../common/hooks/useFeaturesAvailable';
 
 export interface ILinksProps {
   className?: string;
   isAuth?: boolean;
+  blockchainType?: Blockchain;
+  walletType?: Provider;
 }
 
 const Arrow = (props: SVGAttributes<SVGElement>) => {
@@ -44,10 +48,11 @@ const getIconByKey = (key: string) => {
   }
 };
 
-export const Links = ({ className, isAuth }: ILinksProps) => {
+export const Links = ({ className, isAuth, blockchainType }: ILinksProps) => {
   const isMDDown = useIsMDDown();
   const classes = useLinksStyles();
   const [open, setOpen] = useState(false);
+  const { isProviderAvailable } = useFeaturesAvailable();
 
   const handleMobileOpen = useCallback(() => {
     if (open) {
@@ -68,11 +73,14 @@ export const Links = ({ className, isAuth }: ILinksProps) => {
       },
       docs: DOCS_LINK,
       BSC: !isAuth ? ABOUT_SMARTCHAIN_PATH : '',
-      governance: isAuth ? GOVERNANCE_PROJECT_LIST_PATH : '',
+      governance:
+        isAuth && blockchainType === Blockchain.ethereum
+          ? GOVERNANCE_PROJECT_LIST_PATH
+          : '',
       staker: isAuth && isMDDown ? STAKER_DASHBOARD_PATH : '',
-      provider: isAuth && isMDDown ? PROVIDER_PATH : '',
+      provider: isAuth && isProviderAvailable && isMDDown ? PROVIDER_PATH : '',
     }),
-    [isAuth, isMDDown],
+    [blockchainType, isAuth, isMDDown, isProviderAvailable],
   );
 
   return (

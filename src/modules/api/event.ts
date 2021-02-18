@@ -167,7 +167,7 @@ export interface IProviderToppedUpAnkrEvent {
   };
 }
 
-export interface IProviderExitedEvemt {
+export interface IProviderExitedEvent {
   type: ContractManagerEvents.ProviderExited;
   data: {
     eventLog: IEventLog;
@@ -194,5 +194,5 @@ export type ContractManagerEvent =
   | IProviderSlashedEthEvent
   | IProviderToppedUpEthEvent
   | IProviderToppedUpAnkrEvent
-  | IProviderExitedEvemt
+  | IProviderExitedEvent
   | IRewardClaimedEvent;

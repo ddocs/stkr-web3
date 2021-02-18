@@ -9,12 +9,14 @@ interface IWalletBalanceProps {
   className?: string;
   ethereum?: BigNumber;
   ankr?: BigNumber;
+  bnbBalance?: BigNumber;
   aeth?: BigNumber;
 }
 
 export const WalletBalance = ({
   ethereum,
   ankr,
+  bnbBalance,
   aeth,
   className,
 }: IWalletBalanceProps) => {
@@ -39,13 +41,25 @@ export const WalletBalance = ({
           {ethereum ? ethereum.decimalPlaces(DEFAULT_FIXED).toFormat() : 0}
         </Typography>
 
-        <Typography
-          color="textSecondary"
-          className={classNames(classes.item, classes.ankr)}
-          title="Ankr"
-        >
-          {ankr ? ankr.decimalPlaces(DEFAULT_FIXED).toFormat() : 0}
-        </Typography>
+        {bnbBalance && (
+          <Typography
+            color="textSecondary"
+            className={classNames(classes.item, classes.binance)}
+            title="BNB"
+          >
+            {bnbBalance.decimalPlaces(DEFAULT_FIXED).toFormat()}
+          </Typography>
+        )}
+
+        {ankr && (
+          <Typography
+            color="textSecondary"
+            className={classNames(classes.item, classes.ankr)}
+            title="Ankr"
+          >
+            {ankr.decimalPlaces(DEFAULT_FIXED).toFormat()}
+          </Typography>
+        )}
       </div>
     </div>
   );

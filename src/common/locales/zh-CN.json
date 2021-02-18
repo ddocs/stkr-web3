@@ -15,7 +15,7 @@
         "create-micropool": "建立微池",
         "create": "建立",
         "top-up": "充值",
-        "beacon-list": "信标链列表",
+        "sidecar-list": "Sidecar list",
         "select-wallet-provider": "选择钱包提供商",
         "connect": "连接",
         "copyright": "© {year} Stkr 保留所有权利| <a href=\"mailto: info@ankr.com\" rel=\"noopener noreferrer\">info@ankr.com</a>",
@@ -77,22 +77,26 @@
     },
     "faq": {
         "title": "常见问题解答",
-        "question-1": "什么是Stkr？",
-        "answer-1": "Stkr是一个去中心化的协议和平台，它将质押和DeFi结合起来，消除准入壁垒，实现质押的民主化。",
-        "question-2": "如果我的资金少于32 ETH，我可以参与质押吗？",
-        "answer-2": "可以! 为了让无法投资32 ETH（网络要求的固定金额）的用户也能使用以太坊 2.0，Stkr引入了微池--一个专有的解决方案，让您可以从0.5 ETH开始质押。只需选择您想要质押的金额，系统就会自动将其分配给表现最好的提供商。",
-        "question-3": "什么是微池？",
-        "answer-3": "微池机制是我们打破以太坊2.0质押金额门槛的独特解决方案。顾名思义，微池允许用户将较小部分的ETH投入到验证者节点中，并根据其贡献按比获得相应的奖励。\n",
-        "question-4": "如果我在以太坊 2.0上启用转账交易之前就参与质押，我的资金会变得缺乏流动性吗？\n",
-        "answer-4": "不会-- Stkr通过引入aETH和其他合成资产有效地解决了以太坊2.0的流动性不足的问题，您可以在任何时间点出售你正在质押的ETH。",
-        "question-5": "我的ETH超过32个。我还能用Stkr质押吗？",
-        "answer-5": "尽管以太坊 2.0只允许您以32 ETH的倍数进行质押，但通过Stkr，您可以一次性质押所有代币，而无需将它们分配到多个节点。这意味着您可以一键质押1000个ETH。\n",
-        "question-6": "我可以在Stkr上运行自己的以太坊 2.0节点吗？",
-        "answer-6": "可以。您可以成为提供商，运行自己的节点来收取质押奖励。如果您没有任何硬件或部署节点的技术知识，您可以随时使用Ankr并一键部署您的以太坊2.0节点。\n",
-        "question-7": "成为Stkr上的提供商需要什么条件？",
-        "answer-7": "要成为Stkr上的提供者并赚取平台费用，每个以太坊2.0节点需要存入至少2 ETH的保险金，以在发生罚没事件时补偿用户。",
-        "question-8": "我可以在Stkr上使用ANKR代币吗？",
-        "answer-8": "Stkr协议为Ankr平台的原生ERC-20代币ANKR引入了一个新的使用场景。提供商可以将ANKR代币作为保险基金进行质押，提高其回报率。除此以外，ETH的质押者可以质押ANKR代币，从平台费用中获取质押奖励。"
+        "question-1": "Can I stake if I have less than 32 ETH?",
+        "answer-1": "<p>Yes! To democratize access to Ethereum 2.0 for users who are unable to invest 32 ETH (the fixed amount required by the network), Ankr staking introduces Micropools – a proprietary solution that enables you to start staking with as little as 0.5 ETH. Simply choose the amount you want to delegate, and the system will automatically assign it to the best providers.</p>",
+        "question-2": "What are Micropools?",
+        "answer-2": "<p>The Micropools mechanism is our unique solution for breaking down the economic barriers for Ethereum 2.0 staking. As the name implies, Micropools allow users to chip in smaller portions of ETH towards a Validator, and receive a proportionate reward based on their contribution.</p>",
+        "question-3": "What is staking liquidity?",
+        "answer-3": "<p>Ankr's liquid staking protocol allows ETH holders to participate in Ethereum 2.0 staking and earn staking rewards, without running a node and locking your ETH for an unknown period of time.</p>",
+        "question-4": "How will my stake become liquid if I stake them before transactions are enabled on Ethereum 2.0?",
+        "answer-4": "<p>Ankr effectively tackles the illiquidity issue of Ethereum 2.0 by introducing aETH which will enable you to trade your stake or utilize it in DeFi protocols to earn yield at any point in time.</p>",
+        "question-5": "How can I redeem my staked ETH and staking rewards?",
+        "answer-5": "<p>Until transactions are enabled on Ethereum 2.0 you can simply trade your <a href={aETHLink}>aETH</a> for ETH. 1 aETH should become worth more than 1 ETH over time.</p><p>As soon as Ethereum 2.0 transactions are enabled, you can use your aETH to redeem your ETH stake plus your staking rewards.</p>",
+        "question-6": "What is aETH?",
+        "answer-6": "<p><a href={aETHLink}>aETH</a> is a synthetic derivative asset which represents your ETH stake plus earned staking rewards. When you stake your ETH with Ankr, you can redeem aETH tokens, which you can choose to keep in self custody, trade or use in DeFi products to earn yield.</p>",
+        "question-7": "I have more than 32 ETH. Can I still stake with Ankr?",
+        "answer-7": "<p>Despite that Ethereum 2.0 only enables you to stake multiples of 32 ETH, with Ankr you can stake all your tokens at once, without having to allocate them to multiple nodes. This means you can even stake 1,000 ETH or more in just one click!</p>",
+        "question-8": "Can I run my own Ethereum 2.0 node on Ankr?",
+        "answer-8": "<p>Yes! You can become a provider and run your own node to collect staking rewards. If you don’t have any hardware or technical knowledge to set up a node, you can always use Ankr and deploy your Ethereum 2.0 node in one click.</p>",
+        "question-9": "What do I need to become a node provider on the platform?",
+        "answer-9": "<p>To become a node provider and earn platform fees, you need to set up an Ethereum 2.0 node with a minimum “insurance” stake of 2 ETH to compensate users in case of slashing events.</p>",
+        "question-10": "Can I use my ANKR tokens on the platform?",
+        "answer-10": "<p>Yes! If you own enough ANKR tokens, you can participate in governance and vote on key parameters to define the future of the platform.</p>"
     },
     "beacon-node-table": {
         "name": "名字",
@@ -304,7 +308,8 @@
         "eth-top-up-note": "请注意，如果您的保险金因罚没而降至 2 ETH 以下，您的节点可能会停止运行。为了防止这种情况发生，或者为了重新启动因此而停止的节点，请确保您的剩余保险余额至少为 2 ETH。您可以在这里将此金额充值。<br/><br/>另外需要注意的是，一旦存入，任何保险金额都会被锁定在Stkr系统中，直到合约结束（Ethereum 2.0 1.5阶段发布）。"
     },
     "provider-dashboard": {
-        "balance": "您的保险金"
+        "balance": "您的保险金",
+        "balance-eth": "{balance} ETH"
     },
     "language": {
         "en-US": "EN",

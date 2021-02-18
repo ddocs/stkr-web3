@@ -5,13 +5,13 @@ import {
   ISwapStatus,
   ITokenResponse,
 } from './entity';
-import { StkrSdk } from '../api';
+import { IStkrSdk } from '../api';
 import { BlockchainNetworkId } from '@ankr.com/stkr-jssdk';
 import PEG_ETH_ABI from './Peg-ETH.json';
 import { Contract } from 'web3-eth-contract';
 import { ETH_DIVIDER, ETH_SCALE_FACTOR } from '../../common/const';
 import BigNumber from 'bignumber.js';
-import { SendAsyncResult } from '../api/provider';
+import { ISendAsyncResult } from '../api/provider';
 
 const PEG_ETH_ADDRESS = '0x2170ed0880ac9a755fd29b2688956bd959f933f8';
 
@@ -46,7 +46,7 @@ export class BridgeSdk {
   private readonly requestManager: RequestManager = new RequestManager();
   private pegETHContract: Contract;
 
-  constructor(private readonly stkr: StkrSdk) {
+  constructor(private readonly stkr: IStkrSdk) {
     const Contract = this.stkr.getKeyProvider().getWeb3().eth.Contract;
     this.pegETHContract = new Contract(PEG_ETH_ABI as any, PEG_ETH_ADDRESS);
   }
@@ -70,6 +70,23 @@ export class BridgeSdk {
       this.stkr.getKeyProvider().currentNetwork() ===
       BlockchainNetworkId.smartchain
     );
+  }
+
+  public async calcStakingFeeRate(): Promise<BigNumber> {
+    let networkFee = 0.005;
+    try {
+      const network = await this.requestManager.getNetworkByName(
+        SYMBOL_ETHEREUM,
+        'OUT',
+        SYMBOL_BSC,
+      );
+      networkFee = network.networkFee;
+    } catch (e) {
+      console.error(`Unable to calculate Binance Bridge network fee: ${e}`);
+    }
+    const stakingFeeRate = new BigNumber(`${networkFee * 4}`);
+    console.log(`Current staking fee rate is: ${stakingFeeRate.toString(10)}`);
+    return stakingFeeRate;
   }
 
   public async getPegEthToEthSwapDetails(): Promise<IPegEthToEthSwapDetails> {
@@ -203,7 +220,7 @@ export class BridgeSdk {
   public async sendPegEthToBEP20(
     amount: number,
     toAddress: string,
-  ): Promise<SendAsyncResult> {
+  ): Promise<ISendAsyncResult> {
     const pegBalance = await this.getPegEthBalance();
     if (pegBalance.isLessThan(amount)) {
       throw new Error(`Insufficient balance on the account ${toAddress}`);

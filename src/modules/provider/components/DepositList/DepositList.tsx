@@ -62,21 +62,33 @@ export const DepositListComponent = () => {
         const stakes = getTopUpTransactions(data?.stakes ?? []);
 
         return (
-          <Table columnsCount={captions.length}>
+          <Table
+            columnsCount={captions.length}
+            customCell="0.4fr 1fr 0.4fr"
+            paddingCollapse
+            stickyHeader
+          >
             <TableHead>
               {captions.map(cell => (
                 <TableHeadCell key={uid(cell)} label={cell.label} />
               ))}
             </TableHead>
+
             {stakes && (
-              <TableBody rowsCount={stakes.length}>
+              <TableBody>
                 {stakes.map(item => (
                   <TableRow key={uid(item)}>
-                    <TableBodyCell>
+                    <TableBodyCell label={`${captions[0].label}`}>
                       {t(`stake-statuses.${item.action}`)}
                     </TableBodyCell>
-                    <TableBodyCell>{item.transactionHash}</TableBodyCell>
-                    <TableBodyCell>
+
+                    <TableBodyCell label={`${captions[1].label}`}>
+                      <span title={item.transactionHash}>
+                        {item.transactionHash}
+                      </span>
+                    </TableBodyCell>
+
+                    <TableBodyCell label={`${captions[2].label}`}>
                       {t('unit.eth-value', { value: item.amount })}
                     </TableBodyCell>
                   </TableRow>

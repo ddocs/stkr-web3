@@ -18,7 +18,7 @@ export const GovernanceActions = {
     request: {
       promise: (async function () {
         const weiAmount = Web3.utils.toWei(amount);
-        const stkrSdk = StkrSdk.getLastInstance();
+        const stkrSdk = StkrSdk.getForEnv();
         const allowance = await stkrSdk.getAnkrGovernanceAllowance(
           stkrSdk.getKeyProvider().currentAccount(),
         );
@@ -44,11 +44,11 @@ export const GovernanceActions = {
     type: GovernanceActionTypes.FETCH_PROJECTS,
     request: {
       promise: (async function () {
-        const stkrSdk = StkrSdk.getLastInstance();
+        const stkrSdk = StkrSdk.getForEnv();
         const projects = await stkrSdk.fetchProjects();
 
         const data = await Promise.all(
-          projects.map(item =>
+          projects.map((item: any) =>
             stkrSdk.getProposalInfo(item.returnValues.proposeID),
           ),
         );
@@ -64,7 +64,7 @@ export const GovernanceActions = {
     type: GovernanceActionTypes.CREATE_PROJECT,
     request: {
       promise: (async function () {
-        const stkrSdk = StkrSdk.getLastInstance();
+        const stkrSdk = StkrSdk.getForEnv();
         const currentAccount = stkrSdk.getKeyProvider().currentAccount();
 
         const allowance = await stkrSdk.getAnkrGovernanceAllowance(
@@ -90,7 +90,7 @@ export const GovernanceActions = {
     type: GovernanceActionTypes.GET_ANKR_GOVERNANCE_ALLOWANCE,
     request: {
       promise: (async function () {
-        const stkrSdk = StkrSdk.getLastInstance();
+        const stkrSdk = StkrSdk.getForEnv();
         const allowance = await stkrSdk.getAnkrGovernanceAllowance(
           stkrSdk.getKeyProvider().currentAccount(),
         );

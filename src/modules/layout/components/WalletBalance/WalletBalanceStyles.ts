@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/styles';
 import aeth from './assets/aeth.svg';
 import ankr from './assets/ankr.svg';
 import ethereum from './assets/ethereum.svg';
+import binance from './assets/binance.svg';
 
 export const useWalletBalance = makeStyles<Theme>(theme => ({
   root: {
@@ -45,6 +46,12 @@ export const useWalletBalance = makeStyles<Theme>(theme => ({
   ethereum: {
     '&::before': {
       backgroundImage: `url(${ethereum})`,
+    },
+  },
+
+  binance: {
+    '&::before': {
+      backgroundImage: `url(${binance})`,
     },
   },
 

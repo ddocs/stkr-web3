@@ -1,4 +1,4 @@
-import { GlobalStatsReply } from '../../modules/api/gateway';
+import { IGlobalStatsReply } from '../../modules/api/gateway';
 import BigNumber from 'bignumber.js';
 import { ETH_SCALE_FACTOR } from '../../common/const';
 
@@ -13,7 +13,7 @@ export interface IGlobalStats {
   validatorCount: number;
 }
 
-export function mapGlobalStats(item: GlobalStatsReply): IGlobalStats {
+export function mapGlobalStats(item: IGlobalStatsReply): IGlobalStats {
   return {
     ...item,
     pendingEthereum: new BigNumber(

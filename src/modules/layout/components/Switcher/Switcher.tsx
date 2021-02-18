@@ -1,6 +1,7 @@
 import { SelectProps } from '@material-ui/core';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
+import classNames from 'classnames';
 import React, { ChangeEvent, useCallback, useMemo, useRef } from 'react';
 import { useHistory, useLocation } from 'react-router';
 import { uid } from 'react-uid';
@@ -87,7 +88,7 @@ export const Switcher = () => {
       onChange={handleChange}
       ref={ref}
       SelectProps={selectProps}
-      className={notSelected ? classes.empty : ''}
+      className={classNames(classes.darkened, notSelected && classes.empty)}
     >
       {items}
     </TextField>

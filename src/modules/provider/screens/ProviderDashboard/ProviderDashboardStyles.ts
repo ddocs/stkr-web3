@@ -23,13 +23,13 @@ export const useProviderDashboardStyles = makeStyles<Theme>(theme => ({
     `,
     gap: theme.spacing(1.5, 0),
     flexShrink: 0,
-    marginBottom: theme.spacing(5),
+    marginBottom: theme.spacing(3),
 
     [theme.breakpoints.up('sm')]: {
       gridTemplateColumns: '1fr auto auto',
       gap: 0,
       gridTemplateAreas: `'tabs balance link'`,
-      marginBottom: 0,
+      marginBottom: theme.spacing(2),
     },
   },
   tabs: {
@@ -37,20 +37,23 @@ export const useProviderDashboardStyles = makeStyles<Theme>(theme => ({
   },
   link: {
     gridArea: 'link',
+    minWidth: 115,
+    paddingLeft: theme.spacing(4),
+    paddingRight: theme.spacing(4),
 
     [theme.breakpoints.up('sm')]: {
       marginLeft: theme.spacing(2),
     },
   },
   linkTextShort: {
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up('md')]: {
       display: 'none',
     },
   },
   linkTextFull: {
     display: 'none',
 
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up('md')]: {
       display: 'inline',
     },
   },
@@ -64,6 +67,7 @@ export const useProviderDashboardStyles = makeStyles<Theme>(theme => ({
     gridArea: 'balance',
     display: 'flex',
     alignItems: 'center',
+    justifyContent: 'center',
     padding: theme.spacing(0.6, 1),
 
     border: `1px solid ${fade(theme.palette.common.white, 0.2)}`,

@@ -3,9 +3,9 @@ import React from 'react';
 import { makeStyles } from '@material-ui/styles';
 import { Theme } from '@material-ui/core';
 import { Address } from './Address';
-import { Providers } from '../../../../common/types';
+import { Provider } from '../../../../common/types';
 
-const useStyles = makeStyles<Theme>(theme => ({
+const useStyles = makeStyles<Theme>(() => ({
   block: {},
 }));
 
@@ -15,11 +15,11 @@ const AddressStory = () => {
     <div className={classes.block}>
       <Address
         address="0x603366e08380EceB2E334621A27eeD36F34A9D50"
-        provider={Providers.metamask}
+        provider={Provider.metamask}
       />
       <Address
         address="0x603366e08380EceB2E334621A27eeD36F34A9D50"
-        provider={Providers.wallet}
+        provider={Provider.wallet}
       />
     </div>
   );

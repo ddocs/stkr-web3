@@ -1,17 +1,18 @@
 import React, { useEffect, useMemo } from 'react';
-import { Curtains } from '../../UiKit/Curtains';
-import { usePickerStyles } from './PickerStyles';
-import { Body1, Headline4 } from '../../UiKit/Typography';
-import { t, tHTML } from '../../common/utils/intl';
-import { NavLink } from '../../UiKit/NavLink';
+import { useDispatch } from 'react-redux';
 import {
   ENABLE_PROVIDER,
   PROVIDER_MAIN_PATH,
   STAKER_DASHBOARD_PATH,
 } from '../../common/const';
-import { useDispatch } from 'react-redux';
+import { t, tHTML } from '../../common/utils/intl';
 import { useAuthentication } from '../../common/utils/useAuthentications';
 import { UserActions } from '../../store/actions/UserActions';
+import { Curtains } from '../../UiKit/Curtains';
+import { NavLink } from '../../UiKit/NavLink';
+import { Body2, Headline4 } from '../../UiKit/Typography';
+import { usePickerStyles } from './PickerStyles';
+import { useFeaturesAvailable } from '../../common/hooks/useFeaturesAvailable';
 
 interface IItemProps {
   title: string;
@@ -38,14 +39,14 @@ const Item = ({
       </Headline4>
       <ul className={classes.subList}>
         {features.map(feature => (
-          <Body1
+          <Body2
             key={feature}
             className={classes.subItem}
             component="li"
             color="secondary"
           >
             {t(feature)}
-          </Body1>
+          </Body2>
         ))}
       </ul>
       <NavLink
@@ -73,6 +74,8 @@ export const Picker = () => {
     }
   }, [dispatch, isConnected]);
 
+  const { isProviderAvailable } = useFeaturesAvailable();
+
   const DATA: Record<
     string,
     { disabled: boolean; features: string[]; comingSoon?: boolean }
@@ -87,7 +90,7 @@ export const Picker = () => {
         ],
       },
       provider: {
-        disabled: !ENABLE_PROVIDER,
+        disabled: !ENABLE_PROVIDER || !isProviderAvailable,
         comingSoon: !ENABLE_PROVIDER,
         features: [
           'picker.provider.features.1',
@@ -96,7 +99,7 @@ export const Picker = () => {
         ],
       },
     }),
-    [],
+    [isProviderAvailable],
   );
 
   const LIST: Record<string, string> = {

@@ -8,13 +8,6 @@ import { handleRequests } from '@redux-requests/core';
 import { createDriver } from '@redux-requests/promise';
 import { History } from 'history';
 import { isDev } from '../common/utils/isProd';
-import { StkrSdk } from '../modules/api';
-import {
-  DEVELOP_CONFIG,
-  GOERLI_CONFIG,
-  LOCAL_CONFIG,
-  MAINNET_CONFIG,
-} from '../modules/api/config';
 
 export interface IApplicationStore {
   store: Store;
@@ -29,31 +22,11 @@ export const runApplicationStore = ({ saga }: IApplicationStore) => {
   saga.run(rootSaga);
 };
 
-function initSdk() {
-  const env = process.env.REACT_APP_STKR_ENV
-    ? process.env.REACT_APP_STKR_ENV
-    : 'develop';
-
-  console.log(`Current environment is: ${env}`);
-
-  if (env === 'mainnet') {
-    StkrSdk.factoryDefault(MAINNET_CONFIG);
-  } else if (env === 'goerli') {
-    StkrSdk.factoryDefault(GOERLI_CONFIG);
-  } else if (env === 'develop') {
-    StkrSdk.factoryDefault(DEVELOP_CONFIG);
-  } else {
-    StkrSdk.factoryDefault(LOCAL_CONFIG);
-  }
-}
-
 export const createApplicationStore = ({
   history,
 }: {
   history: History;
 }): IApplicationStore => {
-  initSdk();
-
   const { requestsReducer, requestsMiddleware } = handleRequests({
     driver: createDriver({
       processResponse: response => ({ data: response }),

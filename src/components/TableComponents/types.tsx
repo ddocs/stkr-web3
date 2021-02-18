@@ -5,6 +5,7 @@ export interface IStyleProps {
   alignCell?: AlignType;
   defense?: boolean;
   paddingCollapse?: boolean;
+  stickyHeader?: boolean;
 }
 
 export interface ICustomProps {

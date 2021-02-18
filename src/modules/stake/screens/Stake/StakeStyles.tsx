@@ -1,5 +1,5 @@
-import { makeStyles } from '@material-ui/styles';
 import { fade, Theme } from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
 
 export const useStakeStyles = makeStyles<Theme>(theme => {
   return {
@@ -36,9 +36,10 @@ export const useStakeStyles = makeStyles<Theme>(theme => {
       display: 'grid',
       gridTemplateColumns: '100%',
       gridTemplateRows: 'auto 1fr',
-      paddingTop: theme.spacing(7),
-      [theme.breakpoints.down('xs')]: {
-        paddingTop: theme.spacing(3.5),
+      paddingTop: theme.spacing(6),
+
+      [theme.breakpoints.up('sm')]: {
+        paddingTop: theme.spacing(7),
       },
     },
     title: {
@@ -53,11 +54,12 @@ export const useStakeStyles = makeStyles<Theme>(theme => {
     },
     cancel: {
       position: 'absolute',
-      right: 25,
-      top: 28,
-      [theme.breakpoints.down('xs')]: {
-        right: 0,
-        top: 0,
+      right: 5,
+      top: 5,
+
+      [theme.breakpoints.up('sm')]: {
+        right: 25,
+        top: 28,
       },
     },
     form: {

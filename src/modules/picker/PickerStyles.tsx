@@ -1,7 +1,7 @@
 import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import * as assetsReference from './assets';
 import { getImages } from '../../common/utils/getImages';
+import * as assetsReference from './assets';
 import icon from './assets/check.svg';
 
 const assets = getImages(assetsReference);
@@ -12,13 +12,15 @@ export const usePickerStyles = makeStyles<Theme, { icon?: string }>(theme => ({
     display: 'grid',
     gridTemplateRows: '100%',
     gridTemplateColumns: '100%',
-    padding: theme.spacing(7.5, 0, 4.5),
+    padding: theme.spacing(4.5, 0),
     boxSizing: 'border-box',
-    [theme.breakpoints.down('lg')]: {
-      padding: theme.spacing(4, 0, 1),
+
+    [theme.breakpoints.up('sm')]: {
+      padding: theme.spacing(4.5, 0, 2),
     },
-    [theme.breakpoints.down('xs')]: {
-      padding: theme.spacing(3, 0),
+
+    [theme.breakpoints.up('xl')]: {
+      padding: theme.spacing(7.5, 0, 4.5),
     },
   },
   wrapper: {
@@ -26,104 +28,113 @@ export const usePickerStyles = makeStyles<Theme, { icon?: string }>(theme => ({
     gridTemplateRows: '100%',
     gridTemplateColumns: '100%',
   },
+
   list: {
     display: 'grid',
-    gridTemplateColumns: '1fr 1fr',
-    gridTemplateRows: '100%',
     width: '100%',
     maxWidth: 1170,
-    maxHeight: 650,
-    height: '100%',
     margin: 'auto',
     padding: 0,
     listStyle: 'none',
-    [theme.breakpoints.down('sm')]: {
-      maxHeight: 670,
-    },
-    [theme.breakpoints.down('xs')]: {
-      gridTemplateColumns: '100%',
-      gridTemplateRows: 'auto auto',
-      height: 'auto',
-      maxHeight: 'none',
+    gap: theme.spacing(2, 0),
+
+    [theme.breakpoints.up('sm')]: {
+      gridTemplateColumns: '1fr 1fr',
+      gap: '0',
     },
   },
+
   item: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     width: '100%',
-    padding: theme.spacing(5.25, 11.25),
+    padding: theme.spacing(3, 2.5, 2.5),
     boxSizing: 'border-box',
     border: `1px solid #3F3F3F`,
     transitionTimingFunction: 'linear',
     transitionDuration: '300ms',
     transitionProperty: 'background-color',
-    [theme.breakpoints.down('lg')]: {
-      padding: theme.spacing(5.25, 8),
-    },
-    [theme.breakpoints.down('md')]: {
-      padding: theme.spacing(5.25, 5.5),
-    },
-    [theme.breakpoints.down('sm')]: {
+
+    [theme.breakpoints.up('sm')]: {
       padding: theme.spacing(5.25, 3.5),
     },
-    [theme.breakpoints.down('xs')]: {
-      padding: theme.spacing(3, 3),
+
+    [theme.breakpoints.up('md')]: {
+      padding: theme.spacing(5.25, 5.5),
     },
+
+    [theme.breakpoints.up('lg')]: {
+      padding: theme.spacing(5.25, 8),
+    },
+
+    [theme.breakpoints.up('xl')]: {
+      padding: theme.spacing(7.5, 11.25),
+    },
+
     '&::before': {
+      flexShrink: 0,
       position: 'relative',
       content: '""',
       display: 'block',
-      width: 165,
-      height: 165,
-      marginBottom: theme.spacing(3),
+      width: '1em',
+      height: '1em',
+      fontSize: 135,
+      marginBottom: theme.spacing(2),
       backgroundImage: props =>
         props.icon ? `url(${assets[props.icon.toLowerCase()]})` : undefined,
       backgroundPosition: 'center',
       backgroundRepeat: 'no-repeat',
       backgroundSize: 'contain',
-      [theme.breakpoints.down('md')]: {
-        width: 135,
-        height: 135,
-      },
-      [theme.breakpoints.down('xs')]: {
-        width: 95,
-        height: 95,
+
+      [theme.breakpoints.up('md')]: {
+        fontSize: 145,
+        marginBottom: theme.spacing(5),
       },
     },
+
     '&:first-child': {
       [theme.breakpoints.up('sm')]: {
         borderRight: 0,
-      },
-      [theme.breakpoints.down('xs')]: {
-        borderBottom: 0,
+        borderRadius: '64px 0 0 64px',
       },
     },
+
+    '&:last-child': {
+      [theme.breakpoints.up('sm')]: {
+        borderRadius: '0 64px 64px 0',
+      },
+    },
+
     '&:hover': {
       backgroundColor: '#161616',
     },
   },
+
   caption: {
-    flexShrink: 0,
-    margin: 0,
     textAlign: 'center',
+
     [theme.breakpoints.down('xs')]: {
       fontSize: 18,
     },
+
+    [theme.breakpoints.up('sm')]: {
+      margin: theme.spacing(0, 0, 4),
+    },
   },
+
   subList: {
-    margin: 0,
-    marginTop: theme.spacing(8),
-    marginBottom: theme.spacing(2),
-    padding: 0,
-    listStyle: 'none',
-    [theme.breakpoints.down('lg')]: {
-      marginTop: theme.spacing(6),
-    },
-    [theme.breakpoints.down('xs')]: {
-      display: 'none',
+    display: 'none',
+
+    [theme.breakpoints.up('sm')]: {
+      display: 'block',
+      margin: 0,
+      marginBottom: theme.spacing(4),
+      padding: 0,
+      listStyle: 'none',
     },
   },
+
   subItem: {
     '&&': {
       display: 'flex',
@@ -152,11 +163,13 @@ export const usePickerStyles = makeStyles<Theme, { icon?: string }>(theme => ({
       },
     },
   },
+
   link: {
     width: '100%',
-    marginTop: 'auto',
-    [theme.breakpoints.down('xs')]: {
-      marginTop: theme.spacing(3),
+    marginTop: theme.spacing(3),
+
+    [theme.breakpoints.up('sm')]: {
+      marginTop: 'auto',
     },
   },
 }));

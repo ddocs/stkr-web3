@@ -1,6 +1,5 @@
-import { makeStyles } from '@material-ui/styles';
-import { DEFENSE_HEADER_HEIGHT, HEADER_HEIGHT } from '../const';
 import { createStyles, Theme } from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
 
 export const useCellStyles = makeStyles<
   Theme,
@@ -15,26 +14,30 @@ export const useCellStyles = makeStyles<
       paddingRight: theme.spacing(4.5),
       fontWeight: 400,
       textAlign: 'left',
+
       '&:first-child': {
         paddingLeft: props => (props.paddingCollapse ? 0 : theme.spacing(3.75)),
       },
+
       '&:last-child': {
         paddingRight: props =>
           props.paddingCollapse ? 0 : theme.spacing(3.75),
       },
+
       '&$centerCell': {
         textAlign: 'center',
       },
+
       '&$leftCell': {
         textAlign: 'left',
       },
+
       '&$rightCell': {
         textAlign: 'right',
       },
     },
+
     headCell: {
-      minHeight: props =>
-        props.defense ? DEFENSE_HEADER_HEIGHT : HEADER_HEIGHT,
       paddingTop: props =>
         props.defense ? theme.spacing(0.75) : theme.spacing(1.5),
       paddingBottom: props =>
@@ -44,9 +47,11 @@ export const useCellStyles = makeStyles<
       lineHeight: 1.5,
       color: theme.palette.text.secondary,
     },
+
     centerCell: {},
     leftCell: {},
     rightCell: {},
+
     content: {
       fontSize: 14,
       width: '100%',

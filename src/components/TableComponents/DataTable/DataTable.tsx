@@ -1,24 +1,19 @@
 import React from 'react';
+import { uid } from 'react-uid';
+import { Table } from '../Table';
+import { TableBody } from '../TableBody';
+import { TableBodyCell } from '../TableBodyCell';
+import { TableHead } from '../TableHead';
+import { TableHeadCell } from '../TableHeadCell';
+import { TableRow } from '../TableRow';
 import {
   ICustomProps,
   IStyleProps,
   ITablesCaptionProps,
   ITablesRowProps,
 } from '../types';
-import { uid } from 'react-uid';
-import { TableBodyCell } from '../TableBodyCell';
-import { TableRow } from '../TableRow';
-import { TableHead } from '../TableHead';
-import { TableBody } from '../TableBody';
-import { TableHeadCell } from '../TableHeadCell';
-import { Table } from '../Table';
-import { WithStyles } from '@material-ui/core';
-import { tableStyles } from '../Table/TableStyles';
 
-interface IDataTableProps
-  extends Partial<WithStyles<typeof tableStyles>>,
-    ICustomProps,
-    IStyleProps {
+interface IDataTableProps extends ICustomProps, IStyleProps {
   className?: string;
   captions: ITablesCaptionProps[];
   rows: ITablesRowProps[];
@@ -37,11 +32,15 @@ export const DataTableComponent = ({
         ))}
       </TableHead>
       {rows && (
-        <TableBody rowsCount={rows.length}>
+        <TableBody>
           {rows.map(row => (
             <TableRow key={uid(row)}>
               {captions.map(cell => (
-                <TableBodyCell key={cell.key} align={cell.align}>
+                <TableBodyCell
+                  key={cell.key}
+                  align={cell.align}
+                  label={`${cell.label}`}
+                >
                   {row.data[cell.key]}
                 </TableBodyCell>
               ))}

@@ -1,7 +1,13 @@
 const ENABLE_WALLET_CONNECT = false;
 const ENABLE_TRUST_CONNECT = false;
+const ENABLE_BINANCE_CONNECT = true;
 
-export const PROVIDERS: Record<string, any> = {
+export interface IProvider {
+  caption: string;
+  available: boolean;
+}
+
+export const PROVIDERS: Record<string, IProvider> = {
   metamask: {
     caption: 'providers.metamask',
     available: true,
@@ -13,5 +19,9 @@ export const PROVIDERS: Record<string, any> = {
   wallet: {
     caption: 'providers.wallet',
     available: ENABLE_WALLET_CONNECT,
+  },
+  binance: {
+    caption: 'providers.binance',
+    available: ENABLE_BINANCE_CONNECT,
   },
 };
