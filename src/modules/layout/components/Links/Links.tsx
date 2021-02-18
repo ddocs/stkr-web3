@@ -18,6 +18,7 @@ import { NavLink } from '../../../../UiKit/NavLink';
 import { Medium, Telegram, Twitter } from '../Icons/Icons';
 import { useLinksStyles } from './LinksStyles';
 import { Blockchain, Provider } from '../../../../common/types';
+import { useFeaturesAvailable } from '../../../../common/hooks/useFeaturesAvailable';
 
 export interface ILinksProps {
   className?: string;
@@ -51,6 +52,7 @@ export const Links = ({ className, isAuth, blockchainType }: ILinksProps) => {
   const isMDDown = useIsMDDown();
   const classes = useLinksStyles();
   const [open, setOpen] = useState(false);
+  const { isProviderAvailable } = useFeaturesAvailable();
 
   const handleMobileOpen = useCallback(() => {
     if (open) {
@@ -76,9 +78,9 @@ export const Links = ({ className, isAuth, blockchainType }: ILinksProps) => {
           ? GOVERNANCE_PROJECT_LIST_PATH
           : '',
       staker: isAuth && isMDDown ? STAKER_DASHBOARD_PATH : '',
-      provider: isAuth && isMDDown ? PROVIDER_PATH : '',
+      provider: isAuth && isProviderAvailable && isMDDown ? PROVIDER_PATH : '',
     }),
-    [blockchainType, isAuth, isMDDown],
+    [blockchainType, isAuth, isMDDown, isProviderAvailable],
   );
 
   return (
