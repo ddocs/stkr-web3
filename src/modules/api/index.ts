@@ -219,7 +219,7 @@ export class StkrSdk implements IStkrSdk {
       1: 'https://etherscan.io/tx/{value}',
       5: 'https://goerli.etherscan.io/tx/{value}',
       56: 'https://testnet.bscscan.com/tx/{value}',
-      97: 'https://testnet.bscscan.com/tx/{value}',
+      97: 'https://bscscan.com/tx/{value}',
     };
     return (urls[network] || '').replace('{value}', txHash);
   }
