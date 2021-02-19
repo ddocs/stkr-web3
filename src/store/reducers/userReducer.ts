@@ -1,8 +1,8 @@
 import { success } from '@redux-requests/core';
 import { Action } from 'redux-actions';
 import { Locale } from '../../common/types';
-import { createAPIReducer } from '../../common/utils/createAPIReducer';
-import { createReducer } from '../../common/utils/createReducer';
+import { createAPIReducer } from '../../common/utils/redux/createAPIReducer';
+import { createReducer } from '../../common/utils/redux/createReducer';
 import {
   requestInactive,
   RequestStatus,

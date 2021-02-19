@@ -104,7 +104,7 @@ function* listenKeyProviderEvents() {
         // TODO test it
         yield put(
           UserActions.updateStakerStats({
-            aEthClaimableBalance: event.data.balance,
+            claimableAETHRewardOf: event.data.balance,
           }),
         );
       } else if (event.type === ContractManagerEvents.StakePending) {
