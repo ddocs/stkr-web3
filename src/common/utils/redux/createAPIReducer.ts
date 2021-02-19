@@ -4,7 +4,7 @@ import {
   requestInactive,
   requestInProgress,
   requestSuccessful,
-} from './requestStatus';
+} from '../requestStatus';
 import { Action } from 'redux-actions';
 
 export const createAPIReducer = <

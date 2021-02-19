@@ -1,12 +1,17 @@
-import Stkr, { GovernanceEvents, VoteStatus } from '@ankr.com/stkr-jssdk';
+import Stkr, {
+  BlockchainNetworkId,
+  GovernanceEvents,
+  VoteStatus,
+} from '@ankr.com/stkr-jssdk';
 import { SendOptions } from 'web3-eth-contract';
 import { KeyProvider } from './provider';
+import BigNumber from 'bignumber.js';
 
-export interface IGovernanceManager {}
+export interface IJssdkManager {}
 
 const ERROR_SDK_NOT_INITIALIZED = new Error("Stkr SDK hasn't been initialized");
 
-export class GovernanceManager implements IGovernanceManager {
+export class JssdkManager implements IJssdkManager {
   private stkr: Stkr | undefined = undefined;
 
   public constructor(keyProvider: KeyProvider) {
@@ -14,7 +19,11 @@ export class GovernanceManager implements IGovernanceManager {
       .getWeb3()
       .eth.net.getId()
       .then(networkId => {
-        if ([1, 5].includes(networkId)) {
+        if (
+          [BlockchainNetworkId.mainnet, BlockchainNetworkId.goerli].includes(
+            networkId,
+          )
+        ) {
           this.stkr = new Stkr(keyProvider.getWeb3(), networkId);
         }
       });
@@ -80,5 +89,47 @@ export class GovernanceManager implements IGovernanceManager {
       throw ERROR_SDK_NOT_INITIALIZED;
     }
     return this.stkr.getProposalInfo(proposalId);
+  }
+
+  public async claimableAETHRewardOf(staker: string) {
+    if (!this.stkr) {
+      throw ERROR_SDK_NOT_INITIALIZED;
+    }
+    return new BigNumber(await this.stkr.claimableAETHRewardOf(staker));
+  }
+
+  public async claimableAETHFRewardOf(staker: string) {
+    if (!this.stkr) {
+      throw ERROR_SDK_NOT_INITIALIZED;
+    }
+    return new BigNumber(await this.stkr.claimableAETHFRewardOf(staker));
+  }
+
+  public async fEthBalanceOf(staker: string) {
+    if (!this.stkr) {
+      throw ERROR_SDK_NOT_INITIALIZED;
+    }
+    return new BigNumber(await this.stkr.fEthBalanceOf(staker));
+  }
+
+  public async aEthBalanceOf(staker: string) {
+    if (!this.stkr) {
+      throw ERROR_SDK_NOT_INITIALIZED;
+    }
+    return new BigNumber(await this.stkr.aEthBalanceOf(staker));
+  }
+
+  public async claimAETH(options?: SendOptions) {
+    if (!this.stkr) {
+      throw ERROR_SDK_NOT_INITIALIZED;
+    }
+    return this.stkr.contracts.GlobalPool.claimAETH(options);
+  }
+
+  public async claimFETH(options?: SendOptions) {
+    if (!this.stkr) {
+      throw ERROR_SDK_NOT_INITIALIZED;
+    }
+    return this.stkr.contracts.GlobalPool.claimFETH(options);
   }
 }

@@ -195,7 +195,8 @@
     "ankr-allowed": "{value} ANKR allowed"
   },
   "staked-dashboard": {
-    "staked": "Total staked",
+    "title": "Staker dashboard",
+    "staked": "ETH to be claimed",
     "stake-more": "Stake more",
     "current-a-eth-balance": "Current balance",
     "redeem": "Redeem",
@@ -365,12 +366,14 @@
     "day-value": "{value, plural, =1 {# day} other {# days}}",
     "vote-value": "{value, plural, =1 {# vote} other {# votes}}",
     "aeth-value": "{value, number} aETH",
+    "feth-value": "{value, number} fETH",
     "eth": "ETH",
     "peg-eth": "{value, number} Peg-ETH",
     "~eth-value": "~{value, number} ETH",
     "aeth": "aETH",
-    "separated-eth-value": "{value, number}<span class=\"unit\"> ETH</span>",
-    "separated-aeth-value": "{value, number}<span class=\"unit\"> aETH</span>",
+    "separated-eth-value": "{value, number}<span class=\"unit\">ETH</span>",
+    "separated-aeth-value": "{value, number}<span class=\"unit\">aETH</span>",
+    "separated-feth-value": "{value, number}<span class=\"unit\">fETH</span>",
     "number-value": "{value, number}",
     "~months-value": "~{value, number} mo"
   },
@@ -561,6 +564,39 @@
       "3": "3. Fill in the following parameters:<br/>Network name: Binance Smart Chain<br/>New RPC URL: https://bsc-dataseed.binance.org<br/>ChainID: 56<br/>Symbol: BNB<br/>Block Explorer: https://bscscan.com",
       "4": "4. Now switch in the menu from Mainnet Ethereum Network to Binance Smart Chain and you will see the default currency change from ETH to BNB.",
       "5": "5. Click Launch App button to connect your MetaMask account. You will automatically taken to the converter page."
+    }
+  },
+  "balance": {
+    "token-name": {
+      "aETH": "aETH balance",
+      "fETH": "fETH balance"
+    },
+    "tip": {
+      "aETH": "With aETH, rewards are built in to the token price, so as time passes, the token becomes more valuable. Once Ethereum 2.0 Phase 1.5 is released, you can redeem your aETH for your original ETH plus accumulated rewards.",
+      "fETH": "This is always worth approximately 1 ETH, however by holding this token you can receive continual rewards, paid in additional fETH, meaning your rewards are compounded. The value of your fETH however is unlikely to rise above that of ETH over time."
+    },
+    "price": {
+      "aETH": "1aETH={value, number}ETH",
+      "fETH": "1fETH={value, number}ETH"
+    },
+    "amount": {
+      "aETH": "{value, number}<span class=\"unit\"> aETH</span>",
+      "fETH": "{value, number}<span class=\"unit\"> fETH</span>"
+    }
+  },
+  "claim-dialog": {
+    "title": "Which token would you prefer?",
+    "token-name": {
+      "aETH": "aETH",
+      "fETH": "fETH"
+    },
+    "description": {
+      "aETH": "With aETH, rewards are built in to the token price, so as time passes, the token becomes more valuable. Once Ethereum 2.0 Phase 1.5 is released, you can redeem your aETH for your original ETH plus accumulated rewards.",
+      "fETH": "This is always worth approximately 1 ETH, however by holding this token you can receive continual rewards, paid in additional fETH, meaning your rewards are compounded. The value of your fETH however is unlikely to rise above that of ETH over time."
+    },
+    "submit": {
+      "aETH": "Claim {value, number} aETH",
+      "fETH": "Claim {value, number} fETH"
     }
   }
 }

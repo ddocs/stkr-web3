@@ -18,6 +18,7 @@ import { fade } from '@material-ui/core';
 import { getNetworkName } from '../../common/utils/getNetworkName';
 import { KeyProviderEvents } from './event';
 import { Transaction } from 'ethereumjs-tx';
+import { ENABLE_BINANCE_CONNECT } from '../layout/components/const';
 
 export interface IProviderConfig {
   ethereumChainId: BlockchainNetworkId;
@@ -182,36 +183,44 @@ export class Web3ModalKeyProvider extends KeyProvider {
     this.binanceWallet = false;
     // TODO Move up the provider creation
     const providerOptions: IProviderOptions = {
-      'custom-binancewallet': {
-        display: {
-          logo: binanceWalletLogo,
-          name: 'Binance Chain',
-          description: 'Binance Chain & Smart Chain Wallet',
-        },
-        package: WalletConnectProvider,
-        options: {},
-        connector: async () => {
-          const bsc = new BscConnector({
-            // 56 - mainnet
-            // 97 - testnet
-            supportedChainIds: [56, 97],
-          });
-          const connectionResult = await bsc.activate();
-          console.log(
-            `BSC is connected: ${JSON.stringify(connectionResult, null, 2)}`,
-          );
-          const account = await bsc.getAccount(),
-            chain = await bsc.getChainId();
-          console.log(`Detected BSC account: ${account}`);
-          console.log(`Detected BSC chain: ${chain}`);
-          this.chainId = parseInt(
-            `${chain}`,
-            `${chain}`.startsWith('0x') ? 16 : 10,
-          );
-          this.binanceWallet = true;
-          return await bsc.getProvider();
-        },
-      },
+      ...(ENABLE_BINANCE_CONNECT
+        ? {
+            'custom-binancewallet': {
+              display: {
+                logo: binanceWalletLogo,
+                name: 'Binance Chain',
+                description: 'Binance Chain & Smart Chain Wallet',
+              },
+              package: WalletConnectProvider,
+              options: {},
+              connector: async () => {
+                const bsc = new BscConnector({
+                  // 56 - mainnet
+                  // 97 - testnet
+                  supportedChainIds: [56, 97],
+                });
+                const connectionResult = await bsc.activate();
+                console.log(
+                  `BSC is connected: ${JSON.stringify(
+                    connectionResult,
+                    null,
+                    2,
+                  )}`,
+                );
+                const account = await bsc.getAccount(),
+                  chain = await bsc.getChainId();
+                console.log(`Detected BSC account: ${account}`);
+                console.log(`Detected BSC chain: ${chain}`);
+                this.chainId = parseInt(
+                  `${chain}`,
+                  `${chain}`.startsWith('0x') ? 16 : 10,
+                );
+                this.binanceWallet = true;
+                return await bsc.getProvider();
+              },
+            },
+          }
+        : {}),
       'custom-imtoken': {
         display: {
           logo: imTokenLogo,
