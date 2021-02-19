@@ -140,8 +140,10 @@ const RenderForm = ({
                   </Body1>
                 </Field>
 
-                <MutationErrorHandler type={ConvertActions.convert as any} />
-                <Mutation type={ConvertActions.convert as any}>
+                <MutationErrorHandler
+                  type={ConvertActions.convert.toString()}
+                />
+                <Mutation type={ConvertActions.convert.toString()}>
                   {({ loading }) => (
                     <Box maxWidth={220} width="100%">
                       <Button

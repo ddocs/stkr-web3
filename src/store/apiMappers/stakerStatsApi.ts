@@ -15,11 +15,13 @@ export interface IStakeHistoryItem {
 }
 
 export interface IStakerStats {
-  aEthClaimableBalance: BigNumber;
   aEthBalance: BigNumber;
   aEthRatio: BigNumber;
+  fEthBalance: BigNumber;
   pendingStake: BigNumber;
   stakes: IStakeHistoryItem[];
+  claimableAETHRewardOf: BigNumber;
+  claimableAETHFRewardOf: BigNumber;
 }
 
 function mapStakeHistoryItem(data: IUserStakeReply): IStakeHistoryItem {
@@ -35,17 +37,21 @@ function mapStakeHistoryItem(data: IUserStakeReply): IStakeHistoryItem {
 
 export function mapStakerStats(
   data: StakerStats & {
-    aEthClaimableBalance: string;
-    aEthBalance: string;
+    aEthBalance: BigNumber; // was string, now using JSSDK
+    fEthBalance: BigNumber;
     aEthRatio: BigNumber;
     pendingStake: BigNumber;
+    claimableAETHRewardOf: BigNumber;
+    claimableAETHFRewardOf: BigNumber;
   },
 ): IStakerStats {
   return {
     stakes: data.stakes.map(mapStakeHistoryItem).reverse(),
-    aEthClaimableBalance: new BigNumber(data.aEthClaimableBalance),
-    aEthBalance: new BigNumber(data.aEthBalance),
+    aEthBalance: data.aEthBalance,
     aEthRatio: data.aEthRatio,
     pendingStake: data.pendingStake,
+    claimableAETHRewardOf: data.claimableAETHRewardOf,
+    claimableAETHFRewardOf: data.claimableAETHFRewardOf,
+    fEthBalance: data.fEthBalance,
   };
 }

@@ -17,8 +17,11 @@ export enum Blockchain {
   binance = 'binance',
 }
 
-export interface IRequestActionPromiseData<T = any> {
+export interface IRequestActionPromiseData<T = any, D = any, E = any> {
   action: Action<T>;
+  data: D;
+  error: E;
+  isAborted: boolean;
 }
 
 export type Seconds = number;

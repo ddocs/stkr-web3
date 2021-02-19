@@ -4,7 +4,7 @@ import BigNumber from 'bignumber.js';
 import { replace } from 'connected-react-router';
 import { generatePath } from 'react-router';
 import { Store } from 'redux';
-import { createAction } from 'redux-actions';
+import { createAction } from 'redux-smart-actions';
 import { CONVERT_ROUTE, PICKER_PATH } from '../../common/const';
 import { Blockchain, DepositType, Locale, Provider } from '../../common/types';
 import { authenticatedRequestGuard } from '../../common/utils/authenticatedRequestGuard';
@@ -68,8 +68,6 @@ export const UserActionTypes = {
   STAKE: 'STAKE',
 
   UNSTAKE: 'UNSTAKE',
-
-  CLAIM_A_ETH: 'CLAIM_A_ETH',
 
   FETCH_STAKER_STATS: 'FETCH_STAKER_STATS',
 
@@ -340,21 +338,56 @@ export const UserActions = {
   fetchStakerStats: () => ({
     type: UserActionTypes.FETCH_STAKER_STATS,
     request: {
-      promise: (async function () {
+      promise: (async function (): Promise<IStakerStats> {
         const stkrSdk = StkrSdk.getForEnv();
-        const aEthClaimableBalance = await stkrSdk.getClaimableAethBalance();
+
+        const address = stkrSdk.getKeyProvider().currentAccount();
+
+        // TODO Fetch balances on smartchain
+        const balanceData = await (async () => {
+          try {
+            const claimableAETHRewardOf = new BigNumber(
+              await stkrSdk.getJssdkManager().claimableAETHRewardOf(address),
+            );
+
+            const claimableAETHFRewardOf = new BigNumber(
+              await stkrSdk.getJssdkManager().claimableAETHFRewardOf(address),
+            );
+
+            const aEthBalance = await stkrSdk
+              .getJssdkManager()
+              .aEthBalanceOf(address);
+
+            const fEthBalance = await stkrSdk
+              .getJssdkManager()
+              .fEthBalanceOf(address);
+
+            return {
+              claimableAETHRewardOf,
+              claimableAETHFRewardOf,
+              aEthBalance,
+              fEthBalance,
+            };
+          } catch (error) {
+            return {
+              claimableAETHRewardOf: new BigNumber(0),
+              claimableAETHFRewardOf: new BigNumber(0),
+              aEthBalance: new BigNumber(0),
+              fEthBalance: new BigNumber(0),
+            };
+          }
+        })();
 
         const aEthRatio = await stkrSdk.getAethRatio();
-        const aEthBalance = await stkrSdk.getAethBalance();
+
         const pendingStake = await stkrSdk.pendingStakesOf(
           stkrSdk.getKeyProvider().currentAccount(),
         );
 
         return {
-          aEthClaimableBalance,
-          aEthBalance: aEthBalance,
           aEthRatio,
           pendingStake,
+          ...balanceData,
           ...(await stkrSdk.getStakerStats()),
         };
       })(),
@@ -431,18 +464,48 @@ export const UserActions = {
       },
     };
   },
-  claimAeth: () => ({
-    type: UserActionTypes.CLAIM_A_ETH,
+  claimAETH: createAction('CLAIM_A_ETH', () => ({
     request: {
       promise: (async function () {
         const stkrSdk = StkrSdk.getForEnv();
-        return stkrSdk.claimAeth();
+        const currentAccount = stkrSdk.getKeyProvider().currentAccount();
+        return stkrSdk.getJssdkManager().claimAETH({ from: currentAccount });
       })(),
     },
     meta: {
       asMutation: true,
+      onSuccess: (
+        request: { data: IConnectResult },
+        action: RequestAction,
+        store: Store<IStoreState>,
+      ) => {
+        store.dispatch(UserActions.fetchStakerStats());
+
+        return request;
+      },
     },
-  }),
+  })),
+  claimFETH: createAction('CLAIM_F_ETH', () => ({
+    request: {
+      promise: (async function () {
+        const stkrSdk = StkrSdk.getForEnv();
+        const currentAccount = stkrSdk.getKeyProvider().currentAccount();
+        return stkrSdk.getJssdkManager().claimFETH({ from: currentAccount });
+      })(),
+    },
+    meta: {
+      asMutation: true,
+      onSuccess: (
+        request: { data: IConnectResult },
+        action: RequestAction,
+        store: Store<IStoreState>,
+      ) => {
+        store.dispatch(UserActions.fetchStakerStats());
+
+        return request;
+      },
+    },
+  })),
   topUp: (amount: BigNumber, type: DepositType) => ({
     type: UserActionTypes.TOP_UP,
     request: {

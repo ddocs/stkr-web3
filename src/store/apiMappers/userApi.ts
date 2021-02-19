@@ -8,6 +8,7 @@ export interface IUserInfo {
   ethereumBalance: BigNumber;
   ankrBalance: BigNumber;
   aEthBalance: BigNumber;
+  fEthBalance: BigNumber;
   nativeBalance: BigNumber;
   bnbBalance?: BigNumber;
   stakingFeeRate?: BigNumber;

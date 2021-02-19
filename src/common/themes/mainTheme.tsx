@@ -210,6 +210,9 @@ const mainTheme = createMuiTheme({
       rounded: {
         borderRadius: 32,
 
+        [defaultTheme.breakpoints.up('xs')]: {
+          padding: 24,
+        },
         [defaultTheme.breakpoints.up('sm')]: {
           padding: 45,
         },

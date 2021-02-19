@@ -22,7 +22,7 @@ import { EventEmitter } from 'events';
 import { ContractManagerEvent } from './event';
 import { SendOptions } from 'web3-eth-contract';
 import { VoteStatus } from '@ankr.com/stkr-jssdk';
-import { GovernanceManager } from './governance';
+import { JssdkManager } from './jssdk';
 
 interface IStakerSdk {
   allowTokens(remainingAllowance?: BigNumber): Promise<ISendAsyncResult>;
@@ -45,7 +45,8 @@ interface IStakerSdk {
 
   getStakerStats(): Promise<IStakerStats>;
 
-  claimAeth(): Promise<ISendAsyncResult>;
+  // claimAETH(): Promise<ISendAsyncResult>;
+  // claimFETH(): Promise<ISendAsyncResult>;
 
   getAethRatio(): Promise<BigNumber>;
 
@@ -107,7 +108,7 @@ interface IGovernanceSdk {
 export interface IStkrSdk extends IStakerSdk, IProviderSdk, IGovernanceSdk {
   createExplorerLink(txHash: string): string;
 
-  authorizeProvider(ttl?: number): Promise<string>;
+  authorizeProvider(ttl?: number): Promise<{ token: string }>;
 
   isAuthorized(token?: string): Promise<boolean>;
 
@@ -115,7 +116,7 @@ export interface IStkrSdk extends IStakerSdk, IProviderSdk, IGovernanceSdk {
 
   getKeyProvider(): KeyProvider;
 
-  getGovernanceManager(): GovernanceManager;
+  getJssdkManager(): JssdkManager;
 
   getApiGateway(): ApiGateway;
 
@@ -149,7 +150,7 @@ export class StkrSdk implements IStkrSdk {
     return StkrSdk._cachedSdk;
   }
 
-  private governanceManager: GovernanceManager | null = null;
+  private jssdkManager: JssdkManager | null = null;
   private keyProvider: KeyProvider | null = null;
   private contractManager: IContractManager | null = null;
 
@@ -190,7 +191,7 @@ export class StkrSdk implements IStkrSdk {
       );
     }
     await this.contractManager.connect();
-    this.governanceManager = new GovernanceManager(this.keyProvider);
+    this.jssdkManager = new JssdkManager(this.keyProvider);
     return result;
   }
 
@@ -226,7 +227,7 @@ export class StkrSdk implements IStkrSdk {
 
   private static readonly TWELVE_HOURS = 12 * 60 * 60 * 1000;
 
-  public async authorizeProvider(ttl?: number): Promise<string> {
+  public async authorizeProvider(ttl?: number): Promise<{ token: string }> {
     if (!this.keyProvider) {
       throw new Error('Key provider must be connected');
     }
@@ -234,7 +235,7 @@ export class StkrSdk implements IStkrSdk {
       ttl || StkrSdk.TWELVE_HOURS,
     );
     await this.apiGateway.authorizeWithSignedData(token);
-    return token;
+    return { token };
   }
 
   public async isAuthorized(token?: string): Promise<boolean> {
@@ -368,9 +369,9 @@ export class StkrSdk implements IStkrSdk {
     return this.contractManager;
   }
 
-  public getGovernanceManager(): GovernanceManager {
-    if (!this.governanceManager) throw new Error(`Governance is not available`);
-    return this.governanceManager;
+  public getJssdkManager(): JssdkManager {
+    if (!this.jssdkManager) throw new Error(`Jssdk is not available`);
+    return this.jssdkManager;
   }
 
   public async getClaimableAethBalance(): Promise<BigNumber> {
@@ -469,9 +470,9 @@ export class StkrSdk implements IStkrSdk {
     return { stakes };
   }
 
-  public async claimAeth(): Promise<ISendAsyncResult> {
-    return await this.getContractManager().claim();
-  }
+  // public async claimAETH(): Promise<ISendAsyncResult> {
+  //   return await this.getContractManager().claim();
+  // }
 
   public async topUpETH(amount: BigNumber): Promise<ISendAsyncResult> {
     return await this.getContractManager().topUpETH(amount);
@@ -501,11 +502,11 @@ export class StkrSdk implements IStkrSdk {
     vote: VoteStatus,
     options?: SendOptions,
   ) {
-    return this.getGovernanceManager().vote(proposalId, vote, options);
+    return this.getJssdkManager().vote(proposalId, vote, options);
   }
 
   public async fetchProjects() {
-    return this.getGovernanceManager().fetchProjects();
+    return this.getJssdkManager().fetchProjects();
   }
 
   public async createProject(
@@ -514,7 +515,7 @@ export class StkrSdk implements IStkrSdk {
     content: string,
     options?: SendOptions,
   ) {
-    return this.getGovernanceManager().createProject(
+    return this.getJssdkManager().createProject(
       timeSpan,
       topic,
       content,
@@ -523,18 +524,18 @@ export class StkrSdk implements IStkrSdk {
   }
 
   public async faucet(options?: SendOptions) {
-    return this.getGovernanceManager().faucet(options);
+    return this.getJssdkManager().faucet(options);
   }
 
   public async setAnkrAllowance(amount: string, options?: SendOptions) {
-    return this.getGovernanceManager().setAnkrAllowance(amount, options);
+    return this.getJssdkManager().setAnkrAllowance(amount, options);
   }
 
   public async getAnkrGovernanceAllowance(owner: string) {
-    return this.getGovernanceManager().getAnkrGovernanceAllowance(owner);
+    return this.getJssdkManager().getAnkrGovernanceAllowance(owner);
   }
 
   public async getProposalInfo(proposalId: string) {
-    return this.getGovernanceManager().getProposalInfo(proposalId);
+    return this.getJssdkManager().getProposalInfo(proposalId);
   }
 }

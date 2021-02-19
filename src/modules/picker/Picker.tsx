@@ -1,13 +1,10 @@
-import React, { useEffect, useMemo } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useMemo } from 'react';
 import {
   ENABLE_PROVIDER,
   PROVIDER_MAIN_PATH,
   STAKER_DASHBOARD_PATH,
 } from '../../common/const';
 import { t, tHTML } from '../../common/utils/intl';
-import { useAuthentication } from '../../common/utils/useAuthentications';
-import { UserActions } from '../../store/actions/UserActions';
 import { Curtains } from '../../UiKit/Curtains';
 import { NavLink } from '../../UiKit/NavLink';
 import { Body2, Headline4 } from '../../UiKit/Typography';
@@ -65,14 +62,6 @@ const Item = ({
 
 export const Picker = () => {
   const classes = usePickerStyles({});
-  const dispatch = useDispatch();
-  const { isConnected } = useAuthentication();
-
-  useEffect(() => {
-    if (isConnected) {
-      dispatch(UserActions.fetchStakerStats());
-    }
-  }, [dispatch, isConnected]);
 
   const { isProviderAvailable } = useFeaturesAvailable();
 
