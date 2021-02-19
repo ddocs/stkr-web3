@@ -373,7 +373,7 @@ export const UserActions = {
         const stkrSdk = StkrSdk.getForEnv();
         const providerEthBalance = await stkrSdk
           .getContractManager()
-          .etherBalanceOf(stkrSdk.getKeyProvider().currentAccount());
+          .providerLockedEtherOf(stkrSdk.getKeyProvider().currentAccount());
         return { providerEthBalance };
       })(),
     },
