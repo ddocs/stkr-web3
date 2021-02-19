@@ -4,7 +4,8 @@ import BigNumber from 'bignumber.js';
 import { replace } from 'connected-react-router';
 import { generatePath } from 'react-router';
 import { Store } from 'redux';
-import { createAction } from 'redux-smart-actions';
+import { createAction } from 'redux-actions';
+import { createAction as createSmartAction } from 'redux-smart-actions';
 import { CONVERT_ROUTE, PICKER_PATH } from '../../common/const';
 import { Blockchain, DepositType, Locale, Provider } from '../../common/types';
 import { authenticatedRequestGuard } from '../../common/utils/authenticatedRequestGuard';
@@ -464,7 +465,7 @@ export const UserActions = {
       },
     };
   },
-  claimAETH: createAction('CLAIM_A_ETH', () => ({
+  claimAETH: createSmartAction('CLAIM_A_ETH', () => ({
     request: {
       promise: (async function () {
         const stkrSdk = StkrSdk.getForEnv();
@@ -485,7 +486,7 @@ export const UserActions = {
       },
     },
   })),
-  claimFETH: createAction('CLAIM_F_ETH', () => ({
+  claimFETH: createSmartAction('CLAIM_F_ETH', () => ({
     request: {
       promise: (async function () {
         const stkrSdk = StkrSdk.getForEnv();
