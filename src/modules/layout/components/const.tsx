@@ -1,6 +1,6 @@
 const ENABLE_WALLET_CONNECT = false;
 const ENABLE_TRUST_CONNECT = false;
-export const ENABLE_BINANCE_CONNECT = false;
+export const ENABLE_BINANCE_CONNECT = true;
 
 export interface IProvider {
   caption: string;
