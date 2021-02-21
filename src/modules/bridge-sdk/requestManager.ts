@@ -54,25 +54,18 @@ export class RequestManager {
     throw new Error(`Unable to resolve token by symbol: ${name}`);
   }
 
-  public async getNetworks(
-    symbol: string,
-    direction: 'IN' | 'OUT',
-  ): Promise<INetworkListResponse> {
+  public async getNetworks(symbol: string): Promise<INetworkListResponse> {
     const { data } = await this.api.get<IBridgeResponse<INetworkListResponse>>(
       `/api/v2/tokens/${symbol}/networks`,
-      {
-        params: { direction },
-      },
     );
     return parseBridgeResponseOrThrow(data);
   }
 
   public async getNetworkByName(
     symbol: string,
-    direction: 'IN' | 'OUT',
     name: string,
   ): Promise<INetworkResponse> {
-    const networks = await this.getNetworks(symbol, direction),
+    const networks = await this.getNetworks(symbol),
       [network] = networks.networks.filter(n => n.name === name);
     if (!network) {
       throw new Error(`Unable to resolve network by name: ${name}`);
