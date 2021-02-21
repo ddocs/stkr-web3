@@ -32,6 +32,7 @@ export interface IBinanceConfig {
   globalPoolContract: string;
   globalPoolBlock: string;
   pegEthContract: string;
+  pegAethContract: string;
 }
 
 export interface IContractManager {
@@ -869,6 +870,7 @@ export class BinanceContractManager extends EthereumContractManager {
       {
         microPoolContract: binanceConfig.globalPoolContract,
         microPoolBlock: binanceConfig.globalPoolBlock,
+        aethContract: binanceConfig.pegAethContract,
       },
       ABI_BINANCE_GLOBAL_POOL,
     );
@@ -973,10 +975,6 @@ export class BinanceContractManager extends EthereumContractManager {
     IProviderToppedUpAnkrEvent[]
   > {
     return [];
-  }
-
-  async aethBalanceOf(address: string): Promise<BigNumber> {
-    return new BigNumber('0');
   }
 
   async etherBalanceOf(address: string): Promise<BigNumber> {

@@ -26,6 +26,7 @@ const LOCAL_CONFIG: IStkrConfig = {
     globalPoolContract: '0x46a4933170b9B57c5BB7e4D345E451C195652b47',
     globalPoolBlock: '5963975',
     pegEthContract: '0xd66c6b4f0be8ce5b39d52e0fd1344c389929b378',
+    pegAethContract: '0xc68c73f2a05de6634B87898909314b622509fcb8',
   },
   gatewayConfig: {
     baseUrl: 'http://localhost:8080/',
@@ -63,6 +64,7 @@ const MAINNET_CONFIG: IStkrConfig = {
     globalPoolContract: '0x3bFce37B5401BEF13C78830D3A9FB14294d18c4F',
     globalPoolBlock: '0',
     pegEthContract: '0x2170ed0880ac9a755fd29b2688956bd959f933f8',
+    pegAethContract: '0x973616ff3b9d8F88411C5b4E6F928EE541e4d01f',
   },
   gatewayConfig: {
     baseUrl: 'https://api.stkr.io/',
