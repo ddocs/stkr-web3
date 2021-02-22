@@ -599,6 +599,6 @@
     }
   },
   "switch-network-notification": {
-    "notice": "Please change your network to Ethereum Mainnet if you want to claim your ETH"
+    "notice": "The entire staking process for Pegged-ETH token on BSC (Binance Smart Chain) network takes a bit longer than Ethereum. To maximize the security of your fund, we will enable the aETH claim function on BSC around 02/22/2021 - 02/23/2021 UTC while closely watch the BSC staking process. Thank you."
   }
 }
