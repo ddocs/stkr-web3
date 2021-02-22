@@ -19,7 +19,6 @@ export const useStakerDashboardStyles = makeStyles<Theme>(theme => ({
   boxes: {
     marginTop: theme.spacing(4.5),
     display: 'grid',
-    gridTemplateColumns: '1fr 1fr 1fr',
     gridTemplateRows: 'minmax(206px, auto)',
     gridRowGap: theme.spacing(6),
     gridColumnGap: theme.spacing(3),

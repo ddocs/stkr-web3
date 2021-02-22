@@ -5,12 +5,12 @@ import { uid } from 'react-uid';
 import { useLocaleMemo } from '../../../../../../common/hooks/useLocaleMemo';
 import { WithUseStyles } from '../../../../../../common/types';
 import { t } from '../../../../../../common/utils/intl';
-import { Table } from '../../../../../../components/TableComponents/Table';
-import { TableBody } from '../../../../../../components/TableComponents/TableBody';
-import { TableBodyCell } from '../../../../../../components/TableComponents/TableBodyCell';
-import { TableHead } from '../../../../../../components/TableComponents/TableHead';
-import { TableHeadCell } from '../../../../../../components/TableComponents/TableHeadCell';
-import { TableRow } from '../../../../../../components/TableComponents/TableRow';
+import { Table } from '../../../../../../components/TableComponents';
+import { TableBody } from '../../../../../../components/TableComponents';
+import { TableBodyCell } from '../../../../../../components/TableComponents';
+import { TableHead } from '../../../../../../components/TableComponents';
+import { TableHeadCell } from '../../../../../../components/TableComponents';
+import { TableRow } from '../../../../../../components/TableComponents';
 import { NavLink } from '../../../../../../UiKit/NavLink';
 import { AlignType } from '../../../../../../components/TableComponents/types';
 import { QuestionIcon } from '../../../../../../UiKit/Icons/QuestionIcon';
@@ -44,15 +44,15 @@ export const HistoryTable = (props: IHistoryTableProps) => {
   const captions: CaptionType[] = useLocaleMemo(
     () => [
       {
-        label: t('staked-dashboard.column.status'),
+        label: t('staker-dashboard.column.status'),
         tip: t('staking-history-table.tip.status'),
       },
       {
-        label: t('staked-dashboard.column.staked'),
+        label: t('staker-dashboard.column.staked'),
         tip: t('staking-history-table.tip.amount'),
       },
       {
-        label: t('staked-dashboard.column.transaction-hash'),
+        label: t('staker-dashboard.column.transaction-hash'),
         tip: t('staking-history-table.tip.txid'),
         align: 'right',
       },

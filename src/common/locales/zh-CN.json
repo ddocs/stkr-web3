@@ -200,12 +200,13 @@
         "buy": "买入",
         "ankr-allowed": " {value} ANKR 被允许"
     },
-    "staked-dashboard": {
+    "staker-dashboard": {
         "staked": "质押数目",
         "stake-more": "质押更多",
         "current-a-eth-balance": "当前余额",
         "redeem": "赎回",
         "locked": "所有质押金额将在ETH 2.0合约期间被锁定。 不过，您将获得相应的aETH，您可以交易aETH。在aETH可用之前，您的资金将被锁定且无法赎回。",
+        "unstake": "取消质押",
         "statuses": {
             "STAKE_ACTION_PENDING": "已建立",
             "STAKE_ACTION_CONFIRMED": "已确认",
@@ -235,9 +236,6 @@
             "SIDECAR_STATUS_BLOCKED": "堵塞",
             "SIDECAR_STATUS_OFFLINE": "下线"
         }
-    },
-    "staker-dashboard": {
-        "unstake": "取消质押"
     },
     "staking-history-table": {
         "tip": {
