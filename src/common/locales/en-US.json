@@ -599,6 +599,6 @@
     }
   },
   "switch-network-notification": {
-    "notice": "Please change your network in Metamask to Ethereum Mainnet if you want to claim your ETH"
+    "notice": "Please change your network to Ethereum Mainnet if you want to claim your ETH"
   }
 }
