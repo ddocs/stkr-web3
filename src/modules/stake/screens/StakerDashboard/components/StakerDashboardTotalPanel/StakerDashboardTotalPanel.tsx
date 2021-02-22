@@ -33,49 +33,55 @@ export const StakerDashboardTotalPanel = ({
   return (
     <Paper variant="outlined" square={false} className={classes.stakedContent}>
       <div className={classes.row}>
-        <div className={classes.title}>{t('staked-dashboard.staked')}</div>
+        <div className={classes.title}>
+          {isClaimAvailable
+            ? t('staker-dashboard.staked')
+            : t('staker-dashboard.stake')}
+        </div>
         <div className={classes.buttonContainer}>
           <RouterLink to={STAKER_STAKE_PATH}>
             <IconButton
               className={classes.stake}
-              title={t('staked-dashboard.stake-more')}
+              title={t('staker-dashboard.stake-more')}
             >
               <PlusIcon />
             </IconButton>
           </RouterLink>
         </div>
       </div>
-      <div className={classes.bottomRow}>
-        <div className={classes.row}>
-          <div className={classes.amount}>
-            {tHTML('unit.separated-eth-value', {
-              value: claimableAETHFRewardOf.decimalPlaces(DECIMAL_PLACES),
-            })}
-            {isClaimAvailable && (
-              <ClaimDialog
-                aETHBalance={claimableAETHRewardOf}
-                fETHBalance={claimableAETHFRewardOf}
-              >
-                <Button
-                  size="large"
-                  color="secondary"
-                  variant="outlined"
-                  className={classes.claim}
-                  disabled={
-                    claimableAETHFRewardOf.isLessThanOrEqualTo(0) &&
-                    claimableAETHRewardOf.isLessThanOrEqualTo(0)
-                  }
+      {isClaimAvailable && (
+        <div className={classes.bottomRow}>
+          <div className={classes.row}>
+            <div className={classes.amount}>
+              {tHTML('unit.separated-eth-value', {
+                value: claimableAETHFRewardOf.decimalPlaces(DECIMAL_PLACES),
+              })}
+              {isClaimAvailable && (
+                <ClaimDialog
+                  aETHBalance={claimableAETHRewardOf}
+                  fETHBalance={claimableAETHFRewardOf}
                 >
-                  {t('staker-dashboard.claim')}
-                </Button>
-              </ClaimDialog>
-            )}
+                  <Button
+                    size="large"
+                    color="secondary"
+                    variant="outlined"
+                    className={classes.claim}
+                    disabled={
+                      claimableAETHFRewardOf.isLessThanOrEqualTo(0) &&
+                      claimableAETHRewardOf.isLessThanOrEqualTo(0)
+                    }
+                  >
+                    {t('staker-dashboard.claim')}
+                  </Button>
+                </ClaimDialog>
+              )}
+            </div>
           </div>
+          {children && (
+            <div className={classes.childrenContainer}>{children}</div>
+          )}
         </div>
-        {children && (
-          <div className={classes.childrenContainer}>{children}</div>
-        )}
-      </div>
+      )}
     </Paper>
   );
 };

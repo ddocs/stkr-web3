@@ -194,27 +194,6 @@
     "buy": "Buy",
     "ankr-allowed": "{value} ANKR allowed"
   },
-  "staked-dashboard": {
-    "title": "Staker dashboard",
-    "staked": "ETH to be claimed",
-    "stake-more": "Stake more",
-    "current-a-eth-balance": "Current balance",
-    "redeem": "Redeem",
-    "locked": "Any staked amounts will be locked for the duration of the ETH 2.0 contract. You will, however, receive aETH equivalent to your stake that you will be able to trade in the meantime, against your staked amount. Until aETH is made available, however, your funds will be locked and not redeemable.",
-    "statuses": {
-      "STAKE_ACTION_PENDING": "Created",
-      "STAKE_ACTION_CONFIRMED": "Confirmed",
-      "STAKE_ACTION_UNSTAKE": "Removed"
-    },
-    "column": {
-      "status": "Status",
-      "transaction-hash": "Tx.Hash",
-      "staked": "Staked"
-    },
-    "tip": {
-      "aeth-amount": "The amount of aETH redeemable"
-    }
-  },
   "node-list": {
     "unknown": "Not Activated",
     "syncing": "Syncing {value}%",
@@ -234,7 +213,27 @@
     "on-stkr": "On Stkr",
     "on-wallet": "On your wallet",
     "claim": "Claim",
-    "pending": "Pending {value} ETH"
+    "pending": "Pending {value} ETH",
+    "title": "Staker dashboard",
+    "staked": "ETH to be claimed",
+    "stake": "Stake",
+    "stake-more": "Stake more",
+    "current-a-eth-balance": "Current balance",
+    "redeem": "Redeem",
+    "locked": "Any staked amounts will be locked for the duration of the ETH 2.0 contract. You will, however, receive aETH equivalent to your stake that you will be able to trade in the meantime, against your staked amount. Until aETH is made available, however, your funds will be locked and not redeemable.",
+    "statuses": {
+      "STAKE_ACTION_PENDING": "Created",
+      "STAKE_ACTION_CONFIRMED": "Confirmed",
+      "STAKE_ACTION_UNSTAKE": "Removed"
+    },
+    "column": {
+      "status": "Status",
+      "transaction-hash": "Tx.Hash",
+      "staked": "Staked"
+    },
+    "tip": {
+      "aeth-amount": "The amount of aETH redeemable"
+    }
   },
   "staking-history-table": {
     "tip": {
@@ -598,5 +597,8 @@
       "aETH": "Claim {value, number} aETH",
       "fETH": "Claim {value, number} fETH"
     }
+  },
+  "switch-network-notification": {
+    "notice": "Please change your network in Metamask to Ethereum Mainnet if you want to claim your ETH"
   }
 }

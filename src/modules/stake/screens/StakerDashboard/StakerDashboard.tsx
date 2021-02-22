@@ -15,13 +15,15 @@ import { HistoryTable } from './components/HistoryTable';
 import { getStakedAmount } from '../../../../common/utils/getStakedAmount';
 import { getPendingAmount } from '../../../../common/utils/getPendingAmount';
 import { Balance } from './components/Balance';
-import { StakerDashboardTotalPanel } from './components/TotalPanel/StakerDashboardTotalPanel';
+import { StakerDashboardTotalPanel } from './components/StakerDashboardTotalPanel/StakerDashboardTotalPanel';
 import { t } from '../../../../common/utils/intl';
 import { StakerDashboardStakingLabel } from './components/StakingLabel/StakerDashboardStakingLabel';
 import { useAuthentication } from '../../../../common/utils/useAuthentications';
 import BigNumber from 'bignumber.js';
 import { useIsMDDown } from '../../../../common/hooks/useTheme';
 import { useFeaturesAvailable } from '../../../../common/hooks/useFeaturesAvailable';
+import { SwitchNetworkNotification } from './components/SwitchNetworkNotification/SwitchNetworkNotification';
+import { Box } from '@material-ui/core';
 
 const ONE = new BigNumber(1);
 
@@ -63,7 +65,7 @@ export const StakerDashboardComponent = () => {
             return (
               <>
                 <div className={classes.title}>
-                  <span>{t('staked-dashboard.title')}</span>
+                  <span>{t('staker-dashboard.title')}</span>
                   {!isMDDown && (
                     <StakerDashboardStakingLabel
                       pending={pending}
@@ -72,7 +74,12 @@ export const StakerDashboardComponent = () => {
                   )}
                 </div>
 
-                <div className={classes.boxes}>
+                <Box
+                  gridTemplateColumns={
+                    isClaimAvailable ? '1fr 1fr 1fr' : '1fr 2fr'
+                  }
+                  className={classes.boxes}
+                >
                   <StakerDashboardTotalPanel
                     claimableAETHFRewardOf={data.claimableAETHFRewardOf}
                     claimableAETHRewardOf={data.claimableAETHRewardOf}
@@ -85,17 +92,24 @@ export const StakerDashboardComponent = () => {
                       />
                     ) : undefined}
                   </StakerDashboardTotalPanel>
-                  <Balance
-                    variant="aETH"
-                    value={data.aEthBalance}
-                    price={aEthPrice}
-                  />
-                  <Balance
-                    variant="fETH"
-                    value={data.fEthBalance}
-                    price={ONE}
-                  />
-                </div>
+
+                  {isClaimAvailable ? (
+                    <>
+                      <Balance
+                        variant="aETH"
+                        value={data.aEthBalance}
+                        price={aEthPrice}
+                      />
+                      <Balance
+                        variant="fETH"
+                        value={data.fEthBalance}
+                        price={ONE}
+                      />
+                    </>
+                  ) : (
+                    <SwitchNetworkNotification />
+                  )}
+                </Box>
                 {data.stakes.length > 0 && (
                   <HistoryTable
                     classes={{ root: classes.history }}
