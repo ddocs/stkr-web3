@@ -66,7 +66,7 @@ export const StakerDashboardComponent = () => {
               <>
                 <div className={classes.title}>
                   <span>{t('staker-dashboard.title')}</span>
-                  {!isMDDown && (
+                  {!isMDDown && isClaimAvailable && (
                     <StakerDashboardStakingLabel
                       pending={pending}
                       onUnstake={handleUnstake}
@@ -85,7 +85,7 @@ export const StakerDashboardComponent = () => {
                     claimableAETHRewardOf={data.claimableAETHRewardOf}
                     isClaimAvailable={isClaimAvailable}
                   >
-                    {isMDDown ? (
+                    {isMDDown && isClaimAvailable ? (
                       <StakerDashboardStakingLabel
                         pending={pending}
                         onUnstake={handleUnstake}
