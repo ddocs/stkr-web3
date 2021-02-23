@@ -1,387 +1,618 @@
 {
-    "error": {
-        "unknown": "未知错误",
-        "not-authenticated": "未认证"
-    },
-    "coming-soon": "敬请期待",
-    "by-ankr": "",
-    "navigation": {
-        "staker": "质押者",
-        "provider": "提供商\n",
-        "unlock-wallet": "启动应用",
-        "whitepaper-en": "白皮书（英文版）",
-        "whitepaper-ch": "白皮书（中文版）",
-        "unlock-your-wallet": "连接你的钱包",
-        "create-micropool": "建立微池",
-        "create": "建立",
-        "top-up": "充值",
-        "sidecar-list": "Sidecar list",
-        "select-wallet-provider": "选择钱包提供商",
-        "connect": "连接",
-        "copyright": "© {year} Stkr 保留所有权利| <a href=\"mailto: info@ankr.com\" rel=\"noopener noreferrer\">info@ankr.com</a>",
-        "select": "选择",
-        "disconnect": "断开连接",
-        "copy-address": "粘贴地址\n",
-        "view-on-etherscan": "在Etherscan上查看",
-        "coming-soon": "敬请期待",
-        "community": "社区",
-        "governance": "治理",
-        "docs": "文档",
-        "litepaper": "简版白皮书",
-        "twitter": "推特",
-        "telegram-chat": "电报聊天组",
-        "telegram-announcements": "电报公告群",
-        "medium": "Medium",
-        "copied": "地址已粘贴"
-    },
-    "validation": {
-        "required": "这是必填栏",
-        "min-ETH-amount": "最低数目是 {value} ETH",
-        "alpha-numerical-and-underscore": "必须仅包含字母，数字和_符号。",
-        "invalid-address-format": "地址格式无效"
-    },
-    "about": {
-        "title": "<span>质押</span>去繁就简.",
-        "text": "Stkr是一个去中心化质押协议平台，它在传统质押的基础上加入了非托管、微池、即时流动性和去中心化治理等元素。",
-        "stakers": "质押者",
-        "providers": "提供商",
-        "total": "质押总值"
-    },
-    "calculate": {
-        "title": "计算您的收益",
-        "subtitle": "这个计算器是根据每年15%的质押奖励来估算的。",
-        "note": "以太坊质押量",
-        "yearly": "年收益"
-    },
-    "features": {
-        "title": "为什么选择Stkr",
-        "text": "Ankr's Eth2 staking 解旨在提供最佳的用户体验和最高级别的安全性，用户在获得丰厚质押奖励的同时， 也通过类债券的合成代币aETH获得了流动性。",
-        "micropool-title": "微池",
-        "micropool-text": "质押金额无门槛，从最低0.5ETH到最高1,000ETH，自动加入微池。",
-        "manager-title": "质押分配管理",
-        "manager-text": "发送所有ETH仅需一次交易，Stkr会自动把您的资金分配到表现良好的池子。",
-        "liquidity-title": "质押流动性",
-        "liquidity-text": "有了aETH，你可以持有或随时交易你的质押资金，不需要等到以太坊2.0转账功能开启。",
-        "security-title": "安全",
-        "security-text": "资金由您自己保管，始终保持对资产的完全控制。"
-    },
-    "become-provider": {
-        "title": "成为提供商",
-        "text": "通过在Ankr上运行以太坊2.0节点成为供应商，无需任何硬件或技术知识。",
-        "api-title": "开发者API",
-        "api-text": "通过即时API访问以太坊的各种测试网和主网，轻松构建Web3产品。",
-        "knowledge-title": "无需技术知识",
-        "knowledge-text": "通过在Ankr上运行以太坊 2.0节点，不需要任何硬件或技术知识。",
-        "governance-title": "治理",
-        "governance-text": "成为治理人，影响有关Stkr平台发展的决策。"
-    },
-    "faq": {
-        "title": "常见问题解答",
-        "question-1": "Can I stake if I have less than 32 ETH?",
-        "answer-1": "<p>Yes! To democratize access to Ethereum 2.0 for users who are unable to invest 32 ETH (the fixed amount required by the network), Ankr staking introduces Micropools – a proprietary solution that enables you to start staking with as little as 0.5 ETH. Simply choose the amount you want to delegate, and the system will automatically assign it to the best providers.</p>",
-        "question-2": "What are Micropools?",
-        "answer-2": "<p>The Micropools mechanism is our unique solution for breaking down the economic barriers for Ethereum 2.0 staking. As the name implies, Micropools allow users to chip in smaller portions of ETH towards a Validator, and receive a proportionate reward based on their contribution.</p>",
-        "question-3": "What is staking liquidity?",
-        "answer-3": "<p>Ankr's liquid staking protocol allows ETH holders to participate in Ethereum 2.0 staking and earn staking rewards, without running a node and locking your ETH for an unknown period of time.</p>",
-        "question-4": "How will my stake become liquid if I stake them before transactions are enabled on Ethereum 2.0?",
-        "answer-4": "<p>Ankr effectively tackles the illiquidity issue of Ethereum 2.0 by introducing aETH which will enable you to trade your stake or utilize it in DeFi protocols to earn yield at any point in time.</p>",
-        "question-5": "How can I redeem my staked ETH and staking rewards?",
-        "answer-5": "<p>Until transactions are enabled on Ethereum 2.0 you can simply trade your <a href={aETHLink}>aETH</a> for ETH. 1 aETH should become worth more than 1 ETH over time.</p><p>As soon as Ethereum 2.0 transactions are enabled, you can use your aETH to redeem your ETH stake plus your staking rewards.</p>",
-        "question-6": "What is aETH?",
-        "answer-6": "<p><a href={aETHLink}>aETH</a> is a synthetic derivative asset which represents your ETH stake plus earned staking rewards. When you stake your ETH with Ankr, you can redeem aETH tokens, which you can choose to keep in self custody, trade or use in DeFi products to earn yield.</p>",
-        "question-7": "I have more than 32 ETH. Can I still stake with Ankr?",
-        "answer-7": "<p>Despite that Ethereum 2.0 only enables you to stake multiples of 32 ETH, with Ankr you can stake all your tokens at once, without having to allocate them to multiple nodes. This means you can even stake 1,000 ETH or more in just one click!</p>",
-        "question-8": "Can I run my own Ethereum 2.0 node on Ankr?",
-        "answer-8": "<p>Yes! You can become a provider and run your own node to collect staking rewards. If you don’t have any hardware or technical knowledge to set up a node, you can always use Ankr and deploy your Ethereum 2.0 node in one click.</p>",
-        "question-9": "What do I need to become a node provider on the platform?",
-        "answer-9": "<p>To become a node provider and earn platform fees, you need to set up an Ethereum 2.0 node with a minimum “insurance” stake of 2 ETH to compensate users in case of slashing events.</p>",
-        "question-10": "Can I use my ANKR tokens on the platform?",
-        "answer-10": "<p>Yes! If you own enough ANKR tokens, you can participate in governance and vote on key parameters to define the future of the platform.</p>"
-    },
-    "beacon-node-table": {
-        "name": "名字",
-        "uptime": "上一次活动",
-        "date": "创建日期",
-        "certificate": "证书",
-        "status": "状态"
-    },
-    "picker": {
-        "staker": {
-            "title": "赚取质押奖励",
-            "features": {
-                "1": "质押任意数量的ETH（最低0.5ETH）来赚取奖励。",
-                "2": "让你的质押资金保持流动性，通过aETH交易，出售，参与DeFi应用。",
-                "3": "无需任何技术知识"
-            },
-            "link": "开始质押"
-        },
-        "provider": {
-            "title": "成为提供商",
-            "features": {
-                "1": "运行以太坊2.0节点，从质押奖励和平台费中获得收益。",
-                "2": "在你的节点上质押额外的Ankr获得更高的信誉等级，并让你的微池被优先考虑，赚取更多的奖励。",
-                "3": "使用Ankr平台托管您的节点，消除一切技术运营障碍，避免任何罚没风险。"
-            },
-            "link": "成为一个提供商"
-        }
-    },
-    "provider": {
-        "connecting-headline": "签名生成...",
-        "try-again-headline": "请允许签名",
-        "try-again": "再次尝试",
-        "create": {
-            "create-beacon-chain-stage-1": {
-                "title": "建立一个信标链节点",
-                "description": "Stkr是一个去中心化质押协议平台，它在传统质押的基础上加入了非托管、微池、即时流动性和去中心化治理等元素。"
-            },
-            "create-beacon-chain-stage-2": {
-                "title": "数据正在生成",
-                "note": "该过程可能需要一段时间"
-            },
-            "stage-7": {
-                "generation": "交易正在处理中...",
-                "note": "该过程可能需要一段时间"
-            }
-        },
-        "info": {
-            "totalEth2Stakes": "总质押ETH",
-            "activeValidators": "活跃验证者",
-            "pendingEthStakes": "等待质押的ETH",
-            "activeSidecars": "总活跃Sidecar数",
-            "totalStaked": "总质押ETH",
-            "totalStakers": "所有质押者",
-            "micropools": "我的微池"
-        }
-    },
-    "providers": {
-        "metamask": "Metamask",
-        "wallet": "WalletConnect（钱包连接）",
-        "trust": "Trust Wallet"
-    },
-    "total": {
-        "out-of": "{value} / {of}"
-    },
-    "stake": {
-        "title": "质押管理",
-        "i-want": "我想要质押",
-        "staking-period": "我想要质押",
-        "staking-period-tooltip": "这是您的代币在智能合约中被锁定的月数。",
-        "yearly-earning": "收益",
-        "yearly-earning-tooltip": "可期望每年从质押中赚取这个数额。请注意，这只是一个估计。",
-        "stake": "质押",
-        "validation": {
-            "balance-exceed": "您输入的数值超过了您的余额",
-            "agreement": "需要确认"
-        },
-        "agreement": "我明白我的质押资金在Eth 2.0质押期间被锁定，在此结束前不能赎回。"
-    },
-    "units": {
-        "$": " ${value}",
-        "eth": "\n {value} ETH",
-        "ankr": "{value} ANKR",
-        "~eth": "~ {value} ETH",
-        "small-eth": "{value} <span style=\"font-size: 16px\">ETH</span>",
-        "large-eth": "{value}<span> ETH</span>",
-        "large-aeth": "{value}<span> aETH</span>",
-        "number": "{value, number}"
-    },
-    "format": {
-        "date": "{value, date, medium} {value, time, medium}"
-    },
-    "user-actions": {
-        "error": {
-            "sdk-not-initialized": "SDK未初始化"
-        }
-    },
-    "top-up-form": {
-        "your-balance": "你的ANKR余额",
-        "needed": "需要数目",
-        "allow": "允许 {value} ANKR",
-        "buy": "买入",
-        "ankr-allowed": " {value} ANKR 被允许"
-    },
-    "staker-dashboard": {
-        "staked": "质押数目",
-        "stake-more": "质押更多",
-        "current-a-eth-balance": "当前余额",
-        "redeem": "赎回",
-        "locked": "所有质押金额将在ETH 2.0合约期间被锁定。 不过，您将获得相应的aETH，您可以交易aETH。在aETH可用之前，您的资金将被锁定且无法赎回。",
-        "unstake": "取消质押",
-        "statuses": {
-            "STAKE_ACTION_PENDING": "已建立",
-            "STAKE_ACTION_CONFIRMED": "已确认",
-            "STAKE_ACTION_UNSTAKE": "已移除"
-        },
-        "transaction": {
-            "goerli": "https://goerli.etherscan.io/tx/{value}",
-            "mainnet": "https://etherscan.io/tx/{value}"
-        },
-        "column": {
-            "status": "状态",
-            "transaction-hash": "交易哈希",
-            "staked": "已质押"
-        },
-        "tip": {
-            "aeth-amount": "可赎回aETH数目"
-        }
-    },
-    "node-list": {
-        "unknown": "未活跃",
-        "syncing": "同步中 {value}%",
-        "status": {
-            "SIDECAR_STATUS_UNKNOWN": "已建立",
-            "SIDECAR_STATUS_SYNCING": "同步中",
-            "SIDECAR_STATUS_ACTIVE": "活跃",
-            "SIDECAR_STATUS_DISABLED": "使失效",
-            "SIDECAR_STATUS_BLOCKED": "堵塞",
-            "SIDECAR_STATUS_OFFLINE": "下线"
-        }
-    },
-    "staking-history-table": {
-        "tip": {
-            "status": "质押交易状态",
-            "amount": "此次交易中的质押量",
-            "txid": "以太坊交易ID。点击这里在以太坊浏览器上查看。"
-        }
-    },
-    "create-node": {
-        "title": "配置信标链节点",
-        "label": {
-            "node-name": "节点名称",
-            "eth-node": "提供以太坊节点",
-            "beacon-node": "提供信标链节点"
-        },
-        "note": {
-            "eth-node": "如果你没有，你可以通过 <a href=\"https://infura.io/\" target=\"_blank\" rel=\"noopener noreferrer\">Infura</a> or <a href=\"https://app.ankr.com/\" target=\"_blank\" rel=\"noopener noreferrer\">Ankr</a> 建立一个节点"
-        },
-        "placeholder": {
-            "eth-node": "复制你的以太坊节点链接到这里"
-        },
-        "option": {
-            "i-have": "我有信标链节点",
-            "i-dont-have": "我没有信标链节点"
-        }
-    },
-    "global-stats": {
-        "total-staked": "总质押ETH数",
-        "stakers": "质押者"
-    },
-    "chain": {
-        "1": "主网",
-        "3": "Ropsten",
-        "4": "Rinkeby",
-        "5": "Goerli",
-        "2018": "Dev",
-        "61": "Classic",
-        "63": "Mordor",
-        "6": "Kotti"
-    },
-    "empty-node-list": {
-        "submit-short": "創造",
-        "submit-full": "建立信标链"
-    },
-    "not-enough-balance": {
-        "title": "To create your own node, you need to make deposit",
-        "text": "To become a provider in Ankr Staking and earn platform fees, you need to set up an Ethereum 2.0 node with a minimum “insurance” stake of 2 ETH to compensate users in case of slashing events.",
-        "submit": "Deposit"
-    },
-    "top-up": {
-        "title": "充值余额",
-        "ankr-min-deposit-notice": "你的钱包中需要有{value} ANKR",
-        "tab": {
-            "ankr": "ANKR",
-            "eth": "ETH"
-        },
-        "submit": {
-            "ankr-buy": "购买ANKR",
-            "ankr-top-up": "充值 {value} ANKR",
-            "ankr-allow": "",
-            "eth-top-up": "充值{value} ETH"
-        },
-        "step": {
-            "1": "你有足够的代币",
-            "2": "",
-            "3": "充值 {value} ANKR"
-        },
-        "eth-top-up-note": "请注意，如果您的保险金因罚没而降至 2 ETH 以下，您的节点可能会停止运行。为了防止这种情况发生，或者为了重新启动因此而停止的节点，请确保您的剩余保险余额至少为 2 ETH。您可以在这里将此金额充值。<br/><br/>另外需要注意的是，一旦存入，任何保险金额都会被锁定在Stkr系统中，直到合约结束（Ethereum 2.0 1.5阶段发布）。"
-    },
-    "provider-dashboard": {
-        "balance": "您的保险金",
-        "balance-eth": "{balance} ETH"
-    },
-    "language": {
-        "en-US": "EN",
-        "zh-CN": "中文"
-    },
-    "global-stats.total-staked": "STKR上已质押的ETH总量",
-    "global-stats.stakers": "STKR上的质押者数",
-    "navigation.unlock-your-wallet": "连接你的钱包",
-    "navigation.litepaper": "白皮书简版",
-    "navigation.community": "社区",
-    "navigation.governance": "治理",
-    "navigation.docs": "文档",
-    "navigation.unlock-wallet": "启动应用",
-    "aeth-promo": {
-        "title": "What is aETH?",
-        "text": "<b>aETH</b> is a synthetic derivative asset that enables instant liquidity for the Ethereum 2.0 network"
-    },
-    "aeth-reward": {
-        "title": "One asset. <br/>Combined value.",
-        "primary-text": "aETH represents the staked ETH plus all future staking rewards.",
-        "secondary-text": "Initially, aETH is issued at a ratio of 1:1 to the amount of ETH staked. Over time, 1 aETH is expected to grow in ETH value, as it contains the principal stake plus staking rewards.",
-        "rewards": "Rewards",
-        "staked": "Staked ETH"
-    },
-    "aeth-advantages": {
-        "title": "Instant liquidity",
-        "primary-text": "aETH allows you to stake Eth2 and redeem rewards before the phase 1.5 goes live and the lockup period ends (which can take up to several years!).",
-        "secondary-text": "aETH is listed on Uniswap for immediate liquidity. aETH holders can also provide liquidity to the aETH/ETH pair on the exchange platform and earn from transaction fees."
-    },
-    "aeth-ecosystem": {
-        "subtitle": "Ecosystem",
-        "title": "Access Ankr's Eth2 staking services and aETH here",
-        "services": {
-            "uniswap": "Decentralized liquidity pools and trading for aETH.",
-            "metamask": "Store aETH and connect with DeFi applications.",
-            "onx": "aETH staking pools and yield strategies for collateralized assets.",
-            "bitkeep": "Direct access to Ankr's Eth2 staking services.",
-            "trustwallet": "Mobile access to Ankr's Eth2 staking services.",
-            "imtoken": "Mobile access to Ankr's Eth2 staking services.",
-            "onto": "Direct access to Ankr's Eth2 staking services.",
-            "snowswap": "Incentivizing Eth2 adoption with aETH swaps and pools.",
-            "sushiswap": "Decentralized trading and incentivized aETH liquidity pools.",
-            "curve": "Decentralized liquidity pool for aETH with double reward mechanism."
-        }
-    },
-    "aeth-start": {
-        "title": "New yield opportunities with aETH",
-        "text": "aETH is easily accessible and tradable on various DeFi platforms, with a growing number of yield earning opportunities. Start staking now and try it yourself!",
-        "start-staking": "Start staking"
-    },
-    "aeth-it-works": {
-        "title": "How it works",
-        "items": {
-            "deposit": {
-                "title": "Deposit",
-                "text": "Deposit ETH on Staking Manager (you can deposit any amount starting from 0.5 ETH) by connecting your wallet to the Ankr Staking platform."
-            },
-            "get-aeth": {
-                "title": "Get aETH",
-                "text": "Once your ETH is staked on the Beaconchain, your aETH balance will be added to the Ankr Staking platform for you to redeem."
-            },
-            "use-aeth": {
-                "title": "Use aETH",
-                "text": "You can store aETH in your wallet to keep full control of your funds. You can also trade aETH or use it in DeFi products to earn yield. Please note that if you are trading aETH, you are effectively trading your entire investment (both the invested amount and the expected reward)."
-            },
-            "redeem": {
-                "title": "Redeem your ETH + staking rewards",
-                "text": "As soon as Ethereum 2.0 transactions are activated, you can use your aETH to redeem your staked ETH + staking rewards on the Ankr Staking platform."
-            }
-        }
-    },
-    "aeth-banner": {
-        "title": "How aETH works?",
-        "text": "Learn how aETH works and how you can use it.",
-        "btnText": "Learn more"
-    }
+	"about": {
+		"providers": "提供商",
+		"stakers": "质押者",
+		"text": "Stkr是一个去中心化质押协议平台，它在传统质押的基础上加入了非托管、微池、即时流动性和去中心化治理等元素。",
+		"title": "<span>质押</span>去繁就简.",
+		"total": "质押总值"
+	},
+	"about-smartchain": {
+		"submit": "",
+		"text": [
+			"",
+			"",
+			"",
+			"",
+			"",
+			""
+		],
+		"title": ""
+	},
+	"aeth-advantages": {
+		"primary-text": "aETH allows you to stake Eth2 and redeem rewards before the phase 1.5 goes live and the lockup period ends (which can take up to several years!).",
+		"secondary-text": "aETH is listed on Uniswap for immediate liquidity. aETH holders can also provide liquidity to the aETH/ETH pair on the exchange platform and earn from transaction fees.",
+		"title": "Instant liquidity"
+	},
+	"aeth-banner": {
+		"btnText": "Learn more",
+		"text": "Learn how aETH works and how you can use it.",
+		"title": "How aETH works?"
+	},
+	"aeth-ecosystem": {
+		"services": {
+			"bitkeep": "Direct access to Ankr's Eth2 staking services.",
+			"curve": "Decentralized liquidity pool for aETH with double reward mechanism.",
+			"imtoken": "Mobile access to Ankr's Eth2 staking services.",
+			"metamask": "Store aETH and connect with DeFi applications.",
+			"onto": "Direct access to Ankr's Eth2 staking services.",
+			"onx": "aETH staking pools and yield strategies for collateralized assets.",
+			"snowswap": "Incentivizing Eth2 adoption with aETH swaps and pools.",
+			"sushiswap": "Decentralized trading and incentivized aETH liquidity pools.",
+			"trustwallet": "Mobile access to Ankr's Eth2 staking services.",
+			"uniswap": "Decentralized liquidity pools and trading for aETH."
+		},
+		"subtitle": "Ecosystem",
+		"title": "Access Ankr's Eth2 staking services and aETH here"
+	},
+	"aeth-it-works": {
+		"items": {
+			"deposit": {
+				"text": "Deposit ETH on Staking Manager (you can deposit any amount starting from 0.5 ETH) by connecting your wallet to the Ankr Staking platform.",
+				"title": "Deposit"
+			},
+			"get-aeth": {
+				"text": "Once your ETH is staked on the Beaconchain, your aETH balance will be added to the Ankr Staking platform for you to redeem.",
+				"title": "Get aETH"
+			},
+			"redeem": {
+				"text": "As soon as Ethereum 2.0 transactions are activated, you can use your aETH to redeem your staked ETH + staking rewards on the Ankr Staking platform.",
+				"title": "Redeem your ETH + staking rewards"
+			},
+			"use-aeth": {
+				"text": "You can store aETH in your wallet to keep full control of your funds. You can also trade aETH or use it in DeFi products to earn yield. Please note that if you are trading aETH, you are effectively trading your entire investment (both the invested amount and the expected reward).",
+				"title": "Use aETH"
+			}
+		},
+		"title": "How it works"
+	},
+	"aeth-promo": {
+		"text": "<b>aETH</b> is a synthetic derivative asset that enables instant liquidity for the Ethereum 2.0 network",
+		"title": "What is aETH?"
+	},
+	"aeth-reward": {
+		"primary-text": "aETH represents the staked ETH plus all future staking rewards.",
+		"rewards": "Rewards",
+		"secondary-text": "Initially, aETH is issued at a ratio of 1:1 to the amount of ETH staked. Over time, 1 aETH is expected to grow in ETH value, as it contains the principal stake plus staking rewards.",
+		"staked": "Staked ETH",
+		"title": "One asset. <br/>Combined value."
+	},
+	"aeth-start": {
+		"start-staking": "Start staking",
+		"text": "aETH is easily accessible and tradable on various DeFi platforms, with a growing number of yield earning opportunities. Start staking now and try it yourself!",
+		"title": "New yield opportunities with aETH"
+	},
+	"balance": {
+		"amount": {
+			"aETH": "",
+			"fETH": ""
+		},
+		"price": {
+			"aETH": "",
+			"fETH": ""
+		},
+		"tip": {
+			"aETH": "",
+			"fETH": ""
+		},
+		"token-name": {
+			"aETH": "",
+			"fETH": ""
+		}
+	},
+	"beacon-node-table": {
+		"certificate": "证书",
+		"date": "创建日期",
+		"name": "名字",
+		"status": "状态",
+		"uptime": "上一次活动"
+	},
+	"become-provider": {
+		"api-text": "通过即时API访问以太坊的各种测试网和主网，轻松构建Web3产品。",
+		"api-title": "开发者API",
+		"governance-text": "成为治理人，影响有关Stkr平台发展的决策。",
+		"governance-title": "治理",
+		"knowledge-text": "通过在Ankr上运行以太坊 2.0节点，不需要任何硬件或技术知识。",
+		"knowledge-title": "无需技术知识",
+		"text": "通过在Ankr上运行以太坊2.0节点成为供应商，无需任何硬件或技术知识。",
+		"title": "成为提供商"
+	},
+	"by-ankr": "",
+	"calculate": {
+		"note": "以太坊质押量",
+		"subtitle": "这个计算器是根据每年15%的质押奖励来估算的。",
+		"title": "计算您的收益",
+		"yearly": "年收益"
+	},
+	"chain": {
+		"1": "主网",
+		"3": "Ropsten",
+		"4": "Rinkeby",
+		"5": "Goerli",
+		"6": "Kotti",
+		"56": "",
+		"61": "Classic",
+		"63": "Mordor",
+		"97": "",
+		"2018": "Dev"
+	},
+	"claim-dialog": {
+		"description": {
+			"aETH": "",
+			"fETH": ""
+		},
+		"submit": {
+			"aETH": "",
+			"fETH": ""
+		},
+		"title": "",
+		"token-name": {
+			"aETH": "",
+			"fETH": ""
+		}
+	},
+	"coming-soon": "敬请期待",
+	"confirms": {
+		"confirmation": "",
+		"notice": "",
+		"title": ""
+	},
+	"convert": {
+		"fee": "",
+		"quote": "",
+		"receive": "",
+		"step": {
+			"convert": "",
+			"stake": ""
+		},
+		"submit": "",
+		"target": "",
+		"terms-of-use": "",
+		"title": "",
+		"validation": {
+			"min-amount": ""
+		}
+	},
+	"create-node": {
+		"create": "",
+		"hint": {
+			"eth1Url": "",
+			"node-name": ""
+		},
+		"label": {
+			"beacon-node": "提供信标链节点",
+			"eth-node": "提供以太坊节点",
+			"node-name": "节点名称"
+		},
+		"note": {
+			"eth-node": "如果你没有，你可以通过 <a href=\"https://infura.io/\" target=\"_blank\" rel=\"noopener noreferrer\">Infura</a> or <a href=\"https://app.ankr.com/\" target=\"_blank\" rel=\"noopener noreferrer\">Ankr</a> 建立一个节点"
+		},
+		"option": {
+			"i-dont-have": "我没有信标链节点",
+			"i-have": "我有信标链节点"
+		},
+		"placeholder": {
+			"eth-node": "复制你的以太坊节点链接到这里"
+		},
+		"title": "配置信标链节点"
+	},
+	"create-project": {
+		"description": {
+			"timing": ""
+		},
+		"label": {
+			"description": "",
+			"name": "",
+			"timing": ""
+		},
+		"processing": "",
+		"submit": "",
+		"title": ""
+	},
+	"empty-node-list": {
+		"submit-full": "建立信标链",
+		"submit-short": "創造"
+	},
+	"error": {
+		"not-authenticated": "未认证",
+		"unknown": "未知错误"
+	},
+	"faq": {
+		"answer-1": "<p>Yes! To democratize access to Ethereum 2.0 for users who are unable to invest 32 ETH (the fixed amount required by the network), Ankr staking introduces Micropools – a proprietary solution that enables you to start staking with as little as 0.5 ETH. Simply choose the amount you want to delegate, and the system will automatically assign it to the best providers.</p>",
+		"answer-10": "<p>Yes! If you own enough ANKR tokens, you can participate in governance and vote on key parameters to define the future of the platform.</p>",
+		"answer-2": "<p>The Micropools mechanism is our unique solution for breaking down the economic barriers for Ethereum 2.0 staking. As the name implies, Micropools allow users to chip in smaller portions of ETH towards a Validator, and receive a proportionate reward based on their contribution.</p>",
+		"answer-3": "<p>Ankr's liquid staking protocol allows ETH holders to participate in Ethereum 2.0 staking and earn staking rewards, without running a node and locking your ETH for an unknown period of time.</p>",
+		"answer-4": "<p>Ankr effectively tackles the illiquidity issue of Ethereum 2.0 by introducing aETH which will enable you to trade your stake or utilize it in DeFi protocols to earn yield at any point in time.</p>",
+		"answer-5": "<p>Until transactions are enabled on Ethereum 2.0 you can simply trade your <a href={aETHLink}>aETH</a> for ETH. 1 aETH should become worth more than 1 ETH over time.</p><p>As soon as Ethereum 2.0 transactions are enabled, you can use your aETH to redeem your ETH stake plus your staking rewards.</p>",
+		"answer-6": "<p><a href={aETHLink}>aETH</a> is a synthetic derivative asset which represents your ETH stake plus earned staking rewards. When you stake your ETH with Ankr, you can redeem aETH tokens, which you can choose to keep in self custody, trade or use in DeFi products to earn yield.</p>",
+		"answer-7": "<p>Despite that Ethereum 2.0 only enables you to stake multiples of 32 ETH, with Ankr you can stake all your tokens at once, without having to allocate them to multiple nodes. This means you can even stake 1,000 ETH or more in just one click!</p>",
+		"answer-8": "<p>Yes! You can become a provider and run your own node to collect staking rewards. If you don’t have any hardware or technical knowledge to set up a node, you can always use Ankr and deploy your Ethereum 2.0 node in one click.</p>",
+		"answer-9": "<p>To become a node provider and earn platform fees, you need to set up an Ethereum 2.0 node with a minimum “insurance” stake of 2 ETH to compensate users in case of slashing events.</p>",
+		"question-1": "Can I stake if I have less than 32 ETH?",
+		"question-10": "Can I use my ANKR tokens on the platform?",
+		"question-2": "What are Micropools?",
+		"question-3": "What is staking liquidity?",
+		"question-4": "How will my stake become liquid if I stake them before transactions are enabled on Ethereum 2.0?",
+		"question-5": "How can I redeem my staked ETH and staking rewards?",
+		"question-6": "What is aETH?",
+		"question-7": "I have more than 32 ETH. Can I still stake with Ankr?",
+		"question-8": "Can I run my own Ethereum 2.0 node on Ankr?",
+		"question-9": "What do I need to become a node provider on the platform?",
+		"title": "常见问题解答"
+	},
+	"features": {
+		"liquidity-text": "有了aETH，你可以持有或随时交易你的质押资金，不需要等到以太坊2.0转账功能开启。",
+		"liquidity-title": "质押流动性",
+		"manager-text": "发送所有ETH仅需一次交易，Stkr会自动把您的资金分配到表现良好的池子。",
+		"manager-title": "质押分配管理",
+		"micropool-text": "质押金额无门槛，从最低0.5ETH到最高1,000ETH，自动加入微池。",
+		"micropool-title": "微池",
+		"security-text": "资金由您自己保管，始终保持对资产的完全控制。",
+		"security-title": "安全",
+		"text": "Ankr's Eth2 staking 解旨在提供最佳的用户体验和最高级别的安全性，用户在获得丰厚质押奖励的同时， 也通过类债券的合成代币aETH获得了流动性。",
+		"title": "为什么选择Stkr"
+	},
+	"format": {
+		"date": "{value, date, medium} {value, time, medium}"
+	},
+	"global-stats": {
+		"stakers": "质押者",
+		"total-staked": "总质押ETH数"
+	},
+	"global-stats.stakers": "STKR上的质押者数",
+	"global-stats.total-staked": "STKR上已质押的ETH总量",
+	"how-it-works-dialog": {
+		"item": {
+			"1": "",
+			"2": "",
+			"3": "",
+			"4": "",
+			"5": ""
+		},
+		"submit": "",
+		"title": ""
+	},
+	"iframe": {
+		"create-signature": {
+			"text": ""
+		},
+		"error": {
+			"4001": "",
+			"undefined": ""
+		}
+	},
+	"language": {
+		"en-US": "EN",
+		"zh-CN": "中文"
+	},
+	"moderation-status": {
+		"status": [
+			"",
+			"",
+			"",
+			""
+		]
+	},
+	"navigation": {
+		"BSC": "",
+		"coming-soon": "敬请期待",
+		"community": "社区",
+		"connect": "连接",
+		"copied": "地址已粘贴",
+		"copy-address": "粘贴地址\n",
+		"copyright": "© {year} Stkr 保留所有权利| <a href=\"mailto: info@ankr.com\" rel=\"noopener noreferrer\">info@ankr.com</a>",
+		"create": "建立",
+		"create-micropool": "建立微池",
+		"disconnect": "断开连接",
+		"docs": "文档",
+		"governance": "治理",
+		"litepaper": "简版白皮书",
+		"medium": "Medium",
+		"provider": "提供商\n",
+		"select": "选择",
+		"select-wallet-provider": "选择钱包提供商",
+		"sidecar-list": "Sidecar list",
+		"staker": "质押者",
+		"telegram-announcements": "电报公告群",
+		"telegram-chat": "电报聊天组",
+		"top-up": "充值",
+		"twitter": "推特",
+		"unlock-wallet": "启动应用",
+		"unlock-your-wallet": "连接你的钱包",
+		"view-on-etherscan": "在Etherscan上查看",
+		"whitepaper-ch": "白皮书（中文版）",
+		"whitepaper-en": "白皮书（英文版）"
+	},
+	"navigation.community": "社区",
+	"navigation.docs": "文档",
+	"navigation.governance": "治理",
+	"navigation.litepaper": "白皮书简版",
+	"navigation.unlock-wallet": "启动应用",
+	"navigation.unlock-your-wallet": "连接你的钱包",
+	"node-list": {
+		"status": {
+			"SIDECAR_STATUS_ACTIVE": "活跃",
+			"SIDECAR_STATUS_ATTESTING": "",
+			"SIDECAR_STATUS_BLOCKED": "堵塞",
+			"SIDECAR_STATUS_DISABLED": "使失效",
+			"SIDECAR_STATUS_OFFLINE": "下线",
+			"SIDECAR_STATUS_SYNCING": "同步中",
+			"SIDECAR_STATUS_UNKNOWN": "已建立"
+		},
+		"syncing": "同步中 {value}%",
+		"unknown": "未活跃"
+	},
+	"not-enough-balance": {
+		"submit": "Deposit",
+		"text": "To become a provider in Ankr Staking and earn platform fees, you need to set up an Ethereum 2.0 node with a minimum “insurance” stake of 2 ETH to compensate users in case of slashing events.",
+		"title": "To create your own node, you need to make deposit"
+	},
+	"peg-eth-steps": {
+		"1": "",
+		"2": ""
+	},
+	"picker": {
+		"provider": {
+			"features": {
+				"1": "运行以太坊2.0节点，从质押奖励和平台费中获得收益。",
+				"2": "在你的节点上质押额外的Ankr获得更高的信誉等级，并让你的微池被优先考虑，赚取更多的奖励。",
+				"3": "使用Ankr平台托管您的节点，消除一切技术运营障碍，避免任何罚没风险。"
+			},
+			"link": "成为一个提供商",
+			"title": "成为提供商"
+		},
+		"staker": {
+			"features": {
+				"1": "质押任意数量的ETH（最低0.5ETH）来赚取奖励。",
+				"2": "让你的质押资金保持流动性，通过aETH交易，出售，参与DeFi应用。",
+				"3": "无需任何技术知识"
+			},
+			"link": "开始质押",
+			"title": "赚取质押奖励"
+		}
+	},
+	"project": {
+		"against": "",
+		"details": "",
+		"how-does-it-work": "",
+		"processing": "",
+		"submit": "",
+		"support": "",
+		"time-left": ""
+	},
+	"project-created-dialog": {
+		"submit": "",
+		"subtitle": "",
+		"title": ""
+	},
+	"project-list": {
+		"create": "",
+		"power": "",
+		"title": ""
+	},
+	"project-list-item": {
+		"against": "",
+		"support": "",
+		"votes": ""
+	},
+	"provider": {
+		"connecting-headline": "签名生成...",
+		"create": {
+			"create-beacon-chain-stage-1": {
+				"description": "Stkr是一个去中心化质押协议平台，它在传统质押的基础上加入了非托管、微池、即时流动性和去中心化治理等元素。",
+				"title": "建立一个信标链节点"
+			},
+			"create-beacon-chain-stage-2": {
+				"note": "该过程可能需要一段时间",
+				"title": "数据正在生成"
+			},
+			"stage-7": {
+				"generation": "交易正在处理中...",
+				"note": "该过程可能需要一段时间"
+			}
+		},
+		"info": {
+			"activeSidecars": "总活跃Sidecar数",
+			"activeValidators": "活跃验证者",
+			"micropools": "我的微池",
+			"pendingEthStakes": "等待质押的ETH",
+			"totalEth2Stakes": "总质押ETH",
+			"totalStaked": "总质押ETH",
+			"totalStakers": "所有质押者"
+		},
+		"try-again": "再次尝试",
+		"try-again-headline": "请允许签名"
+	},
+	"provider-dashboard": {
+		"ankr-instructions": "",
+		"balance": "您的保险金",
+		"balance-eth": "{balance} ETH",
+		"configure-own-node": "",
+		"continue": "",
+		"continue-with-ankr": "",
+		"create": "",
+		"create-node-options": {
+			"ankr": {
+				"few-clicks": "",
+				"no-hardware": "",
+				"zero-slashing": ""
+			},
+			"own-node": {
+				"configure-manually": "",
+				"manage-yourself": "",
+				"slashing": ""
+			}
+		},
+		"deploy-with-ankr": "",
+		"deposit": ""
+	},
+	"provider-tabs": {
+		"create": "",
+		"deposits": ""
+	},
+	"providers": {
+		"binance": "",
+		"metamask": "Metamask",
+		"trust": "Trust Wallet",
+		"wallet": "WalletConnect（钱包连接）"
+	},
+	"rules-dialog": {
+		"buy-ankr": "",
+		"item": {
+			"1": "",
+			"2": "",
+			"3": "",
+			"4": "",
+			"5": ""
+		},
+		"submit": "",
+		"subtitle": "",
+		"tip": "",
+		"title": ""
+	},
+	"stake": {
+		"agreement": "我明白我的质押资金在Eth 2.0质押期间被锁定，在此结束前不能赎回。",
+		"i-want": "我想要质押",
+		"operation-fee": "",
+		"operation-fee-tooltip": "",
+		"stake": "质押",
+		"staking-period": "我想要质押",
+		"staking-period-tooltip": "这是您的代币在智能合约中被锁定的月数。",
+		"title": "质押管理",
+		"validation": {
+			"agreement": "需要确认",
+			"balance-exceed": "您输入的数值超过了您的余额"
+		},
+		"yearly-earning": "收益",
+		"yearly-earning-tooltip": "可期望每年从质押中赚取这个数额。请注意，这只是一个估计。"
+	},
+	"stake-statuses": {
+		"STAKE_ACTION_CONFIRMED": "",
+		"STAKE_ACTION_PENDING": "",
+		"STAKE_ACTION_UNSTAKE": ""
+	},
+	"staker-dashboard": {
+		"aeth-price": "",
+		"claim": "",
+		"column": {
+			"staked": "已质押",
+			"status": "状态",
+			"transaction-hash": "交易哈希"
+		},
+		"current-a-eth-balance": "当前余额",
+		"locked": "所有质押金额将在ETH 2.0合约期间被锁定。 不过，您将获得相应的aETH，您可以交易aETH。在aETH可用之前，您的资金将被锁定且无法赎回。",
+		"on-stkr": "",
+		"on-wallet": "",
+		"pending": "",
+		"redeem": "赎回",
+		"stake": "",
+		"stake-more": "质押更多",
+		"staked": "质押数目",
+		"statuses": {
+			"STAKE_ACTION_CONFIRMED": "已确认",
+			"STAKE_ACTION_PENDING": "已建立",
+			"STAKE_ACTION_UNSTAKE": "已移除"
+		},
+		"tip": {
+			"aeth-amount": "可赎回aETH数目"
+		},
+		"title": "",
+		"transaction": {
+			"goerli": "https://goerli.etherscan.io/tx/{value}",
+			"mainnet": "https://etherscan.io/tx/{value}"
+		},
+		"unstake": "取消质押"
+	},
+	"staking-history-table": {
+		"tip": {
+			"amount": "此次交易中的质押量",
+			"status": "质押交易状态",
+			"txid": "以太坊交易ID。点击这里在以太坊浏览器上查看。"
+		}
+	},
+	"switch-network-notification": {
+		"notice": ""
+	},
+	"top-up": {
+		"ankr-min-deposit-notice": "你的钱包中需要有{value} ANKR",
+		"eth-top-up-note": "请注意，如果您的保险金因罚没而降至 2 ETH 以下，您的节点可能会停止运行。为了防止这种情况发生，或者为了重新启动因此而停止的节点，请确保您的剩余保险余额至少为 2 ETH。您可以在这里将此金额充值。<br/><br/>另外需要注意的是，一旦存入，任何保险金额都会被锁定在Stkr系统中，直到合约结束（Ethereum 2.0 1.5阶段发布）。",
+		"step": {
+			"1": "你有足够的代币",
+			"2": "",
+			"3": "充值 {value} ANKR"
+		},
+		"submit": {
+			"ankr-allow": "",
+			"ankr-buy": "购买ANKR",
+			"ankr-top-up": "充值 {value} ANKR",
+			"eth-top-up": "充值{value} ETH"
+		},
+		"tab": {
+			"ankr": "ANKR",
+			"eth": "ETH"
+		},
+		"title": "充值余额"
+	},
+	"top-up-form": {
+		"allow": "允许 {value} ANKR",
+		"ankr-allowed": " {value} ANKR 被允许",
+		"buy": "买入",
+		"needed": "需要数目",
+		"your-balance": "你的ANKR余额"
+	},
+	"top-up-list": {
+		"table-head": {
+			"amount": "",
+			"status": "",
+			"txid": ""
+		}
+	},
+	"total": {
+		"out-of": "{value} / {of}"
+	},
+	"transaction-completed": {
+		"notice": "",
+		"title": ""
+	},
+	"unit": {
+		"$-value": "",
+		"aeth": "",
+		"aeth-value": "",
+		"ankr-value": "",
+		"day-value": "",
+		"eth": "",
+		"eth-value": "",
+		"feth-value": "",
+		"number-value": "",
+		"peg-eth": "",
+		"separated-aeth-value": "",
+		"separated-eth-value": "",
+		"separated-feth-value": "",
+		"vote-value": "",
+		"~eth-value": "",
+		"~months-value": ""
+	},
+	"units": {
+		"$": " ${value}",
+		"ankr": "{value} ANKR",
+		"eth": "\n {value} ETH",
+		"large-aeth": "{value}<span> aETH</span>",
+		"large-eth": "{value}<span> ETH</span>",
+		"number": "{value, number}",
+		"small-eth": "{value} <span style=\"font-size: 16px\">ETH</span>",
+		"~eth": "~ {value} ETH"
+	},
+	"user-actions": {
+		"error": {
+			"sdk-not-initialized": "SDK未初始化"
+		}
+	},
+	"validation": {
+		"alpha-numerical-and-underscore": "必须仅包含字母，数字和_符号。",
+		"invalid-address-format": "地址格式无效",
+		"min-ETH-amount": "最低数目是 {value} ETH",
+		"required": "这是必填栏"
+	},
+	"video-tutorial": {
+		"title": ""
+	}
 }
