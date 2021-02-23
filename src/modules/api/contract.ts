@@ -58,7 +58,9 @@ export interface IContractManager {
 
   providerExit(): Promise<ISendAsyncResult>;
 
-  claim(): Promise<ISendAsyncResult>;
+  claimAETH(): Promise<ISendAsyncResult>;
+
+  claimFETH(): Promise<ISendAsyncResult>;
 
   claimableRewardOf(staker: string): Promise<BigNumber>;
 
@@ -659,9 +661,22 @@ export class EthereumContractManager implements IContractManager {
     );
   }
 
-  public async claim(): Promise<ISendAsyncResult> {
+  public async claimAETH(): Promise<ISendAsyncResult> {
     const microPoolContract = this.checkGlobalPoolContract();
-    const data: string = microPoolContract.methods.claim().encodeABI();
+    const data: string = microPoolContract.methods.claimAETH().encodeABI();
+    const currentAccount = await this.keyProvider.currentAccount();
+    return this.keyProvider.sendAsync(
+      currentAccount,
+      this.contractConfig.microPoolContract,
+      {
+        data: data,
+      },
+    );
+  }
+
+  public async claimFETH(): Promise<ISendAsyncResult> {
+    const microPoolContract = this.checkGlobalPoolContract();
+    const data: string = microPoolContract.methods.claimFETH().encodeABI();
     const currentAccount = await this.keyProvider.currentAccount();
     return this.keyProvider.sendAsync(
       currentAccount,
@@ -980,9 +995,5 @@ export class BinanceContractManager extends EthereumContractManager {
   async etherBalanceOf(address: string): Promise<BigNumber> {
     const result = await this.pegEthContract?.methods.balanceOf(address).call();
     return new BigNumber(result).div(EthereumContractManager.ETH_SCALE_FACTOR);
-  }
-
-  public async aethRatio(): Promise<BigNumber> {
-    return new BigNumber('1');
   }
 }
