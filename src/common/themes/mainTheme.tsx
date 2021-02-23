@@ -313,6 +313,9 @@ const mainTheme = createMuiTheme({
         transitionProperty: 'color, border-color, background-color',
         borderRadius: 60,
         transitionTimingFunction: 'linear',
+        '&:not($disabled)': {
+          color: '#fff',
+        },
         '&:hover, &:focus, &:active': {
           color: PALETTE.primary.contrastText,
           backgroundColor: PALETTE.text.primary,

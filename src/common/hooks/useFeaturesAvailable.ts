@@ -13,6 +13,7 @@ export function useFeaturesAvailable() {
   return {
     isProviderAvailable: !isSmartChain && data?.blockchainType,
     isClaimAvailable: !isSmartChain,
+    isAEthClaimAlwaysAvailable: isSmartChain,
     stakingAmountStep: isSmartChain ? 0.1 : 0.5,
     stakingFeeRate: data?.stakingFeeRate,
   };

@@ -14,6 +14,7 @@ import { ReactComponent as PlusIcon } from '../../assets/plus.svg';
 import BigNumber from 'bignumber.js';
 import { useStakerDashboardTotalPanelStyles } from './StakerDahsboardTotalPanelStyles';
 import { DECIMAL_PLACES } from '../../StakerDashboardConst';
+import { useFeaturesAvailable } from '../../../../../../common/hooks/useFeaturesAvailable';
 
 interface IStakerDashboardTotalPanelProps extends StyledComponentProps {
   claimableAETHRewardOf: BigNumber;
@@ -29,6 +30,8 @@ export const StakerDashboardTotalPanel = ({
   isClaimAvailable,
 }: IStakerDashboardTotalPanelProps) => {
   const classes = useStakerDashboardTotalPanelStyles();
+
+  const { isAEthClaimAlwaysAvailable } = useFeaturesAvailable();
 
   return (
     <Paper variant="outlined" square={false} className={classes.stakedContent}>
@@ -49,14 +52,15 @@ export const StakerDashboardTotalPanel = ({
           </RouterLink>
         </div>
       </div>
-      {isClaimAvailable && (
+      {
         <div className={classes.bottomRow}>
           <div className={classes.row}>
             <div className={classes.amount}>
-              {tHTML('unit.separated-eth-value', {
-                value: claimableAETHFRewardOf.decimalPlaces(DECIMAL_PLACES),
-              })}
-              {isClaimAvailable && (
+              {!isAEthClaimAlwaysAvailable &&
+                tHTML('unit.separated-eth-value', {
+                  value: claimableAETHFRewardOf.decimalPlaces(DECIMAL_PLACES),
+                })}
+              {
                 <ClaimDialog
                   aETHBalance={claimableAETHRewardOf}
                   fETHBalance={claimableAETHFRewardOf}
@@ -68,20 +72,21 @@ export const StakerDashboardTotalPanel = ({
                     className={classes.claim}
                     disabled={
                       claimableAETHFRewardOf.isLessThanOrEqualTo(0) &&
-                      claimableAETHRewardOf.isLessThanOrEqualTo(0)
+                      claimableAETHRewardOf.isLessThanOrEqualTo(0) &&
+                      !isAEthClaimAlwaysAvailable
                     }
                   >
                     {t('staker-dashboard.claim')}
                   </Button>
                 </ClaimDialog>
-              )}
+              }
             </div>
           </div>
           {children && (
             <div className={classes.childrenContainer}>{children}</div>
           )}
         </div>
-      )}
+      }
     </Paper>
   );
 };
