@@ -22,7 +22,7 @@ import ABI_IERC20 from './contract/IERC20.json';
 export interface IContractConfig {
   aethContract?: string;
   microPoolContract: string;
-  microPoolBlock: string;
+  microPoolBlock: string | undefined;
   ankrContract?: string;
   stakingContract?: string;
   systemContract?: string;
@@ -30,7 +30,7 @@ export interface IContractConfig {
 
 export interface IBinanceConfig {
   globalPoolContract: string;
-  globalPoolBlock: string;
+  globalPoolBlock: string | undefined;
   pegEthContract: string;
   pegAethContract: string;
 }

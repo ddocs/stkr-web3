@@ -62,7 +62,7 @@ const MAINNET_CONFIG: IStkrConfig = {
   },
   binanceConfig: {
     globalPoolContract: '0x3bFce37B5401BEF13C78830D3A9FB14294d18c4F',
-    globalPoolBlock: '4939298',
+    globalPoolBlock: undefined,
     pegEthContract: '0x2170ed0880ac9a755fd29b2688956bd959f933f8',
     pegAethContract: '0x973616ff3b9d8F88411C5b4E6F928EE541e4d01f',
   },
