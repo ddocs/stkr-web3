@@ -141,6 +141,7 @@
 			"fETH": "This is always worth approximately 1 ETH, however by holding this token you can receive continual rewards, paid in additional fETH, meaning your rewards are compounded. The value of your fETH however is unlikely to rise above that of ETH over time."
 		},
 		"submit": {
+			"claim-aETH": "Claim aETH",
 			"aETH": "Claim {value, number} aETH",
 			"fETH": "Claim {value, number} fETH"
 		},

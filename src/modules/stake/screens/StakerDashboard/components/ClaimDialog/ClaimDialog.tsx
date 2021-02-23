@@ -19,6 +19,7 @@ import { useRequestDispatch } from '../../../../../../common/utils/useRequestDis
 import { MutationErrorHandler } from '../../../../../../components/MutationErrorHandler/MutationErrorHandler';
 import { FEthIcon } from '../../../../../../UiKit/Icons/FEthIcon';
 import { useMutation } from '@redux-requests/react';
+import { useFeaturesAvailable } from '../../../../../../common/hooks/useFeaturesAvailable';
 
 interface IClaimDialogProps {
   children?: ReactNode;
@@ -34,6 +35,8 @@ export const ClaimDialog = ({
   const classes = useAnkrInstructionsVideoDialogStyles();
 
   const dispatch = useRequestDispatch();
+
+  const { isAEthClaimAlwaysAvailable } = useFeaturesAvailable();
 
   const [isOpened, setIsOpened] = useState(false);
   const handleOpen = useCallback(() => {
@@ -124,11 +127,19 @@ export const ClaimDialog = ({
                 size="large"
                 fullWidth={true}
                 onClick={handleClaimAEth}
-                disabled={aETHBalance.isLessThanOrEqualTo(0) || isLoading}
+                disabled={
+                  (aETHBalance.isLessThanOrEqualTo(0) &&
+                    !isAEthClaimAlwaysAvailable) ||
+                  isLoading
+                }
               >
-                {t('claim-dialog.submit.aETH', {
-                  value: aETHBalance.decimalPlaces(DEFAULT_FIXED).toNumber(),
-                })}
+                {isAEthClaimAlwaysAvailable
+                  ? t('claim-dialog.submit.claim-aETH')
+                  : t('claim-dialog.submit.aETH', {
+                      value: aETHBalance
+                        .decimalPlaces(DEFAULT_FIXED)
+                        .toNumber(),
+                    })}
               </Button>
             </Box>
           </div>
