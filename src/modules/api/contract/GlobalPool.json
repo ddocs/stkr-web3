@@ -153,6 +153,12 @@
         "internalType": "uint256",
         "name": "amount",
         "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "bool",
+        "name": "isAETH",
+        "type": "bool"
       }
     ],
     "name": "RewardClaimed",
@@ -214,6 +220,25 @@
     ],
     "name": "StakeRemoved",
     "type": "event"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "action",
+        "type": "bytes32"
+      }
+    ],
+    "name": "isPaused",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
   },
   {
     "inputs": [],
@@ -287,6 +312,34 @@
   {
     "inputs": [
       {
+        "internalType": "bytes[]",
+        "name": "pubkey",
+        "type": "bytes[]"
+      },
+      {
+        "internalType": "bytes[]",
+        "name": "withdrawal_credentials",
+        "type": "bytes[]"
+      },
+      {
+        "internalType": "bytes[]",
+        "name": "signature",
+        "type": "bytes[]"
+      },
+      {
+        "internalType": "bytes32[]",
+        "name": "deposit_data_root",
+        "type": "bytes32[]"
+      }
+    ],
+    "name": "multipleDeposit",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "bytes",
         "name": "pubkey",
         "type": "bytes"
@@ -336,7 +389,7 @@
     ],
     "name": "topUpANKR",
     "outputs": [],
-    "stateMutability": "payable",
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -379,9 +432,15 @@
         "type": "address"
       }
     ],
-    "name": "claimFor",
-    "outputs": [],
-    "stateMutability": "nonpayable",
+    "name": "claimableRewardOf",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -392,7 +451,7 @@
         "type": "address"
       }
     ],
-    "name": "claimableRewardOf",
+    "name": "claimableAETHRewardOf",
     "outputs": [
       {
         "internalType": "uint256",
@@ -401,6 +460,39 @@
       }
     ],
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "staker",
+        "type": "address"
+      }
+    ],
+    "name": "claimableAETHFRewardOf",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "claimAETH",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "claimFETH",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -454,9 +546,46 @@
         "internalType": "address",
         "name": "provider",
         "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "val",
+        "type": "uint256"
+      }
+    ],
+    "name": "updateEther",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "provider",
+        "type": "address"
       }
     ],
     "name": "pendingEtherBalanceOf",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "provider",
+        "type": "address"
+      }
+    ],
+    "name": "slashingsOf",
     "outputs": [
       {
         "internalType": "uint256",
@@ -515,6 +644,19 @@
   {
     "inputs": [
       {
+        "internalType": "address payable",
+        "name": "tokenContract",
+        "type": "address"
+      }
+    ],
+    "name": "updateFETHContract",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "address",
         "name": "configContract",
         "type": "address"
@@ -534,6 +676,59 @@
       }
     ],
     "name": "updateStakingContract",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "clearEmptyPendingStakers",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "deleteLastPendingStakerPointer",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "operator",
+        "type": "address"
+      }
+    ],
+    "name": "changeOperator",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "depositContractAddress",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_totalRewards",
+        "type": "uint256"
+      }
+    ],
+    "name": "updateFETHRewards",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
