@@ -4,7 +4,6 @@ import {
   IProviderToppedUpEthEvent,
   IStakeConfirmedEvent,
   IStakePendingEvent,
-  IStakeRemovedEvent,
 } from './event';
 import { ISendAsyncResult, KeyProvider } from './provider';
 import BigNumber from 'bignumber.js';
@@ -13,7 +12,7 @@ import { EventLog } from 'web3-core';
 import { BlockHeader } from 'web3-eth';
 import { EventEmitter } from 'events';
 import ABI_GLOBAL_POOL from './contract/GlobalPool.json';
-import ABI_BINANCE_GLOBAL_POOL from './contract/BinanceGlobalPool.json';
+import ABI_BINANCE_GLOBAL_POOL from './contract/BinancePool.json';
 import ABI_AETH from './contract/AETH.json';
 import ABI_ANKR from './contract/ANKR.json';
 import ABI_SYSTEM from './contract/SystemParameters.json';
@@ -21,8 +20,10 @@ import ABI_IERC20 from './contract/IERC20.json';
 
 export interface IContractConfig {
   aethContract?: string;
+  fethContract?: string;
   microPoolContract: string;
   microPoolBlock: string | undefined;
+  maxBlocksPerScan?: number;
   ankrContract?: string;
   stakingContract?: string;
   systemContract?: string;
@@ -31,8 +32,9 @@ export interface IContractConfig {
 export interface IBinanceConfig {
   globalPoolContract: string;
   globalPoolBlock: string | undefined;
+  maxBlocksPerScan?: number;
   pegEthContract: string;
-  pegAethContract: string;
+  aethContract: string;
 }
 
 export interface IContractManager {
@@ -42,15 +44,11 @@ export interface IContractManager {
 
   stakeConfirmedEventLogs(): Promise<IStakeConfirmedEvent[]>;
 
-  stakeRemovedEventLogs(): Promise<IStakeRemovedEvent[]>;
-
   providerToppedUpEthEventLogs(): Promise<IProviderToppedUpEthEvent[]>;
 
   providerToppedUpAnkrEventLogs(): Promise<IProviderToppedUpAnkrEvent[]>;
 
   stake(amount: BigNumber | BigNumber.Value): Promise<ISendAsyncResult>;
-
-  unstake(): Promise<ISendAsyncResult>;
 
   topUpETH(amount: BigNumber | string): Promise<ISendAsyncResult>;
 
@@ -62,7 +60,9 @@ export interface IContractManager {
 
   claimFETH(): Promise<ISendAsyncResult>;
 
-  claimableRewardOf(staker: string): Promise<BigNumber>;
+  claimableAETHRewardOf(staker: string): Promise<BigNumber>;
+
+  claimableFETHRewardOf(staker: string): Promise<BigNumber>;
 
   poolCount(): Promise<BigNumber>;
 
@@ -82,6 +82,8 @@ export interface IContractManager {
 
   aethBalanceOf(address: string): Promise<BigNumber>;
 
+  fethBalanceOf(address: string): Promise<BigNumber>;
+
   pendingEtherBalanceOf(address: string): Promise<BigNumber>;
 
   providerLockedEtherOf(address: string): Promise<BigNumber>;
@@ -96,6 +98,7 @@ export interface IContractManager {
 export class EthereumContractManager implements IContractManager {
   protected readonly microPoolContract?: Contract;
   protected readonly aethContract?: Contract;
+  protected readonly fethContract?: Contract;
   protected readonly ankrContract?: Contract;
   protected readonly systemContract?: Contract;
 
@@ -116,6 +119,12 @@ export class EthereumContractManager implements IContractManager {
       this.aethContract = this.keyProvider.createContract(
         ABI_AETH as any,
         contractConfig.aethContract,
+      );
+    }
+    if (contractConfig.fethContract) {
+      this.fethContract = this.keyProvider.createContract(
+        ABI_AETH as any,
+        contractConfig.fethContract,
       );
     }
     if (contractConfig.ankrContract) {
@@ -148,12 +157,32 @@ export class EthereumContractManager implements IContractManager {
       return [];
     }
     const currentAddress = this.keyProvider.currentAccount();
-    const events = await this.microPoolContract.getPastEvents(eventName, {
-      fromBlock: this.contractConfig.microPoolBlock,
-      filter: {
-        staker: currentAddress,
-      },
-    });
+    const latestBlock = await this.keyProvider.latestBlockHeightOrWait();
+    let currentBlock = Number(this.contractConfig.microPoolBlock);
+    const events = [];
+    do {
+      let toBlock = latestBlock;
+      if (this.contractConfig.maxBlocksPerScan) {
+        toBlock = currentBlock + this.contractConfig.maxBlocksPerScan;
+        if (toBlock > latestBlock) {
+          toBlock = latestBlock;
+        }
+      }
+      console.log(
+        `Scanning blocks from ${currentBlock} to ${toBlock}, step is ${
+          this.contractConfig.maxBlocksPerScan || 0
+        }`,
+      );
+      const newEvents = await this.microPoolContract.getPastEvents(eventName, {
+        fromBlock: currentBlock,
+        toBlock: toBlock,
+        filter: {
+          staker: currentAddress,
+        },
+      });
+      events.push(...newEvents);
+      currentBlock = toBlock;
+    } while (currentBlock < latestBlock);
     return events.map((eventLog: EventLog) => {
       const mappedValues = fn(eventLog.returnValues);
       return {
@@ -191,22 +220,6 @@ export class EthereumContractManager implements IContractManager {
     return this.queryGlobalPoolEventLogs(
       ContractManagerEvents.StakeConfirmed,
       'StakeConfirmed',
-      fn,
-    );
-  }
-
-  public async stakeRemovedEventLogs(): Promise<IStakeRemovedEvent[]> {
-    const fn = ({ staker, amount }: any) => {
-      return {
-        staker: staker,
-        amount: new BigNumber(amount).dividedBy(
-          EthereumContractManager.ETH_SCALE_FACTOR,
-        ),
-      };
-    };
-    return this.queryGlobalPoolEventLogs(
-      ContractManagerEvents.StakeRemoved,
-      'StakeRemoved',
       fn,
     );
   }
@@ -364,26 +377,6 @@ export class EthereumContractManager implements IContractManager {
             EthereumContractManager.ETH_SCALE_FACTOR,
           ),
         } as IStakeConfirmedEvent['data']);
-      });
-    // noinspection TypeScriptValidateJSTypes
-    this.microPoolContract.events
-      .StakeRemoved({
-        filter: { staker: currentAddress },
-        fromBlock: latestBlockHeight,
-      })
-      .on('data', (eventLog: EventLog) => {
-        const { staker, amount } = eventLog.returnValues;
-        console.log(
-          `handled stake removed event log: `,
-          JSON.stringify(eventLog, null, 2),
-        );
-        this.eventEmitter.emit(ContractManagerEvents.StakeRemoved, {
-          eventLog: eventLog,
-          staker,
-          amount: new BigNumber(amount).dividedBy(
-            EthereumContractManager.ETH_SCALE_FACTOR,
-          ),
-        });
       });
     // noinspection TypeScriptValidateJSTypes
     this.microPoolContract.events.PoolOnGoing &&
@@ -588,29 +581,6 @@ export class EthereumContractManager implements IContractManager {
     return result;
   }
 
-  public async unstake(): Promise<ISendAsyncResult> {
-    const microPoolContract = this.checkGlobalPoolContract();
-    const data: string = microPoolContract.methods.unstake().encodeABI();
-    const currentAccount = await this.keyProvider.currentAccount();
-    const currentStake = await this.pendingStakesOf(currentAccount);
-    const result = await this.keyProvider.sendAsync(
-      currentAccount,
-      this.contractConfig.microPoolContract,
-      {
-        data: data,
-      },
-    );
-    console.log(`emitting unstake manual pending event`);
-    this.eventEmitter.emit(ContractManagerEvents.StakeRemoved, {
-      eventLog: {
-        transactionHash: result.transactionHash,
-      },
-      staker: currentAccount,
-      amount: currentStake,
-    });
-    return result;
-  }
-
   public async topUpETH(amount: BigNumber | string): Promise<ISendAsyncResult> {
     const microPoolContract = this.checkGlobalPoolContract();
     const data: string = microPoolContract.methods.topUpETH().encodeABI();
@@ -687,14 +657,24 @@ export class EthereumContractManager implements IContractManager {
     );
   }
 
-  public async claimableRewardOf(staker: string): Promise<BigNumber> {
+  public async claimableAETHRewardOf(staker: string): Promise<BigNumber> {
     const microPoolContract = this.checkGlobalPoolContract();
-    return microPoolContract.methods
-      .claimableRewardOf(staker)
-      .call()
-      .then((value: string) => {
-        return this.keyProvider.getWeb3().utils.fromWei(value);
-      });
+    const rawValue = await microPoolContract.methods
+      .claimableAETHRewardOf(staker)
+      .call();
+    return new BigNumber(rawValue).dividedBy(
+      EthereumContractManager.ETH_SCALE_FACTOR,
+    );
+  }
+
+  public async claimableFETHRewardOf(staker: string): Promise<BigNumber> {
+    const microPoolContract = this.checkGlobalPoolContract();
+    const rawValue = await microPoolContract.methods
+      .claimableAETHFRewardOf(staker)
+      .call();
+    return new BigNumber(rawValue).dividedBy(
+      EthereumContractManager.ETH_SCALE_FACTOR,
+    );
   }
 
   public async poolCount(): Promise<BigNumber> {
@@ -704,14 +684,12 @@ export class EthereumContractManager implements IContractManager {
 
   public async pendingStakesOf(staker: string): Promise<BigNumber> {
     const microPoolContract = this.checkGlobalPoolContract();
-    return microPoolContract.methods
+    const rawValue = await microPoolContract.methods
       .pendingStakesOf(staker)
-      .call()
-      .then((value: string) =>
-        new BigNumber(value).dividedBy(
-          EthereumContractManager.ETH_SCALE_FACTOR,
-        ),
-      );
+      .call();
+    return new BigNumber(rawValue).dividedBy(
+      EthereumContractManager.ETH_SCALE_FACTOR,
+    );
   }
 
   private static readonly DEFAULT_SYSTEM_CONTRACT_PARAMETERS = {
@@ -827,6 +805,13 @@ export class EthereumContractManager implements IContractManager {
     return this.keyProvider.getErc20Balance(this.aethContract, address);
   }
 
+  public async fethBalanceOf(address: string): Promise<BigNumber> {
+    if (!this.fethContract) {
+      return new BigNumber('0');
+    }
+    return this.keyProvider.getErc20Balance(this.fethContract, address);
+  }
+
   public async pendingEtherBalanceOf(address: string): Promise<BigNumber> {
     const microPoolContract = this.checkGlobalPoolContract();
     const value = await microPoolContract.methods
@@ -885,7 +870,8 @@ export class BinanceContractManager extends EthereumContractManager {
       {
         microPoolContract: binanceConfig.globalPoolContract,
         microPoolBlock: binanceConfig.globalPoolBlock,
-        aethContract: binanceConfig.pegAethContract,
+        maxBlocksPerScan: binanceConfig.maxBlocksPerScan,
+        aethContract: binanceConfig.aethContract,
       },
       ABI_BINANCE_GLOBAL_POOL,
     );
@@ -957,12 +943,12 @@ export class BinanceContractManager extends EthereumContractManager {
       console.log(`Peg-ETH spending allowed: ${allowedResult}`);
     }
     const microPoolContract = this.checkGlobalPoolContract();
+    const fixedAmount = amount
+      .multipliedBy(EthereumContractManager.ETH_SCALE_FACTOR)
+      .toString(10)
+      .split('.')[0];
     const data: string = microPoolContract.methods
-      .stake(
-        amount
-          .multipliedBy(EthereumContractManager.ETH_SCALE_FACTOR)
-          .toString(10),
-      )
+      .stake(fixedAmount)
       .encodeABI();
     const result = await this.keyProvider.sendAsync(
       currentAccount,
@@ -990,6 +976,16 @@ export class BinanceContractManager extends EthereumContractManager {
     IProviderToppedUpAnkrEvent[]
   > {
     return [];
+  }
+
+  public async claimableFETHRewardOf(staker: string): Promise<BigNumber> {
+    const microPoolContract = this.checkGlobalPoolContract();
+    const rawValue = await microPoolContract.methods
+      .claimableFETHRewardOf(staker)
+      .call();
+    return new BigNumber(rawValue).dividedBy(
+      EthereumContractManager.ANKR_SCALE_FACTOR,
+    );
   }
 
   async etherBalanceOf(address: string): Promise<BigNumber> {

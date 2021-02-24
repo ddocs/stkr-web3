@@ -35,6 +35,12 @@ interface IStakerSdk {
 
   getClaimableAethBalance(): Promise<BigNumber>;
 
+  claimAETH(): Promise<ISendAsyncResult>;
+
+  getClaimableFethBalance(): Promise<BigNumber>;
+
+  claimFETH(): Promise<ISendAsyncResult>;
+
   getNativeBalance(): Promise<BigNumber>;
 
   getEthBalance(): Promise<BigNumber>;
@@ -43,10 +49,9 @@ interface IStakerSdk {
 
   getAethBalance(): Promise<BigNumber>;
 
-  getStakerStats(): Promise<IStakerStats>;
+  getFethBalance(): Promise<BigNumber>;
 
-  // claimAETH(): Promise<ISendAsyncResult>;
-  // claimFETH(): Promise<ISendAsyncResult>;
+  getStakerStats(): Promise<IStakerStats>;
 
   getAethRatio(): Promise<BigNumber>;
 
@@ -339,8 +344,7 @@ export class StkrSdk implements IStkrSdk {
   }
 
   public async unstake(): Promise<ISendAsyncResult> {
-    console.log(`unstaking funds from global pool`);
-    return this.getContractManager().unstake();
+    throw new Error(`Unstake is not supported anymore`);
   }
 
   public currentAccount(): string {
@@ -369,17 +373,30 @@ export class StkrSdk implements IStkrSdk {
     return this.contractManager;
   }
 
+  /**
+   * @deprecated
+   */
   public getJssdkManager(): JssdkManager {
     if (!this.jssdkManager) throw new Error(`Jssdk is not available`);
     return this.jssdkManager;
   }
 
   public async getClaimableAethBalance(): Promise<BigNumber> {
-    if (this.getKeyProvider().isBinanceSmartChain()) {
-      return new BigNumber('0');
-    }
     const address = this.getKeyProvider().currentAccount();
-    return this.getContractManager().claimableRewardOf(address);
+    return this.getContractManager().claimableAETHRewardOf(address);
+  }
+
+  public async claimAETH(): Promise<ISendAsyncResult> {
+    return this.getContractManager().claimAETH();
+  }
+
+  public async getClaimableFethBalance(): Promise<BigNumber> {
+    const address = this.getKeyProvider().currentAccount();
+    return this.getContractManager().claimableFETHRewardOf(address);
+  }
+
+  public async claimFETH(): Promise<ISendAsyncResult> {
+    return this.getContractManager().claimFETH();
   }
 
   public async getNativeBalance(): Promise<BigNumber> {
@@ -408,12 +425,16 @@ export class StkrSdk implements IStkrSdk {
     return this.getContractManager().aethBalanceOf(currentAccount);
   }
 
+  public async getFethBalance(): Promise<BigNumber> {
+    const currentAccount = this.getKeyProvider().currentAccount();
+    return this.getContractManager().fethBalanceOf(currentAccount);
+  }
+
   public async getStakerStats(): Promise<IStakerStats> {
     console.log('fetching stake events from smart contract...');
-    const [pending, confirmed, removed, toppedUp] = await Promise.all([
+    const [pending, confirmed, toppedUp] = await Promise.all([
       this.getContractManager().stakePendingEventLogs(),
       this.getContractManager().stakeConfirmedEventLogs(),
-      this.getContractManager().stakeRemovedEventLogs(),
       this.getContractManager().providerToppedUpEthEventLogs(),
     ]);
 
@@ -452,27 +473,11 @@ export class StkrSdk implements IStkrSdk {
         };
       },
     );
-    const unstakedItems = removed.map(
-      (item): IUserStakeReply => {
-        return {
-          user: item.data.staker,
-          amount: item.data.amount,
-          transactionHash: item.data.eventLog.transactionHash,
-          action: 'STAKE_ACTION_UNSTAKE',
-          timestamp: item.data.eventLog.blockNumber,
-          isTopUp: hasItem(toppedUp, item),
-        };
-      },
-    );
-    const stakes = [...pendingItems, ...confirmedItems, ...unstakedItems].sort(
+    const stakes = [...pendingItems, ...confirmedItems].sort(
       (a, b) => a.timestamp - b.timestamp,
     );
     return { stakes };
   }
-
-  // public async claimAETH(): Promise<ISendAsyncResult> {
-  //   return await this.getContractManager().claim();
-  // }
 
   public async topUpETH(amount: BigNumber): Promise<ISendAsyncResult> {
     return await this.getContractManager().topUpETH(amount);

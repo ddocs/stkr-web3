@@ -42,7 +42,6 @@ export enum ContractManagerEvents {
   AethBalanceChanged = 'AethBalanceChanged',
   StakePending = 'StakePending', // !
   StakeConfirmed = 'StakeConfirmed', // !
-  StakeRemoved = 'StakeRemoved', // !
   PoolOnGoing = 'PoolOnGoing',
   PoolCompleted = 'PoolCompleted',
   ProviderSlashedAnkr = 'ProviderSlashedAnkr',
@@ -98,15 +97,6 @@ export interface IStakePendingEvent {
 
 export interface IStakeConfirmedEvent {
   type: ContractManagerEvents.StakeConfirmed;
-  data: {
-    eventLog: IEventLog;
-    staker: Address;
-    amount: BigNumber;
-  };
-}
-
-export interface IStakeRemovedEvent {
-  type: ContractManagerEvents.StakeRemoved;
   data: {
     eventLog: IEventLog;
     staker: Address;
@@ -187,7 +177,6 @@ export interface IRewardClaimedEvent {
 export type ContractManagerEvent =
   | IStakePendingEvent
   | IStakeConfirmedEvent
-  | IStakeRemovedEvent
   | IPoolOnGoingEvent
   | IPoolCompletedEvent
   | IProviderSlashedAnkrEvent

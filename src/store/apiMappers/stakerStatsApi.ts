@@ -1,9 +1,14 @@
-import {
-  IStakerStats as StakerStats,
-  UserStakeAction,
-  IUserStakeReply,
-} from '../../modules/api/gateway';
+import { UserStakeAction, IUserStakeReply } from '../../modules/api/gateway';
 import BigNumber from 'bignumber.js';
+
+export interface IStakerStats {
+  aEthBalance: BigNumber;
+  aEthRatio: BigNumber;
+  fEthBalance: BigNumber;
+  pendingStake: BigNumber;
+  claimableAETHRewardOf: BigNumber;
+  claimableFETHRewardOf: BigNumber;
+}
 
 export interface IStakeHistoryItem {
   user?: string;
@@ -14,17 +19,11 @@ export interface IStakeHistoryItem {
   isTopUp: boolean;
 }
 
-export interface IStakerStats {
-  aEthBalance: BigNumber;
-  aEthRatio: BigNumber;
-  fEthBalance: BigNumber;
-  pendingStake: BigNumber;
+export interface IStakingHistory {
   stakes: IStakeHistoryItem[];
-  claimableAETHRewardOf: BigNumber;
-  claimableAETHFRewardOf: BigNumber;
 }
 
-function mapStakeHistoryItem(data: IUserStakeReply): IStakeHistoryItem {
+export function mapStakeHistoryItem(data: IUserStakeReply): IStakeHistoryItem {
   return {
     user: data.user,
     microPoolName: 'no name',
@@ -35,23 +34,20 @@ function mapStakeHistoryItem(data: IUserStakeReply): IStakeHistoryItem {
   };
 }
 
-export function mapStakerStats(
-  data: StakerStats & {
-    aEthBalance: BigNumber; // was string, now using JSSDK
-    fEthBalance: BigNumber;
-    aEthRatio: BigNumber;
-    pendingStake: BigNumber;
-    claimableAETHRewardOf: BigNumber;
-    claimableAETHFRewardOf: BigNumber;
-  },
-): IStakerStats {
+export function mapStakerStats(data: {
+  aEthBalance: BigNumber;
+  fEthBalance: BigNumber;
+  aEthRatio: BigNumber;
+  pendingStake: BigNumber;
+  claimableAETHRewardOf: BigNumber;
+  claimableFETHRewardOf: BigNumber;
+}): IStakerStats {
   return {
-    stakes: data.stakes.map(mapStakeHistoryItem).reverse(),
     aEthBalance: data.aEthBalance,
     aEthRatio: data.aEthRatio,
     pendingStake: data.pendingStake,
     claimableAETHRewardOf: data.claimableAETHRewardOf,
-    claimableAETHFRewardOf: data.claimableAETHFRewardOf,
+    claimableFETHRewardOf: data.claimableFETHRewardOf,
     fEthBalance: data.fEthBalance,
   };
 }

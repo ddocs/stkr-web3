@@ -22,9 +22,11 @@ import { ISidecar, mapSidecar } from '../apiMappers/sidecarsApi';
 import {
   IStakeHistoryItem,
   IStakerStats,
+  IStakingHistory,
+  mapStakeHistoryItem,
   mapStakerStats,
 } from '../apiMappers/stakerStatsApi';
-import { IUserInfo } from '../apiMappers/userApi';
+import { IStakingFeeInfo, IUserInfo } from '../apiMappers/userApi';
 import { closeModalAction } from '../dialogs/actions';
 import { IStoreState } from '../reducers';
 
@@ -50,6 +52,8 @@ export const UserActionTypes = {
 
   FETCH_ACCOUNT_DATA: 'FETCH_ACCOUNT_DATA',
 
+  CALC_STAKING_FEE: 'CALC_STAKING_FEE',
+
   FETCH_CURRENT_PROVIDER_SIDECARS: 'FETCH_CURRENT_PROVIDER_SIDECARS',
 
   AUTHORIZE_PROVIDER: 'AUTHORIZE_PROVIDER',
@@ -72,6 +76,8 @@ export const UserActionTypes = {
 
   FETCH_STAKER_STATS: 'FETCH_STAKER_STATS',
 
+  FETCH_STAKING_HISTORY: 'FETCH_STAKING_HISTORY',
+
   FETCH_PROVIDER_STATS: 'FETCH_PROVIDER_STATS',
 
   TOP_UP: 'TOP_UP',
@@ -85,7 +91,7 @@ export const UserActions = {
     request: {
       promise: (async function () {
         const stkrSdk = StkrSdk.getForEnv();
-        return await stkrSdk?.connect();
+        return stkrSdk?.connect();
       })(),
     },
     meta: {
@@ -148,11 +154,6 @@ export const UserActions = {
         } else {
           ankrBalance = await stkrSdk.getAnkrBalance();
         }
-        let stakingFeeRate = new BigNumber('0');
-        if (stkrSdk.getKeyProvider().isBinanceSmartChain()) {
-          const bridgeSdk = new BridgeSdk(stkrSdk);
-          stakingFeeRate = await bridgeSdk.calcStakingFeeRate();
-        }
         return {
           address,
           blockchainType,
@@ -161,8 +162,34 @@ export const UserActions = {
           ankrBalance: ankrBalance,
           nativeBalance,
           bnbBalance,
-          stakingFeeRate,
         } as IUserInfo;
+      })(),
+    },
+    meta: {
+      asMutation: false,
+      onSuccess: (
+        request: { data: IConnectResult },
+        action: RequestAction,
+        store: Store<IStoreState>,
+      ) => {
+        store.dispatch(UserActions.calcStakingFee());
+        return request;
+      },
+    },
+  }),
+  calcStakingFee: () => ({
+    type: UserActionTypes.CALC_STAKING_FEE,
+    request: {
+      promise: (async function () {
+        const stkrSdk = StkrSdk.getForEnv();
+        let stakingFeeRate = new BigNumber('0');
+        if (stkrSdk.getKeyProvider().isBinanceSmartChain()) {
+          const bridgeSdk = new BridgeSdk(stkrSdk);
+          stakingFeeRate = await bridgeSdk.calcStakingFeeRate();
+        }
+        return {
+          stakingFeeRate: stakingFeeRate,
+        } as IStakingFeeInfo;
       })(),
     },
   }),
@@ -346,60 +373,72 @@ export const UserActions = {
     request: {
       promise: (async function (): Promise<IStakerStats> {
         const stkrSdk = StkrSdk.getForEnv();
-
-        const address = stkrSdk.getKeyProvider().currentAccount();
-
-        // TODO Fetch balances on smartchain
         const balanceData = await (async () => {
           try {
             const claimableAETHRewardOf = new BigNumber(
-              await stkrSdk.getJssdkManager().claimableAETHRewardOf(address),
+              await stkrSdk.getClaimableAethBalance(),
             );
-
-            const claimableAETHFRewardOf = new BigNumber(
-              await stkrSdk.getJssdkManager().claimableAETHFRewardOf(address),
+            const claimableFETHRewardOf = new BigNumber(
+              await stkrSdk.getClaimableFethBalance(),
             );
-
-            const aEthBalance = await stkrSdk
-              .getJssdkManager()
-              .aEthBalanceOf(address);
-
-            const fEthBalance = await stkrSdk
-              .getJssdkManager()
-              .fEthBalanceOf(address);
-
+            const aEthBalance = await stkrSdk.getAethBalance();
+            const fEthBalance = await stkrSdk.getFethBalance();
             return {
               claimableAETHRewardOf,
-              claimableAETHFRewardOf,
+              claimableFETHRewardOf,
               aEthBalance,
               fEthBalance,
             };
-          } catch (error) {
+          } catch (e) {
+            console.error(e);
             return {
               claimableAETHRewardOf: new BigNumber(0),
-              claimableAETHFRewardOf: new BigNumber(0),
+              claimableFETHRewardOf: new BigNumber(0),
               aEthBalance: new BigNumber(0),
               fEthBalance: new BigNumber(0),
             };
           }
         })();
-
         const aEthRatio = await stkrSdk.getAethRatio();
-
         const pendingStake = await stkrSdk.pendingStakesOf(
           stkrSdk.getKeyProvider().currentAccount(),
         );
-
+        console.log(
+          `Claimable AETH: ${balanceData.claimableAETHRewardOf.toString(10)}`,
+        );
+        console.log(
+          `Claimable FETH: ${balanceData.claimableFETHRewardOf.toString(10)}`,
+        );
         return {
           aEthRatio,
           pendingStake,
           ...balanceData,
-          ...(await stkrSdk.getStakerStats()),
-        };
+        } as IStakerStats;
       })(),
     },
     meta: {
+      asMutation: false,
+      onSuccess: (
+        request: { data: IConnectResult },
+        action: RequestAction,
+        store: Store<IStoreState>,
+      ) => {
+        store.dispatch(UserActions.fetchingStakingHistory());
+        return request;
+      },
       getData: mapStakerStats,
+    },
+  }),
+  fetchingStakingHistory: () => ({
+    type: UserActionTypes.FETCH_STAKING_HISTORY,
+    request: {
+      promise: (async function () {
+        const stkrSdk = StkrSdk.getForEnv();
+        const stakerStats = await stkrSdk.getStakerStats();
+        return {
+          stakes: stakerStats.stakes.map(mapStakeHistoryItem),
+        } as IStakingHistory;
+      })(),
     },
   }),
   fetchProviderStats: () => ({
@@ -426,14 +465,14 @@ export const UserActions = {
     },
   ) => {
     return {
-      type: update(UserActionTypes.FETCH_STAKER_STATS),
+      type: update(UserActionTypes.FETCH_STAKING_HISTORY),
       payload: payload,
       meta: {
         // TODO cover by unit
         mutation: (
-          state: IStakerStats | undefined,
-          payload: Partial<IStakerStats>,
-        ): Partial<IStakerStats> => {
+          state: IStakingHistory | undefined,
+          payload: Partial<IStakingHistory>,
+        ): Partial<IStakingHistory> => {
           const stakes = (() => {
             if (!payload || !(payload.stakes instanceof Array)) {
               return state?.stakes;
@@ -443,7 +482,7 @@ export const UserActions = {
               return payload.stakes;
             }
 
-            let begin: IStakerStats['stakes'] = [];
+            let begin: IStakingHistory['stakes'] = [];
             const main = [...state.stakes];
 
             payload.stakes.forEach(newItem => {
@@ -474,12 +513,7 @@ export const UserActions = {
     request: {
       promise: (async function () {
         const stkrSdk = StkrSdk.getForEnv();
-        /* TODO: "REMOVE THIS STUPID TONS OF SDKs!!! (I've added it just in case, because I'm tired of it)" */
-        if (stkrSdk.getKeyProvider().isBinanceSmartChain()) {
-          return await stkrSdk.getContractManager().claimAETH();
-        }
-        const currentAccount = stkrSdk.getKeyProvider().currentAccount();
-        return stkrSdk.getJssdkManager().claimAETH({ from: currentAccount });
+        return stkrSdk.claimAETH();
       })(),
     },
     meta: {
@@ -498,13 +532,7 @@ export const UserActions = {
     request: {
       promise: (async function () {
         const stkrSdk = StkrSdk.getForEnv();
-        if (stkrSdk.getKeyProvider().isBinanceSmartChain()) {
-          throw new Error(
-            'Claim of fETH is not yet supported for Binance Smart Chain',
-          );
-        }
-        const currentAccount = stkrSdk.getKeyProvider().currentAccount();
-        return stkrSdk.getJssdkManager().claimFETH({ from: currentAccount });
+        return stkrSdk.claimFETH();
       })(),
     },
     meta: {
