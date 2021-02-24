@@ -114,7 +114,7 @@
 		"knowledge-text": "Run Ethereum 2.0 nodes on Ankr, no hardware or technical knowledge required.",
 		"knowledge-title": "No technical knowledge needed",
 		"text": "Become a provider by running Ethereum 2.0 nodes on Ankr with no hardware or technical knowledge required.",
-		"title": "Become <br />a provider "
+		"title": "Become <br />a provider"
 	},
 	"by-ankr": "Powered by",
 	"calculate": {
@@ -141,8 +141,8 @@
 			"fETH": "This is always worth approximately 1 ETH, however by holding this token you can receive continual rewards, paid in additional fETH, meaning your rewards are compounded. The value of your fETH however is unlikely to rise above that of ETH over time."
 		},
 		"submit": {
-			"claim-aETH": "Claim aETH",
 			"aETH": "Claim {value, number} aETH",
+			"claim-aETH": "Claim aETH",
 			"fETH": "Claim {value, number} fETH"
 		},
 		"title": "Which token would you prefer?",
@@ -259,11 +259,11 @@
 		"stakers": "Stakers",
 		"total-staked": "Total ETH Staked with Ankr"
 	},
-	"global-stats.stakers": "",
-	"global-stats.total-staked": "",
+	"global-stats.stakers": "Stakers",
+	"global-stats.total-staked": "Total ETH Staked with Ankr",
 	"how-it-works-dialog": {
 		"item": {
-			"1": "To  participate  in  a  proposal,  users  must  give  allowance  to  Stkr’s  AnkrDepositContract.",
+			"1": "To  participate  in  a  proposal,  users  must  give  allowance  to  Ankr Staking’s  AnkrDepositContract.",
 			"2": "Every deposited ANKR token has only one voting power (i.e., more tokens morevote power).",
 			"3": "Users can deposit tokens before the voting period or while they vote.",
 			"4": "Users can participate multiple proposals by voting with the same deposited tokens(as long as the address has sufficient ANKR tokens).",
@@ -300,7 +300,7 @@
 		"connect": "Connect",
 		"copied": "Copied",
 		"copy-address": "Copy Address",
-		"copyright": "© {year} Stkr All rights reserved | <a href=\"mailto: info@ankr.com\" rel=\"noopener noreferrer\">info@ankr.com</a>",
+		"copyright": "© {year} Ankr All rights reserved | <a href=\"mailto: info@ankr.com\" rel=\"noopener noreferrer\">info@ankr.com</a>",
 		"create": "Create",
 		"create-micropool": "Create micropool",
 		"disconnect": "Disconnect",
@@ -323,12 +323,12 @@
 		"whitepaper-ch": "Whitepaper (Ch)",
 		"whitepaper-en": "Whitepaper (En)"
 	},
-	"navigation.community": "",
-	"navigation.docs": "",
-	"navigation.governance": "",
-	"navigation.litepaper": "",
-	"navigation.unlock-wallet": "",
-	"navigation.unlock-your-wallet": "",
+	"navigation.community": "Community",
+	"navigation.docs": "Docs",
+	"navigation.governance": "Governance",
+	"navigation.litepaper": "Litepaper",
+	"navigation.unlock-wallet": "Launch App",
+	"navigation.unlock-your-wallet": "Connect your wallet",
 	"node-list": {
 		"status": {
 			"SIDECAR_STATUS_ACTIVE": "Active",
@@ -399,7 +399,7 @@
 		"connecting-headline": "Signature creating...",
 		"create": {
 			"create-beacon-chain-stage-1": {
-				"description": "Stkr is a decentralized protocol and platform that combines staking and DeFi, implementing elements from traditional staking with non-custodial staking, Micropools and decentralized governance.",
+				"description": "Ankr Staking is a decentralized protocol and platform that combines staking and DeFi, implementing elements from traditional staking with non-custodial staking, Micropools and decentralized governance.",
 				"title": "Create a beacon chain node"
 			},
 			"create-beacon-chain-stage-2": {
@@ -463,7 +463,7 @@
 			"2": "The creator’s 5.000.000 ANKR will be locked for 2 weeks.",
 			"3": "The creator will not be able to create another proposal with same locked tokens. However, he/she can still vote for other proposals.",
 			"4": "An address can create at most 2 proposals in a month.",
-			"5": "Once the voting period is ended, if the proposal has been accepted with a majority vote, then the proposal will be implemented by the Stkr team in the following 15 up to 30 days."
+			"5": "Once the voting period is ended, if the proposal has been accepted with a majority vote, then the proposal will be implemented by the Ankr team in the following 15 up to 30 days."
 		},
 		"submit": "I agree",
 		"subtitle": "For any proposal, the following rules have been defined",
@@ -501,7 +501,7 @@
 		},
 		"current-a-eth-balance": "Current balance",
 		"locked": "Any staked amounts will be locked for the duration of the ETH 2.0 contract. You will, however, receive aETH equivalent to your stake that you will be able to trade in the meantime, against your staked amount. Until aETH is made available, however, your funds will be locked and not redeemable.",
-		"on-stkr": "On Stkr",
+		"on-stkr": "On Ankr Staking",
 		"on-wallet": "On your wallet",
 		"pending": "Pending {value} ETH",
 		"redeem": "Redeem",
@@ -517,10 +517,6 @@
 			"aeth-amount": "The amount of aETH redeemable"
 		},
 		"title": "Staker dashboard",
-		"transaction": {
-			"goerli": "",
-			"mainnet": ""
-		},
 		"unstake": "Unstake"
 	},
 	"staking-history-table": {
@@ -592,16 +588,6 @@
 		"~eth-value": "~{value, number} ETH",
 		"~months-value": "~{value, number} mo"
 	},
-	"units": {
-		"$": "",
-		"ankr": "",
-		"eth": "",
-		"large-aeth": "",
-		"large-eth": "",
-		"number": "",
-		"small-eth": "",
-		"~eth": ""
-	},
 	"user-actions": {
 		"error": {
 			"sdk-not-initialized": "SDK not initialized"
@@ -614,6 +600,6 @@
 		"required": "This field is required"
 	},
 	"video-tutorial": {
-		"title": "Stake Eth2 with Stkr.io"
+		"title": "Stake Eth2 with Ankr Staking"
 	}
 }
