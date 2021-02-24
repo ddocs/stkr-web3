@@ -73,18 +73,20 @@ export class BridgeSdk {
   }
 
   public async calcStakingFeeRate(): Promise<BigNumber> {
-    let networkFee = 0.005;
+    let networkFee = 0.005 * 3;
     try {
       const network = await this.requestManager.getNetworkByName(
         SYMBOL_ETHEREUM,
-        'OUT',
-        SYMBOL_BSC,
+        SYMBOL_ETHEREUM,
       );
-      networkFee = network.networkFee;
+      const token = await this.requestManager.getTokenBySymbol(SYMBOL_ETHEREUM);
+      console.log(`Required swap count: ${Math.ceil(32 / token.maxAmount)}`);
+      networkFee = network.networkFee * Math.ceil(32 / token.maxAmount);
     } catch (e) {
       console.error(`Unable to calculate Binance Bridge network fee: ${e}`);
     }
-    const stakingFeeRate = new BigNumber(`${networkFee * 4}`);
+    console.log(`Binance bridge network fee: ${networkFee}`);
+    const stakingFeeRate = new BigNumber(`${networkFee * 2}`);
     console.log(`Current staking fee rate is: ${stakingFeeRate.toString(10)}`);
     return stakingFeeRate;
   }
@@ -93,7 +95,6 @@ export class BridgeSdk {
     const token = await this.getEthToken(),
       network = await this.requestManager.getNetworkByName(
         SYMBOL_ETHEREUM,
-        'OUT',
         SYMBOL_BSC,
       );
     return {
@@ -307,7 +308,6 @@ export class BridgeSdk {
 
     const network = await this.requestManager.getNetworkByName(
       fromSymbol,
-      'OUT',
       targetNetwork,
     );
 

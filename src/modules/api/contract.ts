@@ -22,7 +22,7 @@ import ABI_IERC20 from './contract/IERC20.json';
 export interface IContractConfig {
   aethContract?: string;
   microPoolContract: string;
-  microPoolBlock: string;
+  microPoolBlock: string | undefined;
   ankrContract?: string;
   stakingContract?: string;
   systemContract?: string;
@@ -30,8 +30,9 @@ export interface IContractConfig {
 
 export interface IBinanceConfig {
   globalPoolContract: string;
-  globalPoolBlock: string;
+  globalPoolBlock: string | undefined;
   pegEthContract: string;
+  pegAethContract: string;
 }
 
 export interface IContractManager {
@@ -57,7 +58,9 @@ export interface IContractManager {
 
   providerExit(): Promise<ISendAsyncResult>;
 
-  claim(): Promise<ISendAsyncResult>;
+  claimAETH(): Promise<ISendAsyncResult>;
+
+  claimFETH(): Promise<ISendAsyncResult>;
 
   claimableRewardOf(staker: string): Promise<BigNumber>;
 
@@ -658,9 +661,22 @@ export class EthereumContractManager implements IContractManager {
     );
   }
 
-  public async claim(): Promise<ISendAsyncResult> {
+  public async claimAETH(): Promise<ISendAsyncResult> {
     const microPoolContract = this.checkGlobalPoolContract();
-    const data: string = microPoolContract.methods.claim().encodeABI();
+    const data: string = microPoolContract.methods.claimAETH().encodeABI();
+    const currentAccount = await this.keyProvider.currentAccount();
+    return this.keyProvider.sendAsync(
+      currentAccount,
+      this.contractConfig.microPoolContract,
+      {
+        data: data,
+      },
+    );
+  }
+
+  public async claimFETH(): Promise<ISendAsyncResult> {
+    const microPoolContract = this.checkGlobalPoolContract();
+    const data: string = microPoolContract.methods.claimFETH().encodeABI();
     const currentAccount = await this.keyProvider.currentAccount();
     return this.keyProvider.sendAsync(
       currentAccount,
@@ -869,6 +885,7 @@ export class BinanceContractManager extends EthereumContractManager {
       {
         microPoolContract: binanceConfig.globalPoolContract,
         microPoolBlock: binanceConfig.globalPoolBlock,
+        aethContract: binanceConfig.pegAethContract,
       },
       ABI_BINANCE_GLOBAL_POOL,
     );
@@ -975,16 +992,8 @@ export class BinanceContractManager extends EthereumContractManager {
     return [];
   }
 
-  async aethBalanceOf(address: string): Promise<BigNumber> {
-    return new BigNumber('0');
-  }
-
   async etherBalanceOf(address: string): Promise<BigNumber> {
     const result = await this.pegEthContract?.methods.balanceOf(address).call();
     return new BigNumber(result).div(EthereumContractManager.ETH_SCALE_FACTOR);
-  }
-
-  public async aethRatio(): Promise<BigNumber> {
-    return new BigNumber('1');
   }
 }

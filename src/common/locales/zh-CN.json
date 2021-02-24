@@ -527,7 +527,7 @@
 		}
 	},
 	"switch-network-notification": {
-		"notice": "Pegged-ETH代币在BSC(币安智能链）网络上的整个质押过程比以太坊要长一些。为了最大限度的保障您的资金安全，我们将在UTC 02/22/2021-02/23/2021左右在BSC上启用aETH领取功能，同时密切关注BSC的质押过程。谢谢您的支持。"
+		"notice": "Pegged-ETH代币在BSC(币安智能链）网络上的整个质押过程比以太坊要长一些。为了最大限度的保障您的资金安全，我们将在UTC 02/22/2021-02/24/2021左右在BSC上启用aETH领取功能，同时密切关注BSC的质押过程。谢谢您的支持。"
 	},
 	"top-up": {
 		"ankr-min-deposit-notice": "你的钱包中需要有{value} ANKR",

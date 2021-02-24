@@ -469,6 +469,10 @@ export const UserActions = {
     request: {
       promise: (async function () {
         const stkrSdk = StkrSdk.getForEnv();
+        /* TODO: "REMOVE THIS STUPID TONS OF SDKs!!! (I've added it just in case, because I'm tired of it)" */
+        if (stkrSdk.getKeyProvider().isBinanceSmartChain()) {
+          return await stkrSdk.getContractManager().claimAETH();
+        }
         const currentAccount = stkrSdk.getKeyProvider().currentAccount();
         return stkrSdk.getJssdkManager().claimAETH({ from: currentAccount });
       })(),
@@ -481,7 +485,6 @@ export const UserActions = {
         store: Store<IStoreState>,
       ) => {
         store.dispatch(UserActions.fetchStakerStats());
-
         return request;
       },
     },
@@ -490,6 +493,11 @@ export const UserActions = {
     request: {
       promise: (async function () {
         const stkrSdk = StkrSdk.getForEnv();
+        if (stkrSdk.getKeyProvider().isBinanceSmartChain()) {
+          throw new Error(
+            'Claim of fETH is not yet supported for Binance Smart Chain',
+          );
+        }
         const currentAccount = stkrSdk.getKeyProvider().currentAccount();
         return stkrSdk.getJssdkManager().claimFETH({ from: currentAccount });
       })(),
@@ -502,7 +510,6 @@ export const UserActions = {
         store: Store<IStoreState>,
       ) => {
         store.dispatch(UserActions.fetchStakerStats());
-
         return request;
       },
     },
