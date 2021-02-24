@@ -36,8 +36,7 @@ export const StakerDashboardComponent = () => {
     dispatch(UserActions.unstake());
   };
 
-  const { isAEthClaimAlwaysAvailable } = useFeaturesAvailable();
-  const isClaimAvailable = isAEthClaimAlwaysAvailable;
+  const { isClaimAvailable } = useFeaturesAvailable();
 
   return (
     <section className={classes.root}>
