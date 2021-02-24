@@ -1,20 +1,24 @@
 import { useQuery } from '@redux-requests/react';
 import { UserActionTypes } from '../../store/actions/UserActions';
-import { IUserInfo } from '../../store/apiMappers/userApi';
+import { IUserInfo, IStakingFeeInfo } from '../../store/apiMappers/userApi';
 import { Blockchain } from '../types';
 
 export function useFeaturesAvailable() {
-  const { data } = useQuery<IUserInfo | null>({
+  const { data: userInfo } = useQuery<IUserInfo | null>({
     type: UserActionTypes.FETCH_ACCOUNT_DATA,
   });
+  const { data: stakingFeeInfo } = useQuery<IStakingFeeInfo | null>({
+    type: UserActionTypes.CALC_STAKING_FEE,
+  });
 
-  const isSmartChain = data?.blockchainType === Blockchain.binance;
+  const isSmartChain = userInfo?.blockchainType === Blockchain.binance;
 
   return {
-    isProviderAvailable: !isSmartChain && data?.blockchainType,
-    isClaimAvailable: !isSmartChain,
-    isAEthClaimAlwaysAvailable: isSmartChain,
+    isProviderAvailable: !isSmartChain && userInfo?.blockchainType,
+    isClaimAvailable: true,
+    isAEthClaimAlwaysAvailable: true,
+    isFethSupported: !isSmartChain,
     stakingAmountStep: isSmartChain ? 0.1 : 0.5,
-    stakingFeeRate: data?.stakingFeeRate,
+    stakingFeeRate: stakingFeeInfo?.stakingFeeRate,
   };
 }

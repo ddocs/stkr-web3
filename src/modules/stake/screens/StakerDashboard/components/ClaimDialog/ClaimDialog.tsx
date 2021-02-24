@@ -36,7 +36,7 @@ export const ClaimDialog = ({
 
   const dispatch = useRequestDispatch();
 
-  const { isAEthClaimAlwaysAvailable } = useFeaturesAvailable();
+  const { isFethSupported } = useFeaturesAvailable();
 
   const [isOpened, setIsOpened] = useState(false);
   const handleOpen = useCallback(() => {
@@ -127,19 +127,11 @@ export const ClaimDialog = ({
                 size="large"
                 fullWidth={true}
                 onClick={handleClaimAEth}
-                disabled={
-                  (aETHBalance.isLessThanOrEqualTo(0) &&
-                    !isAEthClaimAlwaysAvailable) ||
-                  isLoading
-                }
+                disabled={aETHBalance.isLessThanOrEqualTo(0) || isLoading}
               >
-                {isAEthClaimAlwaysAvailable
-                  ? t('claim-dialog.submit.claim-aETH')
-                  : t('claim-dialog.submit.aETH', {
-                      value: aETHBalance
-                        .decimalPlaces(DEFAULT_FIXED)
-                        .toNumber(),
-                    })}
+                {t('claim-dialog.submit.aETH', {
+                  value: aETHBalance.decimalPlaces(DEFAULT_FIXED).toNumber(),
+                })}
               </Button>
             </Box>
           </div>
@@ -170,9 +162,13 @@ export const ClaimDialog = ({
                 onClick={handleClaimFEth}
                 disabled={fETHBalance.isLessThanOrEqualTo(0) || isLoading}
               >
-                {t('claim-dialog.submit.fETH', {
-                  value: fETHBalance.decimalPlaces(DEFAULT_FIXED).toNumber(),
-                })}
+                {isFethSupported
+                  ? t('claim-dialog.submit.fETH', {
+                      value: fETHBalance
+                        .decimalPlaces(DEFAULT_FIXED)
+                        .toNumber(),
+                    })
+                  : t('claim-dialog.not-supported')}
               </Button>
             </Box>
           </div>

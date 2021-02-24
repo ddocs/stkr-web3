@@ -11,5 +11,8 @@ export interface IUserInfo {
   fEthBalance: BigNumber;
   nativeBalance: BigNumber;
   bnbBalance?: BigNumber;
+}
+
+export interface IStakingFeeInfo {
   stakingFeeRate?: BigNumber;
 }

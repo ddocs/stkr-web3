@@ -18,13 +18,13 @@ import { useFeaturesAvailable } from '../../../../../../common/hooks/useFeatures
 
 interface IStakerDashboardTotalPanelProps extends StyledComponentProps {
   claimableAETHRewardOf: BigNumber;
-  claimableAETHFRewardOf: BigNumber;
+  claimableFETHRewardOf: BigNumber;
   children?: React.ReactChild;
   isClaimAvailable: boolean;
 }
 
 export const StakerDashboardTotalPanel = ({
-  claimableAETHFRewardOf,
+  claimableFETHRewardOf,
   claimableAETHRewardOf,
   children,
   isClaimAvailable,
@@ -32,6 +32,10 @@ export const StakerDashboardTotalPanel = ({
   const classes = useStakerDashboardTotalPanelStyles();
 
   const { isAEthClaimAlwaysAvailable } = useFeaturesAvailable();
+
+  const canClaim =
+    claimableFETHRewardOf.isGreaterThan(0) ||
+    claimableAETHRewardOf.isGreaterThan(0);
 
   return (
     <Paper variant="outlined" square={false} className={classes.stakedContent}>
@@ -58,23 +62,19 @@ export const StakerDashboardTotalPanel = ({
             <div className={classes.amount}>
               {!isAEthClaimAlwaysAvailable &&
                 tHTML('unit.separated-eth-value', {
-                  value: claimableAETHFRewardOf.decimalPlaces(DECIMAL_PLACES),
+                  value: claimableFETHRewardOf.decimalPlaces(DECIMAL_PLACES),
                 })}
               {
                 <ClaimDialog
                   aETHBalance={claimableAETHRewardOf}
-                  fETHBalance={claimableAETHFRewardOf}
+                  fETHBalance={claimableFETHRewardOf}
                 >
                   <Button
                     size="large"
                     color="secondary"
                     variant="outlined"
                     className={classes.claim}
-                    disabled={
-                      claimableAETHFRewardOf.isLessThanOrEqualTo(0) &&
-                      claimableAETHRewardOf.isLessThanOrEqualTo(0) &&
-                      !isAEthClaimAlwaysAvailable
-                    }
+                    disabled={canClaim && !isAEthClaimAlwaysAvailable}
                   >
                     {t('staker-dashboard.claim')}
                   </Button>

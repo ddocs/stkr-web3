@@ -131,18 +131,6 @@ function* listenKeyProviderEvents() {
             ],
           }),
         );
-      } else if (event.type === ContractManagerEvents.StakeRemoved) {
-        yield put(
-          UserActions.updateStakerStats({
-            stakes: [
-              {
-                transactionHash: event.data.eventLog.transactionHash,
-                amount: event.data.amount,
-                action: 'STAKE_ACTION_UNSTAKE',
-              },
-            ],
-          }),
-        );
       }
     }
   } finally {

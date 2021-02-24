@@ -17,7 +17,7 @@ import { ITablesCaptionProps } from '../../../../components/TableComponents/type
 import { UserActionTypes } from '../../../../store/actions/UserActions';
 import {
   IStakeHistoryItem,
-  IStakerStats,
+  IStakingHistory,
 } from '../../../../store/apiMappers/stakerStatsApi';
 import { NotEnoughBalance } from '../NotEnoughBalance';
 
@@ -48,8 +48,8 @@ export const DepositListComponent = () => {
   const captions = useCaptions();
 
   return (
-    <Query<IStakerStats | null>
-      type={UserActionTypes.FETCH_STAKER_STATS}
+    <Query<IStakingHistory | null>
+      type={UserActionTypes.FETCH_STAKING_HISTORY}
       showLoaderDuringRefetch={false}
       noDataMessage={<NotEnoughBalance />}
       isDataEmpty={({ data }) => {
