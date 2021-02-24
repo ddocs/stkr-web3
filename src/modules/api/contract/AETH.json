@@ -337,54 +337,12 @@
   {
     "inputs": [
       {
-        "internalType": "string",
-        "name": "name",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "symbol",
-        "type": "string"
+        "internalType": "address",
+        "name": "operator",
+        "type": "address"
       }
     ],
     "name": "initialize",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "account",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
-      }
-    ],
-    "name": "mint",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "_amount",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "newRatio",
-        "type": "uint256"
-      }
-    ],
-    "name": "updateRatio",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -405,12 +363,12 @@
   {
     "inputs": [
       {
-        "internalType": "address",
-        "name": "globalPoolContract",
-        "type": "address"
+        "internalType": "uint256",
+        "name": "newRatio",
+        "type": "uint256"
       }
     ],
-    "name": "updateGlobalPoolContract",
+    "name": "updateRatio",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -418,12 +376,74 @@
   {
     "inputs": [
       {
+        "internalType": "address",
+        "name": "owner",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "mint",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "owner",
+        "type": "address"
+      },
+      {
         "internalType": "uint256",
         "name": "amount",
         "type": "uint256"
       }
     ],
     "name": "burn",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "operator",
+        "type": "address"
+      }
+    ],
+    "name": "changeOperator",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "crossChainBridge",
+        "type": "address"
+      }
+    ],
+    "name": "changeCrossChainBridge",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "binancePool",
+        "type": "address"
+      }
+    ],
+    "name": "changeBinancePool",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

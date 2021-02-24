@@ -85,6 +85,17 @@ export abstract class KeyProvider {
     return this._latestBlockHeight;
   }
 
+  public async latestBlockHeightOrWait(): Promise<number> {
+    const sleepFor = (ms: number): Promise<void> => {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    };
+    while (!this._latestBlockHeight) {
+      console.log(`Waiting for latest block height...`);
+      await sleepFor(1_000);
+    }
+    return this._latestBlockHeight;
+  }
+
   public changeLatestBlockHeight(blockHeight: number) {
     if (blockHeight > this._latestBlockHeight) {
       this._latestBlockHeight = blockHeight;

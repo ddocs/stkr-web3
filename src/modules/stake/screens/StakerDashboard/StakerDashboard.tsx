@@ -10,7 +10,10 @@ import { QueryError } from '../../../../components/QueryError/QueryError';
 import { QueryLoadingAbsolute } from '../../../../components/QueryLoading/QueryLoading';
 import { QueryEmpty } from '../../../../components/QueryEmpty/QueryEmpty';
 import { useDispatch } from 'react-redux';
-import { IStakerStats } from '../../../../store/apiMappers/stakerStatsApi';
+import {
+  IStakerStats,
+  IStakingHistory,
+} from '../../../../store/apiMappers/stakerStatsApi';
 import { HistoryTable } from './components/HistoryTable';
 import { getStakedAmount } from '../../../../common/utils/getStakedAmount';
 import { getPendingAmount } from '../../../../common/utils/getPendingAmount';
@@ -38,6 +41,10 @@ export const StakerDashboardComponent = () => {
 
   const { isClaimAvailable } = useFeaturesAvailable();
 
+  const { data: stakingHistory } = useQuery<IStakingHistory | null>({
+    type: UserActionTypes.FETCH_STAKING_HISTORY,
+  });
+
   return (
     <section className={classes.root}>
       <Curtains classes={{ root: classes.content }}>
@@ -54,8 +61,8 @@ export const StakerDashboardComponent = () => {
             }
 
             const pending = getPendingAmount(
-              data.stakes,
-              getStakedAmount(data.stakes),
+              stakingHistory?.stakes || [],
+              getStakedAmount(stakingHistory?.stakes || []),
             );
 
             const aEthPrice = data.aEthRatio.isGreaterThan(0)
@@ -81,7 +88,7 @@ export const StakerDashboardComponent = () => {
                   className={classes.boxes}
                 >
                   <StakerDashboardTotalPanel
-                    claimableAETHFRewardOf={data.claimableAETHFRewardOf}
+                    claimableFETHRewardOf={data.claimableFETHRewardOf}
                     claimableAETHRewardOf={data.claimableAETHRewardOf}
                     isClaimAvailable={isClaimAvailable}
                   >
@@ -110,11 +117,13 @@ export const StakerDashboardComponent = () => {
                     <SwitchNetworkNotification />
                   )}
                 </Box>
-                {data.stakes.length > 0 && (
+                {stakingHistory ? (
                   <HistoryTable
                     classes={{ root: classes.history }}
-                    data={data.stakes}
+                    data={stakingHistory.stakes}
                   />
+                ) : (
+                  <QueryLoadingAbsolute />
                 )}
               </>
             );

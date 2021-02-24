@@ -73,7 +73,7 @@ export class BridgeSdk {
   }
 
   public async calcStakingFeeRate(): Promise<BigNumber> {
-    let networkFee = 0.005 * 3;
+    let networkFee = 0.045 * 3;
     try {
       const network = await this.requestManager.getNetworkByName(
         SYMBOL_ETHEREUM,

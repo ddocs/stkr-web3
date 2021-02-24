@@ -149,7 +149,8 @@
 		"token-name": {
 			"aETH": "aETH",
 			"fETH": "fETH"
-		}
+		},
+		"not-supported": "Not supported yet"
 	},
 	"coming-soon": "Coming soon",
 	"confirms": {
