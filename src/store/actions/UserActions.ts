@@ -13,6 +13,7 @@ import { update } from '../../common/utils/update';
 import { StkrSdk } from '../../modules/api';
 import { ISidecarReply } from '../../modules/api/gateway';
 import { IConnectResult } from '../../modules/api/provider';
+import { BridgeSdk } from '../../modules/bridge-sdk';
 import { ICreateNodeValue } from '../../modules/provider/screens/CreateNode';
 import { IAllowance } from '../apiMappers/allowance';
 import { mapGlobalStats } from '../apiMappers/globalStatsApi';
@@ -28,8 +29,6 @@ import {
 import { IStakingFeeInfo, IUserInfo } from '../apiMappers/userApi';
 import { closeModalAction } from '../dialogs/actions';
 import { IStoreState } from '../reducers';
-import { BridgeSdk } from '../../modules/bridge-sdk';
-import { EthereumContractManager } from '../../modules/api/contract';
 
 export interface ISetLanguagePayload {
   locale: Locale;
@@ -258,10 +257,15 @@ export const UserActions = {
       asMutation: true,
       mutations: {
         [UserActionTypes.FETCH_CURRENT_PROVIDER_SIDECARS]: (
-          data: ISidecar[],
+          data: ISidecarsQuery,
           sidecar: ISidecarReply,
         ) => {
-          return [...data, mapSidecar(sidecar)] as ISidecar[];
+          const queryData: ISidecarsQuery = {
+            ...data,
+            items: [...data.items, mapSidecar(sidecar)],
+          };
+
+          return queryData;
         },
       },
     },
