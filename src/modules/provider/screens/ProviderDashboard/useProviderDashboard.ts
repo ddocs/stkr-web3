@@ -1,5 +1,5 @@
 import { useQuery } from '@redux-requests/react';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { Milliseconds } from '../../../../common/types';
 import { useAuthentication } from '../../../../common/utils/useAuthentications';
@@ -39,6 +39,13 @@ export const useProviderDashboard = () => {
   const error = sidecarsQuery.error || providerStatsQuery.error;
   const providerStatsLoading = providerStatsQuery.loading;
 
+  // dates are sorted in descending order
+  const sidecarsSortedByDate = useMemo(
+    () =>
+      sidecarsQuery.data?.sort((a, b) => Number(b.created) - Number(a.created)),
+    [sidecarsQuery.data],
+  );
+
   useEffect(() => {
     if (!isConnected) {
       return;
@@ -62,7 +69,7 @@ export const useProviderDashboard = () => {
   }, LONG_UPDATE_INTERVAL);
 
   return {
-    sidecars: sidecarsQuery.data,
+    sidecars: sidecarsSortedByDate,
     providerStats: providerStatsQuery.data,
     error,
     providerStatsLoading,
