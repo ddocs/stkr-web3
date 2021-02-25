@@ -4,7 +4,7 @@ import { fade, makeStyles } from '@material-ui/core/styles';
 export const useCalculateStyles = makeStyles<Theme>(theme => ({
   wrapper: {},
 
-  content: {
+  box: {
     display: 'grid',
     padding: theme.spacing(4.5, 3),
     gridRowGap: theme.spacing(7.5),
@@ -40,7 +40,22 @@ export const useCalculateStyles = makeStyles<Theme>(theme => ({
     },
   },
 
-  form: {
+  content: {
+    [theme.breakpoints.up('md')]: {
+      gridColumn: '6/13',
+    },
+
+    [theme.breakpoints.up('lg')]: {
+      gridColumn: '7/13',
+    },
+  },
+
+  contentLoader: {
+    display: 'grid',
+    alignItems: 'center',
+  },
+
+  contentForm: {
     display: 'grid',
     gridRowGap: theme.spacing(4),
 
@@ -50,13 +65,8 @@ export const useCalculateStyles = makeStyles<Theme>(theme => ({
     },
 
     [theme.breakpoints.up('md')]: {
-      gridColumn: '6/13',
       gridRowGap: theme.spacing(6),
       gridTemplateColumns: 'repeat(5, 1fr)',
-    },
-
-    [theme.breakpoints.up('lg')]: {
-      gridColumn: '7/13',
     },
   },
 

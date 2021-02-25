@@ -6,11 +6,14 @@ import { generatePath } from 'react-router';
 import { Store } from 'redux';
 import { createAction } from 'redux-actions';
 import { createAction as createSmartAction } from 'redux-smart-actions';
-import { CONVERT_ROUTE, PICKER_PATH } from '../../common/const';
+import Web3 from 'web3';
+import { CONVERT_ROUTE, isMainnet, PICKER_PATH } from '../../common/const';
 import { Blockchain, DepositType, Locale, Provider } from '../../common/types';
 import { authenticatedRequestGuard } from '../../common/utils/authenticatedRequestGuard';
 import { update } from '../../common/utils/update';
 import { StkrSdk } from '../../modules/api';
+import { getAprFromBalance } from '../../modules/api/apr';
+import { configFromEnv } from '../../modules/api/config';
 import { ISidecarReply } from '../../modules/api/gateway';
 import { IConnectResult } from '../../modules/api/provider';
 import { BridgeSdk } from '../../modules/bridge-sdk';
@@ -84,6 +87,42 @@ export const UserActionTypes = {
 
   SET_LOCALE: 'SET_LOCALE',
 };
+
+// todo: remove this method after SDK update
+async function getGlobalPoolBalance() {
+  const address = configFromEnv().contractConfig.globalPoolDepositContract;
+  let balance = '0';
+
+  if (address) {
+    const url = isMainnet
+      ? 'https://eth-03.dccn.ankr.com/'
+      : 'https://goerli.infura.io/v3/3c88c0ec7e57421fa7d019780d2e6768';
+
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        jsonrpc: '2.0',
+        method: 'eth_getBalance',
+        params: [address, 'latest'],
+        id: 1,
+      }),
+    };
+
+    try {
+      const response = await fetch(url, requestOptions);
+      const { result } = await response.json();
+
+      balance = Web3.utils.fromWei(Web3.utils.hexToNumberString(result));
+    } catch (error) {
+      throw new Error(`Unable to fetch global pool ethereum balance: ${error}`);
+    }
+  }
+
+  return parseFloat(balance);
+}
 
 export const UserActions = {
   connect: (redirectOnSuccess: string = PICKER_PATH) => ({
@@ -278,7 +317,16 @@ export const UserActions = {
     request: {
       promise: (async function () {
         const stkrSdk = StkrSdk.getForEnv();
-        return await stkrSdk.getGlobalStats();
+        const globalStats = await stkrSdk.getGlobalStats();
+        const ethereumPrice = await stkrSdk.getApiGateway().getUsdPrice('ETH');
+        const balance = await getGlobalPoolBalance();
+        const currentApr = getAprFromBalance(balance);
+
+        return {
+          ...globalStats,
+          currentApr: currentApr,
+          ethereumPrice: ethereumPrice.rate,
+        };
       })(),
     },
     meta: {

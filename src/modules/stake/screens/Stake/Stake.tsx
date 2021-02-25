@@ -5,7 +5,7 @@ import BigNumber from 'bignumber.js';
 import React, { useCallback, useMemo } from 'react';
 import { Field, Form, FormRenderProps } from 'react-final-form';
 import { useHistory } from 'react-router';
-import { STAKER_DASHBOARD_PATH, YEAR_INTEREST } from '../../../../common/const';
+import { STAKER_DASHBOARD_PATH, STAKER_RATE } from '../../../../common/const';
 import { useFeaturesAvailable } from '../../../../common/hooks/useFeaturesAvailable';
 import { FormErrors } from '../../../../common/types/FormErrors';
 import { floor } from '../../../../common/utils/floor';
@@ -17,6 +17,7 @@ import {
   UserActions,
   UserActionTypes,
 } from '../../../../store/actions/UserActions';
+import { IGlobalStats } from '../../../../store/apiMappers/globalStatsApi';
 import { IUserInfo } from '../../../../store/apiMappers/userApi';
 import { BackgroundColorProvider } from '../../../../UiKit/BackgroundColorProvider';
 import { Button } from '../../../../UiKit/Button';
@@ -157,24 +158,30 @@ export const StakeComponent = ({
               </Headline5>
             </>
           )}
-          <dt className={classes.term}>
-            <Typography component="span">
-              {t('stake.yearly-earning')}
-              <Tooltip title={tHTML('stake.yearly-earning-tooltip')}>
-                <IconButton className={classes.question}>
-                  <QuestionIcon size="xs" />
-                </IconButton>
-              </Tooltip>
-            </Typography>
-          </dt>
-          <Headline3 component="dd" classes={{ root: classes.description }}>
-            {t('unit.~eth-value', {
-              value: new BigNumber(amount)
-                .multipliedBy(yearlyInterest)
-                .decimalPlaces(FIXED_DECIMAL_PLACES),
-            })}
-          </Headline3>
+
+          {yearlyInterest && (
+            <>
+              <dt className={classes.term}>
+                <Typography component="span">
+                  {t('stake.yearly-earning')}
+                  <Tooltip title={tHTML('stake.yearly-earning-tooltip')}>
+                    <IconButton className={classes.question}>
+                      <QuestionIcon size="xs" />
+                    </IconButton>
+                  </Tooltip>
+                </Typography>
+              </dt>
+              <Headline3 component="dd" classes={{ root: classes.description }}>
+                {t('unit.~eth-value', {
+                  value: new BigNumber(amount)
+                    .multipliedBy(yearlyInterest)
+                    .decimalPlaces(FIXED_DECIMAL_PLACES),
+                })}
+              </Headline3>
+            </>
+          )}
         </dl>
+
         <div className={classes.footer}>
           <Field
             component={CheckboxField}
@@ -254,20 +261,29 @@ export const Stake = () => {
     pushEvent('stake_submit', { stakingAmount: amount });
   };
 
-  const { data } = useQuery<IUserInfo | null>({
+  const { data: userInfo } = useQuery<IUserInfo | null>({
     type: UserActionTypes.FETCH_ACCOUNT_DATA,
+  });
+
+  const { data: globalStats } = useQuery<IGlobalStats | null>({
+    type: UserActionTypes.FETCH_GLOBAL_STATS,
   });
 
   const handleCancel = useCallback(() => {
     push(STAKER_DASHBOARD_PATH);
   }, [push]);
 
+  const yearlyInterest =
+    globalStats && globalStats.currentApr
+      ? globalStats.currentApr * STAKER_RATE
+      : 0;
+
   return (
     <StakeComponent
       onSubmit={handleSubmit}
       onCancel={handleCancel}
-      ethereumBalance={data?.ethereumBalance}
-      yearlyInterest={YEAR_INTEREST}
+      ethereumBalance={userInfo?.ethereumBalance}
+      yearlyInterest={yearlyInterest}
     />
   );
 };

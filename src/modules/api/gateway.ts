@@ -117,6 +117,10 @@ export interface IUserStakeReply {
 
 export interface IUserStatisticsReply {}
 
+export interface IRatePriceReply {
+  rate: number;
+}
+
 export interface IStakerStats {
   stakes: IUserStakeReply[];
 }
@@ -285,6 +289,13 @@ export class ApiGateway {
   public async getUserStatistics(user: string): Promise<IUserStatisticsReply> {
     const { data } = await this.api.get<IUserStatisticsReply>(
       `/v1alpha/staker/stats/${user}`,
+    );
+    return data;
+  }
+
+  public async getUsdPrice(baseCurrency: string): Promise<IRatePriceReply> {
+    const { data } = await this.api.get<IRatePriceReply>(
+      `/v1alpha/rate/${baseCurrency}`,
     );
     return data;
   }

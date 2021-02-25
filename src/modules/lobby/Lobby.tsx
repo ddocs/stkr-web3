@@ -1,11 +1,8 @@
 import { MuiThemeProvider } from '@material-ui/core';
-import BigNumber from 'bignumber.js';
 import * as React from 'react';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { ETHEREUM_PRICE } from '../../common/const';
 import { invertTheme } from '../../common/themes/invertTheme';
-import { useAuthentication } from '../../common/utils/useAuthentications';
 import { Services } from '../../components/Services';
 import { UserActions } from '../../store/actions/UserActions';
 import { AethBanner } from './components/AethBanner';
@@ -19,7 +16,6 @@ import { VideoTutorial } from './components/VideoTutorial';
 import { useLobbyStyles } from './LobbyStyles';
 
 export const Lobby = () => {
-  const { isConnected } = useAuthentication();
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(UserActions.fetchGlobalStats());
@@ -33,10 +29,7 @@ export const Lobby = () => {
       <VideoTutorial />
       <Features />
       <AethBanner />
-      <Calculate
-        ethPrice={new BigNumber(ETHEREUM_PRICE)}
-        isConnected={isConnected}
-      />
+      <Calculate />
       <Services className={classes.services} />
       <BecomeProvider />
       <MuiThemeProvider theme={invertTheme}>
