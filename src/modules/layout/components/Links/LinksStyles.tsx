@@ -58,6 +58,7 @@ export const useLinksStyles = makeStyles<Theme>(theme => ({
   },
   link: {
     display: 'block',
+    fontSize: 14,
 
     '&::after': {
       position: 'absolute',

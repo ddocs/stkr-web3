@@ -141,6 +141,7 @@ export const UserActions = {
         const address = stkrSdk.getKeyProvider().currentAccount();
         const ethereumBalance = await stkrSdk.getEthBalance();
         const nativeBalance = await stkrSdk.getNativeBalance();
+        const walletMeta = stkrSdk.getWalletMeta();
         let walletType = Provider.metamask,
           blockchainType = Blockchain.ethereum;
         let bnbBalance = undefined,
@@ -158,10 +159,12 @@ export const UserActions = {
           address,
           blockchainType,
           walletType,
-          ethereumBalance: new BigNumber(ethereumBalance),
-          ankrBalance: ankrBalance,
+          ankrBalance,
           nativeBalance,
           bnbBalance,
+          ethereumBalance: new BigNumber(ethereumBalance),
+          walletIcon: walletMeta?.icons ? walletMeta.icons[0] : undefined,
+          walletName: walletMeta?.name,
         } as IUserInfo;
       })(),
     },

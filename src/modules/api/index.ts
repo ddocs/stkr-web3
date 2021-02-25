@@ -1,14 +1,14 @@
-import {
-  IConnectResult,
-  ISendAsyncResult,
-  KeyProvider,
-  Web3ModalKeyProvider,
-} from './provider';
+import { VoteStatus } from '@ankr.com/stkr-jssdk';
+import BigNumber from 'bignumber.js';
+import { EventEmitter } from 'events';
+import { SendOptions } from 'web3-eth-contract';
+import { configFromEnv, IStkrConfig } from './config';
 import {
   BinanceContractManager,
   EthereumContractManager,
   IContractManager,
 } from './contract';
+import { ContractManagerEvent } from './event';
 import {
   ApiGateway,
   IGlobalStatsReply,
@@ -16,13 +16,14 @@ import {
   IStakerStats,
   IUserStakeReply,
 } from './gateway';
-import { configFromEnv, IStkrConfig } from './config';
-import BigNumber from 'bignumber.js';
-import { EventEmitter } from 'events';
-import { ContractManagerEvent } from './event';
-import { SendOptions } from 'web3-eth-contract';
-import { VoteStatus } from '@ankr.com/stkr-jssdk';
 import { JssdkManager } from './jssdk';
+import {
+  IConnectResult,
+  ISendAsyncResult,
+  IWalletMeta,
+  KeyProvider,
+  Web3ModalKeyProvider,
+} from './provider';
 
 interface IStakerSdk {
   allowTokens(remainingAllowance?: BigNumber): Promise<ISendAsyncResult>;
@@ -121,6 +122,8 @@ export interface IStkrSdk extends IStakerSdk, IProviderSdk, IGovernanceSdk {
 
   getKeyProvider(): KeyProvider;
 
+  getWalletMeta(): IWalletMeta | undefined;
+
   getJssdkManager(): JssdkManager;
 
   getApiGateway(): ApiGateway;
@@ -171,6 +174,10 @@ export class StkrSdk implements IStkrSdk {
 
   public getEventEmitter(): EventEmitter {
     return this.eventEmitter;
+  }
+
+  public getWalletMeta() {
+    return this.keyProvider?.walletMeta;
   }
 
   public async connect(): Promise<IConnectResult> {

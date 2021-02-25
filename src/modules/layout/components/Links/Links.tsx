@@ -10,15 +10,15 @@ import {
   SOCIAL_LINK,
   STAKER_DASHBOARD_PATH,
 } from '../../../../common/const';
+import { useFeaturesAvailable } from '../../../../common/hooks/useFeaturesAvailable';
 import { useIsMDDown } from '../../../../common/hooks/useTheme';
+import { Blockchain, Provider } from '../../../../common/types';
 import { t } from '../../../../common/utils/intl';
 import { Button } from '../../../../UiKit/Button';
 import { FoldableSection } from '../../../../UiKit/FoldableSection';
 import { NavLink } from '../../../../UiKit/NavLink';
 import { Medium, Telegram, Twitter } from '../Icons/Icons';
 import { useLinksStyles } from './LinksStyles';
-import { Blockchain, Provider } from '../../../../common/types';
-import { useFeaturesAvailable } from '../../../../common/hooks/useFeaturesAvailable';
 
 export interface ILinksProps {
   className?: string;
@@ -78,7 +78,7 @@ export const Links = ({ className, isAuth, blockchainType }: ILinksProps) => {
           ? GOVERNANCE_PROJECT_LIST_PATH
           : '',
       staker: isAuth && isMDDown ? STAKER_DASHBOARD_PATH : '',
-      provider: isAuth && isProviderAvailable && isMDDown ? PROVIDER_PATH : '',
+      provider: isAuth && isMDDown && isProviderAvailable ? PROVIDER_PATH : '',
     }),
     [blockchainType, isAuth, isMDDown, isProviderAvailable],
   );

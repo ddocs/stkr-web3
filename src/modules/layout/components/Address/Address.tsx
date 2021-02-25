@@ -1,20 +1,22 @@
-import React from 'react';
 import classNames from 'classnames';
-import { useAddressStyles } from './AddressStyles';
+import React from 'react';
 import { walletConversion } from '../../../../common/utils/convertWallet';
-import { Provider } from '../../../../common/types';
+import { WalletIcon } from '../WalletIcon';
+import { useAddressStyles } from './AddressStyles';
 
 export interface IAddressProps {
   className?: string;
   address: string;
-  provider: Provider;
+  walletIcon?: string;
 }
 
-export const Address = ({ className, address, provider }: IAddressProps) => {
-  const classes = useAddressStyles({ type: provider });
+export const Address = ({ className, address, walletIcon }: IAddressProps) => {
+  const classes = useAddressStyles();
 
   return (
     <div className={classNames(classes.component, className)}>
+      <WalletIcon icon={walletIcon} className={classes.icon} />
+
       {walletConversion(address)}
     </div>
   );

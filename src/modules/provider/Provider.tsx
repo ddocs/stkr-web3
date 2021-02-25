@@ -1,16 +1,16 @@
-import React, { useEffect } from "react";
-import { connect } from "react-redux";
-import { ProviderDashboard } from "./screens/ProviderDashboard";
-import { UserActions, UserActionTypes } from "../../store/actions/UserActions";
-import { Mutation } from "@redux-requests/react";
-import { useAuthentication } from "../../common/utils/useAuthentications";
-import { Headline2 } from "../../UiKit/Typography";
-import { Spinner } from "../../components/Spinner";
-import { t } from "../../common/utils/intl";
-import { Button, Theme } from "@material-ui/core";
-import { Curtains } from "../../UiKit/Curtains";
-import { makeStyles } from "@material-ui/core/styles";
-import { useRequestDispatch } from "../../common/utils/useRequestDispatch";
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+import { ProviderDashboard } from './screens/ProviderDashboard';
+import { UserActions, UserActionTypes } from '../../store/actions/UserActions';
+import { Mutation } from '@redux-requests/react';
+import { useAuthentication } from '../../common/utils/useAuthentications';
+import { Headline2 } from '../../UiKit/Typography';
+import { Spinner } from '../../components/Spinner';
+import { t } from '../../common/utils/intl';
+import { Button, Theme } from '@material-ui/core';
+import { Curtains } from '../../UiKit/Curtains';
+import { makeStyles } from '@material-ui/core/styles';
+import { useRequestDispatch } from '../../common/utils/useRequestDispatch';
 
 export const useStyles = makeStyles<Theme>(theme => ({
   component: {
