@@ -159,7 +159,7 @@ export const StakeComponent = ({
             </>
           )}
 
-          {yearlyInterest && (
+          {yearlyInterest > 0 && (
             <>
               <dt className={classes.term}>
                 <Typography component="span">
