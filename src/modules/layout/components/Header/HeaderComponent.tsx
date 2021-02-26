@@ -18,7 +18,6 @@ import { Wallet } from '../Wallet';
 import { WalletBalance } from '../WalletBalance';
 import { WalletCard } from '../WalletCard';
 import { useHeader } from './useHeader';
-import { useFeaturesAvailable } from "../../../../common/hooks/useFeaturesAvailable";
 
 interface IHeaderFrameProps {
   isAuth: boolean;
@@ -28,6 +27,8 @@ interface IHeaderFrameProps {
   ethereumBalance?: BigNumber;
   ankrBalance?: BigNumber;
   bnbBalance?: BigNumber;
+  walletName?: string;
+  walletIcon?: string;
 }
 
 export const HeaderComponent = ({
@@ -38,6 +39,8 @@ export const HeaderComponent = ({
   ethereumBalance,
   ankrBalance,
   bnbBalance,
+  walletName,
+  walletIcon,
 }: IHeaderFrameProps) => {
   const {
     mobileNavShowed,
@@ -52,10 +55,8 @@ export const HeaderComponent = ({
     handleMobileNavClose,
     handleMobileNavOpen,
   } = useHeader();
-  
-  const { isProviderAvailable } = useFeaturesAvailable();
 
-  const renderedSwitcher = isProviderAvailable && showSwitcher && <Switcher />;
+  const renderedSwitcher = showSwitcher && <Switcher />;
 
   const renderedBalance = (
     <WalletBalance
@@ -120,8 +121,9 @@ export const HeaderComponent = ({
             <WalletCard
               className={classes.walletCard}
               address={walletAddress}
-              provider={walletType}
               balance={renderedBalance}
+              name={walletName}
+              icon={walletIcon}
             />
           )}
 
@@ -157,10 +159,14 @@ export const HeaderComponent = ({
             <Wallet
               className={classes.wallet}
               address={walletAddress}
-              provider={walletType}
+              icon={walletIcon}
               balance={renderedBalance}
             >
-              <WalletCard address={walletAddress} provider={walletType} />
+              <WalletCard
+                address={walletAddress}
+                name={walletName}
+                icon={walletIcon}
+              />
             </Wallet>
           )}
 

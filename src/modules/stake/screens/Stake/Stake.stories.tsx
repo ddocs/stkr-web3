@@ -1,7 +1,6 @@
 import React from 'react';
-import { StakeComponent } from './Stake';
 import { DefaultLayoutComponent } from '../../../layout/components/DefautLayout/DefautLayout';
-import { YEAR_INTEREST } from '../../../../common/const';
+import { StakeComponent } from './Stake';
 
 const StakeStory = () => {
   return (
@@ -10,7 +9,7 @@ const StakeStory = () => {
         <StakeComponent
           onSubmit={() => null}
           onCancel={() => null}
-          yearlyInterest={YEAR_INTEREST}
+          yearlyInterest={20.5}
         />
       </DefaultLayoutComponent>
     </div>

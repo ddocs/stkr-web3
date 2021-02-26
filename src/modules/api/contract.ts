@@ -1,3 +1,14 @@
+import BigNumber from 'bignumber.js';
+import { EventEmitter } from 'events';
+import { EventLog } from 'web3-core';
+import { BlockHeader } from 'web3-eth';
+import { Contract } from 'web3-eth-contract';
+import ABI_AETH from './contract/AETH.json';
+import ABI_ANKR from './contract/ANKR.json';
+import ABI_BINANCE_GLOBAL_POOL from './contract/BinancePool.json';
+import ABI_GLOBAL_POOL from './contract/GlobalPool.json';
+import ABI_IERC20 from './contract/IERC20.json';
+import ABI_SYSTEM from './contract/SystemParameters.json';
 import {
   ContractManagerEvents,
   IProviderToppedUpAnkrEvent,
@@ -6,17 +17,6 @@ import {
   IStakePendingEvent,
 } from './event';
 import { ISendAsyncResult, KeyProvider } from './provider';
-import BigNumber from 'bignumber.js';
-import { Contract } from 'web3-eth-contract';
-import { EventLog } from 'web3-core';
-import { BlockHeader } from 'web3-eth';
-import { EventEmitter } from 'events';
-import ABI_GLOBAL_POOL from './contract/GlobalPool.json';
-import ABI_BINANCE_GLOBAL_POOL from './contract/BinancePool.json';
-import ABI_AETH from './contract/AETH.json';
-import ABI_ANKR from './contract/ANKR.json';
-import ABI_SYSTEM from './contract/SystemParameters.json';
-import ABI_IERC20 from './contract/IERC20.json';
 
 export interface IContractConfig {
   aethContract?: string;
@@ -27,6 +27,7 @@ export interface IContractConfig {
   ankrContract?: string;
   stakingContract?: string;
   systemContract?: string;
+  globalPoolDepositContract?: string;
 }
 
 export interface IBinanceConfig {

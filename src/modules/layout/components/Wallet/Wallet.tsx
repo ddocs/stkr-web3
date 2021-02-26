@@ -1,14 +1,13 @@
 import classNames from 'classnames';
 import React, { ReactNode, useCallback, useRef, useState } from 'react';
 import { FocusOn } from 'react-focus-on';
-import { Provider } from '../../../../common/types';
 import { Address } from '../Address';
 import { useWalletStyles } from './WalletStyles';
 
 interface IWalletProps {
   className?: string;
   address: string | undefined;
-  provider: Provider | undefined;
+  icon: string | undefined;
   balance: ReactNode;
   children: ReactNode;
 }
@@ -16,7 +15,7 @@ interface IWalletProps {
 export const Wallet = ({
   className,
   address,
-  provider,
+  icon,
   children,
   balance,
 }: IWalletProps) => {
@@ -43,11 +42,11 @@ export const Wallet = ({
       <button className={classes.toggle} onClick={handleOpen} ref={controlRef}>
         {balance}
 
-        {address && provider && (
+        {address && (
           <Address
             className={classes.address}
             address={address}
-            provider={provider}
+            walletIcon={icon}
           />
         )}
       </button>

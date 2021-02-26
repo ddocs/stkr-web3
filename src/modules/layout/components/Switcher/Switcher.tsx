@@ -6,25 +6,31 @@ import React, { ChangeEvent, useCallback, useMemo, useRef } from 'react';
 import { useHistory, useLocation } from 'react-router';
 import { uid } from 'react-uid';
 import { PROVIDER_PATH, STAKER_DASHBOARD_PATH } from '../../../../common/const';
+import { useFeaturesAvailable } from '../../../../common/hooks/useFeaturesAvailable';
 import { t } from '../../../../common/utils/intl';
 import { useNavigationSelectorStyles } from './SwitcherStyles';
 
 export const Switcher = () => {
   const classes = useNavigationSelectorStyles();
   const { push } = useHistory();
+  const { isProviderAvailable } = useFeaturesAvailable();
 
   const options = useMemo(() => {
-    return [
-      {
-        label: t('navigation.staker'),
-        value: STAKER_DASHBOARD_PATH,
-      },
-      {
+    const optionsList = [];
+    optionsList.push({
+      label: t('navigation.staker'),
+      value: STAKER_DASHBOARD_PATH,
+    });
+
+    if (isProviderAvailable) {
+      optionsList.push({
         label: t('navigation.provider'),
         value: PROVIDER_PATH,
-      },
-    ];
-  }, []);
+      });
+    }
+
+    return optionsList;
+  }, [isProviderAvailable]);
 
   const switcherPaths = useMemo(() => options.map(option => option.value), [
     options,

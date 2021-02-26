@@ -1,7 +1,6 @@
 import classNames from 'classnames';
 import React, { ReactNode, useEffect, useState } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
-import { Provider } from '../../../../common/types';
 import { walletConversion } from '../../../../common/utils/convertWallet';
 import { getWalletLink } from '../../../../common/utils/getWalletLink';
 import { t } from '../../../../common/utils/intl';
@@ -14,27 +13,27 @@ import { CopyIcon } from '../../../../UiKit/Icons/CopyIcon';
 import { ViewIcon } from '../../../../UiKit/Icons/ViewIcon';
 import { NavLink } from '../../../../UiKit/NavLink';
 import { SubTitle } from '../../../../UiKit/Typography/Typography';
-import { IProvider, PROVIDERS } from '../const';
+import { WalletIcon } from '../WalletIcon';
 import { useWalletCardStyles } from './WalletCardStyles';
 
 interface IWalletProps {
   className?: string;
   visible?: boolean;
   address: string;
-  provider: Provider;
   balance?: ReactNode;
-  providers?: Record<string, IProvider>;
+  name?: string;
+  icon?: string;
 }
 
 export const WalletCard = ({
   className,
   address,
-  provider,
-  providers = PROVIDERS,
   visible = true,
   balance,
+  name = t('providers.wallet-thumb'),
+  icon,
 }: IWalletProps) => {
-  const classes = useWalletCardStyles({ currentProvider: provider });
+  const classes = useWalletCardStyles({ icon });
   const dispatchDisconnect = useAction(UserActions.disconnect);
 
   const [isCopy, setCopy] = useState<boolean>(false);
@@ -54,12 +53,12 @@ export const WalletCard = ({
       )}
       component="div"
     >
-      {address && provider && (
+      {address && (
         <>
           <div className={classes.info}>
-            <SubTitle className={classes.title}>
-              {t(providers[provider].caption)}
-            </SubTitle>
+            <WalletIcon icon={icon} className={classes.walletIcon} />
+
+            <SubTitle className={classes.title}>{name}</SubTitle>
 
             <span className={classes.address}>{walletConversion(address)}</span>
 

@@ -1,24 +1,24 @@
-import Web3 from 'web3';
-import { AbiItem, bytesToHex, numberToHex } from 'web3-utils';
-import { Contract } from 'web3-eth-contract';
-import { BigNumber } from 'bignumber.js';
-import { PromiEvent, TransactionReceipt } from 'web3-core';
-import { EventEmitter } from 'events';
 import { BlockchainNetworkId } from '@ankr.com/stkr-jssdk';
-import Web3Modal, { IProviderOptions } from 'web3modal';
-import binanceWalletLogo from './assets/binanceWallet.svg';
-import WalletConnectProvider from '@walletconnect/web3-provider';
 import { BscConnector } from '@binance-chain/bsc-connector';
+import { fade } from '@material-ui/core';
+import WalletConnectProvider from '@walletconnect/web3-provider';
+import { BigNumber } from 'bignumber.js';
+import { Transaction } from 'ethereumjs-tx';
+import { EventEmitter } from 'events';
+import Web3 from 'web3';
+import { PromiEvent, TransactionReceipt } from 'web3-core';
+import { Contract } from 'web3-eth-contract';
+import { AbiItem, bytesToHex, numberToHex } from 'web3-utils';
+import Web3Modal, { getProviderInfo, IProviderOptions } from 'web3modal';
+import { PALETTE } from '../../common/themes/mainTheme';
+import { getNetworkName } from '../../common/utils/getNetworkName';
+import { ENABLE_BINANCE_CONNECT } from '../layout/components/const';
+import binanceWalletLogo from './assets/binanceWallet.svg';
+import huobiLogo from './assets/huobi.svg';
 import imTokenLogo from './assets/imToken.svg';
 import mathLogo from './assets/math.svg';
 import trustWalletLogo from './assets/trust.svg';
-import huobiLogo from './assets/huobi.svg';
-import { PALETTE } from '../../common/themes/mainTheme';
-import { fade } from '@material-ui/core';
-import { getNetworkName } from '../../common/utils/getNetworkName';
 import { KeyProviderEvents } from './event';
-import { Transaction } from 'ethereumjs-tx';
-import { ENABLE_BINANCE_CONNECT } from '../layout/components/const';
 
 export interface IProviderConfig {
   ethereumChainId: BlockchainNetworkId;
@@ -54,6 +54,13 @@ export interface IConnectResult {
   chainId: BlockchainNetworkId;
 }
 
+export interface IWalletMeta {
+  description?: string;
+  icons: string[] | null;
+  name: string;
+  url?: string;
+}
+
 export abstract class KeyProvider {
   protected _currentAccount: string | null = null;
   protected _web3: Web3 | null = null;
@@ -75,6 +82,8 @@ export abstract class KeyProvider {
   public abstract isBinanceWallet(): boolean;
 
   public abstract get name(): string;
+
+  public abstract get walletMeta(): IWalletMeta | undefined;
 
   public getWeb3(): Web3 {
     if (!this._web3) throw new Error('Web3 must be initialized');
@@ -189,6 +198,7 @@ export class Web3ModalKeyProvider extends KeyProvider {
   private binanceWallet = false;
   public name = 'Metamask';
   public chainId: BlockchainNetworkId | undefined = undefined;
+  public walletMeta: IWalletMeta | undefined;
 
   async connect(): Promise<IConnectResult> {
     this.binanceWallet = false;
@@ -338,6 +348,17 @@ export class Web3ModalKeyProvider extends KeyProvider {
 
     const provider = await this.web3Modal.connect();
     this.provider = provider;
+
+    if (provider.walletMeta) {
+      this.walletMeta = provider.walletMeta as IWalletMeta;
+    } else {
+      const { logo, name } = getProviderInfo(provider);
+
+      this.walletMeta = {
+        name,
+        icons: [logo],
+      };
+    }
 
     const web3 = new Web3(provider);
     const chainId = Number(

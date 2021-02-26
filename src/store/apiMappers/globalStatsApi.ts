@@ -1,6 +1,6 @@
-import { IGlobalStatsReply } from '../../modules/api/gateway';
 import BigNumber from 'bignumber.js';
 import { ETH_SCALE_FACTOR } from '../../common/const';
+import { IGlobalStatsReply } from '../../modules/api/gateway';
 
 export interface IGlobalStats {
   activePoolCount: number;
@@ -11,6 +11,8 @@ export interface IGlobalStats {
   totalStakedEthereum: BigNumber;
   totalStakers: number;
   validatorCount: number;
+  currentApr?: number;
+  ethereumPrice?: number;
 }
 
 export function mapGlobalStats(item: IGlobalStatsReply): IGlobalStats {
