@@ -32,8 +32,6 @@ interface IStakerSdk {
 
   stake(stakingAmount: BigNumber | BigNumber.Value): Promise<ISendAsyncResult>;
 
-  unstake(): Promise<ISendAsyncResult>;
-
   getClaimableAethBalance(): Promise<BigNumber>;
 
   claimAETH(): Promise<ISendAsyncResult>;
@@ -348,10 +346,6 @@ export class StkrSdk implements IStkrSdk {
     }
     console.log(`staking funds ${stakingAmount.toString(10)} in global pool`);
     return this.getContractManager().stake(stakingAmount);
-  }
-
-  public async unstake(): Promise<ISendAsyncResult> {
-    throw new Error(`Unstake is not supported anymore`);
   }
 
   public currentAccount(): string {

@@ -32,12 +32,7 @@ const ONE = new BigNumber(1);
 
 export const StakerDashboardComponent = () => {
   const classes = useStakerDashboardStyles();
-  const dispatch = useDispatch();
   const isMDDown = useIsMDDown();
-
-  const handleUnstake = () => {
-    dispatch(UserActions.unstake());
-  };
 
   const { isClaimAvailable } = useFeaturesAvailable();
 
@@ -74,10 +69,7 @@ export const StakerDashboardComponent = () => {
                 <div className={classes.title}>
                   <span>{t('staker-dashboard.title')}</span>
                   {!isMDDown && isClaimAvailable && (
-                    <StakerDashboardStakingLabel
-                      pending={pending}
-                      onUnstake={handleUnstake}
-                    />
+                    <StakerDashboardStakingLabel pending={pending} />
                   )}
                 </div>
 
@@ -93,10 +85,7 @@ export const StakerDashboardComponent = () => {
                     isClaimAvailable={isClaimAvailable}
                   >
                     {isMDDown && isClaimAvailable ? (
-                      <StakerDashboardStakingLabel
-                        pending={pending}
-                        onUnstake={handleUnstake}
-                      />
+                      <StakerDashboardStakingLabel pending={pending} />
                     ) : undefined}
                   </StakerDashboardTotalPanel>
 

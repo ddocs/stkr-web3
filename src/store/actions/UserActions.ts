@@ -75,8 +75,6 @@ export const UserActionTypes = {
 
   STAKE: 'STAKE',
 
-  UNSTAKE: 'UNSTAKE',
-
   FETCH_STAKER_STATS: 'FETCH_STAKER_STATS',
 
   FETCH_STAKING_HISTORY: 'FETCH_STAKING_HISTORY',
@@ -401,18 +399,6 @@ export const UserActions = {
           console.log(`New staking amount is: ${amount.toString(10)}`);
         }
         return stkrSdk.stake(amount);
-      })(),
-    },
-    meta: {
-      asMutation: true,
-    },
-  }),
-  unstake: () => ({
-    type: UserActionTypes.UNSTAKE,
-    request: {
-      promise: (async function () {
-        const stkrSdk = StkrSdk.getForEnv();
-        return stkrSdk.unstake();
       })(),
     },
     meta: {
