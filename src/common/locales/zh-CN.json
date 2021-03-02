@@ -185,7 +185,7 @@
 			"node-name": "节点名称"
 		},
 		"note": {
-			"eth-node": "如果你没有，你可以通过 <a href=\"https://infura.io/\" target=\"_blank\" rel=\"noopener noreferrer\">Infura</a> or <a href=\"https://app.ankr.com/\" target=\"_blank\" rel=\"noopener noreferrer\">Ankr</a> 建立一个节点"
+			"eth-node": "如果你没有，你可以通过 <a href=\"https://app.ankr.com/\" target=\"_blank\" rel=\"noopener noreferrer\">Ankr</a> or <a href=\"https://infura.io/\" target=\"_blank\" rel=\"noopener noreferrer\">Infura</a> 建立一个节点"
 		},
 		"option": {
 			"i-dont-have": "我没有信标链节点",

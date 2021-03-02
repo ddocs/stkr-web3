@@ -1,40 +1,42 @@
-import React, { useCallback } from 'react';
-import { useCreateNodeStyles } from './CreateNodeStyles';
-import { t, tHTML } from '../../../../common/utils/intl';
-import { Field, Form, FormRenderProps } from 'react-final-form';
-import { Button } from '../../../../UiKit/Button';
 import {
-  UserActions,
-  UserActionTypes,
-} from '../../../../store/actions/UserActions';
-import { Mutation } from '@redux-requests/react';
+  Box,
+  FormControlLabel,
+  Hidden,
+  IconButton,
+  Paper,
+  Radio,
+  Tooltip,
+} from '@material-ui/core';
 import { success } from '@redux-requests/core';
+import { Mutation } from '@redux-requests/react';
+import classNames from 'classnames';
+import React, { useCallback } from 'react';
+import { Field, Form, FormRenderProps } from 'react-final-form';
 import { useHistory } from 'react-router';
 import {
   PROVIDER_MAIN_PATH,
   PROVIDER_NODE_LIST_PATH,
 } from '../../../../common/const';
 import { IRequestActionPromiseData } from '../../../../common/types';
+import { FormErrors } from '../../../../common/types/FormErrors';
+import { t, tHTML } from '../../../../common/utils/intl';
+import { isNodeNameValid } from '../../../../common/utils/isNodeNameValid';
+import { isValidUrl } from '../../../../common/utils/isValidUrl';
 import { useRequestDispatch } from '../../../../common/utils/useRequestDispatch';
 import { MutationErrorHandler } from '../../../../components/MutationErrorHandler/MutationErrorHandler';
 import {
-  Box,
-  FormControlLabel,
-  IconButton,
-  Paper,
-  Radio,
-  Tooltip,
-} from '@material-ui/core';
+  UserActions,
+  UserActionTypes,
+} from '../../../../store/actions/UserActions';
+import { Button } from '../../../../UiKit/Button';
 import { Curtains } from '../../../../UiKit/Curtains';
-import { Body1, Headline4 } from '../../../../UiKit/Typography';
+import { CancelIcon } from '../../../../UiKit/Icons/CancelIcon';
+import { CloseIcon } from '../../../../UiKit/Icons/CloseIcon';
+import { QuestionIcon } from '../../../../UiKit/Icons/QuestionIcon';
 import { InputField } from '../../../../UiKit/InputField';
 import { RadioGroupField } from '../../../../UiKit/RadioGroupField';
-import classNames from 'classnames';
-import { FormErrors } from '../../../../common/types/FormErrors';
-import { CancelIcon } from '../../../../UiKit/Icons/CancelIcon';
-import { isNodeNameValid } from '../../../../common/utils/isNodeNameValid';
-import { isValidUrl } from '../../../../common/utils/isValidUrl';
-import { QuestionIcon } from '../../../../UiKit/Icons/QuestionIcon';
+import { Body2, Headline4 } from '../../../../UiKit/Typography';
+import { useCreateNodeStyles } from './CreateNodeStyles';
 
 enum Choice {
   yes = 'yes',
@@ -82,14 +84,18 @@ interface ICreateNodePayload {}
 
 interface ICreateNodeProps {
   onSubmit(payload: ICreateNodePayload): void;
-  disabled?: boolean;
+  isLoading?: boolean;
+  onCancel?: () => void;
 }
 
 export const CreateNodeComponent = ({
   onSubmit,
-  disabled,
+  isLoading,
+  onCancel,
 }: ICreateNodeProps) => {
   const classes = useCreateNodeStyles();
+
+  const titleText = t('create-node.title');
 
   const renderForm = ({
     handleSubmit,
@@ -98,7 +104,17 @@ export const CreateNodeComponent = ({
     const { values } = form.getState();
 
     return (
-      <Paper variant="outlined" square={false}>
+      <Paper variant="outlined" square={false} className={classes.paper}>
+        <Hidden smUp>
+          <Box display="flex" alignItems="flex-start" mb={4}>
+            <Headline4 className={classes.title}>{titleText}</Headline4>
+
+            <IconButton className={classes.cancel}>
+              <CloseIcon size="sm" onClick={onCancel} />
+            </IconButton>
+          </Box>
+        </Hidden>
+
         <form onSubmit={handleSubmit} className={classes.form}>
           <Field
             classes={{ root: classes.space }}
@@ -107,32 +123,37 @@ export const CreateNodeComponent = ({
             label={
               <>
                 {t('create-node.label.node-name')}
+
                 <Tooltip title={t('create-node.hint.node-name')}>
                   <IconButton className={classes.question}>
-                    <QuestionIcon size="sm" />
+                    <QuestionIcon size="xs" />
                   </IconButton>
                 </Tooltip>
               </>
             }
           />
+
           <Field
             component={InputField}
             name="eth1Url"
             label={
               <>
                 {t('create-node.label.eth-node')}
+
                 <Tooltip title={t('create-node.hint.eth1Url')}>
                   <IconButton className={classes.question}>
-                    <QuestionIcon size="sm" />
+                    <QuestionIcon size="xs" />
                   </IconButton>
                 </Tooltip>
               </>
             }
             palceholder={t('create-node.placeholder.eth-node')}
           />
-          <Body1 className={classNames(classes.space, classes.note)}>
+
+          <Body2 className={classNames(classes.space, classes.note)}>
             {tHTML('create-node.note.eth-node')}
-          </Body1>
+          </Body2>
+
           <Box display="none">
             <Field
               classes={{ root: classes.space }}
@@ -145,9 +166,11 @@ export const CreateNodeComponent = ({
                 control={<Radio />}
                 label={t('create-node.option.i-have')}
               />
+
               {values.isBeaconAvailable === Choice.yes && (
                 <Field component={InputField} name="eth2Url" />
               )}
+
               <FormControlLabel
                 value={Choice.no}
                 control={<Radio />}
@@ -155,13 +178,14 @@ export const CreateNodeComponent = ({
               />
             </Field>
           </Box>
+
           <Button
             color="primary"
             size="large"
             variant="contained"
             submit
             aria-label={t('create-node.create')}
-            disabled={disabled}
+            disabled={isLoading}
           >
             {t('create-node.create')}
           </Button>
@@ -171,53 +195,67 @@ export const CreateNodeComponent = ({
   };
 
   return (
-    <Form
-      render={renderForm}
-      validate={validateCreateNodeForm}
-      onSubmit={onSubmit}
-      initialValues={{ isBeaconAvailable: Choice.no }}
-    />
+    <section className={classes.root}>
+      <Curtains>
+        <Hidden xsDown>
+          <Box display="flex" justifyContent="flex-end">
+            <IconButton className={classes.cancel}>
+              <CancelIcon size="xmd" onClick={onCancel} />
+            </IconButton>
+          </Box>
+
+          <Headline4 align="center" className={classes.title}>
+            {titleText}
+          </Headline4>
+        </Hidden>
+
+        <Form
+          render={renderForm}
+          validate={validateCreateNodeForm}
+          onSubmit={onSubmit}
+          initialValues={{ isBeaconAvailable: Choice.no }}
+        />
+      </Curtains>
+    </section>
   );
 };
 
 export const CreateNode = () => {
   const dispatch = useRequestDispatch();
-  const classes = useCreateNodeStyles();
   const history = useHistory();
 
   const handleCancel = useCallback(() => {
     history.push(PROVIDER_MAIN_PATH);
   }, [history]);
 
+  const actionType = UserActionTypes.CREATE_SIDECAR;
+
   const handleSubmit = useCallback(
     (data: ICreateNodeValue) => {
       dispatch(UserActions.createSidecar(data)).then(
         (data: IRequestActionPromiseData) => {
-          if (data.action.type === success(UserActionTypes.CREATE_SIDECAR)) {
+          if (data.action.type === success(actionType)) {
             history.replace(PROVIDER_NODE_LIST_PATH);
           }
         },
       );
     },
-    [dispatch, history],
+    [dispatch, history, actionType],
   );
 
   return (
-    <section>
-      <Curtains maxWidth="sm" className={classes.root}>
-        <MutationErrorHandler type={UserActionTypes.CREATE_SIDECAR} />
-        <Headline4 align="center" className={classes.title}>
-          {t('create-node.title')}
-          <IconButton className={classes.cancel}>
-            <CancelIcon onClick={handleCancel} />
-          </IconButton>
-        </Headline4>
-        <Mutation type={UserActionTypes.CREATE_SIDECAR}>
-          {({ loading }) => (
-            <CreateNodeComponent onSubmit={handleSubmit} disabled={loading} />
-          )}
-        </Mutation>
-      </Curtains>
-    </section>
+    <>
+      <MutationErrorHandler type={actionType} />
+
+      <Mutation type={actionType}>
+        {({ loading }) => (
+          <CreateNodeComponent
+            onSubmit={handleSubmit}
+            isLoading={loading}
+            onCancel={handleCancel}
+          />
+        )}
+      </Mutation>
+    </>
   );
 };
