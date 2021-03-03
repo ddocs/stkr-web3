@@ -57,9 +57,17 @@ export const useProviderDashboard = () => {
     dispatch(UserActions.fetchCurrentProviderSidecars(0, SIDECARS_PER_PAGE));
   }, [dispatch, isConnected, sidecarsQuery.data]);
 
+  const globalStatsQuery = useQuery({
+    type: UserActionTypes.FETCH_GLOBAL_STATS,
+  });
+
+  const globalStatsDelay = globalStatsQuery.loading
+    ? null
+    : LONG_UPDATE_INTERVAL;
+
   useInterval(() => {
     dispatch(UserActions.fetchGlobalStats());
-  }, LONG_UPDATE_INTERVAL);
+  }, globalStatsDelay);
 
   return {
     sidecars: sidecarsQuery.data,
