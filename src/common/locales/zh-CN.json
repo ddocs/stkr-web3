@@ -323,12 +323,12 @@
 		"whitepaper-ch": "白皮书（中文版）",
 		"whitepaper-en": "白皮书（英文版）"
 	},
-	"navigation.community": "社区",
-	"navigation.docs": "文档",
-	"navigation.governance": "治理",
-	"navigation.litepaper": "简版白皮书",
-	"navigation.unlock-wallet": "启动应用",
-	"navigation.unlock-your-wallet": "连接你的钱包",
+	"social": {
+		"medium": "Medium",
+		"telegram-announcements": "电报公告群",
+		"telegram-chat": "电报社区",
+		"twitter": "推特"
+	},
 	"node-list": {
 		"status": {
 			"SIDECAR_STATUS_ACTIVE": "活跃",

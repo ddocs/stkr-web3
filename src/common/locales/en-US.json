@@ -324,12 +324,12 @@
 		"whitepaper-ch": "Whitepaper (Ch)",
 		"whitepaper-en": "Whitepaper (En)"
 	},
-	"navigation.community": "Community",
-	"navigation.docs": "Docs",
-	"navigation.governance": "Governance",
-	"navigation.litepaper": "Litepaper",
-	"navigation.unlock-wallet": "Launch App",
-	"navigation.unlock-your-wallet": "Connect your wallet",
+	"social": {
+		"medium": "Medium",
+		"telegram-announcements": "Telegram Announcements",
+		"telegram-chat": "Telegram Chat",
+		"twitter": "Twitter"
+	},
 	"node-list": {
 		"status": {
 			"SIDECAR_STATUS_ACTIVE": "Active",
