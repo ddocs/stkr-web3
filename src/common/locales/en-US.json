@@ -186,7 +186,7 @@
 			"node-name": "Node name"
 		},
 		"note": {
-			"eth-node": "If you don’t have it you can create a node using <a href=\"https://infura.io/\" target=\"_blank\" rel=\"noopener noreferrer\">Infura</a> or <a href=\"https://app.ankr.com/\" target=\"_blank\" rel=\"noopener noreferrer\">Ankr</a>"
+			"eth-node": "If you don’t have it you can create a node using <a href=\"https://app.ankr.com/\" target=\"_blank\" rel=\"noopener noreferrer\">Ankr</a> or <a href=\"https://infura.io/\" target=\"_blank\" rel=\"noopener noreferrer\">Infura</a> "
 		},
 		"option": {
 			"i-dont-have": "I don’t have beacon chain node",
@@ -324,12 +324,12 @@
 		"whitepaper-ch": "Whitepaper (Ch)",
 		"whitepaper-en": "Whitepaper (En)"
 	},
-	"navigation.community": "Community",
-	"navigation.docs": "Docs",
-	"navigation.governance": "Governance",
-	"navigation.litepaper": "Litepaper",
-	"navigation.unlock-wallet": "Launch App",
-	"navigation.unlock-your-wallet": "Connect your wallet",
+	"social": {
+		"medium": "Medium",
+		"telegram-announcements": "Telegram Announcements",
+		"telegram-chat": "Telegram Chat",
+		"twitter": "Twitter"
+	},
 	"node-list": {
 		"status": {
 			"SIDECAR_STATUS_ACTIVE": "Active",

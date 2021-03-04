@@ -1,7 +1,3 @@
-const ENABLE_WALLET_CONNECT = false;
-const ENABLE_TRUST_CONNECT = false;
-export const ENABLE_BINANCE_CONNECT = true;
-
 export interface IProvider {
   caption: string;
   available: boolean;
@@ -14,18 +10,14 @@ export const PROVIDERS: Record<string, IProvider> = {
   },
   trust: {
     caption: 'providers.trust',
-    available: ENABLE_TRUST_CONNECT,
+    available: false,
   },
   wallet: {
     caption: 'providers.wallet',
-    available: ENABLE_WALLET_CONNECT,
+    available: false,
   },
-  ...(ENABLE_BINANCE_CONNECT
-    ? {
-        binance: {
-          caption: 'providers.binance',
-          available: ENABLE_BINANCE_CONNECT,
-        },
-      }
-    : {}),
+  binance: {
+    caption: 'providers.binance',
+    available: true,
+  },
 };

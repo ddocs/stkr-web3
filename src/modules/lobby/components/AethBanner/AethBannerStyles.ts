@@ -2,6 +2,7 @@ import { fade, Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Seconds } from '../../../../common/types';
 
+// appearance timings
 const animationStep: Seconds = 0.15;
 const boxAnimationTime: Seconds = 0.3;
 const logoAnimationTime: Seconds = 0.6;
@@ -13,6 +14,10 @@ const titleAnimationDelay: Seconds = logoAnimationTime - animationStep * 2;
 const textAnimationDelay: Seconds = logoAnimationTime - animationStep;
 const btnAnimationDelay: Seconds = logoAnimationTime + animationStep * 3;
 const btnLabelAnimationDelay: Seconds = logoAnimationTime + animationStep * 4;
+
+// hover settings
+const hoverAnimationTime: Seconds = 0.4;
+const hoverAnimationEasing = 'ease';
 
 export const useAethBannerStyles = makeStyles<Theme>(theme => ({
   root: {
@@ -61,23 +66,13 @@ export const useAethBannerStyles = makeStyles<Theme>(theme => ({
   },
 
   logo: {
+    position: 'relative',
     display: 'inline-block',
     gridArea: 'logo',
-    fontSize: 100,
     marginBottom: theme.spacing(2.5),
 
     [theme.breakpoints.up('sm')]: {
-      fontSize: 90,
       margin: 0,
-    },
-
-    [theme.breakpoints.up('md')]: {
-      fontSize: 150,
-    },
-
-    '& svg': {
-      display: 'block',
-      width: '1em',
     },
   },
 
@@ -92,8 +87,69 @@ export const useAethBannerStyles = makeStyles<Theme>(theme => ({
     transform: 'scale(1)',
   },
 
+  logoIcon: {
+    display: 'block',
+    width: '1em',
+    height: 'auto',
+    fontSize: 100,
+
+    [theme.breakpoints.up('sm')]: {
+      fontSize: 90,
+    },
+
+    [theme.breakpoints.up('md')]: {
+      fontSize: 150,
+    },
+  },
+
+  logoIconEtherium: {
+    position: 'absolute',
+    opacity: 0,
+    transition: `all ${hoverAnimationTime}s ${hoverAnimationEasing}`,
+
+    '$box:hover &': {
+      transform: 'translate(50%, -20%) scale(0.7)',
+      opacity: 0.8,
+
+      [theme.breakpoints.up('sm')]: {
+        transform: 'translate(20%, -30%) scale(0.7)',
+      },
+
+      [theme.breakpoints.up('lg')]: {
+        transform: 'translate(40%, -20%) scale(0.7)',
+      },
+    },
+  },
+
+  logoIconAeth: {
+    position: 'relative',
+    transition: `all ${hoverAnimationTime}s ${hoverAnimationEasing}`,
+
+    '$box:hover &': {
+      transform: 'translate(0, 5%)',
+
+      [theme.breakpoints.up('sm')]: {
+        transform: 'translate(-10%, 18%)',
+      },
+
+      [theme.breakpoints.up('lg')]: {
+        transform: 'translate(-10%, 5%)',
+      },
+    },
+  },
+
   content: {
     gridArea: 'content',
+
+    [theme.breakpoints.up('lg')]: {
+      transition: `padding ${hoverAnimationTime}s ${hoverAnimationEasing}`,
+    },
+
+    '$box:hover &': {
+      [theme.breakpoints.up('lg')]: {
+        paddingLeft: 30,
+      },
+    },
   },
 
   title: {
@@ -138,21 +194,39 @@ export const useAethBannerStyles = makeStyles<Theme>(theme => ({
     alignSelf: 'center',
   },
 
+  btnWrap: {
+    width: '100%',
+
+    [theme.breakpoints.up('sm')]: {
+      width: 'auto',
+      marginLeft: theme.spacing(3),
+    },
+  },
+
+  btnWrapWithAnimation: {
+    opacity: 0,
+    transform: 'translateY(10px)',
+    transition: `opacity ${btnAnimationTime}s ${textAnimationDelay}s, transform ${btnAnimationTime}s ${textAnimationDelay}s`,
+
+    [theme.breakpoints.up('sm')]: {
+      transform: 'scale(0.8)',
+      transition: `opacity ${btnAnimationTime}s ${btnAnimationDelay}s, transform ${btnAnimationTime}s ${btnAnimationDelay}s`,
+    },
+  },
+
+  btnWrapAnimated: {
+    opacity: 1,
+    transform: 'translateY(0)',
+
+    [theme.breakpoints.up('sm')]: {
+      transform: 'scale(1)',
+    },
+  },
+
   btnMobile: {
     [theme.breakpoints.up('sm')]: {
       display: 'none',
     },
-  },
-
-  btnMobileWithAnimation: {
-    opacity: 0,
-    transform: 'translateY(10px)',
-    transition: `opacity ${btnAnimationTime}s ${textAnimationDelay}s, transform ${btnAnimationTime}s ${textAnimationDelay}s`,
-  },
-
-  btnMobileAnimated: {
-    opacity: 1,
-    transform: 'translateY(0)',
   },
 
   btnLabel: {
@@ -176,26 +250,14 @@ export const useAethBannerStyles = makeStyles<Theme>(theme => ({
 
   btn: {
     display: 'none',
-    width: 58,
-    height: 58,
-    minWidth: 0,
-    marginLeft: theme.spacing(3),
-    padding: 0,
-    borderRadius: '50%',
 
     [theme.breakpoints.up('sm')]: {
       display: 'flex',
+      width: 58,
+      height: 58,
+      minWidth: 0,
+      padding: 0,
+      borderRadius: '50%',
     },
-  },
-
-  btnWithAnimation: {
-    opacity: 0,
-    transform: 'scale(0.8)',
-    transition: `opacity ${btnAnimationTime}s ${btnAnimationDelay}s, transform ${btnAnimationTime}s ${btnAnimationDelay}s`,
-  },
-
-  btnAnimated: {
-    opacity: 1,
-    transform: 'scale(1)',
   },
 }));

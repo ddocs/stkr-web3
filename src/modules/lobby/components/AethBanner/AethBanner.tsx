@@ -9,6 +9,7 @@ import { InView } from '../../../../components/InView';
 import { Button } from '../../../../UiKit/Button';
 import { Curtains } from '../../../../UiKit/Curtains';
 import { useAethBannerStyles } from './AethBannerStyles';
+import { ReactComponent as AETHLogoImg } from './assets/aeth-logo.svg';
 import { ReactComponent as EthereumLogoImg } from './assets/ethereum-logo.svg';
 
 interface IAethBannerProps {
@@ -24,7 +25,7 @@ export const AethBanner = ({ className }: IAethBannerProps) => {
       setVisible={setIsVisible}
       className={classNames(classes.root, className)}
       component="section"
-      rootMargin="0% 0% -35% 0%"
+      rootMargin="0% 0% -15% 0%"
       once
     >
       <Curtains>
@@ -36,15 +37,21 @@ export const AethBanner = ({ className }: IAethBannerProps) => {
             isVisible && classes.boxAnimated,
           )}
         >
-          <i
+          <div
             className={classNames(
               classes.logo,
               classes.logoWithAnimation,
               isVisible && classes.logoAnimated,
             )}
           >
-            <EthereumLogoImg />
-          </i>
+            <EthereumLogoImg
+              className={classNames(classes.logoIcon, classes.logoIconEtherium)}
+            />
+
+            <AETHLogoImg
+              className={classNames(classes.logoIcon, classes.logoIconAeth)}
+            />
+          </div>
 
           <Box className={classes.content}>
             <Typography
@@ -71,20 +78,6 @@ export const AethBanner = ({ className }: IAethBannerProps) => {
           </Box>
 
           <div className={classes.linkWrap}>
-            <Button
-              className={classNames(
-                classes.btnMobile,
-                classes.btnMobileWithAnimation,
-                isVisible && classes.btnMobileAnimated,
-              )}
-              variant="contained"
-              color="primary"
-              size="large"
-              fullWidth={true}
-            >
-              {t('aeth-banner.btnText')}
-            </Button>
-
             <Typography
               className={classNames(
                 classes.btnLabel,
@@ -95,18 +88,32 @@ export const AethBanner = ({ className }: IAethBannerProps) => {
               {t('aeth-banner.btnText')}
             </Typography>
 
-            <Button
+            <div
               className={classNames(
-                classes.btn,
-                classes.btnWithAnimation,
-                isVisible && classes.btnAnimated,
+                classes.btnWrap,
+                classes.btnWrapWithAnimation,
+                isVisible && classes.btnWrapAnimated,
               )}
-              variant="contained"
-              color="primary"
-              size="large"
             >
-              <ArrowForward />
-            </Button>
+              <Button
+                className={classes.btnMobile}
+                variant="contained"
+                color="primary"
+                size="large"
+                fullWidth={true}
+              >
+                {t('aeth-banner.btnText')}
+              </Button>
+
+              <Button
+                className={classes.btn}
+                variant="contained"
+                color="primary"
+                size="large"
+              >
+                <ArrowForward />
+              </Button>
+            </div>
           </div>
         </Link>
       </Curtains>
