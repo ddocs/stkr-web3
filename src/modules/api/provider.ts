@@ -1,6 +1,6 @@
 import { BlockchainNetworkId } from '@ankr.com/stkr-jssdk';
 import { BscConnector } from '@binance-chain/bsc-connector';
-import { fade } from '@material-ui/core';
+import { fade, lighten } from '@material-ui/core';
 import WalletConnectProvider from '@walletconnect/web3-provider';
 import { BigNumber } from 'bignumber.js';
 import { Transaction } from 'ethereumjs-tx';
@@ -12,7 +12,6 @@ import { AbiItem, bytesToHex, numberToHex } from 'web3-utils';
 import Web3Modal, { getProviderInfo, IProviderOptions } from 'web3modal';
 import { PALETTE } from '../../common/themes/mainTheme';
 import { getNetworkName } from '../../common/utils/getNetworkName';
-import { ENABLE_BINANCE_CONNECT } from '../layout/components/const';
 import binanceWalletLogo from './assets/binanceWallet.svg';
 import huobiLogo from './assets/huobi.svg';
 import imTokenLogo from './assets/imToken.svg';
@@ -204,7 +203,7 @@ export class Web3ModalKeyProvider extends KeyProvider {
     this.binanceWallet = false;
     // TODO Move up the provider creation
     const providerOptions: IProviderOptions = {
-      ...(ENABLE_BINANCE_CONNECT
+      ...(window.BinanceChain
         ? {
             'custom-binancewallet': {
               display: {
@@ -342,7 +341,7 @@ export class Web3ModalKeyProvider extends KeyProvider {
         main: PALETTE.text.primary,
         secondary: fade(PALETTE.text.primary, 0.5),
         border: PALETTE.background.default,
-        hover: PALETTE.background.paper,
+        hover: lighten(PALETTE.background.paper, 0.03),
       },
     } as any);
 

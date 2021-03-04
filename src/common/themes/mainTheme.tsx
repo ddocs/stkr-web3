@@ -75,6 +75,9 @@ const mainTheme = createMuiTheme({
     MuiTabs: {
       variant: 'fullWidth',
     },
+    MuiTooltip: {
+      enterTouchDelay: 0,
+    },
     MuiTab: {
       disableRipple: true,
     },
@@ -533,13 +536,17 @@ const mainTheme = createMuiTheme({
         marginTop: 0,
       },
     },
+
     MuiInputLabel: {
       shrink: {
-        fontSize: 24,
+        fontSize: 18,
         fontWeight: 700,
         color: '#fff',
+        position: 'static',
+        transform: 'none',
       },
     },
+
     MuiInput: {
       input: {
         fontSize: 18,
@@ -558,9 +565,10 @@ const mainTheme = createMuiTheme({
 
       formControl: {
         'label + &': {
-          marginTop: 42,
+          marginTop: 10,
         },
       },
+
       underline: {
         '&::after': {
           content: 'none',
