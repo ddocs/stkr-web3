@@ -31,6 +31,7 @@ export const ANKR_IFRAME_PATH = '/3dparty';
 export const ANKR_IFRAME_SIGNATURE_PATH = '/3dparty/signature';
 
 export const SOCIAL_LINK = {
+  discord: 'https://discord.gg/uYaNu23Ww7',
   twitter: 'https://twitter.com/ankr',
   facebook: 'facebook',
   telegram: 'https://t.me/ankrnetwork',

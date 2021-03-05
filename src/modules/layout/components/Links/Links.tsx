@@ -17,7 +17,7 @@ import { t } from '../../../../common/utils/intl';
 import { Button } from '../../../../UiKit/Button';
 import { FoldableSection } from '../../../../UiKit/FoldableSection';
 import { NavLink } from '../../../../UiKit/NavLink';
-import { Medium, Telegram, Twitter } from '../Icons/Icons';
+import { Discord, Medium, Telegram, Twitter } from '../Icons/Icons';
 import { useLinksStyles } from './LinksStyles';
 
 export interface ILinksProps {
@@ -45,6 +45,8 @@ const getIconByKey = (key: string) => {
       return <Telegram />;
     case 'medium':
       return <Medium />;
+    case 'discord':
+      return <Discord />;
   }
 };
 
@@ -70,6 +72,7 @@ export const Links = ({ className, isAuth, blockchainType }: ILinksProps) => {
         'telegram-chat': SOCIAL_LINK.telegram,
         'telegram-announcements': SOCIAL_LINK.telegramAnnouncements,
         medium: SOCIAL_LINK.medium,
+        discord: SOCIAL_LINK.discord,
       },
       docs: DOCS_LINK,
       BSC: !isAuth ? ABOUT_SMARTCHAIN_PATH : '',

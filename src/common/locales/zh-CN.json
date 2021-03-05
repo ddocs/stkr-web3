@@ -317,17 +317,12 @@
 		"telegram-chat": "电报社区",
 		"top-up": "充值",
 		"twitter": "推特",
+		"discord": "Discord",
 		"unlock-wallet": "启动应用",
 		"unlock-your-wallet": "连接你的钱包",
 		"view-on-etherscan": "在Etherscan上查看",
 		"whitepaper-ch": "白皮书（中文版）",
 		"whitepaper-en": "白皮书（英文版）"
-	},
-	"social": {
-		"medium": "Medium",
-		"telegram-announcements": "电报公告群",
-		"telegram-chat": "电报社区",
-		"twitter": "推特"
 	},
 	"node-list": {
 		"status": {

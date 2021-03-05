@@ -318,17 +318,12 @@
 		"telegram-chat": "Telegram Chat",
 		"top-up": "Top up",
 		"twitter": "Twitter",
+		"discord": "Discord",
 		"unlock-wallet": "Launch App",
 		"unlock-your-wallet": "Connect your wallet",
 		"view-on-etherscan": "View on Etherscan",
 		"whitepaper-ch": "Whitepaper (Ch)",
 		"whitepaper-en": "Whitepaper (En)"
-	},
-	"social": {
-		"medium": "Medium",
-		"telegram-announcements": "Telegram Announcements",
-		"telegram-chat": "Telegram Chat",
-		"twitter": "Twitter"
 	},
 	"node-list": {
 		"status": {
