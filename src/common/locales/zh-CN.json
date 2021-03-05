@@ -466,19 +466,17 @@
 		"title": "提案的规则"
 	},
 	"stake": {
-		"agreement": "我明白我的质押资金在Eth 2.0质押期间被锁定，在此结束前不能赎回。",
+		"info": "Your staked ETH will be locked for the duration of the Eth 2.0 staking period, but instead you should be able to get aETH or fETH",
 		"i-want": "我想要质押",
 		"operation-fee": "费用",
 		"operation-fee-tooltip": "我们对Peg-ETH的转换收取一定的费用。",
 		"stake": "质押",
-		"staking-period": "质押时间：",
-		"staking-period-tooltip": "这是您的代币在智能合约中被锁定的月数。",
 		"title": "质押管理",
 		"validation": {
 			"agreement": "需要确认",
 			"balance-exceed": "您输入的数值超过了您的余额"
 		},
-		"yearly-earning": "收益",
+		"yearly-earning": "年收益",
 		"yearly-earning-tooltip": "可期望每年从质押中赚取这个数额。请注意，这只是一个估计。"
 	},
 	"stake-statuses": {
