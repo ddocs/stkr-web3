@@ -269,6 +269,7 @@ const mainTheme = createMuiTheme({
           fontSize: 12,
         },
       },
+
       contained: {
         color: PALETTE.primary.contrastText,
         backgroundColor: PALETTE.text.primary,
@@ -276,34 +277,51 @@ const mainTheme = createMuiTheme({
         transitionProperty: 'color, background-color',
         transitionTimingFunction: 'linear',
         borderRadius: 60,
-        '&:hover, &:focus, &:active': {
-          '&:not($disableElevation)': {
-            transform: 'scale(1.05)',
-          },
+
+        '&::before': {
+          content: `''`,
+          position: 'absolute',
+          left: 0,
+          right: 0,
+          top: 0,
+          bottom: 0,
+          transitionDuration: '0.2s',
+          borderRadius: 'inherit',
+
           backgroundColor: PALETTE.text.secondary,
         },
-        '&$disabled': {},
+
+        '&:hover, &:focus, &:active': {
+          backgroundColor: PALETTE.text.secondary,
+
+          '&:not($disableElevation)': {
+            '&::before': {
+              transform: 'scale(1.05)',
+            },
+          },
+        },
+
+        '& $label': {
+          position: 'relative',
+        },
       },
+
       containedPrimary: {
         color: PALETTE.primary.contrastText,
         backgroundColor: PALETTE.primary.main,
-        transitionDuration: '0.2s',
-        transitionProperty: 'color, background-color, transform',
-        transitionTimingFunction: 'linear',
-        '&:hover, &:focus, &:active': {
-          '&:not($disableElevation)': {
-            transform: 'scale(1.05)',
-          },
+
+        '&::before': {
           backgroundColor: PALETTE.primary.dark,
         },
-        '&$disabled': {},
+
+        '&:hover, &:focus, &:active': {
+          backgroundColor: PALETTE.primary.dark,
+        },
       },
       containedSecondary: {
         color: PALETTE.primary.main,
         backgroundColor: fade(PALETTE.primary.main, 0.15),
-        transitionDuration: '0.2s',
-        transitionProperty: 'color, background-color',
-        transitionTimingFunction: 'linear',
+
         '&:hover, &:focus, &:active': {
           backgroundColor: fade(PALETTE.primary.main, 0.2),
         },
@@ -593,6 +611,9 @@ const mainTheme = createMuiTheme({
         bottom: 0,
         margin: 'auto',
         right: 10,
+      },
+      iconOpen: {
+        transform: 'none',
       },
     },
     MuiPopover: {

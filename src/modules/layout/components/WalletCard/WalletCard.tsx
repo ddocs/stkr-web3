@@ -40,7 +40,10 @@ export const WalletCard = ({
 
   useEffect(() => {
     if (isCopy) {
-      setTimeout(() => setCopy(false), 1000);
+      setTimeout(() => {
+        setCopy(false);
+        (document.activeElement as any)?.blur();
+      }, 1000);
     }
   }, [isCopy]);
 
