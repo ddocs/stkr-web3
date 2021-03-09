@@ -155,7 +155,7 @@ export const HeaderComponent = ({
 
           {!isAuth && isSMUp && renderedAppButton}
 
-          {isAuth && walletAddress && walletType && isMDUp && (
+          {isAuth && isMDUp && walletAddress && walletType && (
             <Wallet
               className={classes.wallet}
               address={walletAddress}
