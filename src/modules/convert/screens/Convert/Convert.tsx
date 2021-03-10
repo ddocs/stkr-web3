@@ -1,16 +1,3 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { Curtains } from '../../../../UiKit/Curtains';
-import { useConvertStyles } from './ConvertStyles';
-import { Body1 } from '../../../../UiKit/Typography';
-import { t, tHTML } from '../../../../common/utils/intl';
-import { Field, Form, FormRenderProps } from 'react-final-form';
-import { SliderField } from '../../../../UiKit/RangeField';
-import { FormErrors } from '../../../../common/types/FormErrors';
-import { Mutation, Query } from '@redux-requests/react';
-import { MutationErrorHandler } from '../../../../components/MutationErrorHandler/MutationErrorHandler';
-import { CheckboxField } from '../../../../UiKit/Checkbox/CheckboxField';
-import { Button } from '../../../../UiKit/Button';
-import { Quote } from '../../../../components/Quote';
 import {
   Box,
   Divider,
@@ -20,20 +7,33 @@ import {
   Stepper,
   Typography,
 } from '@material-ui/core';
+import { QueryState } from '@redux-requests/core';
+import { Mutation, Query } from '@redux-requests/react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Field, Form, FormRenderProps } from 'react-final-form';
+import { useFeaturesAvailable } from '../../../../common/hooks/useFeaturesAvailable';
+import { useMutationStatus } from '../../../../common/hooks/useMutationStatus';
+import { Milliseconds } from '../../../../common/types';
+import { FormErrors } from '../../../../common/types/FormErrors';
+import { floor } from '../../../../common/utils/floor';
+import { t, tHTML } from '../../../../common/utils/intl';
+import { useInterval } from '../../../../common/utils/useInterval';
 import { useRequestDispatch } from '../../../../common/utils/useRequestDispatch';
-import { ConvertActions } from '../../actions/ConvertActions';
+import { MutationErrorHandler } from '../../../../components/MutationErrorHandler/MutationErrorHandler';
 import { QueryError } from '../../../../components/QueryError/QueryError';
 import { QueryLoadingCentered } from '../../../../components/QueryLoading/QueryLoading';
+import { Quote } from '../../../../components/Quote';
+import { Button } from '../../../../UiKit/Button';
+import { CheckboxField } from '../../../../UiKit/Checkbox/CheckboxField';
+import { Curtains } from '../../../../UiKit/Curtains';
+import { SliderField } from '../../../../UiKit/RangeField';
+import { Body1 } from '../../../../UiKit/Typography';
+import { ConvertActions } from '../../actions/ConvertActions';
 import { IConversionStats } from '../../api/convertApi';
-import { floor } from '../../../../common/utils/floor';
-import { Deposit } from '../../components/Deposit';
 import { Confirms } from '../../components/Confirms';
-import { QueryState } from '@redux-requests/core';
-import { useMutationStatus } from '../../../../common/hooks/useMutationStatus';
+import { Deposit } from '../../components/Deposit';
 import { TransactionCompleted } from '../../components/TransactionCompleted';
-import { useInterval } from '../../../../common/utils/useInterval';
-import { Milliseconds } from '../../../../common/types';
-import { useFeaturesAvailable } from '../../../../common/hooks/useFeaturesAvailable';
+import { useConvertStyles } from './ConvertStyles';
 
 const MIN_AMOUNT = 0.5;
 const MAX_AMOUNT = 32;
@@ -245,10 +245,7 @@ const Content = ({ query: { data } }: IContentProps) => {
   if (data.latestWaitingForDepositSwap) {
     return (
       <>
-        <MutationErrorHandler
-          type={ConvertActions.deposit as any}
-          resetOnShow={false}
-        />
+        <MutationErrorHandler type={ConvertActions.deposit as any} />
         <Mutation type={ConvertActions.deposit as any}>
           {({ loading }) => {
             if (!data?.latestWaitingForDepositSwap) {

@@ -146,10 +146,7 @@ export const CreateProject = () => {
         </Box>
 
         <Box className={classes.btnWrap}>
-          <MutationErrorHandler
-            resetOnShow={false}
-            type={GovernanceActionTypes.CREATE_PROJECT}
-          />
+          <MutationErrorHandler type={GovernanceActionTypes.CREATE_PROJECT} />
 
           <Mutation type={GovernanceActionTypes.CREATE_PROJECT}>
             {({ loading }) => (

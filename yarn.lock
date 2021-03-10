@@ -1293,10 +1293,17 @@
     core-js-pure "^3.0.0"
     regenerator-runtime "^0.13.4"
 
-"@babel/runtime@7.12.1", "@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.10.0", "@babel/runtime@^7.10.2", "@babel/runtime@^7.10.3", "@babel/runtime@^7.11.2", "@babel/runtime@^7.2.0", "@babel/runtime@^7.3.1", "@babel/runtime@^7.4.4", "@babel/runtime@^7.5.0", "@babel/runtime@^7.5.1", "@babel/runtime@^7.5.5", "@babel/runtime@^7.6.3", "@babel/runtime@^7.7.2", "@babel/runtime@^7.7.6", "@babel/runtime@^7.7.7", "@babel/runtime@^7.8.3", "@babel/runtime@^7.8.4", "@babel/runtime@^7.8.7", "@babel/runtime@^7.9.2":
+"@babel/runtime@7.12.1", "@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.10.0", "@babel/runtime@^7.10.2", "@babel/runtime@^7.10.3", "@babel/runtime@^7.11.2", "@babel/runtime@^7.3.1", "@babel/runtime@^7.4.4", "@babel/runtime@^7.5.0", "@babel/runtime@^7.5.1", "@babel/runtime@^7.5.5", "@babel/runtime@^7.6.3", "@babel/runtime@^7.7.2", "@babel/runtime@^7.7.6", "@babel/runtime@^7.7.7", "@babel/runtime@^7.8.3", "@babel/runtime@^7.8.4", "@babel/runtime@^7.8.7", "@babel/runtime@^7.9.2":
   version "7.12.1"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.12.1.tgz#b4116a6b6711d010b2dad3b7b6e43bf1b9954740"
   integrity sha512-J5AIf3vPj3UwXaAzb5j1xM4WAQDX3EMgemF8rjCP3SoW09LfRKAXQKt6CoVYl230P6iWdRcBbnLDDdnqWxZSCA==
+  dependencies:
+    regenerator-runtime "^0.13.4"
+
+"@babel/runtime@^7.2.0":
+  version "7.13.9"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.13.9.tgz#97dbe2116e2630c489f22e0656decd60aaa1fcee"
+  integrity sha512-aY2kU+xgJ3dJ1eU6FMB9EH8dIe8dmusF1xEku52joLvw6eAFN0AI+WxCLDnpev2LEejWBAy2sBvBOBAjI3zmvA==
   dependencies:
     regenerator-runtime "^0.13.4"
 
@@ -2208,26 +2215,26 @@
     prop-types "^15.6.1"
     react-lifecycles-compat "^3.0.4"
 
-"@redux-requests/core@1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@redux-requests/core/-/core-1.0.0.tgz#f583ded8fe78743d1c233cdcaa0d3f31d1a2c3a0"
-  integrity sha512-L/r/4LwgF606sdgIx/LivhP5sdQpSV0mI+DcoZmQo4rulbm11Xylf10aJ6UvXHhggp7xAuTQF1hsbqGdYJXQyg==
+"@redux-requests/core@1.6.1":
+  version "1.6.1"
+  resolved "https://registry.yarnpkg.com/@redux-requests/core/-/core-1.6.1.tgz#24f8277540527e10ba77e597765e49f3f4062273"
+  integrity sha512-82XM4doA+wAbyMxmdDeMZ0cs6JkR5+CFRWgs9e3L/Sqxz0y7jLc66dt8XwGHv4I9gd/ahEOzmDEW6tx6fOGEPA==
   dependencies:
     "@babel/runtime" "^7.2.0"
     deepmerge "^4.0.0"
 
-"@redux-requests/promise@1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@redux-requests/promise/-/promise-1.0.0.tgz#a1443fae87f4e72cd5e04c7a238a13bc062c5cd3"
-  integrity sha512-NMxuLPQvlKns0EvEy3tUFB2Q5ct8HqIp8mWWIIINhtWvRO+Lku/oB4UmJgb/QULw9pjYMa90P4BIeKVZxL6WiQ==
+"@redux-requests/promise@1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@redux-requests/promise/-/promise-1.0.2.tgz#3c3eb5d357d0c6075e7802c366a7d99854298f65"
+  integrity sha512-qReb0NWlOQ6njImNI26Hg5zQRWRM8G71xTe3K4GuCH/HTpFxp1khAUVJdiYmbOaVKkSIS2hPuBj+I8u18HFUEw==
 
-"@redux-requests/react@1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@redux-requests/react/-/react-1.0.0.tgz#448e2a20363cc72f326c2d25db778a078ab915cf"
-  integrity sha512-xmcKnIsO+9uQHzkuxU0hDBtSYPY7LdKZhCMd7Lf1q7RllCMY1VknAMpzKGZRwjgPY42FZMPFWxHpBAsSXH/x5w==
+"@redux-requests/react@1.6.0":
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/@redux-requests/react/-/react-1.6.0.tgz#940d838b17449ea3dc4fecd6de9296fe3c8afe65"
+  integrity sha512-u34QYwxTFgJHukVHAEmfYog0mKLBo+PKKtuwsqxdEeKzaI7S9/JqP4tpFM6Vi2NVwTCKe+LlN+X2GXGd+e8RLQ==
   dependencies:
     prop-types "^15.5.7"
-    react-is "^16.13.1"
+    react-is ">=16.13.1"
 
 "@redux-saga/core@^1.1.3":
   version "1.1.3"
@@ -15142,15 +15149,15 @@ react-intl-universal@^2.4.1:
     object-keys "^1.0.11"
     querystring "^0.2.0"
 
-react-is@^16.12.0, react-is@^16.13.1, react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.0, react-is@^16.8.1, react-is@^16.8.4, react-is@^16.9.0:
-  version "16.13.1"
-  resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
-  integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
-
-react-is@^17.0.1:
+react-is@>=16.13.1, react-is@^17.0.1:
   version "17.0.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.1.tgz#5b3531bd76a645a4c9fb6e693ed36419e3301339"
   integrity sha512-NAnt2iGDXohE5LI7uBnLnqvLQMtzhkiAOLXTmv+qnF9Ky7xAPcX8Up/xWIhxvLVGJvuLiNc4xQLtuqDRzb4fSA==
+
+react-is@^16.12.0, react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.0, react-is@^16.8.1, react-is@^16.8.4, react-is@^16.9.0:
+  version "16.13.1"
+  resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
+  integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
 
 react-lifecycles-compat@^3.0.4:
   version "3.0.4"

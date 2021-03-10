@@ -79,8 +79,6 @@ function* listenKeyProviderEvents() {
             window.location.reload();
           });
         }
-      } else if (event.type === KeyProviderEvents.Message) {
-        console.log(event);
       } else if (event.type === KeyProviderEvents.Disconnect) {
         yield put(UserActions.disconnect());
         setTimeout(() => {

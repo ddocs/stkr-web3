@@ -1,5 +1,3 @@
-import React, { ReactNode, useCallback, useState } from 'react';
-import { useAnkrInstructionsVideoDialogStyles } from './ClaimDialogStyles';
 import {
   Box,
   Button,
@@ -9,17 +7,19 @@ import {
   IconButton,
   Typography,
 } from '@material-ui/core';
-import { CancelIcon } from '../../../../../../UiKit/Icons/CancelIcon';
-import { t } from '../../../../../../common/utils/intl';
-import { AEthIcon } from '../../../../../../UiKit/Icons/AEthIcon';
+import { useMutation } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
+import React, { ReactNode, useCallback, useState } from 'react';
 import { DEFAULT_FIXED } from '../../../../../../common/const';
-import { UserActions } from '../../../../../../store/actions/UserActions';
+import { useFeaturesAvailable } from '../../../../../../common/hooks/useFeaturesAvailable';
+import { t } from '../../../../../../common/utils/intl';
 import { useRequestDispatch } from '../../../../../../common/utils/useRequestDispatch';
 import { MutationErrorHandler } from '../../../../../../components/MutationErrorHandler/MutationErrorHandler';
+import { UserActions } from '../../../../../../store/actions/UserActions';
+import { AEthIcon } from '../../../../../../UiKit/Icons/AEthIcon';
+import { CancelIcon } from '../../../../../../UiKit/Icons/CancelIcon';
 import { FEthIcon } from '../../../../../../UiKit/Icons/FEthIcon';
-import { useMutation } from '@redux-requests/react';
-import { useFeaturesAvailable } from '../../../../../../common/hooks/useFeaturesAvailable';
+import { useAnkrInstructionsVideoDialogStyles } from './ClaimDialogStyles';
 
 interface IClaimDialogProps {
   children?: ReactNode;
@@ -78,14 +78,8 @@ export const ClaimDialog = ({
   return (
     <>
       {element}
-      <MutationErrorHandler
-        type={UserActions.claimAETH.toString()}
-        resetOnShow={false}
-      />
-      <MutationErrorHandler
-        type={UserActions.claimFETH.toString()}
-        resetOnShow={false}
-      />
+      <MutationErrorHandler type={UserActions.claimAETH.toString()} />
+      <MutationErrorHandler type={UserActions.claimFETH.toString()} />
       <Dialog
         open={isOpened}
         onClose={handleClose}

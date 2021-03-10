@@ -81,7 +81,6 @@ export const HeaderComponent = ({
   const renderedErrorHandler = (
     <MutationErrorHandler
       type={UserActionTypes.CONNECT}
-      resetOnShow={false}
       filter={isFilteredError}
     />
   );

@@ -7,17 +7,17 @@ import {
   Radio,
   Tooltip,
 } from '@material-ui/core';
-import { success } from '@redux-requests/core';
-import { Mutation } from '@redux-requests/react';
+import { resetRequests, success } from '@redux-requests/core';
+import { useMutation } from '@redux-requests/react';
 import classNames from 'classnames';
 import React, { useCallback } from 'react';
 import { Field, Form, FormRenderProps } from 'react-final-form';
+import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 import {
   PROVIDER_MAIN_PATH,
   PROVIDER_NODE_LIST_PATH,
 } from '../../../../common/const';
-import { IRequestActionPromiseData } from '../../../../common/types';
 import { FormErrors } from '../../../../common/types/FormErrors';
 import { t, tHTML } from '../../../../common/utils/intl';
 import { isNodeNameValid } from '../../../../common/utils/isNodeNameValid';
@@ -221,41 +221,51 @@ export const CreateNodeComponent = ({
 };
 
 export const CreateNode = () => {
-  const dispatch = useRequestDispatch();
+  const dispatch = useDispatch();
+  const requestDispatch = useRequestDispatch();
   const history = useHistory();
+  const { loading } = useMutation({
+    type: UserActionTypes.CREATE_SIDECAR,
+  });
 
   const handleCancel = useCallback(() => {
     history.push(PROVIDER_MAIN_PATH);
-  }, [history]);
 
-  const actionType = UserActionTypes.CREATE_SIDECAR;
+    // reset store data associated with sidecar creation errors
+    dispatch(resetRequests([UserActionTypes.CREATE_SIDECAR], false));
+  }, [history, dispatch]);
 
   const handleSubmit = useCallback(
-    (data: ICreateNodeValue) => {
-      dispatch(UserActions.createSidecar(data)).then(
-        (data: IRequestActionPromiseData) => {
-          if (data.action.type === success(actionType)) {
-            history.replace(PROVIDER_NODE_LIST_PATH);
-          }
-        },
+    async (values: ICreateNodeValue) => {
+      const { action, error } = await requestDispatch(
+        UserActions.createSidecar(values),
       );
+
+      if (error) {
+        const formErrors = {
+          name: error.response?.data?.validationErrors?.name,
+          eth1Url: error.response?.data?.validationErrors?.eth1Url,
+        };
+
+        return formErrors;
+      }
+
+      if (action.type === success(UserActionTypes.CREATE_SIDECAR)) {
+        history.replace(PROVIDER_NODE_LIST_PATH);
+      }
     },
-    [dispatch, history, actionType],
+    [history, requestDispatch],
   );
 
   return (
     <>
-      <MutationErrorHandler type={actionType} />
+      <MutationErrorHandler type={UserActionTypes.CREATE_SIDECAR} />
 
-      <Mutation type={actionType}>
-        {({ loading }) => (
-          <CreateNodeComponent
-            onSubmit={handleSubmit}
-            isLoading={loading}
-            onCancel={handleCancel}
-          />
-        )}
-      </Mutation>
+      <CreateNodeComponent
+        onSubmit={handleSubmit}
+        isLoading={loading}
+        onCancel={handleCancel}
+      />
     </>
   );
 };
