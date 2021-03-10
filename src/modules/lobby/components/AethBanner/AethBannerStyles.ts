@@ -18,6 +18,7 @@ const btnLabelAnimationDelay: Seconds = logoAnimationTime + animationStep * 4;
 // hover settings
 const hoverAnimationTime: Seconds = 0.4;
 const hoverAnimationEasing = 'ease';
+const hoverAnimationDelay: Seconds = 0.2;
 
 export const useAethBannerStyles = makeStyles<Theme>(theme => ({
   root: {
@@ -110,6 +111,7 @@ export const useAethBannerStyles = makeStyles<Theme>(theme => ({
     '$box:hover &': {
       transform: 'translate(50%, -20%) scale(0.7)',
       opacity: 0.8,
+      transitionDelay: `${hoverAnimationDelay}s`,
 
       [theme.breakpoints.up('sm')]: {
         transform: 'translate(20%, -30%) scale(0.7)',
@@ -127,6 +129,7 @@ export const useAethBannerStyles = makeStyles<Theme>(theme => ({
 
     '$box:hover &': {
       transform: 'translate(0, 5%)',
+      transitionDelay: `${hoverAnimationDelay}s`,
 
       [theme.breakpoints.up('sm')]: {
         transform: 'translate(-10%, 18%)',
@@ -148,6 +151,7 @@ export const useAethBannerStyles = makeStyles<Theme>(theme => ({
     '$box:hover &': {
       [theme.breakpoints.up('lg')]: {
         paddingLeft: 30,
+        transitionDelay: `${hoverAnimationDelay}s`,
       },
     },
   },
