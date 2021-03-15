@@ -1,8 +1,8 @@
-import { Query } from '@redux-requests/react';
+import { useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
-import React, { useCallback } from 'react';
+import classNames from 'classnames';
+import React, { useMemo } from 'react';
 import { t } from '../../../../common/utils/intl';
-import { QueryLoadingAbsolute } from '../../../../components/QueryLoading/QueryLoading';
 import { UserActionTypes } from '../../../../store/actions/UserActions';
 import { IGlobalStats } from '../../../../store/apiMappers/globalStatsApi';
 import { Curtains } from '../../../../UiKit/Curtains';
@@ -12,64 +12,71 @@ import { useMarketingStyles } from './GlobalStatsStyles';
 interface IGlobalStatsProps {
   totalStakedEthereum?: BigNumber;
   totalStakers?: number;
+  isLoading?: boolean;
 }
 
 export const GlobalStatsComponent = ({
   totalStakedEthereum,
   totalStakers,
+  isLoading = false,
 }: IGlobalStatsProps) => {
   const classes = useMarketingStyles();
 
+  const stats = useMemo(
+    () => [
+      {
+        title: t('global-stats.total-staked'),
+        value: totalStakedEthereum?.toFormat(),
+      },
+      {
+        title: t('global-stats.total-staked'),
+        value: t('unit.number-value', { value: totalStakers }),
+      },
+    ],
+    [totalStakedEthereum, totalStakers],
+  );
+
+  const renderedStats = useMemo(
+    () =>
+      stats.map(({ title, value }) => (
+        <div className={classes.cell}>
+          <Headline5 color="textSecondary" className={classes.header}>
+            {title}
+          </Headline5>
+
+          <Headline1
+            className={classNames(
+              classes.value,
+              isLoading && classes.valueLoading,
+            )}
+          >
+            {isLoading ? 0 : value}
+          </Headline1>
+        </div>
+      )),
+    [classes, isLoading, stats],
+  );
+
   return (
     <section className={classes.root}>
-      <Curtains className={classes.container}>
-        <div className={classes.cell}>
-          <Headline5 color="textSecondary" className={classes.header}>
-            {t('global-stats.total-staked')}
-          </Headline5>
-
-          <Headline1 className={classes.value}>
-            {totalStakedEthereum?.toFormat()}
-          </Headline1>
-        </div>
-
-        <div className={classes.cell}>
-          <Headline5 color="textSecondary" className={classes.header}>
-            {t('global-stats.stakers')}
-          </Headline5>
-
-          <Headline1 className={classes.value}>
-            {t('unit.number-value', { value: totalStakers })}
-          </Headline1>
-        </div>
-      </Curtains>
+      <Curtains className={classes.container}>{renderedStats}</Curtains>
     </section>
   );
 };
 
 export const GlobalStats = () => {
-  const classes = useMarketingStyles();
+  const { loading, data } = useQuery<IGlobalStats | null>({
+    type: UserActionTypes.FETCH_GLOBAL_STATS,
+  });
 
-  const renderLoader = useCallback(
-    () => (
-      <div className={classes.placeHolder}>
-        <QueryLoadingAbsolute />
-      </div>
-    ),
-    [classes.placeHolder],
-  );
-
-  return (
-    <Query<IGlobalStats | null>
-      loadingComponent={renderLoader}
-      type={UserActionTypes.FETCH_GLOBAL_STATS}
-    >
-      {({ data }) => (
-        <GlobalStatsComponent
-          totalStakedEthereum={data?.totalStakedEthereum}
-          totalStakers={data?.totalStakers}
-        />
-      )}
-    </Query>
+  return loading ? (
+    <GlobalStatsComponent isLoading />
+  ) : (
+    data && !!data.totalStakedEthereum && (
+      <GlobalStatsComponent
+        totalStakedEthereum={data.totalStakedEthereum}
+        totalStakers={data.totalStakers}
+      />
+    )
   );
 };

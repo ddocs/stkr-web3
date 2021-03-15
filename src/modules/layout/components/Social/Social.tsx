@@ -6,7 +6,7 @@ import { SOCIAL_LINK } from '../../../../common/const';
 import { useIsLGUp } from '../../../../common/hooks/useTheme';
 import { t } from '../../../../common/utils/intl';
 import { NavLink } from '../../../../UiKit/NavLink';
-import { Medium, Telegram, Twitter } from '../Icons/Icons';
+import { Discord, Medium, Telegram, Twitter } from '../Icons/Icons';
 import { useSocialStyles } from './SocialStyles';
 
 interface ISocialItem {
@@ -84,7 +84,7 @@ export const Social = ({ className }: { className?: string }) => {
   const socialList: ISocialItem[] = useMemo(
     () => [
       {
-        title: t('social.twitter'),
+        title: t('navigation.twitter'),
         icon: <Twitter />,
         href: SOCIAL_LINK.twitter,
       },
@@ -92,19 +92,24 @@ export const Social = ({ className }: { className?: string }) => {
         icon: <Telegram />,
         links: [
           {
-            title: t('social.telegram-chat'),
+            title: t('navigation.telegram-chat'),
             href: SOCIAL_LINK.telegram,
           },
           {
-            title: t('social.telegram-announcements'),
+            title: t('navigation.telegram-announcements'),
             href: SOCIAL_LINK.telegramAnnouncements,
           },
         ],
       },
       {
-        title: t('social.medium'),
+        title: t('navigation.medium'),
         icon: <Medium />,
         href: SOCIAL_LINK.medium,
+      },
+      {
+        title: t('navigation.discord'),
+        icon: <Discord />,
+        href: SOCIAL_LINK.discord,
       },
     ],
     [],

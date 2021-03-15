@@ -70,9 +70,16 @@ export const useMarketingStyles = makeStyles<Theme>(theme => ({
 
   value: {
     fontSize: 48,
+    transition: 'opacity 0.2s',
+    opacity: 1,
 
     [theme.breakpoints.up('sm')]: {
       fontSize: 72,
     },
+  },
+
+  valueLoading: {
+    transition: 'none',
+    opacity: 0,
   },
 }));

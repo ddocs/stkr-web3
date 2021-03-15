@@ -15,15 +15,9 @@ export const useSidecarLauncherStyles = makeStyles<
   },
 
   buttonIcon: {
-    transition: 'transform 0.2s',
-
     '&& > svg': {
       fontSize: 26,
     },
-  },
-
-  buttonIconActive: {
-    transform: 'rotate(180deg)',
   },
 
   popover: {

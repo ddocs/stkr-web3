@@ -23,6 +23,7 @@ import { mapGlobalStats } from '../apiMappers/globalStatsApi';
 import { mapProviderStats } from '../apiMappers/providerStatsApi';
 import { ISidecar, mapSidecar } from '../apiMappers/sidecarsApi';
 import {
+  isAllowedTransaction,
   IStakeHistoryItem,
   IStakerStats,
   IStakingHistory,
@@ -254,12 +255,7 @@ export const UserActions = {
     request: {
       promise: async function () {
         const stkrSdk = StkrSdk.getForEnv();
-        const data: ISidecarReply[] = await stkrSdk?.getProviderSidecars(
-          page,
-          size,
-        );
-
-        return data;
+        return await stkrSdk?.getProviderSidecars(page, size);
       },
     },
     meta: {
@@ -473,7 +469,9 @@ export const UserActions = {
         const stkrSdk = StkrSdk.getForEnv();
         const stakerStats = await stkrSdk.getStakerStats();
         return {
-          stakes: stakerStats.stakes.map(mapStakeHistoryItem),
+          stakes: stakerStats.stakes
+            .map(mapStakeHistoryItem)
+            .filter(isAllowedTransaction),
         } as IStakingHistory;
       })(),
     },

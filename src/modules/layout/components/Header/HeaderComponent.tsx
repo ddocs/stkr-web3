@@ -81,7 +81,6 @@ export const HeaderComponent = ({
   const renderedErrorHandler = (
     <MutationErrorHandler
       type={UserActionTypes.CONNECT}
-      resetOnShow={false}
       filter={isFilteredError}
     />
   );
@@ -155,7 +154,7 @@ export const HeaderComponent = ({
 
           {!isAuth && isSMUp && renderedAppButton}
 
-          {isAuth && walletAddress && walletType && isMDUp && (
+          {isAuth && isMDUp && walletAddress && walletType && (
             <Wallet
               className={classes.wallet}
               address={walletAddress}

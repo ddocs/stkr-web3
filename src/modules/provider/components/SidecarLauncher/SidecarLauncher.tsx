@@ -1,6 +1,5 @@
 import { Popover } from '@material-ui/core';
 import { ExpandMore } from '@material-ui/icons';
-import classNames from 'classnames';
 import React, { useState } from 'react';
 import { uid } from 'react-uid';
 import { ISidecar } from '../../../../store/apiMappers/sidecarsApi';
@@ -84,10 +83,7 @@ export const SidecarLauncher = ({ id }: ISidecarLauncherProps) => {
         endIcon={<ExpandMore fontSize="large" />}
         onClick={handleClick}
         classes={{
-          endIcon: classNames(
-            classes.buttonIcon,
-            isPopoverOpen && classes.buttonIconActive,
-          ),
+          endIcon: classes.buttonIcon,
         }}
         fullWidth
       >

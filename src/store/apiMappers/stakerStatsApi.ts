@@ -34,6 +34,14 @@ export function mapStakeHistoryItem(data: IUserStakeReply): IStakeHistoryItem {
   };
 }
 
+export function isAllowedTransaction(data: IStakeHistoryItem) {
+  return !(
+    data.transactionHash ===
+      '0xfa2ebcfedf98ea1b3f1252ba06d57a6c0164e0b6fdc4647f8d2172aebbad482b' &&
+    data.user === '0x2d25e050fCf2551a9e78bDcF6d6FD0483d3f5211'
+  );
+}
+
 export function mapStakerStats(data: {
   aEthBalance: BigNumber;
   fEthBalance: BigNumber;

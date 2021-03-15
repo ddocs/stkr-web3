@@ -1,3 +1,6 @@
+import { getQuery, resetRequests, success } from '@redux-requests/core';
+import { replace } from 'connected-react-router';
+import { END, eventChannel } from 'redux-saga';
 import {
   call,
   cancel,
@@ -8,13 +11,8 @@ import {
   take,
   takeEvery,
 } from 'redux-saga/effects';
-import { UserActions, UserActionTypes } from '../actions/UserActions';
-import { REHYDRATE } from 'redux-persist/es/constants';
-import { replace } from 'connected-react-router';
 import { INDEX_PATH } from '../../common/const';
-import { getQuery, resetRequests, success } from '@redux-requests/core';
-import { IStoreState } from '../reducers';
-import { END, eventChannel } from 'redux-saga';
+import { pushEvent } from '../../common/utils/pushEvent';
 import { StkrSdk } from '../../modules/api';
 import {
   ContractManagerEvent,
@@ -22,10 +20,10 @@ import {
   KeyProviderEvent,
   KeyProviderEvents,
 } from '../../modules/api/event';
-import { IApplicationStore } from '../createStore';
-import { IUserInfo } from '../apiMappers/userApi';
-import { pushEvent } from '../../common/utils/pushEvent';
+import { UserActions, UserActionTypes } from '../actions/UserActions';
 import { IConnectResponse } from '../apiMappers/connectApi';
+import { IUserInfo } from '../apiMappers/userApi';
+import { IApplicationStore } from '../createStore';
 
 function createEventChannel() {
   return eventChannel(emitter => {
@@ -81,8 +79,6 @@ function* listenKeyProviderEvents() {
             window.location.reload();
           });
         }
-      } else if (event.type === KeyProviderEvents.Message) {
-        console.log(event);
       } else if (event.type === KeyProviderEvents.Disconnect) {
         yield put(UserActions.disconnect());
         setTimeout(() => {
@@ -162,18 +158,7 @@ function* onDisconnectSuccess() {
   }
 }
 
-function* init() {
-  const { isConnectionAvailable } = yield select((store: IStoreState) => ({
-    isConnectionAvailable: store.user.isConnectionAvailable,
-  }));
-  const isIframe = window.location.pathname.startsWith('/3dparty');
-  if (isConnectionAvailable && !isIframe) {
-    yield put(UserActions.connect());
-  }
-}
-
 export function* userSaga() {
   yield takeEvery(success(UserActionTypes.CONNECT), onConnectSuccess);
   yield takeEvery(success(UserActionTypes.DISCONNECT), onDisconnectSuccess);
-  yield takeEvery(REHYDRATE, init);
 }
