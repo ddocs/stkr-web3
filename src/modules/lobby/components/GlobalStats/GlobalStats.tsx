@@ -29,7 +29,7 @@ export const GlobalStatsComponent = ({
         value: totalStakedEthereum?.toFormat(),
       },
       {
-        title: t('global-stats.total-staked'),
+        title: t('global-stats.stakers'),
         value: t('unit.number-value', { value: totalStakers }),
       },
     ],
