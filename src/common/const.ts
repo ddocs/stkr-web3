@@ -3,10 +3,12 @@ import Web3 from 'web3';
 import { ETH, Milliseconds } from './types';
 
 export const INDEX_PATH = '/';
-export const ANKR_PATH = 'https://www.ankr.com';
-export const STAKER_STAKE_PATH = '/staker/stake';
-export const STAKER_PATH = '/staker';
+export const STAKER_STAKE_PATH = '/staker/ETH/stake';
+export const STAKER_STAKE_BNB_ROUTE = '/staker/BNB/stake/:id';
+export const STAKER_PATH = '/staker/ETH';
 export const STAKER_DASHBOARD_PATH = STAKER_PATH;
+export const STAKER_BNB_PATH = `/staker/BNB`;
+export const STAKER_DASHBOARD_BNB_ROUTE = `${STAKER_BNB_PATH}/:id`;
 export const PROVIDER_PATH = '/provider';
 export const PROVIDER_MAIN_PATH = PROVIDER_PATH;
 export const PROVIDER_NODE_LIST_PATH = PROVIDER_MAIN_PATH;
@@ -14,7 +16,7 @@ export const PROVIDER_CREATE_NODE_PATH = `${PROVIDER_PATH}/node/create-node`;
 export const PROVIDER_DEPOSIT_PATH = `${PROVIDER_PATH}/deposit/create`;
 export const PROVIDER_DEPOSIT_ROUTE = `${PROVIDER_PATH}/deposit/create/:type?`;
 export const PROVIDER_DEPOSIT_LIST_PATH = `${PROVIDER_PATH}/deposit/list`;
-export const PICKER_PATH = '/picker';
+export const FEATURES_PATH = '/features';
 export const GOVERNANCE_PATH = '/governance';
 export const GOVERNANCE_PROJECT_LIST_PATH = `${GOVERNANCE_PATH}/project/list`;
 export const GOVERNANCE_CREATE_PROJECT_PATH = `${GOVERNANCE_PATH}/project/create`;
@@ -23,6 +25,14 @@ export const GOVERNANCE_PROJECT_ROUTE = `${GOVERNANCE_PATH}/project/view/:projec
 export const ABOUT_AETH_PATH = '/what-is-aeth';
 export const CONVERT_ROUTE = '/convert/:from/:to';
 export const ABOUT_SMARTCHAIN_PATH = '/bsc';
+
+export function getStakerBnbPath(id: string) {
+  return generatePath(STAKER_STAKE_BNB_ROUTE, { id });
+}
+
+export function getStakerDashboardBnbPath(id: string) {
+  return generatePath(STAKER_DASHBOARD_BNB_ROUTE, { id });
+}
 
 export function getGovernanceProjectPath(projectId: string) {
   return generatePath(GOVERNANCE_PROJECT_ROUTE, { projectId });
@@ -41,7 +51,6 @@ export const SOCIAL_LINK = {
   whitepaperCh: 'https://assets.ankr.com/files/stkr_whitepaper_cn.pdf',
 };
 export const DOCS_LINK = 'https://ankr.gitbook.io/stkr-docs/.';
-export const GOVERNANCE_LINK = '#';
 export const LITEPAPER_LINK =
   'https://assets.ankr.com/files/stkr_litepaper.pdf';
 export const STAKER_RATE = 0.85;

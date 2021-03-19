@@ -10,11 +10,11 @@ import { t, tHTML } from '../../../../../../common/utils/intl';
 import { ClaimDialog } from '../ClaimDialog';
 import { Link as RouterLink } from 'react-router-dom';
 import { STAKER_STAKE_PATH } from '../../../../../../common/const';
-import { ReactComponent as PlusIcon } from '../../assets/plus.svg';
 import BigNumber from 'bignumber.js';
 import { useStakerDashboardTotalPanelStyles } from './StakerDahsboardTotalPanelStyles';
 import { DECIMAL_PLACES } from '../../StakerDashboardConst';
 import { useFeaturesAvailable } from '../../../../../../common/hooks/useFeaturesAvailable';
+import { PlusIcon } from '../../../../../../UiKit/Icons/PlusIcon';
 
 interface IStakerDashboardTotalPanelProps extends StyledComponentProps {
   claimableAETHRewardOf: BigNumber;
@@ -51,7 +51,7 @@ export const StakerDashboardTotalPanel = ({
               className={classes.stake}
               title={t('staker-dashboard.stake-more')}
             >
-              <PlusIcon />
+              <PlusIcon htmlColor="#fff" />
             </IconButton>
           </RouterLink>
         </div>

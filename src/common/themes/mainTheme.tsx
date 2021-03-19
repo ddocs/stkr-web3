@@ -219,6 +219,14 @@ const mainTheme = createMuiTheme({
         [defaultTheme.breakpoints.up('sm')]: {
           padding: 45,
         },
+
+        '&$elevation1': {
+          borderRadius: 65,
+          padding: 56,
+          [defaultTheme.breakpoints.up('sm')]: {
+            padding: 65,
+          },
+        },
       },
     },
     MuiSlider: {
@@ -250,6 +258,7 @@ const mainTheme = createMuiTheme({
         height: 28,
         padding: defaultTheme.spacing(1, 2),
         fontSize: 14,
+        borderRadius: 6,
       },
       sizeLarge: {
         height: 48,
@@ -682,6 +691,9 @@ const mainTheme = createMuiTheme({
     MuiTooltip: {
       popper: {
         zIndex: 1300,
+        '& a': {
+          color: PALETTE.text.secondary,
+        },
       },
     },
     MuiStepper: {

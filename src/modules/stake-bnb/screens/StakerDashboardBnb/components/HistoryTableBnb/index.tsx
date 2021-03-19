@@ -1,0 +1,1 @@
+export { HistoryTableBnb } from './HistoryTableBnb';

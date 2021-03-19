@@ -1,0 +1,1 @@
+export { HeadedPaper } from './HeadedPaper';

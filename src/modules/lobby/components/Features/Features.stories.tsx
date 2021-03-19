@@ -20,5 +20,5 @@ const FeaturesStory = () => {
 export const FeaturesExample = () => <FeaturesStory />;
 
 export default {
-  title: 'modules/Lobby/component/Features',
+  title: 'modules/Lobby/component/FeaturesList',
 };

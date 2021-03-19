@@ -7,7 +7,7 @@ import { Store } from 'redux';
 import { createAction } from 'redux-actions';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 import Web3 from 'web3';
-import { CONVERT_ROUTE, isMainnet, PICKER_PATH } from '../../common/const';
+import { CONVERT_ROUTE, FEATURES_PATH, isMainnet } from '../../common/const';
 import { Blockchain, DepositType, Locale, Provider } from '../../common/types';
 import { authenticatedRequestGuard } from '../../common/utils/authenticatedRequestGuard';
 import { update } from '../../common/utils/update';
@@ -124,7 +124,7 @@ async function getGlobalPoolBalance() {
 }
 
 export const UserActions = {
-  connect: (redirectOnSuccess: string = PICKER_PATH) => ({
+  connect: (redirectOnSuccess: string = FEATURES_PATH) => ({
     type: UserActionTypes.CONNECT,
     request: {
       promise: (async function () {
