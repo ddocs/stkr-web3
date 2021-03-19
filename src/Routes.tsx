@@ -6,17 +6,20 @@ import {
   ABOUT_SMARTCHAIN_PATH,
   ANKR_IFRAME_PATH,
   CONVERT_ROUTE,
+  FEATURES_PATH,
   GOVERNANCE_CREATE_PROJECT_PATH,
   GOVERNANCE_PROJECT_LIST_PATH,
   GOVERNANCE_PROJECT_ROUTE,
   INDEX_PATH,
-  PICKER_PATH,
   PROVIDER_CREATE_NODE_PATH,
   PROVIDER_DEPOSIT_LIST_PATH,
   PROVIDER_DEPOSIT_ROUTE,
   PROVIDER_MAIN_PATH,
   PROVIDER_NODE_LIST_PATH,
+  STAKER_BNB_PATH,
+  STAKER_DASHBOARD_BNB_ROUTE,
   STAKER_DASHBOARD_PATH,
+  STAKER_STAKE_BNB_ROUTE,
   STAKER_STAKE_PATH,
 } from './common/const';
 import { PageNotFound } from './components/PageNotFound/PageNotFound';
@@ -63,9 +66,12 @@ const CreateBeaconChainContainer = withDefaultLayout(
   ) as LoadableComponent<any>,
 );
 
-const PickerContainer = withDefaultLayout(
+const FeaturesListContainer = withDefaultLayout(
   loadable(
-    async () => import('./modules/picker').then(module => module.Picker),
+    async () =>
+      import('./modules/features/FeaturesList').then(
+        module => module.FeaturesList,
+      ),
     {
       fallback: <QueryLoadingAbsolute />,
     },
@@ -84,10 +90,46 @@ const StakerDashboardContainer = withDefaultLayout(
   ) as LoadableComponent<any>,
 );
 
+const StakerDashboardBnbContainer = withDefaultLayout(
+  loadable(
+    async () =>
+      import('./modules/stake-bnb/screens/StakerDashboardBnb').then(
+        module => module.StakerDashboardBnb,
+      ),
+    {
+      fallback: <QueryLoadingAbsolute />,
+    },
+  ) as LoadableComponent<any>,
+);
+
+const WalletListBnbContainer = withDefaultLayout(
+  loadable(
+    async () =>
+      import('./modules/stake-bnb/screens/WalletListBnb').then(
+        module => module.WalletListBnb,
+      ),
+    {
+      fallback: <QueryLoadingAbsolute />,
+    },
+  ) as LoadableComponent<any>,
+);
+
 const StakerContainer = withDefaultLayout(
   loadable(
     async () =>
       import('./modules/stake/screens/Stake').then(module => module.Stake),
+    {
+      fallback: <QueryLoadingAbsolute />,
+    },
+  ) as LoadableComponent<any>,
+);
+
+const StakerBnbContainer = withDefaultLayout(
+  loadable(
+    async () =>
+      import('./modules/stake-bnb/screens/StakeBnb').then(
+        module => module.StakeBnb,
+      ),
     {
       fallback: <QueryLoadingAbsolute />,
     },
@@ -194,13 +236,27 @@ export function Routes() {
         exact={true}
         component={ProviderContainer}
       />
-      <PrivateRoute path={PICKER_PATH} component={PickerContainer} />
+      <PrivateRoute path={FEATURES_PATH} component={FeaturesListContainer} />
       <PrivateRoute
         path={STAKER_DASHBOARD_PATH}
         component={StakerDashboardContainer}
         exact={true}
       />
+      <PrivateRoute
+        path={STAKER_DASHBOARD_BNB_ROUTE}
+        component={StakerDashboardBnbContainer}
+        exact={true}
+      />
+      <PrivateRoute
+        path={STAKER_BNB_PATH}
+        component={WalletListBnbContainer}
+        exact={true}
+      />
       <PrivateRoute path={STAKER_STAKE_PATH} component={StakerContainer} />
+      <PrivateRoute
+        path={STAKER_STAKE_BNB_ROUTE}
+        component={StakerBnbContainer}
+      />
       <PrivateRoute
         path={GOVERNANCE_PROJECT_LIST_PATH}
         component={GovernanceListContainer}

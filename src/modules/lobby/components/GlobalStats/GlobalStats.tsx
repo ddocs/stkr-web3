@@ -8,6 +8,7 @@ import { IGlobalStats } from '../../../../store/apiMappers/globalStatsApi';
 import { Curtains } from '../../../../UiKit/Curtains';
 import { Headline1, Headline5 } from '../../../../UiKit/Typography';
 import { useMarketingStyles } from './GlobalStatsStyles';
+import { uid } from 'react-uid';
 
 interface IGlobalStatsProps {
   totalStakedEthereum?: BigNumber;
@@ -38,22 +39,25 @@ export const GlobalStatsComponent = ({
 
   const renderedStats = useMemo(
     () =>
-      stats.map(({ title, value }) => (
-        <div className={classes.cell}>
-          <Headline5 color="textSecondary" className={classes.header}>
-            {title}
-          </Headline5>
+      stats.map(item => {
+        const { title, value } = item;
+        return (
+          <div className={classes.cell} key={uid(item)}>
+            <Headline5 color="textSecondary" className={classes.header}>
+              {title}
+            </Headline5>
 
-          <Headline1
-            className={classNames(
-              classes.value,
-              isLoading && classes.valueLoading,
-            )}
-          >
-            {isLoading ? 0 : value}
-          </Headline1>
-        </div>
-      )),
+            <Headline1
+              className={classNames(
+                classes.value,
+                isLoading && classes.valueLoading,
+              )}
+            >
+              {isLoading ? 0 : value}
+            </Headline1>
+          </div>
+        );
+      }),
     [classes, isLoading, stats],
   );
 

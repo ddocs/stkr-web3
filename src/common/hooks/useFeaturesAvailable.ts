@@ -20,5 +20,6 @@ export function useFeaturesAvailable() {
     isFethSupported: !isSmartChain,
     stakingAmountStep: isSmartChain ? 0.1 : 0.5,
     stakingFeeRate: stakingFeeInfo?.stakingFeeRate,
+    isBnbStakingAvailable: !!window.BinanceChain,
   };
 }

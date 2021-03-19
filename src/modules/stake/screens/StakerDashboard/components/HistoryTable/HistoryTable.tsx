@@ -1,5 +1,4 @@
 import { IconButton, Tooltip } from '@material-ui/core';
-import classNames from 'classnames';
 import * as React from 'react';
 import { uid } from 'react-uid';
 import { useLocaleMemo } from '../../../../../../common/hooks/useLocaleMemo';
@@ -63,13 +62,12 @@ export const HistoryTable = (props: IHistoryTableProps) => {
   return (
     <div className={classes.root}>
       <Table
-        className={classes.tableWrapper}
         customCell="1fr 1fr 1fr"
         columnsCount={captions.length}
         classes={{ table: classes.table }}
         paddingCollapse
       >
-        <TableHead className={classes.head}>
+        <TableHead>
           {captions.map(cell => (
             <TableHeadCell
               key={cell.label}
@@ -87,34 +85,23 @@ export const HistoryTable = (props: IHistoryTableProps) => {
               }
               classes={{ content: classes.headCellContent }}
               align={cell.align}
-              className={classNames(classes.cell, classes.headCell)}
             />
           ))}
         </TableHead>
-        <TableBody className={classes.body}>
+        <TableBody>
           {data.map(item => (
             <TableRow key={uid(item)}>
-              <TableBodyCell
-                className={classNames(classes.cell, classes.bodyCell)}
-                label={`${captions[0].label}`}
-              >
+              <TableBodyCell label={`${captions[0].label}`}>
                 {t(`stake-statuses.${item.action}`)}
               </TableBodyCell>
 
-              <TableBodyCell
-                className={classNames(classes.cell, classes.bodyCell)}
-                label={`${captions[1].label}`}
-              >
+              <TableBodyCell label={`${captions[1].label}`}>
                 {t('unit.eth-value', {
                   value: item.amount,
                 })}
               </TableBodyCell>
 
-              <TableBodyCell
-                className={classNames(classes.cell, classes.bodyCell)}
-                align="right"
-                label={`${captions[2].label}`}
-              >
+              <TableBodyCell align="right" label={`${captions[2].label}`}>
                 <NavLink href={getTxLink(item.transactionHash)}>
                   {item.transactionHash}
                 </NavLink>

@@ -2,25 +2,37 @@ import { SelectProps } from '@material-ui/core';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import classNames from 'classnames';
-import React, { ChangeEvent, useCallback, useMemo, useRef } from 'react';
-import { useHistory, useLocation } from 'react-router';
+import React, { useMemo, useRef } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
+import { useLocation } from 'react-router';
 import { uid } from 'react-uid';
-import { PROVIDER_PATH, STAKER_DASHBOARD_PATH } from '../../../../common/const';
+import {
+  PROVIDER_PATH,
+  STAKER_BNB_PATH,
+  STAKER_DASHBOARD_PATH,
+} from '../../../../common/const';
 import { useFeaturesAvailable } from '../../../../common/hooks/useFeaturesAvailable';
 import { t } from '../../../../common/utils/intl';
 import { useNavigationSelectorStyles } from './SwitcherStyles';
 
 export const Switcher = () => {
   const classes = useNavigationSelectorStyles();
-  const { push } = useHistory();
-  const { isProviderAvailable } = useFeaturesAvailable();
+  const { isProviderAvailable, isBnbStakingAvailable } = useFeaturesAvailable();
 
   const options = useMemo(() => {
-    const optionsList = [];
-    optionsList.push({
-      label: t('navigation.staker'),
-      value: STAKER_DASHBOARD_PATH,
-    });
+    const optionsList = [
+      {
+        label: t('navigation.staker'),
+        value: STAKER_DASHBOARD_PATH,
+      },
+    ];
+
+    if (isBnbStakingAvailable) {
+      optionsList.push({
+        label: t('navigation.staker-bnb'),
+        value: STAKER_BNB_PATH,
+      });
+    }
 
     if (isProviderAvailable) {
       optionsList.push({
@@ -30,7 +42,7 @@ export const Switcher = () => {
     }
 
     return optionsList;
-  }, [isProviderAvailable]);
+  }, [isBnbStakingAvailable, isProviderAvailable]);
 
   const switcherPaths = useMemo(() => options.map(option => option.value), [
     options,
@@ -51,16 +63,14 @@ export const Switcher = () => {
     [options, value],
   );
 
-  const handleChange = useCallback(
-    (event: ChangeEvent<HTMLInputElement>) => {
-      push(event.target.value);
-    },
-    [push],
-  );
-
   const items = useMemo(() => {
     return options.map(option => (
-      <MenuItem key={uid(option)} value={option.value}>
+      <MenuItem
+        component={RouterLink as any}
+        to={option.value}
+        key={uid(option)}
+        value={option.value}
+      >
         {option.label}
       </MenuItem>
     ));
@@ -91,7 +101,6 @@ export const Switcher = () => {
     <TextField
       select={true}
       value={value}
-      onChange={handleChange}
       ref={ref}
       SelectProps={selectProps}
       className={classNames(classes.darkened, notSelected && classes.empty)}
