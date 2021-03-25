@@ -1,37 +1,36 @@
-import * as React from 'react';
-import { useCallback } from 'react';
-import { Curtains } from '../../UiKit/Curtains';
-import { Headline1 } from '../../UiKit/Typography';
-import { t } from '../../common/utils/intl';
 import { Box, Button, IconButton, Paper, Typography } from '@material-ui/core';
-import { ReactComponent as PlusIcon } from './assets/plus.svg';
-import { ProjectListItem } from './components/ProjectListItem';
-import { useModerationStatusStyles } from './ProjectListStyles';
-import classNames from 'classnames';
-import { RulesDialog } from './components/RulesDialog';
-import { useDialog } from '../../store/dialogs/selectors';
-import { DIALOG_GOVERNANCE_RULES_OF_PROPOSAL } from '../../store/dialogs/actions';
-import { useDispatch } from 'react-redux';
-import { useInitEffect } from '../../common/hooks/useInitEffect';
-import {
-  GovernanceActions,
-  GovernanceActionTypes,
-} from '../../store/actions/GovernanceActions';
 import { Query } from '@redux-requests/react';
-import { UserActions, UserActionTypes } from '../../store/actions/UserActions';
-import { IUserInfo } from '../../store/apiMappers/userApi';
-import { QueryError } from '../../components/QueryError/QueryError';
-import {
-  QueryLoading,
-  QueryLoadingAbsolute,
-} from '../../components/QueryLoading/QueryLoading';
-import { QueryEmpty } from '../../components/QueryEmpty/QueryEmpty';
+import classNames from 'classnames';
+import React, { useCallback } from 'react';
+import { useDispatch } from 'react-redux';
 import {
   ANKR_DEPOSIT_LINK,
   DEFAULT_FIXED,
   isMainnet,
   MIN_GOVERNANCE_BALANCE,
 } from '../../common/const';
+import { useInitEffect } from '../../common/hooks/useInitEffect';
+import { t } from '../../common/utils/intl';
+import { QueryEmpty } from '../../components/QueryEmpty/QueryEmpty';
+import { QueryError } from '../../components/QueryError/QueryError';
+import {
+  QueryLoading,
+  QueryLoadingAbsolute,
+} from '../../components/QueryLoading/QueryLoading';
+import {
+  GovernanceActions,
+  GovernanceActionTypes,
+} from '../../store/actions/GovernanceActions';
+import { UserActions, UserActionTypes } from '../../store/actions/UserActions';
+import { IUserInfo } from '../../store/apiMappers/userApi';
+import { DIALOG_GOVERNANCE_RULES_OF_PROPOSAL } from '../../store/dialogs/actions';
+import { useDialog } from '../../store/dialogs/selectors';
+import { Curtains } from '../../UiKit/Curtains';
+import { Headline1 } from '../../UiKit/Typography';
+import { ReactComponent as PlusIcon } from './assets/plus.svg';
+import { ProjectListItem } from './components/ProjectListItem';
+import { RulesDialog } from './components/RulesDialog';
+import { useModerationStatusStyles } from './ProjectListStyles';
 import { IProject } from './types';
 
 export const ProjectList = () => {
