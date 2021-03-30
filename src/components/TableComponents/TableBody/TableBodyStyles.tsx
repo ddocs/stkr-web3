@@ -1,6 +1,6 @@
 import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import { DEFENSE_HEADER_HEIGHT, HEADER_HEIGHT } from '../const';
+import { DENSE_HEADER_HEIGHT, HEADER_HEIGHT } from '../const';
 
 export const useTableBodyStyles = makeStyles<
   Theme,
@@ -8,7 +8,7 @@ export const useTableBodyStyles = makeStyles<
     count: number;
     customCell?: string;
     paddingCollapse?: boolean;
-    defense?: boolean;
+    dense?: boolean;
   }
 >(theme => ({
   bodyWrapper: {
@@ -18,8 +18,8 @@ export const useTableBodyStyles = makeStyles<
 
     [theme.breakpoints.up('sm')]: {
       height: props =>
-        props.defense
-          ? `calc(100% - ${DEFENSE_HEADER_HEIGHT}px)`
+        props.dense
+          ? `calc(100% - ${DENSE_HEADER_HEIGHT}px)`
           : `calc(100% - ${HEADER_HEIGHT}px)`,
     },
   },

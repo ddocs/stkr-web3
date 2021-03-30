@@ -549,6 +549,7 @@
   "unit": {
     "$-value": "${value, number}",
     "aeth": "aETH",
+    "feth": "fETH",
     "aeth-value": "{value, number} aETH",
     "ankr-value": "{value, number} Ankr",
     "bnb-value": "{value, number} BNB",
@@ -575,7 +576,10 @@
     "alpha-numerical-and-underscore": "Must consists of only letters, numbers, and the _ sign.",
     "invalid-address-format": "Invalid address format",
     "min-ETH-amount": "Minimum amount is {value} ETH",
-    "required": "This field is required"
+    "required": "This field is required",
+    "min": "Should be greater than {value}",
+    "max": "Should be less than {value}",
+    "numberOnly": "Must be a number"
   },
   "video-tutorial": {
     "title": "Stake Eth2 with Ankr Staking"
@@ -663,5 +667,44 @@
   "wallet-list": {
     "title": "Stake BNB",
     "subtitle": "Please select an account for staking"
+  },
+  "cross-chain-bridge": {
+    "title": "Cross Chain Bridge",
+    "connect-btn": "Connect Wallet",
+    "chain-ehthereum": "Ethereum Mainnet",
+    "chain-binance": "Binance Smart Chain",
+    "from": "From",
+    "to": "To",
+    "asset": "Asset",
+    "progress": {
+      "title": "Transaction {value}",
+      "completed": "completed",
+      "in-progress": "in progress...",
+      "amount": "Amount",
+      "address": "Destination address"
+    },
+    "available": {
+      "title": "You have {value} aETH available in the {network} network",
+      "btn": "Claim"
+    },
+    "history": {
+      "title": "Transaction history",
+      "captions": {
+        "date": "Date",
+        "txn-type": "Transaction type",
+        "amount": "Amount",
+        "status": "Status"
+      },
+      "btn": "Claim",
+      "ready": "Ready to Claim",
+      "not-ready": "Not ready"
+    },
+    "form": {
+      "balance": "Your balance",
+      "amount": "Amount",
+      "address": "Destination address",
+      "btn-max": "MAX",
+      "btn-next": "Next"
+    }
   }
 }

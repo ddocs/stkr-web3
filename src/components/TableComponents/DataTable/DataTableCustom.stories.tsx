@@ -1,3 +1,4 @@
+/* eslint-disable import/no-anonymous-default-export */
 import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import React from 'react';
@@ -25,12 +26,12 @@ const TableStory = () => {
       <DataTable className={classes.table} captions={CAPTIONS} rows={DATA} />
       <hr className={classes.divider} />
 
-      <h3 className={classes.title}>Defense simple table</h3>
+      <h3 className={classes.title}>Dense simple table</h3>
       <DataTable
         className={classes.table}
         captions={CAPTIONS}
         rows={DATA}
-        defense={true}
+        dense
       />
       <hr className={classes.divider} />
 

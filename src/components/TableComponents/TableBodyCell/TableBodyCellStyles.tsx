@@ -4,27 +4,63 @@ import { makeStyles } from '@material-ui/styles';
 export const useTableBodyCellStyles = makeStyles<
   Theme,
   {
-    defense?: boolean;
+    dense?: boolean;
     paddingCollapse?: boolean;
     on?: boolean;
   }
 >(theme => ({
   cell: {
+    fontWeight: 400,
+
+    [theme.breakpoints.up('sm')]: {
+      display: 'inline-grid',
+      alignItems: 'center',
+      paddingLeft: theme.spacing(4.5),
+      paddingRight: theme.spacing(4.5),
+      borderBottom: `1px solid ${fade(theme.palette.common.white, 0.2)}`,
+    },
+
+    '&:first-child': {
+      [theme.breakpoints.up('sm')]: {
+        paddingLeft: props => (props.paddingCollapse ? 0 : theme.spacing(3.75)),
+      },
+    },
+
+    '&:last-child': {
+      [theme.breakpoints.up('sm')]: {
+        paddingRight: props =>
+          props.paddingCollapse ? 0 : theme.spacing(3.75),
+      },
+    },
+
+    '&$centerCell': {
+      [theme.breakpoints.up('sm')]: {
+        textAlign: 'center',
+      },
+    },
+
+    '&$leftCell': {
+      textAlign: 'left',
+    },
+
+    '&$rightCell': {
+      [theme.breakpoints.up('sm')]: {
+        textAlign: 'right',
+      },
+    },
+  },
+
+  withCaption: {
     display: 'grid',
     gridTemplateColumns: '0.4fr 0.6fr',
     gap: theme.spacing(0, 2),
-    fontWeight: 400,
     textAlign: 'right',
 
     [theme.breakpoints.up('sm')]: {
       display: 'inline-grid',
+      textAlign: 'left',
       gridTemplateColumns: 'auto',
       gap: 0,
-      alignItems: 'center',
-      paddingLeft: theme.spacing(4.5),
-      paddingRight: theme.spacing(4.5),
-      textAlign: 'left',
-      borderBottom: `1px solid ${fade(theme.palette.common.white, 0.2)}`,
     },
 
     '&::before': {
@@ -43,31 +79,6 @@ export const useTableBodyCellStyles = makeStyles<
         display: 'none',
       },
     },
-
-    '&:first-child': {
-      [theme.breakpoints.up('sm')]: {
-        paddingLeft: props => (props.paddingCollapse ? 0 : theme.spacing(3.75)),
-      },
-    },
-
-    '&:last-child': {
-      [theme.breakpoints.up('sm')]: {
-        paddingRight: props =>
-          props.paddingCollapse ? 0 : theme.spacing(3.75),
-      },
-    },
-
-    '&$centerCell': {
-      textAlign: 'center',
-    },
-
-    '&$leftCell': {
-      textAlign: 'left',
-    },
-
-    '&$rightCell': {
-      textAlign: 'right',
-    },
   },
 
   bodyCell: {
@@ -79,11 +90,11 @@ export const useTableBodyCellStyles = makeStyles<
 
     [theme.breakpoints.up('sm')]: {
       paddingTop: props =>
-        props.defense ? theme.spacing(0.75) : theme.spacing(2.5),
+        props.dense ? theme.spacing(1.5) : theme.spacing(2.5),
       paddingBottom: props =>
-        props.defense ? theme.spacing(0.75) : theme.spacing(2.5),
+        props.dense ? theme.spacing(1.5) : theme.spacing(2.5),
 
-      minHeight: props => (props.defense ? 0 : theme.spacing(10)),
+      minHeight: props => (props.dense ? 0 : theme.spacing(10)),
     },
   },
 

@@ -566,6 +566,7 @@
 	"unit": {
 		"$-value": "${value, number}",
 		"aeth": "aETH",
+		"feth": "fETH",
 		"aeth-value": "{value, number} aETH",
 		"ankr-value": "{value, number} Ankr",
 		"day-value": "{value, plural, =1 {# day} other {# days}}",

@@ -14,14 +14,14 @@ export const TableBodyComponent = ({
   children,
   count,
   customCell,
-  defense,
+  dense,
   paddingCollapse,
 }: ITableBodyProps & ICustomProps & IStyleProps & { count: number }) => {
   const classes = useTableBodyStyles({
     count,
     customCell,
     paddingCollapse,
-    defense,
+    dense,
   });
 
   return (

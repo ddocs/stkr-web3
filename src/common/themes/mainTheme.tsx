@@ -1,4 +1,4 @@
-import { createMuiTheme, fade } from '@material-ui/core';
+import { createMuiTheme, darken, fade, lighten } from '@material-ui/core';
 import { ThemeOptions } from '@material-ui/core/styles/createMuiTheme';
 import { PaletteOptions } from '@material-ui/core/styles/createPalette';
 import { NOTIFICATION_AUTO_HIDE_DURATION } from '../const';
@@ -10,9 +10,9 @@ export const DEFAULT_FONT = '"Helvetica Neue", sans-serif';
 export const PALETTE = {
   type: 'dark',
   primary: {
-    light: '',
+    light: lighten('#006DFF', 0.1),
     main: '#006DFF',
-    dark: '#006DFF',
+    dark: darken('#006DFF', 0.1),
     contrastText: '#ffffff',
   },
   secondary: {
@@ -280,12 +280,11 @@ const mainTheme = createMuiTheme({
       },
 
       contained: {
-        color: PALETTE.primary.contrastText,
-        backgroundColor: PALETTE.text.primary,
         transitionDuration: '0.2s',
         transitionProperty: 'color, background-color',
         transitionTimingFunction: 'linear',
         borderRadius: 60,
+        boxShadow: 'none',
 
         '&::before': {
           content: `''`,
@@ -296,13 +295,9 @@ const mainTheme = createMuiTheme({
           bottom: 0,
           transitionDuration: '0.2s',
           borderRadius: 'inherit',
-
-          backgroundColor: PALETTE.text.secondary,
         },
 
         '&:hover, &:focus, &:active': {
-          backgroundColor: PALETTE.text.secondary,
-
           '&:not($disableElevation)': {
             '&::before': {
               transform: 'scale(1.05)',
@@ -313,6 +308,12 @@ const mainTheme = createMuiTheme({
         '& $label': {
           position: 'relative',
         },
+
+        '&.Mui-disabled': {
+          '&::before': {
+            display: 'none',
+          },
+        },
       },
 
       containedPrimary: {
@@ -320,11 +321,11 @@ const mainTheme = createMuiTheme({
         backgroundColor: PALETTE.primary.main,
 
         '&::before': {
-          backgroundColor: PALETTE.primary.dark,
+          backgroundColor: PALETTE.primary.main,
         },
 
         '&:hover, &:focus, &:active': {
-          backgroundColor: PALETTE.primary.dark,
+          backgroundColor: PALETTE.primary.main,
         },
       },
       containedSecondary: {
@@ -347,7 +348,7 @@ const mainTheme = createMuiTheme({
           color: '#fff',
         },
         '&:hover, &:focus, &:active': {
-          color: PALETTE.primary.contrastText,
+          color: PALETTE.grey[900],
           backgroundColor: PALETTE.text.primary,
         },
         '&$disabled': {},
@@ -562,6 +563,11 @@ const mainTheme = createMuiTheme({
         fontSize: 14,
         marginTop: 0,
       },
+
+      contained: {
+        marginLeft: 0,
+        marginRight: 0,
+      },
     },
 
     MuiInputLabel: {
@@ -571,6 +577,31 @@ const mainTheme = createMuiTheme({
         color: '#fff',
         position: 'static',
         transform: 'none',
+      },
+
+      outlined: {
+        fontWeight: 500,
+        marginBottom: defaultTheme.spacing(2),
+
+        '&&': {
+          transform: 'none',
+        },
+
+        '&.Mui-focused': {
+          color: defaultTheme.palette.common.white,
+        },
+      },
+    },
+
+    MuiInputBase: {
+      input: {
+        '&::-webkit-outer-spin-button, &::-webkit-inner-spin-button': {
+          '-webkit-appearance': 'none',
+        },
+
+        '&[type=number]': {
+          '-moz-appearance': 'textfield',
+        },
       },
     },
 
@@ -602,6 +633,32 @@ const mainTheme = createMuiTheme({
         },
       },
     },
+
+    MuiOutlinedInput: {
+      root: {
+        border: `1px solid ${fade('#fff', 0.1)}`,
+        borderRadius: 8,
+        transition: 'border 0.2s',
+
+        '&:hover': {
+          borderColor: fade('#fff', 0.3),
+        },
+
+        '&.Mui-focused': {
+          borderColor: fade('#fff', 1),
+        },
+        '&.Mui-disabled': {
+          '&:hover': {
+            borderColor: fade('#fff', 0.1),
+          },
+        },
+      },
+
+      notchedOutline: {
+        display: 'none',
+      },
+    },
+
     MuiSelect: {
       outlined: {
         '&, &:focus': {
@@ -635,9 +692,8 @@ const mainTheme = createMuiTheme({
     },
     MuiList: {
       padding: {
-        '&&': {
-          padding: 0,
-        },
+        paddingTop: 0,
+        paddingBottom: 0,
       },
     },
     MuiListItem: {

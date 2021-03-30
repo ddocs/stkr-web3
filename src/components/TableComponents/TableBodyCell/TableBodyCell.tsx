@@ -11,14 +11,14 @@ interface ITableBodyCellProps
   align?: AlignType;
   children: React.ReactNode;
   style?: CSSProperties;
-  label: string;
+  label?: string;
 }
 
 export const TableBodyCellComponent = ({
   className,
   alignCell,
   align,
-  defense,
+  dense,
   paddingCollapse,
   children,
   style,
@@ -26,7 +26,7 @@ export const TableBodyCellComponent = ({
   ...rest
 }: ITableBodyCellProps & IStyleProps) => {
   const classes = useTableBodyCellStyles({
-    defense,
+    dense,
     paddingCollapse,
     ...rest,
   });
@@ -37,9 +37,12 @@ export const TableBodyCellComponent = ({
         classes.tableCell,
         classes.cell,
         classes.bodyCell,
-        (alignCell === 'center' || align === 'center') && classes.centerCell,
-        (alignCell === 'right' || align === 'right') && classes.rightCell,
-        (alignCell === 'left' || align === 'left') && classes.leftCell,
+        {
+          [classes.withCaption]: !!label,
+          [classes.centerCell]: alignCell === 'center' || align === 'center',
+          [classes.rightCell]: alignCell === 'right' || align === 'right',
+          [classes.leftCell]: alignCell === 'left' || align === 'left',
+        },
       )}
       role="cell"
       style={style}
