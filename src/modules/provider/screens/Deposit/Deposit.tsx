@@ -79,10 +79,11 @@ export const DepositComponent = ({
 
   const INIT_VALUES = useMemo(
     () => ({
-      [DEPOSIT_TYPE_FIELD_NAME]: DepositType.ETH,
+      [DEPOSIT_TYPE_FIELD_NAME]:
+        currency === TopUpCurreny.ankr ? DepositType.ANKR : DepositType.ETH,
       [ETH_AMOUNT_FIELD_NAME]: maxStakingAmount,
     }),
-    [maxStakingAmount],
+    [maxStakingAmount, currency],
   );
 
   const render = useCallback(
@@ -181,6 +182,7 @@ export const Deposit = () => {
 
   const { type = TopUpCurreny.eth } = useParams() as { type: TopUpCurreny };
   const { push } = useHistory();
+
   const handleChange = useCallback(
     (event: ChangeEvent<Record<string, unknown>>, value: TopUpCurreny) => {
       push(generatePath(PROVIDER_DEPOSIT_ROUTE, { type: value }));
