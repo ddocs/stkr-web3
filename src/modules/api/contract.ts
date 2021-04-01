@@ -9,6 +9,7 @@ import ABI_BINANCE_GLOBAL_POOL from './contract/BinancePool.json';
 import ABI_GLOBAL_POOL from './contract/GlobalPool.json';
 import ABI_IERC20 from './contract/IERC20.json';
 import ABI_SYSTEM from './contract/SystemParameters.json';
+import ABI_ANKR_DEPOSIT from './contract/AnkrDeposit.json';
 import {
   ContractManagerEvents,
   IProviderToppedUpAnkrEvent,
@@ -27,7 +28,8 @@ export interface IContractConfig {
   ankrContract?: string;
   stakingContract?: string;
   systemContract?: string;
-  globalPoolDepositContract?: string;
+  eth2DepositContract?: string;
+  governanceAddress?: string;
 }
 
 export interface IBinanceConfig {
@@ -94,6 +96,8 @@ export interface IContractManager {
   aethRatio(): Promise<BigNumber>;
 
   etherBalanceOf(address: string): Promise<BigNumber>;
+
+  toppedUpAnkrDeposit(address: string): Promise<BigNumber>;
 }
 
 export class EthereumContractManager implements IContractManager {
@@ -102,6 +106,7 @@ export class EthereumContractManager implements IContractManager {
   protected readonly fethContract?: Contract;
   protected readonly ankrContract?: Contract;
   protected readonly systemContract?: Contract;
+  protected readonly governanceContract?: Contract;
 
   static readonly ANKR_SCALE_FACTOR = 10 ** 18;
   static readonly ETH_SCALE_FACTOR = 10 ** 18;
@@ -138,6 +143,12 @@ export class EthereumContractManager implements IContractManager {
       this.systemContract = this.keyProvider.createContract(
         ABI_SYSTEM as any,
         contractConfig.systemContract,
+      );
+    }
+    if (contractConfig.governanceAddress) {
+      this.governanceContract = this.keyProvider.createContract(
+        ABI_ANKR_DEPOSIT as any,
+        contractConfig.governanceAddress,
       );
     }
   }
@@ -854,6 +865,21 @@ export class EthereumContractManager implements IContractManager {
   public async etherBalanceOf(address: string): Promise<BigNumber> {
     const result = await this.keyProvider.getNativeBalance(address);
     return new BigNumber(result);
+  }
+
+  public async toppedUpAnkrDeposit(address: string): Promise<BigNumber> {
+    if (!this.governanceContract) {
+      return new BigNumber('0');
+    }
+    const rawFrozenDeposits = await this.governanceContract.methods
+      .frozenDepositsOf(address)
+      .call();
+    const rawLockedDeposits = await this.governanceContract.methods
+      .lockedDepositsOf(address)
+      .call();
+    return new BigNumber(rawFrozenDeposits)
+      .minus(new BigNumber(rawLockedDeposits))
+      .dividedBy(EthereumContractManager.ETH_SCALE_FACTOR);
   }
 }
 

@@ -89,7 +89,7 @@ export const UserActionTypes = {
 
 // todo: remove this method after SDK update
 async function getGlobalPoolBalance() {
-  const address = configFromEnv().contractConfig.globalPoolDepositContract;
+  const address = configFromEnv().contractConfig.eth2DepositContract;
   let balance = '0';
 
   if (address) {
