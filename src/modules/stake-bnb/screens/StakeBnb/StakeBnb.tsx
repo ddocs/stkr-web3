@@ -1,21 +1,21 @@
-import React, { useCallback } from 'react';
-import { IStakePayload, StakeForm } from '../../../stake/components/StakeForm';
+import { Box, IconButton, Tooltip } from '@material-ui/core';
+import { Query, useMutation, useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
-import { IBnbStatsData, StakeBnbActions } from '../../actions/StakeBnbActions';
+import React, { useCallback } from 'react';
 import { useHistory, useParams } from 'react-router';
 import {
   DEFAULT_FIXED,
   getStakerDashboardBnbPath,
 } from '../../../../common/const';
-import { MutationErrorHandler } from '../../../../components/MutationErrorHandler/MutationErrorHandler';
-import { useRequestDispatch } from '../../../../common/utils/useRequestDispatch';
-import { Query, useMutation, useQuery } from '@redux-requests/react';
 import { t, tHTML } from '../../../../common/utils/intl';
-import { Box, IconButton, Tooltip } from '@material-ui/core';
+import { useRequestDispatch } from '../../../../common/utils/useRequestDispatch';
+import { MutationErrorHandler } from '../../../../components/MutationErrorHandler/MutationErrorHandler';
 import { QuestionIcon } from '../../../../UiKit/Icons/QuestionIcon';
 import { StakeDescriptionContainer } from '../../../stake/components/StakeDescriptionContainer';
 import { StakeDescriptionName } from '../../../stake/components/StakeDescriptionName';
 import { StakeDescriptionValue } from '../../../stake/components/StakeDescriptionValue';
+import { IStakePayload, StakeForm } from '../../../stake/components/StakeForm';
+import { IBnbStatsData, StakeBnbActions } from '../../actions/StakeBnbActions';
 
 function renderValue(value: BigNumber) {
   return t('unit.bnb-value', {
@@ -104,7 +104,6 @@ export const StakeBnb = () => {
             minAmount={BNB_MIN_AMOUNT}
             loading={loading}
             renderValue={renderValue}
-            agreementElement={t('stake-bnb.agreement')}
             renderStats={renderStats}
           />
         )}
