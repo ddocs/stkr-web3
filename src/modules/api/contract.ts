@@ -5,6 +5,7 @@ import { BlockHeader } from 'web3-eth';
 import { Contract } from 'web3-eth-contract';
 import ABI_AETH from './contract/AETH.json';
 import ABI_ANKR from './contract/ANKR.json';
+import ABI_ANKR_DEPOSIT from './contract/AnkrDeposit.json';
 import ABI_BINANCE_GLOBAL_POOL from './contract/BinancePool.json';
 import ABI_GLOBAL_POOL from './contract/GlobalPool.json';
 import ABI_IERC20 from './contract/IERC20.json';
@@ -25,6 +26,7 @@ export interface IContractConfig {
   microPoolBlock: string | undefined;
   maxBlocksPerScan?: number;
   ankrContract?: string;
+  ankrDepositContract?: string;
   stakingContract?: string;
   systemContract?: string;
   globalPoolDepositContract?: string;
@@ -81,6 +83,8 @@ export interface IContractManager {
 
   ankrBalanceOf(address: string): Promise<BigNumber>;
 
+  ankrInsuranceBalanceOf(address: string): Promise<BigNumber>;
+
   aethBalanceOf(address: string): Promise<BigNumber>;
 
   fethBalanceOf(address: string): Promise<BigNumber>;
@@ -101,6 +105,7 @@ export class EthereumContractManager implements IContractManager {
   protected readonly aethContract?: Contract;
   protected readonly fethContract?: Contract;
   protected readonly ankrContract?: Contract;
+  protected readonly ankrDepositContract?: Contract;
   protected readonly systemContract?: Contract;
 
   static readonly ANKR_SCALE_FACTOR = 10 ** 18;
@@ -132,6 +137,12 @@ export class EthereumContractManager implements IContractManager {
       this.ankrContract = this.keyProvider.createContract(
         ABI_ANKR as any,
         contractConfig.ankrContract,
+      );
+    }
+    if (contractConfig.ankrDepositContract) {
+      this.ankrDepositContract = this.keyProvider.createContract(
+        ABI_ANKR_DEPOSIT as any,
+        contractConfig.ankrDepositContract,
       );
     }
     if (contractConfig.systemContract) {
@@ -797,6 +808,18 @@ export class EthereumContractManager implements IContractManager {
       return new BigNumber('0');
     }
     return this.keyProvider.getErc20Balance(this.ankrContract, address);
+  }
+
+  public async ankrInsuranceBalanceOf(address: string): Promise<BigNumber> {
+    if (!this.ankrDepositContract) {
+      return new BigNumber('0');
+    }
+    const value = await this.ankrDepositContract.methods
+      .availableDepositsOf(address)
+      .call();
+    return new BigNumber(value).dividedBy(
+      EthereumContractManager.ETH_SCALE_FACTOR,
+    );
   }
 
   public async aethBalanceOf(address: string): Promise<BigNumber> {

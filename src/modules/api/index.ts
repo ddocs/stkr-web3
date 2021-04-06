@@ -46,6 +46,8 @@ interface IStakerSdk {
 
   getAnkrBalance(): Promise<BigNumber>;
 
+  getAnkrInsuranceBalance(): Promise<BigNumber>;
+
   getAethBalance(): Promise<BigNumber>;
 
   getFethBalance(): Promise<BigNumber>;
@@ -80,6 +82,8 @@ interface IProviderSdk {
   topUpETH(amount: BigNumber): Promise<ISendAsyncResult>;
 
   topUpANKR(amount: BigNumber): Promise<ISendAsyncResult>;
+
+  depositToGovernance(amount: BigNumber): Promise<any>;
 }
 
 interface IGovernanceSdk {
@@ -421,6 +425,14 @@ export class StkrSdk implements IStkrSdk {
     return this.getContractManager().ankrBalanceOf(currentAccount);
   }
 
+  public async getAnkrInsuranceBalance(): Promise<BigNumber> {
+    const currentAccount = this.getKeyProvider().currentAccount();
+    if (this.getKeyProvider().isBinanceSmartChain()) {
+      return new BigNumber('0');
+    }
+    return this.getContractManager().ankrInsuranceBalanceOf(currentAccount);
+  }
+
   public async getAethBalance(): Promise<BigNumber> {
     const currentAccount = this.getKeyProvider().currentAccount();
     return this.getContractManager().aethBalanceOf(currentAccount);
@@ -433,6 +445,7 @@ export class StkrSdk implements IStkrSdk {
 
   public async getStakerStats(): Promise<IStakerStats> {
     console.log('fetching stake events from smart contract...');
+    // const toppedUpAnkrEventLogs = await this.getContractManager().providerToppedUpAnkrEventLogs();
     const [pending, confirmed, toppedUp] = await Promise.all([
       this.getContractManager().stakePendingEventLogs(),
       this.getContractManager().stakeConfirmedEventLogs(),
@@ -482,6 +495,14 @@ export class StkrSdk implements IStkrSdk {
 
   public async topUpETH(amount: BigNumber): Promise<ISendAsyncResult> {
     return await this.getContractManager().topUpETH(amount);
+  }
+
+  public async depositToGovernance(amount: BigNumber): Promise<any> {
+    const address = this.getKeyProvider().currentAccount();
+    await this.getJssdkManager().deposit({
+      from: address,
+    });
+    // value: amount.toString(10),})
   }
 
   public async topUpANKR(amount: BigNumber): Promise<ISendAsyncResult> {
