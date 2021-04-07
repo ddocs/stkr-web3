@@ -97,6 +97,8 @@ export interface IContractManager {
 
   etherBalanceOf(address: string): Promise<BigNumber>;
 
+  depositAnkr(address: string): Promise<any>;
+
   toppedUpAnkrDeposit(address: string): Promise<BigNumber>;
 }
 
@@ -865,6 +867,13 @@ export class EthereumContractManager implements IContractManager {
   public async etherBalanceOf(address: string): Promise<BigNumber> {
     const result = await this.keyProvider.getNativeBalance(address);
     return new BigNumber(result);
+  }
+
+  public async depositAnkr(address: string): Promise<any> {
+    if (!this.governanceContract) {
+      throw new Error(`Governance contract is not initialized`);
+    }
+    await this.governanceContract.methods.deposit().send({ from: address });
   }
 
   public async toppedUpAnkrDeposit(address: string): Promise<BigNumber> {
