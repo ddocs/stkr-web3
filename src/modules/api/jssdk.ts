@@ -49,13 +49,6 @@ export class JssdkManager implements IJssdkManager {
     ).getPastPropose({ fromBlock: 0 });
   }
 
-  public async deposit(options: SendOptions) {
-    if (!this.stkr) {
-      throw ERROR_SDK_NOT_INITIALIZED;
-    }
-    await this.stkr.contracts.Governance.deposit(options);
-  }
-
   public async createProject(
     timeSpan: number,
     topic: string,

@@ -222,7 +222,7 @@ export const Deposit = () => {
           onSubmit={handleSubmit}
           ankrBalance={accountData?.ankrBalance}
           ethereumBalance={accountData?.ethereumBalance}
-          deposited={providerStats?.ethBalance}
+          deposited={providerStats?.balance}
           currency={type}
         />
       </Paper>
