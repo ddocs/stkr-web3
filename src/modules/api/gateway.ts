@@ -1,6 +1,11 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import BigNumber from 'bignumber.js';
-import { Megabytes, Percentage, Seconds } from '../../common/types';
+import {
+  DepositType,
+  Megabytes,
+  Percentage,
+  Seconds,
+} from '../../common/types';
 
 export interface IGatewayConfig {
   baseUrl: string;
@@ -113,6 +118,7 @@ export interface IUserStakeReply {
   action: UserStakeAction;
   timestamp: number;
   isTopUp: boolean;
+  type: DepositType;
 }
 
 export interface IUserStatisticsReply {}

@@ -89,7 +89,7 @@ export const UserActionTypes = {
 
 // todo: remove this method after SDK update
 async function getGlobalPoolBalance() {
-  const address = configFromEnv().contractConfig.eth2DepositContract;
+  const address = configFromEnv().contractConfig.globalPoolDepositContract;
   let balance = '0';
 
   if (address) {
@@ -600,6 +600,7 @@ export const UserActions = {
         await stkrSdk
           .getContractManager()
           .depositAnkr(stkrSdk.getKeyProvider().currentAccount());
+
         return stkrSdk.topUpANKR(amount);
       })(),
     },

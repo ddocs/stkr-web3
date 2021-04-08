@@ -28,7 +28,7 @@ export interface IContractConfig {
   ankrContract?: string;
   stakingContract?: string;
   systemContract?: string;
-  eth2DepositContract?: string;
+  globalPoolDepositContract?: string;
   governanceAddress?: string;
 }
 
@@ -886,6 +886,7 @@ export class EthereumContractManager implements IContractManager {
     const rawLockedDeposits = await this.governanceContract.methods
       .lockedDepositsOf(address)
       .call();
+
     return new BigNumber(rawFrozenDeposits)
       .minus(new BigNumber(rawLockedDeposits))
       .dividedBy(EthereumContractManager.ETH_SCALE_FACTOR);
