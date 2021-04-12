@@ -40,6 +40,10 @@ export const CreateSignature = () => {
         .getContractManager()
         .providerLockedEtherOf(address);
 
+      const providerAnkrBalance = await stkrSdk
+        .getContractManager()
+        .toppedUpAnkrDeposit(stkrSdk.getKeyProvider().currentAccount());
+
       if (!networkId) {
         throw new Error('Not connected');
       }
@@ -62,7 +66,8 @@ export const CreateSignature = () => {
             networkId,
             provider: provider.name,
             sidecars,
-            insuranceBalance: providerEthBalance.toString(),
+            insuranceBalanceETH: providerEthBalance.toString(),
+            insuranceBalanceANKR: providerAnkrBalance.toString(),
           },
           '*',
         );
