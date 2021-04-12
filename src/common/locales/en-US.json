@@ -448,19 +448,16 @@
     "title": "Rules of a Proposal"
   },
   "stake": {
-    "agreement": "I understand my staked funds will be locked for the duration of the Eth 2.0 staking period, and will not be redeemable until this ends.",
+    "info": "Your staked ETH will be locked for the duration of the Eth 2.0 staking period, but instead you should be able to get aETH or fETH",
     "i-want": "I want to stake",
     "operation-fee": "Fee",
     "operation-fee-tooltip": "We charge some fee for Peg-ETH conversion.",
     "stake": "Stake",
-    "staking-period": "Staking period:",
-    "staking-period-tooltip": "This is the number of months your tokens will be locked for in the staking contract.",
     "title": "Staking manager",
     "validation": {
-      "agreement": "Confirmation required",
       "balance-exceed": "You entered a value that exceeds your balance"
     },
-    "yearly-earning": "Yearly earnings",
+    "yearly-earning": "Yearly earning",
     "yearly-earning-tooltip": "You should expect to earn this amount from your stake, per&nbsp;year. Note that this is an estimation only."
   },
   "stake-statuses": {
