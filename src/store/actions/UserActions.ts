@@ -14,7 +14,6 @@ import { update } from '../../common/utils/update';
 import { StkrSdk } from '../../modules/api';
 import { getAprFromBalance } from '../../modules/api/apr';
 import { configFromEnv } from '../../modules/api/config';
-import { ContractManagerEvents } from '../../modules/api/event';
 import { ISidecarReply } from '../../modules/api/gateway';
 import { IConnectResult } from '../../modules/api/provider';
 import { BridgeSdk } from '../../modules/bridge-sdk';
@@ -350,12 +349,7 @@ export const UserActions = {
     request: {
       promise: (async function () {
         const stkrSdk = StkrSdk.getForEnv();
-        return (
-          await stkrSdk.allowTokens(
-            undefined,
-            ContractManagerEvents.AnkrDepositAllowed,
-          )
-        ).transactionHash;
+        return (await stkrSdk.allowTokens()).transactionHash;
       })(),
     },
     meta: {

@@ -79,10 +79,7 @@ export interface IContractManager {
 
   checkAnkrAllowance(): Promise<BigNumber>;
 
-  approveAnkrToStakingContract(
-    amount: BigNumber,
-    event?: string,
-  ): Promise<ISendAsyncResult>;
+  approveAnkrToStakingContract(amount: BigNumber): Promise<ISendAsyncResult>;
 
   ankrBalanceOf(address: string): Promise<BigNumber>;
 
@@ -786,7 +783,6 @@ export class EthereumContractManager implements IContractManager {
 
   public async approveAnkrToStakingContract(
     amount: BigNumber,
-    event?: string,
   ): Promise<ISendAsyncResult> {
     if (!this.ankrContract || !this.contractConfig.ankrContract) {
       throw new Error('Ankr contract is not available now');
@@ -807,7 +803,7 @@ export class EthereumContractManager implements IContractManager {
       {
         data: data,
       },
-      event,
+      ContractManagerEvents.AnkrDepositAllowed,
     );
   }
 
