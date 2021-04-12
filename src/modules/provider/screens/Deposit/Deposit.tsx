@@ -11,6 +11,7 @@ import {
   PROVIDE_MIN_BALANCE,
   PROVIDER_DEPOSIT_ROUTE,
   PROVIDER_NODE_LIST_PATH,
+  PROVIDER_DEPOSIT_LIST_PATH,
 } from '../../../../common/const';
 import { DepositType } from '../../../../common/types';
 import { FormErrors } from '../../../../common/types/FormErrors';
@@ -177,7 +178,7 @@ export const Deposit = () => {
   );
 
   const handleCancel = useCallback(() => {
-    history.goBack();
+    history.push(PROVIDER_DEPOSIT_LIST_PATH);
   }, [history]);
 
   const { type = TopUpCurreny.eth } = useParams() as { type: TopUpCurreny };
