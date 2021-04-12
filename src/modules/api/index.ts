@@ -27,7 +27,10 @@ import {
 } from './provider';
 
 interface IStakerSdk {
-  allowTokens(remainingAllowance?: BigNumber): Promise<ISendAsyncResult>;
+  allowTokens(
+    remainingAllowance?: BigNumber,
+    event?: string,
+  ): Promise<ISendAsyncResult>;
 
   waitForAllowance(remainingAllowance?: BigNumber): Promise<void>;
 
@@ -304,6 +307,7 @@ export class StkrSdk implements IStkrSdk {
 
   public async allowTokens(
     remainingAllowance?: BigNumber,
+    event?: string,
   ): Promise<ISendAsyncResult> {
     if (!remainingAllowance) {
       remainingAllowance = await this.getRemainingAllowance();
@@ -315,6 +319,7 @@ export class StkrSdk implements IStkrSdk {
     );
     return this.getContractManager().approveAnkrToStakingContract(
       remainingAllowance,
+      event,
     );
   }
 

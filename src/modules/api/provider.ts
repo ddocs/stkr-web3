@@ -153,6 +153,7 @@ export abstract class KeyProvider {
     from: string,
     to: string,
     sendOptions: SendOptions,
+    event?: string,
   ): Promise<ISendAsyncResult>;
 
   public async signLoginData(ttl: number): Promise<string> {
@@ -511,6 +512,7 @@ export class Web3ModalKeyProvider extends KeyProvider {
     from: string,
     to: string,
     sendOptions: SendOptions,
+    event?: string,
   ): Promise<ISendAsyncResult> {
     const gasPrice = await this.getWeb3().eth.getGasPrice();
     console.log('Gas Price: ' + gasPrice);
@@ -545,6 +547,9 @@ export class Web3ModalKeyProvider extends KeyProvider {
             transactionHash: transactionHash,
             rawTransaction: rawTxHex,
           });
+        })
+        .once('confirmation', () => {
+          event && this.eventEmitter.emit(event);
         })
         .catch(reject);
     });
