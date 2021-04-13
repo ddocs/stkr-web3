@@ -166,11 +166,18 @@ export class EthereumContractManager implements IContractManager {
     eventType: string,
     eventName: string,
     fn: (returnValues: any) => any,
+    eventFilter?: (args: { address: string }) => any,
   ): Promise<any[]> {
     if (!this.microPoolContract) {
       return [];
     }
     const currentAddress = this.keyProvider.currentAccount();
+    const filter = eventFilter
+      ? eventFilter({ address: currentAddress })
+      : {
+          staker: currentAddress,
+        };
+
     const latestBlock = await this.keyProvider.latestBlockHeightOrWait();
     let currentBlock = Number(this.contractConfig.microPoolBlock);
     const events = [];
@@ -190,9 +197,7 @@ export class EthereumContractManager implements IContractManager {
       const newEvents = await this.microPoolContract.getPastEvents(eventName, {
         fromBlock: currentBlock,
         toBlock: toBlock,
-        filter: {
-          staker: currentAddress,
-        },
+        filter,
       });
       events.push(...newEvents);
       currentBlock = toBlock;
@@ -271,6 +276,9 @@ export class EthereumContractManager implements IContractManager {
       ContractManagerEvents.ProviderToppedUpAnkr,
       'ProviderToppedUpAnkr',
       fn,
+      ({ address }) => ({
+        provider: address,
+      }),
     );
   }
 
