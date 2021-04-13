@@ -134,9 +134,9 @@ export const ProviderDashboard = () => {
                   })}
                   <div className={classes.divider} />
                   {t('provider-dashboard.balance-ankr', {
-                    balance: providerStats?.ankrBalance.decimalPlaces(
-                      BALANCE_PRECISION,
-                    ),
+                    balance: providerStats?.ankrBalance
+                      .decimalPlaces(BALANCE_PRECISION)
+                      .toFormat(),
                   })}
                 </>
               )}
