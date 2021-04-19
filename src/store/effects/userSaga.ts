@@ -127,6 +127,10 @@ function* listenKeyProviderEvents() {
             ],
           }),
         );
+      } else if (event.type === ContractManagerEvents.AnkrDepositAllowed) {
+        yield put(UserActions.fetchAllowance());
+      } else if (event.type === ContractManagerEvents.AnkrDepositSuccessful) {
+        yield put(UserActions.fetchProviderStats());
       }
     }
   } finally {

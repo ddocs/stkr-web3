@@ -9,6 +9,7 @@ import ABI_BINANCE_GLOBAL_POOL from './contract/BinancePool.json';
 import ABI_GLOBAL_POOL from './contract/GlobalPool.json';
 import ABI_IERC20 from './contract/IERC20.json';
 import ABI_SYSTEM from './contract/SystemParameters.json';
+import ABI_ANKR_DEPOSIT from './contract/AnkrDeposit.json';
 import {
   ContractManagerEvents,
   IProviderToppedUpAnkrEvent,
@@ -17,6 +18,7 @@ import {
   IStakePendingEvent,
 } from './event';
 import { ISendAsyncResult, KeyProvider } from './provider';
+import { JssdkManager } from './jssdk';
 
 export interface IContractConfig {
   aethContract?: string;
@@ -28,6 +30,7 @@ export interface IContractConfig {
   stakingContract?: string;
   systemContract?: string;
   globalPoolDepositContract?: string;
+  governanceAddress?: string;
 }
 
 export interface IBinanceConfig {
@@ -94,6 +97,10 @@ export interface IContractManager {
   aethRatio(): Promise<BigNumber>;
 
   etherBalanceOf(address: string): Promise<BigNumber>;
+
+  depositAnkr(address: string): Promise<any>;
+
+  toppedUpAnkrDeposit(address: string): Promise<BigNumber>;
 }
 
 export class EthereumContractManager implements IContractManager {
@@ -102,6 +109,8 @@ export class EthereumContractManager implements IContractManager {
   protected readonly fethContract?: Contract;
   protected readonly ankrContract?: Contract;
   protected readonly systemContract?: Contract;
+  protected readonly governanceContract?: Contract;
+  protected readonly jssdkManager?: JssdkManager;
 
   static readonly ANKR_SCALE_FACTOR = 10 ** 18;
   static readonly ETH_SCALE_FACTOR = 10 ** 18;
@@ -140,6 +149,13 @@ export class EthereumContractManager implements IContractManager {
         contractConfig.systemContract,
       );
     }
+    if (contractConfig.governanceAddress) {
+      this.governanceContract = this.keyProvider.createContract(
+        ABI_ANKR_DEPOSIT as any,
+        contractConfig.governanceAddress,
+      );
+    }
+    this.jssdkManager = new JssdkManager(this.keyProvider, contractConfig);
   }
 
   public async connect(): Promise<void> {
@@ -153,11 +169,18 @@ export class EthereumContractManager implements IContractManager {
     eventType: string,
     eventName: string,
     fn: (returnValues: any) => any,
+    eventFilter?: (args: { address: string }) => any,
   ): Promise<any[]> {
     if (!this.microPoolContract) {
       return [];
     }
     const currentAddress = this.keyProvider.currentAccount();
+    const filter = eventFilter
+      ? eventFilter({ address: currentAddress })
+      : {
+          staker: currentAddress,
+        };
+
     const latestBlock = await this.keyProvider.latestBlockHeightOrWait();
     let currentBlock = Number(this.contractConfig.microPoolBlock);
     const events = [];
@@ -177,9 +200,7 @@ export class EthereumContractManager implements IContractManager {
       const newEvents = await this.microPoolContract.getPastEvents(eventName, {
         fromBlock: currentBlock,
         toBlock: toBlock,
-        filter: {
-          staker: currentAddress,
-        },
+        filter,
       });
       events.push(...newEvents);
       currentBlock = toBlock;
@@ -258,6 +279,9 @@ export class EthereumContractManager implements IContractManager {
       ContractManagerEvents.ProviderToppedUpAnkr,
       'ProviderToppedUpAnkr',
       fn,
+      ({ address }) => ({
+        provider: address,
+      }),
     );
   }
 
@@ -616,6 +640,7 @@ export class EthereumContractManager implements IContractManager {
       {
         data: data,
       },
+      ContractManagerEvents.AnkrDepositSuccessful,
     );
   }
 
@@ -708,9 +733,10 @@ export class EthereumContractManager implements IContractManager {
     if (!this.systemContract) {
       return EthereumContractManager.DEFAULT_SYSTEM_CONTRACT_PARAMETERS;
     }
-    const providerMinimumStaking = await this.systemContract.methods
-      .PROVIDER_MINIMUM_STAKING()
-      .call();
+    if (!this.jssdkManager) {
+      if (!this.jssdkManager) throw new Error(`Jssdk is not available`);
+    }
+    const providerMinimumStaking = await this.jssdkManager?.getMinimumStakingAmount();
     const requesterMinimumStaking = await this.systemContract.methods
       .REQUESTER_MINIMUM_POOL_STAKING()
       .call();
@@ -719,7 +745,7 @@ export class EthereumContractManager implements IContractManager {
       .call();
     console.log(`fetching system contract parameters`);
     this._systemContractParameters = {
-      providerMinimumStaking: new BigNumber(providerMinimumStaking).dividedBy(
+      providerMinimumStaking: providerMinimumStaking.dividedBy(
         EthereumContractManager.ANKR_SCALE_FACTOR,
       ),
       requesterMinimumStaking: new BigNumber(requesterMinimumStaking).dividedBy(
@@ -789,6 +815,7 @@ export class EthereumContractManager implements IContractManager {
       {
         data: data,
       },
+      ContractManagerEvents.AnkrDepositAllowed,
     );
   }
 
@@ -854,6 +881,29 @@ export class EthereumContractManager implements IContractManager {
   public async etherBalanceOf(address: string): Promise<BigNumber> {
     const result = await this.keyProvider.getNativeBalance(address);
     return new BigNumber(result);
+  }
+
+  public async depositAnkr(address: string): Promise<any> {
+    if (!this.governanceContract) {
+      throw new Error(`Governance contract is not initialized`);
+    }
+    await this.governanceContract.methods.deposit().send({ from: address });
+  }
+
+  public async toppedUpAnkrDeposit(address: string): Promise<BigNumber> {
+    if (!this.governanceContract) {
+      return new BigNumber('0');
+    }
+    const rawFrozenDeposits = await this.governanceContract.methods
+      .frozenDepositsOf(address)
+      .call();
+    const rawLockedDeposits = await this.governanceContract.methods
+      .lockedDepositsOf(address)
+      .call();
+
+    return new BigNumber(rawFrozenDeposits)
+      .minus(new BigNumber(rawLockedDeposits))
+      .dividedBy(EthereumContractManager.ETH_SCALE_FACTOR);
   }
 }
 

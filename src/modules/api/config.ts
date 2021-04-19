@@ -20,9 +20,10 @@ const LOCAL_CONFIG: IStkrConfig = {
     microPoolContract: '0x5ea4C3a6CA22B38a1D6776329bb8b4073C157B27',
     microPoolBlock: '3775707',
     ankrContract: '0x7feD49F5B0497A060cdcfF50BdBD22E5d07661d8',
-    stakingContract: '0xe48cDc6146722C045566c6B614263e22D9bF1b50',
+    stakingContract: '0xB0a2AF91d74Fe7F60E7c147E3217e78d38784556',
     systemContract: '0xF2dFBCbE94Ff3A402B8575b80E5e785BC936c1c3',
     globalPoolDepositContract: '0x07b39F4fDE4A38bACe212b546dAc87C58DfE3fDC',
+    governanceAddress: '0xB0a2AF91d74Fe7F60E7c147E3217e78d38784556',
   },
   binanceConfig: {
     globalPoolContract: '0xd61c4B16Cf2576F329e17eA73e63f11FACA81518',
@@ -60,9 +61,10 @@ const MAINNET_CONFIG: IStkrConfig = {
     microPoolContract: '0x84db6eE82b7Cf3b47E8F19270abdE5718B936670',
     microPoolBlock: '11225126',
     ankrContract: '0x8290333cef9e6d528dd5618fb97a76f268f3edd4',
-    stakingContract: '0x0000000000000000000000000000000000000000',
+    stakingContract: '0x00000000219ab540356cBB839Cbe05303d7705Fa',
     systemContract: '0x3bFce37B5401BEF13C78830D3A9FB14294d18c4F',
     globalPoolDepositContract: '0x00000000219ab540356cBB839Cbe05303d7705Fa',
+    governanceAddress: '0xC12EbCEdC914b3f52022cDa98C92e3B95E109daE',
   },
   binanceConfig: {
     globalPoolContract: '0x3bFce37B5401BEF13C78830D3A9FB14294d18c4F',

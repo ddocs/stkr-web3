@@ -50,6 +50,8 @@ export enum ContractManagerEvents {
   ProviderToppedUpAnkr = 'ProviderToppedUpAnkr',
   ProviderExited = 'ProviderExited',
   RewardClaimed = 'RewardClaimed',
+  AnkrDepositAllowed = 'AnkrDepositAllowed',
+  AnkrDepositSuccessful = 'AnkrDepositSuccessful',
 }
 
 export interface IEventLog {

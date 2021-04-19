@@ -403,6 +403,7 @@
   "provider-dashboard": {
     "balance": "Your insurance deposit",
     "balance-eth": "{balance} ETH",
+    "balance-ankr": "{balance} ANKR",
     "configure-own-node": "Configure your own node",
     "continue": "Continue",
     "continue-with-ankr": "Continue with ANKR",
