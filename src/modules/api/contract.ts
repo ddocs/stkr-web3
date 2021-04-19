@@ -931,7 +931,6 @@ export class EthereumContractManager implements IContractManager {
 
     const data: string = this.governanceContract.methods
       .withdraw(
-        this.contractConfig.governanceAddress,
         amount
           .multipliedBy(EthereumContractManager.ANKR_SCALE_FACTOR)
           .toString(10),

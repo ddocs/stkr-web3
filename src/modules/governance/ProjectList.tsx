@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useCallback } from 'react';
+import { useRef, useEffect, useCallback } from 'react';
 import { Curtains } from '../../UiKit/Curtains';
 import { Headline1 } from '../../UiKit/Typography';
 import { t } from '../../common/utils/intl';
@@ -17,7 +17,7 @@ import {
   GovernanceActions,
   GovernanceActionTypes,
 } from '../../store/actions/GovernanceActions';
-import { Query } from '@redux-requests/react';
+import { Mutation, Query, useQuery } from '@redux-requests/react';
 import { UserActions, UserActionTypes } from '../../store/actions/UserActions';
 import { IUserInfo } from '../../store/apiMappers/userApi';
 import { QueryError } from '../../components/QueryError/QueryError';
@@ -40,15 +40,26 @@ export const ProjectList = () => {
   const classes = useModerationStatusStyles();
   const dispatch = useDispatch();
 
-  const claimableAmount = React.useRef<BigNumber>();
+  const claimableAmount = useRef<BigNumber>();
 
   useInitEffect(() => {
     dispatch(GovernanceActions.fetchProjects());
+    dispatch(GovernanceActions.fetchClaimAmount());
   });
 
   const { isOpened, handleOpen, handleClose } = useDialog(
     DIALOG_GOVERNANCE_RULES_OF_PROPOSAL,
   );
+
+  const { data, loading } = useQuery<IVoterStats>({
+    type: GovernanceActionTypes.FETCH_CLAIM_ANKR_AMOUNT,
+  });
+
+  useEffect(() => {
+    if (data && !loading) {
+      claimableAmount.current = data.claimableAnkrRewardOf;
+    }
+  }, [data, loading]);
 
   const handleDeposit = useCallback(() => {
     dispatch(UserActions.faucet());
@@ -56,7 +67,7 @@ export const ProjectList = () => {
 
   const handleClaim = useCallback(() => {
     claimableAmount.current &&
-      dispatch(UserActions.claimAnkr(claimableAmount.current));
+      dispatch(GovernanceActions.claimAnkr(claimableAmount.current));
   }, [dispatch]);
 
   return (
@@ -125,11 +136,11 @@ export const ProjectList = () => {
             </div>
           </Paper>
           <Box display="flex" justifyContent="center">
-            <Query<IVoterStats | null>
-              type={UserActionTypes.FETCH_PROVIDER_STATS}
-              showLoaderDuringRefetch={false}
+            <Mutation
+              type={GovernanceActionTypes.CLAIM_ANKR}
+              showLoaderDuringRefetch={true}
             >
-              {({ data }) => {
+              {({ loading }) => {
                 claimableAmount.current = data?.claimableAnkrRewardOf;
                 return (
                   <>
@@ -140,6 +151,7 @@ export const ProjectList = () => {
                         fullWidth={true}
                         className={classes.claim}
                         onClick={handleClaim}
+                        disabled={claimableAmount.current.lte(0) || loading}
                       >
                         {t('project.claim', {
                           value: claimableAmount.current.toFormat(),
@@ -149,7 +161,7 @@ export const ProjectList = () => {
                   </>
                 );
               }}
-            </Query>
+            </Mutation>
           </Box>
           <div className={classes.content}>
             <Query<IProject[] | null>
