@@ -131,6 +131,7 @@ function* listenKeyProviderEvents() {
         yield put(UserActions.fetchAllowance());
       } else if (event.type === ContractManagerEvents.AnkrDepositSuccessful) {
         yield put(UserActions.fetchProviderStats());
+        yield put(UserActions.fetchingStakingHistory());
       }
     }
   } finally {
