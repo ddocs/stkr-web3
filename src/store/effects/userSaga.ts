@@ -20,6 +20,7 @@ import {
   KeyProviderEvent,
   KeyProviderEvents,
 } from '../../modules/api/event';
+import { GovernanceActions } from '../actions/GovernanceActions';
 import { UserActions, UserActionTypes } from '../actions/UserActions';
 import { IConnectResponse } from '../apiMappers/connectApi';
 import { IUserInfo } from '../apiMappers/userApi';
@@ -132,6 +133,8 @@ function* listenKeyProviderEvents() {
       } else if (event.type === ContractManagerEvents.AnkrDepositSuccessful) {
         yield put(UserActions.fetchProviderStats());
         yield put(UserActions.fetchingStakingHistory());
+      } else if (event.type === ContractManagerEvents.AnkrClaimSuccessful) {
+        yield put(GovernanceActions.fetchClaimAmount());
       }
     }
   } finally {

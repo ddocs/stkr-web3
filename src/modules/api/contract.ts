@@ -944,6 +944,7 @@ export class EthereumContractManager implements IContractManager {
       {
         data: data,
       },
+      ContractManagerEvents.AnkrDepositAllowed,
     );
   }
 }
