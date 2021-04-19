@@ -20,6 +20,7 @@ import { BridgeSdk } from '../../modules/bridge-sdk';
 import { ICreateNodeValue } from '../../modules/provider/screens/CreateNode';
 import { IAllowance } from '../apiMappers/allowance';
 import { mapGlobalStats } from '../apiMappers/globalStatsApi';
+import { mapVoterStats } from '../apiMappers/projectsApi';
 import { mapProviderStats } from '../apiMappers/providerStatsApi';
 import { ISidecar, mapSidecar } from '../apiMappers/sidecarsApi';
 import {
@@ -85,6 +86,10 @@ export const UserActionTypes = {
   TOP_UP: 'TOP_UP',
 
   SET_LOCALE: 'SET_LOCALE',
+
+  FETCH_CLAIM_ANKR_AMOUNT: 'FETCH_CLAIM_ANKR_AMOUNT',
+
+  CLAIM_ANKR: 'CLAIM_ANKR',
 };
 
 // todo: remove this method after SDK update
@@ -609,4 +614,33 @@ export const UserActions = {
     },
   }),
   setLocale: createAction<ISetLanguagePayload>(UserActionTypes.SET_LOCALE),
+  fetchClaimAmount: () => ({
+    type: UserActionTypes.FETCH_CLAIM_ANKR_AMOUNT,
+    request: {
+      promise: (async function () {
+        const stkrSdk = StkrSdk.getForEnv();
+        const claimableAnkrRewardOf = new BigNumber(
+          await stkrSdk.getClaimableAnkrBalance(),
+        );
+        return {
+          claimableAnkrRewardOf,
+        };
+      })(),
+    },
+    meta: {
+      getData: mapVoterStats,
+    },
+  }),
+  claimAnkr: (amount: BigNumber) => ({
+    type: UserActionTypes.CLAIM_ANKR,
+    request: {
+      promise: (async function () {
+        const stkrSdk = StkrSdk.getForEnv();
+        return stkrSdk.claimAnkr(amount);
+      })(),
+    },
+    meta: {
+      asMutation: true,
+    },
+  }),
 };

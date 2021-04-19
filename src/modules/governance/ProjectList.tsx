@@ -33,10 +33,14 @@ import {
   MIN_GOVERNANCE_BALANCE,
 } from '../../common/const';
 import { IProject } from './types';
+import { IVoterStats } from '../../store/apiMappers/projectsApi';
+import BigNumber from 'bignumber.js';
 
 export const ProjectList = () => {
   const classes = useModerationStatusStyles();
   const dispatch = useDispatch();
+
+  const claimableAmount = React.useRef<BigNumber>();
 
   useInitEffect(() => {
     dispatch(GovernanceActions.fetchProjects());
@@ -48,6 +52,11 @@ export const ProjectList = () => {
 
   const handleDeposit = useCallback(() => {
     dispatch(UserActions.faucet());
+  }, [dispatch]);
+
+  const handleClaim = useCallback(() => {
+    claimableAmount.current &&
+      dispatch(UserActions.claimAnkr(claimableAmount.current));
   }, [dispatch]);
 
   return (
@@ -115,6 +124,33 @@ export const ProjectList = () => {
               </Button>
             </div>
           </Paper>
+          <Box display="flex" justifyContent="center">
+            <Query<IVoterStats | null>
+              type={UserActionTypes.FETCH_PROVIDER_STATS}
+              showLoaderDuringRefetch={false}
+            >
+              {({ data }) => {
+                claimableAmount.current = data?.claimableAnkrRewardOf;
+                return (
+                  <>
+                    {claimableAmount.current && (
+                      <Button
+                        size="large"
+                        color="primary"
+                        fullWidth={true}
+                        className={classes.claim}
+                        onClick={handleClaim}
+                      >
+                        {t('project.claim', {
+                          value: claimableAmount.current.toFormat(),
+                        })}
+                      </Button>
+                    )}
+                  </>
+                );
+              }}
+            </Query>
+          </Box>
           <div className={classes.content}>
             <Query<IProject[] | null>
               type={GovernanceActionTypes.FETCH_PROJECTS}

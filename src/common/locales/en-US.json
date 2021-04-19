@@ -355,7 +355,8 @@
     "processing": "Processing...",
     "submit": "Support with {value} ANKR",
     "support": "Support",
-    "time-left": "<span class=\"bold\">Time left</span> {value}"
+    "time-left": "<span class=\"bold\">Time left</span> {value}",
+    "claim": "Claim {value} Ankr"
   },
   "project-created-dialog": {
     "submit": "I understand",

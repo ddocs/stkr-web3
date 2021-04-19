@@ -41,6 +41,10 @@ interface IStakerSdk {
 
   claimFETH(): Promise<ISendAsyncResult>;
 
+  getClaimableAnkrBalance(): Promise<BigNumber>;
+
+  claimAnkr(amount: BigNumber): Promise<ISendAsyncResult>;
+
   getNativeBalance(): Promise<BigNumber>;
 
   getEthBalance(): Promise<BigNumber>;
@@ -399,6 +403,15 @@ export class StkrSdk implements IStkrSdk {
 
   public async claimFETH(): Promise<ISendAsyncResult> {
     return this.getContractManager().claimFETH();
+  }
+
+  public async getClaimableAnkrBalance(): Promise<BigNumber> {
+    const address = this.getKeyProvider().currentAccount();
+    return this.getContractManager().claimableAnkrRewardOf(address);
+  }
+
+  public async claimAnkr(amount: BigNumber): Promise<ISendAsyncResult> {
+    return this.getContractManager().claimAnkr(amount);
   }
 
   public async getNativeBalance(): Promise<BigNumber> {

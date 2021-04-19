@@ -101,6 +101,10 @@ export interface IContractManager {
   depositAnkr(address: string): Promise<any>;
 
   toppedUpAnkrDeposit(address: string): Promise<BigNumber>;
+
+  claimableAnkrRewardOf(staker: string): Promise<BigNumber>;
+
+  claimAnkr(amount: BigNumber): Promise<ISendAsyncResult>;
 }
 
 export class EthereumContractManager implements IContractManager {
@@ -883,11 +887,13 @@ export class EthereumContractManager implements IContractManager {
     return new BigNumber(result);
   }
 
-  public async depositAnkr(address: string): Promise<any> {
+  public async depositAnkr(address: string): Promise<ISendAsyncResult> {
     if (!this.governanceContract) {
       throw new Error(`Governance contract is not initialized`);
     }
-    await this.governanceContract.methods.deposit().send({ from: address });
+    return await this.governanceContract.methods
+      .deposit()
+      .send({ from: address });
   }
 
   public async toppedUpAnkrDeposit(address: string): Promise<BigNumber> {
@@ -904,6 +910,42 @@ export class EthereumContractManager implements IContractManager {
     return new BigNumber(rawFrozenDeposits)
       .minus(new BigNumber(rawLockedDeposits))
       .dividedBy(EthereumContractManager.ETH_SCALE_FACTOR);
+  }
+
+  async claimableAnkrRewardOf(staker: string): Promise<BigNumber> {
+    if (!this.governanceContract) {
+      return new BigNumber('0');
+    }
+    const availableAmount = await this.governanceContract.methods
+      .availableDepositsOf(staker)
+      .call();
+    return new BigNumber(availableAmount).dividedBy(
+      EthereumContractManager.ETH_SCALE_FACTOR,
+    );
+  }
+
+  async claimAnkr(amount: BigNumber): Promise<ISendAsyncResult> {
+    if (!this.governanceContract || !this.contractConfig.governanceAddress) {
+      throw new Error(`Governance contract is not available`);
+    }
+
+    const data: string = this.governanceContract.methods
+      .withdraw(
+        this.contractConfig.governanceAddress,
+        amount
+          .multipliedBy(EthereumContractManager.ANKR_SCALE_FACTOR)
+          .toString(10),
+      )
+      .encodeABI();
+    const currentAccount = await this.keyProvider.currentAccount();
+
+    return this.keyProvider.sendAsync(
+      currentAccount,
+      this.contractConfig.governanceAddress,
+      {
+        data: data,
+      },
+    );
   }
 }
 
