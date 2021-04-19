@@ -18,6 +18,7 @@ import {
   IStakePendingEvent,
 } from './event';
 import { ISendAsyncResult, KeyProvider } from './provider';
+import { JssdkManager } from './jssdk';
 
 export interface IContractConfig {
   aethContract?: string;
@@ -109,6 +110,7 @@ export class EthereumContractManager implements IContractManager {
   protected readonly ankrContract?: Contract;
   protected readonly systemContract?: Contract;
   protected readonly governanceContract?: Contract;
+  protected readonly jssdkManager?: JssdkManager;
 
   static readonly ANKR_SCALE_FACTOR = 10 ** 18;
   static readonly ETH_SCALE_FACTOR = 10 ** 18;
@@ -153,6 +155,7 @@ export class EthereumContractManager implements IContractManager {
         contractConfig.governanceAddress,
       );
     }
+    this.jssdkManager = new JssdkManager(this.keyProvider, contractConfig);
   }
 
   public async connect(): Promise<void> {
@@ -730,9 +733,10 @@ export class EthereumContractManager implements IContractManager {
     if (!this.systemContract) {
       return EthereumContractManager.DEFAULT_SYSTEM_CONTRACT_PARAMETERS;
     }
-    const providerMinimumStaking = await this.systemContract.methods
-      .PROVIDER_MINIMUM_STAKING()
-      .call();
+    if (!this.jssdkManager) {
+      if (!this.jssdkManager) throw new Error(`Jssdk is not available`);
+    }
+    const providerMinimumStaking = await this.jssdkManager?.getMinimumStakingAmount();
     const requesterMinimumStaking = await this.systemContract.methods
       .REQUESTER_MINIMUM_POOL_STAKING()
       .call();
@@ -741,7 +745,7 @@ export class EthereumContractManager implements IContractManager {
       .call();
     console.log(`fetching system contract parameters`);
     this._systemContractParameters = {
-      providerMinimumStaking: new BigNumber(providerMinimumStaking).dividedBy(
+      providerMinimumStaking: providerMinimumStaking.dividedBy(
         EthereumContractManager.ANKR_SCALE_FACTOR,
       ),
       requesterMinimumStaking: new BigNumber(requesterMinimumStaking).dividedBy(
