@@ -6,12 +6,11 @@ import React, { ChangeEvent, useCallback, useMemo } from 'react';
 import { Form } from 'react-final-form';
 import { generatePath, useHistory, useParams } from 'react-router';
 import {
-  isMainnet,
   MAX_PROVIDER_STAKING_AMOUNT,
   PROVIDE_MIN_BALANCE,
+  PROVIDER_DEPOSIT_LIST_PATH,
   PROVIDER_DEPOSIT_ROUTE,
   PROVIDER_NODE_LIST_PATH,
-  PROVIDER_DEPOSIT_LIST_PATH,
 } from '../../../../common/const';
 import { DepositType } from '../../../../common/types';
 import { FormErrors } from '../../../../common/types/FormErrors';
@@ -215,7 +214,6 @@ export const Deposit = () => {
             label={t('top-up.tab.ankr')}
             value={TopUpCurreny.ankr}
             className={classes.tab}
-            disabled={isMainnet}
           />
           <Tab label={t('top-up.tab.eth')} value={TopUpCurreny.eth} />
         </Tabs>
