@@ -2,7 +2,6 @@ import { Box, Button, Container, Grid, Typography } from '@material-ui/core';
 import classNames from 'classnames';
 import { LayersIcon } from 'modules/common/components/Icons/LayersIcon';
 import { ProfileInfo } from 'modules/common/components/ProfileInfo';
-import { getTimeRemaining } from 'modules/common/utils/getTimeRemaining';
 import { useCallback, useState } from 'react';
 import Truncate from 'react-truncate';
 import { Timer } from '../Timer';
@@ -17,15 +16,13 @@ interface INFTDescriptionProps {
 }
 
 export const NFTDescription = ({
-  className,
-  name,
-  description,
-}: INFTDescriptionProps) => {
+                                 className,
+                                 name,
+                                 description,
+                               }: INFTDescriptionProps) => {
   const classes = useNFTDescriptionStyles();
   const [expanded, setExpanded] = useState(false);
   const [truncated, setTruncated] = useState(false);
-
-  const timeRemaining = getTimeRemaining(new Date(2021, 3, 30));
 
   const toggleExpanded = useCallback(
     (isExpanded: boolean) => () => setExpanded(isExpanded),
