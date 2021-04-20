@@ -1,127 +1,56 @@
-import { Tooltip } from '@material-ui/core';
-import classNames from 'classnames';
-import React, { useCallback, useMemo } from 'react';
+import { Box, BoxProps, IconButton } from '@material-ui/core';
+import React, { useMemo } from 'react';
 import { uid } from 'react-uid';
-import { SOCIAL_LINK } from '../../../../common/const';
-import { useIsLGUp } from '../../../../common/hooks/useTheme';
-import { t } from '../../../../common/utils/intl';
-import { NavLink } from '../../../../UiKit/NavLink';
-import { Discord, Medium, Telegram, Twitter } from '../Icons/Icons';
+import { MediumIcon } from './assets/MediumIcon';
+import { TelegramIcon } from './assets/TelegramIcon';
+import { TwitterIcon } from './assets/TwitterIcon';
 import { useSocialStyles } from './SocialStyles';
 
-interface ISocialItem {
-  icon: JSX.Element;
-  title?: string;
-  href?: string;
-  links?: {
-    title: string;
-    href: string;
-  }[];
-}
-
-const SocialItem = ({ title, icon, href, links }: ISocialItem) => {
-  const classes = useSocialStyles();
-  const isLGUp = useIsLGUp();
-
-  const renderTooltipContent = useCallback(
-    (links: ISocialItem['links']) => (
-      <div className={classes.linksMenu}>
-        {links?.map(({ href, title }) => (
-          <NavLink
-            key={uid(title)}
-            className={classes.linksItem}
-            classes={{ label: classes.linksItemLabel }}
-            href={href}
-            color="secondary"
-          >
-            {title}
-          </NavLink>
-        ))}
-      </div>
-    ),
-    [classes.linksItem, classes.linksItemLabel, classes.linksMenu],
-  );
-
-  const itemRegular = href ? (
-    <li className={classes.item}>
-      <NavLink
-        className={classes.link}
-        href={href}
-        title={title}
-        color="secondary"
-      >
-        {icon}
-      </NavLink>
-    </li>
-  ) : null;
-
-  const itemWithDropdown = links ? (
-    <li className={classes.item}>
-      <Tooltip
-        classes={{
-          tooltip: classes.tooltip,
-        }}
-        title={renderTooltipContent(links)}
-        placement={isLGUp ? 'top-end' : 'top'}
-        enterTouchDelay={0}
-        leaveDelay={100}
-        leaveTouchDelay={1000 * 60}
-        interactive
-      >
-        <span className={classes.link} color="secondary">
-          {icon}
-        </span>
-      </Tooltip>
-    </li>
-  ) : null;
-
-  return links ? itemWithDropdown : itemRegular;
-};
-
-export const Social = ({ className }: { className?: string }) => {
+export const Social = (props: BoxProps) => {
   const classes = useSocialStyles();
 
-  const socialList: ISocialItem[] = useMemo(
+  const links = useMemo(
     () => [
       {
-        title: t('navigation.twitter'),
-        icon: <Twitter />,
-        href: SOCIAL_LINK.twitter,
+        title: 'Medium',
+        icon: MediumIcon,
+        href: 'https://bouncefinance.medium.com',
       },
       {
-        icon: <Telegram />,
-        links: [
-          {
-            title: t('navigation.telegram-chat'),
-            href: SOCIAL_LINK.telegram,
-          },
-          {
-            title: t('navigation.telegram-announcements'),
-            href: SOCIAL_LINK.telegramAnnouncements,
-          },
-        ],
+        title: 'Twitter',
+        icon: TwitterIcon,
+        href: 'https://twitter.com',
       },
       {
-        title: t('navigation.medium'),
-        icon: <Medium />,
-        href: SOCIAL_LINK.medium,
-      },
-      {
-        title: t('navigation.discord'),
-        icon: <Discord />,
-        href: SOCIAL_LINK.discord,
+        title: 'Telegram',
+        icon: TelegramIcon,
+        href: 'https://t.me',
       },
     ],
     [],
   );
 
   return (
-    <div className={classNames(classes.component, className)}>
+    <Box {...props} component="nav">
       <ul className={classes.list}>
-        {socialList.map(item => (
-          <SocialItem key={uid(item)} {...item} />
-        ))}
+        {links.map(({ title, href, icon: Icon }) => {
+          return (
+            <li className={classes.listItem} key={uid(title)}>
+              <IconButton
+                component="a"
+                href={href}
+                role="link"
+                rel="noopener noreferrer"
+                target="_blank"
+                className={classes.link}
+                {...(props as any)}
+              >
+                <Icon className={classes.icon} />
+              </IconButton>
+            </li>
+          );
+        })}
       </ul>
-    </div>
+    </Box>
   );
 };

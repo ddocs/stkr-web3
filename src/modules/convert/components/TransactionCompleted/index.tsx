@@ -1,1 +1,0 @@
-export { TransactionCompleted } from './TransactionCompleted';

@@ -1,51 +1,39 @@
-import { fade, Theme } from '@material-ui/core/styles';
-import { makeStyles } from '@material-ui/styles';
+import { makeStyles, Theme } from '@material-ui/core';
+
+const X_SPACING = 1;
 
 export const useSocialStyles = makeStyles<Theme>(theme => ({
-  component: {
-    color: theme.palette.text.secondary,
-  },
   list: {
     display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexFlow: 'row nowrap',
+    justifyContent: 'center',
+    margin: theme.spacing(0, -X_SPACING),
     padding: 0,
-    margin: 0,
     listStyle: 'none',
   },
-  item: {
-    marginRight: theme.spacing(2),
-    '&:last-child': {
-      margin: 0,
-    },
+
+  listItem: {
+    padding: theme.spacing(0, X_SPACING),
   },
 
   link: {
-    display: 'flex',
+    color: theme.palette.text.primary,
     transition: 'color 0.2s',
+    padding: theme.spacing(1),
+    minWidth: 0,
+    height: 'auto',
 
     '&:hover': {
-      color: theme.palette.text.primary,
+      background: 'none',
+      color: theme.palette.primary.main,
     },
   },
 
-  tooltip: {
-    padding: theme.spacing(1.5, 2),
-    background: theme.palette.background.default,
-    border: `1px solid ${fade(theme.palette.common.white, 0.2)}`,
-    borderRadius: 12,
-  },
+  icon: {
+    fontSize: 18,
 
-  linksMenu: {
-    display: 'grid',
-    gap: theme.spacing(1, 0),
-  },
-
-  linksItem: {
-    padding: theme.spacing(0.5, 0),
-  },
-
-  linksItemLabel: {
-    justifyContent: 'flex-start',
+    [theme.breakpoints.up('md')]: {
+      fontSize: 24,
+    },
   },
 }));

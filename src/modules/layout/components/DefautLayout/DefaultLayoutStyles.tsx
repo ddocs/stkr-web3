@@ -1,32 +1,16 @@
-import { makeStyles } from '@material-ui/core/styles';
-import { DEFAULT_FONT } from '../../../../common/themes/mainTheme';
+import { makeStyles, Theme } from '@material-ui/core/styles';
 
-export const useDefaultLayoutStyles = makeStyles(() => ({
+export const useDefaultLayoutStyles = makeStyles<Theme>(theme => ({
   root: {
     display: 'flex',
-    flexDirection: 'column',
     minHeight: '100vh',
-    width: '100%',
-    fontFamily: DEFAULT_FONT,
-    fontWeight: 400,
-    backgroundColor: '#0F0F0F',
-    '-webkit-backface-visibility': 'hidden',
-    '-moz-backface-visibility': 'hidden',
-    '-webkit-font-smoothing': 'antialiased',
-    '& *': {
-      outline: 'none',
-      '-webkit-tap-highlight-color': 'transparent',
-      '&::-moz-focus-inner': {
-        border: 0,
-      },
-    },
-  },
-  content: {
-    position: 'relative',
-    flexGrow: 1,
-    display: 'flex',
     flexDirection: 'column',
-    alignItems: 'initial',
-    maxWidth: '100vw',
+    minWidth: 375,
+
+    background: theme.palette.background.default,
+  },
+
+  main: {
+    flexGrow: 1,
   },
 }));

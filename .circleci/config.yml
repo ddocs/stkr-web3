@@ -2,19 +2,20 @@ version: 2.1
 
 build-template: &build-template
   docker:
-    - image: tarampampam/node:14-alpine
+    - image: ankrnetwork/bounceimg:v0.0.6
   steps:
     - checkout
     - setup_remote_docker
-    - attach_workspace:
-        at: '.'
     - run:
-        name: 'Build artifacts'
-        command: |
-          node --version
-          npm --version
-          yarn install
-          yarn build
+        name: Output env info
+        command: node --version && yarn --version
+    - run:
+        name: Pull dependencies
+        command: yarn
+    - run:
+        no_output_timeout: 10m
+        name: Building ...
+        command: yarn build
     - persist_to_workspace:
         root: '.'
         paths:
@@ -28,109 +29,38 @@ upload-template: &upload-template
     - attach_workspace:
         at: '.'
     - run:
-        name: 'Upload artifacts'
+        name: Upload artifacts
         command: |
-          pwd
-          echo "Uploading assets to $DOMAIN"
-          aws s3 cp ./build s3://$DOMAIN/ --acl bucket-owner-full-control --recursive --cache-control "public,max-age=600,s-maxage=3600"
-          echo "Invalidating CDN network"
-          INVALIDATION_ID=`aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths '/*' | jq -r '.Invalidation.Id'`
-          echo "Invalidation ID is $INVALIDATION_ID"
-          echo "CDN Invalidation request is sent."
+        pwd
+        echo "Uploading assets to $DOMAIN"
+        aws s3 cp ./build s3://$DOMAIN/ --acl bucket-owner-full-control --recursive --cache-control "public,max-age=600,s-maxage=3600"
+        echo "Invalidating CDN network"
+        INVALIDATION_ID=`aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths '/*' | jq -r '.Invalidation.Id'`
+        echo "Invalidation ID is $INVALIDATION_ID"
+        echo "CDN Invalidation request is sent."
+    - run:
+        name: Cloudfront invalidation
+        command: aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID_MARKET --paths '/*'
 
 jobs:
-  # build
-  build-develop:
+  build-bs1:
     <<: *build-template
-  build-goerli:
-    <<: *build-template
-  build-prod:
-    <<: *build-template
-  build-bs-1:
-    <<: *build-template
-  build-bs-2:
-    <<: *build-template
-  # upload
-  upload-develop:
-    <<: *upload-template
-  upload-goerli:
-    <<: *upload-template
-  upload-prod:
-    <<: *upload-template
-  upload-bs-1:
-    <<: *upload-template
-  upload-bs-2:
+  upload-bs1:
     <<: *upload-template
 
 workflows:
   version: 2.1
-  stkr_web3:
+  bounce_market:
     jobs:
-      # develop
-      - approve-develop:
+      - approve-bs1:
           type: approval
-      - build-develop:
-          context: stkr_build_develop
+      - build-bs1:
+          context: bounce_build_prod
           requires:
-            - approve-develop
-      - upload-develop:
+            - approve-bs1
+      - upload-bs1:
           context:
-            - cicd
-            - stkr_build_develop
+            - app_cicd
+            - bs1_deploy
           requires:
-            - build-develop
-      # goerli
-      - approve-goerli:
-          type: approval
-      - build-goerli:
-          context: stkr_build_goerli
-          requires:
-            - approve-goerli
-      - upload-goerli:
-          context:
-            - cicd
-            - stkr_build_goerli
-          requires:
-            - build-goerli
-      # prod
-      - approve-prod:
-          type: approval
-          filters:
-            branches:
-              only: [ master ]
-      - build-prod:
-          context: stkr_build_prod
-          requires:
-            - approve-prod
-      - upload-prod:
-          context:
-            - cicd
-            - stkr_build_prod
-          requires:
-            - build-prod
-      # bs-1
-      - approve-bs-1:
-          type: approval
-      - build-bs-1:
-          context: stkr_build_goerli
-          requires:
-            - approve-bs-1
-      - upload-bs-1:
-          context:
-            - cicd
-            - stkr_deploy_bs_1
-          requires:
-            - build-bs-1
-      # bs-2
-      - approve-bs-2:
-          type: approval
-      - build-bs-2:
-          context: stkr_build_prod
-          requires:
-            - approve-bs-2
-      - upload-bs-2:
-          context:
-            - cicd
-            - stkr_deploy_bs_2
-          requires:
-            - build-bs-2
+            - build-bs1

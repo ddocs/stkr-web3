@@ -2,36 +2,40 @@ import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
 export const useToggleStyles = makeStyles<Theme>(theme => ({
-  component: {
+  root: {
     display: 'flex',
     flexDirection: 'column',
     width: 32,
     height: 32,
-    alignSelf: 'center',
+    minWidth: 0,
+    padding: 0,
 
     '& span': {
       display: 'flex',
       flexDirection: 'column',
     },
   },
-  componentOpened: {
-    '& $top': {
-      transform: 'translateY(5px) rotate(45deg)',
+
+  active: {
+    '& $lineTop': {
+      transform: 'translateY(4px) rotate(45deg)',
     },
-    '& $bottom': {
-      transform: 'translateY(-5px) rotate(-45deg)',
+    '& $lineBottom': {
+      transform: 'translateY(-4px) rotate(-45deg)',
     },
   },
+
   line: {
-    width: '100%',
-    height: 'auto',
-    transitionTimingFunction: 'linear',
-    transitionDuration: '250ms',
-    transitionProperty: 'transform',
+    width: 22,
+    height: 2,
+    transition: 'transform 0.2s',
     transformOrigin: 'center',
+    background: 'currentColor',
   },
-  top: {
-    marginBottom: theme.spacing(1),
+
+  lineTop: {
+    marginBottom: 6,
   },
-  bottom: {},
+
+  lineBottom: {},
 }));

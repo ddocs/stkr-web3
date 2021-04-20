@@ -1,1 +1,0 @@
-export { BackgroundColorProvider } from './BackgroundColorProvider';

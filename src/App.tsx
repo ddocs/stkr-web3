@@ -1,26 +1,20 @@
-import { NoSsr } from '@material-ui/core';
 import React from 'react';
-import { Provider, ReactReduxContext } from 'react-redux';
-import { PersistGate } from 'redux-persist/integration/react';
-import { AppBase } from './components/AppBase/AppBase';
-import { Notifications } from './components/Notifications';
-import { QueryLoadingAbsolute } from './components/QueryLoading/QueryLoading';
-import { ScrollToTop } from './components/ScrollToTop';
+import { Provider } from 'react-redux';
+import { AppBase } from './modules/layout/components/AppBase/AppBase';
 import { Routes } from './Routes';
-import { persistor, store } from './store';
+import { store } from './store/store';
+import { NoSsr } from '@material-ui/core';
+import { Notifications } from './modules/notification/components/Notifications';
 
 function App() {
   return (
-    <Provider store={store} context={ReactReduxContext}>
-      <PersistGate loading={<QueryLoadingAbsolute />} persistor={persistor}>
-        <AppBase>
-          <ScrollToTop />
-          <Routes />
-          <NoSsr>
-            <Notifications />
-          </NoSsr>
-        </AppBase>
-      </PersistGate>
+    <Provider store={store}>
+      <AppBase>
+        <Routes />
+        <NoSsr>
+          <Notifications />
+        </NoSsr>
+      </AppBase>
     </Provider>
   );
 }

@@ -1,48 +1,190 @@
+import {
+  Box,
+  Button,
+  ClickAwayListener,
+  Container,
+  Drawer,
+  Fade,
+  ThemeProvider,
+} from '@material-ui/core';
 import { useQuery } from '@redux-requests/react';
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { Provider } from '../../../../common/types';
-import { t } from '../../../../common/utils/intl';
-import { QueryError } from '../../../../components/QueryError/QueryError';
-import { UserActionTypes } from '../../../../store/actions/UserActions';
-import { IUserInfo } from '../../../../store/apiMappers/userApi';
-import { IStoreState } from '../../../../store/reducers';
-import { isConnected } from '../../../../store/reducers/userReducer';
-import { binance as binanceLogo } from '../assets/assets';
-import { PROVIDERS } from '../const';
-import { HeaderComponent } from './HeaderComponent';
+import { getTheme } from 'modules/common/utils/getTheme';
+import { t } from 'modules/i18n/utils/intl';
+import { Themes } from 'modules/themes/types';
+import { useIsXLUp } from 'modules/themes/useTheme';
+import { useCallback } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
+import { useAppDispatch } from '../../../../store/useAppDispatch';
+import { AccountActions } from '../../../account/store/accountActions';
+import { RoutesConfiguration } from '../../../createNFT/Routes';
+import { HeaderLinks, HeaderLinksSecondary } from '../HeaderLinks';
+import { Logo } from '../Logo';
+import { Search } from '../Search';
+import { SearchTrigger } from '../SearchTrigger';
+import { Social } from '../Social';
+import { Toggle } from '../Toggle';
+import { useHeaderStyles } from './HeaderStyles';
+import { useHeader } from './useHeader';
 
-export const Header = () => {
-  const isAuth = useSelector((state: IStoreState) => isConnected(state.user));
+interface IHeaderProps {
+  isConnected?: boolean;
+}
 
-  const { data, error } = useQuery<IUserInfo | null>({
-    type: UserActionTypes.FETCH_ACCOUNT_DATA,
+export const Header = ({ isConnected = false }: IHeaderProps) => {
+  const dispatch = useAppDispatch();
+  const {
+    mobileNavShowed,
+    toggleNav,
+    searchShowed,
+    toggleSearch,
+  } = useHeader();
+
+  const handleConnect = useCallback(() => {
+    dispatch(AccountActions.connect());
+  }, [dispatch]);
+
+  const { loading } = useQuery({
+    type: AccountActions.setAccount.toString(),
   });
 
-  const isBinance = data?.walletType === Provider.binance;
-  const binanceCaption = t(PROVIDERS[Provider.binance].caption);
-  const walletIcon = isBinance ? binanceLogo : data?.walletIcon;
-  const walletName = isBinance ? binanceCaption : data?.walletName;
+  const classes = useHeaderStyles();
 
-  const authorized = (
-    <HeaderComponent
-      isAuth={isAuth}
-      walletAddress={data?.address}
-      blockchainType={data?.blockchainType}
-      walletName={walletName}
-      walletIcon={walletIcon}
-      walletType={data?.walletType}
-      ethereumBalance={data?.ethereumBalance}
-      ankrBalance={data?.ankrBalance}
-      bnbBalance={data?.bnbBalance}
-    />
+  const isXLUp = useIsXLUp();
+
+  const renderedWallet = (
+    <Button className={classes.wallet}>
+      0x63c6...b350
+      <span className={classes.walletLogo} />
+    </Button>
   );
 
-  const notAuthorized = <HeaderComponent isAuth={isAuth} />;
+  const renderedDesktop = (
+    <>
+      <Search className={classes.search} />
+      <HeaderLinks />
+      <HeaderLinksSecondary />
+      <Button
+        component={RouterLink}
+        to={RoutesConfiguration.CreateNft.generatePath()}
+        className={classes.btnCreate}
+        variant="outlined"
+        color="default"
+      >
+        {t('header.create')}
+      </Button>
 
-  if (error) {
-    return <QueryError error={error} />;
-  }
+      {!isConnected && (
+        <Button onClick={handleConnect} disabled={loading}>
+          {t('header.connect')}
+        </Button>
+      )}
+      {isConnected && renderedWallet}
+    </>
+  );
 
-  return isAuth ? authorized : notAuthorized;
+  const renderedMobile = (
+    <>
+      <div className={classes.buttons}>
+        <ClickAwayListener onClickAway={toggleSearch(false)}>
+          <div>
+            <SearchTrigger
+              isActive={searchShowed}
+              onClick={searchShowed ? toggleSearch(false) : toggleSearch(true)}
+            />
+
+            <Fade in={searchShowed}>
+              <div className={classes.searchBox}>
+                <Container className={classes.searchBoxContainer}>
+                  <Search
+                    className={classes.searchMobile}
+                    focus={searchShowed}
+                  />
+                  <Toggle
+                    onClick={toggleSearch(false)}
+                    isActive={searchShowed}
+                  />
+                </Container>
+              </div>
+            </Fade>
+          </div>
+        </ClickAwayListener>
+
+        <ClickAwayListener onClickAway={toggleNav(false)}>
+          <div>
+            <Toggle
+              onClick={mobileNavShowed ? toggleNav(false) : toggleNav(true)}
+              isActive={mobileNavShowed}
+            />
+
+            <ThemeProvider theme={getTheme(Themes.light)}>
+              <Drawer
+                className={classes.drawer}
+                ModalProps={{
+                  BackdropProps: {
+                    classes: {
+                      root: classes.drawerBackdrop,
+                    },
+                  },
+                }}
+                classes={{
+                  paperAnchorRight: classes.drawerPaper,
+                }}
+                elevation={0}
+                anchor="right"
+                open={mobileNavShowed}
+                onClose={toggleNav(false)}
+              >
+                <Container className={classes.navInner}>
+                  <Box mb={5}>
+                    <HeaderLinks />
+
+                    <HeaderLinksSecondary />
+                  </Box>
+
+                  <Box mt="auto" mb={3}>
+                    <Button
+                      component={RouterLink}
+                      className={classes.btnCreate}
+                      size="large"
+                      variant="outlined"
+                      to={RoutesConfiguration.CreateNft.generatePath()}
+                      fullWidth
+                    >
+                      {t('header.create')}
+                    </Button>
+                  </Box>
+
+                  {!isConnected && (
+                    <Button
+                      size="large"
+                      onClick={handleConnect}
+                      disabled={loading}
+                      fullWidth
+                    >
+                      {t('header.connect')}
+                    </Button>
+                  )}
+
+                  {isConnected && renderedWallet}
+
+                  <Social mt={5} />
+                </Container>
+              </Drawer>
+            </ThemeProvider>
+          </div>
+        </ClickAwayListener>
+      </div>
+    </>
+  );
+
+  return (
+    <header className={classes.root}>
+      <Container className={classes.container} maxWidth={false}>
+        <Logo />
+
+        {!isXLUp && renderedMobile}
+        {isXLUp && renderedDesktop}
+      </Container>
+    </header>
+  );
 };

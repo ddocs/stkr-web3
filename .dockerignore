@@ -1,7 +1,0 @@
-.circleci
-.dockerignore
-legacy
-next/.storybook
-next/build
-next/node_modules
-Dockerfile
