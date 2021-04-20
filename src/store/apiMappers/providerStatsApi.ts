@@ -2,14 +2,17 @@ import BigNumber from 'bignumber.js';
 
 export interface IApiProviderStats {
   providerEthBalance: BigNumber;
+  providerAnkrBalance: BigNumber;
 }
 
 export interface IProviderStats {
-  balance: BigNumber;
+  ethBalance: BigNumber;
+  ankrBalance: BigNumber;
 }
 
 export function mapProviderStats(data: IApiProviderStats): IProviderStats {
   return {
-    balance: data.providerEthBalance,
+    ethBalance: data.providerEthBalance,
+    ankrBalance: data.providerAnkrBalance,
   };
 }

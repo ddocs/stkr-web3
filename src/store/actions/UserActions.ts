@@ -487,7 +487,12 @@ export const UserActions = {
         const providerEthBalance = await stkrSdk
           .getContractManager()
           .providerLockedEtherOf(stkrSdk.getKeyProvider().currentAccount());
-        return { providerEthBalance };
+
+        const providerAnkrBalance = await stkrSdk
+          .getContractManager()
+          .toppedUpAnkrDeposit(stkrSdk.getKeyProvider().currentAccount());
+
+        return { providerEthBalance, providerAnkrBalance };
       })(),
     },
     meta: {
@@ -591,6 +596,10 @@ export const UserActions = {
         if (type === DepositType.ETH) {
           return stkrSdk.topUpETH(amount);
         }
+
+        await stkrSdk
+          .getContractManager()
+          .depositAnkr(stkrSdk.getKeyProvider().currentAccount());
 
         return stkrSdk.topUpANKR(amount);
       })(),

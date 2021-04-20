@@ -355,7 +355,8 @@
     "processing": "Processing...",
     "submit": "Support with {value} ANKR",
     "support": "Support",
-    "time-left": "<span class=\"bold\">Time left</span> {value}"
+    "time-left": "<span class=\"bold\">Time left</span> {value}",
+    "claim": "Claim {value} Ankr"
   },
   "project-created-dialog": {
     "submit": "I understand",
@@ -403,6 +404,7 @@
   "provider-dashboard": {
     "balance": "Your insurance deposit",
     "balance-eth": "{balance} ETH",
+    "balance-ankr": "{balance} ANKR",
     "configure-own-node": "Configure your own node",
     "continue": "Continue",
     "continue-with-ankr": "Continue with ANKR",

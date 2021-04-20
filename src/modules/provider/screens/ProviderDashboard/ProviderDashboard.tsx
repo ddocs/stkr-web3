@@ -126,11 +126,19 @@ export const ProviderDashboard = () => {
                   <QueryLoading size={24} />
                 </Box>
               ) : (
-                t('provider-dashboard.balance-eth', {
-                  balance: providerStats?.balance.decimalPlaces(
-                    BALANCE_PRECISION,
-                  ),
-                })
+                <>
+                  {t('provider-dashboard.balance-eth', {
+                    balance: providerStats?.ethBalance.decimalPlaces(
+                      BALANCE_PRECISION,
+                    ),
+                  })}
+                  <div className={classes.divider} />
+                  {t('provider-dashboard.balance-ankr', {
+                    balance: providerStats?.ankrBalance
+                      .decimalPlaces(BALANCE_PRECISION)
+                      .toFormat(),
+                  })}
+                </>
               )}
             </Typography>
 

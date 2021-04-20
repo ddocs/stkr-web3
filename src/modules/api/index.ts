@@ -2,6 +2,7 @@ import { VoteStatus } from '@ankr.com/stkr-jssdk';
 import BigNumber from 'bignumber.js';
 import { EventEmitter } from 'events';
 import { SendOptions } from 'web3-eth-contract';
+import { DepositType } from '../../common/types';
 import { configFromEnv, IStkrConfig } from './config';
 import {
   BinanceContractManager,
@@ -39,6 +40,10 @@ interface IStakerSdk {
   getClaimableFethBalance(): Promise<BigNumber>;
 
   claimFETH(): Promise<ISendAsyncResult>;
+
+  getClaimableAnkrBalance(): Promise<BigNumber>;
+
+  claimAnkr(amount: BigNumber): Promise<ISendAsyncResult>;
 
   getNativeBalance(): Promise<BigNumber>;
 
@@ -400,6 +405,15 @@ export class StkrSdk implements IStkrSdk {
     return this.getContractManager().claimFETH();
   }
 
+  public async getClaimableAnkrBalance(): Promise<BigNumber> {
+    const address = this.getKeyProvider().currentAccount();
+    return this.getContractManager().claimableAnkrRewardOf(address);
+  }
+
+  public async claimAnkr(amount: BigNumber): Promise<ISendAsyncResult> {
+    return this.getContractManager().claimAnkr(amount);
+  }
+
   public async getNativeBalance(): Promise<BigNumber> {
     const currentAccount = this.getKeyProvider().currentAccount();
     const balanceOf = await this.getKeyProvider().getNativeBalance(
@@ -433,10 +447,11 @@ export class StkrSdk implements IStkrSdk {
 
   public async getStakerStats(): Promise<IStakerStats> {
     console.log('fetching stake events from smart contract...');
-    const [pending, confirmed, toppedUp] = await Promise.all([
+    const [pending, confirmed, toppedUp, toppedUpAnkr] = await Promise.all([
       this.getContractManager().stakePendingEventLogs(),
       this.getContractManager().stakeConfirmedEventLogs(),
       this.getContractManager().providerToppedUpEthEventLogs(),
+      this.getContractManager().providerToppedUpAnkrEventLogs(),
     ]);
 
     function hasItem(
@@ -459,6 +474,7 @@ export class StkrSdk implements IStkrSdk {
           action: 'STAKE_ACTION_PENDING',
           timestamp: item.data.eventLog.blockNumber,
           isTopUp: hasItem(toppedUp, item),
+          type: DepositType.ETH,
         };
       },
     );
@@ -471,12 +487,28 @@ export class StkrSdk implements IStkrSdk {
           action: 'STAKE_ACTION_CONFIRMED',
           timestamp: item.data.eventLog.blockNumber,
           isTopUp: hasItem(toppedUp, item),
+          type: DepositType.ETH,
         };
       },
     );
-    const stakes = [...pendingItems, ...confirmedItems].sort(
-      (a, b) => a.timestamp - b.timestamp,
+    const ankrTopUpItems = toppedUpAnkr.map(
+      (item): IUserStakeReply => {
+        return {
+          user: item.data.provider,
+          amount: item.data.amount,
+          transactionHash: item.data.eventLog.transactionHash,
+          action: 'STAKE_ACTION_CONFIRMED',
+          timestamp: item.data.eventLog.blockNumber,
+          isTopUp: true,
+          type: DepositType.ANKR,
+        };
+      },
     );
+
+    const stakes = [...pendingItems, ...confirmedItems, ...ankrTopUpItems].sort(
+      (a, b) => b.timestamp - a.timestamp,
+    );
+
     return { stakes };
   }
 

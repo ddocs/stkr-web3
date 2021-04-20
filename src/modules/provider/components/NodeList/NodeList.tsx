@@ -215,7 +215,7 @@ export const NodeList = ({
       {({ data: statsData }) => {
         return (
           <>
-            {statsData?.balance && (
+            {statsData?.ethBalance && (
               <NodeListComponent data={data} onCreateNode={handleCreateNode} />
             )}
           </>

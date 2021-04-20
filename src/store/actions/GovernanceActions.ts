@@ -4,12 +4,15 @@ import { mapProject } from '../../modules/governance/types';
 import { VoteStatus } from '@ankr.com/stkr-jssdk';
 import BigNumber from 'bignumber.js';
 import Web3 from 'web3';
+import { mapVoterStats } from '../apiMappers/projectsApi';
 
 export const GovernanceActionTypes = {
   VOTE: 'VOTE',
   FETCH_PROJECTS: 'FETCH_PROJECTS',
   CREATE_PROJECT: 'CREATE_PROJECT',
   GET_ANKR_GOVERNANCE_ALLOWANCE: 'GET_ANKR_GOVERNANCE_ALLOWANCE',
+  FETCH_CLAIM_ANKR_AMOUNT: 'FETCH_CLAIM_ANKR_AMOUNT',
+  CLAIM_ANKR: 'CLAIM_ANKR',
 };
 
 export const GovernanceActions = {
@@ -97,6 +100,35 @@ export const GovernanceActions = {
 
         return { allowance };
       })(),
+    },
+  }),
+  fetchClaimAmount: () => ({
+    type: GovernanceActionTypes.FETCH_CLAIM_ANKR_AMOUNT,
+    request: {
+      promise: (async function () {
+        const stkrSdk = StkrSdk.getForEnv();
+        const claimableAnkrRewardOf = new BigNumber(
+          await stkrSdk.getClaimableAnkrBalance(),
+        );
+        return {
+          claimableAnkrRewardOf,
+        };
+      })(),
+    },
+    meta: {
+      getData: mapVoterStats,
+    },
+  }),
+  claimAnkr: (amount: BigNumber) => ({
+    type: GovernanceActionTypes.CLAIM_ANKR,
+    request: {
+      promise: (async function () {
+        const stkrSdk = StkrSdk.getForEnv();
+        return await stkrSdk.claimAnkr(amount);
+      })(),
+    },
+    meta: {
+      asMutation: true,
     },
   }),
 };
