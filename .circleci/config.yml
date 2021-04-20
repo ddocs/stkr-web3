@@ -55,7 +55,7 @@ workflows:
       - approve-bs1:
           type: approval
       - build-bs1:
-          context: bounce_build_prod
+#          context: bounce_build_prod
           requires:
             - approve-bs1
       - upload-bs1:
