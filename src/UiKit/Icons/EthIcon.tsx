@@ -4,37 +4,27 @@ import { withSvgIcon } from './withSvgIcon';
 export const EthIcon = withSvgIcon(
   <>
     <path
-      d="M14.5 29C22.5081 29 29 22.5081 29 14.5C29 6.49187 22.5081 0 14.5 0C6.49187 0 0 6.49187 0 14.5C0 22.5081 6.49187 29 14.5 29Z"
-      fill="#232323"
+      fill="#fff"
+      fillOpacity=".602"
+      d="M19 6.91v8.936l7.77 3.375L19 6.91z"
+    />
+    <path fill="#fff" d="M18.999 6.91l-7.77 12.311 7.77-3.375V6.91z" />
+    <path
+      fill="#fff"
+      fillOpacity=".602"
+      d="M19 25.013v6.072l7.774-10.457L19 25.013z"
+    />
+    <path fill="#fff" d="M18.999 31.085v-6.073l-7.77-4.384 7.77 10.457z" />
+    <path
+      fill="#fff"
+      fillOpacity=".2"
+      d="M19 23.608l7.77-4.386L19 15.849v7.759z"
     />
     <path
-      d="M14.9521 3.625V11.6634L21.7463 14.6994L14.9521 3.625Z"
-      fill="white"
-      fillOpacity="0.602"
-    />
-    <path
-      d="M14.9513 3.625L8.15625 14.6994L14.9513 11.6634V3.625Z"
-      fill="white"
-    />
-    <path
-      d="M14.9521 19.9082V25.3702L21.7508 15.9642L14.9521 19.9082Z"
-      fill="white"
-      fillOpacity="0.602"
-    />
-    <path
-      d="M14.9513 25.3702V19.9073L8.15625 15.9642L14.9513 25.3702Z"
-      fill="white"
-    />
-    <path
-      d="M14.9521 18.6448L21.7463 14.6999L14.9521 11.6658V18.6448Z"
-      fill="white"
-      fillOpacity="0.2"
-    />
-    <path
-      d="M8.15625 14.6999L14.9513 18.6448V11.6658L8.15625 14.6999Z"
-      fill="white"
-      fillOpacity="0.602"
+      fill="#fff"
+      fillOpacity=".602"
+      d="M11.229 19.222l7.77 4.386v-7.76l-7.77 3.374z"
     />
   </>,
-  { viewBox: '0 0 29 29' },
+  { viewBox: '0 0 38 38' },
 );

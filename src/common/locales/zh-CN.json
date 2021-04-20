@@ -473,7 +473,6 @@
 		"stake": "质押",
 		"title": "质押管理",
 		"validation": {
-			"agreement": "需要确认",
 			"balance-exceed": "您输入的数值超过了您的余额"
 		},
 		"yearly-earning": "年收益",
@@ -566,6 +565,7 @@
 	"unit": {
 		"$-value": "${value, number}",
 		"aeth": "aETH",
+		"feth": "fETH",
 		"aeth-value": "{value, number} aETH",
 		"ankr-value": "{value, number} Ankr",
 		"day-value": "{value, plural, =1 {# day} other {# days}}",

@@ -175,11 +175,9 @@ export const NodeListComponent = ({ data, onCreateNode }: INodeListProps) => {
           customCell="1fr 1fr 1fr 1fr 230px"
           columnsCount={captions.length}
           className={classes.table}
+          minWidth={1000}
           paddingCollapse
           stickyHeader
-          classes={{
-            table: classes.tableInner,
-          }}
         >
           <TableHead>
             {captions.map(cell => (
@@ -217,7 +215,7 @@ export const NodeList = ({
       {({ data: statsData }) => {
         return (
           <>
-            {statsData?.balance && (
+            {statsData?.ethBalance && (
               <NodeListComponent data={data} onCreateNode={handleCreateNode} />
             )}
           </>

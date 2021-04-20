@@ -1,27 +1,33 @@
-import { createStyles } from '@material-ui/core';
-import { defaultTheme } from '../../../common/themes/mainTheme';
+import { makeStyles, Theme } from '@material-ui/core';
 
 export const TABLE_MIN_WIDTH = 808;
 
-export const tableStyles = createStyles({
-  container: {
-    [defaultTheme.breakpoints.up('sm')]: {
-      overflow: 'hidden',
-      overflowX: 'auto',
+export const useTableStyles = makeStyles<Theme, { minWidth?: string | number }>(
+  theme => ({
+    container: {
+      [theme.breakpoints.up('sm')]: {
+        overflow: 'hidden',
+        overflowX: 'auto',
+      },
+
+      [theme.breakpoints.up('lg')]: {
+        overflow: 'visible',
+      },
     },
 
-    [defaultTheme.breakpoints.up('md')]: {
-      overflow: 'visible',
-    },
-  },
-  table: {
-    position: 'relative',
+    table: {
+      position: 'relative',
 
-    [defaultTheme.breakpoints.up('sm')]: {
-      minWidth: TABLE_MIN_WIDTH,
-      overflow: 'visible',
-      height: '100%',
-      boxSizing: 'border-box',
+      [theme.breakpoints.up('sm')]: {
+        minWidth: props =>
+          typeof props.minWidth === 'number' ||
+          typeof props.minWidth === 'string'
+            ? props.minWidth
+            : TABLE_MIN_WIDTH,
+        overflow: 'visible',
+        height: '100%',
+        boxSizing: 'border-box',
+      },
     },
-  },
-});
+  }),
+);

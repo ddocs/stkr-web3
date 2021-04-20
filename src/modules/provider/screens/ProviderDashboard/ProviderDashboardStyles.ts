@@ -66,7 +66,7 @@ export const useProviderDashboardStyles = makeStyles<Theme>(theme => ({
   balance: {
     gridArea: 'balance',
     display: 'flex',
-    alignItems: 'center',
+    alignItems: 'stretch',
     justifyContent: 'center',
     padding: theme.spacing(0.6, 1),
 
@@ -80,5 +80,10 @@ export const useProviderDashboardStyles = makeStyles<Theme>(theme => ({
     [theme.breakpoints.up('sm')]: {
       padding: theme.spacing(1, 2),
     },
+  },
+  divider: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    borderLeft: `1px solid ${fade(theme.palette.common.white, 0.2)}`,
   },
 }));

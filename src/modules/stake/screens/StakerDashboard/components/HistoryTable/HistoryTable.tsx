@@ -4,15 +4,17 @@ import { uid } from 'react-uid';
 import { useLocaleMemo } from '../../../../../../common/hooks/useLocaleMemo';
 import { WithUseStyles } from '../../../../../../common/types';
 import { t } from '../../../../../../common/utils/intl';
-import { Table } from '../../../../../../components/TableComponents';
-import { TableBody } from '../../../../../../components/TableComponents';
-import { TableBodyCell } from '../../../../../../components/TableComponents';
-import { TableHead } from '../../../../../../components/TableComponents';
-import { TableHeadCell } from '../../../../../../components/TableComponents';
-import { TableRow } from '../../../../../../components/TableComponents';
-import { NavLink } from '../../../../../../UiKit/NavLink';
+import {
+  Table,
+  TableBody,
+  TableBodyCell,
+  TableHead,
+  TableHeadCell,
+  TableRow,
+} from '../../../../../../components/TableComponents';
 import { AlignType } from '../../../../../../components/TableComponents/types';
 import { QuestionIcon } from '../../../../../../UiKit/Icons/QuestionIcon';
+import { NavLink } from '../../../../../../UiKit/NavLink';
 import { StkrSdk } from '../../../../../api';
 import { useHistoryTableStyles } from './HistoryTableStyles';
 
@@ -64,7 +66,7 @@ export const HistoryTable = (props: IHistoryTableProps) => {
       <Table
         customCell="1fr 1fr 1fr"
         columnsCount={captions.length}
-        classes={{ table: classes.table }}
+        minWidth={0}
         paddingCollapse
       >
         <TableHead>

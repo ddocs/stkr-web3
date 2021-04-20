@@ -1,32 +1,31 @@
+import { Box, IconButton, Tooltip } from '@material-ui/core';
 import { success } from '@redux-requests/core';
 import { useMutation, useQuery } from '@redux-requests/react';
+import BigNumber from 'bignumber.js';
 import React, { useCallback } from 'react';
 import { useHistory } from 'react-router';
 import { STAKER_DASHBOARD_PATH, STAKER_RATE } from '../../../../common/const';
+import { useFeaturesAvailable } from '../../../../common/hooks/useFeaturesAvailable';
+import { t, tHTML } from '../../../../common/utils/intl';
 import { pushEvent } from '../../../../common/utils/pushEvent';
 import { useRequestDispatch } from '../../../../common/utils/useRequestDispatch';
 import {
   UserActions,
   UserActionTypes,
 } from '../../../../store/actions/UserActions';
+import { IGlobalStats } from '../../../../store/apiMappers/globalStatsApi';
 import { IUserInfo } from '../../../../store/apiMappers/userApi';
+import { QuestionIcon } from '../../../../UiKit/Icons/QuestionIcon';
+import { StakeDescriptionContainer } from '../../components/StakeDescriptionContainer';
+import { StakeDescriptionName } from '../../components/StakeDescriptionName';
+import { StakeDescriptionValue } from '../../components/StakeDescriptionValue';
 import {
   IStakePayload,
   MAX_AMOUNT,
   StakeForm,
 } from '../../components/StakeForm';
-import { IGlobalStats } from '../../../../store/apiMappers/globalStatsApi';
-import { useFeaturesAvailable } from '../../../../common/hooks/useFeaturesAvailable';
-import { t, tHTML } from '../../../../common/utils/intl';
-import { Box, IconButton, Tooltip } from '@material-ui/core';
-import { QuestionIcon } from '../../../../UiKit/Icons/QuestionIcon';
-import BigNumber from 'bignumber.js';
-import { StakeDescriptionContainer } from '../../components/StakeDescriptionContainer';
-import { StakeDescriptionName } from '../../components/StakeDescriptionName';
-import { StakeDescriptionValue } from '../../components/StakeDescriptionValue';
 import { DECIMAL_PLACES } from '../StakerDashboard/StakerDashboardConst';
 
-const INTEREST_PERIOD = 12;
 const FIXED_DECIMAL_PLACES = 2;
 
 export const Stake = () => {
@@ -68,28 +67,18 @@ export const Stake = () => {
     (amount: number) => {
       return (
         <StakeDescriptionContainer>
-          <StakeDescriptionName>
-            {t('stake.staking-period')}
-            <Tooltip title={t('stake.staking-period-tooltip')}>
-              <Box component={IconButton} padding={1}>
-                <QuestionIcon size="xs" />
-              </Box>
-            </Tooltip>
-          </StakeDescriptionName>
-          <StakeDescriptionValue>
-            {t('unit.~months-value', { value: INTEREST_PERIOD })}
-          </StakeDescriptionValue>
-
           {stakingFeeRate && !stakingFeeRate.isZero() && (
             <>
               <StakeDescriptionName>
                 {t('stake.operation-fee')}
+
                 <Tooltip title={t('stake.operation-fee-tooltip')}>
                   <Box component={IconButton} padding={1}>
                     <QuestionIcon size="xs" />
                   </Box>
                 </Tooltip>
               </StakeDescriptionName>
+
               <StakeDescriptionValue>
                 {t('~eth-value', {
                   value: stakingFeeRate
@@ -100,14 +89,17 @@ export const Stake = () => {
               </StakeDescriptionValue>
             </>
           )}
+
           <StakeDescriptionName>
             {t('stake.yearly-earning')}
+
             <Tooltip title={tHTML('stake.yearly-earning-tooltip')}>
               <Box component={IconButton} padding={1}>
                 <QuestionIcon size="xs" />
               </Box>
             </Tooltip>
           </StakeDescriptionName>
+
           <StakeDescriptionValue>
             {t('unit.~eth-value', {
               value: new BigNumber(amount)
@@ -130,7 +122,6 @@ export const Stake = () => {
       stakingFeeRate={stakingFeeRate}
       stakingAmountStep={stakingAmountStep}
       loading={loading}
-      agreementElement={t('stake.agreement')}
       renderStats={renderStats}
     />
   );

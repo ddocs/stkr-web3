@@ -2,6 +2,7 @@ import { Query } from '@redux-requests/react';
 import React from 'react';
 import { uid } from 'react-uid';
 import { useLocaleMemo } from '../../../../common/hooks/useLocaleMemo';
+import { DepositType } from '../../../../common/types';
 import { t } from '../../../../common/utils/intl';
 import { QueryError } from '../../../../components/QueryError/QueryError';
 import { QueryLoadingAbsolute } from '../../../../components/QueryLoading/QueryLoading';
@@ -89,7 +90,12 @@ export const DepositListComponent = () => {
                     </TableBodyCell>
 
                     <TableBodyCell label={`${captions[2].label}`}>
-                      {t('unit.eth-value', { value: item.amount })}
+                      {t(
+                        item.type === DepositType.ETH
+                          ? 'unit.eth-value'
+                          : 'unit.ankr-value',
+                        { value: item.amount },
+                      )}
                     </TableBodyCell>
                   </TableRow>
                 ))}

@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/styles';
 
 export const useCellStyles = makeStyles<
   Theme,
-  { defense?: boolean; paddingCollapse?: boolean; on?: boolean },
+  { dense?: boolean; paddingCollapse?: boolean; on?: boolean },
   'cell' | 'headCell' | 'centerCell' | 'leftCell' | 'rightCell' | 'content'
 >(theme =>
   createStyles({
@@ -38,10 +38,8 @@ export const useCellStyles = makeStyles<
     },
 
     headCell: {
-      paddingTop: props =>
-        props.defense ? theme.spacing(0.75) : theme.spacing(1.5),
-      paddingBottom: props =>
-        props.defense ? theme.spacing(0.75) : theme.spacing(1.5),
+      paddingTop: theme.spacing(1.5),
+      paddingBottom: theme.spacing(1.5),
       boxSizing: 'border-box',
       fontSize: 12,
       lineHeight: 1.5,

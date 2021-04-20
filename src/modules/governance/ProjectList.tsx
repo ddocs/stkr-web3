@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useCallback } from 'react';
+import { useRef, useEffect, useCallback } from 'react';
 import { Curtains } from '../../UiKit/Curtains';
 import { Headline1 } from '../../UiKit/Typography';
 import { t } from '../../common/utils/intl';
@@ -17,7 +17,7 @@ import {
   GovernanceActions,
   GovernanceActionTypes,
 } from '../../store/actions/GovernanceActions';
-import { Query } from '@redux-requests/react';
+import { Mutation, Query, useQuery } from '@redux-requests/react';
 import { UserActions, UserActionTypes } from '../../store/actions/UserActions';
 import { IUserInfo } from '../../store/apiMappers/userApi';
 import { QueryError } from '../../components/QueryError/QueryError';
@@ -33,21 +33,41 @@ import {
   MIN_GOVERNANCE_BALANCE,
 } from '../../common/const';
 import { IProject } from './types';
+import { IVoterStats } from '../../store/apiMappers/projectsApi';
+import BigNumber from 'bignumber.js';
 
 export const ProjectList = () => {
   const classes = useModerationStatusStyles();
   const dispatch = useDispatch();
 
+  const claimableAmount = useRef<BigNumber>();
+
   useInitEffect(() => {
     dispatch(GovernanceActions.fetchProjects());
+    dispatch(GovernanceActions.fetchClaimAmount());
   });
 
   const { isOpened, handleOpen, handleClose } = useDialog(
     DIALOG_GOVERNANCE_RULES_OF_PROPOSAL,
   );
 
+  const { data, loading } = useQuery<IVoterStats>({
+    type: GovernanceActionTypes.FETCH_CLAIM_ANKR_AMOUNT,
+  });
+
+  useEffect(() => {
+    if (data && !loading) {
+      claimableAmount.current = data.claimableAnkrRewardOf;
+    }
+  }, [data, loading]);
+
   const handleDeposit = useCallback(() => {
     dispatch(UserActions.faucet());
+  }, [dispatch]);
+
+  const handleClaim = useCallback(() => {
+    claimableAmount.current &&
+      dispatch(GovernanceActions.claimAnkr(claimableAmount.current));
   }, [dispatch]);
 
   return (
@@ -115,6 +135,34 @@ export const ProjectList = () => {
               </Button>
             </div>
           </Paper>
+          <Box display="flex" justifyContent="center" mb={6.5}>
+            <Mutation
+              type={GovernanceActionTypes.CLAIM_ANKR}
+              showLoaderDuringRefetch={true}
+            >
+              {({ loading }) => {
+                claimableAmount.current = data?.claimableAnkrRewardOf;
+                return (
+                  <>
+                    {claimableAmount.current && (
+                      <Button
+                        size="large"
+                        color="primary"
+                        fullWidth={true}
+                        className={classes.claim}
+                        onClick={handleClaim}
+                        disabled={claimableAmount.current.lte(0) || loading}
+                      >
+                        {t('project.claim', {
+                          value: claimableAmount.current.toFormat(),
+                        })}
+                      </Button>
+                    )}
+                  </>
+                );
+              }}
+            </Mutation>
+          </Box>
           <div className={classes.content}>
             <Query<IProject[] | null>
               type={GovernanceActionTypes.FETCH_PROJECTS}

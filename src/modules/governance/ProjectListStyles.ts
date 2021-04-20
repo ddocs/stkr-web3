@@ -42,4 +42,10 @@ export const useModerationStatusStyles = makeStyles(theme => ({
       marginLeft: 'auto',
     },
   },
+  claim: {
+    width: 225,
+    [theme.breakpoints.down('sm')]: {
+      width: '100%',
+    },
+  },
 }));

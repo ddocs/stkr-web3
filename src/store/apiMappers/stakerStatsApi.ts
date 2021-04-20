@@ -1,5 +1,6 @@
 import { UserStakeAction, IUserStakeReply } from '../../modules/api/gateway';
 import BigNumber from 'bignumber.js';
+import { DepositType } from '../../common/types';
 
 export interface IStakerStats {
   aEthBalance: BigNumber;
@@ -17,6 +18,7 @@ export interface IStakeHistoryItem {
   transactionHash: string;
   action: UserStakeAction;
   isTopUp: boolean;
+  type: DepositType;
 }
 
 export interface IStakingHistory {
@@ -31,6 +33,7 @@ export function mapStakeHistoryItem(data: IUserStakeReply): IStakeHistoryItem {
     transactionHash: data.transactionHash,
     action: data.action,
     isTopUp: data.isTopUp,
+    type: data.type,
   };
 }
 

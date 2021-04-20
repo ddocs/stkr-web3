@@ -7,16 +7,6 @@ export const useNodeListStyles = makeStyles<Theme>(
       width: '100%',
     },
 
-    tableInner: {
-      [theme.breakpoints.up('sm')]: {
-        minWidth: 1000,
-      },
-
-      [theme.breakpoints.up('md')]: {
-        minWidth: 0,
-      },
-    },
-
     tableCell: {
       opacity: 0,
       animationName: '$cellAnimation',

@@ -3,18 +3,27 @@ import Stkr, {
   GovernanceEvents,
   VoteStatus,
 } from '@ankr.com/stkr-jssdk';
+import { Contract } from 'web3-eth-contract';
 import { SendOptions } from 'web3-eth-contract';
 import { KeyProvider } from './provider';
 import BigNumber from 'bignumber.js';
+import web3 from 'web3';
+import { IContractConfig } from './contract';
+import ABI_Governance from '../../store/artifacts/contracts/Governance.json';
 
 export interface IJssdkManager {}
 
 const ERROR_SDK_NOT_INITIALIZED = new Error("Stkr SDK hasn't been initialized");
+const PROVIDER_MINIMUM_ANKR_STAKING_KEY = 'PROVIDER_MINIMUM_ANKR_STAKING';
 
 export class JssdkManager implements IJssdkManager {
   private stkr: Stkr | undefined = undefined;
+  protected readonly governanceContract?: Contract;
 
-  public constructor(keyProvider: KeyProvider) {
+  public constructor(
+    keyProvider: KeyProvider,
+    contractConfig?: IContractConfig,
+  ) {
     keyProvider
       .getWeb3()
       .eth.net.getId()
@@ -27,6 +36,13 @@ export class JssdkManager implements IJssdkManager {
           this.stkr = new Stkr(keyProvider.getWeb3(), networkId);
         }
       });
+
+    if (contractConfig?.governanceAddress) {
+      this.governanceContract = keyProvider.createContract(
+        ABI_Governance as any,
+        contractConfig.governanceAddress,
+      );
+    }
   }
 
   public async vote(
@@ -131,5 +147,15 @@ export class JssdkManager implements IJssdkManager {
       throw ERROR_SDK_NOT_INITIALIZED;
     }
     return this.stkr.contracts.GlobalPool.claimFETH(options);
+  }
+
+  public async getMinimumStakingAmount(): Promise<BigNumber> {
+    if (!this.governanceContract) {
+      throw new Error('Governance contract is not available');
+    }
+    const setting = await this.governanceContract.methods
+      .getConfig(web3.utils.asciiToHex(PROVIDER_MINIMUM_ANKR_STAKING_KEY))
+      .call();
+    return new BigNumber(setting.toString());
   }
 }

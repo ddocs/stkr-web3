@@ -3,7 +3,7 @@ export type AlignType = 'center' | 'right' | 'left';
 
 export interface IStyleProps {
   alignCell?: AlignType;
-  defense?: boolean;
+  dense?: boolean;
   paddingCollapse?: boolean;
   stickyHeader?: boolean;
 }

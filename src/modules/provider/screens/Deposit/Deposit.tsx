@@ -11,6 +11,7 @@ import {
   PROVIDE_MIN_BALANCE,
   PROVIDER_DEPOSIT_ROUTE,
   PROVIDER_NODE_LIST_PATH,
+  PROVIDER_DEPOSIT_LIST_PATH,
 } from '../../../../common/const';
 import { DepositType } from '../../../../common/types';
 import { FormErrors } from '../../../../common/types/FormErrors';
@@ -79,10 +80,11 @@ export const DepositComponent = ({
 
   const INIT_VALUES = useMemo(
     () => ({
-      [DEPOSIT_TYPE_FIELD_NAME]: DepositType.ETH,
+      [DEPOSIT_TYPE_FIELD_NAME]:
+        currency === TopUpCurreny.ankr ? DepositType.ANKR : DepositType.ETH,
       [ETH_AMOUNT_FIELD_NAME]: maxStakingAmount,
     }),
-    [maxStakingAmount],
+    [maxStakingAmount, currency],
   );
 
   const render = useCallback(
@@ -176,11 +178,12 @@ export const Deposit = () => {
   );
 
   const handleCancel = useCallback(() => {
-    history.goBack();
+    history.push(PROVIDER_DEPOSIT_LIST_PATH);
   }, [history]);
 
   const { type = TopUpCurreny.eth } = useParams() as { type: TopUpCurreny };
   const { push } = useHistory();
+
   const handleChange = useCallback(
     (event: ChangeEvent<Record<string, unknown>>, value: TopUpCurreny) => {
       push(generatePath(PROVIDER_DEPOSIT_ROUTE, { type: value }));
@@ -220,7 +223,7 @@ export const Deposit = () => {
           onSubmit={handleSubmit}
           ankrBalance={accountData?.ankrBalance}
           ethereumBalance={accountData?.ethereumBalance}
-          deposited={providerStats?.balance}
+          deposited={providerStats?.ethBalance}
           currency={type}
         />
       </Paper>

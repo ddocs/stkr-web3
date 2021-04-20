@@ -1,35 +1,34 @@
-import { WithStyles, withStyles } from '@material-ui/core';
 import classNames from 'classnames';
 import React, { ReactNode } from 'react';
 import { createPureContext } from 'react-shallow-context';
 import { ICustomProps, IStyleProps } from '../types';
-import { tableStyles } from './TableStyles';
+import { useTableStyles } from './TableStyles';
 
 type TableContextType = {
   count: number;
 } & Pick<
   ITableComponentProps,
-  'defense' | 'paddingCollapse' | 'customCell' | 'alignCell' | 'stickyHeader'
+  'dense' | 'paddingCollapse' | 'customCell' | 'alignCell' | 'stickyHeader'
 >;
 
 export const TableContext = createPureContext<TableContextType>({
   count: 0,
 } as TableContextType);
 
-interface ITableComponentProps
-  extends WithStyles<typeof tableStyles>,
-    ICustomProps,
-    IStyleProps {
+interface ITableComponentProps extends ICustomProps, IStyleProps {
   className?: string;
   columnsCount: number;
   children: ReactNode;
+  minWidth?: string | number;
 }
 
 const TableComponent = ({
   className,
   children,
-  classes,
+  minWidth,
 }: ITableComponentProps) => {
+  const classes = useTableStyles({ minWidth });
+
   return (
     <div className={classNames(classes.container, className)}>
       <div className={classes.table} role="grid">
@@ -41,11 +40,11 @@ const TableComponent = ({
 
 export type ITableProps = ITableComponentProps;
 
-export const Table = withStyles(tableStyles)((props: ITableProps) => {
+export const Table = (props: ITableProps) => {
   return (
     <TableContext.Provider
       value={{
-        defense: props.defense,
+        dense: props.dense,
         paddingCollapse: props.paddingCollapse,
         customCell: props.customCell,
         alignCell: props.alignCell,
@@ -56,4 +55,4 @@ export const Table = withStyles(tableStyles)((props: ITableProps) => {
       <TableComponent {...props} />
     </TableContext.Provider>
   );
-});
+};
