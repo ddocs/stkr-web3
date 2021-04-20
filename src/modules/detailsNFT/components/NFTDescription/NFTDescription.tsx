@@ -16,10 +16,10 @@ interface INFTDescriptionProps {
 }
 
 export const NFTDescription = ({
-                                 className,
-                                 name,
-                                 description,
-                               }: INFTDescriptionProps) => {
+  className,
+  name,
+  description,
+}: INFTDescriptionProps) => {
   const classes = useNFTDescriptionStyles();
   const [expanded, setExpanded] = useState(false);
   const [truncated, setTruncated] = useState(false);
