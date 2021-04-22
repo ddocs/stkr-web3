@@ -48,13 +48,16 @@ export function DepositAnkrTimeline({
       <TimelineItem>
         <TimelineSeparator>
           <TimelineStatusDot
-            status={getTimelineDotStatus(DepositAnkrStep.DEPOSIT, current)}
+            status={getTimelineDotStatus(
+              DepositAnkrStep.TRANSFER_TOKENS,
+              current,
+            )}
           />
           <TimelineConnector />
         </TimelineSeparator>
         <TimelineContent
           className={classNames(
-            current !== DepositAnkrStep.DEPOSIT &&
+            current !== DepositAnkrStep.TRANSFER_TOKENS &&
               classes.timelineNotCurrentContent,
           )}
         >
@@ -82,12 +85,13 @@ export function DepositAnkrTimeline({
       <TimelineItem>
         <TimelineSeparator>
           <TimelineStatusDot
-            status={getTimelineDotStatus(DepositAnkrStep.TOP_UP, current)}
+            status={getTimelineDotStatus(DepositAnkrStep.DEPOSIT, current)}
           />
         </TimelineSeparator>
         <TimelineContent
           className={classNames(
-            current !== DepositAnkrStep.TOP_UP &&
+            current !== DepositAnkrStep.DEPOSIT &&
+              current !== DepositAnkrStep.TOP_UP &&
               classes.timelineNotCurrentContent,
           )}
         >

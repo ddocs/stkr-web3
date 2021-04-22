@@ -149,6 +149,16 @@ export class JssdkManager implements IJssdkManager {
     return this.stkr.contracts.GlobalPool.claimFETH(options);
   }
 
+  public async availableDepositsOf(address: string) {
+    if (!this.governanceContract) {
+      throw new Error('Governance contract is not available');
+    }
+
+    return await this.governanceContract.methods
+      .availableDepositsOf(address)
+      .call();
+  }
+
   public async getMinimumStakingAmount(): Promise<BigNumber> {
     if (!this.governanceContract) {
       throw new Error('Governance contract is not available');

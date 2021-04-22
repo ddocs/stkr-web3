@@ -20,19 +20,25 @@ import { Button } from '../../../../UiKit/Button';
 import { DepositAnkrTimeline } from './DepositAnkrTimeline';
 import { useDepositStyles } from './DepositStyles';
 
+// TODO Take it from config contract
+export const MIN_NODE_DEPOSIT = 25000;
+
 export enum DepositAnkrStep {
-  'DEPOSIT',
+  'TRANSFER_TOKENS',
   'ALLOWANCE',
+  'DEPOSIT',
   'TOP_UP',
 }
 
 interface IDepositAnkrFormProps {
   ankrBalance?: BigNumber;
+  depositedAnkrBalance?: BigNumber;
 }
 
 export const DepositAnkrForm = ({
   handleSubmit,
   ankrBalance,
+  depositedAnkrBalance,
 }: FormRenderProps<any> & IDepositAnkrFormProps) => {
   const classes = useDepositStyles();
   const dispatch = useDispatch();
@@ -106,9 +112,17 @@ export const DepositAnkrForm = ({
             );
           }
 
-          const step = remainingAllowance.isGreaterThan(0)
-            ? DepositAnkrStep.ALLOWANCE
-            : DepositAnkrStep.TOP_UP;
+          const step = (() => {
+            if (
+              depositedAnkrBalance?.isGreaterThanOrEqualTo(MIN_NODE_DEPOSIT)
+            ) {
+              return DepositAnkrStep.TOP_UP;
+            }
+
+            return remainingAllowance.isGreaterThan(0)
+              ? DepositAnkrStep.ALLOWANCE
+              : DepositAnkrStep.DEPOSIT;
+          })();
 
           return (
             <Grid container={true} spacing={5}>
@@ -149,6 +163,23 @@ export const DepositAnkrForm = ({
                         )}
                       </Mutation>
                     </>
+                  ) : step === DepositAnkrStep.TOP_UP ? (
+                    <Mutation type={UserActionTypes.TOP_UP}>
+                      {({ loading }) => (
+                        <Button
+                          color="primary"
+                          size="large"
+                          variant="contained"
+                          submit
+                          aria-label="submit"
+                          disabled={loading}
+                        >
+                          {t('top-up.submit.ankr-top-up', {
+                            value: depositedAnkrBalance?.toFormat(),
+                          })}
+                        </Button>
+                      )}
+                    </Mutation>
                   ) : (
                     <Mutation type={UserActionTypes.TOP_UP}>
                       {({ loading }) => (

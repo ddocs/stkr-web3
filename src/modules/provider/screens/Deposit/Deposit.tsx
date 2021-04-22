@@ -27,7 +27,7 @@ import { IProviderStats } from '../../../../store/apiMappers/providerStatsApi';
 import { IUserInfo } from '../../../../store/apiMappers/userApi';
 import { CancelIcon } from '../../../../UiKit/Icons/CancelIcon';
 import { Headline2 } from '../../../../UiKit/Typography';
-import { DepositAnkrForm } from './DepositAnkrForm';
+import { DepositAnkrForm, MIN_NODE_DEPOSIT } from './DepositAnkrForm';
 import { DepositEthForm } from './DepositEthForm';
 import { useDepositStyles } from './DepositStyles';
 import { useFeaturesAvailable } from '../../../../common/hooks/useFeaturesAvailable';
@@ -51,7 +51,8 @@ interface IDepositProps {
   onSubmit(x: IDepositPayload): void;
   ankrBalance?: BigNumber;
   ethereumBalance?: BigNumber;
-  deposited?: BigNumber;
+  depositedEth?: BigNumber;
+  depositedAnkrBalance?: BigNumber;
   currency: TopUpCurreny;
 }
 
@@ -59,8 +60,9 @@ export const DepositComponent = ({
   onSubmit,
   ankrBalance,
   ethereumBalance,
+  depositedEth,
+  depositedAnkrBalance,
   currency,
-  deposited,
 }: IDepositProps) => {
   const { stakingAmountStep } = useFeaturesAvailable();
 
@@ -73,8 +75,8 @@ export const DepositComponent = ({
   );
 
   const minStakingAmount = useMemo(
-    () => (deposited?.gt(0) ? stakingAmountStep : PROVIDE_MIN_BALANCE),
-    [deposited, stakingAmountStep],
+    () => (depositedEth?.gt(0) ? stakingAmountStep : PROVIDE_MIN_BALANCE),
+    [depositedEth, stakingAmountStep],
   );
 
   const INIT_VALUES = useMemo(
@@ -89,11 +91,15 @@ export const DepositComponent = ({
   const render = useCallback(
     formProps =>
       currency === TopUpCurreny.ankr ? (
-        <DepositAnkrForm ankrBalance={ankrBalance} {...formProps} />
+        <DepositAnkrForm
+          ankrBalance={ankrBalance}
+          depositedAnkrBalance={depositedAnkrBalance}
+          {...formProps}
+        />
       ) : (
-        <DepositEthForm deposited={deposited} {...formProps} />
+        <DepositEthForm deposited={depositedEth} {...formProps} />
       ),
-    [ankrBalance, currency, deposited],
+    [ankrBalance, currency, depositedEth, depositedAnkrBalance],
   );
 
   const validateTopUpForm = useCallback(
@@ -163,7 +169,13 @@ export const Deposit = () => {
       } else {
         if (allowanceData) {
           dispatch(
-            UserActions.topUp(allowanceData.totalAllowance, DepositType.ANKR),
+            UserActions.topUp(
+              allowanceData.totalAllowance,
+              DepositType.ANKR,
+              providerStats?.depositedAnkrBalance.isGreaterThanOrEqualTo(
+                MIN_NODE_DEPOSIT,
+              ),
+            ),
           ).then(data => {
             if (data.action.type === success(UserActionTypes.TOP_UP)) {
               history.push(PROVIDER_NODE_LIST_PATH);
@@ -173,7 +185,7 @@ export const Deposit = () => {
       }
       // TODO Handle exception
     },
-    [allowanceData, dispatch, history],
+    [allowanceData, dispatch, history, providerStats?.depositedAnkrBalance],
   );
 
   const handleCancel = useCallback(() => {
@@ -221,7 +233,8 @@ export const Deposit = () => {
           onSubmit={handleSubmit}
           ankrBalance={accountData?.ankrBalance}
           ethereumBalance={accountData?.ethereumBalance}
-          deposited={providerStats?.ethBalance}
+          depositedEth={providerStats?.ethBalance}
+          depositedAnkrBalance={providerStats?.depositedAnkrBalance}
           currency={type}
         />
       </Paper>

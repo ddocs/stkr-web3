@@ -488,11 +488,17 @@ export const UserActions = {
           .getContractManager()
           .providerLockedEtherOf(stkrSdk.getKeyProvider().currentAccount());
 
+        const depositedAnkrBalance = await stkrSdk.getDepositedBalance();
+
         const providerAnkrBalance = await stkrSdk
           .getContractManager()
           .toppedUpAnkrDeposit(stkrSdk.getKeyProvider().currentAccount());
 
-        return { providerEthBalance, providerAnkrBalance };
+        return {
+          providerEthBalance,
+          providerAnkrBalance,
+          depositedAnkrBalance,
+        };
       })(),
     },
     meta: {
@@ -587,7 +593,7 @@ export const UserActions = {
       },
     },
   })),
-  topUp: (amount: BigNumber, type: DepositType) => ({
+  topUp: (amount: BigNumber, type: DepositType, skipDeposit?: boolean) => ({
     type: UserActionTypes.TOP_UP,
     request: {
       promise: (async function () {
@@ -597,9 +603,11 @@ export const UserActions = {
           return stkrSdk.topUpETH(amount);
         }
 
-        await stkrSdk
-          .getContractManager()
-          .depositAnkr(stkrSdk.getKeyProvider().currentAccount());
+        if (!skipDeposit) {
+          await stkrSdk
+            .getContractManager()
+            .depositAnkr(stkrSdk.getKeyProvider().currentAccount());
+        }
 
         return stkrSdk.topUpANKR(amount);
       })(),
