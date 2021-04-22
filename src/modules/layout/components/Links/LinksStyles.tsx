@@ -19,7 +19,7 @@ export const useLinksStyles = makeStyles<Theme>(theme => ({
     },
 
     [theme.breakpoints.up('xl')]: {
-      gap: theme.spacing(0, 8),
+      gap: theme.spacing(0, 4.5),
     },
   },
   item: {

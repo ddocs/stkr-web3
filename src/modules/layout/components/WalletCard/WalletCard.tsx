@@ -1,11 +1,10 @@
 import classNames from 'classnames';
 import React, { ReactNode, useEffect, useState } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
+import { useConnect } from '../../../../common/hooks/useConnect';
 import { walletConversion } from '../../../../common/utils/convertWallet';
 import { getWalletLink } from '../../../../common/utils/getWalletLink';
 import { t } from '../../../../common/utils/intl';
-import { UserActions } from '../../../../store/actions/UserActions';
-import { useAction } from '../../../../store/redux';
 import { BackgroundColorProvider } from '../../../../UiKit/BackgroundColorProvider';
 import { Button } from '../../../../UiKit/Button';
 import { CopiedIcon } from '../../../../UiKit/Icons/CopiedIcon';
@@ -33,9 +32,8 @@ export const WalletCard = ({
   name = t('providers.wallet-thumb'),
   icon,
 }: IWalletProps) => {
+  const { dispatchDisconnect } = useConnect();
   const classes = useWalletCardStyles({ icon });
-  const dispatchDisconnect = useAction(UserActions.disconnect);
-
   const [isCopy, setCopy] = useState<boolean>(false);
 
   useEffect(() => {

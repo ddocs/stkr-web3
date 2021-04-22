@@ -5,6 +5,8 @@ import {
   ABOUT_AETH_PATH,
   ABOUT_SMARTCHAIN_PATH,
   ANKR_IFRAME_PATH,
+  BRIDGE_PATH,
+  BRIDGE_RECOVERY_PATH,
   CONVERT_ROUTE,
   FEATURES_PATH,
   GOVERNANCE_CREATE_PROJECT_PATH,
@@ -196,6 +198,28 @@ const LoadableConvertContainer = loadable(
   },
 );
 
+const LoadableBridgeContainer = withDefaultLayout(
+  loadable(
+    async () =>
+      import('./modules/cross-chain-bridge').then(module => module.Bridge),
+    {
+      fallback: <QueryLoadingAbsolute />,
+    },
+  ) as LoadableComponent<any>,
+);
+
+const LoadableBridgeRecoverContainer = withDefaultLayout(
+  loadable(
+    async () =>
+      import('./modules/cross-chain-bridge').then(
+        module => module.BridgeRecovery,
+      ),
+    {
+      fallback: <QueryLoadingAbsolute />,
+    },
+  ) as LoadableComponent<any>,
+);
+
 const LoadableAboutSmartchainContainer = withDefaultLayout(
   loadable(
     async () =>
@@ -278,11 +302,6 @@ export function Routes() {
         exact={true}
       />
       <Route
-        path={ABOUT_AETH_PATH}
-        component={AboutAethContainer}
-        exact={true}
-      />
-      <Route
         path={ABOUT_SMARTCHAIN_PATH}
         component={LoadableAboutSmartchainContainer}
         exact={true}
@@ -291,6 +310,16 @@ export function Routes() {
       <PrivateRoute
         path={CONVERT_ROUTE}
         component={LoadableConvertContainer}
+        exact={true}
+      />
+      <Route
+        path={BRIDGE_PATH}
+        component={LoadableBridgeContainer}
+        exact={true}
+      />
+      <Route
+        path={BRIDGE_RECOVERY_PATH}
+        component={LoadableBridgeRecoverContainer}
         exact={true}
       />
       <PrivateRoute component={PageNotFound} />

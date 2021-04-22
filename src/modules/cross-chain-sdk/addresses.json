@@ -1,0 +1,10 @@
+{
+  "5": {
+    "CrossChainBridge": "0x8D3588C8c6091423CA31279DFE40892468Fc26cD",
+    "Migrations": "0x80de5ecE99d8fEeaf88FB17761877280AC764193"
+  },
+  "97": {
+    "CrossChainBridge": "0x61b06Bc2D44C419C8746533adfD34CFaF2897114",
+    "Migrations": "0xC664384201c1975E97AB562797Be2A2c5e8095D0"
+  }
+}

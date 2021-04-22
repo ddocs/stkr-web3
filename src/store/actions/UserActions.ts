@@ -7,7 +7,12 @@ import { Store } from 'redux';
 import { createAction } from 'redux-actions';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 import Web3 from 'web3';
-import { CONVERT_ROUTE, FEATURES_PATH, isMainnet } from '../../common/const';
+import {
+  CONVERT_ROUTE,
+  FEATURES_PATH,
+  INDEX_PATH,
+  isMainnet,
+} from '../../common/const';
 import { Blockchain, DepositType, Locale, Provider } from '../../common/types';
 import { authenticatedRequestGuard } from '../../common/utils/authenticatedRequestGuard';
 import { update } from '../../common/utils/update';
@@ -162,13 +167,23 @@ export const UserActions = {
     },
   }),
   // TODO Positive expectation response
-  disconnect: () => ({
+  disconnect: (redirectOnSuccess: string = INDEX_PATH) => ({
     type: UserActionTypes.DISCONNECT,
     request: {
       promise: (async function () {
         const stkrSdk = StkrSdk.getForEnv();
         return await stkrSdk.disconnect();
       })(),
+    },
+    meta: {
+      onSuccess: (
+        request: any,
+        _action: RequestAction,
+        store: Store<IStoreState>,
+      ) => {
+        store.dispatch(replace(redirectOnSuccess));
+        return request;
+      },
     },
   }),
   fetchAccountData: () => ({

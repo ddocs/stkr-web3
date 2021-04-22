@@ -1,23 +1,20 @@
 import * as React from 'react';
-import { useRef, useEffect, useCallback } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { Curtains } from '../../UiKit/Curtains';
 import { Headline1 } from '../../UiKit/Typography';
 import { t } from '../../common/utils/intl';
 import { Box, Button, IconButton, Paper, Typography } from '@material-ui/core';
-import { ReactComponent as PlusIcon } from './assets/plus.svg';
-import { ProjectListItem } from './components/ProjectListItem';
-import { useModerationStatusStyles } from './ProjectListStyles';
-import classNames from 'classnames';
-import { RulesDialog } from './components/RulesDialog';
-import { useDialog } from '../../store/dialogs/selectors';
-import { DIALOG_GOVERNANCE_RULES_OF_PROPOSAL } from '../../store/dialogs/actions';
-import { useDispatch } from 'react-redux';
-import { useInitEffect } from '../../common/hooks/useInitEffect';
-import {
-  GovernanceActions,
-  GovernanceActionTypes,
-} from '../../store/actions/GovernanceActions';
 import { Mutation, Query, useQuery } from '@redux-requests/react';
+import classNames from 'classnames';
+import { useDispatch } from 'react-redux';
+import {
+  ANKR_DEPOSIT_LINK,
+  DEFAULT_FIXED,
+  isMainnet,
+  MIN_GOVERNANCE_BALANCE,
+} from '../../common/const';
+import { useInitEffect } from '../../common/hooks/useInitEffect';
+import { QueryEmpty } from '../../components/QueryEmpty/QueryEmpty';
 import { UserActions, UserActionTypes } from '../../store/actions/UserActions';
 import { IUserInfo } from '../../store/apiMappers/userApi';
 import { QueryError } from '../../components/QueryError/QueryError';
@@ -25,13 +22,16 @@ import {
   QueryLoading,
   QueryLoadingAbsolute,
 } from '../../components/QueryLoading/QueryLoading';
-import { QueryEmpty } from '../../components/QueryEmpty/QueryEmpty';
 import {
-  ANKR_DEPOSIT_LINK,
-  DEFAULT_FIXED,
-  isMainnet,
-  MIN_GOVERNANCE_BALANCE,
-} from '../../common/const';
+  GovernanceActions,
+  GovernanceActionTypes,
+} from '../../store/actions/GovernanceActions';
+import { DIALOG_GOVERNANCE_RULES_OF_PROPOSAL } from '../../store/dialogs/actions';
+import { useDialog } from '../../store/dialogs/selectors';
+import { ReactComponent as PlusIcon } from './assets/plus.svg';
+import { ProjectListItem } from './components/ProjectListItem';
+import { RulesDialog } from './components/RulesDialog';
+import { useModerationStatusStyles } from './ProjectListStyles';
 import { IProject } from './types';
 import { IVoterStats } from '../../store/apiMappers/projectsApi';
 import BigNumber from 'bignumber.js';

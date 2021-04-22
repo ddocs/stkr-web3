@@ -1,5 +1,4 @@
 import { getQuery, resetRequests, success } from '@redux-requests/core';
-import { replace } from 'connected-react-router';
 import { END, eventChannel } from 'redux-saga';
 import {
   call,
@@ -11,7 +10,8 @@ import {
   take,
   takeEvery,
 } from 'redux-saga/effects';
-import { INDEX_PATH } from '../../common/const';
+import { BRIDGE_PATH, BRIDGE_RECOVERY_PATH } from '../../common/const';
+import { historyInstance } from '../../common/utils/historyInstance';
 import { pushEvent } from '../../common/utils/pushEvent';
 import { StkrSdk } from '../../modules/api';
 import {
@@ -20,7 +20,11 @@ import {
   KeyProviderEvent,
   KeyProviderEvents,
 } from '../../modules/api/event';
-import { GovernanceActions } from '../actions/GovernanceActions';
+import {
+  GovernanceActions,
+  GovernanceActionTypes,
+} from '../actions/GovernanceActions';
+import { NotificationActionsTypes } from '../actions/NotificationActions';
 import { UserActions, UserActionTypes } from '../actions/UserActions';
 import { IConnectResponse } from '../apiMappers/connectApi';
 import { IUserInfo } from '../apiMappers/userApi';
@@ -51,6 +55,9 @@ function createEventChannel() {
 
 function* listenKeyProviderEvents() {
   const channel = yield call(createEventChannel);
+  const isBridgePath = historyInstance.location.pathname === BRIDGE_PATH;
+  const isBridgeRecoveryPath =
+    historyInstance.location.pathname === BRIDGE_RECOVERY_PATH;
 
   try {
     while (true) {
@@ -59,6 +66,14 @@ function* listenKeyProviderEvents() {
       );
 
       if (event.type === KeyProviderEvents.ChainChanged) {
+        if (isBridgePath) {
+          yield put(UserActions.disconnect(BRIDGE_PATH));
+          return;
+        } else if (isBridgeRecoveryPath) {
+          yield put(UserActions.disconnect(BRIDGE_RECOVERY_PATH));
+          return;
+        }
+
         yield put(UserActions.disconnect());
         setTimeout(() => {
           window.location.reload();
@@ -75,12 +90,27 @@ function* listenKeyProviderEvents() {
         });
 
         if (currentAddress.toLowerCase() !== address?.toLowerCase()) {
-          yield put(UserActions.disconnect());
-          setTimeout(() => {
-            window.location.reload();
-          });
+          if (isBridgePath) {
+            yield put(UserActions.disconnect(BRIDGE_PATH));
+          } else if (isBridgeRecoveryPath) {
+            yield put(UserActions.disconnect(BRIDGE_RECOVERY_PATH));
+            return;
+          } else {
+            yield put(UserActions.disconnect());
+            setTimeout(() => {
+              window.location.reload();
+            });
+          }
         }
       } else if (event.type === KeyProviderEvents.Disconnect) {
+        if (isBridgePath) {
+          yield put(UserActions.disconnect(BRIDGE_PATH));
+          return;
+        } else if (isBridgeRecoveryPath) {
+          yield put(UserActions.disconnect(BRIDGE_RECOVERY_PATH));
+          return;
+        }
+
         yield put(UserActions.disconnect());
         setTimeout(() => {
           window.location.reload();
@@ -156,8 +186,13 @@ function* onConnectSuccess(action: {
 }
 
 function* onDisconnectSuccess() {
-  yield put(resetRequests());
-  yield put(replace(INDEX_PATH));
+  const actions = [
+    ...Object.keys(UserActionTypes),
+    ...Object.keys(GovernanceActionTypes),
+    ...Object.keys(NotificationActionsTypes),
+  ];
+
+  yield put(resetRequests(actions));
   try {
     // TODO Can be excess
     const stkrSdk = StkrSdk.getForEnv();

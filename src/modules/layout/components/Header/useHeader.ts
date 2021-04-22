@@ -1,13 +1,12 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { useLocation } from 'react-router';
 import { PROVIDER_PATH, STAKER_DASHBOARD_PATH } from '../../../../common/const';
+import { useConnect } from '../../../../common/hooks/useConnect';
 import {
   useIsLGUp,
   useIsMDUp,
   useIsSMUp,
 } from '../../../../common/hooks/useTheme';
-import { UserActions } from '../../../../store/actions/UserActions';
 import { useHeaderStyles } from './HeaderStyles';
 
 const FILTERED_ERRORS = ['Modal closed by user'];
@@ -18,10 +17,10 @@ function isFilteredError(error: any) {
 }
 
 export const useHeader = () => {
+  const { dispatchConnect } = useConnect();
   const isLGUp = useIsLGUp();
   const isSMUp = useIsSMUp();
   const isMDUp = useIsMDUp();
-  const dispatch = useDispatch();
   const modalControlRef = useRef<HTMLButtonElement>(null);
   const [mobileNavShowed, setMobileNavShowed] = useState(false);
   const location = useLocation();
@@ -42,10 +41,6 @@ export const useHeader = () => {
   const handleMobileNavOpen = useCallback(() => setMobileNavShowed(true), []);
   const handleMobileNavClose = useCallback(() => setMobileNavShowed(false), []);
 
-  const handleConnect = useCallback(() => {
-    dispatch(UserActions.connect());
-  }, [dispatch]);
-
   return {
     mobileNavShowed,
     modalControlRef,
@@ -55,7 +50,7 @@ export const useHeader = () => {
     isMDUp,
     isSMUp,
     isFilteredError,
-    handleConnect,
+    handleConnect: dispatchConnect,
     handleMobileNavClose,
     handleMobileNavOpen,
   };

@@ -20,7 +20,6 @@ import { useParams } from 'react-router';
 import { Link as RouterLink } from 'react-router-dom';
 import { GOVERNANCE_PROJECT_LIST_PATH } from '../../common/const';
 import { FormErrors } from '../../common/types/FormErrors';
-import { convertToDuration } from '../../common/utils/convertToDuration';
 import { getProgress } from '../../common/utils/getProgress';
 import { t, tHTML } from '../../common/utils/intl';
 import { MutationErrorHandler } from '../../components/MutationErrorHandler/MutationErrorHandler';
@@ -43,6 +42,7 @@ import { CancelIcon } from '../../UiKit/Icons/CancelIcon';
 import { SliderField } from '../../UiKit/RangeField';
 import { HowItWorksDialog } from './components/HowItWorksDialog';
 import { ModerationStatusLed } from './components/ModerationStatusLed';
+import { Timer } from './components/Timer';
 import { VoteField } from './components/VoteField';
 import { useProjectStyles } from './ProjectStyles';
 import { IProject } from './types';
@@ -158,9 +158,8 @@ export const Project = () => {
                       color="textSecondary"
                       className={classes.time}
                     >
-                      {tHTML('project.time-left', {
-                        value: convertToDuration(new Date(), project.endTime),
-                      })}
+                      <span className="bold">{tHTML('project.time-left')}</span>{' '}
+                      <Timer component="span" endTime={project.endTime} />
                     </Typography>
 
                     <Divider className={classes.divider} />

@@ -5,6 +5,7 @@ import { Provider } from '../../../../common/types';
 import { t } from '../../../../common/utils/intl';
 import { QueryError } from '../../../../components/QueryError/QueryError';
 import { UserActionTypes } from '../../../../store/actions/UserActions';
+import { IStakerStats } from '../../../../store/apiMappers/stakerStatsApi';
 import { IUserInfo } from '../../../../store/apiMappers/userApi';
 import { IStoreState } from '../../../../store/reducers';
 import { isConnected } from '../../../../store/reducers/userReducer';
@@ -17,6 +18,10 @@ export const Header = () => {
 
   const { data, error } = useQuery<IUserInfo | null>({
     type: UserActionTypes.FETCH_ACCOUNT_DATA,
+  });
+
+  const stakerStatsQuery = useQuery<IStakerStats | null>({
+    type: UserActionTypes.FETCH_STAKER_STATS,
   });
 
   const isBinance = data?.walletType === Provider.binance;
@@ -35,6 +40,7 @@ export const Header = () => {
       ethereumBalance={data?.ethereumBalance}
       ankrBalance={data?.ankrBalance}
       bnbBalance={data?.bnbBalance}
+      aEthBalance={stakerStatsQuery.data?.aEthBalance}
     />
   );
 

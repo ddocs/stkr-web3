@@ -13,6 +13,7 @@ import { ContractManagerEvent } from './event';
 import {
   ApiGateway,
   IGlobalStatsReply,
+  INotarizeTransferReply,
   ISidecarReply,
   IStakerStats,
   IUserStakeReply,
@@ -144,6 +145,11 @@ export interface IStkrSdk extends IStakerSdk, IProviderSdk, IGovernanceSdk {
   currentAccount(): string;
 
   getGlobalStats(): Promise<IGlobalStatsReply>;
+
+  notarizeTransfer(
+    fromChain: string,
+    txHash: string,
+  ): Promise<INotarizeTransferReply>;
 }
 
 export class StkrSdk implements IStkrSdk {
@@ -575,5 +581,12 @@ export class StkrSdk implements IStkrSdk {
 
   public async getProposalInfo(proposalId: string) {
     return this.getJssdkManager().getProposalInfo(proposalId);
+  }
+
+  public async notarizeTransfer(fromChain: string, txHash: string) {
+    return this.apiGateway.notarizeTransfer({
+      fromChain: fromChain,
+      transactionHash: txHash,
+    });
   }
 }

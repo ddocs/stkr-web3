@@ -1,8 +1,11 @@
 import { Box } from '@material-ui/core';
-import React, { useCallback } from 'react';
+import BigNumber from 'bignumber.js';
+import React, { ReactNode, useCallback } from 'react';
 import { Field, Form, FormRenderProps } from 'react-final-form';
+import { DEFAULT_FIXED } from '../../../../common/const';
 import { FormErrors } from '../../../../common/types/FormErrors';
 import { t } from '../../../../common/utils/intl';
+import { QueryLoading } from '../../../../components/QueryLoading/QueryLoading';
 import { Button } from '../../../../UiKit/Button';
 import { InputField } from '../../../../UiKit/InputField';
 import { Body2 } from '../../../../UiKit/Typography';
@@ -14,44 +17,67 @@ const MIN_AMOUNT = 0;
 export interface IBridgeFormValues {
   amount: string | number;
   address: string;
+  txHash: string;
 }
 
 export interface iBridgeFormProps {
-  balance?: string | number;
+  balance?: BigNumber;
   balanceType?: string;
   onSubmit: (values: IBridgeFormValues) => void;
   submitDisabled?: boolean;
-  additionalText?: string;
+  additionalText?: ReactNode;
+  isBalanceLoading?: boolean;
+  isLoading?: boolean;
 }
 
 export const BridgeForm = ({
-  balance = '0',
+  balance,
   balanceType = 'aETH',
   onSubmit,
   submitDisabled = false,
   additionalText,
+  isBalanceLoading = false,
+  isLoading = false,
 }: iBridgeFormProps) => {
   const classes = useBridgeFormStyles();
-  const maxAmount = +balance;
+  const zeroBalance = new BigNumber(0);
+  const withBalance = !!balance;
+  const withHashField = !withBalance && !isBalanceLoading;
+  const maxAmount = balance || zeroBalance;
+  const roundedBalance = balance
+    ? balance.decimalPlaces(DEFAULT_FIXED).toFormat()
+    : '0';
 
   const validate = useCallback(
-    ({ amount, address }: IBridgeFormValues) => {
+    ({ amount, address, txHash }: IBridgeFormValues) => {
+      const currentAmount = new BigNumber(amount);
+      const minAmount = new BigNumber(MIN_AMOUNT);
       const errors: FormErrors<IBridgeFormValues> = {};
       const isAddress =
         address && address.length === 42 && address.slice(0, 2) === '0x';
+      const isTransaction =
+        txHash && txHash.length === 66 && txHash.slice(0, 2) === '0x';
 
       if (!amount) {
         errors.amount = t('validation.required');
-      } else if (isNaN(+amount)) {
+      } else if (currentAmount.isNaN()) {
         errors.amount = t('validation.numberOnly');
-      } else if (+amount <= MIN_AMOUNT) {
+      } else if (currentAmount.isLessThanOrEqualTo(minAmount)) {
         errors.amount = t('validation.min', {
           value: MIN_AMOUNT,
         });
-      } else if (+amount > maxAmount) {
+      } else if (withBalance && currentAmount.isGreaterThan(maxAmount)) {
         errors.amount = t('validation.max', {
           value: maxAmount,
         });
+      }
+
+      if (withHashField) {
+        if (!txHash) {
+          errors.txHash = t('validation.required');
+        } else if (!isTransaction) {
+          errors.txHash = t('validation.invalid-txn-format');
+        }
       }
 
       if (!address) {
@@ -62,7 +88,7 @@ export const BridgeForm = ({
 
       return errors;
     },
-    [maxAmount],
+    [maxAmount, withBalance, withHashField],
   );
 
   const renderForm = ({
@@ -72,9 +98,18 @@ export const BridgeForm = ({
     return (
       <form onSubmit={handleSubmit} autoComplete="off">
         <Box mb={4}>
-          <Body2 className={classes.balance} color="textSecondary">
-            {t('cross-chain-bridge.form.balance')}: {balance} {balanceType}
-          </Body2>
+          {(withBalance || isBalanceLoading) && (
+            <Body2 className={classes.balance} color="textSecondary">
+              {t('cross-chain-bridge.form.balance')}:{' '}
+              {isBalanceLoading ? (
+                <div className={classes.loadingBox}>
+                  <QueryLoading size={16} />
+                </div>
+              ) : (
+                `${roundedBalance} ${balanceType}`
+              )}
+            </Body2>
+          )}
 
           <Field
             classes={{ root: classes.input }}
@@ -85,7 +120,7 @@ export const BridgeForm = ({
             variant="outlined"
             disabled={submitDisabled}
             InputProps={{
-              endAdornment: (
+              endAdornment: withBalance && (
                 <Button
                   className={classes.maxBtn}
                   variant="outlined"
@@ -108,12 +143,25 @@ export const BridgeForm = ({
             component={InputField}
             name="address"
             label={t('cross-chain-bridge.form.address')}
-            placeholder="0x63c6c732d603338AB1AeBA137aA79CDa6EFfb350"
             variant="outlined"
             disabled={submitDisabled}
             fullWidth
           />
         </Box>
+
+        {withHashField && (
+          <Box mb={4}>
+            <Field
+              classes={{ root: classes.input }}
+              component={InputField}
+              name="txHash"
+              label={t('cross-chain-bridge.form.txHash')}
+              variant="outlined"
+              disabled={submitDisabled}
+              fullWidth
+            />
+          </Box>
+        )}
 
         <Box textAlign="center" mt={8}>
           {additionalText && (
@@ -122,7 +170,11 @@ export const BridgeForm = ({
             </Body2>
           )}
 
-          <BigButton type="submit" disabled={submitDisabled}>
+          <BigButton
+            type="submit"
+            disabled={submitDisabled}
+            isLoading={isLoading}
+          >
             {t('cross-chain-bridge.form.btn-next')}
           </BigButton>
         </Box>
@@ -134,7 +186,7 @@ export const BridgeForm = ({
     <Form
       mutators={{
         setMax: (_args, state, utils) => {
-          utils.changeValue(state, 'amount', () => maxAmount);
+          utils.changeValue(state, 'amount', () => maxAmount.toString());
         },
       }}
       validate={validate}

@@ -27,6 +27,7 @@ interface IHeaderFrameProps {
   ethereumBalance?: BigNumber;
   ankrBalance?: BigNumber;
   bnbBalance?: BigNumber;
+  aEthBalance?: BigNumber;
   walletName?: string;
   walletIcon?: string;
 }
@@ -39,6 +40,7 @@ export const HeaderComponent = ({
   ethereumBalance,
   ankrBalance,
   bnbBalance,
+  aEthBalance,
   walletName,
   walletIcon,
 }: IHeaderFrameProps) => {
@@ -63,6 +65,7 @@ export const HeaderComponent = ({
       ethereum={ethereumBalance}
       ankr={ankrBalance}
       bnbBalance={bnbBalance}
+      aeth={aEthBalance}
     />
   );
 

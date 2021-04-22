@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import React, { SVGAttributes, useCallback, useMemo, useState } from 'react';
 import {
   ABOUT_SMARTCHAIN_PATH,
+  BRIDGE_PATH,
   DOCS_LINK,
   GOVERNANCE_PROJECT_LIST_PATH,
   LITEPAPER_LINK,
@@ -80,6 +81,7 @@ export const Links = ({ className, isAuth, blockchainType }: ILinksProps) => {
         isAuth && blockchainType === Blockchain.ethereum
           ? GOVERNANCE_PROJECT_LIST_PATH
           : '',
+      bridge: BRIDGE_PATH,
       staker: isAuth && isMDDown ? STAKER_DASHBOARD_PATH : '',
       provider: isAuth && isMDDown && isProviderAvailable ? PROVIDER_PATH : '',
     }),

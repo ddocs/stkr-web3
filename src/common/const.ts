@@ -25,6 +25,8 @@ export const GOVERNANCE_PROJECT_ROUTE = `${GOVERNANCE_PATH}/project/view/:projec
 export const ABOUT_AETH_PATH = '/what-is-aeth';
 export const CONVERT_ROUTE = '/convert/:from/:to';
 export const ABOUT_SMARTCHAIN_PATH = '/bsc';
+export const BRIDGE_PATH = '/bridge';
+export const BRIDGE_RECOVERY_PATH = `${BRIDGE_PATH}/recovery`;
 
 export function getStakerBnbPath(id: string) {
   return generatePath(STAKER_STAKE_BNB_ROUTE, { id });

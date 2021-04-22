@@ -1,7 +1,8 @@
 import { Box, Grid } from '@material-ui/core';
 import classNames from 'classnames';
-import React, { useMemo } from 'react';
+import React, { ReactNode, useMemo } from 'react';
 import { uid } from 'react-uid';
+import { Blockchain } from '../../../../common/types';
 import { t } from '../../../../common/utils/intl';
 import {
   Table,
@@ -10,6 +11,7 @@ import {
   TableRow,
 } from '../../../../components/TableComponents';
 import { Body1, Body2, Headline2 } from '../../../../UiKit/Typography';
+import { blockchainsMap } from '../../const';
 import { BlockchainPanel } from '../BlockchainPanel';
 import { BridgeBox } from '../BridgeBox';
 import { useProgressStyles } from './ProgressStyles';
@@ -21,22 +23,27 @@ function createData(name: string, value: string) {
 export interface IProgressProps {
   isCompleted?: boolean;
   subTitle?: string;
-  isToEth?: boolean;
+  fromBlockchain?: Blockchain;
+  toBlockchain?: Blockchain;
   amount: string | number;
   amountType: string;
   address: string;
+  children?: ReactNode;
+  onCloseClick?: () => void;
 }
 
 export const Progress = ({
   isCompleted = false,
-  subTitle = '~1 min left',
-  isToEth = false,
+  subTitle,
+  fromBlockchain = Blockchain.ethereum,
+  toBlockchain = Blockchain.binance,
   amount,
   amountType,
   address,
+  children,
+  onCloseClick,
 }: IProgressProps) => {
   const classes = useProgressStyles();
-  const isToBinance = !isToEth;
 
   const rows = useMemo(
     () => [
@@ -56,44 +63,31 @@ export const Progress = ({
   });
 
   return (
-    <BridgeBox>
+    <BridgeBox onCloseClick={onCloseClick}>
       <Box mb={{ xs: 7, sm: 10 }} textAlign="center">
         <Headline2 component="h2" className={classes.title}>
           {titleText}
         </Headline2>
 
-        <Body1 color="textSecondary">{subTitle}</Body1>
+        {subTitle && <Body1 color="textSecondary">{subTitle}</Body1>}
       </Box>
 
       <Box mb={2}>
         <Grid container spacing={3}>
-          <Grid
-            className={classNames(isToEth && classes.order1)}
-            item
-            xs={12}
-            sm
-          >
+          <Grid item xs={12} sm>
             <BlockchainPanel
-              icon="eth"
-              title={t('cross-chain-bridge.chain-ehthereum')}
-              subTitle={
-                isToEth
-                  ? t('cross-chain-bridge.to')
-                  : t('cross-chain-bridge.from')
-              }
+              icon={blockchainsMap[fromBlockchain].icon}
+              title={blockchainsMap[fromBlockchain].title}
+              subTitle={t('cross-chain-bridge.from')}
               disabled
             />
           </Grid>
 
           <Grid item xs={12} sm>
             <BlockchainPanel
-              icon="binance"
-              title={t('cross-chain-bridge.chain-binance')}
-              subTitle={
-                isToBinance
-                  ? t('cross-chain-bridge.to')
-                  : t('cross-chain-bridge.from')
-              }
+              icon={blockchainsMap[toBlockchain].icon}
+              title={blockchainsMap[toBlockchain].title}
+              subTitle={t('cross-chain-bridge.to')}
               disabled
             />
           </Grid>
@@ -131,6 +125,8 @@ export const Progress = ({
           })}
         </TableBody>
       </Table>
+
+      {children}
     </BridgeBox>
   );
 };

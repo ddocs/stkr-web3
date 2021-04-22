@@ -373,7 +373,7 @@
 		"processing": "处理...",
 		"submit": "用 {value}ANKR支持",
 		"support": "支持",
-		"time-left": "<span class=\"bold\">剩余时间</span> {value}"
+		"time-left": "剩余时间"
 	},
 	"project-created-dialog": {
 		"submit": "我理解",

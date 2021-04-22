@@ -1,5 +1,4 @@
-import React from 'react';
-import { useProjectListItemStyles } from './ProjectListItemStyles';
+import { ProposalStatus } from '@ankr.com/stkr-jssdk';
 import {
   Box,
   Divider,
@@ -7,13 +6,14 @@ import {
   Paper,
   Typography,
 } from '@material-ui/core';
+import React from 'react';
+import { Link as RouterLink } from 'react-router-dom';
+import { getGovernanceProjectPath } from '../../../../common/const';
+import { getProgress } from '../../../../common/utils/getProgress';
+import { t } from '../../../../common/utils/intl';
 import { ModerationStatusLed } from '../ModerationStatusLed';
 import { Timer } from '../Timer';
-import { t } from '../../../../common/utils/intl';
-import { ProposalStatus } from '@ankr.com/stkr-jssdk';
-import { getGovernanceProjectPath } from '../../../../common/const';
-import { Link as RouterLink } from 'react-router-dom';
-import { getProgress } from '../../../../common/utils/getProgress';
+import { useProjectListItemStyles } from './ProjectListItemStyles';
 
 interface IProjectListItemProps {
   moderationStatus: ProposalStatus;
@@ -46,7 +46,7 @@ export const ProjectListItem = ({
     >
       <Box display="flex" justifyContent="space-between" mb={5}>
         <ModerationStatusLed status={moderationStatus} />
-        <Timer startTime={new Date()} endTime={endTime} />
+        <Timer className={classes.timer} endTime={endTime} />
       </Box>
       <Typography className={classes.name}>{topic}</Typography>
       <Typography className={classes.description}>{content}</Typography>

@@ -1,13 +1,13 @@
+import { connectRouter, RouterState } from 'connected-react-router';
 import { History } from 'history';
 import { AnyAction, combineReducers, Reducer } from 'redux';
-import { connectRouter, RouterState } from 'connected-react-router';
-import { userPersistConfig } from './webStorageConfigs';
 import { persistReducer } from 'redux-persist';
-import { IUserState, userReducer } from './userReducer';
-import { IDialogState } from '../dialogs/selectors';
 import { dialog } from '../dialogs/reducer';
+import { IDialogState } from '../dialogs/selectors';
 import { notificationReducer } from './notificationReducer';
 import { requestUpdateReducer } from './requestUpdateReducer';
+import { IUserState, userReducer } from './userReducer';
+import { userPersistConfig } from './webStorageConfigs';
 
 export interface IStoreState {
   router: RouterState;
