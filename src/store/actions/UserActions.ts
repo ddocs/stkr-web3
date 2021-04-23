@@ -20,7 +20,10 @@ import { BridgeSdk } from '../../modules/bridge-sdk';
 import { ICreateNodeValue } from '../../modules/provider/screens/CreateNode';
 import { IAllowance } from '../apiMappers/allowance';
 import { mapGlobalStats } from '../apiMappers/globalStatsApi';
-import { mapProviderStats } from '../apiMappers/providerStatsApi';
+import {
+  IApiProviderStats,
+  mapProviderStats,
+} from '../apiMappers/providerStatsApi';
 import { ISidecar, mapSidecar } from '../apiMappers/sidecarsApi';
 import {
   isAllowedTransaction,
@@ -498,7 +501,7 @@ export const UserActions = {
           providerEthBalance,
           providerAnkrBalance,
           depositedAnkrBalance,
-        };
+        } as IApiProviderStats;
       })(),
     },
     meta: {

@@ -49,7 +49,7 @@ export function DepositAnkrTimeline({
         <TimelineSeparator>
           <TimelineStatusDot
             status={getTimelineDotStatus(
-              DepositAnkrStep.TRANSFER_TOKENS,
+              DepositAnkrStep.WALLET_DEPOSIT,
               current,
             )}
           />
@@ -57,7 +57,7 @@ export function DepositAnkrTimeline({
         </TimelineSeparator>
         <TimelineContent
           className={classNames(
-            current !== DepositAnkrStep.TRANSFER_TOKENS &&
+            current !== DepositAnkrStep.WALLET_DEPOSIT &&
               classes.timelineNotCurrentContent,
           )}
         >
@@ -85,13 +85,15 @@ export function DepositAnkrTimeline({
       <TimelineItem>
         <TimelineSeparator>
           <TimelineStatusDot
-            status={getTimelineDotStatus(DepositAnkrStep.DEPOSIT, current)}
+            status={getTimelineDotStatus(
+              DepositAnkrStep.CONTRACT_DEPOSIT,
+              current,
+            )}
           />
         </TimelineSeparator>
         <TimelineContent
           className={classNames(
-            current !== DepositAnkrStep.DEPOSIT &&
-              current !== DepositAnkrStep.TOP_UP &&
+            current !== DepositAnkrStep.CONTRACT_DEPOSIT &&
               classes.timelineNotCurrentContent,
           )}
         >
