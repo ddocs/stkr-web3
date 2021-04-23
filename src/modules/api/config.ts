@@ -61,7 +61,7 @@ const MAINNET_CONFIG: IStkrConfig = {
     microPoolContract: '0x84db6eE82b7Cf3b47E8F19270abdE5718B936670',
     microPoolBlock: '11225126',
     ankrContract: '0x8290333cef9e6d528dd5618fb97a76f268f3edd4',
-    stakingContract: '0x00000000219ab540356cBB839Cbe05303d7705Fa',
+    stakingContract: '0xC12EbCEdC914b3f52022cDa98C92e3B95E109daE',
     systemContract: '0x3bFce37B5401BEF13C78830D3A9FB14294d18c4F',
     globalPoolDepositContract: '0x00000000219ab540356cBB839Cbe05303d7705Fa',
     governanceAddress: '0xC12EbCEdC914b3f52022cDa98C92e3B95E109daE',

@@ -20,19 +20,24 @@ import { Button } from '../../../../UiKit/Button';
 import { DepositAnkrTimeline } from './DepositAnkrTimeline';
 import { useDepositStyles } from './DepositStyles';
 
+// TODO Take it from config contract
+export const MIN_NODE_DEPOSIT = 25000;
+
 export enum DepositAnkrStep {
-  'DEPOSIT',
+  'WALLET_DEPOSIT',
   'ALLOWANCE',
-  'TOP_UP',
+  'CONTRACT_DEPOSIT',
 }
 
 interface IDepositAnkrFormProps {
   ankrBalance?: BigNumber;
+  depositedAnkrBalance?: BigNumber;
 }
 
 export const DepositAnkrForm = ({
   handleSubmit,
   ankrBalance,
+  depositedAnkrBalance,
 }: FormRenderProps<any> & IDepositAnkrFormProps) => {
   const classes = useDepositStyles();
   const dispatch = useDispatch();
@@ -61,9 +66,23 @@ export const DepositAnkrForm = ({
         type={UserActionTypes.FETCH_ALLOWANCE}
       >
         {({ data: { remainingAllowance, totalAllowance } }) => {
-          const isNotEnoughBalance = ankrBalance?.isLessThan(totalAllowance);
+          const step = (() => {
+            if (
+              depositedAnkrBalance?.isGreaterThanOrEqualTo(MIN_NODE_DEPOSIT)
+            ) {
+              return DepositAnkrStep.CONTRACT_DEPOSIT;
+            }
 
-          if (isNotEnoughBalance) {
+            if (ankrBalance?.isLessThan(totalAllowance)) {
+              return DepositAnkrStep.WALLET_DEPOSIT;
+            }
+
+            return remainingAllowance.isGreaterThan(0)
+              ? DepositAnkrStep.ALLOWANCE
+              : DepositAnkrStep.CONTRACT_DEPOSIT;
+          })();
+
+          if (step === DepositAnkrStep.WALLET_DEPOSIT) {
             return (
               <Grid container={true} spacing={2}>
                 <Grid item={true} xs={12} sm={6}>
@@ -105,10 +124,6 @@ export const DepositAnkrForm = ({
               </Grid>
             );
           }
-
-          const step = remainingAllowance.isGreaterThan(0)
-            ? DepositAnkrStep.ALLOWANCE
-            : DepositAnkrStep.TOP_UP;
 
           return (
             <Grid container={true} spacing={5}>

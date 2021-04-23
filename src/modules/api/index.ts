@@ -26,6 +26,7 @@ import {
   KeyProvider,
   Web3ModalKeyProvider,
 } from './provider';
+import Web3 from 'web3';
 
 interface IStakerSdk {
   allowTokens(remainingAllowance?: BigNumber): Promise<ISendAsyncResult>;
@@ -47,6 +48,8 @@ interface IStakerSdk {
   claimAnkr(amount: BigNumber): Promise<ISendAsyncResult>;
 
   getNativeBalance(): Promise<BigNumber>;
+
+  getDepositedBalance(): Promise<BigNumber>;
 
   getEthBalance(): Promise<BigNumber>;
 
@@ -212,7 +215,10 @@ export class StkrSdk implements IStkrSdk {
       );
     }
     await this.contractManager.connect();
-    this.jssdkManager = new JssdkManager(this.keyProvider);
+    this.jssdkManager = new JssdkManager(
+      this.keyProvider,
+      this.stkrConfig.contractConfig,
+    );
     return result;
   }
 
@@ -426,6 +432,15 @@ export class StkrSdk implements IStkrSdk {
       currentAccount,
     );
     return new BigNumber(balanceOf);
+  }
+
+  public async getDepositedBalance(): Promise<BigNumber> {
+    const currentAccount = this.getKeyProvider().currentAccount();
+    return new BigNumber(
+      Web3.utils.fromWei(
+        await this.getJssdkManager().availableDepositsOf(currentAccount),
+      ),
+    );
   }
 
   public async getEthBalance(): Promise<BigNumber> {
