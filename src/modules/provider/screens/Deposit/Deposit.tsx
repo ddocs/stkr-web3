@@ -27,7 +27,7 @@ import { IProviderStats } from '../../../../store/apiMappers/providerStatsApi';
 import { IUserInfo } from '../../../../store/apiMappers/userApi';
 import { CancelIcon } from '../../../../UiKit/Icons/CancelIcon';
 import { Headline2 } from '../../../../UiKit/Typography';
-import { DepositAnkrForm, MIN_NODE_DEPOSIT } from './DepositAnkrForm';
+import { DepositAnkrForm } from './DepositAnkrForm';
 import { DepositEthForm } from './DepositEthForm';
 import { useDepositStyles } from './DepositStyles';
 import { useFeaturesAvailable } from '../../../../common/hooks/useFeaturesAvailable';
@@ -169,13 +169,7 @@ export const Deposit = () => {
       } else {
         if (allowanceData) {
           dispatch(
-            UserActions.topUp(
-              allowanceData.totalAllowance,
-              DepositType.ANKR,
-              providerStats?.depositedAnkrBalance.isGreaterThanOrEqualTo(
-                MIN_NODE_DEPOSIT,
-              ),
-            ),
+            UserActions.topUp(allowanceData.totalAllowance, DepositType.ANKR),
           ).then(data => {
             if (data.action.type === success(UserActionTypes.TOP_UP)) {
               history.push(PROVIDER_NODE_LIST_PATH);
@@ -185,7 +179,7 @@ export const Deposit = () => {
       }
       // TODO Handle exception
     },
-    [allowanceData, dispatch, history, providerStats?.depositedAnkrBalance],
+    [allowanceData, dispatch, history],
   );
 
   const handleCancel = useCallback(() => {
