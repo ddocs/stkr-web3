@@ -8,7 +8,6 @@ import {
   BRIDGE_PATH,
   BRIDGE_RECOVERY_PATH,
   CONVERT_ROUTE,
-  featuresConfig,
   FEATURES_PATH,
   GOVERNANCE_CREATE_PROJECT_PATH,
   GOVERNANCE_PROJECT_LIST_PATH,
@@ -313,20 +312,16 @@ export function Routes() {
         component={LoadableConvertContainer}
         exact={true}
       />
-      {featuresConfig.bridge && (
-        <>
-          <Route
-            path={BRIDGE_PATH}
-            component={LoadableBridgeContainer}
-            exact={true}
-          />
-          <Route
-            path={BRIDGE_RECOVERY_PATH}
-            component={LoadableBridgeRecoverContainer}
-            exact={true}
-          />
-        </>
-      )}
+      <Route
+        path={BRIDGE_PATH}
+        component={LoadableBridgeContainer}
+        exact={true}
+      />
+      <Route
+        path={BRIDGE_RECOVERY_PATH}
+        component={LoadableBridgeRecoverContainer}
+        exact={true}
+      />
       <PrivateRoute component={PageNotFound} />
     </Switch>
   );
