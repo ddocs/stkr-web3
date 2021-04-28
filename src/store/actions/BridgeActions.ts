@@ -5,6 +5,7 @@ import { Blockchain } from '../../common/types';
 import { StkrSdk } from '../../modules/api';
 import { configFromEnv } from '../../modules/api/config';
 import { CrossChainSdk } from '../../modules/cross-chain-sdk';
+import { UserActions } from './UserActions';
 
 const TOKEN_GOERLI = '0x63dC5749fa134fF3B752813388a7215460a8aB01';
 const TOKEN_SMART_CHAIN_TESTNET = '0x81f151c7104AC815e5F66bAAae91b0F85634Bb04';
@@ -103,6 +104,12 @@ export const BridgeActions = {
             toBlockchain,
           } as IDeposit;
         })(),
+      },
+      meta: {
+        onSuccess: (response, _action, store) => {
+          store.dispatch(UserActions.fetchStakerStats());
+          return response;
+        },
       },
     }),
   ),
