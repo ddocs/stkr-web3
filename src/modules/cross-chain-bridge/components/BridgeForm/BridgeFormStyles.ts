@@ -19,4 +19,10 @@ export const useBridgeFormStyles = makeStyles<Theme>(theme => ({
   additionalText: {
     marginBottom: theme.spacing(3),
   },
+
+  loadingBox: {
+    display: 'inline-flex',
+    marginLeft: theme.spacing(1),
+    verticalAlign: 'middle',
+  },
 }));

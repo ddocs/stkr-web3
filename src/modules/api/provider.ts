@@ -149,6 +149,8 @@ export abstract class KeyProvider {
     address: string,
   ): Promise<string>;
 
+  public abstract switchNetwork(): Promise<string>;
+
   public abstract sendAsync(
     from: string,
     to: string,
@@ -397,8 +399,6 @@ export class Web3ModalKeyProvider extends KeyProvider {
         chainId,
       });
       console.log(`detected MetaMask chainId change to ${chainId}`);
-      // TODO Extract reload
-      document.location.reload();
     });
     provider.autoRefreshOnNetworkChange = false;
     this._latestBlockHeight = await web3.eth.getBlockNumber();
@@ -474,6 +474,26 @@ export class Web3ModalKeyProvider extends KeyProvider {
       }
       throw e;
     }
+  }
+
+  public switchNetwork(): Promise<string> {
+    const data = [
+      {
+        chainId: '0x61',
+        chainName: 'Binance Smart Chain',
+        nativeCurrency: {
+          name: 'BNB',
+          symbol: 'BNB',
+          decimals: 18,
+        },
+        rpcUrls: ['https://data-seed-prebsc-1-s1.binance.org:8545/'],
+        blockExplorerUrls: ['https://testnet.bscscan.com'],
+      },
+    ];
+    /* eslint-disable */
+    return this.provider
+      .request({ method: 'wallet_addEthereumChain', params: data })
+      .catch();
   }
 
   private tryGetRawTx(rawTx: any): string {

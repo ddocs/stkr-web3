@@ -140,6 +140,19 @@ export interface IConfigReply {
   Staking?: string;
 }
 
+export interface INotarizeTransferReply {
+  token?: string;
+  toChain?: string;
+  amount?: string;
+  signature: string;
+  recipient?: string;
+}
+
+export interface INotarizeTransferRequest {
+  fromChain: string;
+  transactionHash: string;
+}
+
 export class ApiGateway {
   private readonly defaultConfig: AxiosRequestConfig;
   private api: AxiosInstance;
@@ -303,6 +316,19 @@ export class ApiGateway {
     const { data } = await this.api.get<IRatePriceReply>(
       `/v1alpha/rate/${baseCurrency}`,
     );
+    return data;
+  }
+
+  public async notarizeTransfer(
+    request: INotarizeTransferRequest,
+  ): Promise<INotarizeTransferReply> {
+    console.log('[NOTARIZE] from chain' + request.fromChain);
+    console.log('[NOTARIZE] tx hash' + request.transactionHash);
+    const { status, data, statusText } = await this.api.post<
+      INotarizeTransferReply
+    >(`/v1alpha/bridge/notarize`, request);
+    if (status !== 200)
+      throw new Error(`Unable to fetch ethereum balance: ${statusText}`);
     return data;
   }
 }

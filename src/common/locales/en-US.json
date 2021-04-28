@@ -308,6 +308,7 @@
     "docs": "Docs",
     "governance": "Governance",
     "litepaper": "Litepaper",
+    "bridge": "Bridge",
     "medium": "Medium",
     "provider": "Provider",
     "select": "Select",
@@ -574,6 +575,7 @@
   "validation": {
     "alpha-numerical-and-underscore": "Must consists of only letters, numbers, and the _ sign.",
     "invalid-address-format": "Invalid address format",
+    "invalid-txn-format": "Invalid transaction format",
     "min-ETH-amount": "Minimum amount is {value} ETH",
     "required": "This field is required",
     "min": "Should be greater than {value}",
@@ -670,21 +672,35 @@
   "cross-chain-bridge": {
     "title": "Cross Chain Bridge",
     "connect-btn": "Connect Wallet",
+    "disconnect-btn": "Disconnect",
     "chain-ehthereum": "Ethereum Mainnet",
     "chain-binance": "Binance Smart Chain",
     "from": "From",
     "to": "To",
     "asset": "Asset",
+    "waiting-hash": "Waiting for the hash of the transaction.",
+    "swap-title": "Click to change",
+    "switch-network": "Please switch your wallet network to {blockchain} to continue",
+    "recovery-notification": "If you need to recover an interrupted transaction, please click on this",
+    "link": "link",
+    "recovery": {
+      "title": "Recovering an interrupted transaction",
+      "info": "Please make sure that all data match the data of your interrupted transaction"
+    },
     "progress": {
       "title": "Transaction {value}",
       "completed": "completed",
       "in-progress": "in progress...",
       "amount": "Amount",
-      "address": "Destination address"
+      "address": "Destination address",
+      "signed-wrong-wallet": "Signature received. Please switch your wallet address to the destination wallet address on the {blockchain} network to claim tokens.",
+      "sign": "Sign"
     },
     "available": {
       "title": "You have {value} aETH available in the {network} network",
-      "btn": "Claim"
+      "success-title": "You have successfully withdrawn your tokens.",
+      "btn-claim": "Claim",
+      "btn-finish": "Ok, thanks!"
     },
     "history": {
       "title": "Transaction history",
@@ -702,6 +718,7 @@
       "balance": "Your balance",
       "amount": "Amount",
       "address": "Destination address",
+      "txHash": "Transaction hash",
       "btn-max": "MAX",
       "btn-next": "Next"
     }

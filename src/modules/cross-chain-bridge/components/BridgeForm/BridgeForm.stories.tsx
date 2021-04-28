@@ -1,4 +1,5 @@
 /* eslint-disable import/no-anonymous-default-export */
+import BigNumber from 'bignumber.js';
 import React from 'react';
 import { t } from '../../../../common/utils/intl';
 import { BridgeForm, IBridgeFormValues } from './BridgeForm';
@@ -12,7 +13,7 @@ export const Default = () => {
     console.log(values);
   };
 
-  return <BridgeForm onSubmit={onSubmit} balance="5.3" />;
+  return <BridgeForm onSubmit={onSubmit} balance={new BigNumber(5.3)} />;
 };
 
 export const DisabledSubmit = () => {

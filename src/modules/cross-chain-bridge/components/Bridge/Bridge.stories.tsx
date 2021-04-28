@@ -1,5 +1,6 @@
 /* eslint-disable import/no-anonymous-default-export */
 import React, { useState } from 'react';
+import { Blockchain } from '../../../../common/types';
 import { Bridge, IBridgeProps } from './Bridge';
 
 export default {
@@ -8,12 +9,17 @@ export default {
 
 const DefaultStory = ({ isConnected }: Pick<IBridgeProps, 'isConnected'>) => {
   const onConnectClick = () => console.log('connect');
-  const [isToEth, setToEth] = useState(false);
-  const onSwapClick = () => setToEth(value => !value);
+  const [fromBlockchain, setFromBlockchain] = useState(Blockchain.ethereum);
+  const [toBlockchain, setToBlockchain] = useState(Blockchain.binance);
+  const onSwapClick = () => {
+    setFromBlockchain(toBlockchain);
+    setToBlockchain(fromBlockchain);
+  };
 
   return (
     <Bridge
-      isToEth={isToEth}
+      fromBlockchain={fromBlockchain}
+      toBlockchain={toBlockchain}
       onConnectClick={onConnectClick}
       onSwapClick={onSwapClick}
       isConnected={isConnected}

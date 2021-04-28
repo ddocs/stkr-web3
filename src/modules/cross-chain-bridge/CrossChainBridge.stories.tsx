@@ -1,6 +1,8 @@
 /* eslint-disable import/no-anonymous-default-export */
 import { Box } from '@material-ui/core';
+import BigNumber from 'bignumber.js';
 import React, { useEffect, useState } from 'react';
+import { Blockchain } from '../../common/types';
 import { t } from '../../common/utils/intl';
 import { useInterval } from '../../common/utils/useInterval';
 import { Curtains } from '../../UiKit/Curtains';
@@ -9,6 +11,7 @@ import { Bridge } from './components/Bridge';
 import { BridgeForm, IBridgeFormValues } from './components/BridgeForm';
 import { History, ITxnHistory } from './components/History';
 import { Progress } from './components/Progress';
+import { BlockchainIcons } from './const';
 
 export default {
   title: 'modules/CrossChainBridge',
@@ -17,11 +20,11 @@ export default {
 const historyItems: ITxnHistory[] = [
   {
     from: {
-      icon: 'binance',
+      icon: BlockchainIcons.binance,
       address: '0xaa25Aa7a19f9c426E07dee59b12f944f4d9f1DD3',
     },
     to: {
-      icon: 'eth',
+      icon: BlockchainIcons.eth,
       address: '0x0Ffef93Fcba21e53E8d5C8b2ca68D64BAA29c915',
     },
     amount: 0.66,
@@ -31,11 +34,11 @@ const historyItems: ITxnHistory[] = [
   },
   {
     from: {
-      icon: 'eth',
+      icon: BlockchainIcons.eth,
       address: '0x0Ffef93Fcba21e53E8d5C8b2ca68D64BAA29c915',
     },
     to: {
-      icon: 'binance',
+      icon: BlockchainIcons.binance,
       address: '0xaa25Aa7a19f9c426E07dee59b12f944f4d9f1DD3',
     },
     amount: 5,
@@ -56,14 +59,18 @@ const useConnectDemo = () => {
 };
 
 const useBridgeDemo = () => {
-  const [isToEth, setToEth] = useState(false);
   const [isTxnInProgress, setTxnInProgress] = useState(false);
   const [isSubmited, setIsSubmited] = useState(false);
   const [amount, setAmount] = useState<string | number>(0);
   const [address, setAddress] = useState('');
   const [assetType, setAssetType] = useState('aETH');
 
-  const onSwapClick = () => setToEth(value => !value);
+  const [fromBlockchain, setFromBlockchain] = useState(Blockchain.ethereum);
+  const [toBlockchain, setToBlockchain] = useState(Blockchain.binance);
+  const onSwapClick = () => {
+    setFromBlockchain(toBlockchain);
+    setToBlockchain(fromBlockchain);
+  };
 
   const onSubmit = (values: IBridgeFormValues) => {
     console.log(values);
@@ -91,7 +98,8 @@ const useBridgeDemo = () => {
     isSubmited,
     isTxnInProgress,
     onSwapClick,
-    isToEth,
+    fromBlockchain,
+    toBlockchain,
     amount,
     address,
     onAssetChange,
@@ -151,7 +159,8 @@ const DefaultStory = () => {
     isSubmited,
     isTxnInProgress,
     onSwapClick,
-    isToEth,
+    fromBlockchain,
+    toBlockchain,
     amount,
     address,
     onAssetChange,
@@ -165,15 +174,16 @@ const DefaultStory = () => {
 
   const renderedBridge = (
     <Bridge
-      isToEth={isToEth}
       onSwapClick={onSwapClick}
       onConnectClick={onOpenDialog}
       isConnected={isConnected}
       onAssetChange={onAssetChange}
+      toBlockchain={toBlockchain}
+      fromBlockchain={fromBlockchain}
       form={
         <BridgeForm
           onSubmit={onSubmit}
-          balance="12.4"
+          balance={new BigNumber(12.4)}
           submitDisabled={isSubmited}
           balanceType={assetType}
           additionalText={
@@ -200,7 +210,7 @@ const DefaultStory = () => {
         <Available
           value="10"
           network="BSC"
-          onClick={() => {
+          onClaimClick={() => {
             console.log('click');
           }}
         />

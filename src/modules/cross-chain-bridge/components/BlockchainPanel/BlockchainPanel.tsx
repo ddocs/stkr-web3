@@ -6,21 +6,20 @@ import { BinanceIcon } from '../../../../UiKit/Icons/BinanceIcon';
 import { EthIcon } from '../../../../UiKit/Icons/EthIcon';
 import { FEthIcon } from '../../../../UiKit/Icons/FEthIcon';
 import { Body1, Body2 } from '../../../../UiKit/Typography';
+import { BlockchainIcons } from '../../const';
 import { useBlockchainPanelStyles } from './BlockchainPanelStyles';
 
-const availableIcons = {
-  aEth: AEthIcon,
-  fEth: FEthIcon,
-  binance: BinanceIcon,
-  eth: EthIcon,
+export const availableIcons = {
+  [BlockchainIcons.fEth]: FEthIcon,
+  [BlockchainIcons.aEth]: AEthIcon,
+  [BlockchainIcons.binance]: BinanceIcon,
+  [BlockchainIcons.eth]: EthIcon,
 };
-
-export type BlockchainPanelIconsType = keyof typeof availableIcons;
 
 export interface IBlockchainPanelProps {
   className?: string;
   disabled?: boolean;
-  icon: BlockchainPanelIconsType;
+  icon: BlockchainIcons;
   onChange?: (value: string) => void;
   onClick?: () => void;
   subTitle?: string;
@@ -28,7 +27,7 @@ export interface IBlockchainPanelProps {
   dropdownItems?: {
     value: string;
     label: string;
-    icon: BlockchainPanelIconsType;
+    icon: BlockchainIcons;
   }[];
 }
 

@@ -1,5 +1,6 @@
 /* eslint-disable import/no-anonymous-default-export */
 import React from 'react';
+import { BlockchainIcons } from '../../const';
 import { BlockchainPanel, IBlockchainPanelProps } from './BlockchainPanel';
 
 export default {
@@ -10,7 +11,11 @@ export const Default = () => {
   const onClick = () => console.log('click');
 
   return (
-    <BlockchainPanel icon="aEth" title="Ethereum Mainnet" onClick={onClick} />
+    <BlockchainPanel
+      icon={BlockchainIcons.aEth}
+      title="Ethereum Mainnet"
+      onClick={onClick}
+    />
   );
 };
 
@@ -20,7 +25,7 @@ export const WithSubtitle = () => {
   return (
     <BlockchainPanel
       subTitle="From"
-      icon="aEth"
+      icon={BlockchainIcons.aEth}
       title="Ethereum Mainnet"
       onClick={onClick}
     />
@@ -31,12 +36,12 @@ export const WithSelect = () => {
   const items: IBlockchainPanelProps['dropdownItems'] = [
     {
       label: 'aETH',
-      icon: 'aEth',
+      icon: BlockchainIcons.aEth,
       value: 'aETH',
     },
     {
       label: 'fETH',
-      icon: 'fEth',
+      icon: BlockchainIcons.aEth,
       value: 'fETH',
     },
   ];

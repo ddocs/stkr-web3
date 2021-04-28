@@ -12,10 +12,6 @@ export const useProgressStyles = makeStyles<Theme>(theme => ({
     },
   },
 
-  order1: {
-    order: 1,
-  },
-
   noBorder: {
     borderBottom: 'none',
   },

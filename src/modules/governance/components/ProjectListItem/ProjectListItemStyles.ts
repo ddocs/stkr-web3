@@ -36,4 +36,10 @@ export const useProjectListItemStyles = makeStyles(theme => ({
   label: {
     marginBottom: 6,
   },
+  timer: {
+    background: fade(theme.palette.common.white, 0.15),
+    color: fade(theme.palette.common.white, 0.5),
+    padding: theme.spacing(0.5, 2),
+    borderRadius: 26,
+  },
 }));

@@ -2,8 +2,8 @@ import { lighten, makeStyles, Theme } from '@material-ui/core';
 
 export const useBlockchainPanelStyles = makeStyles<Theme>(theme => ({
   root: {
-    minHeight: theme.spacing(8.5),
-    padding: theme.spacing(2, 2),
+    minHeight: theme.spacing(8),
+    padding: theme.spacing(1, 2),
 
     display: 'grid',
     gridTemplateColumns: 'auto 1fr',
@@ -12,6 +12,11 @@ export const useBlockchainPanelStyles = makeStyles<Theme>(theme => ({
 
     background: lighten(theme.palette.background.default, 0.025),
     borderRadius: 8,
+
+    [theme.breakpoints.up('sm')]: {
+      padding: theme.spacing(1.5, 2),
+      minHeight: theme.spacing(8.5),
+    },
   },
 
   clickable: {

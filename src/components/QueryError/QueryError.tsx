@@ -1,8 +1,8 @@
-import * as React from 'react';
+import { Box, BoxProps } from '@material-ui/core';
 import { ErrorProps } from '@redux-requests/react';
-import { t } from '../../common/utils/intl';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { t } from '../../common/utils/intl';
 import { NotificationActions } from '../../store/actions/NotificationActions';
 
 export function getErrorMessage(props: ErrorProps) {
@@ -25,10 +25,10 @@ export function getErrorMessage(props: ErrorProps) {
   return t('error.unknown');
 }
 
-interface ILoadingProps extends ErrorProps {}
+interface ILoadingProps extends ErrorProps, BoxProps {}
 
-export const QueryError = (props: ILoadingProps) => {
-  const message = getErrorMessage(props);
+export const QueryError = ({ error, ...boxProps }: ILoadingProps) => {
+  const message = getErrorMessage({ error });
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -42,5 +42,5 @@ export const QueryError = (props: ILoadingProps) => {
     }
   }, [dispatch, message]);
 
-  return <div>{message}</div>;
+  return <Box {...boxProps}>{message}</Box>;
 };

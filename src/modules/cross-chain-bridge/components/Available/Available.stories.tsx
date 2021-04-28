@@ -10,5 +10,5 @@ export const Default = () => {
   const onClick = () => {
     console.log('click');
   };
-  return <Available value="10" network="BSC" onClick={onClick} />;
+  return <Available value="10" network="BSC" onClaimClick={onClick} />;
 };
