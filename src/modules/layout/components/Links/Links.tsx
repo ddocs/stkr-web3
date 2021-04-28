@@ -5,6 +5,7 @@ import {
   ABOUT_SMARTCHAIN_PATH,
   BRIDGE_PATH,
   DOCS_LINK,
+  featuresConfig,
   GOVERNANCE_PROJECT_LIST_PATH,
   LITEPAPER_LINK,
   PROVIDER_PATH,
@@ -81,7 +82,7 @@ export const Links = ({ className, isAuth, blockchainType }: ILinksProps) => {
         isAuth && blockchainType === Blockchain.ethereum
           ? GOVERNANCE_PROJECT_LIST_PATH
           : '',
-      bridge: BRIDGE_PATH,
+      bridge: featuresConfig.bridge ? BRIDGE_PATH : '',
       staker: isAuth && isMDDown ? STAKER_DASHBOARD_PATH : '',
       provider: isAuth && isMDDown && isProviderAvailable ? PROVIDER_PATH : '',
     }),

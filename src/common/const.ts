@@ -76,4 +76,7 @@ export const ETH_DIVIDER = 10 ** 18;
 export const MIN_GOVERNANCE_BALANCE = '5000000';
 export const MIN_GOVERNANCE_AMOUNT = Web3.utils.toWei(MIN_GOVERNANCE_BALANCE);
 
-export const DISABLE_VIDEO = true;
+export const featuresConfig = {
+  aEthVideo: false,
+  bridge: false,
+};

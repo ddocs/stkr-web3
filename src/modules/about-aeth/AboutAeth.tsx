@@ -1,5 +1,5 @@
 import React from 'react';
-import { DISABLE_VIDEO } from '../../common/const';
+import { featuresConfig } from '../../common/const';
 import { Services } from '../../components/Services';
 import { useAboutAethStyles } from './AboutAethStyles';
 import { Advantages } from './components/Advantages';
@@ -14,7 +14,7 @@ export const AboutAeth = () => {
   return (
     <>
       <Promo />
-      {!DISABLE_VIDEO && <VideoTutorial />}
+      {featuresConfig.aEthVideo && <VideoTutorial />}
       <Rewards />
       <Advantages />
       <Services className={classes.services} />
