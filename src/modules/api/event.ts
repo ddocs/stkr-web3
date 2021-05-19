@@ -54,6 +54,10 @@ export enum ContractManagerEvents {
   AnkrClaimed = 'AnkrClaimed',
 }
 
+export enum AvalanchePoolEvents {
+  StakePending = 'StakePending',
+}
+
 export interface IEventLog {
   transactionHash: string;
   blockNumber: number;

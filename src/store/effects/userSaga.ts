@@ -10,7 +10,11 @@ import {
   take,
   takeEvery,
 } from 'redux-saga/effects';
-import { BRIDGE_PATH, BRIDGE_RECOVERY_PATH } from '../../common/const';
+import {
+  BRIDGE_PATH,
+  BRIDGE_RECOVERY_PATH,
+  STAKER_AVALANCHE_PATH,
+} from '../../common/const';
 import { historyInstance } from '../../common/utils/historyInstance';
 import { pushEvent } from '../../common/utils/pushEvent';
 import { StkrSdk } from '../../modules/api';
@@ -20,6 +24,7 @@ import {
   KeyProviderEvent,
   KeyProviderEvents,
 } from '../../modules/api/event';
+import { AvalancheActions } from '../actions/AvalancheActions';
 import {
   GovernanceActions,
   GovernanceActionTypes,
@@ -72,6 +77,13 @@ function* listenKeyProviderEvents() {
         } else if (isBridgeRecoveryPath) {
           yield put(UserActions.disconnect(BRIDGE_RECOVERY_PATH));
           return;
+        } else {
+          const isAvalanchePath =
+            historyInstance.location.pathname === STAKER_AVALANCHE_PATH;
+          if (isAvalanchePath) {
+            yield put(AvalancheActions.connect());
+            return;
+          }
         }
 
         yield put(UserActions.disconnect());

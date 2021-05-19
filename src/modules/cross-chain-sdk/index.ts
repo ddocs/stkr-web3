@@ -1,9 +1,10 @@
 import BigNumber from 'bignumber.js';
+import { Transaction } from 'ethereumjs-tx';
 import Web3 from 'web3';
 import { Contract } from 'web3-eth-contract';
 import { StkrSdk } from '../api';
+import { ISendAsyncResult, SendOptions } from '../api/provider';
 import ABI_CROSS_CHAIN_BRIDGE from './abi/CrossChainBridge.json';
-import ABI_IERC20 from './abi/IERC20.json';
 import DEFAULT_CONFIG from './addresses.json';
 import { AVAILABLE_NETWORKS, INetworkEntity } from './network';
 
@@ -168,29 +169,6 @@ export class CrossChainSdk {
       .filter((v: any) => v);
   }
 
-  public async checkAllowanceEnough(
-    currentAccount: string,
-    fromToken: string,
-    depositAmount: string,
-  ): Promise<void> {
-    const contract = new this.web3.eth.Contract(ABI_IERC20 as any, fromToken);
-    const rawAllowance = await contract.methods
-        .allowance(currentAccount, currentAccount)
-        .call(),
-      bigAllowance = new BigNumber(rawAllowance).multipliedBy(1e18);
-    const bigDepositAmount = new BigNumber(depositAmount);
-    if (bigDepositAmount.comparedTo(bigAllowance) <= 0) {
-      return;
-    }
-
-    await contract.methods
-      .approve(
-        this.currentContractAddress,
-        bigDepositAmount.multipliedBy(1e18).toString(10),
-      )
-      .send({ from: currentAccount });
-  }
-
   public async deposit(
     fromToken: string,
     toToken: string,
@@ -200,7 +178,6 @@ export class CrossChainSdk {
   ): Promise<any> {
     const scaledNumber = depositAmount.multipliedBy(1e18).toString(10);
     const [currentAccount] = await this.web3.eth.getAccounts();
-    await this.checkAllowanceEnough(currentAccount, fromToken, scaledNumber);
     if (toAddress === null) {
       toAddress = currentAccount;
     }
@@ -242,9 +219,16 @@ export class CrossChainSdk {
     withdrawAmount: string,
     txHash: string,
     signature: string,
+    scale = true,
   ): Promise<any> {
-    const amount = new BigNumber(withdrawAmount).multipliedBy(1e18);
-    const scaledNumber = amount.toString(10);
+    let scaledNumber;
+    if (scale) {
+      const amount = new BigNumber(withdrawAmount).multipliedBy(1e18);
+      scaledNumber = amount.toString(10);
+    } else {
+      scaledNumber = withdrawAmount;
+    }
+
     const [currentAccount] = await this.web3.eth.getAccounts();
     if (fromAddress === null) {
       fromAddress = currentAccount;
@@ -265,5 +249,120 @@ export class CrossChainSdk {
         signature,
       )
       .send({ from: currentAccount });
+  }
+
+  public async withdrawAsync(
+    fromToken: string,
+    toToken: string,
+    fromChain: string,
+    fromAddress: string | null,
+    withdrawAmount: string,
+    txHash: string,
+    signature: string,
+  ): Promise<any> {
+    const [currentAccount] = await this.web3.eth.getAccounts();
+    if (fromAddress === null) {
+      fromAddress = currentAccount;
+    }
+
+    const data: string = this.currentContract.methods
+      .withdraw(
+        // token
+        fromToken,
+        toToken,
+        // chain
+        this.web3.utils.numberToHex(fromChain),
+        // address
+        fromAddress,
+        // amount
+        this.web3.utils.numberToHex(withdrawAmount),
+        // transaction hash with signature
+        txHash,
+        signature,
+      )
+      .encodeABI();
+
+    return this.sendAsync(
+      currentAccount,
+      this.currentContractAddress,
+      {
+        data: data,
+      },
+      fromChain,
+    );
+    // .send({ from: currentAccount });
+  }
+
+  private async sendAsync(
+    from: string,
+    to: string,
+    sendOptions: SendOptions,
+    chainId: string,
+  ): Promise<ISendAsyncResult> {
+    const gasPrice = await this.web3.eth.getGasPrice();
+    console.log('Gas Price: ' + gasPrice);
+    const nonce = await this.web3.eth.getTransactionCount(from);
+    console.log('Nonce: ' + nonce);
+    const tx = {
+      from: from,
+      to: to,
+      value: this.web3.utils.numberToHex(sendOptions.value || '0'),
+      gas: this.web3.utils.numberToHex(sendOptions.gasLimit || '500000'),
+      gasPrice: gasPrice,
+      data: sendOptions.data,
+      nonce: nonce,
+      chainId: +chainId,
+    };
+    console.log('Sending transaction via Web3: ', tx);
+    return new Promise<ISendAsyncResult>((resolve, reject) => {
+      const promise = this.web3.eth.sendTransaction(tx);
+      promise
+        .once('transactionHash', async (transactionHash: string) => {
+          console.log(`Just signed transaction has is: ${transactionHash}`);
+          const rawTx = await this.web3.eth.getTransaction(transactionHash);
+          console.log(
+            `Found transaction in node: `,
+            JSON.stringify(rawTx, null, 2),
+          );
+          const rawTxHex = this.tryGetRawTx(rawTx, chainId);
+          resolve({
+            receiptPromise: promise,
+            transactionHash: transactionHash,
+            rawTransaction: rawTxHex,
+          });
+        })
+        .catch(reject);
+    });
+  }
+
+  private tryGetRawTx(rawTx: any, chainId: string): string {
+    const allowedChains = ['1', '3', '4', '42', '5'];
+    if (!allowedChains.includes(`${chainId}`)) {
+      console.warn(`raw tx can't be greated for this chain id ${chainId}`);
+      return '';
+    }
+    const { v, r, s } = rawTx as any; /* this fields are not-documented */
+    const newTx = new Transaction(
+      {
+        gasLimit: this.web3.utils.numberToHex(rawTx.gas),
+        gasPrice: this.web3.utils.numberToHex(Number(rawTx.gasPrice)),
+        to: `${rawTx.to}`,
+        nonce: this.web3.utils.numberToHex(rawTx.nonce),
+        data: rawTx.input,
+        v: v,
+        r: r,
+        s: s,
+        value: this.web3.utils.numberToHex(rawTx.value),
+      },
+      {
+        chain: chainId,
+      },
+    );
+    if (!newTx.verifySignature())
+      throw new Error(`The signature is not valid for this transaction`);
+    console.log(`New Tx: `, JSON.stringify(newTx, null, 2));
+    const rawTxHex = newTx.serialize().toString('hex');
+    console.log(`Raw transaction hex is: `, rawTxHex);
+    return rawTxHex;
   }
 }

@@ -555,17 +555,22 @@
     "bnb-value": "{value, number} BNB",
     "~bnb-value": "~{value, number} BNB",
     "day-value": "{value, plural, =1 {# day} other {# days}}",
+    "hour-value": "{value, plural, =1 {# hour} other {# hours}}",
+    "minute-value": "{value, plural, =1 {# minute} other {# minutes}}",
     "eth": "ETH",
     "eth-value": "{value, number} ETH",
     "feth-value": "{value, number} fETH",
     "number-value": "{value, number}",
+    "avax-value": "{value, number} AVAX",
+    "aavaxb-value": "{value, number} aAVAXb",
     "peg-eth": "{value, number} Peg-ETH",
     "separated-aeth-value": "{value, number}<span class=\"unit\">aETH</span>",
     "separated-eth-value": "{value, number}<span class=\"unit\">ETH</span>",
     "separated-feth-value": "{value, number}<span class=\"unit\">fETH</span>",
     "vote-value": "{value, plural, =1 {# vote} other {# votes}}",
     "~eth-value": "~{value, number} ETH",
-    "~months-value": "~{value, number} mo"
+    "~months-value": "~{value, number} mo",
+    "~avax-value": "~{value, number} AVAX"
   },
   "user-actions": {
     "error": {
@@ -590,6 +595,7 @@
     "header": {
       "stake-eth": "Stake ETH",
       "stake-bnb": "Stake BNB",
+      "stake-avax": "Stake AVAX",
       "provider": "Become a provider"
     },
     "list-item": {
@@ -607,6 +613,12 @@
         "1": "Run Ethereum 2.0 nodes and earn from staking rewards and platform fees.",
         "2": "Stake additional Ankr in your node to obtain a higher trust-level and have your micropools prioritized as well as earning more rewards!",
         "3": "Use the Ankr platform to host your nodes, to remove all technical and operational barriers, and avoid any slashing charges!"
+      },
+      "stake-avax": {
+        "1": "Stake any amount of AVAX and claim AVAX bond (aAVAXb) while earning staking rewards.",
+        "2": "Connect your staking rewards to DeFi, and trade, sell or participate in DeFi applications using aAVAXb reward earning bond.",
+        "3": "Unstake/redeem your aAVAXb and receive the equivalent amount of AVAX in maximum 14 days",
+        "4": "No technical knowledge required!"
       }
     },
     "action": {
@@ -614,7 +626,7 @@
         "mainnet": "Start staking",
         "smartchain": "Stake in Smart Chain"
       },
-      "stake-bnb": "Start staking",
+      "start-staking": "Start staking",
       "provider": "Start as provider"
     }
   },
@@ -657,6 +669,85 @@
     "tooltip": {
       "unbounding-period": "Since Unbonding Period is 7 days. Thus, after you sent undelegate transaction, your staked BNB will not receive any rewards since the next UTC 00:00. After 7 days start from the next UTC 00:00, you will receive your BNB.",
       "earnings": "You should expect to earn this amount from your stake, per&nbsp;year. Note that this is an estimation only."
+    }
+  },
+  "stake-avax": {
+    "connect-wallet": "To stake AVAX you have to connect to AVAX Chain in your wallet",
+    "info": "Stake any amount of AVAX and claim AVAX bond (aAVAXb) while earning staking rewards.",
+    "yearly-earning": "Yearly earning",
+    "yearly-earning-info": "Yearly earning info",
+    "will-get": "You will get",
+    "will-get-info": "You will get info",
+    "aavaxb": "aAVAXb",
+    "avax": "AVAX",
+    "amount-to-claim": "I want to claim {value} aAVAXb",
+    "and": "and",
+    "not-enough-stake": "Not enough AVAX available to stake",
+    "not-enough-claim": "Not enough aAVAXb available to claim",
+    "not-enough-convert": "Not enough aAVAXb available to convert",
+    "convert": {
+      "convert": "Convert to AVAX",
+      "amount": "Amount",
+      "title": "How much do you want convert?",
+      "will-get": "You will get",
+      "info": "Сonvertation will take about 5 days",
+      "continue": "Continue",
+      "summary": "You will receive your AVAX tokens in 5 days",
+      "sub-summary": "AVAX tokens will be available in the AVAX chain",
+      "address": "Address",
+      "finish-claim": "Finish Claim",
+      "i-want": "I want to convert",
+      "estimate": "You will receive {amount} AVAX tokens in {estimate}",
+      "estimate-note": "AVAX tokens will be available in the AVAX chain",
+      "confirm": "Confirm",
+      "ok": "OK",
+      "claim-summary": "After completion of the first validation period, you will be able to claim your aAVAXb tokens. You can switch back to AVAX chain now"
+    },
+    "dashboard": {
+      "tokens-to-claim": "Tokens to claim",
+      "claim-info": "To start staking you need to claim your aAVAXb",
+      "claim-tip": "To start staking you need to claim your aAVAXb",
+      "claim": "claim",
+      "avax-balance": "AVAX balance",
+      "balance-tip": "Balance...",
+      "avax-staking": "AVAX Staking",
+      "stake-avax": "Stake AVAX",
+      "aavaxb-balance": "aAVAXb Balance",
+      "aavaxb-balance-tip": "aAVAXb Balance",
+      "convert": "Convert",
+      "finish-withdraw": "Finish withdraw",
+      "connect": {
+        "1": "In order to proceed, your wallet needs to be connected to the ETH blockchain",
+        "5": "In order to proceed, your wallet needs to be connected to the ETH blockchain",
+        "56": "In order to proceed, your wallet needs to be connected to Binance Smartchain",
+        "97": "In order to proceed, your wallet needs to be connected to Binance Smartchain",
+        "info": "This is because you have claimed the tokens and they are now pending withdrawal"
+      },
+      "column": {
+        "date": "Stake date",
+        "status": "Status",
+        "hash": "Transaction Hash",
+        "type": "Transaction Type",
+        "amount": "Staking Amount"
+      },
+      "tip": {
+        "date": "Stake date",
+        "status": "Status",
+        "hash": "Transaction Hash",
+        "type": "Transaction Type",
+        "amount": "Staking Amount"
+      },
+      "status": {
+        "STAKE_ACTION_CONFIRMED": "Confirmed",
+        "STAKE_ACTION_PENDING": "Created",
+        "STAKE_ACTION_UNSTAKE": "Removed"
+      }
+    },
+    "stake": {
+      "title": "Staking Manager"
+    },
+    "claim": {
+      "title": "On which network do you want to use aAVAXb tokens?"
     }
   },
   "bnb-fetch-stats-error": {

@@ -10,6 +10,8 @@ import ABI_GLOBAL_POOL from './contract/GlobalPool.json';
 import ABI_IERC20 from './contract/IERC20.json';
 import ABI_SYSTEM from './contract/SystemParameters.json';
 import ABI_ANKR_DEPOSIT from './contract/AnkrDeposit.json';
+import ABI_AVALANCHE_POOL from './contract/AvalanchePool.json';
+
 import {
   ContractManagerEvents,
   IProviderToppedUpAnkrEvent,
@@ -31,6 +33,7 @@ export interface IContractConfig {
   systemContract?: string;
   globalPoolDepositContract?: string;
   governanceAddress?: string;
+  futureBondAVAX?: string;
 }
 
 export interface IBinanceConfig {
@@ -39,6 +42,13 @@ export interface IBinanceConfig {
   maxBlocksPerScan?: number;
   pegEthContract: string;
   aethContract: string;
+  futureBondAVAX: string;
+}
+
+export interface IAvalancheConfig {
+  globalPoolContract: string;
+  futureBondAVAX: string;
+  avalanchePool: string;
 }
 
 export interface IContractManager {
@@ -1120,5 +1130,27 @@ export class BinanceContractManager extends EthereumContractManager {
   async etherBalanceOf(address: string): Promise<BigNumber> {
     const result = await this.pegEthContract?.methods.balanceOf(address).call();
     return new BigNumber(result).div(EthereumContractManager.ETH_SCALE_FACTOR);
+  }
+}
+
+export class AvalancheContractManager extends EthereumContractManager {
+  constructor(
+    protected eventEmitter: EventEmitter,
+    protected keyProvider: KeyProvider,
+    protected avalancheConfig: IAvalancheConfig,
+  ) {
+    super(
+      eventEmitter,
+      keyProvider,
+      {
+        microPoolBlock: undefined,
+        microPoolContract: avalancheConfig.globalPoolContract,
+        maxBlocksPerScan: 1,
+      },
+      ABI_AVALANCHE_POOL,
+    );
+  }
+  followGlobalPoolEvents(): void {
+    console.log('GlobalPool events?');
   }
 }

@@ -8,6 +8,7 @@ export const STAKER_STAKE_BNB_ROUTE = '/staker/BNB/stake/:id';
 export const STAKER_PATH = '/staker/ETH';
 export const STAKER_DASHBOARD_PATH = STAKER_PATH;
 export const STAKER_BNB_PATH = `/staker/BNB`;
+export const STAKER_AVALANCHE_PATH = '/staker/AVAX';
 export const STAKER_DASHBOARD_BNB_ROUTE = `${STAKER_BNB_PATH}/:id`;
 export const PROVIDER_PATH = '/provider';
 export const PROVIDER_MAIN_PATH = PROVIDER_PATH;

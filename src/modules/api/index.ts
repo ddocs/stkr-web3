@@ -3,15 +3,22 @@ import BigNumber from 'bignumber.js';
 import { EventEmitter } from 'events';
 import { SendOptions } from 'web3-eth-contract';
 import { DepositType } from '../../common/types';
-import { configFromEnv, IStkrConfig } from './config';
+import {
+  BNB_RPC_CONFIG,
+  configFromEnv,
+  ETH_RPC_CONFIG,
+  IStkrConfig,
+} from './config';
 import {
   BinanceContractManager,
   EthereumContractManager,
+  AvalancheContractManager,
   IContractManager,
 } from './contract';
 import { ContractManagerEvent } from './event';
 import {
   ApiGateway,
+  IConvertEstimateReply,
   IGlobalStatsReply,
   INotarizeTransferReply,
   ISidecarReply,
@@ -153,6 +160,13 @@ export interface IStkrSdk extends IStakerSdk, IProviderSdk, IGovernanceSdk {
     fromChain: string,
     txHash: string,
   ): Promise<INotarizeTransferReply>;
+
+  getConversionEstimate(
+    amount: number,
+    token: string,
+  ): Promise<IConvertEstimateReply>;
+
+  switchNetwork(chainId: number): Promise<any>;
 }
 
 export class StkrSdk implements IStkrSdk {
@@ -198,7 +212,13 @@ export class StkrSdk implements IStkrSdk {
       this.eventEmitter,
     );
     const result = await this.keyProvider.connect();
-    if (this.keyProvider.isBinanceSmartChain()) {
+    if (this.keyProvider.isAvalancheChain()) {
+      this.contractManager = new AvalancheContractManager(
+        this.eventEmitter,
+        this.keyProvider,
+        this.stkrConfig.avalancheConfig,
+      );
+    } else if (this.keyProvider.isBinanceSmartChain()) {
       if (!this.stkrConfig.binanceConfig) {
         throw new Error(`BSC config is not provided`);
       }
@@ -445,23 +465,35 @@ export class StkrSdk implements IStkrSdk {
 
   public async getEthBalance(): Promise<BigNumber> {
     const currentAccount = this.getKeyProvider().currentAccount();
+    if (this.getKeyProvider().isAvalancheChain()) {
+      return new BigNumber('0');
+    }
     return this.getContractManager().etherBalanceOf(currentAccount);
   }
 
   public async getAnkrBalance(): Promise<BigNumber> {
     const currentAccount = this.getKeyProvider().currentAccount();
-    if (this.getKeyProvider().isBinanceSmartChain()) {
+    if (
+      this.getKeyProvider().isBinanceSmartChain() ||
+      this.getKeyProvider().isAvalancheChain()
+    ) {
       return new BigNumber('0');
     }
     return this.getContractManager().ankrBalanceOf(currentAccount);
   }
 
   public async getAethBalance(): Promise<BigNumber> {
+    if (this.getKeyProvider().isAvalancheChain()) {
+      return new BigNumber('0');
+    }
     const currentAccount = this.getKeyProvider().currentAccount();
     return this.getContractManager().aethBalanceOf(currentAccount);
   }
 
   public async getFethBalance(): Promise<BigNumber> {
+    if (this.getKeyProvider().isAvalancheChain()) {
+      return new BigNumber('0');
+    }
     const currentAccount = this.getKeyProvider().currentAccount();
     return this.getContractManager().fethBalanceOf(currentAccount);
   }
@@ -599,9 +631,26 @@ export class StkrSdk implements IStkrSdk {
   }
 
   public async notarizeTransfer(fromChain: string, txHash: string) {
-    return this.apiGateway.notarizeTransfer({
+    return await this.apiGateway.notarizeTransfer({
       fromChain: fromChain,
       transactionHash: txHash,
     });
+  }
+
+  public async getConversionEstimate(amount: number, token: string) {
+    const scaledAmount = new BigNumber(amount).multipliedBy(1e18);
+    return await this.apiGateway.getConversionEstimate(
+      scaledAmount.toString(10),
+      token,
+    );
+  }
+
+  public async switchNetwork(chainId: number): Promise<any> {
+    const stkrConfig = configFromEnv();
+    const settings =
+      chainId === stkrConfig.providerConfig.binanceChainId
+        ? BNB_RPC_CONFIG
+        : ETH_RPC_CONFIG;
+    return await this.keyProvider?.switchNetwork(settings);
   }
 }

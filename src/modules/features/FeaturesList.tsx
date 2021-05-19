@@ -4,6 +4,7 @@ import { useFeaturesListStyles } from './FeaturesListStyles';
 import { Box, Button, Paper, Tooltip, Typography } from '@material-ui/core';
 import { ReactComponent as StakeEthIcon } from './assets/stake-eth.svg';
 import { ReactComponent as StakeBnbIcon } from './assets/stake-bnb.svg';
+import { ReactComponent as StakeAvalancheIcon } from './assets/stake-avax.svg';
 import { ReactComponent as ProviderIcon } from './assets/provider.svg';
 import { t, tHTML } from '../../common/utils/intl';
 import { useFeaturesAvailable } from '../../common/hooks/useFeaturesAvailable';
@@ -12,6 +13,7 @@ import {
   PROVIDER_MAIN_PATH,
   STAKER_BNB_PATH,
   STAKER_DASHBOARD_PATH,
+  STAKER_AVALANCHE_PATH,
 } from '../../common/const';
 
 interface IListItemProps {
@@ -51,6 +53,29 @@ export const FeaturesList = () => {
   return (
     <Box component="section" mt={8}>
       <Curtains className={classes.content}>
+        <Paper variant="outlined" square={false} className={classes.paper}>
+          <StakeAvalancheIcon className={classes.icon} />
+          <div>
+            <Header>{t('features-list.header.stake-avax')}</Header>
+            <ListItem>{t('features-list.list-item.stake-avax.1')}</ListItem>
+            <ListItem>{t('features-list.list-item.stake-avax.2')}</ListItem>
+            <ListItem>{t('features-list.list-item.stake-avax.3')}</ListItem>
+            <ListItem>{t('features-list.list-item.stake-avax.4')}</ListItem>
+          </div>
+          <div className={classes.actions}>
+            <Button
+              variant="contained"
+              color="primary"
+              className={classes.action}
+              fullWidth={true}
+              component={RouterLink}
+              to={STAKER_AVALANCHE_PATH}
+            >
+              {t('features-list.action.start-staking')}
+            </Button>
+          </div>
+        </Paper>
+
         <Paper variant="outlined" square={false} className={classes.paper}>
           <StakeEthIcon className={classes.icon} />
           <div>
@@ -98,7 +123,7 @@ export const FeaturesList = () => {
                   to={STAKER_BNB_PATH}
                   disabled={!isBnbStakingAvailable}
                 >
-                  {t('features-list.action.stake-bnb')}
+                  {t('features-list.action.start-staking')}
                 </Button>
               </div>
             </Tooltip>
