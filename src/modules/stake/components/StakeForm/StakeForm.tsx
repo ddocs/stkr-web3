@@ -112,7 +112,7 @@ export const StakeForm = ({
               />
             </label>
 
-            {renderStats ? renderStats(amount) : null}
+            {/* {renderStats ? renderStats(amount) : null} */}
           </div>
         </div>
 

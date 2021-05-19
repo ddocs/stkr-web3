@@ -26,6 +26,7 @@ export const useCellStyles = makeStyles<
 
       '&$centerCell': {
         textAlign: 'center',
+        justifyContent: 'center',
       },
 
       '&$leftCell': {
@@ -34,6 +35,7 @@ export const useCellStyles = makeStyles<
 
       '&$rightCell': {
         textAlign: 'right',
+        justifyContent: 'flex-end',
       },
     },
 

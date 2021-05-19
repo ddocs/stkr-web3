@@ -23,6 +23,7 @@ import {
   STAKER_DASHBOARD_PATH,
   STAKER_STAKE_BNB_ROUTE,
   STAKER_STAKE_PATH,
+  STAKER_AVALANCHE_PATH,
 } from './common/const';
 import { PageNotFound } from './components/PageNotFound/PageNotFound';
 import { QueryLoadingAbsolute } from './components/QueryLoading/QueryLoading';
@@ -131,6 +132,18 @@ const StakerBnbContainer = withDefaultLayout(
     async () =>
       import('./modules/stake-bnb/screens/StakeBnb').then(
         module => module.StakeBnb,
+      ),
+    {
+      fallback: <QueryLoadingAbsolute />,
+    },
+  ) as LoadableComponent<any>,
+);
+
+const LoadableAvalancheContainer = withDefaultLayout(
+  loadable(
+    async () =>
+      import('./modules/stake-avax/screens/StakeAvax').then(
+        module => module.StakeAvax,
       ),
     {
       fallback: <QueryLoadingAbsolute />,
@@ -274,6 +287,11 @@ export function Routes() {
       <PrivateRoute
         path={STAKER_BNB_PATH}
         component={WalletListBnbContainer}
+        exact={true}
+      />
+      <PrivateRoute
+        path={STAKER_AVALANCHE_PATH}
+        component={LoadableAvalancheContainer}
         exact={true}
       />
       <PrivateRoute path={STAKER_STAKE_PATH} component={StakerContainer} />

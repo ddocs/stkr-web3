@@ -148,6 +148,11 @@ export interface INotarizeTransferReply {
   recipient?: string;
 }
 
+export interface IConvertEstimateReply {
+  validationEndTime: number; // miliseconds
+  amountAvailable: BigNumber;
+}
+
 export interface INotarizeTransferRequest {
   fromChain: string;
   transactionHash: string;
@@ -329,6 +334,17 @@ export class ApiGateway {
     >(`/v1alpha/bridge/notarize`, request);
     if (status !== 200)
       throw new Error(`Unable to fetch ethereum balance: ${statusText}`);
+    return data;
+  }
+
+  public async getConversionEstimate(
+    amount: string,
+    token: string,
+  ): Promise<IConvertEstimateReply> {
+    const { status, data } = await this.api.get<IConvertEstimateReply>(
+      `/v1alpha/${token.toLowerCase()}/claimservetime?amount=${amount}`,
+    );
+    if (status !== 200) throw new Error(`Unable to get conversion estimate`);
     return data;
   }
 }

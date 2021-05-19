@@ -17,11 +17,13 @@ import huobiLogo from './assets/huobi.svg';
 import imTokenLogo from './assets/imToken.svg';
 import mathLogo from './assets/math.svg';
 import trustWalletLogo from './assets/trust.svg';
+import { IRPCConfig } from './config';
 import { KeyProviderEvents } from './event';
 
 export interface IProviderConfig {
   ethereumChainId: BlockchainNetworkId;
   binanceChainId: BlockchainNetworkId;
+  avalancheChainId: number;
 }
 
 export interface SendOptions {
@@ -79,6 +81,8 @@ export abstract class KeyProvider {
   public abstract isBinanceSmartChain(): boolean;
 
   public abstract isBinanceWallet(): boolean;
+
+  public abstract isAvalancheChain(): boolean;
 
   public abstract get name(): string;
 
@@ -149,7 +153,7 @@ export abstract class KeyProvider {
     address: string,
   ): Promise<string>;
 
-  public abstract switchNetwork(): Promise<string>;
+  public abstract switchNetwork(settings: IRPCConfig): Promise<string>;
 
   public abstract sendAsync(
     from: string,
@@ -363,12 +367,13 @@ export class Web3ModalKeyProvider extends KeyProvider {
 
     const web3 = new Web3(provider);
     const chainId = Number(
-      this.chainId ?? provider.networkVersion ?? provider.chainId,
+      this.chainId ?? provider.chainId ?? provider.networkVersion,
     );
 
     if (
       chainId !== this.providerConfig.ethereumChainId &&
-      chainId !== this.providerConfig.binanceChainId
+      chainId !== this.providerConfig.binanceChainId &&
+      chainId !== this.providerConfig.avalancheChainId
     ) {
       console.error(
         `ethereum networks mismatched ${chainId} != ${this.providerConfig.ethereumChainId} or ${this.providerConfig.binanceChainId}`,
@@ -410,6 +415,11 @@ export class Web3ModalKeyProvider extends KeyProvider {
 
   public isBinanceSmartChain(): boolean {
     return this.chainId === 97 || this.chainId === 56;
+  }
+
+  public isAvalancheChain(): boolean {
+    console.log('CHAIN ID: ' + this.chainId);
+    return this.chainId === 43113 || this.chainId === 43114;
   }
 
   public isBinanceWallet(): boolean {
@@ -476,23 +486,10 @@ export class Web3ModalKeyProvider extends KeyProvider {
     }
   }
 
-  public switchNetwork(): Promise<string> {
-    const data = [
-      {
-        chainId: '0x61',
-        chainName: 'Binance Smart Chain',
-        nativeCurrency: {
-          name: 'BNB',
-          symbol: 'BNB',
-          decimals: 18,
-        },
-        rpcUrls: ['https://data-seed-prebsc-1-s1.binance.org:8545/'],
-        blockExplorerUrls: ['https://testnet.bscscan.com'],
-      },
-    ];
+  public switchNetwork(settings: IRPCConfig): Promise<string> {
     /* eslint-disable */
     return this.provider
-      .request({ method: 'wallet_addEthereumChain', params: data })
+      .request({ method: 'wallet_addEthereumChain', params: [settings] })
       .catch();
   }
 
