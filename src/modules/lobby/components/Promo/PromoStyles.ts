@@ -20,8 +20,12 @@ export const usePromoStyles = makeStyles(theme => ({
     },
 
     [theme.breakpoints.up('lg')]: {
-      padding: theme.spacing(16, 0, 0),
-      marginBottom: theme.spacing(20),
+      marginBottom: 100,
+    },
+
+    [theme.breakpoints.up('xl')]: {
+      padding: theme.spacing(21, 0, 0),
+      marginBottom: 200,
     },
   },
 
