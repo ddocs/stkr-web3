@@ -4,18 +4,24 @@ export const usePromoStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
-    padding: theme.spacing(7, 0, 6),
+    padding: theme.spacing(7, 0, 0),
+
+    [theme.breakpoints.up('xs')]: {
+      marginBottom: theme.spacing(5),
+    },
 
     [theme.breakpoints.up('sm')]: {
       padding: theme.spacing(5, 0),
+      marginBottom: theme.spacing(0),
     },
 
     [theme.breakpoints.up('md')]: {
-      padding: theme.spacing(12, 0, 10),
+      padding: theme.spacing(12, 0, 0),
     },
 
     [theme.breakpoints.up('lg')]: {
-      padding: theme.spacing(16, 0, 11),
+      padding: theme.spacing(16, 0, 0),
+      marginBottom: theme.spacing(20),
     },
   },
 

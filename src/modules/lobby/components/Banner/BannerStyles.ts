@@ -4,60 +4,42 @@ import { makeStyles } from '@material-ui/core/styles';
 export const useBannerStyles = makeStyles<Theme>(theme => ({
   root: {
     position: 'relative',
-    height: 500,
+    marginTop: 32,
     [theme.breakpoints.down('lg')]: {
+      marginTop: 0,
+    },
+    [theme.breakpoints.down('sm')]: {
       height: 400,
     },
   },
   panel: {
     position: 'absolute',
+    top: '50%',
+    right: '50%',
+    transform: 'translate(50%, -50%)',
+    [theme.breakpoints.down('lg')]: {
+      transform: 'translate(50%, -50%) scale(0.7)',
+    },
     '&.panel_1': {
-      top: -85,
-      right: 250,
       zIndex: 0,
       width: 375,
+      marginTop: -132,
+      marginRight: 196,
       [theme.breakpoints.down('lg')]: {
-        transform: 'scale(0.7)',
-        right: 209,
-      },
-      [theme.breakpoints.down('sm')]: {
-        top: '50%',
-        right: '50%',
-        transform: 'translate(50%, -50%) scale(0.7)',
         marginTop: -92,
         marginRight: 131,
       },
     },
     '&.panel_2': {
-      top: -55,
-      right: -120,
       zIndex: 1,
       width: 715,
-      [theme.breakpoints.down('lg')]: {
-        transform: 'scale(0.7)',
-        top: -92,
-        right: -100,
-      },
-      [theme.breakpoints.down('sm')]: {
-        top: '50%',
-        right: '50%',
-        transform: 'translate(50%, -50%) scale(0.7)',
-      },
     },
     '&.panel_3': {
-      top: 142,
-      right: 11,
       zIndex: 2,
       width: 215,
+      marginTop: 58,
+      marginRight: -121,
       [theme.breakpoints.down('lg')]: {
-        transform: 'scale(0.7)',
-        top: 87,
-        right: 63,
-      },
-      [theme.breakpoints.down('sm')]: {
-        top: '50%',
-        right: '50%',
-        transform: 'translate(50%, -50%) scale(0.7)',
         marginTop: 39,
         marginRight: -85,
       },
