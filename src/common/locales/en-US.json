@@ -3,7 +3,8 @@
     "providers": "Providers",
     "stakers": "Stakers with Ankr",
     "text": "Ankr provides decentralized staking services for Ethereum 2.0. Ankr's Eth2 staking protocol and platform combines staking and DeFi, implementing elements from traditional staking with non-custodial management, Micropools, instant liquidity and decentralized governance.",
-    "title": "<span>Staking.</span>Simplified.",
+    "title": "<span>Ankr StakeFi</span>Internet bond launchpad",
+    "subtitle": "Connect your staking rewards with DeFi",
     "total": "Total Value Staked"
   },
   "about-smartchain": {

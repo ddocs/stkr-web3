@@ -1,0 +1,64 @@
+<svg
+  width="100%"
+  viewBox="0 0 376 206"
+  fill="none"
+  preserveAspectRatio="xMidYMin slice"
+  xmlns="http://www.w3.org/2000/svg"
+>
+<g filter="url(#panel1_bi)">
+<path
+      d="M189.506 113.494L175.494 127.506C170.055 132.945 167 140.321 167 148.012V164.316C167 171.477 164.155 178.345 159.092 183.408L144.408 198.092C139.345 203.155 132.477 206 125.316 206H16C7.16344 206 0 198.837 0 190V158.512C0 150.821 3.05535 143.445 8.49391 138.006L39.5061 106.994C44.9447 101.555 52.3209 98.5 60.0122 98.5H89.4878C97.1791 98.5 104.555 95.4446 109.994 90.0061L191.506 8.4939C196.945 3.05535 204.321 0 212.012 0H323.462C330.572 0 337.434 2.61202 342.745 7.33971L365.783 27.8494C371.964 33.3523 375.5 41.2339 375.5 49.5097V66.5632C375.5 75.0859 371.751 83.1771 365.249 88.6872L354.114 98.124C348.875 102.563 342.231 105 335.365 105H210.012C202.321 105 194.945 108.055 189.506 113.494Z"
+      fill="url(#panel1_linear)"
+    />
+</g>
+<defs>
+<filter
+      id="panel1_bi"
+      x="-26"
+      y="-26"
+      width="427.5"
+      height="258"
+      filterUnits="userSpaceOnUse"
+      color-interpolation-filters="sRGB"
+    >
+<feFlood flood-opacity="0" result="BackgroundImageFix" />
+<feGaussianBlur in="BackgroundImage" stdDeviation="13" />
+<feComposite in2="SourceAlpha" operator="in" result="effect1_backgroundBlur" />
+<feBlend
+        mode="normal"
+        in="SourceGraphic"
+        in2="effect1_backgroundBlur"
+        result="shape"
+      />
+<feColorMatrix
+        in="SourceAlpha"
+        type="matrix"
+        values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+        result="hardAlpha"
+      />
+<feOffset dy="2" />
+<feGaussianBlur stdDeviation="1" />
+<feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1" />
+<feColorMatrix
+        type="matrix"
+        values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.25 0"
+      />
+<feBlend mode="normal" in2="shape" result="effect2_innerShadow" />
+</filter>
+<linearGradient
+      id="panel1_linear"
+      x1="405.846"
+      y1="63.757"
+      x2="-8.91428"
+      y2="68.9174"
+      gradientUnits="userSpaceOnUse"
+    >
+<stop stop-color="white" />
+<stop offset="0.0237948" stop-color="#F7F5FE" stop-opacity="0.505379" />
+<stop offset="0.0699451" stop-color="#453F63" stop-opacity="0.15" />
+<stop offset="0.493144" stop-color="#7B62F3" stop-opacity="0.06" />
+<stop offset="0.905393" stop-color="#423777" stop-opacity="0.19" />
+<stop offset="1" stop-color="#222D61" stop-opacity="0.41" />
+</linearGradient>
+</defs>
+</svg>
