@@ -24,8 +24,8 @@ export const usePromoStyles = makeStyles(theme => ({
     },
 
     [theme.breakpoints.up('xl')]: {
-      padding: theme.spacing(21, 0, 0),
-      marginBottom: 200,
+      padding: '188px 0 0',
+      marginBottom: 170,
     },
   },
 
