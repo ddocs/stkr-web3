@@ -611,7 +611,7 @@ export const UserActions = {
       },
     },
   })),
-  topUp: (amount: BigNumber, type: DepositType, skipDeposit?: boolean) => ({
+  topUp: (amount: BigNumber, type: DepositType) => ({
     type: UserActionTypes.TOP_UP,
     request: {
       promise: (async function () {
@@ -619,12 +619,6 @@ export const UserActions = {
 
         if (type === DepositType.ETH) {
           return stkrSdk.topUpETH(amount);
-        }
-
-        if (!skipDeposit) {
-          await stkrSdk
-            .getContractManager()
-            .depositAnkr(stkrSdk.getKeyProvider().currentAccount());
         }
 
         return stkrSdk.topUpANKR(amount);
