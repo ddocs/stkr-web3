@@ -26,8 +26,8 @@ export const Lobby = () => {
     <>
       <Promo />
       <GlobalStats />
-      <VideoTutorial />
       <Features />
+      <VideoTutorial />
       <AethBanner />
       <Calculate />
       <Services className={classes.services} />
