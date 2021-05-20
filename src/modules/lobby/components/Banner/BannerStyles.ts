@@ -12,7 +12,7 @@ export const useBannerStyles = makeStyles<Theme>(theme => ({
   panel: {
     position: 'absolute',
     '&.panel_1': {
-      top: 0,
+      top: -85,
       right: 250,
       zIndex: 0,
       width: 375,
@@ -29,7 +29,7 @@ export const useBannerStyles = makeStyles<Theme>(theme => ({
       },
     },
     '&.panel_2': {
-      top: 30,
+      top: -55,
       right: -120,
       zIndex: 1,
       width: 715,
@@ -45,7 +45,7 @@ export const useBannerStyles = makeStyles<Theme>(theme => ({
       },
     },
     '&.panel_3': {
-      top: 227,
+      top: 142,
       right: 11,
       zIndex: 2,
       width: 215,

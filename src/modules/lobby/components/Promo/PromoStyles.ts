@@ -32,7 +32,7 @@ export const usePromoStyles = makeStyles(theme => ({
     margin: theme.spacing(0, 0, 2),
     fontSize: 64,
     lineHeight: 1.14,
-    fontWeight: 500,
+    fontWeight: 'bold',
 
     '& span': {
       display: 'flex',
