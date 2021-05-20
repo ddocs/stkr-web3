@@ -14,6 +14,7 @@ import {
   STAKER_BNB_PATH,
   STAKER_DASHBOARD_PATH,
   STAKER_AVALANCHE_PATH,
+  ENABLE_AVA,
 } from '../../common/const';
 
 interface IListItemProps {
@@ -53,28 +54,30 @@ export const FeaturesList = () => {
   return (
     <Box component="section" mt={8}>
       <Curtains className={classes.content}>
-        <Paper variant="outlined" square={false} className={classes.paper}>
-          <StakeAvalancheIcon className={classes.icon} />
-          <div>
-            <Header>{t('features-list.header.stake-avax')}</Header>
-            <ListItem>{t('features-list.list-item.stake-avax.1')}</ListItem>
-            <ListItem>{t('features-list.list-item.stake-avax.2')}</ListItem>
-            <ListItem>{t('features-list.list-item.stake-avax.3')}</ListItem>
-            <ListItem>{t('features-list.list-item.stake-avax.4')}</ListItem>
-          </div>
-          <div className={classes.actions}>
-            <Button
-              variant="contained"
-              color="primary"
-              className={classes.action}
-              fullWidth={true}
-              component={RouterLink}
-              to={STAKER_AVALANCHE_PATH}
-            >
-              {t('features-list.action.start-staking')}
-            </Button>
-          </div>
-        </Paper>
+        {ENABLE_AVA && (
+          <Paper variant="outlined" square={false} className={classes.paper}>
+            <StakeAvalancheIcon className={classes.icon} />
+            <div>
+              <Header>{t('features-list.header.stake-avax')}</Header>
+              <ListItem>{t('features-list.list-item.stake-avax.1')}</ListItem>
+              <ListItem>{t('features-list.list-item.stake-avax.2')}</ListItem>
+              <ListItem>{t('features-list.list-item.stake-avax.3')}</ListItem>
+              <ListItem>{t('features-list.list-item.stake-avax.4')}</ListItem>
+            </div>
+            <div className={classes.actions}>
+              <Button
+                variant="contained"
+                color="primary"
+                className={classes.action}
+                fullWidth={true}
+                component={RouterLink}
+                to={STAKER_AVALANCHE_PATH}
+              >
+                {t('features-list.action.start-staking')}
+              </Button>
+            </div>
+          </Paper>
+        )}
 
         <Paper variant="outlined" square={false} className={classes.paper}>
           <StakeEthIcon className={classes.icon} />

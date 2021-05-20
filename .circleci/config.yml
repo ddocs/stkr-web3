@@ -46,6 +46,8 @@ jobs:
     <<: *build-template
   build-prod:
     <<: *build-template
+  build-stakefi:
+    <<: *build-template
   build-bs-1:
     <<: *build-template
   build-bs-2:
@@ -56,6 +58,8 @@ jobs:
   upload-goerli:
     <<: *upload-template
   upload-prod:
+    <<: *upload-template
+  upload-stakefi:
     <<: *upload-template
   upload-bs-1:
     <<: *upload-template
@@ -108,6 +112,22 @@ workflows:
             - stkr_build_prod
           requires:
             - build-prod
+      # stakefi
+      - approve-stakefi:
+          type: approval
+          filters:
+            branches:
+              only: [ master ]
+      - build-stakefi:
+          context: stkr_build_prod
+          requires:
+            - approve-stakefi
+      - upload-stakefi:
+          context:
+            - cicd
+            - stkr_deploy_stakefi
+          requires:
+            - build-stakefi
       # bs-1
       - approve-bs-1:
           type: approval

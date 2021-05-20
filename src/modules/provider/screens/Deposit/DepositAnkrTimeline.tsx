@@ -97,7 +97,7 @@ export function DepositAnkrTimeline({
               classes.timelineNotCurrentContent,
           )}
         >
-          {t('top-up.step.1', {
+          {t('top-up.step.3', {
             value: totalAllowance.toFormat(),
           })}
         </TimelineContent>
