@@ -20,7 +20,7 @@ export const usePromoStyles = makeStyles(theme => ({
     },
 
     [theme.breakpoints.up('lg')]: {
-      marginBottom: 100,
+      marginBottom: 65,
     },
 
     [theme.breakpoints.up('xl')]: {
