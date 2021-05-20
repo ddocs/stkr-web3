@@ -35,7 +35,7 @@ export const useBannerStyles = makeStyles<Theme>(theme => ({
       width: 715,
       [theme.breakpoints.down('lg')]: {
         transform: 'scale(0.7)',
-        top: -4,
+        top: -92,
         right: -100,
       },
       [theme.breakpoints.down('sm')]: {
@@ -51,7 +51,7 @@ export const useBannerStyles = makeStyles<Theme>(theme => ({
       width: 215,
       [theme.breakpoints.down('lg')]: {
         transform: 'scale(0.7)',
-        top: 175,
+        top: 87,
         right: 63,
       },
       [theme.breakpoints.down('sm')]: {
