@@ -52,6 +52,7 @@ export const usePromoStyles = makeStyles(theme => ({
   },
 
   subtitle: {
+    marginTop: theme.spacing(4),
     [theme.breakpoints.down('sm')]: {
       textAlign: 'center',
     },
