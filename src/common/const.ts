@@ -81,3 +81,5 @@ export const featuresConfig = {
   aEthVideo: false,
   bridge: false,
 };
+
+export const ENABLE_AVA = false;
