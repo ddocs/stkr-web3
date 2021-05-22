@@ -30,7 +30,6 @@ export const Logotype = ({ className }: ILogotypeProps) => {
       >
         <LogoIcon />
       </NavLink>
-
       <Typography className={classes.company}>{t('about.product')}</Typography>
     </Body2>
   );
