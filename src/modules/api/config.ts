@@ -60,7 +60,7 @@ const GOERLI_CONFIG: IStkrConfig = {
     contractConfig: {
       ...LOCAL_CONFIG.contractConfig,
       ...{
-        futureBondAVAX: '0xEb52941a1eb73b23e2E22C09C71A9B2F1B4228b3',
+        futureBondAVAX: '0xdb08E6fbFd8fF23BF8813968138e95304af1Ff13',
       },
     },
   },
@@ -68,15 +68,15 @@ const GOERLI_CONFIG: IStkrConfig = {
     binanceConfig: {
       ...LOCAL_CONFIG.binanceConfig,
       ...{
-        futureBondAVAX: '0xF235b88da053eBe821cd63f267a0a4914C95373E',
+        futureBondAVAX: '0xdE733c7CcBBb3F5fF6Dfb6b24b4c65cA82e4DC50',
       },
     },
     avalancheConfig: {
       ...LOCAL_CONFIG.avalancheConfig,
       ...{
-        futureBondAVAX: '0xb45A2749a3966992DC65fe8c22996E96C5c2BE3d',
-        avalanchePool: '0x5B525ec8e1F6A64cDbfbd064753058d0b1D15C5C',
-        crossChainBridge: '0xE2aB659a7aC920E8545F979d0AE81e91Da5B32A2',
+        futureBondAVAX: '0xBd97c29aa3E83C523C9714edCA8DB8881841a593',
+        avalanchePool: '0x0C29D40cBD3c9073f4C0c96Bf88Ae1B4b4FE1d11',
+        crossChainBridge: '0xC512F180454B5C1f2E53CD8B34d7Cd230564C963',
       },
     },
   },
