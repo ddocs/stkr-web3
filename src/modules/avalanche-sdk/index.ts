@@ -67,15 +67,22 @@ export class AvalancheSdk {
     private readonly web3: Web3,
     configMap: Record<
       string,
-      {
-        AvalanchePool: string;
-        FutureBondAVAX: string;
-        CrossChainBridge: string;
-      }
+      Record<
+        string,
+        {
+          AvalanchePool: string;
+          FutureBondAVAX: string;
+          CrossChainBridge: string;
+        }
+      >
     >,
     chainId: number | string,
   ) {
-    const entry = configMap[String(chainId)];
+    const env = process.env.REACT_APP_STKR_ENV
+      ? process.env.REACT_APP_STKR_ENV
+      : 'develop';
+    const map = configMap[env];
+    const entry = map[String(chainId)];
     if (!entry) {
       throw new Error('CrossChain is not supported by current chain');
     }
@@ -111,11 +118,14 @@ export class AvalancheSdk {
     web3: Web3,
     configMap: Record<
       string,
-      {
-        AvalanchePool: string;
-        FutureBondAVAX: string;
-        CrossChainBridge: string;
-      }
+      Record<
+        string,
+        {
+          AvalanchePool: string;
+          FutureBondAVAX: string;
+          CrossChainBridge: string;
+        }
+      >
     >,
   ): Promise<AvalancheSdk> {
     const chainId = await web3.eth.getChainId();

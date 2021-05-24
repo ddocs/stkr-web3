@@ -78,17 +78,24 @@ export class CrossChainSdk {
     private readonly web3: Web3,
     configMap: Record<
       string,
-      {
-        CrossChainBridge: string;
-        Migrations: string;
-      }
+      Record<
+        string,
+        {
+          CrossChainBridge: string;
+          Migrations: string;
+        }
+      >
     >,
     chainId: number | string,
   ) {
     const contractMap: Record<string, Contract> = {};
     let currentContract: Contract | undefined = undefined,
       currentContractAddress: string | undefined = undefined;
-    for (const [key, value] of Object.entries(configMap)) {
+    const env = process.env.REACT_APP_STKR_ENV
+      ? process.env.REACT_APP_STKR_ENV
+      : 'develop';
+    const bridgesMap = configMap[env];
+    for (const [key, value] of Object.entries(bridgesMap)) {
       const contract = new web3.eth.Contract(
         ABI_CROSS_CHAIN_BRIDGE as any,
         value.CrossChainBridge,
@@ -127,10 +134,13 @@ export class CrossChainSdk {
     web3: Web3,
     configMap: Record<
       string,
-      {
-        CrossChainBridge: string;
-        Migrations: string;
-      }
+      Record<
+        string,
+        {
+          CrossChainBridge: string;
+          Migrations: string;
+        }
+      >
     >,
   ): Promise<CrossChainSdk> {
     const chainId = await web3.eth.getChainId();
