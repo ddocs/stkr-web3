@@ -78,10 +78,6 @@ export interface IContractManager {
 
   claimableFETHRewardOf(staker: string): Promise<BigNumber>;
 
-  poolCount(): Promise<BigNumber>;
-
-  pendingStakesOf(staker: string): Promise<BigNumber>;
-
   ethereumStakingAmount(): Promise<BigNumber>;
 
   providerMinimumStaking(): Promise<BigNumber>;
@@ -749,21 +745,6 @@ export class EthereumContractManager implements IContractManager {
     const microPoolContract = this.checkGlobalPoolContract();
     const rawValue = await microPoolContract.methods
       .claimableAETHFRewardOf(staker)
-      .call();
-    return new BigNumber(rawValue).dividedBy(
-      EthereumContractManager.ETH_SCALE_FACTOR,
-    );
-  }
-
-  public async poolCount(): Promise<BigNumber> {
-    const microPoolContract = this.checkGlobalPoolContract();
-    return microPoolContract.methods.poolCount().call();
-  }
-
-  public async pendingStakesOf(staker: string): Promise<BigNumber> {
-    const microPoolContract = this.checkGlobalPoolContract();
-    const rawValue = await microPoolContract.methods
-      .pendingStakesOf(staker)
       .call();
     return new BigNumber(rawValue).dividedBy(
       EthereumContractManager.ETH_SCALE_FACTOR,
