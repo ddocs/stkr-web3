@@ -70,8 +70,6 @@ interface IStakerSdk {
 
   getAethRatio(): Promise<BigNumber>;
 
-  pendingStakesOf(token: string): Promise<BigNumber>;
-
   getAllowanceAmount(): Promise<BigNumber>;
 
   getStakerMinimalStakingAmount(): Promise<BigNumber>;
@@ -578,10 +576,6 @@ export class StkrSdk implements IStkrSdk {
       return new BigNumber('0');
     }
     return await this.getContractManager().aethRatio();
-  }
-
-  public async pendingStakesOf(token: string): Promise<BigNumber> {
-    return await this.getContractManager().pendingStakesOf(token);
   }
 
   public isGovernanceSupported(): boolean {
