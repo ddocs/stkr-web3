@@ -20,6 +20,9 @@ export const useBannerStyles = makeStyles<Theme>(theme => ({
     [theme.breakpoints.down('lg')]: {
       transform: 'translate(50%, -50%) scale(0.7)',
     },
+    [theme.breakpoints.down('xs')]: {
+      transform: 'translate(50%, -50%) scale(0.6)',
+    },
     '&.panel_1': {
       zIndex: 0,
       width: 375,
@@ -29,10 +32,22 @@ export const useBannerStyles = makeStyles<Theme>(theme => ({
         marginTop: -92,
         marginRight: 131,
       },
+      [theme.breakpoints.down('xs')]: {
+        marginTop: -74,
+        marginRight: 86,
+      },
     },
     '&.panel_2': {
       zIndex: 1,
       width: 715,
+      [theme.breakpoints.down('xs')]: {
+        marginTop: 0,
+        overflow: 'hidden',
+        right: -145,
+        top: 0,
+        width: 606,
+        transform: 'scale(0.6)',
+      },
     },
     '&.panel_3': {
       zIndex: 2,
@@ -42,6 +57,10 @@ export const useBannerStyles = makeStyles<Theme>(theme => ({
       [theme.breakpoints.down('lg')]: {
         marginTop: 39,
         marginRight: -85,
+      },
+      [theme.breakpoints.down('xs')]: {
+        marginTop: 45,
+        marginRight: -110,
       },
     },
   },
