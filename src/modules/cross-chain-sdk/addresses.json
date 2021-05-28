@@ -1,28 +1,44 @@
 {
-  "5": {
-    "CrossChainBridge": "0xa29940648EEB0d45AFd2Ed87fea0E3abDB0c09C4",
-    "Migrations": "0xa29940648EEB0d45AFd2Ed87fea0E3abDB0c09C4"
+  "develop": {
+    "43113": {
+      "CrossChainBridge": "0xE2aB659a7aC920E8545F979d0AE81e91Da5B32A2",
+      "Migrations": "\""
+    },
+    "5": {
+      "CrossChainBridge": "0xa29940648EEB0d45AFd2Ed87fea0E3abDB0c09C4",
+      "Migrations": "\""
+    },
+    "97": {
+      "CrossChainBridge": "0xCc814742056D76115E3b9AE435e40306AD1e37df",
+      "Migrations": "\""
+    }
   },
-  "97": {
-    "CrossChainBridge": "0xCc814742056D76115E3b9AE435e40306AD1e37df",
-    "Migrations": "0xC664384201c1975E97AB562797Be2A2c5e8095D0"
+  "goerli": {
+    "43113": {
+      "CrossChainBridge": "0xC512F180454B5C1f2E53CD8B34d7Cd230564C963",
+      "Migrations": "\""
+    },
+    "5": {
+      "CrossChainBridge": "0x8d3588c8c6091423ca31279dfe40892468fc26cd",
+      "Migrations": "\""
+    },
+    "97": {
+      "CrossChainBridge": "0x61b06Bc2D44C419C8746533adfD34CFaF2897114",
+      "Migrations": "\""
+    }
   },
-
-  "1": {
-    "CrossChainBridge": "0xE7AC5115eEeedD1DD57649a4c7077a0F9D10B795",
-    "Migrations": "\""
-  },
-  "56": {
-    "CrossChainBridge": "0x4436E53e73B001aFfa7eDe6f7E8894EFcf466F15",
-    "Migrations": "0x402ef64D447FdbfDCE45dC850E46Aeb75eA2B843"
-  },
-
-  "43113": {
-    "CrossChainBridge": "0xE2aB659a7aC920E8545F979d0AE81e91Da5B32A2",
-    "Migrations": "\""
-  },
-  "43114": {
-    "CrossChainBridge": "0x7E28bFF4C435C48EC20E2a8d975abB3aF0AD6ecD",
-    "Migrations": "\""
+  "mainnet" : {
+    "43114": {
+      "CrossChainBridge": "0x7E28bFF4C435C48EC20E2a8d975abB3aF0AD6ecD",
+      "Migrations": "\""
+    },
+    "1": {
+      "CrossChainBridge": "0xE7AC5115eEeedD1DD57649a4c7077a0F9D10B795",
+      "Migrations": "\""
+    },
+    "56": {
+      "CrossChainBridge": "0x4436E53e73B001aFfa7eDe6f7E8894EFcf466F15",
+      "Migrations": "\""
+    }
   }
 }
