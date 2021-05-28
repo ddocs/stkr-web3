@@ -7,7 +7,7 @@ export const usePromoStyles = makeStyles(theme => ({
     padding: theme.spacing(7, 0, 0),
 
     [theme.breakpoints.up('xs')]: {
-      marginBottom: theme.spacing(5),
+      marginBottom: theme.spacing(3),
     },
 
     [theme.breakpoints.up('sm')]: {
@@ -55,8 +55,11 @@ export const usePromoStyles = makeStyles(theme => ({
 
     [theme.breakpoints.down('sm')]: {
       textAlign: 'center',
+      fontSize: 52,
+      lineHeight: '120%',
     },
     [theme.breakpoints.down('xs')]: {
+      fontWeight: 500,
       textAlign: 'left',
     },
   },
