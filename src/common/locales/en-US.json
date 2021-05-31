@@ -3,13 +3,15 @@
     "providers": "Providers",
     "stakers": "Stakers with Ankr",
     "text": "Ankr provides decentralized staking services for Ethereum 2.0. Ankr's Eth2 staking protocol and platform combines staking and DeFi, implementing elements from traditional staking with non-custodial management, Micropools, instant liquidity and decentralized governance.",
-    "title": "<span>Staking.</span>Simplified.",
-    "total": "Total Value Staked"
+    "title": "<span>Ankr StakeFi</span>Internet bond launchpad",
+    "subtitle": "Connect your staking rewards with DeFi",
+    "total": "Total Value Staked",
+    "product": "StekeFi"
   },
   "about-smartchain": {
     "submit": "Launch App",
     "text": [
-      "To use Ankr Staking for Binance Smart Chain–pegged ETH you first need to add the Binance Smart Chain network to your MetaMask wallet by following these steps. If you have already added the Binance Smart Chain (BSC) network, please go straight to step 4.",
+      "To use Ankr StakeFi for Binance Smart Chain–pegged ETH you first need to add the Binance Smart Chain network to your MetaMask wallet by following these steps. If you have already added the Binance Smart Chain (BSC) network, please go straight to step 4.",
       "1. In your MetaMask, click the menu which is set to “Main Ethereum Network” by default. In the dropdown click “Custom RPC”.",
       "2. A form will appear, where you need to fill in certain parameters to connect to the Binance Smart Chain network.",
       "3. Fill in the following parameters:<br/>Network name: Binance Smart Chain<br/>New RPC URL: https://bsc-dataseed.binance.org<br/>ChainID: 56<br/>Symbol: BNB<br/>Block Explorer: https://bscscan.com",
@@ -47,15 +49,15 @@
   "aeth-it-works": {
     "items": {
       "deposit": {
-        "text": "Deposit ETH on Staking Manager (you can deposit any amount starting from 0.5 ETH) by connecting your wallet to the Ankr Staking platform.",
+        "text": "Deposit ETH on Staking Manager (you can deposit any amount starting from 0.5 ETH) by connecting your wallet to the Ankr StakeFi platform.",
         "title": "Deposit"
       },
       "get-aeth": {
-        "text": "Once your ETH is staked on the Beaconchain, your aETH balance will be added to the Ankr Staking platform for you to redeem.",
+        "text": "Once your ETH is staked on the Beaconchain, your aETH balance will be added to the Ankr StakeFi platform for you to redeem.",
         "title": "Get aETH"
       },
       "redeem": {
-        "text": "As soon as Ethereum 2.0 transactions are activated, you can use your aETH to redeem your staked ETH + staking rewards on the Ankr Staking platform.",
+        "text": "As soon as Ethereum 2.0 transactions are activated, you can use your aETH to redeem your staked ETH + staking rewards on the Ankr StakeFi platform.",
         "title": "Redeem your ETH + staking rewards"
       },
       "use-aeth": {
@@ -264,7 +266,7 @@
   "global-stats.total-staked": "Total ETH Staked with Ankr",
   "how-it-works-dialog": {
     "item": {
-      "1": "To  participate  in  a  proposal,  users  must  give  allowance  to  Ankr Staking’s  AnkrDepositContract.",
+      "1": "To  participate  in  a  proposal,  users  must  give  allowance  to  Ankr StakeFi’s  AnkrDepositContract.",
       "2": "Every deposited ANKR token has only one voting power (i.e., more tokens morevote power).",
       "3": "Users can deposit tokens before the voting period or while they vote.",
       "4": "Users can participate multiple proposals by voting with the same deposited tokens(as long as the address has sufficient ANKR tokens).",
@@ -337,7 +339,7 @@
   },
   "not-enough-balance": {
     "submit": "Deposit",
-    "text": "To become a provider in Ankr Staking and earn platform fees, you need to set up an Ethereum 2.0 node with a minimum “insurance” stake of 2 ETH to compensate users in case of slashing events.",
+    "text": "To become a provider in Ankr StakeFi and earn platform fees, you need to set up an Ethereum 2.0 node with a minimum “insurance” stake of 2 ETH to compensate users in case of slashing events.",
     "title": "To create your own node, you need to make deposit"
   },
   "peg-eth-steps": {
@@ -373,7 +375,7 @@
     "connecting-headline": "Signature creating...",
     "create": {
       "create-beacon-chain-stage-1": {
-        "description": "Ankr Staking is a decentralized protocol and platform that combines staking and DeFi, implementing elements from traditional staking with non-custodial staking, Micropools and decentralized governance.",
+        "description": "Ankr StakeFi is a decentralized protocol and platform that combines staking and DeFi, implementing elements from traditional staking with non-custodial staking, Micropools and decentralized governance.",
         "title": "Create a beacon chain node"
       },
       "create-beacon-chain-stage-2": {
@@ -476,7 +478,7 @@
     },
     "current-a-eth-balance": "Current balance",
     "locked": "Any staked amounts will be locked for the duration of the ETH 2.0 contract. You will, however, receive aETH equivalent to your stake that you will be able to trade in the meantime, against your staked amount. Until aETH is made available, however, your funds will be locked and not redeemable.",
-    "on-stkr": "On Ankr Staking",
+    "on-stkr": "On Ankr StakeFi",
     "on-wallet": "On your wallet",
     "pending": "Pending {value} ETH",
     "redeem": "Redeem",
@@ -587,7 +589,7 @@
     "numberOnly": "Must be a number"
   },
   "video-tutorial": {
-    "title": "Stake Eth2 with Ankr Staking"
+    "title": "Stake Eth2 with Ankr StakeFi"
   },
   "features-list": {
     "binance-wallet-required": "<a href=\"https://chrome.google.com/webstore/detail/binance-chain-wallet/fhbohimaelbohpjbbldcngcnapndodjp\" target=\"_blank\" rel=\"noopener noreferrer\">Binance Chain Wallet\n</a> is required",
