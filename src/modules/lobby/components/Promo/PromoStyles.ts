@@ -2,50 +2,47 @@ import { makeStyles } from '@material-ui/core/styles';
 
 export const usePromoStyles = makeStyles(theme => ({
   root: {
-    padding: theme.spacing(7, 0, 6),
+    display: 'flex',
+    flexDirection: 'column',
+    padding: theme.spacing(1, 0, 0),
+
+    [theme.breakpoints.up('xs')]: {
+      marginBottom: theme.spacing(3),
+    },
 
     [theme.breakpoints.up('sm')]: {
-      padding: theme.spacing(10, 0),
+      padding: theme.spacing(5, 0),
+      marginBottom: theme.spacing(0),
     },
 
     [theme.breakpoints.up('md')]: {
-      padding: theme.spacing(12, 0, 10),
+      padding: theme.spacing(12, 0, 0),
     },
 
     [theme.breakpoints.up('lg')]: {
-      padding: theme.spacing(16, 0, 11),
+      marginBottom: 65,
+    },
+
+    [theme.breakpoints.up('xl')]: {
+      padding: '188px 0 0',
+      marginBottom: 170,
     },
   },
 
   wrapper: {
-    [theme.breakpoints.up('md')]: {
-      display: 'grid',
-      gridTemplateColumns: 'repeat(2, 1fr)',
+    [theme.breakpoints.down('sm')]: {
+      display: 'flex',
+      flexDirection: 'column-reverse',
     },
+    display: 'grid',
+    gridTemplateColumns: 'repeat(2, 1fr)',
   },
 
   title: {
     margin: theme.spacing(0, 0, 2),
-    fontSize: 52,
+    fontSize: 64,
     lineHeight: 1.14,
-    fontWeight: 500,
-
-    [theme.breakpoints.up('sm')]: {
-      fontSize: 70,
-    },
-
-    [theme.breakpoints.up('md')]: {
-      fontSize: 80,
-      margin: 0,
-    },
-
-    [theme.breakpoints.up('lg')]: {
-      fontSize: 104,
-    },
-
-    [theme.breakpoints.up('xl')]: {
-      fontSize: 110,
-    },
+    fontWeight: 'bold',
 
     '& span': {
       display: 'flex',
@@ -54,6 +51,26 @@ export const usePromoStyles = makeStyles(theme => ({
 
     '& span span': {
       color: theme.palette.primary.main,
+    },
+
+    [theme.breakpoints.down('sm')]: {
+      textAlign: 'center',
+      fontSize: 52,
+      lineHeight: '120%',
+    },
+    [theme.breakpoints.down('xs')]: {
+      fontWeight: 500,
+      textAlign: 'left',
+    },
+  },
+
+  subtitle: {
+    marginTop: theme.spacing(4),
+    [theme.breakpoints.down('sm')]: {
+      textAlign: 'center',
+    },
+    [theme.breakpoints.down('xs')]: {
+      textAlign: 'left',
     },
   },
 
@@ -76,7 +93,7 @@ export const usePromoStyles = makeStyles(theme => ({
   button: {
     justifySelf: 'flex-start',
     minWidth: 230,
-    marginTop: theme.spacing(3.5),
+    margin: theme.spacing(3.5),
 
     [theme.breakpoints.up('sm')]: {
       display: 'none',

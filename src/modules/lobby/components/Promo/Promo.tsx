@@ -6,6 +6,7 @@ import { Typography } from '@material-ui/core';
 import { Button } from '../../../../UiKit/Button';
 import { useDispatch } from 'react-redux';
 import { UserActions } from '../../../../store/actions/UserActions';
+import { Banner } from '../Banner';
 
 export const Promo = () => {
   const classes = usePromoStyles();
@@ -17,19 +18,24 @@ export const Promo = () => {
   return (
     <section className={classes.root}>
       <Curtains classes={{ root: classes.wrapper }}>
-        <h2 className={classes.title}>{tHTML('about.title')}</h2>
-        <Typography className={classes.text} component="p">
-          {t('about.text')}
-        </Typography>
-        <Button
-          className={classes.button}
-          color="primary"
-          size="large"
-          onClick={handleUnlockWallet}
-        >
-          {t('navigation.unlock-wallet')}
-        </Button>
+        <div>
+          <Typography className={classes.title}>
+            {tHTML('about.title')}
+          </Typography>
+          <Typography className={classes.subtitle}>
+            {tHTML('about.subtitle')}
+          </Typography>
+        </div>
+        <Banner />
       </Curtains>
+      <Button
+        className={classes.button}
+        color="primary"
+        size="large"
+        onClick={handleUnlockWallet}
+      >
+        {t('navigation.unlock-wallet')}
+      </Button>
     </section>
   );
 };

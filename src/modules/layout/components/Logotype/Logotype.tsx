@@ -2,6 +2,7 @@ import { Typography } from '@material-ui/core';
 import classNames from 'classnames';
 import React from 'react';
 import { INDEX_PATH } from '../../../../common/const';
+import { t } from '../../../../common/utils/intl';
 import { NavLink } from '../../../../UiKit/NavLink';
 import { Body2 } from '../../../../UiKit/Typography';
 import { ReactComponent as LogoIcon } from './assets/logo.svg';
@@ -29,8 +30,7 @@ export const Logotype = ({ className }: ILogotypeProps) => {
       >
         <LogoIcon />
       </NavLink>
-
-      <Typography className={classes.company}>Staking</Typography>
+      <Typography className={classes.company}>{t('about.product')}</Typography>
     </Body2>
   );
 };
