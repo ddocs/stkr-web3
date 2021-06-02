@@ -158,6 +158,11 @@ export interface INotarizeTransferRequest {
   transactionHash: string;
 }
 
+export interface IProviderRewards {
+  globalRatio: number;
+  rewards: string;
+}
+
 export class ApiGateway {
   private readonly defaultConfig: AxiosRequestConfig;
   private api: AxiosInstance;
@@ -345,6 +350,24 @@ export class ApiGateway {
       `/v1alpha/${token.toLowerCase()}/claimservetime?amount=${amount}`,
     );
     if (status !== 200) throw new Error(`Unable to get conversion estimate`);
+    return data;
+  }
+
+  public async getProviderRewards(): Promise<IProviderRewards> {
+    const { status, data, statusText } = await this.api.get<IProviderRewards>(
+      `/v1alpha/reward/provider`,
+    );
+    if (status !== 200)
+      throw new Error(`Unable to fetch ethereum balance: ${statusText}`);
+    return data;
+  }
+
+  public async getSidecarRewards(sidecar: string): Promise<IProviderRewards> {
+    const { status, data, statusText } = await this.api.get<IProviderRewards>(
+      `/v1alpha/reward/sidecar/${sidecar}`,
+    );
+    if (status !== 200)
+      throw new Error(`Unable to fetch ethereum balance: ${statusText}`);
     return data;
   }
 }

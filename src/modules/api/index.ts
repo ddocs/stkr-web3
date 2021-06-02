@@ -21,6 +21,7 @@ import {
   IConvertEstimateReply,
   IGlobalStatsReply,
   INotarizeTransferReply,
+  IProviderRewards,
   ISidecarReply,
   IStakerStats,
   IUserStakeReply,
@@ -646,5 +647,13 @@ export class StkrSdk implements IStkrSdk {
         ? BNB_RPC_CONFIG
         : ETH_RPC_CONFIG;
     return await this.keyProvider?.switchNetwork(settings);
+  }
+
+  public async getProviderRewards(): Promise<IProviderRewards> {
+    return this.getApiGateway().getProviderRewards();
+  }
+
+  public async getSidecarRewards(sidecar: string): Promise<IProviderRewards> {
+    return this.getApiGateway().getSidecarRewards(sidecar);
   }
 }
