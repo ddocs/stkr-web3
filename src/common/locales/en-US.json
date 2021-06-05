@@ -814,5 +814,11 @@
       "btn-max": "MAX",
       "btn-next": "Next"
     }
+  },
+  "connect": {
+    "access-request": "Access Request",
+    "ask-connect": "Would you like to let ankr.com access you Ankr Staking account?",
+    "grant": "Grant Access",
+    "info": "Pressing this button will prompt you for your concent"
   }
 }

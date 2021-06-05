@@ -132,7 +132,7 @@ async function getGlobalPoolBalance() {
 }
 
 export const UserActions = {
-  connect: (redirectOnSuccess: string = FEATURES_PATH) => ({
+  connect: (redirectOnSuccess: string | null = FEATURES_PATH) => ({
     type: UserActionTypes.CONNECT,
     request: {
       promise: (async function () {
@@ -161,7 +161,7 @@ export const UserActions = {
             );
           } else {
             store.dispatch(UserActions.fetchAccountData());
-            store.dispatch(replace(redirectOnSuccess));
+            redirectOnSuccess && store.dispatch(replace(redirectOnSuccess));
           }
         });
 

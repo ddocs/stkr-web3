@@ -1,23 +1,32 @@
 import React from 'react';
-import { Redirect, RouteProps } from 'react-router-dom';
-import { INDEX_PATH } from '../common/const';
-import { useStore } from 'react-redux';
+import { RouteProps } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { IStoreState } from '../store/reducers';
 import { Route } from 'react-router-dom';
+import { withDefaultLayout } from '../modules/layout';
+import loadable, { LoadableComponent } from '@loadable/component';
+import { QueryLoadingAbsolute } from '../components/QueryLoading/QueryLoading';
 
 interface IPrivateRouteProps extends RouteProps {
   component: any;
 }
 
-export const PrivateRoute = (props: IPrivateRouteProps) => {
-  const store = useStore<IStoreState>();
-  const {
-    user: { isConnected },
-  } = store.getState();
+const ConnectContainer = withDefaultLayout(
+  loadable(
+    async () =>
+      import('../components/Connect/Connect').then(module => module.Connect),
+    {
+      fallback: <QueryLoadingAbsolute />,
+    },
+  ) as LoadableComponent<any>,
+);
 
-  if (isConnected) {
+export const PrivateRoute = (props: IPrivateRouteProps) => {
+  const isAuth = useSelector((state: IStoreState) => state.user.isConnected);
+
+  if (isAuth) {
     return <Route {...props} />;
   }
 
-  return <Redirect to={INDEX_PATH} />;
+  return <ConnectContainer {...props} />;
 };
