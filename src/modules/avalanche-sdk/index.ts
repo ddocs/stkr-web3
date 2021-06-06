@@ -177,8 +177,16 @@ export class AvalancheSdk {
     const balance = await this.futureBondContract.methods
       .balanceOf(currentAccount)
       .call();
+    const ratio = await this.futureBondContract.methods.ratio().call();
+    const lastConfirmedRatio = await this.futureBondContract.methods
+      .ratio()
+      .call();
+    const correctedBalance = new BigNumber(balance)
+      .multipliedBy(new BigNumber(ratio))
+      .dividedBy(new BigNumber(lastConfirmedRatio));
+
     const decimals = 18;
-    const result = new BigNumber(`${balance}`).dividedBy(
+    const result = new BigNumber(`${correctedBalance}`).dividedBy(
       new BigNumber(10).pow(decimals),
     );
     return result;
