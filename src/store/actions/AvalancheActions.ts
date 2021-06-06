@@ -153,7 +153,8 @@ export const AvalancheActions = {
           saveStakingSession({
             nextStep: StakingStep.NotarizeAAvaxB,
             transactionHash,
-            address,
+            from: address,
+            to: payload.address,
             network: `${payload.network}`,
           });
 
@@ -170,7 +171,8 @@ export const AvalancheActions = {
             saveStakingSession({
               nextStep: StakingStep.WithdrawAAvaxB,
               transactionHash,
-              address,
+              from: address,
+              to: payload.address,
               amount,
               signature,
               network: `${payload.network}`,
@@ -179,7 +181,8 @@ export const AvalancheActions = {
             saveStakingSession({
               nextStep: StakingStep.NotarizeAAvaxB,
               transactionHash,
-              address,
+              from: address,
+              to: payload.address,
               network: `${payload.network}`,
               error: e.message || e.stack,
             });
@@ -209,9 +212,16 @@ export const AvalancheActions = {
             !session.transactionHash ||
             !session.amount ||
             !session.signature ||
-            !session.address
+            !session.to
           ) {
             throw new Error('Transaction info not found');
+          }
+
+          const [address] = await web3.eth.getAccounts();
+          if (address !== session.to) {
+            throw new Error(
+              'Wrong destination address. Make sure you connect to the correct account',
+            );
           }
 
           const crossChainSdk = await CrossChainSdk.fromConfigFile(web3);
@@ -226,7 +236,7 @@ export const AvalancheActions = {
             avalancheAAvaxB,
             toToken,
             `${avalancheChainId}`,
-            session.address,
+            session.to,
             session.amount,
             session.transactionHash,
             session.signature,
