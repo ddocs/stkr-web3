@@ -122,6 +122,8 @@ interface IGovernanceSdk {
 
   getAnkrGovernanceAllowance(owner: string): Promise<any>;
 
+  getAnkrAvailableBalnceOf(owner: string): Promise<any>;
+
   getProposalInfo(proposalId: string): Promise<any>;
 }
 
@@ -624,6 +626,10 @@ export class StkrSdk implements IStkrSdk {
 
   public async getAnkrGovernanceAllowance(owner: string) {
     return this.getJssdkManager().getAnkrGovernanceAllowance(owner);
+  }
+
+  public async getAnkrAvailableBalnceOf(owner: string) {
+    return await this.getContractManager().getAnkrAvailableBalnceOf(owner);
   }
 
   public async getProposalInfo(proposalId: string) {

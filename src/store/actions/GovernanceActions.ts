@@ -69,15 +69,19 @@ export const GovernanceActions = {
       promise: (async function () {
         const stkrSdk = StkrSdk.getForEnv();
         const currentAccount = stkrSdk.getKeyProvider().currentAccount();
-
-        const allowance = await stkrSdk.getAnkrGovernanceAllowance(
-          stkrSdk.getKeyProvider().currentAccount(),
+        const availableBalance = await stkrSdk.getAnkrAvailableBalnceOf(
+          currentAccount,
         );
 
-        if (new BigNumber(allowance).isLessThan(MIN_GOVERNANCE_AMOUNT)) {
-          await stkrSdk.setAnkrAllowance(MIN_GOVERNANCE_AMOUNT, {
-            from: currentAccount,
-          });
+        if (new BigNumber(availableBalance).lt(MIN_GOVERNANCE_AMOUNT)) {
+          const allowance = await stkrSdk.getAnkrGovernanceAllowance(
+            currentAccount,
+          );
+          if (new BigNumber(allowance).lt(MIN_GOVERNANCE_AMOUNT)) {
+            await stkrSdk.setAnkrAllowance(MIN_GOVERNANCE_AMOUNT, {
+              from: currentAccount,
+            });
+          }
         }
 
         return await stkrSdk.createProject(timeSpan, topic, content, {
