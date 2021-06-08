@@ -749,6 +749,10 @@
     },
     "claim": {
       "title": "On which network do you want to use aAVAXb tokens?"
+    },
+    "error": {
+      "to-address": "Wrong destination address. Make sure you connect to the correct account in you wallet",
+      "transaction-info": "Transaction info not found"
     }
   },
   "bnb-fetch-stats-error": {

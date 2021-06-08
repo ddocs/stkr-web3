@@ -114,6 +114,8 @@ export interface IContractManager {
 
   claimableAnkrRewardOf(staker: string): Promise<BigNumber>;
 
+  getAnkrAvailableBalnceOf(address: string): Promise<BigNumber>;
+
   claimAnkr(amount: BigNumber): Promise<ISendAsyncResult>;
 }
 
@@ -969,6 +971,16 @@ export class EthereumContractManager implements IContractManager {
     return new BigNumber(availableAmount).dividedBy(
       EthereumContractManager.ETH_SCALE_FACTOR,
     );
+  }
+
+  public async getAnkrAvailableBalnceOf(address: string): Promise<BigNumber> {
+    if (!this.governanceContract) {
+      throw new Error('Governance contract is not available');
+    }
+    const setting = await this.governanceContract.methods
+      .availableBalanceOf(address)
+      .call();
+    return new BigNumber(setting.toString());
   }
 
   async claimAnkr(amount: BigNumber): Promise<ISendAsyncResult> {

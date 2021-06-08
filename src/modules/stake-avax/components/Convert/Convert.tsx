@@ -17,6 +17,7 @@ import { IConvertEstimates, StakingStep } from '../../../avalanche-sdk/types';
 import { getStakingSession } from '../../../avalanche-sdk/utils';
 import { useRequestDispatch } from '../../../../common/utils/useRequestDispatch';
 import { QuestionIcon } from '../../../../UiKit/Icons/QuestionIcon';
+import { MutationErrorHandler } from '../../../../components/MutationErrorHandler/MutationErrorHandler';
 
 interface IConvertProps {
   amount: BigNumber;
@@ -59,19 +60,24 @@ export const Convert = ({ amount, onSuccess }: IConvertProps) => {
   const renderButtons = useCallback(() => {
     if (isPendingClaim) {
       return (
-        <Mutation type={AvalancheActions.withdrawAAvaxB.toString()}>
-          {({ loading }) => (
-            <Button
-              color="primary"
-              size="large"
-              className={classes.button}
-              onClick={handleWithdraw}
-              disabled={loading}
-            >
-              {t('stake-avax.convert.finish-claim')}
-            </Button>
-          )}
-        </Mutation>
+        <>
+          <Mutation type={AvalancheActions.withdrawAAvaxB.toString()}>
+            {({ loading }) => (
+              <Button
+                color="primary"
+                size="large"
+                className={classes.button}
+                onClick={handleWithdraw}
+                disabled={loading}
+              >
+                {t('stake-avax.convert.finish-claim')}
+              </Button>
+            )}
+          </Mutation>
+          <MutationErrorHandler
+            type={AvalancheActions.withdrawAAvaxB.toString()}
+          />
+        </>
       );
     }
 

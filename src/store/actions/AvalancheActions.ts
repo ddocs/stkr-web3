@@ -21,6 +21,7 @@ import {
   saveStakingSession,
   setSessionInProgress,
 } from '../../modules/avalanche-sdk/utils';
+import { t } from '../../common/utils/intl';
 
 const {
   providerConfig: { ethereumChainId, binanceChainId, avalancheChainId },
@@ -153,7 +154,8 @@ export const AvalancheActions = {
           saveStakingSession({
             nextStep: StakingStep.NotarizeAAvaxB,
             transactionHash,
-            address,
+            from: address,
+            to: payload.address,
             network: `${payload.network}`,
           });
 
@@ -170,7 +172,8 @@ export const AvalancheActions = {
             saveStakingSession({
               nextStep: StakingStep.WithdrawAAvaxB,
               transactionHash,
-              address,
+              from: address,
+              to: payload.address,
               amount,
               signature,
               network: `${payload.network}`,
@@ -179,7 +182,8 @@ export const AvalancheActions = {
             saveStakingSession({
               nextStep: StakingStep.NotarizeAAvaxB,
               transactionHash,
-              address,
+              from: address,
+              to: payload.address,
               network: `${payload.network}`,
               error: e.message || e.stack,
             });
@@ -209,9 +213,14 @@ export const AvalancheActions = {
             !session.transactionHash ||
             !session.amount ||
             !session.signature ||
-            !session.address
+            !session.to
           ) {
-            throw new Error('Transaction info not found');
+            throw new Error(t('stake-avax.error.transaction-info'));
+          }
+
+          const [address] = await web3.eth.getAccounts();
+          if (address !== session.to) {
+            throw new Error(t('stake-avax.error.to-address'));
           }
 
           const crossChainSdk = await CrossChainSdk.fromConfigFile(web3);
@@ -226,7 +235,7 @@ export const AvalancheActions = {
             avalancheAAvaxB,
             toToken,
             `${avalancheChainId}`,
-            session.address,
+            session.to,
             session.amount,
             session.transactionHash,
             session.signature,
@@ -295,7 +304,7 @@ export const AvalancheActions = {
         promise: (async () => {
           const session = getStakingSession();
           if (!session?.network) {
-            throw new Error('Transaction info not found');
+            throw new Error(t('stake-avax.error.transaction-info'));
           }
 
           setSessionInProgress();
@@ -381,7 +390,7 @@ export const AvalancheActions = {
             !session.amount ||
             !session.signature
           ) {
-            throw new Error('Transaction info not found');
+            throw new Error(t('stake-avax.error.transaction-info'));
           }
 
           const crossChainSdk = await CrossChainSdk.fromConfigFile(
@@ -426,7 +435,7 @@ export const AvalancheActions = {
           );
           const session = getStakingSession();
           if (!session || !session.amount) {
-            throw new Error('Transaction info not found');
+            throw new Error(t('stake-avax.error.transaction-info'));
           }
           await avalancheSdk.claim(session.amount);
           clearStakingSession();
