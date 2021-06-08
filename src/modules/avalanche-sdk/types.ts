@@ -71,7 +71,7 @@ export interface IAvaxStakingSession {
   signature?: string;
   network?: string;
   from?: string;
-  to?: string;
+  recipient?: string;
   error?: string;
   inProgress?: boolean;
 }

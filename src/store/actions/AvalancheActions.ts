@@ -155,15 +155,15 @@ export const AvalancheActions = {
             nextStep: StakingStep.NotarizeAAvaxB,
             transactionHash,
             from: address,
-            to: payload.address,
             network: `${payload.network}`,
           });
 
           try {
             const stkrSdk = StkrSdk.getForEnv();
-            const { signature, amount } = await retry<{
+            const { signature, amount, recipient } = await retry<{
               signature: string;
               amount: string;
+              recipient: string;
             }>(
               () => stkrSdk.notarizeTransfer('AVAX', `${transactionHash}`),
               e => e.message && e.message.includes('1 blocks more'),
@@ -173,7 +173,7 @@ export const AvalancheActions = {
               nextStep: StakingStep.WithdrawAAvaxB,
               transactionHash,
               from: address,
-              to: payload.address,
+              recipient,
               amount,
               signature,
               network: `${payload.network}`,
@@ -183,7 +183,6 @@ export const AvalancheActions = {
               nextStep: StakingStep.NotarizeAAvaxB,
               transactionHash,
               from: address,
-              to: payload.address,
               network: `${payload.network}`,
               error: e.message || e.stack,
             });
@@ -213,13 +212,14 @@ export const AvalancheActions = {
             !session.transactionHash ||
             !session.amount ||
             !session.signature ||
-            !session.to
+            !session.from ||
+            !session.recipient
           ) {
             throw new Error(t('stake-avax.error.transaction-info'));
           }
 
           const [address] = await web3.eth.getAccounts();
-          if (address !== session.to) {
+          if (address !== session.recipient) {
             throw new Error(t('stake-avax.error.to-address'));
           }
 
@@ -235,7 +235,7 @@ export const AvalancheActions = {
             avalancheAAvaxB,
             toToken,
             `${avalancheChainId}`,
-            session.to,
+            session.from,
             session.amount,
             session.transactionHash,
             session.signature,
