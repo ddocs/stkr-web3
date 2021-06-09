@@ -21,6 +21,7 @@ import {
 } from './event';
 import { ISendAsyncResult, KeyProvider } from './provider';
 import { JssdkManager } from './jssdk';
+import { AvalancheSdk } from '../avalanche-sdk';
 
 export interface IContractConfig {
   aethContract?: string;
@@ -1161,6 +1162,7 @@ export class AvalancheContractManager extends EthereumContractManager {
       },
       ABI_AVALANCHE_POOL,
     );
+    AvalancheSdk.connect();
   }
   followGlobalPoolEvents(): void {
     console.log('GlobalPool events?');

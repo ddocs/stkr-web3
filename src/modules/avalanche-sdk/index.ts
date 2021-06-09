@@ -18,31 +18,8 @@ export class AvalancheSdk {
   private static _cachedSdk: AvalancheSdk | undefined;
   private static _cacheChainId: number | undefined;
 
-  public static async instance() {
-    const stkrSdk = StkrSdk.getForEnv();
-
-    const selectedChainId = await stkrSdk
-      .getKeyProvider()
-      .getWeb3()
-      .eth.getChainId();
-
-    if (selectedChainId === this._cacheChainId && !!this._cachedSdk) {
-      return this._cachedSdk;
-    } else {
-      !!this._cachedSdk && this._cachedSdk.disconnect();
-    }
-
-    this._cacheChainId = selectedChainId;
-
-    this._cachedSdk = await AvalancheSdk.fromConfigFile(
-      stkrSdk.getKeyProvider().getWeb3(),
-    );
-
-    return this._cachedSdk;
-  }
-
   static async connect() {
-    await this.instance();
+    await this.setCache();
     if (!this._cachedSdk)
       throw new Error('Avalance SDK could not be initialized');
     this._cachedSdk.connect();
@@ -54,13 +31,43 @@ export class AvalancheSdk {
     delete this._cachedSdk;
   }
 
+  static async isConnected() {
+    const stkrSdk = StkrSdk.getForEnv();
+    const selectedChainId = await stkrSdk
+      .getKeyProvider()
+      .getWeb3()
+      .eth.getChainId();
+
+    return this._cacheChainId === selectedChainId;
+  }
+
+  private static async setCache() {
+    const stkrSdk = StkrSdk.getForEnv();
+
+    if (await this.isConnected()) {
+      return this._cachedSdk;
+    } else {
+      this.disconnect();
+    }
+
+    const selectedChainId = await stkrSdk
+      .getKeyProvider()
+      .getWeb3()
+      .eth.getChainId();
+
+    this._cacheChainId = selectedChainId;
+
+    this._cachedSdk = await AvalancheSdk.fromConfigFile(
+      stkrSdk.getKeyProvider().getWeb3(),
+    );
+
+    return this._cachedSdk;
+  }
+
   private readonly poolContract: Contract | undefined = undefined;
   private readonly poolContractAddress: string | undefined = undefined;
   private readonly futureBondContract: Contract | undefined = undefined;
-  private readonly futureBondContractAddress: string | undefined = undefined;
-  private readonly crossChainBridgeContractAddress:
-    | string
-    | undefined = undefined;
+
   public readonly chainId: number;
 
   private constructor(
@@ -99,14 +106,8 @@ export class AvalancheSdk {
         ABI_FUTURE_BOND as any,
         entry.FutureBondAVAX,
       );
-      this.futureBondContractAddress = entry.FutureBondAVAX;
     }
 
-    if (entry.CrossChainBridge) {
-      this.crossChainBridgeContractAddress = entry.CrossChainBridge;
-    }
-
-    this.futureBondContractAddress = entry.FutureBondAVAX;
     this.chainId = +chainId;
   }
 
@@ -133,19 +134,11 @@ export class AvalancheSdk {
   }
 
   private async connect() {
-    // const [currentAccount] = await this.web3.eth.getAccounts();
-    // const latestBlockHeight = await this.web3.eth.getBlockNumber();
-    // console.dir({ latestBlockHeight });
-    // this.poolContract?.events
-    //   .StakePending({
-    //     filter: { from: currentAccount },
-    //     fromBlock: latestBlockHeight,
-    //   })
-    //   .on('data', () => alert(3));
+    // follow pool and future bond events
   }
 
   private async disconnect() {
-    return;
+    //
   }
 
   public async getClaimableAmount() {

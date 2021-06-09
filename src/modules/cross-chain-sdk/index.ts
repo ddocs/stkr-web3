@@ -303,6 +303,10 @@ export class CrossChainSdk {
     // .send({ from: currentAccount });
   }
 
+  public async listen() {
+    return null;
+  }
+
   private async sendAsync(
     from: string,
     to: string,

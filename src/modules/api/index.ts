@@ -34,6 +34,7 @@ import {
   Web3ModalKeyProvider,
 } from './provider';
 import Web3 from 'web3';
+import { CrossChainSdk } from '../cross-chain-sdk';
 
 interface IStakerSdk {
   allowTokens(remainingAllowance?: BigNumber): Promise<ISendAsyncResult>;
@@ -77,6 +78,24 @@ interface IStakerSdk {
   getStakerMinimalStakingAmount(): Promise<BigNumber>;
 
   getRemainingAllowance(): Promise<BigNumber>;
+
+  crossWithdrawAsync(
+    fromToken: string,
+    toToken: string,
+    fromChain: string,
+    fromAddress: string | null,
+    withdrawAmount: string,
+    txHash: string,
+    signature: string,
+  ): Promise<any>;
+
+  crossDeposit(
+    fromToken: string,
+    toToken: string,
+    toChain: string,
+    toAddress: string | null,
+    depositAmount: BigNumber,
+  ): Promise<any>;
 }
 
 interface IProviderSdk {
@@ -189,6 +208,7 @@ export class StkrSdk implements IStkrSdk {
   private jssdkManager: JssdkManager | null = null;
   private keyProvider: KeyProvider | null = null;
   private contractManager: IContractManager | null = null;
+  private crossChainBridge: CrossChainSdk | null = null;
 
   constructor(
     private stkrConfig: IStkrConfig,
@@ -241,6 +261,10 @@ export class StkrSdk implements IStkrSdk {
       this.keyProvider,
       this.stkrConfig.contractConfig,
     );
+    this.crossChainBridge = await CrossChainSdk.fromConfigFile(
+      this.keyProvider.getWeb3(),
+    );
+    this.crossChainBridge.listen();
     return result;
   }
 
@@ -658,5 +682,41 @@ export class StkrSdk implements IStkrSdk {
         ? BNB_RPC_CONFIG
         : ETH_RPC_CONFIG;
     return await this.keyProvider?.switchNetwork(settings);
+  }
+
+  public async crossWithdrawAsync(
+    fromToken: string,
+    toToken: string,
+    fromChain: string,
+    fromAddress: string | null,
+    withdrawAmount: string,
+    txHash: string,
+    signature: string,
+  ): Promise<any> {
+    return await this.crossChainBridge?.withdrawAsync(
+      fromToken,
+      toToken,
+      fromChain,
+      fromAddress,
+      withdrawAmount,
+      txHash,
+      signature,
+    );
+  }
+
+  public async crossDeposit(
+    fromToken: string,
+    toToken: string,
+    toChain: string,
+    toAddress: string | null,
+    depositAmount: BigNumber,
+  ): Promise<any> {
+    return await this.crossChainBridge?.deposit(
+      fromToken,
+      toToken,
+      toChain,
+      toAddress,
+      depositAmount,
+    );
   }
 }
