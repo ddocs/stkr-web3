@@ -451,9 +451,6 @@ export const UserActions = {
           }
         })();
         const aEthRatio = await stkrSdk.getAethRatio();
-        const pendingStake = await stkrSdk.pendingStakesOf(
-          stkrSdk.getKeyProvider().currentAccount(),
-        );
         console.log(
           `Claimable AETH: ${balanceData.claimableAETHRewardOf.toString(10)}`,
         );
@@ -462,7 +459,7 @@ export const UserActions = {
         );
         return {
           aEthRatio,
-          pendingStake,
+          pendingStake: new BigNumber('0'),
           ...balanceData,
         } as IStakerStats;
       })(),
