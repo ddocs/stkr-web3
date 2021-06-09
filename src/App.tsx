@@ -6,6 +6,7 @@ import { AppBase } from './components/AppBase/AppBase';
 import { Notifications } from './components/Notifications';
 import { QueryLoadingAbsolute } from './components/QueryLoading/QueryLoading';
 import { ScrollToTop } from './components/ScrollToTop';
+import { ZendeskMounter } from './components/ZendeskMounter';
 import { Routes } from './Routes';
 import { persistor, store } from './store';
 
@@ -14,6 +15,7 @@ function App() {
     <Provider store={store} context={ReactReduxContext}>
       <PersistGate loading={<QueryLoadingAbsolute />} persistor={persistor}>
         <AppBase>
+          <ZendeskMounter />
           <ScrollToTop />
           <Routes />
           <NoSsr>
