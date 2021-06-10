@@ -15,7 +15,7 @@ import {
   AvalancheContractManager,
   IContractManager,
 } from './contract';
-import { ContractManagerEvent } from './event';
+import { ContractManagerEvent, KeyProviderEvents } from './event';
 import {
   ApiGateway,
   IConvertEstimateReply,
@@ -261,11 +261,25 @@ export class StkrSdk implements IStkrSdk {
       this.keyProvider,
       this.stkrConfig.contractConfig,
     );
+
+    await this.setupCrossChain();
+
+    this.eventEmitter.on(KeyProviderEvents.ChainChanged, async () => {
+      await this.setupCrossChain();
+    });
+
+    return result;
+  }
+
+  async setupCrossChain() {
+    if (!this.keyProvider) {
+      return;
+    }
+    this.crossChainBridge?.dispose();
     this.crossChainBridge = await CrossChainSdk.fromConfigFile(
-      this.keyProvider.getWeb3(),
+      this.keyProvider,
     );
     this.crossChainBridge.listen();
-    return result;
   }
 
   public isConnected(): boolean {
@@ -693,7 +707,10 @@ export class StkrSdk implements IStkrSdk {
     txHash: string,
     signature: string,
   ): Promise<any> {
-    return await this.crossChainBridge?.withdrawAsync(
+    if (!this.crossChainBridge) {
+      throw new Error('Cross chain bridge not available');
+    }
+    return await this.crossChainBridge.withdrawAsync(
       fromToken,
       toToken,
       fromChain,
@@ -711,7 +728,10 @@ export class StkrSdk implements IStkrSdk {
     toAddress: string | null,
     depositAmount: BigNumber,
   ): Promise<any> {
-    return await this.crossChainBridge?.deposit(
+    if (!this.crossChainBridge) {
+      throw new Error('Cross chain bridge not available');
+    }
+    return await this.crossChainBridge.deposit(
       fromToken,
       toToken,
       toChain,

@@ -64,7 +64,7 @@ export const BridgeActions = {
         promise: (async () => {
           const stkrSdk = StkrSdk.getForEnv();
           const crossChainSdk = await CrossChainSdk.fromConfigFile(
-            stkrSdk.getKeyProvider().getWeb3(),
+            stkrSdk.getKeyProvider(),
           );
 
           const isFromEthereum = fromBlockchain === Blockchain.ethereum;
@@ -121,7 +121,7 @@ export const BridgeActions = {
         promise: (async () => {
           const stkrSdk = StkrSdk.getForEnv();
           const crossChainSdk = await CrossChainSdk.fromConfigFile(
-            stkrSdk.getKeyProvider().getWeb3(),
+            stkrSdk.getKeyProvider(),
           );
 
           let signature;
@@ -159,7 +159,7 @@ export const BridgeActions = {
         promise: (async () => {
           const stkrSdk = StkrSdk.getForEnv();
           const crossChainSdk = await CrossChainSdk.fromConfigFile(
-            stkrSdk.getKeyProvider().getWeb3(),
+            stkrSdk.getKeyProvider(),
           );
 
           const isToBinance = to === Blockchain.binance;
