@@ -15,6 +15,8 @@ import { Body2 } from '../../../../UiKit/Typography';
 import { FormApi } from 'final-form';
 import { Spinner } from '../../../../components/Spinner';
 import { configFromEnv } from '../../../api/config';
+import { NotificationActions } from '../../../../store/actions/NotificationActions';
+import { useDispatch } from 'react-redux';
 
 const MIN_AMOUNT = 1;
 
@@ -30,6 +32,7 @@ export const ClaimForm = ({
   onSubmit,
 }: IClaimFormProps) => {
   const classes = useClaimFormStyles();
+  const dispatch = useDispatch();
 
   const max = useMemo(() => Math.floor(maxAmount.toNumber()), [maxAmount]);
   const config = useMemo(() => configFromEnv(), []);
@@ -38,6 +41,15 @@ export const ClaimForm = ({
     (form: FormApi, chainId: number) => () => form.change('network', chainId),
     [],
   );
+
+  const showComingSoon = useCallback(() => {
+    dispatch(
+      NotificationActions.showNotification({
+        message: t('coming-soon'),
+        severity: 'info',
+      }),
+    );
+  }, [dispatch]);
 
   const validateAddress = useCallback((value: string) => {
     if (!value) return undefined;
@@ -85,10 +97,7 @@ export const ClaimForm = ({
                     ? 'selected'
                     : undefined,
                 )}
-                onClick={selectNetwork(
-                  form,
-                  config.providerConfig.binanceChainId,
-                )}
+                onClick={showComingSoon}
               >
                 <BnbIcon />
                 {t('cross-chain-bridge.chain-binance')}
