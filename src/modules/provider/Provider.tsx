@@ -11,6 +11,9 @@ import { Button, Theme } from '@material-ui/core';
 import { Curtains } from '../../UiKit/Curtains';
 import { makeStyles } from '@material-ui/core/styles';
 import { useRequestDispatch } from '../../common/utils/useRequestDispatch';
+import { useFeaturesAvailable } from '../../common/hooks/useFeaturesAvailable';
+import { Redirect } from 'react-router-dom';
+import { INDEX_PATH } from '../../common/const';
 
 export const useStyles = makeStyles<Theme>(theme => ({
   component: {
@@ -44,19 +47,29 @@ interface IProviderProps {
 export const ProviderComponent = ({ authorizeProvider }: IProviderProps) => {
   const { isProviderAuthenticated, isConnected } = useAuthentication();
   const dispatch = useRequestDispatch();
+  const { isProviderAvailable } = useFeaturesAvailable();
   const classes = useStyles();
 
   useEffect(() => {
-    if (isConnected) {
+    if (isProviderAvailable && isConnected) {
       dispatch(UserActions.fetchStakerStats());
     }
-  }, [dispatch, isConnected]);
+  }, [dispatch, isConnected, isProviderAvailable]);
 
   useEffect(() => {
-    if (!isProviderAuthenticated && isConnected) {
+    if (isProviderAvailable && !isProviderAuthenticated && isConnected) {
       authorizeProvider();
     }
-  }, [authorizeProvider, isConnected, isProviderAuthenticated]);
+  }, [
+    authorizeProvider,
+    isConnected,
+    isProviderAuthenticated,
+    isProviderAvailable,
+  ]);
+
+  if (!isProviderAvailable) {
+    return <Redirect to={INDEX_PATH} />;
+  }
 
   if (isProviderAuthenticated && isConnected) {
     return <ProviderDashboard />;

@@ -15,6 +15,7 @@ export enum Provider {
 export enum Blockchain {
   ethereum = 'ethereum',
   binance = 'binance',
+  avalanche = 'avalanche',
 }
 
 export interface IRequestActionPromiseData<T = any, D = any, E = any> {

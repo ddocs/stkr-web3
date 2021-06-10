@@ -208,6 +208,8 @@ export const UserActions = {
         if (stkrSdk.getKeyProvider().isBinanceSmartChain()) {
           bnbBalance = nativeBalance;
           blockchainType = Blockchain.binance;
+        } else if (stkrSdk.getKeyProvider().isAvalancheChain()) {
+          blockchainType = Blockchain.avalanche;
         } else {
           ankrBalance = await stkrSdk.getAnkrBalance();
         }

@@ -771,6 +771,7 @@
     "disconnect-btn": "Disconnect",
     "chain-ehthereum": "Ethereum Mainnet",
     "chain-binance": "Binance Smart Chain",
+    "chain-avalanche": "Avalanche Blockchain",
     "from": "From",
     "to": "To",
     "asset": "Asset",
