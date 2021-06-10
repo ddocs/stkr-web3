@@ -8,7 +8,7 @@ const StakerDashboardBnbStory = () => {
       walletBalance={new BigNumber(500)}
       delegated={new BigNumber(100)}
       rewardsAmount={new BigNumber(100)}
-      walletAccountId={''}
+      walletAccountId={'1'}
     />
   );
 };

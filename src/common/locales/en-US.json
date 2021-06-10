@@ -6,7 +6,7 @@
     "title": "<span>Ankr StakeFi</span>Internet bond launchpad",
     "subtitle": "Connect your staking rewards with DeFi",
     "total": "Total Value Staked",
-    "product": "StekeFi"
+    "product": "StakeFi"
   },
   "about-smartchain": {
     "submit": "Launch App",
@@ -825,5 +825,8 @@
     "ask-connect": "Would you like to let ankr.com access you Ankr Staking account?",
     "grant": "Grant Access",
     "info": "Pressing this button will prompt you for your concent"
+  },
+  "zendesk": {
+    "get-help": "Help"
   }
 }
