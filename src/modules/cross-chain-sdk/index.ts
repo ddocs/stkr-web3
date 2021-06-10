@@ -322,23 +322,23 @@ export class CrossChainSdk {
     const currentAddress = this.keyProvider.currentAccount(),
       latestBlockHeight = this.keyProvider.latestBlockHeight();
 
-    this.depositSubscription = this.currentContract.events.CrossChainDeposit({
-      filter: { staker: currentAddress },
-      fromBlock: latestBlockHeight,
-    });
+    this.depositSubscription = this.currentContract.events
+      .CrossChainDeposit({
+        filter: { staker: currentAddress },
+        fromBlock: latestBlockHeight,
+      })
+      .on('data', (eventLog: EventLog) => {
+        console.dir({ eventLog });
+      });
 
-    this.withdrawSubscription = this.currentContract.events.CrossChainWithdraw({
-      filter: { staker: currentAddress },
-      fromBlock: latestBlockHeight,
-    });
-
-    this.depositSubscription?.on('data', (eventLog: EventLog) => {
-      console.dir({ eventLog });
-    });
-
-    this.withdrawSubscription?.on('data', (eventLog: EventLog) => {
-      console.dir({ eventLog });
-    });
+    this.withdrawSubscription = this.currentContract.events
+      .CrossChainWithdraw({
+        filter: { staker: currentAddress },
+        fromBlock: latestBlockHeight,
+      })
+      .on('data', (eventLog: EventLog) => {
+        console.dir({ eventLog });
+      });
   }
 
   private async sendAsync(
