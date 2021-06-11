@@ -75,6 +75,8 @@ interface IStakerSdk {
   getStakerMinimalStakingAmount(): Promise<BigNumber>;
 
   getRemainingAllowance(): Promise<BigNumber>;
+
+  getMinimumDeposit(): Promise<BigNumber>;
 }
 
 interface IProviderSdk {
@@ -334,6 +336,10 @@ export class StkrSdk implements IStkrSdk {
     const allowanceAmount = await this.getAllowanceAmount(),
       minimalStaking = await this.getContractManager().providerMinimumStaking();
     return minimalStaking.minus(allowanceAmount);
+  }
+
+  public async getMinimumDeposit(): Promise<BigNumber> {
+    return await this.getContractManager().providerMinimumDeposit();
   }
 
   public async allowTokens(

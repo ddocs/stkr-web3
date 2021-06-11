@@ -90,6 +90,8 @@ export const UserActionTypes = {
 
   FETCH_PROVIDER_STATS: 'FETCH_PROVIDER_STATS',
 
+  FETCH_MINIMUM_DEPOSIT: 'FETCH_MINIMUM_DEPOSIT',
+
   TOP_UP: 'TOP_UP',
 
   SET_LOCALE: 'SET_LOCALE',
@@ -362,6 +364,15 @@ export const UserActions = {
       })(),
     },
   }),
+  fetchMinimumDeposit: createSmartAction(UserActionTypes.FETCH_MINIMUM_DEPOSIT, () => ({
+    request: {
+      promise: (async function() {
+        const stkrSdk = StkrSdk.getForEnv();
+        const minimumDeposit = await stkrSdk.getMinimumDeposit();
+        return minimumDeposit.toNumber();
+      })(),
+    },
+  })),
   allowTokens: () => ({
     type: UserActionTypes.ALLOW_TOKENS,
     request: {

@@ -1,5 +1,4 @@
 import { StkrSdk } from '../../modules/api';
-import { MIN_GOVERNANCE_AMOUNT } from '../../common/const';
 import { mapProject } from '../../modules/governance/types';
 import { VoteStatus } from '@ankr.com/stkr-jssdk';
 import BigNumber from 'bignumber.js';
@@ -73,9 +72,10 @@ export const GovernanceActions = {
         const allowance = await stkrSdk.getAnkrGovernanceAllowance(
           stkrSdk.getKeyProvider().currentAccount(),
         );
+        const minimumDeposit = Web3.utils.toWei((await stkrSdk.getMinimumDeposit()).toString());
 
-        if (new BigNumber(allowance).isLessThan(MIN_GOVERNANCE_AMOUNT)) {
-          await stkrSdk.setAnkrAllowance(MIN_GOVERNANCE_AMOUNT, {
+        if (new BigNumber(allowance).isLessThan(minimumDeposit)) {
+          await stkrSdk.setAnkrAllowance(minimumDeposit, {
             from: currentAccount,
           });
         }

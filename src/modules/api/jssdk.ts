@@ -15,6 +15,7 @@ export interface IJssdkManager {}
 
 const ERROR_SDK_NOT_INITIALIZED = new Error("Stkr SDK hasn't been initialized");
 const PROVIDER_MINIMUM_ANKR_STAKING_KEY = 'PROVIDER_MINIMUM_ANKR_STAKING';
+const PROVIDER_MINIMUM_DEPOSIT_THRESHOLD_KEY = 'Gov#minimumDepositThreshold';
 
 export class JssdkManager implements IJssdkManager {
   private stkr: Stkr | undefined = undefined;
@@ -165,6 +166,17 @@ export class JssdkManager implements IJssdkManager {
     }
     const setting = await this.governanceContract.methods
       .getConfig(web3.utils.asciiToHex(PROVIDER_MINIMUM_ANKR_STAKING_KEY))
+      .call();
+    return new BigNumber(setting.toString());
+  }
+
+  public async getMinimumDepositThreshold(): Promise<BigNumber> {
+    if (!this.governanceContract) {
+      throw new Error('Governance contract is not available');
+    }
+
+    const setting = await this.governanceContract.methods
+      .getConfig(web3.utils.asciiToHex(PROVIDER_MINIMUM_DEPOSIT_THRESHOLD_KEY))
       .call();
     return new BigNumber(setting.toString());
   }
