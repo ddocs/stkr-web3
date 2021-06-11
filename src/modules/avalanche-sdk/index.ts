@@ -1,6 +1,5 @@
 import { Contract } from 'web3-eth-contract';
 import Web3 from 'web3';
-import { EventLog } from 'web3-core';
 
 import ABI_AVALANCHE_POOL from '../api/contract/AvalanchePool.json';
 import ABI_FUTURE_BOND from '../api/contract/FutureBondAVAX.json';
@@ -208,64 +207,35 @@ export class AvalancheSdk {
   }
 
   public async fetchStakeLogs(): Promise<IStakingEntry[]> {
-    const fn = ({ provider, amount }: any) => {
+    const fn = (eventLog: any) => {
       return {
-        provider: provider,
-        amount: new BigNumber(amount).dividedBy(
+        stakingDate: new Date().toDateString(),
+        action: "STAKE_ACTION_CONFIRMED",
+        transactionHash: eventLog.transactionHash,
+        transactionType: "Stake",
+        stakingAmount: new BigNumber(eventLog.returnValues.amount).dividedBy(
           EthereumContractManager.ETH_SCALE_FACTOR,
         ),
+        eventLog,
       };
     };
-    return this.queryPoolEventLogs(
-      AvalanchePoolEvents.StakePending,
-      'StakePending',
-      fn,
-      ({ address }) => ({
-        provider: address,
-      }),
-    );
+    return this.queryPoolEventLogs(AvalanchePoolEvents.StakePending, fn);
   }
 
   private async queryPoolEventLogs(
-    eventType: string,
     eventName: string,
     fn: (returnValues: any) => any,
-    eventFilter?: (args: { address: string }) => any,
   ): Promise<any[]> {
     if (!this.poolContract) {
       return [];
     }
     const [currentAccount] = await this.web3.eth.getAccounts();
-    const filter = eventFilter
-      ? eventFilter({ address: currentAccount })
-      : {
-          staker: currentAccount,
-        };
-
     const latestBlock = await this.web3.eth.getBlockNumber();
-    let currentBlock = Number('12312');
-    const events = [];
-    do {
-      let toBlock = latestBlock;
-      toBlock = currentBlock + 5000;
-      if (toBlock > latestBlock) {
-        toBlock = latestBlock;
-      }
-
-      const newEvents = await this.poolContract.getPastEvents(eventName, {
-        fromBlock: currentBlock,
-        toBlock: toBlock,
-        filter,
-      });
-      events.push(...newEvents);
-      currentBlock = toBlock;
-    } while (currentBlock < latestBlock);
-    return events.map((eventLog: EventLog) => {
-      const mappedValues = fn(eventLog.returnValues);
-      return {
-        type: eventType,
-        data: { eventLog, ...mappedValues },
-      };
+    const events = await this.poolContract.getPastEvents(eventName, {
+      fromBlock: latestBlock - 50000, // Number('12312');
+      toBlock: latestBlock,
+      filter: { staker: currentAccount },
     });
+    return events.map(fn);
   }
 }

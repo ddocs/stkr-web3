@@ -40,6 +40,7 @@ interface IHistoryTableProps
 
 export const HistoryTable = (props: IHistoryTableProps) => {
   const { data } = props;
+  console.log('!!!', props);
   const classes = useHistoryTableStyles(props);
 
   const captions: CaptionType[] = useLocaleMemo(

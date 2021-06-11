@@ -10,6 +10,7 @@ import {
   IClaimStats,
   IConvertPayload,
   IStakerStats,
+  IStakingEntry,
   IWalletStatus,
   StakingStep,
 } from '../../modules/avalanche-sdk/types';
@@ -455,6 +456,20 @@ export const AvalancheActions = {
             balance,
             claimAvailable,
           };
+        })(),
+      },
+    }),
+  ),
+  fetchStakingHistory: createAction(
+    'FETCH_STAKING_HISTORY',
+    (): RequestAction => ({
+      request: {
+        promise: (async (): Promise<IStakingEntry[]> => {
+          const stkrSdk = StkrSdk.getForEnv();
+          const avalancheSdk = await AvalancheSdk.fromConfigFile(
+            stkrSdk.getKeyProvider().getWeb3(),
+          );
+          return await avalancheSdk.fetchStakeLogs();
         })(),
       },
     }),
