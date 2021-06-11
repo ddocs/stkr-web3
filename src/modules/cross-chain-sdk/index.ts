@@ -324,7 +324,7 @@ export class CrossChainSdk {
 
     this.depositSubscription = this.currentContract.events
       .CrossChainDeposit({
-        filter: { staker: currentAddress },
+        filter: { fromAddress: currentAddress },
         fromBlock: latestBlockHeight,
       })
       .on('data', (eventLog: EventLog) => {
@@ -333,7 +333,7 @@ export class CrossChainSdk {
 
     this.withdrawSubscription = this.currentContract.events
       .CrossChainWithdraw({
-        filter: { staker: currentAddress },
+        filter: { fromAddress: currentAddress },
         fromBlock: latestBlockHeight,
       })
       .on('data', (eventLog: EventLog) => {
