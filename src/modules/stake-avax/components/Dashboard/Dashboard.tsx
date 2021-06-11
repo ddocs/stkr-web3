@@ -15,7 +15,6 @@ import { QueryError } from '../../../../components/QueryError/QueryError';
 import { QueryLoading } from '../../../../components/QueryLoading/QueryLoading';
 import { QueryEmpty } from '../../../../components/QueryEmpty/QueryEmpty';
 import { useDispatch } from 'react-redux';
-import { clearStakingSession } from '../../../avalanche-sdk/utils';
 import { Spinner } from '../../../../components/Spinner';
 import { configFromEnv } from '../../../api/config';
 
@@ -52,7 +51,6 @@ export const Dashboard = ({
 
   const handleWithdrawSuccess = useCallback(() => {
     dispatch(AvalancheActions.fetchClaimStats());
-    clearStakingSession();
   }, [dispatch]);
 
   return (

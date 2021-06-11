@@ -345,6 +345,7 @@ export const AvalancheActions = {
               amount,
               network: session.network,
               signature,
+              recipient: address,
             });
           } catch (e) {
             saveStakingSession({
