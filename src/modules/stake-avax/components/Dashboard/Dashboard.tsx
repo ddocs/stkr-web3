@@ -38,13 +38,19 @@ export const Dashboard = ({
     type: AvalancheActions.fetchStakerStats.toString(),
   });
 
+  const { data: stakingHistory } = useQuery<IStakerStats | null>({
+    type: AvalancheActions.fetchStakingHistory.toString(),
+  });
+  console.log(stakingHistory);
+
   useEffect(() => {
     if (requiredNetwork !== `${config.providerConfig.avalancheChainId}`) {
       dispatch(AvalancheActions.fetchClaimStats());
     } else {
       dispatch(AvalancheActions.fetchStakerStats());
-      dispatch(AvalancheActions.fetchStakingHistory());
     }
+    dispatch(AvalancheActions.fetchStakingHistory());
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [requiredNetwork, dispatch]);
 
@@ -55,6 +61,7 @@ export const Dashboard = ({
 
   const handleWithdrawSuccess = useCallback(() => {
     dispatch(AvalancheActions.fetchClaimStats());
+    dispatch(AvalancheActions.fetchStakingHistory());
     clearStakingSession();
   }, [dispatch]);
 
@@ -114,23 +121,13 @@ export const Dashboard = ({
                   );
                 }}
               </Query>
-              <Query<IStakingEntry[] | null>
-                type={AvalancheActions.fetchStakingHistory.toString()}
-                errorComponent={QueryError}
-                loadingComponent={QueryLoading}
-                noDataMessage={<QueryEmpty />}
-                showLoaderDuringRefetch={true}
-              >
-                {({ data }) => {
-                  return (
-                    data && (
-                      <div className={classes.stats}>
-                        <HistoryTable data={data} />
-                      </div>
-                    )
-                  );
-                }}
-              </Query>
+              {
+                stakingHistory && (
+                  <div className={classes.stats}>
+                    {JSON.stringify(stakingHistory)}
+                  </div>
+                )
+              }
             </>
 
           ) : (

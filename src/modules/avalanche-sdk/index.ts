@@ -207,9 +207,10 @@ export class AvalancheSdk {
   }
 
   public async fetchStakeLogs(): Promise<IStakingEntry[]> {
-    const fn = (eventLog: any) => {
+    const fn = async (eventLog: any) => {
+      const block = await this.web3.eth.getBlock(eventLog.blockNumber);
       return {
-        stakingDate: new Date().toDateString(),
+        stakingDate: new Date(+block.timestamp * 1000).toString(),
         action: "STAKE_ACTION_CONFIRMED",
         transactionHash: eventLog.transactionHash,
         transactionType: "Stake",
@@ -236,6 +237,6 @@ export class AvalancheSdk {
       toBlock: latestBlock,
       filter: { staker: currentAccount },
     });
-    return events.map(fn);
+    return await Promise.all(events.map(fn));
   }
 }
