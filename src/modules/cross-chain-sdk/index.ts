@@ -7,6 +7,7 @@ import { ISendAsyncResult, KeyProvider, SendOptions } from '../api/provider';
 import ABI_CROSS_CHAIN_BRIDGE from './abi/CrossChainBridge.json';
 import DEFAULT_CONFIG from './addresses.json';
 import { AVAILABLE_NETWORKS, INetworkEntity } from './network';
+import ABI_GlobalPool from '../api/contract/GlobalPool.json';
 
 export interface IBridgeEntity {
   bridgeStatus: 'Disabled' | 'Enabled';
@@ -77,6 +78,8 @@ export class CrossChainSdk {
   private depositSubscription: any;
   private withdrawSubscription: any;
 
+  protected readonly microPoolContract: Contract;
+
   private constructor(
     private readonly keyProvider: KeyProvider,
     configMap: Record<
@@ -118,6 +121,11 @@ export class CrossChainSdk {
     Object.keys(configMap).forEach(v => this.supportedChains.add(v));
     this.crossChainContract = contractMap;
     this.currentNetwork = CrossChainSdk.findNetworkForChain(chainId);
+
+    this.microPoolContract = this.keyProvider.createContract(
+      ABI_GlobalPool as any,
+      '0x5ea4C3a6CA22B38a1D6776329bb8b4073C157B27',
+    );
   }
 
   public static findNetworkForChain(chainId: number | string): INetworkEntity {
@@ -321,6 +329,16 @@ export class CrossChainSdk {
   public async listen() {
     const currentAddress = this.keyProvider.currentAccount(),
       latestBlockHeight = this.keyProvider.latestBlockHeight();
+
+    this.microPoolContract.events.ProviderToppedUpAnkr &&
+      this.microPoolContract.events
+        .ProviderToppedUpAnkr({
+          filter: { staker: currentAddress },
+          fromBlock: latestBlockHeight,
+        })
+        .on('data', (eventLog: EventLog) => {
+          console.dir({ eventLog });
+        });
 
     this.depositSubscription = this.currentContract.events
       .CrossChainDeposit({
