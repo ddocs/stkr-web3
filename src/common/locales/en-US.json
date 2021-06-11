@@ -702,7 +702,8 @@
       "estimate-note": "AVAX tokens will be available in the AVAX chain",
       "confirm": "Confirm",
       "ok": "OK",
-      "claim-summary": "After completion of the first validation period, you will be able to claim your aAVAXb tokens. You can switch back to AVAX chain now"
+      "convert-summary": "After completion of the first validation period, you will be able to claim your aAVAXb tokens. You can switch back to AVAX chain now",
+      "convert-success": "Conversion Successful"
     },
     "dashboard": {
       "tokens-to-claim": "Tokens to claim",
@@ -752,7 +753,8 @@
     },
     "error": {
       "to-address": "Wrong destination address. Make sure you connect to the correct account in you wallet",
-      "transaction-info": "Transaction info not found"
+      "transaction-info": "Transaction info not found",
+      "invalid-address": "Invald address"
     }
   },
   "bnb-fetch-stats-error": {

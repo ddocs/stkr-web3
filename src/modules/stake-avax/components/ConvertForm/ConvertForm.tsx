@@ -34,7 +34,16 @@ export const ConvertForm = ({
     [],
   );
 
-  const validateStakeForm = useCallback(() => ({}), []);
+  const validateAddress = useCallback((value: string) => {
+    if (!value) return undefined;
+    const regexp = /^0x+[A-F,a-f,0-9]{40}/;
+    const match = value.match(regexp);
+    if (match && value === match[0]) {
+      return undefined;
+    }
+    return t('stake-avax.error.invalid-address');
+  }, []);
+
   const renderForm = ({
     handleSubmit,
     values: { amount, address },
@@ -67,6 +76,7 @@ export const ConvertForm = ({
               label={t('stake-avax.convert.address')}
               variant="outlined"
               fullWidth
+              validate={validateAddress}
             />
           </div>
         </div>
@@ -91,7 +101,6 @@ export const ConvertForm = ({
     <Form
       onSubmit={onSubmit}
       render={renderForm}
-      validate={validateStakeForm}
       initialValues={{
         amount: 0,
       }}

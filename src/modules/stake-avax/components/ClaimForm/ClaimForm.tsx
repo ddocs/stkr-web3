@@ -58,7 +58,7 @@ export const ClaimForm = ({
     if (match && value === match[0]) {
       return undefined;
     }
-    return 'Invalid address';
+    return t('stake-avax.error.invalid-address');
   }, []);
 
   const renderForm = ({

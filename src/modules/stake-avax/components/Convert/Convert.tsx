@@ -149,10 +149,10 @@ export const Convert = ({ amount, onSuccess }: IConvertProps) => {
         </IconButton>
         <Box mb={5} width={700} m="auto">
           <Headline3 classes={{ root: classes.title }}>
-            {t('stake-avax.convert.claim-success')}
+            {t('stake-avax.convert.convert-success')}
           </Headline3>
           <Headline5 classes={{ root: classes.title }}>
-            {t('stake-avax.convert.claim-summary')}
+            {t('stake-avax.convert.convert-summary')}
           </Headline5>
         </Box>
         <div className={classes.dialogFooter}>
