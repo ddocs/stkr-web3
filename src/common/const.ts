@@ -54,7 +54,7 @@ export const SOCIAL_LINK = {
 };
 export const DOCS_LINK = 'https://ankr.gitbook.io/stkr-docs/.';
 export const LITEPAPER_LINK =
-  'https://assets.ankr.com/files/stkr_litepaper.pdf';
+  'https://assets.ankr.com/files/stakefi_litepaper.pdf';
 export const STAKER_RATE = 0.85;
 export const NOTIFICATION_AUTO_HIDE_DURATION: Milliseconds = 3000;
 export const DEFAULT_STAKING_AMOUNT = 32;
