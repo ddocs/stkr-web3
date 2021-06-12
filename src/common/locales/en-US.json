@@ -289,7 +289,12 @@
     "zh-CN": "中文"
   },
   "moderation-status": {
-    "status": ["Waiting", "Voting", "Fail", "Passed"]
+    "status": [
+      "Waiting",
+      "Voting",
+      "Fail",
+      "Passed"
+    ]
   },
   "navigation": {
     "BSC": "BSC",
@@ -420,11 +425,7 @@
       }
     },
     "deploy-with-ankr": "Deploy with ANKR",
-    "deposit": "Deposit",
-    "capacity-alert": "Capacity Alert",
-    "ankr-provider-node": "Ankr provider node is experiencing very high demand and might be unavailable. More capacity will be added shortly.",
-    "continue-anyway": "Continue anyway",
-    "close": "Close"
+    "deposit": "Deposit"
   },
   "provider-tabs": {
     "create": "Create",

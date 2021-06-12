@@ -13,7 +13,6 @@ import { QueryLoading } from '../../../../components/QueryLoading/QueryLoading';
 import { Curtains } from '../../../../UiKit/Curtains';
 import { NavLink } from '../../../../UiKit/NavLink';
 import { CreateNodeDialog } from '../../components/CreateNodeDialog';
-import { AlertDialog } from '../../components/CreateNodeDialog/AlertDialog';
 import { DepositList } from '../../components/DepositList';
 import { NodeList } from '../../components/NodeList';
 import { ProviderTabs } from '../../components/ProviderTabs';
@@ -31,11 +30,8 @@ export const ProviderDashboard = () => {
     error,
     providerStatsLoading,
     isCreateNodeDialogOpen,
-    openCreateNodeDialog,
     closeCreateNodeDialog,
-    isAlertOpened,
-    openAlertDialog,
-    closeAlertDialog,
+    handleCreateNode,
   } = useProviderDashboard();
 
   const hasError = !!error;
@@ -65,10 +61,10 @@ export const ProviderDashboard = () => {
         <NodeList
           className={classes.table}
           data={sidecars}
-          handleCreateNode={openCreateNodeDialog}
+          handleCreateNode={handleCreateNode}
         />
       ) : null,
-    [classes.table, sidecars, openCreateNodeDialog],
+    [classes.table, sidecars, handleCreateNode],
   );
 
   const renderTopUpList = useCallback(() => {
@@ -95,7 +91,7 @@ export const ProviderDashboard = () => {
         className={classes.link}
         color="primary"
         size="medium"
-        onClick={openCreateNodeDialog}
+        onClick={handleCreateNode}
       >
         <span className={classes.linkTextShort}>
           {t('empty-node-list.submit-short')}
@@ -109,14 +105,9 @@ export const ProviderDashboard = () => {
       classes.link,
       classes.linkTextFull,
       classes.linkTextShort,
-      openCreateNodeDialog,
+      handleCreateNode,
     ],
   );
-
-  const handleAlertCloseEx = useCallback(() => {
-    closeAlertDialog();
-    openCreateNodeDialog();
-  }, [closeAlertDialog, openCreateNodeDialog]);
 
   return hasError ? (
     <QueryError error={error} />
@@ -183,10 +174,7 @@ export const ProviderDashboard = () => {
       <CreateNodeDialog
         isOpened={isCreateNodeDialogOpen}
         handleClose={closeCreateNodeDialog}
-        handleAlertOpen={openAlertDialog}
       />
-
-      <AlertDialog isOpen={isAlertOpened} onClose={handleAlertCloseEx} />
     </>
   );
 };
