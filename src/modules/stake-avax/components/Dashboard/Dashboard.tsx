@@ -19,6 +19,7 @@ import { clearStakingSession } from '../../../avalanche-sdk/utils';
 import { Spinner } from '../../../../components/Spinner';
 import { configFromEnv } from '../../../api/config';
 import { HistoryTable } from '../HistoryTable';
+import { BridgeActions } from '../../../../store/actions/BridgeActions';
 
 export interface IDashboardProps {
   wallet: IWalletStatus;
@@ -38,9 +39,12 @@ export const Dashboard = ({
     type: AvalancheActions.fetchStakerStats.toString(),
   });
 
-  const { data: stakingHistory } = useQuery<IStakerStats | null>({
+  const { data: stakingHistory } = useQuery<IStakingEntry[] | null>({
     type: AvalancheActions.fetchStakingHistory.toString(),
   });
+  // const { data: claimHistory } = useQuery<IStakerStats | null>({
+  //   type: BridgeActions.fetchStakingHistory.toString(),
+  // });
   console.log(stakingHistory);
 
   useEffect(() => {
@@ -50,18 +54,17 @@ export const Dashboard = ({
       dispatch(AvalancheActions.fetchStakerStats());
     }
     dispatch(AvalancheActions.fetchStakingHistory());
+    //dispatch(BridgeActions.fetchStakingHistory());
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [requiredNetwork, dispatch]);
 
   const handleStakeSuccess = useCallback(() => {
     dispatch(AvalancheActions.fetchStakerStats());
-    dispatch(AvalancheActions.fetchStakingHistory());
   }, [dispatch]);
 
   const handleWithdrawSuccess = useCallback(() => {
     dispatch(AvalancheActions.fetchClaimStats());
-    dispatch(AvalancheActions.fetchStakingHistory());
     clearStakingSession();
   }, [dispatch]);
 
@@ -100,36 +103,26 @@ export const Dashboard = ({
         <Box display="flex" flexDirection="column">
           {requiredNetwork ===
           String(config.providerConfig.avalancheChainId) ? (
-            <>
-              <Query<IStakerStats | null>
-                type={AvalancheActions.fetchStakerStats.toString()}
-                errorComponent={QueryError}
-                loadingComponent={QueryLoading}
-                noDataMessage={<QueryEmpty />}
-                showLoaderDuringRefetch={true}
-              >
-                {({ data }) => {
-                  return (
-                    data && (
-                      <div className={classes.stats}>
-                        {data.claimAvailable && (
-                          <Claim amount={data.claimAvailable} />
-                        )}
-                        <Balance amount={data.balance} />
-                      </div>
-                    )
-                  );
-                }}
-              </Query>
-              {
-                stakingHistory && (
-                  <div className={classes.stats}>
-                    {JSON.stringify(stakingHistory)}
-                  </div>
-                )
-              }
-            </>
-
+            <Query<IStakerStats | null>
+              type={AvalancheActions.fetchStakerStats.toString()}
+              errorComponent={QueryError}
+              loadingComponent={QueryLoading}
+              noDataMessage={<QueryEmpty />}
+              showLoaderDuringRefetch={true}
+            >
+              {({ data }) => {
+                return (
+                  data && (
+                    <div className={classes.stats}>
+                      {data.claimAvailable && (
+                        <Claim amount={data.claimAvailable} />
+                      )}
+                      <Balance amount={data.balance} />
+                    </div>
+                  )
+                );
+              }}
+            </Query>
           ) : (
             <Query<IStakerStats | null>
               type={AvalancheActions.fetchClaimStats.toString()}
@@ -151,6 +144,13 @@ export const Dashboard = ({
               }}
             </Query>
           )}
+          {
+            stakingHistory && (
+              <div className={classes.stats}>
+                <HistoryTable data={stakingHistory} />
+              </div>
+            )
+          }
         </Box>
       )}
     </section>

@@ -7,6 +7,9 @@ import { ISendAsyncResult, SendOptions } from '../api/provider';
 import ABI_CROSS_CHAIN_BRIDGE from './abi/CrossChainBridge.json';
 import DEFAULT_CONFIG from './addresses.json';
 import { AVAILABLE_NETWORKS, INetworkEntity } from './network';
+import { IStakingEntry } from '../avalanche-sdk/types';
+import { EthereumContractManager } from '../api/contract';
+import { AvalanchePoolEvents } from '../api/event';
 
 export interface IBridgeEntity {
   bridgeStatus: 'Disabled' | 'Enabled';
@@ -301,6 +304,40 @@ export class CrossChainSdk {
       fromChain,
     );
     // .send({ from: currentAccount });
+  }
+
+  public async fetchStakeLogs(): Promise<IStakingEntry[]> {
+    const fn = async (eventLog: any) => {
+      const block = await this.web3.eth.getBlock(eventLog.blockNumber);
+      return {
+        stakingDate: new Date(+block.timestamp * 1000).toString(),
+        action: "STAKE_ACTION_CONFIRMED",
+        transactionHash: eventLog.transactionHash,
+        transactionType: "Claim",
+        stakingAmount: new BigNumber(eventLog.returnValues.amount).dividedBy(
+          EthereumContractManager.ETH_SCALE_FACTOR,
+        ),
+        eventLog,
+      };
+    };
+    return this.queryPoolEventLogs("CrossChainDeposit", fn);
+  }
+
+  private async queryPoolEventLogs(
+    eventName: string,
+    fn: (returnValues: any) => any,
+  ): Promise<any[]> {
+    if (!this.currentContract) {
+      return [];
+    }
+    const [currentAccount] = await this.web3.eth.getAccounts();
+    const latestBlock = await this.web3.eth.getBlockNumber();
+    const events = await this.currentContract.getPastEvents(eventName, {
+      fromBlock: latestBlock - 50000,
+      toBlock: latestBlock,
+      filter: { staker: currentAccount },
+    });
+    return await Promise.all(events.map(fn));
   }
 
   private async sendAsync(
