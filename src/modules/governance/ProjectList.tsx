@@ -11,7 +11,6 @@ import {
   ANKR_DEPOSIT_LINK,
   DEFAULT_FIXED,
   isMainnet,
-  MIN_GOVERNANCE_BALANCE,
 } from '../../common/const';
 import { useInitEffect } from '../../common/hooks/useInitEffect';
 import { QueryEmpty } from '../../components/QueryEmpty/QueryEmpty';
@@ -45,6 +44,7 @@ export const ProjectList = () => {
   useInitEffect(() => {
     dispatch(GovernanceActions.fetchProjects());
     dispatch(GovernanceActions.fetchClaimAmount());
+    dispatch(UserActions.fetchMinimumDeposit());
   });
 
   const { isOpened, handleOpen, handleClose } = useDialog(
@@ -53,6 +53,9 @@ export const ProjectList = () => {
 
   const { data, loading } = useQuery<IVoterStats>({
     type: GovernanceActionTypes.FETCH_CLAIM_ANKR_AMOUNT,
+  });
+  const { data: minimumDeposit } = useQuery({
+    type: UserActionTypes.FETCH_MINIMUM_DEPOSIT,
   });
 
   useEffect(() => {
@@ -93,7 +96,7 @@ export const ProjectList = () => {
                     isOpened={isOpened}
                     handleClose={handleClose}
                     hasEnoughBalance={
-                      !data?.ankrBalance?.isLessThan(MIN_GOVERNANCE_BALANCE)
+                      !data?.ankrBalance?.isLessThan(minimumDeposit)
                     }
                   />
                   <Typography

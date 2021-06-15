@@ -7,7 +7,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import classNames from 'classnames';
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { uid } from 'react-uid';
@@ -17,10 +17,14 @@ import {
   isMainnet,
 } from '../../../../common/const';
 import { t } from '../../../../common/utils/intl';
-import { UserActions } from '../../../../store/actions/UserActions';
+import {
+  UserActions,
+  UserActionTypes,
+} from '../../../../store/actions/UserActions';
 import { CloseIcon } from '../../../../UiKit/Icons/CloseIcon';
 import { ReactComponent as InfoIcon } from '../../assets/info.svg';
 import { useRulesDialogStyles } from './RulesDialogStyles';
+import { useQuery } from '@redux-requests/react';
 
 interface IRulesDialogProps {
   isOpened: boolean;
@@ -37,6 +41,13 @@ export const RulesDialog = ({
 
   const dispatch = useDispatch();
 
+  const { data: minimumDeposit } = useQuery({
+    type: UserActionTypes.FETCH_MINIMUM_DEPOSIT,
+  });
+  useEffect(() => {
+    dispatch(UserActions.fetchMinimumDeposit());
+  }, [dispatch]);
+
   const handleDeposit = useCallback(() => {
     dispatch(UserActions.faucet());
   }, [dispatch]);
@@ -44,12 +55,12 @@ export const RulesDialog = ({
   const paragraphs = useMemo(
     () => [
       t('rules-dialog.item.1'),
-      t('rules-dialog.item.2'),
+      t('rules-dialog.item.2', { value: minimumDeposit }),
       t('rules-dialog.item.3'),
       t('rules-dialog.item.4'),
       t('rules-dialog.item.5'),
     ],
-    [],
+    [minimumDeposit],
   );
 
   return (

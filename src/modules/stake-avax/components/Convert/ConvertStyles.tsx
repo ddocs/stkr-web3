@@ -79,5 +79,11 @@ export const useConvertStyles = makeStyles<Theme>(theme => {
         marginBottom: theme.spacing(5),
       },
     },
+    warning: {
+      margin: theme.spacing(0, 0, 0, 3),
+      textAlign: 'left',
+      borderLeft: `2px solid ${theme.palette.error.main}`,
+      paddingLeft: theme.spacing(2.5),
+    },
   };
 });

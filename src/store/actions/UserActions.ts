@@ -90,6 +90,8 @@ export const UserActionTypes = {
 
   FETCH_PROVIDER_STATS: 'FETCH_PROVIDER_STATS',
 
+  FETCH_MINIMUM_DEPOSIT: 'FETCH_MINIMUM_DEPOSIT',
+
   TOP_UP: 'TOP_UP',
 
   SET_LOCALE: 'SET_LOCALE',
@@ -132,7 +134,7 @@ async function getGlobalPoolBalance() {
 }
 
 export const UserActions = {
-  connect: (redirectOnSuccess: string = FEATURES_PATH) => ({
+  connect: (redirectOnSuccess: string | null = FEATURES_PATH) => ({
     type: UserActionTypes.CONNECT,
     request: {
       promise: (async function () {
@@ -161,7 +163,7 @@ export const UserActions = {
             );
           } else {
             store.dispatch(UserActions.fetchAccountData());
-            store.dispatch(replace(redirectOnSuccess));
+            redirectOnSuccess && store.dispatch(replace(redirectOnSuccess));
           }
         });
 
@@ -208,6 +210,8 @@ export const UserActions = {
         if (stkrSdk.getKeyProvider().isBinanceSmartChain()) {
           bnbBalance = nativeBalance;
           blockchainType = Blockchain.binance;
+        } else if (stkrSdk.getKeyProvider().isAvalancheChain()) {
+          blockchainType = Blockchain.avalanche;
         } else {
           ankrBalance = await stkrSdk.getAnkrBalance();
         }
@@ -362,6 +366,18 @@ export const UserActions = {
       })(),
     },
   }),
+  fetchMinimumDeposit: createSmartAction(
+    UserActionTypes.FETCH_MINIMUM_DEPOSIT,
+    () => ({
+      request: {
+        promise: (async function () {
+          const stkrSdk = StkrSdk.getForEnv();
+          const minimumDeposit = await stkrSdk.getMinimumDeposit();
+          return minimumDeposit.toNumber();
+        })(),
+      },
+    }),
+  ),
   allowTokens: () => ({
     type: UserActionTypes.ALLOW_TOKENS,
     request: {

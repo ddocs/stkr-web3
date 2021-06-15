@@ -49,7 +49,11 @@ function Header({ children }: IHeaderProps) {
 
 export const FeaturesList = () => {
   const classes = useFeaturesListStyles();
-  const { isProviderAvailable, isBnbStakingAvailable } = useFeaturesAvailable();
+  const {
+    isProviderAvailable,
+    isBnbStakingAvailable,
+    isEthStakingAvailable,
+  } = useFeaturesAvailable();
 
   return (
     <Box component="section" mt={8}>
@@ -95,6 +99,7 @@ export const FeaturesList = () => {
               fullWidth={true}
               component={RouterLink}
               to={STAKER_DASHBOARD_PATH}
+              disabled={!isEthStakingAvailable}
             >
               {t('features-list.action.stake-eth.mainnet')}
             </Button>

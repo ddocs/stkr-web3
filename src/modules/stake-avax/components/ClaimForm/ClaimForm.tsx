@@ -1,4 +1,4 @@
-import { Paper, Typography } from '@material-ui/core';
+import { Paper, Tooltip, Typography } from '@material-ui/core';
 import classNames from 'classnames';
 import React, { useCallback, useMemo } from 'react';
 import { Field, Form, FormRenderProps } from 'react-final-form';
@@ -46,7 +46,7 @@ export const ClaimForm = ({
     if (match && value === match[0]) {
       return undefined;
     }
-    return 'Invalid address';
+    return t('stake-avax.error.invalid-address');
   }, []);
 
   const renderForm = ({
@@ -76,23 +76,22 @@ export const ClaimForm = ({
                 <EthIcon />
                 {t('cross-chain-bridge.chain-ehthereum')}
               </Paper>
-              <Paper
-                variant="outlined"
-                square={false}
-                className={classNames(
-                  classes.network,
-                  network === config.providerConfig.binanceChainId
-                    ? 'selected'
-                    : undefined,
-                )}
-                onClick={selectNetwork(
-                  form,
-                  config.providerConfig.binanceChainId,
-                )}
-              >
-                <BnbIcon />
-                {t('cross-chain-bridge.chain-binance')}
-              </Paper>
+              <Tooltip title={t('coming-soon')}>
+                <Paper
+                  variant="outlined"
+                  square={false}
+                  className={classNames(
+                    classes.network,
+                    classes.disabled,
+                    network === config.providerConfig.binanceChainId
+                      ? 'selected'
+                      : undefined,
+                  )}
+                >
+                  <BnbIcon />
+                  {t('cross-chain-bridge.chain-binance')}
+                </Paper>
+              </Tooltip>
             </div>
 
             <label className={classes.range}>

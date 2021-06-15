@@ -12,14 +12,16 @@ export function useFeaturesAvailable() {
   });
 
   const isSmartChain = userInfo?.blockchainType === Blockchain.binance;
+  const isETHChain = userInfo?.blockchainType === Blockchain.ethereum;
 
   return {
-    isProviderAvailable: !isSmartChain && userInfo?.blockchainType,
+    isProviderAvailable: isETHChain,
     isClaimAvailable: true,
     isAEthClaimAlwaysAvailable: true,
     isFethSupported: !isSmartChain,
     stakingAmountStep: isSmartChain ? 0.1 : 0.5,
     stakingFeeRate: stakingFeeInfo?.stakingFeeRate,
     isBnbStakingAvailable: !!window.BinanceChain,
+    isEthStakingAvailable: isETHChain,
   };
 }

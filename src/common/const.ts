@@ -1,5 +1,4 @@
 import { generatePath } from 'react-router';
-import Web3 from 'web3';
 import { ETH, Milliseconds } from './types';
 
 export const INDEX_PATH = '/';
@@ -74,8 +73,6 @@ export const DEFAULT_FIXED = 4;
 export const ANKR_DEPOSIT_LINK =
   'https://app.uniswap.org/#/swap?outputCurrency=0x8290333cef9e6d528dd5618fb97a76f268f3edd4';
 export const ETH_DIVIDER = 10 ** 18;
-export const MIN_GOVERNANCE_BALANCE = '5000000';
-export const MIN_GOVERNANCE_AMOUNT = Web3.utils.toWei(MIN_GOVERNANCE_BALANCE);
 
 export const featuresConfig = {
   aEthVideo: false,

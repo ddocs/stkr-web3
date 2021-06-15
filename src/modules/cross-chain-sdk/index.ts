@@ -1,12 +1,14 @@
 import BigNumber from 'bignumber.js';
+import { EventEmitter } from 'events';
+import { EventLog } from 'web3-core';
 import { Transaction } from 'ethereumjs-tx';
-import Web3 from 'web3';
 import { Contract } from 'web3-eth-contract';
 import { StkrSdk } from '../api';
-import { ISendAsyncResult, SendOptions } from '../api/provider';
+import { ISendAsyncResult, KeyProvider, SendOptions } from '../api/provider';
 import ABI_CROSS_CHAIN_BRIDGE from './abi/CrossChainBridge.json';
 import DEFAULT_CONFIG from './addresses.json';
 import { AVAILABLE_NETWORKS, INetworkEntity } from './network';
+import { CrossChainEvent } from './events';
 
 export interface IBridgeEntity {
   bridgeStatus: 'Disabled' | 'Enabled';
@@ -68,14 +70,16 @@ const mapBridgeToEntityUnsafe = (value: any): IBridgeEntity => {
 };
 
 export class CrossChainSdk {
-  private readonly crossChainContract: Record<string, Contract>;
   private readonly currentNetwork: INetworkEntity;
   private readonly supportedChains: Set<string> = new Set<string>();
   private readonly currentContractAddress: string;
   private readonly currentContract: Contract;
 
+  private depositSubscription: any;
+  private withdrawSubscription: any;
+
   private constructor(
-    private readonly web3: Web3,
+    private readonly keyProvider: KeyProvider,
     configMap: Record<
       string,
       Record<
@@ -87,6 +91,7 @@ export class CrossChainSdk {
       >
     >,
     chainId: number | string,
+    protected eventEmitter: EventEmitter,
   ) {
     const contractMap: Record<string, Contract> = {};
     let currentContract: Contract | undefined = undefined,
@@ -96,6 +101,7 @@ export class CrossChainSdk {
       : 'develop';
     const bridgesMap = configMap[env];
     for (const [key, value] of Object.entries(bridgesMap)) {
+      const web3 = this.keyProvider.getWeb3();
       const contract = new web3.eth.Contract(
         ABI_CROSS_CHAIN_BRIDGE as any,
         value.CrossChainBridge,
@@ -112,7 +118,6 @@ export class CrossChainSdk {
     this.currentContractAddress = currentContractAddress;
     this.currentContract = currentContract;
     Object.keys(configMap).forEach(v => this.supportedChains.add(v));
-    this.crossChainContract = contractMap;
     this.currentNetwork = CrossChainSdk.findNetworkForChain(chainId);
   }
 
@@ -126,12 +131,19 @@ export class CrossChainSdk {
     return network;
   }
 
-  public static async fromConfigFile(web3: Web3): Promise<CrossChainSdk> {
-    return CrossChainSdk.fromConfigMap(web3, DEFAULT_CONFIG as any);
+  public static async fromConfigFile(
+    keyProvider: KeyProvider,
+    eventEmitter: EventEmitter,
+  ): Promise<CrossChainSdk> {
+    return CrossChainSdk.fromConfigMap(
+      keyProvider,
+      DEFAULT_CONFIG as any,
+      eventEmitter,
+    );
   }
 
   public static async fromConfigMap(
-    web3: Web3,
+    keyProvider: KeyProvider,
     configMap: Record<
       string,
       Record<
@@ -142,9 +154,11 @@ export class CrossChainSdk {
         }
       >
     >,
+    eventEmitter: EventEmitter,
   ): Promise<CrossChainSdk> {
+    const web3 = keyProvider.getWeb3();
     const chainId = await web3.eth.getChainId();
-    return new CrossChainSdk(web3, configMap, chainId);
+    return new CrossChainSdk(keyProvider, configMap, chainId, eventEmitter);
   }
 
   public getCurrentNetwork(): INetworkEntity {
@@ -187,7 +201,8 @@ export class CrossChainSdk {
     depositAmount: BigNumber,
   ): Promise<any> {
     const scaledNumber = depositAmount.multipliedBy(1e18).toString(10);
-    const [currentAccount] = await this.web3.eth.getAccounts();
+    const web3 = this.keyProvider.getWeb3();
+    const [currentAccount] = await web3.eth.getAccounts();
     if (toAddress === null) {
       toAddress = currentAccount;
     }
@@ -202,11 +217,11 @@ export class CrossChainSdk {
         fromToken,
         toToken,
         // chain
-        this.web3.utils.numberToHex(toChain),
+        web3.utils.numberToHex(toChain),
         // address
         toAddress,
         // amount
-        this.web3.utils.numberToHex(scaledNumber),
+        web3.utils.numberToHex(scaledNumber),
       )
       .send({ from: currentAccount });
   }
@@ -239,7 +254,8 @@ export class CrossChainSdk {
       scaledNumber = withdrawAmount;
     }
 
-    const [currentAccount] = await this.web3.eth.getAccounts();
+    const web3 = this.keyProvider.getWeb3();
+    const [currentAccount] = await web3.eth.getAccounts();
     if (fromAddress === null) {
       fromAddress = currentAccount;
     }
@@ -249,11 +265,11 @@ export class CrossChainSdk {
         fromToken,
         toToken,
         // chain
-        this.web3.utils.numberToHex(fromChain),
+        web3.utils.numberToHex(fromChain),
         // address
         fromAddress,
         // amount
-        this.web3.utils.numberToHex(scaledNumber),
+        web3.utils.numberToHex(scaledNumber),
         // transaction hash with signature
         txHash,
         signature,
@@ -270,7 +286,8 @@ export class CrossChainSdk {
     txHash: string,
     signature: string,
   ): Promise<any> {
-    const [currentAccount] = await this.web3.eth.getAccounts();
+    const web3 = this.keyProvider.getWeb3();
+    const [currentAccount] = await web3.eth.getAccounts();
     if (fromAddress === null) {
       fromAddress = currentAccount;
     }
@@ -281,11 +298,11 @@ export class CrossChainSdk {
         fromToken,
         toToken,
         // chain
-        this.web3.utils.numberToHex(fromChain),
+        web3.utils.numberToHex(fromChain),
         // address
         fromAddress,
         // amount
-        this.web3.utils.numberToHex(withdrawAmount),
+        web3.utils.numberToHex(withdrawAmount),
         // transaction hash with signature
         txHash,
         signature,
@@ -303,21 +320,53 @@ export class CrossChainSdk {
     // .send({ from: currentAccount });
   }
 
+  public async dispose() {
+    this.depositSubscription?.unsubscribe();
+    this.withdrawSubscription?.unsubscribe();
+  }
+
+  public async listen() {
+    const currentAddress = this.keyProvider.currentAccount(),
+      latestBlockHeight = this.keyProvider.latestBlockHeight();
+
+    // this.depositSubscription = this.currentContract.events
+    //   .CrossChainDeposit({
+    //     filter: { fromAddress: currentAddress },
+    //     fromBlock: latestBlockHeight,
+    //   })
+    //   .on('data', (eventLog: EventLog) => {
+    //     console.dir({ eventLog });
+    //   });
+
+    this.withdrawSubscription = this.currentContract.events
+      .CrossChainWithdraw({
+        filter: { fromAddress: currentAddress },
+        fromBlock: latestBlockHeight,
+      })
+      .on('data', (eventLog: EventLog) => {
+        const { depositTxHash } = eventLog.returnValues;
+        this.eventEmitter.emit(CrossChainEvent.aAVAXbClaimFinished, {
+          depositTxHash,
+        });
+      });
+  }
+
   private async sendAsync(
     from: string,
     to: string,
     sendOptions: SendOptions,
     chainId: string,
   ): Promise<ISendAsyncResult> {
-    const gasPrice = await this.web3.eth.getGasPrice();
+    const web3 = this.keyProvider.getWeb3();
+    const gasPrice = await web3.eth.getGasPrice();
     console.log('Gas Price: ' + gasPrice);
-    const nonce = await this.web3.eth.getTransactionCount(from);
+    const nonce = await web3.eth.getTransactionCount(from);
     console.log('Nonce: ' + nonce);
     const tx = {
       from: from,
       to: to,
-      value: this.web3.utils.numberToHex(sendOptions.value || '0'),
-      gas: this.web3.utils.numberToHex(sendOptions.gasLimit || '500000'),
+      value: web3.utils.numberToHex(sendOptions.value || '0'),
+      gas: web3.utils.numberToHex(sendOptions.gasLimit || '500000'),
       gasPrice: gasPrice,
       data: sendOptions.data,
       nonce: nonce,
@@ -325,11 +374,11 @@ export class CrossChainSdk {
     };
     console.log('Sending transaction via Web3: ', tx);
     return new Promise<ISendAsyncResult>((resolve, reject) => {
-      const promise = this.web3.eth.sendTransaction(tx);
+      const promise = web3.eth.sendTransaction(tx);
       promise
         .once('transactionHash', async (transactionHash: string) => {
           console.log(`Just signed transaction has is: ${transactionHash}`);
-          const rawTx = await this.web3.eth.getTransaction(transactionHash);
+          const rawTx = await web3.eth.getTransaction(transactionHash);
           console.log(
             `Found transaction in node: `,
             JSON.stringify(rawTx, null, 2),
@@ -352,17 +401,18 @@ export class CrossChainSdk {
       return '';
     }
     const { v, r, s } = rawTx as any; /* this fields are not-documented */
+    const web3 = this.keyProvider.getWeb3();
     const newTx = new Transaction(
       {
-        gasLimit: this.web3.utils.numberToHex(rawTx.gas),
-        gasPrice: this.web3.utils.numberToHex(Number(rawTx.gasPrice)),
+        gasLimit: web3.utils.numberToHex(rawTx.gas),
+        gasPrice: web3.utils.numberToHex(Number(rawTx.gasPrice)),
         to: `${rawTx.to}`,
-        nonce: this.web3.utils.numberToHex(rawTx.nonce),
+        nonce: web3.utils.numberToHex(rawTx.nonce),
         data: rawTx.input,
         v: v,
         r: r,
         s: s,
-        value: this.web3.utils.numberToHex(rawTx.value),
+        value: web3.utils.numberToHex(rawTx.value),
       },
       {
         chain: chainId,

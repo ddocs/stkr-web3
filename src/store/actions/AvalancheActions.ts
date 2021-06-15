@@ -4,7 +4,6 @@ import { createAction } from 'redux-smart-actions';
 import { StkrSdk } from '../../modules/api';
 import { configFromEnv } from '../../modules/api/config';
 import { AvalancheSdk } from '../../modules/avalanche-sdk';
-import { CrossChainSdk } from '../../modules/cross-chain-sdk';
 import {
   IClaimPayload,
   IClaimStats,
@@ -21,6 +20,7 @@ import {
   saveStakingSession,
   setSessionInProgress,
 } from '../../modules/avalanche-sdk/utils';
+import { t } from '../../common/utils/intl';
 
 const {
   providerConfig: { ethereumChainId, binanceChainId, avalancheChainId },
@@ -30,13 +30,11 @@ const {
 } = configFromEnv();
 
 export const AvalancheActions = {
-  connect: createAction(
+  checkWallet: createAction(
     'CHECK_WALLET',
     (): RequestAction => ({
       request: {
         promise: (async (): Promise<IWalletStatus> => {
-          await AvalancheSdk.connect();
-
           const stkrSdk = StkrSdk.getForEnv();
           const session = getStakingSession();
 
@@ -105,10 +103,7 @@ export const AvalancheActions = {
             },
             true,
           );
-          const stkrSdk = StkrSdk.getForEnv();
-          const avalancheSdk = await AvalancheSdk.fromConfigFile(
-            stkrSdk.getKeyProvider().getWeb3(),
-          );
+          const avalancheSdk = await AvalancheSdk.connect();
           await avalancheSdk.stake(amount.toString());
           saveStakingSession({
             nextStep: StakingStep.DepositAAvaxB,
@@ -132,15 +127,13 @@ export const AvalancheActions = {
             true,
           );
           const stkrSdk = StkrSdk.getForEnv();
-          const web3 = stkrSdk.getKeyProvider().getWeb3();
-          const crossChainSdk = await CrossChainSdk.fromConfigFile(web3);
 
           const isToBNB = payload.network === binanceChainId;
 
           const toChain = isToBNB ? `${binanceChainId}` : `${ethereumChainId}`;
           const toToken = isToBNB ? `${bnbAAvaxB}` : `${ethAAvaxB}`;
 
-          const { transactionHash } = await crossChainSdk.deposit(
+          const { transactionHash } = await stkrSdk.crossDeposit(
             avalancheAAvaxB,
             toToken,
             toChain,
@@ -148,29 +141,31 @@ export const AvalancheActions = {
             new BigNumber(payload.amount),
           );
 
-          const [address] = await web3.eth.getAccounts();
+          const address = stkrSdk.currentAccount();
 
           saveStakingSession({
             nextStep: StakingStep.NotarizeAAvaxB,
             transactionHash,
-            address,
+            from: address,
             network: `${payload.network}`,
           });
 
           try {
             const stkrSdk = StkrSdk.getForEnv();
-            const { signature, amount } = await retry<{
+            const { signature, amount, recipient } = await retry<{
               signature: string;
               amount: string;
+              recipient: string;
             }>(
               () => stkrSdk.notarizeTransfer('AVAX', `${transactionHash}`),
-              e => e.message && e.message.includes('1 blocks more'),
+              e => e.message && e.message.includes('blocks more'),
             );
 
             saveStakingSession({
               nextStep: StakingStep.WithdrawAAvaxB,
               transactionHash,
-              address,
+              from: address,
+              recipient,
               amount,
               signature,
               network: `${payload.network}`,
@@ -179,7 +174,7 @@ export const AvalancheActions = {
             saveStakingSession({
               nextStep: StakingStep.NotarizeAAvaxB,
               transactionHash,
-              address,
+              from: address,
               network: `${payload.network}`,
               error: e.message || e.stack,
             });
@@ -198,7 +193,6 @@ export const AvalancheActions = {
     (): RequestAction => ({
       request: {
         promise: (async () => {
-          setSessionInProgress();
           const stkrSdk = StkrSdk.getForEnv();
           const web3 = stkrSdk.getKeyProvider().getWeb3();
 
@@ -209,31 +203,44 @@ export const AvalancheActions = {
             !session.transactionHash ||
             !session.amount ||
             !session.signature ||
-            !session.address
+            !session.from ||
+            !session.recipient
           ) {
-            throw new Error('Transaction info not found');
+            throw new Error(t('stake-avax.error.transaction-info'));
           }
 
-          const crossChainSdk = await CrossChainSdk.fromConfigFile(web3);
+          const address = stkrSdk.currentAccount();
+          if (address !== session.recipient) {
+            throw new Error(t('stake-avax.error.to-address'));
+          }
+
           const isToBNB = session.network === String(binanceChainId);
 
           const toToken = isToBNB ? `${bnbAAvaxB}` : `${ethAAvaxB}`;
 
+          setSessionInProgress();
+
           const {
             receiptPromise,
             transactionHash,
-          } = await crossChainSdk.withdrawAsync(
+          } = await stkrSdk.crossWithdrawAsync(
             avalancheAAvaxB,
             toToken,
             `${avalancheChainId}`,
-            session.address,
+            session.from,
             session.amount,
             session.transactionHash,
             session.signature,
           );
 
           try {
+            saveStakingSession({
+              ...session,
+              transactionHash,
+            });
+
             await receiptPromise;
+
             saveStakingSession({
               nextStep: StakingStep.DepositAvax,
               amount: session.amount,
@@ -258,6 +265,10 @@ export const AvalancheActions = {
       },
       meta: {
         asMutation: true,
+        onError: error => {
+          setSessionInProgress(false);
+          throw error;
+        },
       },
     }),
   ),
@@ -295,15 +306,11 @@ export const AvalancheActions = {
         promise: (async () => {
           const session = getStakingSession();
           if (!session?.network) {
-            throw new Error('Transaction info not found');
+            throw new Error(t('stake-avax.error.transaction-info'));
           }
 
           setSessionInProgress();
           const stkrSdk = StkrSdk.getForEnv();
-
-          const crossChainSdk = await CrossChainSdk.fromConfigFile(
-            stkrSdk.getKeyProvider().getWeb3(),
-          );
 
           const currentChainId = await stkrSdk
             .getKeyProvider()
@@ -316,7 +323,7 @@ export const AvalancheActions = {
             throw new Error('Contract configuration not available');
           }
 
-          const { transactionHash } = await crossChainSdk.deposit(
+          const { transactionHash } = await stkrSdk.crossDeposit(
             fromToken,
             avalancheAAvaxB,
             `${avalancheChainId}`,
@@ -347,6 +354,7 @@ export const AvalancheActions = {
               amount,
               network: session.network,
               signature,
+              recipient: address,
             });
           } catch (e) {
             saveStakingSession({
@@ -381,12 +389,8 @@ export const AvalancheActions = {
             !session.amount ||
             !session.signature
           ) {
-            throw new Error('Transaction info not found');
+            throw new Error(t('stake-avax.error.transaction-info'));
           }
-
-          const crossChainSdk = await CrossChainSdk.fromConfigFile(
-            stkrSdk.getKeyProvider().getWeb3(),
-          );
           const isFromBNB = session.network === String(binanceChainId);
 
           const fromToken = isFromBNB ? `${bnbAAvaxB}` : `${ethAAvaxB}`;
@@ -394,7 +398,7 @@ export const AvalancheActions = {
             ? String(binanceChainId)
             : String(ethereumChainId);
 
-          await crossChainSdk.withdrawAsync(
+          await stkrSdk.crossWithdrawAsync(
             fromToken,
             avalancheAAvaxB,
             fromChain,
@@ -420,13 +424,10 @@ export const AvalancheActions = {
       request: {
         promise: (async () => {
           setSessionInProgress();
-          const stkrSdk = StkrSdk.getForEnv();
-          const avalancheSdk = await AvalancheSdk.fromConfigFile(
-            stkrSdk.getKeyProvider().getWeb3(),
-          );
+          const avalancheSdk = await AvalancheSdk.connect();
           const session = getStakingSession();
           if (!session || !session.amount) {
-            throw new Error('Transaction info not found');
+            throw new Error(t('stake-avax.error.transaction-info'));
           }
           await avalancheSdk.claim(session.amount);
           clearStakingSession();
@@ -442,10 +443,7 @@ export const AvalancheActions = {
     (): RequestAction => ({
       request: {
         promise: (async (): Promise<IStakerStats> => {
-          const stkrSdk = StkrSdk.getForEnv();
-          const avalancheSdk = await AvalancheSdk.fromConfigFile(
-            stkrSdk.getKeyProvider().getWeb3(),
-          );
+          const avalancheSdk = await AvalancheSdk.connect();
           const claimAvailable = await avalancheSdk.getClaimableAmount();
           const balance = await avalancheSdk.getNativeBalance();
           // const stats = await avalancheSdk.fetchStakeLogs();
@@ -464,10 +462,7 @@ export const AvalancheActions = {
     (): RequestAction => ({
       request: {
         promise: (async (): Promise<IClaimStats> => {
-          const stkrSdk = StkrSdk.getForEnv();
-          const avalancheSdk = await AvalancheSdk.fromConfigFile(
-            stkrSdk.getKeyProvider().getWeb3(),
-          );
+          const avalancheSdk = await AvalancheSdk.connect();
           const balance = await avalancheSdk.getAAvaxBBalance();
           return {
             history: [],

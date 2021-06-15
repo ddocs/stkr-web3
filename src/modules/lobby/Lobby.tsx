@@ -10,7 +10,6 @@ import { BecomeProvider } from './components/BecomeProvider';
 import { Calculate } from './components/Calculate';
 import { Faq } from './components/Faq';
 import { Features } from './components/Features';
-import { GlobalStats } from './components/GlobalStats';
 import { Promo } from './components/Promo';
 import { VideoTutorial } from './components/VideoTutorial';
 import { useLobbyStyles } from './LobbyStyles';
@@ -25,7 +24,6 @@ export const Lobby = () => {
   return (
     <>
       <Promo />
-      <GlobalStats />
       <Features />
       <VideoTutorial />
       <AethBanner />

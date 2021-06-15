@@ -12,6 +12,7 @@ import { Form, FormRenderProps } from 'react-final-form';
 import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
 import { useRequestDispatch } from '../../../../common/utils/useRequestDispatch';
+import { Spinner } from '../../../../components/Spinner';
 
 interface IConfirmConvertDialogProps {
   estimate: string;
@@ -38,7 +39,7 @@ export const ConfirmConvertDialog = ({
       dispatch(AvalancheActions.convert(payload)).then(data => {
         onSubmit();
         if (!data.error) {
-          AvalancheActions.connect();
+          AvalancheActions.checkWallet();
         }
       });
     },
@@ -75,7 +76,7 @@ export const ConfirmConvertDialog = ({
             <MutationErrorHandler type={AvalancheActions.convert.toString()} />
             <Mutation type={AvalancheActions.convert.toString()}>
               {({ loading }) => {
-                return (
+                return !loading ? (
                   <Button
                     color="primary"
                     size="large"
@@ -85,6 +86,8 @@ export const ConfirmConvertDialog = ({
                   >
                     {t('stake-avax.convert.confirm')}
                   </Button>
+                ) : (
+                  <Spinner size={32} />
                 );
               }}
             </Mutation>

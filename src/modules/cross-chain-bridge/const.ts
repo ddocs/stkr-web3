@@ -23,4 +23,8 @@ export const blockchainsMap: Record<
     title: t('cross-chain-bridge.chain-binance'),
     icon: BlockchainIcons.binance,
   },
+  [Blockchain.avalanche]: {
+    title: t('cross-chain-bridge.chain-avalanche'),
+    icon: BlockchainIcons.binance,
+  },
 };

@@ -21,6 +21,7 @@ import {
 } from './event';
 import { ISendAsyncResult, KeyProvider } from './provider';
 import { JssdkManager } from './jssdk';
+import { AvalancheSdk } from '../avalanche-sdk';
 
 export interface IContractConfig {
   aethContract?: string;
@@ -82,6 +83,8 @@ export interface IContractManager {
 
   providerMinimumStaking(): Promise<BigNumber>;
 
+  providerMinimumDeposit(): Promise<BigNumber>;
+
   requesterMinimumStaking(): Promise<BigNumber>;
 
   checkAnkrAllowance(): Promise<BigNumber>;
@@ -109,6 +112,8 @@ export interface IContractManager {
   toppedUpAnkrDeposit(address: string): Promise<BigNumber>;
 
   claimableAnkrRewardOf(staker: string): Promise<BigNumber>;
+
+  getAnkrAvailableDepositsOf(address: string): Promise<BigNumber>;
 
   claimAnkr(amount: BigNumber): Promise<ISendAsyncResult>;
 }
@@ -770,6 +775,7 @@ export class EthereumContractManager implements IContractManager {
       if (!this.jssdkManager) throw new Error(`Jssdk is not available`);
     }
     const providerMinimumStaking = await this.jssdkManager?.getMinimumStakingAmount();
+    const providerMinimumDeposit = await this.jssdkManager?.getMinimumDepositThreshold();
     const requesterMinimumStaking = await this.systemContract.methods
       .REQUESTER_MINIMUM_POOL_STAKING()
       .call();
@@ -786,6 +792,9 @@ export class EthereumContractManager implements IContractManager {
       ),
       ethereumStakingAmount: new BigNumber(ethereumStakingAmount).dividedBy(
         EthereumContractManager.ETH_SCALE_FACTOR,
+      ),
+      providerMinimumDeposit: providerMinimumDeposit.dividedBy(
+        EthereumContractManager.ANKR_SCALE_FACTOR,
       ),
     };
     console.log(
@@ -806,6 +815,11 @@ export class EthereumContractManager implements IContractManager {
   public async providerMinimumStaking(): Promise<BigNumber> {
     const { providerMinimumStaking } = await this.systemContractParameters();
     return providerMinimumStaking;
+  }
+
+  public async providerMinimumDeposit(): Promise<BigNumber> {
+    const { providerMinimumDeposit } = await this.systemContractParameters();
+    return providerMinimumDeposit;
   }
 
   public async requesterMinimumStaking(): Promise<BigNumber> {
@@ -950,6 +964,16 @@ export class EthereumContractManager implements IContractManager {
     return new BigNumber(availableAmount).dividedBy(
       EthereumContractManager.ETH_SCALE_FACTOR,
     );
+  }
+
+  public async getAnkrAvailableDepositsOf(address: string): Promise<BigNumber> {
+    if (!this.governanceContract) {
+      throw new Error('Governance contract is not available');
+    }
+    const setting = await this.governanceContract.methods
+      .availableDepositsOf(address)
+      .call();
+    return new BigNumber(setting.toString());
   }
 
   async claimAnkr(amount: BigNumber): Promise<ISendAsyncResult> {
@@ -1130,6 +1154,7 @@ export class AvalancheContractManager extends EthereumContractManager {
       },
       ABI_AVALANCHE_POOL,
     );
+    AvalancheSdk.connect();
   }
   followGlobalPoolEvents(): void {
     console.log('GlobalPool events?');

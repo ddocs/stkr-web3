@@ -140,5 +140,9 @@ export const useClaimFormStyles = makeStyles<Theme>(theme => {
         fontSize: 14,
       },
     },
+    disabled: {
+      opacity: 0.5,
+      cursor: 'default',
+    },
   };
 });
