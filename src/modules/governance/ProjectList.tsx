@@ -7,7 +7,11 @@ import { Box, Button, IconButton, Paper, Typography } from '@material-ui/core';
 import { Mutation, Query, useQuery } from '@redux-requests/react';
 import classNames from 'classnames';
 import { useDispatch } from 'react-redux';
-import { ANKR_DEPOSIT_LINK, DEFAULT_FIXED, isMainnet } from '../../common/const';
+import {
+  ANKR_DEPOSIT_LINK,
+  DEFAULT_FIXED,
+  isMainnet,
+} from '../../common/const';
 import { useInitEffect } from '../../common/hooks/useInitEffect';
 import { QueryEmpty } from '../../components/QueryEmpty/QueryEmpty';
 import { UserActions, UserActionTypes } from '../../store/actions/UserActions';

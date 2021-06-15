@@ -17,11 +17,11 @@ export const StakeAvax = () => {
     data: wallet,
     loading: checkingWallet,
   } = useQuery<IWalletStatus | null>({
-    type: AvalancheActions.connect.toString(),
+    type: AvalancheActions.checkWallet.toString(),
   });
 
   useInitEffect(() => {
-    dispatch(AvalancheActions.connect());
+    dispatch(AvalancheActions.checkWallet());
   });
 
   const renderAlert = useCallback(() => <StakeAvaxAlert />, []);

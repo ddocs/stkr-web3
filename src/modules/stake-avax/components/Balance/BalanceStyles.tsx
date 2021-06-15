@@ -8,6 +8,7 @@ export const useBalanceStyles = makeStyles<Theme>(theme => {
       display: 'flex',
       flexDirection: 'column',
       padding: theme.spacing(5, 5, 3),
+      justifyContent: 'space-between',
       [theme.breakpoints.down('md')]: {
         maxWidth: '100%',
       },

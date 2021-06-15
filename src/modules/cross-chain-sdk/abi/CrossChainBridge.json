@@ -143,6 +143,12 @@
         "internalType": "uint256",
         "name": "withdrawAmount",
         "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "bytes32",
+        "name": "depositTxHash",
+        "type": "bytes32"
       }
     ],
     "name": "CrossChainWithdraw",

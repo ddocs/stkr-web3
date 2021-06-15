@@ -1,5 +1,5 @@
 import { useQuery } from '@redux-requests/react';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Milliseconds } from '../../../../common/types';
 import { useAuthentication } from '../../../../common/utils/useAuthentications';
@@ -9,10 +9,7 @@ import {
   UserActionTypes,
 } from '../../../../store/actions/UserActions';
 import { IProviderStats } from '../../../../store/apiMappers/providerStatsApi';
-import {
-  DIALOG_ALERT,
-  DIALOG_CREATE_NODE,
-} from '../../../../store/dialogs/actions';
+import { DIALOG_CREATE_NODE } from '../../../../store/dialogs/actions';
 import { useDialog } from '../../../../store/dialogs/selectors';
 import { SIDECARS_PER_PAGE } from '../../const';
 import { useSidecarsQuery } from '../../hooks/useSidecarsQuery';
@@ -29,11 +26,9 @@ export const useProviderDashboard = () => {
     handleOpen: openCreateNodeDialog,
   } = useDialog(DIALOG_CREATE_NODE);
 
-  const {
-    isOpened: isAlertOpened,
-    handleOpen: openAlertDialog,
-    handleClose: closeAlertDialog,
-  } = useDialog(DIALOG_ALERT);
+  const handleCreateNode = useCallback(() => {
+    openCreateNodeDialog();
+  }, [openCreateNodeDialog]);
 
   const sidecarsQuery = useSidecarsQuery();
 
@@ -73,9 +68,6 @@ export const useProviderDashboard = () => {
     providerStatsLoading,
     isCreateNodeDialogOpen,
     closeCreateNodeDialog,
-    openCreateNodeDialog,
-    isAlertOpened,
-    openAlertDialog,
-    closeAlertDialog,
+    handleCreateNode,
   };
 };

@@ -19,7 +19,7 @@ export const Connect = ({ network }: IConnectProps) => {
 
   useInitEffect(() => {
     const interval = setInterval(() => {
-      dispatch(AvalancheActions.connect());
+      dispatch(AvalancheActions.checkWallet());
     }, REFRESH_INTERVAL);
 
     return () => clearInterval(interval);

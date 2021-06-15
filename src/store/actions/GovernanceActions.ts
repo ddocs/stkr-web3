@@ -72,7 +72,9 @@ export const GovernanceActions = {
         const allowance = await stkrSdk.getAnkrGovernanceAllowance(
           stkrSdk.getKeyProvider().currentAccount(),
         );
-        const minimumDeposit = Web3.utils.toWei((await stkrSdk.getMinimumDeposit()).toString());
+        const minimumDeposit = Web3.utils.toWei(
+          (await stkrSdk.getMinimumDeposit()).toString(),
+        );
 
         if (new BigNumber(allowance).isLessThan(minimumDeposit)) {
           await stkrSdk.setAnkrAllowance(minimumDeposit, {

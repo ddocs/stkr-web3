@@ -4,7 +4,6 @@ import { createAction } from 'redux-smart-actions';
 import { Blockchain } from '../../common/types';
 import { StkrSdk } from '../../modules/api';
 import { configFromEnv } from '../../modules/api/config';
-import { CrossChainSdk } from '../../modules/cross-chain-sdk';
 import { UserActions } from './UserActions';
 
 const TOKEN_GOERLI = '0x63dC5749fa134fF3B752813388a7215460a8aB01';
@@ -62,10 +61,7 @@ export const BridgeActions = {
     }): RequestAction => ({
       request: {
         promise: (async () => {
-          const stkrSdk = StkrSdk.getForEnv();
-          const crossChainSdk = await CrossChainSdk.fromConfigFile(
-            stkrSdk.getKeyProvider().getWeb3(),
-          );
+          const crossChainSdk = StkrSdk.getForEnv().getCrossChainBridge();
 
           const isFromEthereum = fromBlockchain === Blockchain.ethereum;
 
@@ -119,10 +115,7 @@ export const BridgeActions = {
     (txHash: string): RequestAction => ({
       request: {
         promise: (async () => {
-          const stkrSdk = StkrSdk.getForEnv();
-          const crossChainSdk = await CrossChainSdk.fromConfigFile(
-            stkrSdk.getKeyProvider().getWeb3(),
-          );
+          const crossChainSdk = StkrSdk.getForEnv().getCrossChainBridge();
 
           let signature;
           if (IS_TEST_MODE) {
@@ -157,10 +150,7 @@ export const BridgeActions = {
     }): RequestAction => ({
       request: {
         promise: (async () => {
-          const stkrSdk = StkrSdk.getForEnv();
-          const crossChainSdk = await CrossChainSdk.fromConfigFile(
-            stkrSdk.getKeyProvider().getWeb3(),
-          );
+          const crossChainSdk = StkrSdk.getForEnv().getCrossChainBridge();
 
           const isToBinance = to === Blockchain.binance;
 

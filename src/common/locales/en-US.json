@@ -289,7 +289,12 @@
     "zh-CN": "中文"
   },
   "moderation-status": {
-    "status": ["Waiting", "Voting", "Fail", "Passed"]
+    "status": [
+      "Waiting",
+      "Voting",
+      "Fail",
+      "Passed"
+    ]
   },
   "navigation": {
     "BSC": "BSC",
@@ -420,11 +425,7 @@
       }
     },
     "deploy-with-ankr": "Deploy with ANKR",
-    "deposit": "Deposit",
-    "capacity-alert": "Capacity Alert",
-    "ankr-provider-node": "Ankr provider node is experiencing very high demand and might be unavailable. More capacity will be added shortly.",
-    "continue-anyway": "Continue anyway",
-    "close": "Close"
+    "deposit": "Deposit"
   },
   "provider-tabs": {
     "create": "Create",
@@ -702,13 +703,14 @@
       "estimate-note": "AVAX tokens will be available in the AVAX chain",
       "confirm": "Confirm",
       "ok": "OK",
-      "claim-summary": "After completion of the first validation period, you will be able to claim your aAVAXb tokens. You can switch back to AVAX chain now"
+      "claim-summary": "After completion of the first validation period, you will be able to claim your aAVAXb tokens. You can switch back to AVAX chain now",
+      "convert-success": "Conversion Successful"
     },
     "dashboard": {
       "tokens-to-claim": "Tokens to claim",
       "claim-info": "To start staking you need to claim your aAVAXb",
       "claim-tip": "To start staking you need to claim your aAVAXb",
-      "claim": "claim",
+      "claim": "Claim",
       "avax-balance": "AVAX balance",
       "balance-tip": "Balance...",
       "avax-staking": "AVAX Staking",
@@ -749,6 +751,11 @@
     },
     "claim": {
       "title": "On which network do you want to use aAVAXb tokens?"
+    },
+    "error": {
+      "to-address": "Wrong destination address. In order to finish claim, you need to connect to this account: ",
+      "transaction-info": "Transaction info not found",
+      "invalid-address": "Invald address"
     }
   },
   "bnb-fetch-stats-error": {
@@ -767,6 +774,7 @@
     "disconnect-btn": "Disconnect",
     "chain-ehthereum": "Ethereum Mainnet",
     "chain-binance": "Binance Smart Chain",
+    "chain-avalanche": "Avalanche Blockchain",
     "from": "From",
     "to": "To",
     "asset": "Asset",
@@ -814,6 +822,12 @@
       "btn-max": "MAX",
       "btn-next": "Next"
     }
+  },
+  "connect": {
+    "access-request": "Access Request",
+    "ask-connect": "Would you like to let ankr.com access you Ankr Staking account?",
+    "grant": "Grant Access",
+    "info": "Pressing this button will prompt you for your concent"
   },
   "zendesk": {
     "get-help": "Help"

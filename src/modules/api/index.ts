@@ -15,7 +15,7 @@ import {
   AvalancheContractManager,
   IContractManager,
 } from './contract';
-import { ContractManagerEvent } from './event';
+import { ContractManagerEvent, KeyProviderEvents } from './event';
 import {
   ApiGateway,
   IConvertEstimateReply,
@@ -34,6 +34,7 @@ import {
   Web3ModalKeyProvider,
 } from './provider';
 import Web3 from 'web3';
+import { CrossChainSdk } from '../cross-chain-sdk';
 
 interface IStakerSdk {
   allowTokens(remainingAllowance?: BigNumber): Promise<ISendAsyncResult>;
@@ -77,6 +78,24 @@ interface IStakerSdk {
   getRemainingAllowance(): Promise<BigNumber>;
 
   getMinimumDeposit(): Promise<BigNumber>;
+
+  crossWithdrawAsync(
+    fromToken: string,
+    toToken: string,
+    fromChain: string,
+    fromAddress: string | null,
+    withdrawAmount: string,
+    txHash: string,
+    signature: string,
+  ): Promise<any>;
+
+  crossDeposit(
+    fromToken: string,
+    toToken: string,
+    toChain: string,
+    toAddress: string | null,
+    depositAmount: BigNumber,
+  ): Promise<any>;
 }
 
 interface IProviderSdk {
@@ -122,6 +141,8 @@ interface IGovernanceSdk {
 
   getAnkrGovernanceAllowance(owner: string): Promise<any>;
 
+  getAnkrAvailableDepositsOf(owner: string): Promise<any>;
+
   getProposalInfo(proposalId: string): Promise<any>;
 }
 
@@ -135,6 +156,8 @@ export interface IStkrSdk extends IStakerSdk, IProviderSdk, IGovernanceSdk {
   getContractManager(): IContractManager;
 
   getKeyProvider(): KeyProvider;
+
+  getCrossChainBridge(): CrossChainSdk;
 
   getWalletMeta(): IWalletMeta | undefined;
 
@@ -187,6 +210,7 @@ export class StkrSdk implements IStkrSdk {
   private jssdkManager: JssdkManager | null = null;
   private keyProvider: KeyProvider | null = null;
   private contractManager: IContractManager | null = null;
+  private crossChainBridge: CrossChainSdk | null = null;
 
   constructor(
     private stkrConfig: IStkrConfig,
@@ -239,7 +263,26 @@ export class StkrSdk implements IStkrSdk {
       this.keyProvider,
       this.stkrConfig.contractConfig,
     );
+
+    await this.setupCrossChain();
+
+    this.eventEmitter.on(KeyProviderEvents.ChainChanged, async () => {
+      await this.setupCrossChain();
+    });
+
     return result;
+  }
+
+  async setupCrossChain() {
+    if (!this.keyProvider) {
+      return;
+    }
+    this.crossChainBridge?.dispose();
+    this.crossChainBridge = await CrossChainSdk.fromConfigFile(
+      this.keyProvider,
+      this.eventEmitter,
+    );
+    this.crossChainBridge.listen();
   }
 
   public isConnected(): boolean {
@@ -259,6 +302,8 @@ export class StkrSdk implements IStkrSdk {
     }
     this.keyProvider = null;
     this.contractManager = null;
+    this.crossChainBridge?.dispose();
+    this.crossChainBridge = null;
   }
 
   public createExplorerLink(txHash: string): string {
@@ -407,6 +452,12 @@ export class StkrSdk implements IStkrSdk {
   public getKeyProvider(): KeyProvider {
     if (!this.keyProvider) throw new Error('Key provider must be connected');
     return this.keyProvider;
+  }
+
+  public getCrossChainBridge(): CrossChainSdk {
+    if (!this.crossChainBridge)
+      throw new Error("Cross chain bridge hasn't been initialized");
+    return this.crossChainBridge;
   }
 
   public getContractManager(): IContractManager {
@@ -626,6 +677,10 @@ export class StkrSdk implements IStkrSdk {
     return this.getJssdkManager().getAnkrGovernanceAllowance(owner);
   }
 
+  public async getAnkrAvailableDepositsOf(owner: string) {
+    return await this.getContractManager().getAnkrAvailableDepositsOf(owner);
+  }
+
   public async getProposalInfo(proposalId: string) {
     return this.getJssdkManager().getProposalInfo(proposalId);
   }
@@ -652,5 +707,47 @@ export class StkrSdk implements IStkrSdk {
         ? BNB_RPC_CONFIG
         : ETH_RPC_CONFIG;
     return await this.keyProvider?.switchNetwork(settings);
+  }
+
+  public async crossWithdrawAsync(
+    fromToken: string,
+    toToken: string,
+    fromChain: string,
+    fromAddress: string | null,
+    withdrawAmount: string,
+    txHash: string,
+    signature: string,
+  ): Promise<any> {
+    if (!this.crossChainBridge) {
+      throw new Error('Cross chain bridge not available');
+    }
+    return await this.crossChainBridge.withdrawAsync(
+      fromToken,
+      toToken,
+      fromChain,
+      fromAddress,
+      withdrawAmount,
+      txHash,
+      signature,
+    );
+  }
+
+  public async crossDeposit(
+    fromToken: string,
+    toToken: string,
+    toChain: string,
+    toAddress: string | null,
+    depositAmount: BigNumber,
+  ): Promise<any> {
+    if (!this.crossChainBridge) {
+      throw new Error('Cross chain bridge not available');
+    }
+    return await this.crossChainBridge.deposit(
+      fromToken,
+      toToken,
+      toChain,
+      toAddress,
+      depositAmount,
+    );
   }
 }

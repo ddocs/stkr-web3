@@ -10,7 +10,6 @@ export const DIALOG_GOVERNANCE_PROJECT_CREATED =
 export const DIALOG_GOVERNANCE_HOW_IT_WORKS = 'DIALOG_GOVERNANCE_HOW_IT_WORKS';
 export const DIALOG_ANKR_INSTRUCTIONS_VIDEO = 'DIALOG_ANKR_INSTRUCTIONS_VIDEO';
 export const DIALOG_CREATE_NODE = 'DIALOG_CREATE_NODE';
-export const DIALOG_ALERT = 'DIALOG_ALERT';
 
 export type KnownModal =
   | typeof DIALOG_PRESENTATION
@@ -18,8 +17,7 @@ export type KnownModal =
   | typeof DIALOG_GOVERNANCE_PROJECT_CREATED
   | typeof DIALOG_GOVERNANCE_HOW_IT_WORKS
   | typeof DIALOG_ANKR_INSTRUCTIONS_VIDEO
-  | typeof DIALOG_CREATE_NODE
-  | typeof DIALOG_ALERT;
+  | typeof DIALOG_CREATE_NODE;
 
 export const openModalAction = (modal: KnownModal) => ({
   type: OPEN_MODAL_ACTION,

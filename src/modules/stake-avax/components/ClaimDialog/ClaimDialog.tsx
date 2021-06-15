@@ -43,7 +43,7 @@ export const ClaimDialog = ({ children, amount }: IClaimDialogProps) => {
     (payload: IClaimPayload) => {
       dispatch(AvalancheActions.claimAAvaxB(payload)).then(data => {
         if (!data.error) {
-          dispatch(AvalancheActions.connect());
+          dispatch(AvalancheActions.checkWallet());
         }
         handleClose();
       });

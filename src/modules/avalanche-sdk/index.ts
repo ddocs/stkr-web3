@@ -18,19 +18,42 @@ export class AvalancheSdk {
   private static _cachedSdk: AvalancheSdk | undefined;
   private static _cacheChainId: number | undefined;
 
-  public static async instance() {
-    const stkrSdk = StkrSdk.getForEnv();
+  static async connect() {
+    await this.setCache();
+    if (!this._cachedSdk)
+      throw new Error('Avalanche SDK could not be initialized');
+    this._cachedSdk.connect();
+    return this._cachedSdk;
+  }
 
+  static async disconnect() {
+    this._cachedSdk?.disconnect();
+    delete this._cachedSdk;
+  }
+
+  static async isConnected() {
+    const stkrSdk = StkrSdk.getForEnv();
     const selectedChainId = await stkrSdk
       .getKeyProvider()
       .getWeb3()
       .eth.getChainId();
 
-    if (selectedChainId === this._cacheChainId && !!this._cachedSdk) {
+    return this._cachedSdk && this._cacheChainId === selectedChainId;
+  }
+
+  private static async setCache() {
+    const stkrSdk = StkrSdk.getForEnv();
+
+    if (await this.isConnected()) {
       return this._cachedSdk;
     } else {
-      !!this._cachedSdk && this._cachedSdk.disconnect();
+      this.disconnect();
     }
+
+    const selectedChainId = await stkrSdk
+      .getKeyProvider()
+      .getWeb3()
+      .eth.getChainId();
 
     this._cacheChainId = selectedChainId;
 
@@ -41,26 +64,10 @@ export class AvalancheSdk {
     return this._cachedSdk;
   }
 
-  static async connect() {
-    await this.instance();
-    if (!this._cachedSdk)
-      throw new Error('Avalance SDK could not be initialized');
-    this._cachedSdk.connect();
-    return this._cachedSdk;
-  }
-
-  static async disconnect() {
-    this._cachedSdk?.disconnect();
-    delete this._cachedSdk;
-  }
-
   private readonly poolContract: Contract | undefined = undefined;
   private readonly poolContractAddress: string | undefined = undefined;
   private readonly futureBondContract: Contract | undefined = undefined;
-  private readonly futureBondContractAddress: string | undefined = undefined;
-  private readonly crossChainBridgeContractAddress:
-    | string
-    | undefined = undefined;
+
   public readonly chainId: number;
 
   private constructor(
@@ -99,14 +106,8 @@ export class AvalancheSdk {
         ABI_FUTURE_BOND as any,
         entry.FutureBondAVAX,
       );
-      this.futureBondContractAddress = entry.FutureBondAVAX;
     }
 
-    if (entry.CrossChainBridge) {
-      this.crossChainBridgeContractAddress = entry.CrossChainBridge;
-    }
-
-    this.futureBondContractAddress = entry.FutureBondAVAX;
     this.chainId = +chainId;
   }
 
@@ -133,19 +134,11 @@ export class AvalancheSdk {
   }
 
   private async connect() {
-    // const [currentAccount] = await this.web3.eth.getAccounts();
-    // const latestBlockHeight = await this.web3.eth.getBlockNumber();
-    // console.dir({ latestBlockHeight });
-    // this.poolContract?.events
-    //   .StakePending({
-    //     filter: { from: currentAccount },
-    //     fromBlock: latestBlockHeight,
-    //   })
-    //   .on('data', () => alert(3));
+    // follow pool and future bond events
   }
 
   private async disconnect() {
-    return;
+    //
   }
 
   public async getClaimableAmount() {
@@ -177,8 +170,16 @@ export class AvalancheSdk {
     const balance = await this.futureBondContract.methods
       .balanceOf(currentAccount)
       .call();
+    const ratio = await this.futureBondContract.methods.ratio().call();
+    const lastConfirmedRatio = await this.futureBondContract.methods
+      .ratio()
+      .call();
+    const correctedBalance = new BigNumber(balance)
+      .multipliedBy(new BigNumber(ratio))
+      .dividedBy(new BigNumber(lastConfirmedRatio));
+
     const decimals = 18;
-    const result = new BigNumber(`${balance}`).dividedBy(
+    const result = new BigNumber(`${correctedBalance}`).dividedBy(
       new BigNumber(10).pow(decimals),
     );
     return result;
@@ -216,7 +217,7 @@ export class AvalancheSdk {
         ),
       };
     };
-    return this.queryPoolEventLogs(
+    return this.queryEventLogs(
       AvalanchePoolEvents.StakePending,
       'StakePending',
       fn,
@@ -226,7 +227,7 @@ export class AvalancheSdk {
     );
   }
 
-  private async queryPoolEventLogs(
+  private async queryEventLogs(
     eventType: string,
     eventName: string,
     fn: (returnValues: any) => any,
@@ -242,24 +243,13 @@ export class AvalancheSdk {
           staker: currentAccount,
         };
 
-    const latestBlock = await this.web3.eth.getBlockNumber();
-    let currentBlock = Number('12312');
-    const events = [];
-    do {
-      let toBlock = latestBlock;
-      toBlock = currentBlock + 5000;
-      if (toBlock > latestBlock) {
-        toBlock = latestBlock;
-      }
-
-      const newEvents = await this.poolContract.getPastEvents(eventName, {
-        fromBlock: currentBlock,
-        toBlock: toBlock,
-        filter,
-      });
-      events.push(...newEvents);
-      currentBlock = toBlock;
-    } while (currentBlock < latestBlock);
+    const toBlock = await this.web3.eth.getBlockNumber();
+    const fromBlock = toBlock - 500;
+    const events = await this.poolContract.getPastEvents(eventName, {
+      fromBlock,
+      toBlock,
+      filter,
+    });
     return events.map((eventLog: EventLog) => {
       const mappedValues = fn(eventLog.returnValues);
       return {

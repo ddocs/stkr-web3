@@ -17,7 +17,10 @@ import {
   isMainnet,
 } from '../../../../common/const';
 import { t } from '../../../../common/utils/intl';
-import { UserActions, UserActionTypes } from '../../../../store/actions/UserActions';
+import {
+  UserActions,
+  UserActionTypes,
+} from '../../../../store/actions/UserActions';
 import { CloseIcon } from '../../../../UiKit/Icons/CloseIcon';
 import { ReactComponent as InfoIcon } from '../../assets/info.svg';
 import { useRulesDialogStyles } from './RulesDialogStyles';
@@ -52,7 +55,7 @@ export const RulesDialog = ({
   const paragraphs = useMemo(
     () => [
       t('rules-dialog.item.1'),
-      t('rules-dialog.item.2', {value: minimumDeposit}),
+      t('rules-dialog.item.2', { value: minimumDeposit }),
       t('rules-dialog.item.3'),
       t('rules-dialog.item.4'),
       t('rules-dialog.item.5'),

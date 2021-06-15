@@ -24,6 +24,11 @@ import {
   KeyProviderEvent,
   KeyProviderEvents,
 } from '../../modules/api/event';
+import {
+  clearStakingSession,
+  getStakingSession,
+} from '../../modules/avalanche-sdk/utils';
+import { CrossChainEvent } from '../../modules/cross-chain-sdk/events';
 import { AvalancheActions } from '../actions/AvalancheActions';
 import {
   GovernanceActions,
@@ -42,6 +47,7 @@ function createEventChannel() {
     [
       ...Object.values(KeyProviderEvents),
       ...Object.values(ContractManagerEvents),
+      ...Object.values(CrossChainEvent),
     ].forEach(value => {
       events.on(value, data => {
         emitter({ data, type: value });
@@ -66,9 +72,9 @@ function* listenKeyProviderEvents() {
 
   try {
     while (true) {
-      const event: KeyProviderEvent & ContractManagerEvent = yield take(
-        channel,
-      );
+      const event: KeyProviderEvent &
+        ContractManagerEvent &
+        CrossChainEvent = yield take(channel);
 
       if (event.type === KeyProviderEvents.ChainChanged) {
         if (isBridgePath) {
@@ -81,7 +87,10 @@ function* listenKeyProviderEvents() {
           const isAvalanchePath =
             historyInstance.location.pathname === STAKER_AVALANCHE_PATH;
           if (isAvalanchePath) {
-            yield put(AvalancheActions.connect());
+            setTimeout(() => {
+              window.location.reload();
+            });
+            yield put(AvalancheActions.checkWallet());
             return;
           }
         }
@@ -178,6 +187,16 @@ function* listenKeyProviderEvents() {
         yield put(UserActions.fetchingStakingHistory());
       } else if (event.type === ContractManagerEvents.AnkrClaimed) {
         yield put(GovernanceActions.fetchClaimAmount());
+      } else if (event.type === CrossChainEvent.aAVAXbClaimFinished) {
+        const stakingSession = getStakingSession();
+        const { depositTxHash } = event.data;
+        if (
+          stakingSession?.inProgress &&
+          stakingSession.transactionHash === depositTxHash
+        ) {
+          clearStakingSession();
+        }
+        yield put(AvalancheActions.checkWallet());
       }
     }
   } finally {

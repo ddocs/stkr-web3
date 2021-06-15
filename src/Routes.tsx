@@ -29,6 +29,7 @@ import { PageNotFound } from './components/PageNotFound/PageNotFound';
 import { QueryLoadingAbsolute } from './components/QueryLoading/QueryLoading';
 import { withDefaultLayout } from './modules/layout';
 import { PrivateRoute } from './UiKit/PrivateRoute';
+import { PrivateRoutePlaceholder } from './UiKit/PrivateRoutePlaceholder';
 
 const LoadableOverviewContainer = withDefaultLayout(
   loadable(async () => import('./modules/lobby').then(module => module.Lobby), {
@@ -289,7 +290,7 @@ export function Routes() {
         component={WalletListBnbContainer}
         exact={true}
       />
-      <PrivateRoute
+      <PrivateRoutePlaceholder
         path={STAKER_AVALANCHE_PATH}
         component={LoadableAvalancheContainer}
         exact={true}
