@@ -40,9 +40,6 @@ const styles = (theme: Theme): StyleRules => ({
     bottom: 15,
     right: theme.spacing(2),
     zIndex: 10000,
-    [theme.breakpoints.down('xs')]: {
-      display: 'none',
-    },
   },
   launcher: {
     background: theme.palette.primary.main,
@@ -63,6 +60,23 @@ const styles = (theme: Theme): StyleRules => ({
     },
   },
 });
+
+const hideFieldByKey = (key: string) => {
+  const iframe = document.getElementById('webWidget');
+  if (iframe) {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const fieldLabel = iframe.contentWindow.document.body.querySelector(`label[data-fieldid='key:${key}']`);
+    if (fieldLabel) {
+      fieldLabel.parentElement.style.display = "none";
+    }
+  }
+}
+
+const hideUselessFields = () => {
+  hideFieldByKey('360049219293');
+  hideFieldByKey('360049245773');
+}
 
 const ZendeskMounterComponent = ({ classes = {} }: StyledComponentProps) => {
   const { zendeskOrganization } = useZendeskOrganization();
@@ -100,6 +114,11 @@ const ZendeskMounterComponent = ({ classes = {} }: StyledComponentProps) => {
       });
       ZendeskAPI('webWidget:on', 'open', function () {
         handleShow();
+      });
+      ZendeskAPI('webWidget:on', 'userEvent', function (event: any) {
+        if (event.action === "Contact Form Shown") {
+          hideUselessFields();
+        }
       });
     }
   }, [loaded]);

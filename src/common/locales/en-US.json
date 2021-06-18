@@ -289,12 +289,7 @@
     "zh-CN": "中文"
   },
   "moderation-status": {
-    "status": [
-      "Waiting",
-      "Voting",
-      "Fail",
-      "Passed"
-    ]
+    "status": ["Waiting", "Voting", "Fail", "Passed"]
   },
   "navigation": {
     "BSC": "BSC",
@@ -416,16 +411,21 @@
       "ankr": {
         "few-clicks": "Deploy in a few clicks",
         "no-hardware": "No hardware needed",
-        "zero-slashing": "Guaranteed zero slashing"
+        "zero-slashing": "Guaranteed zero slashing",
+        "alert-message": "Instances of our Ankr provider node have reached capacity so new providers are not currently required. Deposits are therefore paused."
       },
       "own-node": {
         "configure-manually": "Deploy and configure manually",
         "manage-yourself": "Manage node yourself",
-        "slashing": "Slashing at your own risk"
+        "slashing": "Slashing at your own risk",
+        "alert-message": "Instances of our Ankr provider node have reached capacity so new providers are not currently required."
       }
     },
     "deploy-with-ankr": "Deploy with ANKR",
-    "deposit": "Deposit"
+    "deposit": "Deposit",
+    "capacity-alert": "Capacity Alert",
+    "continue-anyway": "Continue anyway",
+    "close": "Close"
   },
   "provider-tabs": {
     "create": "Create",
@@ -509,6 +509,10 @@
   },
   "top-up": {
     "ankr-min-deposit-notice": "You need {value} ANKR on your wallet",
+    "deposit-ankr-placeholder": "Instances of our Ankr provider node have reached capacity so new providers are not currently required. Deposits are therefore paused.",
+    "deposit-eth-placeholder": "Instances of our Ankr provider node have reached capacity so new providers are not currently required.",
+    "deposit-tip": "Instances of our Ankr provider node have reached capacity so new providers are not currently required. Continue here only if you need to top-up your deposit in order for your existing node running.",
+    "deposit-agreement": "I understand and wish to continue anyway",
     "eth-top-up-note": "Please note that if your insurance ever drops below 2 ETH due to slashing penalties, your node may stop running. To prevent this from happening, or to restart a node that has stopped because of this, please ensure your remaining insurance balance is at least 2 ETH. You can top this amount up here.<br/><br/>Also note that once deposited, any insurance amount remains locked in the Stkr system until the contract ends (Ethereum 2.0 Phase 1.5 release).",
     "step": {
       "1": "You have enough tokens",
@@ -587,7 +591,8 @@
     "required": "This field is required",
     "min": "Should be greater than {value}",
     "max": "Should be less than {value}",
-    "numberOnly": "Must be a number"
+    "numberOnly": "Must be a number",
+    "deposit-agreement-checkbox": "Please tick this box if you want to proceed"
   },
   "video-tutorial": {
     "title": "Stake Eth2 with Ankr StakeFi"
