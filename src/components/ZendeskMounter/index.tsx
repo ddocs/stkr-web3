@@ -40,9 +40,6 @@ const styles = (theme: Theme): StyleRules => ({
     bottom: 15,
     right: theme.spacing(2),
     zIndex: 10000,
-    [theme.breakpoints.down('xs')]: {
-      display: 'none',
-    },
   },
   launcher: {
     background: theme.palette.primary.main,
@@ -103,7 +100,6 @@ const ZendeskMounterComponent = ({ classes = {} }: StyledComponentProps) => {
   };
   const handleShow = () => {
     ZendeskAPI('webWidget', 'show');
-    setTimeout(hideUselessFields, 500);
   };
   const handleOpen = () => {
     ZendeskAPI('webWidget', 'open');
@@ -118,6 +114,11 @@ const ZendeskMounterComponent = ({ classes = {} }: StyledComponentProps) => {
       });
       ZendeskAPI('webWidget:on', 'open', function () {
         handleShow();
+      });
+      ZendeskAPI('webWidget:on', 'userEvent', function (event: any) {
+        if (event.action === "Contact Form Shown") {
+          hideUselessFields();
+        }
       });
     }
   }, [loaded]);
