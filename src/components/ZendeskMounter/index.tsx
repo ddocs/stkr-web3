@@ -64,6 +64,23 @@ const styles = (theme: Theme): StyleRules => ({
   },
 });
 
+const hideFieldByKey = (key: string) => {
+  const iframe = document.getElementById('webWidget');
+  if (iframe) {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const fieldLabel = iframe.contentWindow.document.body.querySelector(`label[data-fieldid='key:${key}']`);
+    if (fieldLabel) {
+      fieldLabel.parentElement.style.display = "none";
+    }
+  }
+}
+
+const hideUselessFields = () => {
+  hideFieldByKey('360049219293');
+  hideFieldByKey('360049245773');
+}
+
 const ZendeskMounterComponent = ({ classes = {} }: StyledComponentProps) => {
   const { zendeskOrganization } = useZendeskOrganization();
   const { name, email } = useSelector((state: IStoreState) => {
@@ -86,6 +103,7 @@ const ZendeskMounterComponent = ({ classes = {} }: StyledComponentProps) => {
   };
   const handleShow = () => {
     ZendeskAPI('webWidget', 'show');
+    setTimeout(hideUselessFields, 500);
   };
   const handleOpen = () => {
     ZendeskAPI('webWidget', 'open');
