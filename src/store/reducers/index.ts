@@ -8,11 +8,25 @@ import { notificationReducer } from './notificationReducer';
 import { requestUpdateReducer } from './requestUpdateReducer';
 import { IUserState, userReducer } from './userReducer';
 import { userPersistConfig } from './webStorageConfigs';
+import { SidecarStatus } from '../../modules/api/gateway';
+
+interface ISidecar {
+  status: SidecarStatus;
+}
+
+interface IQuery {
+  FETCH_CURRENT_PROVIDER_SIDECARS: { data: { items: ISidecar[] } };
+}
+
+interface IRequests {
+  queries: IQuery;
+}
 
 export interface IStoreState {
   router: RouterState;
   user: IUserState;
   dialog: IDialogState;
+  requests: IRequests;
 }
 
 const createRootReducer = (history: History, requestsReducer: Reducer) =>

@@ -22,6 +22,7 @@ import { useDepositStyles } from './DepositStyles';
 
 // TODO Take it from config contract
 export const MIN_NODE_DEPOSIT = 25000;
+export const IS_BUY_ANKR_BUTTON_AVAILABLE = false;
 
 export enum DepositAnkrStep {
   'WALLET_DEPOSIT',
@@ -57,7 +58,7 @@ export const DepositAnkrForm = ({
     dispatch(UserActions.allowTokens());
   }, [dispatch]);
 
-  return (
+  return IS_BUY_ANKR_BUTTON_AVAILABLE ? (
     <form onSubmit={handleSubmit}>
       <Query<IAllowance>
         errorComponent={QueryError}
@@ -189,5 +190,9 @@ export const DepositAnkrForm = ({
         }}
       </Query>
     </form>
+  ) : (
+    <Typography className={classes.notice}>
+      {t('top-up.deposit-ankr-placeholder')}
+    </Typography>
   );
 };

@@ -1,5 +1,5 @@
 import { Box, Button, Typography } from '@material-ui/core';
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { Route } from 'react-router-dom';
 import {
   PROVIDER_DEPOSIT_LIST_PATH,
@@ -13,12 +13,15 @@ import { QueryLoading } from '../../../../components/QueryLoading/QueryLoading';
 import { Curtains } from '../../../../UiKit/Curtains';
 import { NavLink } from '../../../../UiKit/NavLink';
 import { CreateNodeDialog } from '../../components/CreateNodeDialog';
+import { AlertDialog } from '../../components/CreateNodeDialog/AlertDialog';
 import { DepositList } from '../../components/DepositList';
 import { NodeList } from '../../components/NodeList';
 import { ProviderTabs } from '../../components/ProviderTabs';
 import { IItemProps } from '../../components/ProviderTabs/ProviderTabs';
 import { useProviderDashboardStyles } from './ProviderDashboardStyles';
 import { useProviderDashboard } from './useProviderDashboard';
+
+export type OpenedFromName = 'ankr' | 'own-node';
 
 const BALANCE_PRECISION = 4;
 
@@ -30,12 +33,22 @@ export const ProviderDashboard = () => {
     error,
     providerStatsLoading,
     isCreateNodeDialogOpen,
+    openCreateNodeDialog,
     closeCreateNodeDialog,
-    handleCreateNode,
+    isAlertOpened,
+    openAlertDialog,
+    closeAlertDialog,
   } = useProviderDashboard();
 
   const hasError = !!error;
   const hasSidecars = sidecars && sidecars.length > 0;
+
+  const [openedFrom, setOpenedFrom] = useState();
+
+  const handleAlertOpen = (openedFromName: OpenedFromName) => {
+    setOpenedFrom(openedFromName);
+    openAlertDialog();
+  };
 
   const tabs = useMemo<IItemProps[]>(
     () => [
@@ -61,10 +74,10 @@ export const ProviderDashboard = () => {
         <NodeList
           className={classes.table}
           data={sidecars}
-          handleCreateNode={handleCreateNode}
+          handleCreateNode={openCreateNodeDialog}
         />
       ) : null,
-    [classes.table, sidecars, handleCreateNode],
+    [classes.table, sidecars, openCreateNodeDialog],
   );
 
   const renderTopUpList = useCallback(() => {
@@ -91,7 +104,7 @@ export const ProviderDashboard = () => {
         className={classes.link}
         color="primary"
         size="medium"
-        onClick={handleCreateNode}
+        onClick={openCreateNodeDialog}
       >
         <span className={classes.linkTextShort}>
           {t('empty-node-list.submit-short')}
@@ -105,9 +118,14 @@ export const ProviderDashboard = () => {
       classes.link,
       classes.linkTextFull,
       classes.linkTextShort,
-      handleCreateNode,
+      openCreateNodeDialog,
     ],
   );
+
+  const handleAlertCloseEx = useCallback(() => {
+    closeAlertDialog();
+    openCreateNodeDialog();
+  }, [closeAlertDialog, openCreateNodeDialog]);
 
   return hasError ? (
     <QueryError error={error} />
@@ -174,6 +192,13 @@ export const ProviderDashboard = () => {
       <CreateNodeDialog
         isOpened={isCreateNodeDialogOpen}
         handleClose={closeCreateNodeDialog}
+        handleAlertOpen={handleAlertOpen}
+      />
+
+      <AlertDialog
+        isOpen={isAlertOpened}
+        onClose={handleAlertCloseEx}
+        openedFrom={openedFrom}
       />
     </>
   );

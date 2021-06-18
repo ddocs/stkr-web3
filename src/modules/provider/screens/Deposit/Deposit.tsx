@@ -40,11 +40,13 @@ enum TopUpCurreny {
 export const DEPOSIT_TYPE_FIELD_NAME = 'depositType';
 export const ETH_AMOUNT_FIELD_NAME = 'etheriumAmount';
 export const ANKR_AMOUNT_FIELD_NAME = 'ankrAmount';
+export const DEPOSIT_AGREEMENT_CHECKBOX = 'depositAgreementCheckbox';
 
 interface IDepositPayload {
   [DEPOSIT_TYPE_FIELD_NAME]: DepositType;
   [ETH_AMOUNT_FIELD_NAME]: number;
   [ANKR_AMOUNT_FIELD_NAME]: number;
+  [DEPOSIT_AGREEMENT_CHECKBOX]: string;
 }
 
 interface IDepositProps {
@@ -111,6 +113,12 @@ export const DepositComponent = ({
           errors[ETH_AMOUNT_FIELD_NAME] = t('validation.min-ETH-amount', {
             value: minStakingAmount,
           });
+        }
+
+        if (!data[DEPOSIT_AGREEMENT_CHECKBOX]) {
+          errors[DEPOSIT_AGREEMENT_CHECKBOX] = t(
+            'validation.deposit-agreement-checkbox',
+          );
         }
       }
 

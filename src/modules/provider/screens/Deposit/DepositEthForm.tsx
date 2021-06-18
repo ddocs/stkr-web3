@@ -3,7 +3,7 @@ import { Mutation } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import React, { useEffect } from 'react';
 import { Field, FormRenderProps } from 'react-final-form';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { PROVIDER_MIN_BALANCE } from '../../../../common/const';
 import { t, tHTML } from '../../../../common/utils/intl';
 import { useAuthentication } from '../../../../common/utils/useAuthentications';
@@ -13,10 +13,12 @@ import {
 } from '../../../../store/actions/UserActions';
 import { Button } from '../../../../UiKit/Button';
 import { SliderField } from '../../../../UiKit/RangeField';
-import { Headline4 } from '../../../../UiKit/Typography';
+import { Body2, Headline4 } from '../../../../UiKit/Typography';
 import { ETH_AMOUNT_FIELD_NAME } from './Deposit';
 import { useDepositStyles } from './DepositStyles';
 import { useFeaturesAvailable } from '../../../../common/hooks/useFeaturesAvailable';
+import { CheckboxField } from '../../../../UiKit/Checkbox/CheckboxField';
+import { IStoreState } from '../../../../store/reducers';
 
 interface IDepositEthFormProps {
   deposited?: BigNumber;
@@ -32,6 +34,16 @@ export const DepositEthForm = ({
   const dispatch = useDispatch();
   const { isConnected } = useAuthentication();
 
+  const sidecars = useSelector(
+    (state: IStoreState) =>
+      state.requests.queries.FETCH_CURRENT_PROVIDER_SIDECARS.data.items,
+  );
+  const hasNode = sidecars.find(sidecar =>
+    ['SIDECAR_STATUS_ACTIVE', 'SIDECAR_STATUS_ATTESTING'].includes(
+      sidecar.status,
+    ),
+  );
+
   useEffect(() => {
     if (isConnected) {
       dispatch(UserActions.fetchAllowance());
@@ -40,10 +52,21 @@ export const DepositEthForm = ({
 
   const { stakingAmountStep } = useFeaturesAvailable();
 
-  return (
+  return hasNode ? (
     <form onSubmit={handleSubmit} className={classes.form}>
       <>
-        <Box width="100%" mb={3}>
+        <Box className={classes.info} mb={3}>
+          {t('top-up.deposit-tip')}
+        </Box>
+        <Field
+          component={CheckboxField}
+          name="depositAgreementCheckbox"
+          type="checkbox"
+          showErrorText={true}
+        >
+          <Body2 color="secondary">{t('top-up.deposit-agreement')}</Body2>
+        </Field>
+        <Box width="100%" mt={3} mb={3}>
           <Headline4 align="right" className={classes.ethSliderAmount}>
             {t('unit.eth-value', {
               value: values[ETH_AMOUNT_FIELD_NAME],
@@ -88,5 +111,9 @@ export const DepositEthForm = ({
         </Grid>
       </>
     </form>
+  ) : (
+    <Typography className={classes.notice}>
+      {t('top-up.deposit-eth-placeholder')}
+    </Typography>
   );
 };

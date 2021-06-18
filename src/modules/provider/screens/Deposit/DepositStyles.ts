@@ -50,4 +50,9 @@ export const useDepositStyles = makeStyles<Theme>(theme => ({
       right: theme.spacing(2),
     },
   },
+  info: {
+    fontSize: 16,
+    paddingLeft: theme.spacing(2.5),
+    borderLeft: `2px solid ${theme.palette.primary.main}`,
+  },
 }));
