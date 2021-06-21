@@ -1,9 +1,9 @@
 import { Box, Grid, Typography } from '@material-ui/core';
-import { Mutation } from '@redux-requests/react';
+import { Mutation, useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import React, { useEffect } from 'react';
 import { Field, FormRenderProps } from 'react-final-form';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { PROVIDER_MIN_BALANCE } from '../../../../common/const';
 import { t, tHTML } from '../../../../common/utils/intl';
 import { useAuthentication } from '../../../../common/utils/useAuthentications';
@@ -18,7 +18,7 @@ import { ETH_AMOUNT_FIELD_NAME } from './Deposit';
 import { useDepositStyles } from './DepositStyles';
 import { useFeaturesAvailable } from '../../../../common/hooks/useFeaturesAvailable';
 import { CheckboxField } from '../../../../UiKit/Checkbox/CheckboxField';
-import { IStoreState } from '../../../../store/reducers';
+import { ISidecars } from '../../../../store/reducers';
 
 interface IDepositEthFormProps {
   deposited?: BigNumber;
@@ -34,11 +34,11 @@ export const DepositEthForm = ({
   const dispatch = useDispatch();
   const { isConnected } = useAuthentication();
 
-  const sidecars = useSelector(
-    (state: IStoreState) =>
-      state.requests.queries.FETCH_CURRENT_PROVIDER_SIDECARS.data.items,
-  );
-  const hasNode = sidecars.find(sidecar =>
+  const { data: sidecars } = useQuery<ISidecars>({
+    type: UserActionTypes.FETCH_CURRENT_PROVIDER_SIDECARS,
+  });
+
+  const hasNode = sidecars.items.find(sidecar =>
     ['SIDECAR_STATUS_ACTIVE', 'SIDECAR_STATUS_ATTESTING'].includes(
       sidecar.status,
     ),
