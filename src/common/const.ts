@@ -79,4 +79,4 @@ export const featuresConfig = {
   bridge: false,
 };
 
-export const ENABLE_AVA = false;
+export const ENABLE_AVA = true;
