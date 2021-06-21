@@ -96,7 +96,7 @@ export const Bridge = ({
 
           <BlockchainPanel
             icon={BlockchainIcons.aEth}
-            title="aETH"
+            title="aETHc"
             onChange={onAssetChange}
             disabled
           />

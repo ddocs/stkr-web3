@@ -42,7 +42,7 @@ export const BridgeRecovery = () => {
   const renderedForm = (
     <BridgeForm
       onSubmit={onSubmit}
-      balanceType="aETH"
+      balanceType="aETHc"
       additionalText={t('cross-chain-bridge.recovery.info')}
     />
   );

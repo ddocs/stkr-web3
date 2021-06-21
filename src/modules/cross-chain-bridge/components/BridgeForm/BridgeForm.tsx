@@ -32,7 +32,7 @@ export interface iBridgeFormProps {
 
 export const BridgeForm = ({
   balance,
-  balanceType = 'aETH',
+  balanceType = 'aETHc',
   onSubmit,
   submitDisabled = false,
   additionalText,
