@@ -79,6 +79,6 @@ export const useBridge = () => {
     toAddress: depositQuery.data?.toAddress || toAddress,
     depositLoading: depositQuery.loading,
     depositError: depositQuery.error,
-    assetType: 'aETH',
+    assetType: 'aETHc',
   };
 };

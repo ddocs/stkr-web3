@@ -19,30 +19,30 @@
 		"title": "币安智能链"
 	},
 	"aeth-advantages": {
-		"primary-text": "aETH可以让你在1.5阶段上线和锁定期结束前（可能需要长达数年的时间！）质押Eth2并兑换奖励。",
-		"secondary-text": "aETH上线Uniswap，实现即时流通，aETH持有者也可以在平台上为aETH/ETH交易对提供流动性，并从交易费用中赚取收益。",
+		"primary-text": "aETHc可以让你在1.5阶段上线和锁定期结束前（可能需要长达数年的时间！）质押Eth2并兑换奖励。",
+		"secondary-text": "aETHc上线Uniswap，实现即时流通，aETHc持有者也可以在平台上为aETHc/ETH交易对提供流动性，并从交易费用中赚取收益。",
 		"title": "即使流动性"
 	},
 	"aeth-banner": {
 		"btnText": "学习更多",
-		"text": "了解aETH的工作原理和使用方法。",
-		"title": "aETH如何工作？"
+		"text": "了解aETHc的工作原理和使用方法。",
+		"title": "aETHc如何工作？"
 	},
 	"aeth-ecosystem": {
 		"services": {
 			"bitkeep": "直接访问Ankr的Eth2质押服务。",
-			"curve": "aETH的去中心化流动资金池，具有双重奖励机制。",
+			"curve": "aETHc的去中心化流动资金池，具有双重奖励机制。",
 			"imtoken": "移动端访问Ankr的Eth2质押服务。",
-			"metamask": "存储aETH并与DeFi应用连接。",
+			"metamask": "存储aETHc并与DeFi应用连接。",
 			"onto": "直接访问Ankr的Eth2质押服务。",
-			"onx": "aETH质押池和抵押资产的收益策略。",
-			"snowswap": "通过aETH swap和流动性池激励Eth2的采用。",
-			"sushiswap": "去中心化交易和aETH流动奖励池。",
+			"onx": "aETHc质押池和抵押资产的收益策略。",
+			"snowswap": "通过aETHc swap和流动性池激励Eth2的采用。",
+			"sushiswap": "去中心化交易和aETHc流动奖励池。",
 			"trustwallet": "移动端访问Ankr的Eth2质押服务。",
-			"uniswap": "去中心化的流动性池和aETH交易。"
+			"uniswap": "去中心化的流动性池和aETHc交易。"
 		},
 		"subtitle": "生态系统",
-		"title": "在这里访问Ankr的Eth2质押服务和aETH。"
+		"title": "在这里访问Ankr的Eth2质押服务和aETHc。"
 	},
 	"aeth-it-works": {
 		"items": {
@@ -51,52 +51,52 @@
 				"title": "存款"
 			},
 			"get-aeth": {
-				"text": "一旦您的ETH在信标链上进行了质押，您的aETH余额将被添加到Ankr Staking平台，供您兑换。",
-				"title": "获取aETH"
+				"text": "一旦您的ETH在信标链上进行了质押，您的aETHc余额将被添加到Ankr Staking平台，供您兑换。",
+				"title": "获取aETHc"
 			},
 			"redeem": {
-				"text": "只要以太坊 2.0交易被激活，您就可以使用您的aETH在Ankr Staking平台上兑换您的质押的ETH+质押奖励。",
+				"text": "只要以太坊 2.0交易被激活，您就可以使用您的aETHc在Ankr Staking平台上兑换您的质押的ETH+质押奖励。",
 				"title": "兑换您的ETH+质押奖励"
 			},
 			"use-aeth": {
-				"text": "您可以将aETH存储在钱包中，以完全控制您的资金。您也可以交易aETH或将其用于DeFi产品以赚取收益。请注意，如果您在交易aETH，您实际上在交易您的全部投资（包括投资金额和预期收益）。",
-				"title": "使用aETH"
+				"text": "您可以将aETHc存储在钱包中，以完全控制您的资金。您也可以交易aETHc或将其用于DeFi产品以赚取收益。请注意，如果您在交易aETHc，您实际上在交易您的全部投资（包括投资金额和预期收益）。",
+				"title": "使用aETHc"
 			}
 		},
 		"title": "它是如何工作的"
 	},
 	"aeth-promo": {
-		"text": "<b>aETH</b>是一种合成的衍生资产，可以为以太坊 2.0网络提供即时的流动性。",
-		"title": "什么是aETH？"
+		"text": "<b>aETHc</b>是一种合成的衍生资产，可以为以太坊 2.0网络提供即时的流动性。",
+		"title": "什么是aETHc？"
 	},
 	"aeth-reward": {
-		"primary-text": "aETH代表了质押的ETH和所有未来的质押奖励。",
+		"primary-text": "aETHc代表了质押的ETH和所有未来的质押奖励。",
 		"rewards": "奖励",
-		"secondary-text": "最初，aETH的发行比例与质押的ETH金额为1:1。随着时间的推移，1个aETH的ETH价值有望增长，因为它包含了质押本金和质押奖励。",
+		"secondary-text": "最初，aETHc的发行比例与质押的ETH金额为1:1。随着时间的推移，1个aETHc的ETH价值有望增长，因为它包含了质押本金和质押奖励。",
 		"staked": "已质押的ETH",
 		"title": "一种资产。<br/>综合价值。"
 	},
 	"aeth-start": {
 		"start-staking": "开始质押",
-		"text": "aETH在各种DeFi平台上都可交易，相关的收益机会也不断增多。现在就开始质押，亲自尝试吧!",
-		"title": "aETH的新收益机会"
+		"text": "aETHc在各种DeFi平台上都可交易，相关的收益机会也不断增多。现在就开始质押，亲自尝试吧!",
+		"title": "aETHc的新收益机会"
 	},
 	"balance": {
 		"amount": {
-			"aETH": "{value, number}<span class=\"unit\"> aETH</span>。",
-			"fETH": "{value, number}<span class=\"unit\"> fETH</span>。"
+			"aETH": "{value, number}<span class=\"unit\"> aETHc</span>。",
+			"fETH": "{value, number}<span class=\"unit\"> aETHb</span>。"
 		},
 		"price": {
-			"aETH": "1aETH={value, number}ETH",
-			"fETH": "1fETH={value, number}ETH"
+			"aETH": "1aETHc={value, number}ETH",
+			"fETH": "1aETHb={value, number}ETH"
 		},
 		"tip": {
-			"aETH": "有了aETH，质押收益会体现在代币价格中，所以随着时间的流逝，代币会变得更有价值。一旦以太坊 2.0 1.5阶段发布，您可以将您的aETH兑换成您的原始ETH本金加上累计的质押奖励。",
-			"fETH": "这始终是大约1个ETH的价值，然而通过持有这个代币，您可以获得持续的奖励，以额外的fETH支付，这意味着您的奖励是复利的。然而，随着时间的推移，您的fETH的价值不太可能超过ETH的价值。"
+			"aETH": "有了aETHc，质押收益会体现在代币价格中，所以随着时间的流逝，代币会变得更有价值。一旦以太坊 2.0 1.5阶段发布，您可以将您的aETHc兑换成您的原始ETH本金加上累计的质押奖励。",
+			"fETH": "这始终是大约1个ETH的价值，然而通过持有这个代币，您可以获得持续的奖励，以额外的aETHb支付，这意味着您的奖励是复利的。然而，随着时间的推移，您的aETHb的价值不太可能超过ETH的价值。"
 		},
 		"token-name": {
-			"aETH": "aETH余额",
-			"fETH": "fETH余额"
+			"aETH": "aETHc余额",
+			"fETH": "aETHb余额"
 		}
 	},
 	"beacon-node-table": {
@@ -137,18 +137,18 @@
 	},
 	"claim-dialog": {
 		"description": {
-			"aETH": "有了aETH，质押收益会体现在代币价格中，所以随着时间的流逝，代币会变得更有价值。一旦以太坊 2.0 1.5阶段发布，您可以将您的aETH兑换成您的原始ETH本金加上累计的质押奖励。",
-			"fETH": "这始终是大约1个ETH的价值，然而通过持有这个代币，您可以获得持续的奖励，以额外的fETH支付，这意味着您的奖励是复利的。然而，随着时间的推移，您的fETH的价值不太可能超过ETH的价值。"
+			"aETH": "有了aETHc，质押收益会体现在代币价格中，所以随着时间的流逝，代币会变得更有价值。一旦以太坊 2.0 1.5阶段发布，您可以将您的aETHc兑换成您的原始ETH本金加上累计的质押奖励。",
+			"fETH": "这始终是大约1个ETH的价值，然而通过持有这个代币，您可以获得持续的奖励，以额外的aETHb支付，这意味着您的奖励是复利的。然而，随着时间的推移，您的aETHb的价值不太可能超过ETH的价值。"
 		},
 		"submit": {
-			"aETH": "领取 {value, number} aETH",
+			"aETH": "领取 {value, number} aETHc",
 			"claim-aETH": "",
-			"fETH": "领取 {value, number} fETH"
+			"fETH": "领取 {value, number} aETHb"
 		},
 		"title": "你更喜欢哪种代币？",
 		"token-name": {
-			"aETH": "aETH",
-			"fETH": "fETH"
+			"aETH": "aETHc",
+			"fETH": "aETHb"
 		}
 	},
 	"coming-soon": "即将推出",
@@ -222,9 +222,9 @@
 		"answer-10": "<p>是的！如果您拥有足够的ANKR代币，您可以参与治理并对关键参数进行投票，以定义平台的未来。</p>。",
 		"answer-2": "<p>微池机制是我们打破以太坊2.0质押金额门槛的独特解决方案。顾名思义，微池允许用户将较小部分的ETH投入到验证者节点中，并根据其贡献按比获得相应的奖励。</p>",
 		"answer-3": "<p>Ankr的流动性质押协议允许ETH持有者参与以太坊 2.0的质押并赚取质押奖励，而无需运行节点并在未知的时间内锁定ETH。</p>",
-		"answer-4": "<p>Ankr通过引入aETH有效地解决了以太坊 2.0的无流动性问题，这将使您能够在任何时间点交易您的质押资产或利用它在DeFi协议中赚取收益。<p>",
-		"answer-5": "<p>在以太坊 2.0启用交易之前，您可以简单地将您的 <a href={aETHLink}>aETH</a> 换成ETH. 随着时间的推移，1 aETH 的价值会超过1ETH.</p><p>一旦以太坊 2.0交易启用，您就可以使用您的aETH来兑换您的ETH质押本金和您的质押奖励。</p>",
-		"answer-6": "<p><a href={aETHLink}>aETH</a>是一种合成衍生资产，它代表了您的ETH质押本金加上赚取的质押奖励。当您在Ankr上质押ETH时，您可以兑换aETH代币，您可以选择自我保管、交易或在Defi协议上赚取收益。<p>",
+		"answer-4": "<p>Ankr通过引入aETHc有效地解决了以太坊 2.0的无流动性问题，这将使您能够在任何时间点交易您的质押资产或利用它在DeFi协议中赚取收益。<p>",
+		"answer-5": "<p>在以太坊 2.0启用交易之前，您可以简单地将您的 <a href={aETHLink}>aETHc</a> 换成ETH. 随着时间的推移，1 aETHc 的价值会超过1ETH.</p><p>一旦以太坊 2.0交易启用，您就可以使用您的aETHc来兑换您的ETH质押本金和您的质押奖励。</p>",
+		"answer-6": "<p><a href={aETHLink}>aETHc</a>是一种合成衍生资产，它代表了您的ETH质押本金加上赚取的质押奖励。当您在Ankr上质押ETH时，您可以兑换aETHc代币，您可以选择自我保管、交易或在Defi协议上赚取收益。<p>",
 		"answer-7": "<p>尽管以太坊 2.0只允许您以32 ETH的倍数进行质押，但通过Ankr，您可以一次性质押所有代币，而无需将它们分配到多个节点。这意味着您可以一键质押1000个ETH。</p>",
 		"answer-8": "<p>可以。您可以成为提供商，运行自己的节点来收取质押奖励。如果您没有任何硬件或部署节点的技术知识，您可以随时使用Ankr并一键部署您的以太坊2.0节点。</p>",
 		"answer-9": "<p>要想成为节点提供商，赚取平台费用，需要建立一个以太坊 2.0节点，最低 \"保险 \"金为2个ETH，以便在发生罚没事件时对用户进行补偿。</p>。",
@@ -234,14 +234,14 @@
 		"question-3": "什么是流动性质押？",
 		"question-4": "在以太坊 2.0上启用转账交易之前就参与质押，如何获得流动性？",
 		"question-5": "我如何兑换质押的ETH以及质押奖励？",
-		"question-6": "什么是aETH？",
+		"question-6": "什么是aETHc？",
 		"question-7": "我的ETH超过32个。我还能用Ankr进行质押吗？",
 		"question-8": "我可以在Ankr上运行自己的以太坊2.0节点吗？",
 		"question-9": "如何成为平台上的节点提供者？",
 		"title": "常见问题解答"
 	},
 	"features": {
-		"liquidity-text": "有了aETH，你可以持有或随时交易你的质押资金，不需要等到以太坊2.0转账功能开启。",
+		"liquidity-text": "有了aETHc，你可以持有或随时交易你的质押资金，不需要等到以太坊2.0转账功能开启。",
 		"liquidity-title": "质押流动性",
 		"manager-text": "发送所有ETH仅需一次交易，协议会自动把您的资金分配到表现良好的池子。",
 		"manager-title": "质押分配管理",
@@ -249,7 +249,7 @@
 		"micropool-title": "微池",
 		"security-text": "资金由您自己保管，始终保持对资产的完全控制。",
 		"security-title": "安全",
-		"text": "Ankr's Eth2 staking 解旨在提供最佳的用户体验和最高级别的安全性，用户在获得丰厚质押奖励的同时， 也通过类债券的合成代币aETH获得了流动性。",
+		"text": "Ankr's Eth2 staking 解旨在提供最佳的用户体验和最高级别的安全性，用户在获得丰厚质押奖励的同时， 也通过类债券的合成代币aETHc获得了流动性。",
 		"title": "为什么选择Ankr？"
 	},
 	"format": {
@@ -359,7 +359,7 @@
 		"staker": {
 			"features": {
 				"1": "质押任意数量的ETH（最低0.5ETH）来赚取奖励。",
-				"2": "让你的质押资金保持流动性，通过aETH交易，出售，参与DeFi应用。",
+				"2": "让你的质押资金保持流动性，通过aETHc交易，出售，参与DeFi应用。",
 				"3": "无需任何技术知识"
 			},
 			"link": "开始质押",
@@ -466,7 +466,7 @@
 		"title": "提案的规则"
 	},
 	"stake": {
-		"info": "Your staked ETH will be locked for the duration of the Eth 2.0 staking period, but instead you should be able to get aETH or fETH",
+		"info": "Your staked ETH will be locked for the duration of the Eth 2.0 staking period, but instead you should be able to get aETHc or aETHb",
 		"i-want": "我想要质押",
 		"operation-fee": "费用",
 		"operation-fee-tooltip": "我们对Peg-ETH的转换收取一定的费用。",
@@ -492,7 +492,7 @@
 			"transaction-hash": "交易哈希"
 		},
 		"current-a-eth-balance": "当前余额",
-		"locked": "所有质押金额将在ETH 2.0合约期间被锁定。 不过，您将获得相应的aETH，您可以交易aETH。在aETH可用之前，您的资金将被锁定且无法赎回。",
+		"locked": "所有质押金额将在ETH 2.0合约期间被锁定。 不过，您将获得相应的aETHc，您可以交易aETHc。在aETHc可用之前，您的资金将被锁定且无法赎回。",
 		"on-stkr": "在Ankr Staking上",
 		"on-wallet": "在你的钱包",
 		"pending": "待定 {value} ETH",
@@ -506,7 +506,7 @@
 			"STAKE_ACTION_UNSTAKE": "已移除"
 		},
 		"tip": {
-			"aeth-amount": "可赎回aETH数目"
+			"aeth-amount": "可赎回aETHc数目"
 		},
 		"title": "质押者仪表盘",
 		"unstake": "取消质押"
@@ -519,7 +519,7 @@
 		}
 	},
 	"switch-network-notification": {
-		"notice": "Pegged-ETH代币在BSC(币安智能链）网络上的整个质押过程比以太坊要长一些。为了最大限度的保障您的资金安全，我们将在UTC 02/22/2021-02/24/2021左右在BSC上启用aETH领取功能，同时密切关注BSC的质押过程。谢谢您的支持。"
+		"notice": "Pegged-ETH代币在BSC(币安智能链）网络上的整个质押过程比以太坊要长一些。为了最大限度的保障您的资金安全，我们将在UTC 02/22/2021-02/24/2021左右在BSC上启用aETHc领取功能，同时密切关注BSC的质押过程。谢谢您的支持。"
 	},
 	"top-up": {
 		"ankr-min-deposit-notice": "你的钱包中需要有{value} ANKR",
@@ -564,19 +564,19 @@
 	},
 	"unit": {
 		"$-value": "${value, number}",
-		"aeth": "aETH",
-		"feth": "fETH",
-		"aeth-value": "{value, number} aETH",
+		"aeth": "aETHc",
+		"feth": "aETHb",
+		"aeth-value": "{value, number} aETHc",
 		"ankr-value": "{value, number} Ankr",
 		"day-value": "{value, plural, =1 {# day} other {# days}}",
 		"eth": "ETH",
 		"eth-value": "{value, number} ETH",
-		"feth-value": "{value, number} fETH",
+		"feth-value": "{value, number} aETHb",
 		"number-value": "{value, number}",
 		"peg-eth": "{value, number} Peg-ETH",
-		"separated-aeth-value": "{value, number}<span class=\"unit\">aETH</span>。",
+		"separated-aeth-value": "{value, number}<span class=\"unit\">aETHc</span>。",
 		"separated-eth-value": "{value, number}<span class=\"unit\">ETH</span>。",
-		"separated-feth-value": "{value, number}<span class=\"unit\">fETH</span>。",
+		"separated-feth-value": "{value, number}<span class=\"unit\">aETHb</span>。",
 		"vote-value": "{value, plural, =1 {# vote}其他{# votes}}}。",
 		"~eth-value": "~{value, number} ETH",
 		"~months-value": "~{value, number} 月"

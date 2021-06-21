@@ -21,30 +21,30 @@
     "title": "Binance Smart Chain"
   },
   "aeth-advantages": {
-    "primary-text": "aETH allows you to stake Eth2 and redeem rewards before the phase 1.5 goes live and the lockup period ends (which can take up to several years!).",
-    "secondary-text": "aETH is listed on Uniswap for immediate liquidity. aETH holders can also provide liquidity to the aETH/ETH pair on the exchange platform and earn from transaction fees.",
+    "primary-text": "aETHc allows you to stake Eth2 and redeem rewards before the phase 1.5 goes live and the lockup period ends (which can take up to several years!).",
+    "secondary-text": "aETHc is listed on Uniswap for immediate liquidity. aETHc holders can also provide liquidity to the aETHc/ETH pair on the exchange platform and earn from transaction fees.",
     "title": "Instant liquidity"
   },
   "aeth-banner": {
     "btnText": "Learn more",
-    "text": "Learn how aETH works and how you can use it.",
-    "title": "How aETH works?"
+    "text": "Learn how aETHc works and how you can use it.",
+    "title": "How aETHc works?"
   },
   "aeth-ecosystem": {
     "services": {
       "bitkeep": "Direct access to Ankr's Eth2 staking services.",
-      "curve": "Decentralized liquidity pool for aETH with double reward mechanism.",
+      "curve": "Decentralized liquidity pool for aETHc with double reward mechanism.",
       "imtoken": "Mobile access to Ankr's Eth2 staking services.",
-      "metamask": "Store aETH and connect with DeFi applications.",
+      "metamask": "Store aETHc and connect with DeFi applications.",
       "onto": "Direct access to Ankr's Eth2 staking services.",
-      "onx": "aETH staking pools and yield strategies for collateralized assets.",
-      "snowswap": "Incentivizing Eth2 adoption with aETH swaps and pools.",
-      "sushiswap": "Decentralized trading and incentivized aETH liquidity pools.",
+      "onx": "aETHc staking pools and yield strategies for collateralized assets.",
+      "snowswap": "Incentivizing Eth2 adoption with aETHc swaps and pools.",
+      "sushiswap": "Decentralized trading and incentivized aETHc liquidity pools.",
       "trustwallet": "Mobile access to Ankr's Eth2 staking services.",
-      "uniswap": "Decentralized liquidity pools and trading for aETH."
+      "uniswap": "Decentralized liquidity pools and trading for aETHc."
     },
     "subtitle": "Ecosystem",
-    "title": "Access Ankr's Eth2 staking services and aETH here"
+    "title": "Access Ankr's Eth2 staking services and aETHc here"
   },
   "aeth-it-works": {
     "items": {
@@ -53,52 +53,52 @@
         "title": "Deposit"
       },
       "get-aeth": {
-        "text": "Once your ETH is staked on the Beaconchain, your aETH balance will be added to the Ankr StakeFi platform for you to redeem.",
-        "title": "Get aETH"
+        "text": "Once your ETH is staked on the Beaconchain, your aETHc balance will be added to the Ankr StakeFi platform for you to redeem.",
+        "title": "Get aETHc"
       },
       "redeem": {
-        "text": "As soon as Ethereum 2.0 transactions are activated, you can use your aETH to redeem your staked ETH + staking rewards on the Ankr StakeFi platform.",
+        "text": "As soon as Ethereum 2.0 transactions are activated, you can use your aETHc to redeem your staked ETH + staking rewards on the Ankr StakeFi platform.",
         "title": "Redeem your ETH + staking rewards"
       },
       "use-aeth": {
-        "text": "You can store aETH in your wallet to keep full control of your funds. You can also trade aETH or use it in DeFi products to earn yield. Please note that if you are trading aETH, you are effectively trading your entire investment (both the invested amount and the expected reward).",
-        "title": "Use aETH"
+        "text": "You can store aETHc in your wallet to keep full control of your funds. You can also trade aETHc or use it in DeFi products to earn yield. Please note that if you are trading aETHc, you are effectively trading your entire investment (both the invested amount and the expected reward).",
+        "title": "Use aETHc"
       }
     },
     "title": "How it works"
   },
   "aeth-promo": {
-    "text": "<b>aETH</b> is a synthetic derivative asset that enables instant liquidity for the Ethereum 2.0 network",
-    "title": "What is aETH?"
+    "text": "<b>aETHc</b> is a synthetic derivative asset that enables instant liquidity for the Ethereum 2.0 network",
+    "title": "What is aETHc?"
   },
   "aeth-reward": {
-    "primary-text": "aETH represents the staked ETH plus all future staking rewards.",
+    "primary-text": "aETHc represents the staked ETH plus all future staking rewards.",
     "rewards": "Rewards",
-    "secondary-text": "Initially, aETH is issued at a ratio of 1:1 to the amount of ETH staked. Over time, 1 aETH is expected to grow in ETH value, as it contains the principal stake plus staking rewards.",
+    "secondary-text": "Initially, aETHc is issued at a ratio of 1:1 to the amount of ETH staked. Over time, 1 aETHc is expected to grow in ETH value, as it contains the principal stake plus staking rewards.",
     "staked": "Staked ETH",
     "title": "One asset. <br/>Combined value."
   },
   "aeth-start": {
     "start-staking": "Start staking",
-    "text": "aETH is easily accessible and tradable on various DeFi platforms, with a growing number of yield earning opportunities. Start staking now and try it yourself!",
-    "title": "New yield opportunities with aETH"
+    "text": "aETHc is easily accessible and tradable on various DeFi platforms, with a growing number of yield earning opportunities. Start staking now and try it yourself!",
+    "title": "New yield opportunities with aETHc"
   },
   "balance": {
     "amount": {
-      "aETH": "{value, number}<span class=\"unit\"> aETH</span>",
-      "fETH": "{value, number}<span class=\"unit\"> fETH</span>"
+      "aETH": "{value, number}<span class=\"unit\"> aETHc</span>",
+      "fETH": "{value, number}<span class=\"unit\"> aETHb</span>"
     },
     "price": {
-      "aETH": "1aETH={value, number}ETH",
-      "fETH": "1fETH={value, number}ETH"
+      "aETH": "aETHc={value, number}ETH",
+      "fETH": "1aETHb={value, number}ETH"
     },
     "tip": {
-      "aETH": "With aETH, rewards are built in to the token price, so as time passes, the token becomes more valuable. Once Ethereum 2.0 Phase 1.5 is released, you can redeem your aETH for your original ETH plus accumulated rewards.",
-      "fETH": "This is always worth approximately 1 ETH, however by holding this token you can receive continual rewards, paid in additional fETH, meaning your rewards are compounded. The value of your fETH however is unlikely to rise above that of ETH over time."
+      "aETH": "With aETHc, rewards are built in to the token price, so as time passes, the token becomes more valuable. Once Ethereum 2.0 Phase 1.5 is released, you can redeem your aETHc for your original ETH plus accumulated rewards.",
+      "fETH": "This is always worth approximately 1 ETH, however by holding this token you can receive continual rewards, paid in additional aETHb, meaning your rewards are compounded. The value of your aETHb however is unlikely to rise above that of ETH over time."
     },
     "token-name": {
-      "aETH": "aETH balance",
-      "fETH": "fETH balance"
+      "aETH": "aETHc balance",
+      "fETH": "aETHb balance"
     }
   },
   "beacon-node-table": {
@@ -139,18 +139,18 @@
   },
   "claim-dialog": {
     "description": {
-      "aETH": "With aETH, rewards are built in to the token price, so as time passes, the token becomes more valuable. Once Ethereum 2.0 Phase 1.5 is released, you can redeem your aETH for your original ETH plus accumulated rewards.",
-      "fETH": "This is always worth approximately 1 ETH, however by holding this token you can receive continual rewards, paid in additional fETH, meaning your rewards are compounded. The value of your fETH however is unlikely to rise above that of ETH over time."
+      "aETH": "With aETHc, rewards are built in to the token price, so as time passes, the token becomes more valuable. Once Ethereum 2.0 Phase 1.5 is released, you can redeem your aETHc for your original ETH plus accumulated rewards.",
+      "fETH": "This is always worth approximately 1 ETH, however by holding this token you can receive continual rewards, paid in additional aETHb, meaning your rewards are compounded. The value of your aETHb however is unlikely to rise above that of ETH over time."
     },
     "submit": {
-      "aETH": "Claim {value, number} aETH",
-      "claim-aETH": "Claim aETH",
-      "fETH": "Claim {value, number} fETH"
+      "aETH": "Claim {value, number} aETHc",
+      "claim-aETH": "Claim aETHc",
+      "fETH": "Claim {value, number} aETHb"
     },
     "title": "Which token would you prefer?",
     "token-name": {
-      "aETH": "aETH",
-      "fETH": "fETH"
+      "aETH": "aETHc",
+      "fETH": "aETHb"
     },
     "not-supported": "Not supported yet"
   },
@@ -225,9 +225,9 @@
     "answer-10": "<p>Yes! If you own enough ANKR tokens, you can participate in governance and vote on key parameters to define the future of the platform.</p>",
     "answer-2": "<p>The Micropools mechanism is our unique solution for breaking down the economic barriers for Ethereum 2.0 staking. As the name implies, Micropools allow users to chip in smaller portions of ETH towards a Validator, and receive a proportionate reward based on their contribution.</p>",
     "answer-3": "<p>Ankr's liquid staking protocol allows ETH holders to participate in Ethereum 2.0 staking and earn staking rewards, without running a node and locking your ETH for an unknown period of time.</p>",
-    "answer-4": "<p>Ankr effectively tackles the illiquidity issue of Ethereum 2.0 by introducing aETH which will enable you to trade your stake or utilize it in DeFi protocols to earn yield at any point in time.</p>",
-    "answer-5": "<p>Until transactions are enabled on Ethereum 2.0 you can simply trade your <a href={aETHLink}>aETH</a> for ETH. 1 aETH should become worth more than 1 ETH over time.</p><p>As soon as Ethereum 2.0 transactions are enabled, you can use your aETH to redeem your ETH stake plus your staking rewards.</p>",
-    "answer-6": "<p><a href={aETHLink}>aETH</a> is a synthetic derivative asset which represents your ETH stake plus earned staking rewards. When you stake your ETH with Ankr, you can redeem aETH tokens, which you can choose to keep in self custody, trade or use in DeFi products to earn yield.</p>",
+    "answer-4": "<p>Ankr effectively tackles the illiquidity issue of Ethereum 2.0 by introducing aETHc which will enable you to trade your stake or utilize it in DeFi protocols to earn yield at any point in time.</p>",
+    "answer-5": "<p>Until transactions are enabled on Ethereum 2.0 you can simply trade your <a href={aETHLink}>aETHc</a> for ETH. 1 aETHc should become worth more than 1 ETH over time.</p><p>As soon as Ethereum 2.0 transactions are enabled, you can use your aETHc to redeem your ETH stake plus your staking rewards.</p>",
+    "answer-6": "<p><a href={aETHLink}>aETHc</a> is a synthetic derivative asset which represents your ETH stake plus earned staking rewards. When you stake your ETH with Ankr, you can redeem aETHc tokens, which you can choose to keep in self custody, trade or use in DeFi products to earn yield.</p>",
     "answer-7": "<p>Despite that Ethereum 2.0 only enables you to stake multiples of 32 ETH, with Ankr you can stake all your tokens at once, without having to allocate them to multiple nodes. This means you can even stake 1,000 ETH or more in just one click!</p>",
     "answer-8": "<p>Yes! You can become a provider and run your own node to collect staking rewards. If you don’t have any hardware or technical knowledge to set up a node, you can always use Ankr and deploy your Ethereum 2.0 node in one click.</p>",
     "answer-9": "<p>To become a node provider and earn platform fees, you need to set up an Ethereum 2.0 node with a minimum “insurance” stake of 2 ETH to compensate users in case of slashing events.</p>",
@@ -237,14 +237,14 @@
     "question-3": "What is staking liquidity?",
     "question-4": "How will my stake become liquid if I stake them before transactions are enabled on Ethereum 2.0?",
     "question-5": "How can I redeem my staked ETH and staking rewards?",
-    "question-6": "What is aETH?",
+    "question-6": "What is aETHc?",
     "question-7": "I have more than 32 ETH. Can I still stake with Ankr?",
     "question-8": "Can I run my own Ethereum 2.0 node on Ankr?",
     "question-9": "What do I need to become a node provider on the platform?",
     "title": "FAQ"
   },
   "features": {
-    "liquidity-text": "With aETH, you can hold or trade your staked assets at any time, without having to wait until transactions are enabled on Ethereum 2.0.",
+    "liquidity-text": "With aETHc, you can hold or trade your staked assets at any time, without having to wait until transactions are enabled on Ethereum 2.0.",
     "liquidity-title": "Staking Liquidity",
     "manager-text": "Send all of your ETH in one transaction and the protocol will automatically allocate your funds to the best pools.",
     "manager-title": "Staking Manager",
@@ -252,7 +252,7 @@
     "micropool-title": "Micropool",
     "security-text": "Keep your funds under your own custody, to always remain in full control of your assets.",
     "security-title": "Security",
-    "text": "Ankr's Eth2 staking solution provides the best user experience and highest level of safety, combined with an attractive reward mechanism and instant staking liquidity through a bond-like synthetic token called aETH.",
+    "text": "Ankr's Eth2 staking solution provides the best user experience and highest level of safety, combined with an attractive reward mechanism and instant staking liquidity through a bond-like synthetic token called aETHc.",
     "title": "Why stake with Ankr?"
   },
   "format": {
@@ -452,7 +452,7 @@
     "title": "Rules of a Proposal"
   },
   "stake": {
-    "info": "Your staked ETH will be locked for the duration of the Eth 2.0 staking period, but instead you should be able to get aETH or fETH",
+    "info": "Your staked ETH will be locked for the duration of the Eth 2.0 staking period, but instead you should be able to get aETHc or aETHb",
     "i-want": "I want to stake",
     "operation-fee": "Fee",
     "operation-fee-tooltip": "We charge some fee for Peg-ETH conversion.",
@@ -478,7 +478,7 @@
       "transaction-hash": "Tx.Hash"
     },
     "current-a-eth-balance": "Current balance",
-    "locked": "Any staked amounts will be locked for the duration of the ETH 2.0 contract. You will, however, receive aETH equivalent to your stake that you will be able to trade in the meantime, against your staked amount. Until aETH is made available, however, your funds will be locked and not redeemable.",
+    "locked": "Any staked amounts will be locked for the duration of the ETH 2.0 contract. You will, however, receive aETHc equivalent to your stake that you will be able to trade in the meantime, against your staked amount. Until aETHc is made available, however, your funds will be locked and not redeemable.",
     "on-stkr": "On Ankr StakeFi",
     "on-wallet": "On your wallet",
     "pending": "Pending {value} ETH",
@@ -492,7 +492,7 @@
       "STAKE_ACTION_UNSTAKE": "Removed"
     },
     "tip": {
-      "aeth-amount": "The amount of aETH redeemable"
+      "aeth-amount": "The amount of aETHc redeemable"
     },
     "title": "Staker dashboard",
     "unstake": "Unstake"
@@ -505,7 +505,7 @@
     }
   },
   "switch-network-notification": {
-    "notice": "The entire staking process for Pegged-ETH token on BSC (Binance Smart Chain) network takes a bit longer than Ethereum. To maximize the security of your fund, we will enable the aETH claim function on BSC around 02/22/2021 - 02/24/2021 UTC while closely watch the BSC staking process. Thank you."
+    "notice": "The entire staking process for Pegged-ETH token on BSC (Binance Smart Chain) network takes a bit longer than Ethereum. To maximize the security of your fund, we will enable the aETHc claim function on BSC around 02/22/2021 - 02/24/2021 UTC while closely watch the BSC staking process. Thank you."
   },
   "top-up": {
     "ankr-min-deposit-notice": "You need {value} ANKR on your wallet",
@@ -554,9 +554,9 @@
   },
   "unit": {
     "$-value": "${value, number}",
-    "aeth": "aETH",
-    "feth": "fETH",
-    "aeth-value": "{value, number} aETH",
+    "aeth": "aETHc",
+    "feth": "aETHb",
+    "aeth-value": "{value, number} aETHc",
     "ankr-value": "{value, number} Ankr",
     "bnb-value": "{value, number} BNB",
     "~bnb-value": "~{value, number} BNB",
@@ -565,14 +565,14 @@
     "minute-value": "{value, plural, =1 {# minute} other {# minutes}}",
     "eth": "ETH",
     "eth-value": "{value, number} ETH",
-    "feth-value": "{value, number} fETH",
+    "feth-value": "{value, number} aETHb",
     "number-value": "{value, number}",
     "avax-value": "{value, number} AVAX",
     "aavaxb-value": "{value, number} aAVAXb",
     "peg-eth": "{value, number} Peg-ETH",
-    "separated-aeth-value": "{value, number}<span class=\"unit\">aETH</span>",
+    "separated-aeth-value": "{value, number}<span class=\"unit\">aETHc</span>",
     "separated-eth-value": "{value, number}<span class=\"unit\">ETH</span>",
-    "separated-feth-value": "{value, number}<span class=\"unit\">fETH</span>",
+    "separated-feth-value": "{value, number}<span class=\"unit\">aETHb</span>",
     "vote-value": "{value, plural, =1 {# vote} other {# votes}}",
     "~eth-value": "~{value, number} ETH",
     "~months-value": "~{value, number} mo",
@@ -608,7 +608,7 @@
     "list-item": {
       "stake-eth": {
         "1": "Stake any amount of ETH (minimum 0.5 ETH) to earn staking rewards.",
-        "2": "Keep your staked ETH liquid to trade, sell or participate in DeFi applications through aETH.",
+        "2": "Keep your staked ETH liquid to trade, sell or participate in DeFi applications through aETHc.",
         "3": "No technical knowledge required!"
       },
       "stake-bnb": {
@@ -802,7 +802,7 @@
       "sign": "Sign"
     },
     "available": {
-      "title": "You have {value} aETH available in the {network} network",
+      "title": "You have {value} aETHc available in the {network} network",
       "success-title": "You have successfully withdrawn your tokens.",
       "btn-claim": "Claim",
       "btn-finish": "Ok, thanks!"

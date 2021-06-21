@@ -28,7 +28,7 @@ export const WalletBalance = ({
         <Typography
           color="textSecondary"
           className={classNames(classes.item, classes.aeth)}
-          title="aETH"
+          title="aETHc"
         >
           {aeth ? aeth.decimalPlaces(DEFAULT_FIXED).toFormat() : 0}
         </Typography>

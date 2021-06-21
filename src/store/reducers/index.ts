@@ -14,12 +14,12 @@ interface ISidecar {
   status: SidecarStatus;
 }
 
-interface IQuery {
-  FETCH_CURRENT_PROVIDER_SIDECARS: { data: { items: ISidecar[] } };
+export interface ISidecars {
+  items: ISidecar[];
 }
 
 interface IRequests {
-  queries: IQuery;
+  queries: { FETCH_CURRENT_PROVIDER_SIDECARS: { data: ISidecars } };
 }
 
 export interface IStoreState {
