@@ -13,7 +13,7 @@ import {
   STAKER_BNB_PATH,
   STAKER_DASHBOARD_PATH,
   STAKER_AVALANCHE_PATH,
-  ENABLE_AVA, PROVIDER_MAIN_PATH,
+  ENABLE_AVA, PROVIDER_MAIN_PATH, ENABLE_DOT, ENABLE_KSM,
 } from '../../common/const';
 import { FeatureListVerticalItem } from './components/FeatureListVerticalItem/FeatureListVerticalItem';
 
@@ -82,20 +82,24 @@ export const FeaturesList = () => {
               isNew
             />
           )}
-          <FeatureListVerticalItem
-            Icon={PolkadotIcon}
-            title={t('features-list.header.stake-polkadot')}
-            features={[]}
-            buttonText={t('features-list.action.start-staking')}
-            onClickTo={''}
-          />
-          <FeatureListVerticalItem
-            Icon={KSMIcon}
-            title={t('features-list.header.stake-ksm')}
-            features={[]}
-            buttonText={t('features-list.action.start-staking')}
-            onClickTo={''}
-          />
+          {ENABLE_DOT && (
+            <FeatureListVerticalItem
+              Icon={PolkadotIcon}
+              title={t('features-list.header.stake-polkadot')}
+              features={[]}
+              buttonText={t('features-list.action.start-staking')}
+              onClickTo={''}
+            />
+          )}
+          {ENABLE_KSM && (
+            <FeatureListVerticalItem
+              Icon={KSMIcon}
+              title={t('features-list.header.stake-ksm')}
+              features={[]}
+              buttonText={t('features-list.action.start-staking')}
+              onClickTo={''}
+            />
+          )}
         </div>
       )}
       {
