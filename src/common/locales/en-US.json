@@ -603,6 +603,8 @@
       "stake-eth": "Stake ETH",
       "stake-bnb": "Stake BNB",
       "stake-avax": "Stake AVAX",
+      "stake-polkadot": "Stake DOT",
+      "stake-ksm": "Stake KSM",
       "provider": "Become a provider"
     },
     "list-item": {

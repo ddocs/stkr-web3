@@ -1,166 +1,121 @@
-import React, { ReactNode } from 'react';
-import { Curtains } from '../../UiKit/Curtains';
+import React, { useState } from 'react';
+import cn from 'classnames';
 import { useFeaturesListStyles } from './FeaturesListStyles';
-import { Box, Button, Paper, Tooltip, Typography } from '@material-ui/core';
-import { ReactComponent as StakeEthIcon } from './assets/stake-eth.svg';
-import { ReactComponent as StakeBnbIcon } from './assets/stake-bnb.svg';
 import { ReactComponent as StakeAvalancheIcon } from './assets/stake-avax.svg';
+import { ReactComponent as EthereumIcon } from './assets/ethereum.svg';
+import { ReactComponent as BnbIcon } from './assets/bnb.svg';
+import { ReactComponent as PolkadotIcon } from './assets/polkadot.svg';
+import { ReactComponent as KSMIcon } from './assets/ksm.svg';
 import { ReactComponent as ProviderIcon } from './assets/provider.svg';
-import { t, tHTML } from '../../common/utils/intl';
+import { t } from '../../common/utils/intl';
 import { useFeaturesAvailable } from '../../common/hooks/useFeaturesAvailable';
-import { Link as RouterLink } from 'react-router-dom';
 import {
-  PROVIDER_MAIN_PATH,
   STAKER_BNB_PATH,
   STAKER_DASHBOARD_PATH,
   STAKER_AVALANCHE_PATH,
-  ENABLE_AVA,
+  ENABLE_AVA, PROVIDER_MAIN_PATH,
 } from '../../common/const';
+import { FeatureListVerticalItem } from './components/FeatureListVerticalItem/FeatureListVerticalItem';
 
-interface IListItemProps {
-  children: ReactNode;
-}
-
-function ListItem({ children }: IListItemProps) {
-  const classes = useFeaturesListStyles();
-
-  return (
-    <Typography
-      variant="body2"
-      color="textSecondary"
-      className={classes.listItem}
-    >
-      {children}
-    </Typography>
-  );
-}
-
-interface IHeaderProps {
-  children: ReactNode;
-}
-
-function Header({ children }: IHeaderProps) {
-  return (
-    <Box mb={3}>
-      <Typography variant="h4">{children}</Typography>
-    </Box>
-  );
-}
+type ActionType = 'Staking' | 'Providing';
 
 export const FeaturesList = () => {
   const classes = useFeaturesListStyles();
-  const {
-    isProviderAvailable,
-    isBnbStakingAvailable,
-    isEthStakingAvailable,
-  } = useFeaturesAvailable();
+  const { isProviderAvailable, isBnbStakingAvailable, isEthStakingAvailable } = useFeaturesAvailable();
+  const [currentAction, setCurrentAction] = useState<ActionType>('Staking');
+
+  const handleCurrentActionChange = (newAction: ActionType) => () => {
+    setCurrentAction(newAction);
+  }
 
   return (
-    <Box component="section" mt={8}>
-      <Curtains className={classes.content}>
-        {ENABLE_AVA && (
-          <Paper variant="outlined" square={false} className={classes.paper}>
-            <StakeAvalancheIcon className={classes.icon} />
-            <div>
-              <Header>{t('features-list.header.stake-avax')}</Header>
-              <ListItem>{t('features-list.list-item.stake-avax.1')}</ListItem>
-              <ListItem>{t('features-list.list-item.stake-avax.2')}</ListItem>
-              <ListItem>{t('features-list.list-item.stake-avax.3')}</ListItem>
-              <ListItem>{t('features-list.list-item.stake-avax.4')}</ListItem>
-            </div>
-            <div className={classes.actions}>
-              <Button
-                variant="contained"
-                color="primary"
-                className={classes.action}
-                fullWidth={true}
-                component={RouterLink}
-                to={STAKER_AVALANCHE_PATH}
-              >
-                {t('features-list.action.start-staking')}
-              </Button>
-            </div>
-          </Paper>
-        )}
-
-        <Paper variant="outlined" square={false} className={classes.paper}>
-          <StakeEthIcon className={classes.icon} />
-          <div>
-            <Header>{t('features-list.header.stake-eth')}</Header>
-            <ListItem>{t('features-list.list-item.stake-eth.1')}</ListItem>
-            <ListItem>{t('features-list.list-item.stake-eth.2')}</ListItem>
-            <ListItem>{t('features-list.list-item.stake-eth.3')}</ListItem>
+    <div>
+      <div className={classes.toggler}>
+        {(['Staking', 'Providing'] as ActionType[]).map((action, i) => (
+          <div
+            onClick={handleCurrentActionChange(action)}
+            className={cn(classes.togglerButton, {
+              [classes.activeTogglerButton]: action === currentAction
+            })}
+          >
+            {action}
           </div>
-          <div className={classes.actions}>
-            <Button
-              variant="contained"
-              color="primary"
-              className={classes.action}
-              fullWidth={true}
-              component={RouterLink}
-              to={STAKER_DASHBOARD_PATH}
-              disabled={!isEthStakingAvailable}
-            >
-              {t('features-list.action.stake-eth.mainnet')}
-            </Button>
-          </div>
-        </Paper>
-
-        <Paper variant="outlined" square={false} className={classes.paper}>
-          <StakeBnbIcon className={classes.icon} />
-          <div>
-            <Header>{t('features-list.header.stake-bnb')}</Header>
-            <ListItem>{t('features-list.list-item.stake-bnb.1')}</ListItem>
-            <ListItem>{t('features-list.list-item.stake-bnb.2')}</ListItem>
-            <ListItem>{t('features-list.list-item.stake-bnb.3')}</ListItem>
-          </div>
-          <div className={classes.actions}>
-            <Tooltip
-              title={tHTML('features-list.binance-wallet-required')}
-              disableHoverListener={isBnbStakingAvailable}
-              disableTouchListener={isBnbStakingAvailable}
-              interactive={true}
-            >
-              <div>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  className={classes.action}
-                  fullWidth={true}
-                  component={RouterLink}
-                  to={STAKER_BNB_PATH}
-                  disabled={!isBnbStakingAvailable}
-                >
-                  {t('features-list.action.start-staking')}
-                </Button>
-              </div>
-            </Tooltip>
-          </div>
-        </Paper>
-
-        <Paper variant="outlined" square={false} className={classes.paper}>
-          <ProviderIcon className={classes.icon} />
-          <div>
-            <Header>{t('features-list.header.provider')}</Header>
-            <ListItem>{t('features-list.list-item.provider.1')}</ListItem>
-            <ListItem>{t('features-list.list-item.provider.2')}</ListItem>
-            <ListItem>{t('features-list.list-item.provider.3')}</ListItem>
-          </div>
-          <div className={classes.actions}>
-            <Button
-              variant="contained"
-              color="primary"
-              className={classes.action}
-              fullWidth={true}
+        ))}
+      </div>
+      {currentAction === 'Staking' && (
+        <div className={classes.container}>
+          <FeatureListVerticalItem
+            Icon={EthereumIcon}
+            title={t('features-list.header.stake-eth')}
+            features={[
+              t('features-list.list-item.stake-eth.1'),
+              t('features-list.list-item.stake-eth.2'),
+              t('features-list.list-item.stake-eth.3'),
+            ]}
+            buttonText={t('features-list.action.stake-eth.mainnet')}
+            onClickTo={STAKER_DASHBOARD_PATH}
+            disabled={!isEthStakingAvailable}
+          />
+          <FeatureListVerticalItem
+            Icon={BnbIcon}
+            title={t('features-list.header.stake-bnb')}
+            features={[
+              t('features-list.list-item.stake-bnb.1'),
+              t('features-list.list-item.stake-bnb.2'),
+              t('features-list.list-item.stake-bnb.3'),
+            ]}
+            buttonText={t('features-list.action.start-staking')}
+            onClickTo={STAKER_BNB_PATH}
+            disabled={!isBnbStakingAvailable}
+          />
+          {ENABLE_AVA && (
+            <FeatureListVerticalItem
+              Icon={StakeAvalancheIcon}
+              title={t('features-list.header.stake-avax')}
+              features={[
+                t('features-list.list-item.stake-avax.1'),
+                t('features-list.list-item.stake-avax.2'),
+                t('features-list.list-item.stake-avax.3'),
+              ]}
+              buttonText={t('features-list.action.start-staking')}
+              onClickTo={STAKER_AVALANCHE_PATH}
+              isNew
+            />
+          )}
+          <FeatureListVerticalItem
+            Icon={PolkadotIcon}
+            title={t('features-list.header.stake-polkadot')}
+            features={[]}
+            buttonText={t('features-list.action.start-staking')}
+            onClickTo={''}
+          />
+          <FeatureListVerticalItem
+            Icon={KSMIcon}
+            title={t('features-list.header.stake-ksm')}
+            features={[]}
+            buttonText={t('features-list.action.start-staking')}
+            onClickTo={''}
+          />
+        </div>
+      )}
+      {
+        currentAction === 'Providing' && (
+          <div className={classes.container}>
+            <FeatureListVerticalItem
+              Icon={ProviderIcon}
+              title={t('features-list.header.provider')}
+              features={[
+                t('features-list.list-item.provider.1'),
+                t('features-list.list-item.provider.2'),
+                t('features-list.list-item.provider.3'),
+              ]}
+              buttonText={t('features-list.action.provider')}
+              onClickTo={PROVIDER_MAIN_PATH}
               disabled={!isProviderAvailable}
-              component={RouterLink}
-              to={PROVIDER_MAIN_PATH}
-            >
-              {t('features-list.action.provider')}
-            </Button>
+            />
           </div>
-        </Paper>
-      </Curtains>
-    </Box>
+        )
+      }
+    </div>
   );
 };
