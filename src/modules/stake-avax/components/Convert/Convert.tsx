@@ -24,6 +24,7 @@ import { Body2, Headline3, Headline5 } from '../../../../UiKit/Typography';
 import classNames from 'classnames';
 // import { ConvertDialog } from '../ConvertDialog';
 import { useClaimState } from '../../hooks/useClaimState';
+import { DEFAULT_FIXED } from '../../../../common/const';
 
 interface IConvertProps {
   amount: BigNumber;
@@ -74,26 +75,27 @@ export const Convert = ({ amount, onSuccess }: IConvertProps) => {
     setConvertEstimates(undefined);
   }, []);
 
-  const renderButtons = useCallback(() => {
-    if (isPendingClaim) {
-      if (isCorrectAccountConnected) {
-        return (
-          <Mutation type={AvalancheActions.withdrawAAvaxB.toString()}>
-            {({ loading }) => (
-              <Button
-                color="primary"
-                size="large"
-                className={classes.button}
-                onClick={handleWithdraw}
-                disabled={loading || isInProgress}
-              >
-                {t('stake-avax.convert.finish-claim')}
-              </Button>
-            )}
-          </Mutation>
-        );
-      }
+  const isClaimAvailable = isPendingClaim && isCorrectAccountConnected;
 
+  const renderButtons = useCallback(() => {
+    if (isClaimAvailable) {
+      return (
+        <Mutation type={AvalancheActions.withdrawAAvaxB.toString()}>
+          {({ loading }) => (
+            <Button
+              color="primary"
+              size="large"
+              className={classes.button}
+              onClick={handleWithdraw}
+              disabled={loading || isInProgress}
+            >
+              {t('stake-avax.convert.finish-claim')}
+            </Button>
+          )}
+        </Mutation>
+      );
+    }
+    if (isPendingClaim) {
       return (
         <Body2 className={classes.warning} color="secondary" component="p">
           {t('stake-avax.error.to-address')}
@@ -152,11 +154,19 @@ export const Convert = ({ amount, onSuccess }: IConvertProps) => {
   }, [isPendingClaim]);
   return (
     <Paper variant="outlined" square={false} classes={{ root: classes.root }}>
-      <Typography variant="body1" className={classes.header}>
-        {t('stake-avax.dashboard.aavaxb-balance')}
-      </Typography>
+      {!isClaimAvailable && (
+        <Typography variant="body1" className={classes.header}>
+          {t('stake-avax.dashboard.aavaxb-balance')}
+        </Typography>
+      )}
       <div className={classes.footer}>
-        {amount && <Typography variant="h2">{amount.toFixed(4)}</Typography>}
+        {!isClaimAvailable && amount && (
+          <Box mr={3}>
+            <Typography variant="h2">
+              {amount.toFixed(DEFAULT_FIXED)}
+            </Typography>
+          </Box>
+        )}
         <Box display="flex" alignItems="center">
           {renderButtons()}
         </Box>

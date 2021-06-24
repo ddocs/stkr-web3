@@ -23,7 +23,7 @@ export interface IDashboardProps {
 }
 
 export const Dashboard = ({
-  wallet: { requiredNetwork, isConnected },
+  wallet: { requiredNetwork, isConnected, amount, recipient },
 }: IDashboardProps) => {
   const classes = useStakeAvaxDashboardComponentStyles();
   const dispatch = useDispatch();
@@ -83,7 +83,13 @@ export const Dashboard = ({
             )}
         </Box>
       </Box>
-      {!isConnected && <Connect network={requiredNetwork} />}
+      {!isConnected && (
+        <Connect
+          network={requiredNetwork}
+          amount={amount}
+          recipient={recipient}
+        />
+      )}
       {isConnected && (
         <Box display="flex" flexDirection="column">
           {requiredNetwork ===

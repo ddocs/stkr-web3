@@ -16,6 +16,8 @@ export interface IWalletStatus {
   step: StakingStep;
   isConnected: boolean;
   requiredNetwork: string;
+  amount?: BigNumber;
+  recipient?: string;
 }
 
 export interface IClaimAvalable {
