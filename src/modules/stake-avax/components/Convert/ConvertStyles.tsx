@@ -25,7 +25,6 @@ export const useConvertStyles = makeStyles<Theme>(theme => {
       minWidth: 144,
       paddingLeft: theme.spacing(4),
       paddingRight: theme.spacing(4),
-      marginLeft: theme.spacing(3),
     },
     close: {
       position: 'absolute',

@@ -262,8 +262,6 @@
     "stakers": "Stakers",
     "total-staked": "Total ETH Staked with Ankr"
   },
-  "global-stats.stakers": "Stakers",
-  "global-stats.total-staked": "Total ETH Staked with Ankr",
   "how-it-works-dialog": {
     "item": {
       "1": "To  participate  in  a  proposal,  users  must  give  allowance  to  Ankr StakeFi’s  AnkrDepositContract.",
@@ -713,6 +711,27 @@
       "claim-summary": "After completion of the first validation period, you will be able to claim your aAVAXb tokens. You can switch back to AVAX chain now",
       "convert-success": "Conversion Successful"
     },
+    "connect": {
+      "switch-to": {
+        "1": "In order to proceed, your wallet needs to be connected to Etherium Mainnet wallet address",
+        "5": "In order to proceed, your wallet needs to be connected to Etherium Goerli wallet address",
+        "56": "In order to proceed, your wallet needs to be connected to Binance Smartchain wallet address",
+        "97": "In order to proceed, your wallet needs to be connected to Binance Smartchain Testnet wallet address",
+        "info": "This is because you have claimed the tokens and they are now pending withdrawal"
+      },
+      "claim-on": {
+        "1": "aAVAXb to claim on Ethereum Mainnet network: {value} aAVAXb",
+        "5": "aAVAXb to claim on Ethereum Goerli network: {value} aAVAXb",
+        "56": "aAVAXb to claim on Binance Smartchain network: {value} aAVAXb",
+        "97": "aAVAXb to claim on Binance Smartchain Testnet network: {value} aAVAXb"
+      },
+      "destination": {
+        "1": "Destination address: {value}",
+        "5": "Destination address: {value}",
+        "56": "Destination address: {value}",
+        "97": "Destination address: {value}"
+      }
+    },
     "dashboard": {
       "tokens-to-claim": "Tokens to claim",
       "claim-info": "To start staking you need to claim your aAVAXb",
@@ -726,13 +745,6 @@
       "aavaxb-balance-tip": "aAVAXb Balance",
       "convert": "Convert",
       "finish-withdraw": "Finish withdraw",
-      "connect": {
-        "1": "In order to proceed, your wallet needs to be connected to the ETH blockchain",
-        "5": "In order to proceed, your wallet needs to be connected to the ETH blockchain",
-        "56": "In order to proceed, your wallet needs to be connected to Binance Smartchain",
-        "97": "In order to proceed, your wallet needs to be connected to Binance Smartchain",
-        "info": "This is because you have claimed the tokens and they are now pending withdrawal"
-      },
       "column": {
         "date": "Stake date",
         "status": "Status",

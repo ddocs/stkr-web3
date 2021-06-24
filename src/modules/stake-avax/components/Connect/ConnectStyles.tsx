@@ -13,10 +13,8 @@ export const useConnectStyles = makeStyles<Theme>(theme => {
         margin: theme.spacing(5, 10),
       },
     },
-    header: {
-      fontSize: 20,
-      textAlign: 'center',
-      margin: theme.spacing(3),
+    address: {
+      overflowWrap: 'break-word',
     },
   };
 });

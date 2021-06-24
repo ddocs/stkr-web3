@@ -21,6 +21,7 @@ import {
   setSessionInProgress,
 } from '../../modules/avalanche-sdk/utils';
 import { t } from '../../common/utils/intl';
+import Web3 from 'web3';
 
 const {
   providerConfig: { ethereumChainId, binanceChainId, avalancheChainId },
@@ -80,6 +81,10 @@ export const AvalancheActions = {
                 step: StakingStep.WithdrawAAvaxB,
                 requiredNetwork: session.network,
                 isConnected: String(selectedChainId) === session.network,
+                amount: session.amount
+                  ? new BigNumber(Web3.utils.fromWei(session.amount))
+                  : undefined,
+                recipient: session.recipient,
               };
             }
           } else {
@@ -283,15 +288,13 @@ export const AvalancheActions = {
             amountAvailable,
           } = await stkrSdk.getConversionEstimate(amount, 'AVAX');
 
-          const result = {
+          return {
             estimate: msToEstimate(validationEndTime),
             amount: new BigNumber(amountAvailable).dividedBy(
               new BigNumber(10).pow(18),
             ),
             address,
           };
-
-          return result;
         })(),
       },
       meta: {

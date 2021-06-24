@@ -259,8 +259,6 @@
 		"stakers": "质押者",
 		"total-staked": "总质押ETH数"
 	},
-	"global-stats.stakers": "质押者",
-	"global-stats.total-staked": "Ankr上的总质押ETH数",
 	"how-it-works-dialog": {
 		"item": {
 			"1": "要参与提案，用户必须同意Ankr Staking的AnkrDepositContract。",
