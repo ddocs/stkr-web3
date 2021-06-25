@@ -31,8 +31,9 @@ export const FeaturesList = () => {
   return (
     <div>
       <div className={classes.toggler}>
-        {(['Staking', 'Providing'] as ActionType[]).map((action, i) => (
+        {(['Staking', 'Providing'] as ActionType[]).map((action) => (
           <div
+            key={action}
             onClick={handleCurrentActionChange(action)}
             className={cn(classes.togglerButton, {
               [classes.activeTogglerButton]: action === currentAction
@@ -95,7 +96,12 @@ export const FeaturesList = () => {
             <FeatureListVerticalItem
               Icon={KSMIcon}
               title={t('features-list.header.stake-ksm')}
-              features={[]}
+              features={[
+                t('features-list.list-item.stake-ksm.1'),
+                t('features-list.list-item.stake-ksm.2'),
+                t('features-list.list-item.stake-ksm.3'),
+                t('features-list.list-item.stake-ksm.4'),
+              ]}
               buttonText={t('features-list.action.start-staking')}
               onClickTo={''}
             />
