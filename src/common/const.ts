@@ -79,6 +79,6 @@ export const featuresConfig = {
   bridge: false,
 };
 
-export const ENABLE_AVA = false;
+export const ENABLE_AVA = true;
 export const ENABLE_DOT = false;
 export const ENABLE_KSM = false;
