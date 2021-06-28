@@ -626,6 +626,12 @@
         "2": "Connect your staking rewards to DeFi, and trade, sell or participate in DeFi applications using aAVAXb reward earning bond.",
         "3": "Unstake/redeem your aAVAXb and receive the equivalent amount of AVAX in maximum 14 days",
         "4": "No technical knowledge required!"
+      },
+      "stake-ksm": {
+        "1": "Stake any amount of KSM (minimum 1 KSM) to earn staking rewards. ",
+        "2": "Keep your KSM liquid to trade, sell, or participate in DeFi applications through aKSMb.",
+        "3": "No technical knowledge required.",
+        "4": "Unstake/unbond KSM by redeeming aKSMb and get back the fair value of KSM in 7 days."
       }
     },
     "action": {
