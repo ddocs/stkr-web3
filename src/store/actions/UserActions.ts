@@ -84,6 +84,8 @@ export const UserActionTypes = {
 
   STAKE: 'STAKE',
 
+  STAKE_DOT: 'STAKE_DOT',
+
   FETCH_STAKER_STATS: 'FETCH_STAKER_STATS',
 
   FETCH_STAKING_HISTORY: 'FETCH_STAKING_HISTORY',
@@ -199,6 +201,7 @@ export const UserActions = {
         const address = stkrSdk.getKeyProvider().currentAccount();
         const ethereumBalance = await stkrSdk.getEthBalance();
         const nativeBalance = await stkrSdk.getNativeBalance();
+        const dotBalance = new BigNumber(0.1);
         const walletMeta = stkrSdk.getWalletMeta();
         let walletType = Provider.metamask,
           blockchainType = Blockchain.ethereum;
@@ -221,6 +224,7 @@ export const UserActions = {
           walletType,
           ankrBalance,
           nativeBalance,
+          dotBalance,
           bnbBalance,
           ethereumBalance: new BigNumber(ethereumBalance),
           walletIcon: walletMeta?.icons ? walletMeta.icons[0] : undefined,
@@ -429,6 +433,17 @@ export const UserActions = {
           console.log(`New staking amount is: ${amount.toString(10)}`);
         }
         return stkrSdk.stake(amount);
+      })(),
+    },
+    meta: {
+      asMutation: true,
+    },
+  }),
+  stakeDot: (amount: BigNumber | string) => ({
+    type: UserActionTypes.STAKE_DOT,
+    request: {
+      promise: (async function () {
+        return 0; // TODO: implement this
       })(),
     },
     meta: {

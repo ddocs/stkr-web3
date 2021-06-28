@@ -24,6 +24,7 @@ import {
   STAKER_STAKE_BNB_ROUTE,
   STAKER_STAKE_PATH,
   STAKER_AVALANCHE_PATH,
+  STAKER_STAKE_DOT_ROUTE,
 } from './common/const';
 import { PageNotFound } from './components/PageNotFound/PageNotFound';
 import { QueryLoadingAbsolute } from './components/QueryLoading/QueryLoading';
@@ -122,6 +123,16 @@ const StakerContainer = withDefaultLayout(
   loadable(
     async () =>
       import('./modules/stake/screens/Stake').then(module => module.Stake),
+    {
+      fallback: <QueryLoadingAbsolute />,
+    },
+  ) as LoadableComponent<any>,
+);
+
+const StakerDotContainer = withDefaultLayout(
+  loadable(
+    async () =>
+      import('./modules/stake/screens/StakeDot').then(module => module.StakeDot),
     {
       fallback: <QueryLoadingAbsolute />,
     },
@@ -296,6 +307,10 @@ export function Routes() {
         exact={true}
       />
       <PrivateRoute path={STAKER_STAKE_PATH} component={StakerContainer} />
+      <PrivateRoute
+        path={STAKER_STAKE_DOT_ROUTE}
+        component={StakerDotContainer}
+      />
       <PrivateRoute
         path={STAKER_STAKE_BNB_ROUTE}
         component={StakerBnbContainer}

@@ -13,7 +13,7 @@ import {
   STAKER_BNB_PATH,
   STAKER_DASHBOARD_PATH,
   STAKER_AVALANCHE_PATH,
-  ENABLE_AVA, PROVIDER_MAIN_PATH, ENABLE_DOT, ENABLE_KSM,
+  ENABLE_AVA, PROVIDER_MAIN_PATH, ENABLE_DOT, ENABLE_KSM, STAKER_STAKE_DOT_ROUTE,
 } from '../../common/const';
 import { FeatureListVerticalItem } from './components/FeatureListVerticalItem/FeatureListVerticalItem';
 
@@ -89,7 +89,7 @@ export const FeaturesList = () => {
               title={t('features-list.header.stake-polkadot')}
               features={[]}
               buttonText={t('features-list.action.start-staking')}
-              onClickTo={''}
+              onClickTo={STAKER_STAKE_DOT_ROUTE}
             />
           )}
           {ENABLE_KSM && (

@@ -1,32 +1,14 @@
-import { Box, IconButton, Tooltip } from '@material-ui/core';
 import { success } from '@redux-requests/core';
 import { useMutation, useQuery } from '@redux-requests/react';
-import BigNumber from 'bignumber.js';
 import React, { useCallback } from 'react';
 import { useHistory } from 'react-router';
-import { STAKER_DASHBOARD_PATH, STAKER_RATE } from '../../../../common/const';
+import { STAKER_DASHBOARD_PATH } from '../../../../common/const';
 import { useFeaturesAvailable } from '../../../../common/hooks/useFeaturesAvailable';
-import { t, tHTML } from '../../../../common/utils/intl';
 import { pushEvent } from '../../../../common/utils/pushEvent';
 import { useRequestDispatch } from '../../../../common/utils/useRequestDispatch';
-import {
-  UserActions,
-  UserActionTypes,
-} from '../../../../store/actions/UserActions';
-import { IGlobalStats } from '../../../../store/apiMappers/globalStatsApi';
+import { UserActions, UserActionTypes } from '../../../../store/actions/UserActions';
 import { IUserInfo } from '../../../../store/apiMappers/userApi';
-import { QuestionIcon } from '../../../../UiKit/Icons/QuestionIcon';
-import { StakeDescriptionContainer } from '../../components/StakeDescriptionContainer';
-import { StakeDescriptionName } from '../../components/StakeDescriptionName';
-import { StakeDescriptionValue } from '../../components/StakeDescriptionValue';
-import {
-  IStakePayload,
-  MAX_AMOUNT,
-  StakeForm,
-} from '../../components/StakeForm';
-import { DECIMAL_PLACES } from '../StakerDashboard/StakerDashboardConst';
-
-const FIXED_DECIMAL_PLACES = 2;
+import { IStakePayload, StakeForm } from '../../components/StakeForm';
 
 export const Stake = () => {
   const dispatch = useRequestDispatch();
@@ -46,83 +28,21 @@ export const Stake = () => {
     type: UserActionTypes.FETCH_ACCOUNT_DATA,
   });
 
-  const { data: globalStats } = useQuery<IGlobalStats | null>({
-    type: UserActionTypes.FETCH_GLOBAL_STATS,
-  });
-
   const handleCancel = useCallback(() => {
     push(STAKER_DASHBOARD_PATH);
   }, [push]);
 
-  const yearlyInterest =
-    globalStats && globalStats.currentApr
-      ? globalStats.currentApr * STAKER_RATE
-      : 0;
-
-  const { stakingFeeRate, stakingAmountStep } = useFeaturesAvailable();
+  const { stakingAmountStep } = useFeaturesAvailable();
 
   const { loading } = useMutation({ type: UserActionTypes.STAKE });
-
-  const renderStats = useCallback(
-    (amount: number) => {
-      return (
-        <StakeDescriptionContainer>
-          {stakingFeeRate && !stakingFeeRate.isZero() && (
-            <>
-              <StakeDescriptionName>
-                {t('stake.operation-fee')}
-
-                <Tooltip title={t('stake.operation-fee-tooltip')}>
-                  <Box component={IconButton} padding={1}>
-                    <QuestionIcon size="xs" />
-                  </Box>
-                </Tooltip>
-              </StakeDescriptionName>
-
-              <StakeDescriptionValue>
-                {t('~eth-value', {
-                  value: stakingFeeRate
-                    .multipliedBy(amount / MAX_AMOUNT)
-                    .decimalPlaces(DECIMAL_PLACES)
-                    .toNumber(),
-                })}
-              </StakeDescriptionValue>
-            </>
-          )}
-
-          <StakeDescriptionName>
-            {t('stake.yearly-earning')}
-
-            <Tooltip title={tHTML('stake.yearly-earning-tooltip')}>
-              <Box component={IconButton} padding={1}>
-                <QuestionIcon size="xs" />
-              </Box>
-            </Tooltip>
-          </StakeDescriptionName>
-
-          <StakeDescriptionValue>
-            {t('unit.~eth-value', {
-              value: new BigNumber(amount)
-                .multipliedBy(yearlyInterest)
-                .decimalPlaces(FIXED_DECIMAL_PLACES),
-            })}
-          </StakeDescriptionValue>
-        </StakeDescriptionContainer>
-      );
-    },
-    [stakingFeeRate, yearlyInterest],
-  );
 
   return (
     <StakeForm
       onSubmit={handleSubmit}
       onCancel={handleCancel}
       balance={userInfo?.ethereumBalance}
-      yearlyInterest={yearlyInterest}
-      stakingFeeRate={stakingFeeRate}
       stakingAmountStep={stakingAmountStep}
       loading={loading}
-      renderStats={renderStats}
     />
   );
 };

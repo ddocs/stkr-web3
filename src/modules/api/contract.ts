@@ -93,6 +93,8 @@ export interface IContractManager {
 
   ankrBalanceOf(address: string): Promise<BigNumber>;
 
+  dotBalanceOf(address: string): Promise<BigNumber>;
+
   aethBalanceOf(address: string): Promise<BigNumber>;
 
   fethBalanceOf(address: string): Promise<BigNumber>;
@@ -870,6 +872,13 @@ export class EthereumContractManager implements IContractManager {
       return new BigNumber('0');
     }
     return this.keyProvider.getErc20Balance(this.ankrContract, address);
+  }
+
+  public async dotBalanceOf(address: string): Promise<BigNumber> {
+    if (!this.ankrContract) {
+      return new BigNumber('0');
+    }
+    return new BigNumber('0'); // TODO: implement this
   }
 
   public async aethBalanceOf(address: string): Promise<BigNumber> {

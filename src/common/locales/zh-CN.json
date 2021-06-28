@@ -567,6 +567,9 @@
 		"aeth-value": "{value, number} aETHc",
 		"ankr-value": "{value, number} Ankr",
 		"day-value": "{value, plural, =1 {# day} other {# days}}",
+		"bnb": "BNB",
+		"bnb-value": "{value, number} BNB",
+		"dot": "DOT",
 		"eth": "ETH",
 		"eth-value": "{value, number} ETH",
 		"feth-value": "{value, number} aETHb",
@@ -577,6 +580,7 @@
 		"separated-feth-value": "{value, number}<span class=\"unit\">aETHb</span>。",
 		"vote-value": "{value, plural, =1 {# vote}其他{# votes}}}。",
 		"~eth-value": "~{value, number} ETH",
+		"~dot-value": "~{value, number} DOT",
 		"~months-value": "~{value, number} 月"
 	},
 	"user-actions": {

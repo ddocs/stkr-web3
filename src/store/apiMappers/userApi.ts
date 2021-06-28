@@ -9,6 +9,7 @@ export interface IUserInfo {
   walletIcon?: string;
   ethereumBalance: BigNumber;
   ankrBalance: BigNumber;
+  dotBalance?: BigNumber;
   aEthBalance: BigNumber;
   fEthBalance: BigNumber;
   nativeBalance: BigNumber;

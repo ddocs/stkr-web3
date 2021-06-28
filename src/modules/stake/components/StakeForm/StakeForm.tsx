@@ -15,6 +15,7 @@ import { CloseIcon } from '../../../../UiKit/Icons/CloseIcon';
 import { SliderField } from '../../../../UiKit/RangeField';
 import { Body2, Headline2 } from '../../../../UiKit/Typography';
 import { useStakeFormStyles } from './StakeFormStyles';
+import { roundByStep } from '../../../../common/utils/numbers/roundByStep';
 
 export const MAX_AMOUNT = 32;
 
@@ -27,13 +28,12 @@ export interface IStakeFormComponentProps {
   onSubmit: (payload: IStakePayload) => void;
   onCancel: () => void;
   balance?: BigNumber;
-  yearlyInterest: number;
-  stakingFeeRate?: BigNumber;
   stakingAmountStep: number;
   minAmount?: number;
   loading: boolean;
-  renderValue?: (value: BigNumber) => ReactNode;
+  currency?: string;
   renderStats?: (amount: number) => ReactNode;
+  stakeInfo?: string;
 }
 
 export const StakeForm = ({
@@ -43,11 +43,9 @@ export const StakeForm = ({
   stakingAmountStep,
   minAmount = stakingAmountStep,
   loading,
-  renderValue = value =>
-    t('unit.eth-value', {
-      value,
-    }),
+  currency = t('unit.eth'),
   renderStats,
+  stakeInfo = t('stake.info'),
 }: IStakeFormComponentProps) => {
   const classes = useStakeFormStyles();
 
@@ -82,6 +80,15 @@ export const StakeForm = ({
       ? floor(balance.toNumber(), stakingAmountStep)
       : minAmount;
 
+  const handleInputAmountBlur = (onChange: (v: any) => void, onBlur: () => void) => (e: React.FocusEvent<HTMLInputElement>) => {
+    onBlur();
+    let nearestValue = roundByStep(+e.target.value, stakingAmountStep);
+    nearestValue = Math.min(nearestValue, max);
+    nearestValue = Math.max(nearestValue, minAmount);
+
+    onChange(nearestValue);
+  };
+
   const renderForm = ({
     handleSubmit,
     values: { amount },
@@ -96,11 +103,21 @@ export const StakeForm = ({
 
             <label className={classes.range}>
               <Headline2 component="p" classes={{ root: classes.label }}>
-                {t('stake.i-want')}
+                <div className={classes.labelText}>{t('stake.i-want')}</div>
 
-                <span className={classes.amount}>
-                  {renderValue(new BigNumber(amount))}
-                </span>
+                <div className={classes.amount}>
+                  <Field name="amount">
+                    {(props) => (
+                        <input
+                          {...props.input}
+                          className={classes.inputAmount}
+                          onBlur={handleInputAmountBlur(props.input.onChange, props.input.onBlur)}
+                          type='number'
+                        />
+                    )}
+                  </Field>
+                  <div>{currency}</div>
+                </div>
               </Headline2>
 
               <Field
@@ -112,14 +129,14 @@ export const StakeForm = ({
               />
             </label>
 
-            {/* {renderStats ? renderStats(amount) : null} */}
+            {renderStats ? renderStats(amount) : null}
           </div>
         </div>
 
         <div className={classes.footer}>
           <div className={classNames(classes.wrapper, classes.footerWrapper)}>
             <Body2 className={classes.info} color="secondary" component="p">
-              {t('stake.info')}
+              {stakeInfo}
             </Body2>
 
             <MutationErrorHandler type={UserActionTypes.STAKE} />

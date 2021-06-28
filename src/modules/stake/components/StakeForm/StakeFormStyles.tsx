@@ -125,6 +125,7 @@ export const useStakeFormStyles = makeStyles<Theme>(theme => {
     },
 
     amount: {
+      display: 'flex',
       margin: theme.spacing(2, 0, 1.5),
       fontSize: 38,
       fontWeight: 700,
@@ -132,6 +133,29 @@ export const useStakeFormStyles = makeStyles<Theme>(theme => {
       [theme.breakpoints.up('sm')]: {
         margin: 0,
       },
+    },
+
+    labelText: {
+      width: 'max-content',
+    },
+
+    inputAmount: {
+      color: 'white',
+      background: 'transparent',
+      outline: 'none',
+      border: 'none',
+      fontSize: 'inherit',
+      fontWeight: 'inherit',
+      textAlign: 'right',
+      lineHeight: 1.3,
+      padding: 0,
+      marginRight: 10,
+      "-moz-appearance": "textfield",
+
+      "&::-webkit-outer-spin-button, &::-webkit-inner-spin-button": {
+        "-webkit-appearance": "none",
+        margin: 0
+      }
     },
 
     amountError: {

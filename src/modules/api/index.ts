@@ -63,6 +63,8 @@ interface IStakerSdk {
 
   getAnkrBalance(): Promise<BigNumber>;
 
+  getDotBalance(): Promise<BigNumber>;
+
   getAethBalance(): Promise<BigNumber>;
 
   getFethBalance(): Promise<BigNumber>;
@@ -535,6 +537,17 @@ export class StkrSdk implements IStkrSdk {
       return new BigNumber('0');
     }
     return this.getContractManager().ankrBalanceOf(currentAccount);
+  }
+
+  public async getDotBalance(): Promise<BigNumber> {
+    const currentAccount = this.getKeyProvider().currentAccount();
+    if (
+      this.getKeyProvider().isBinanceSmartChain() ||
+      this.getKeyProvider().isAvalancheChain()
+    ) {
+      return new BigNumber('0');
+    }
+    return this.getContractManager().dotBalanceOf(currentAccount);
   }
 
   public async getAethBalance(): Promise<BigNumber> {
