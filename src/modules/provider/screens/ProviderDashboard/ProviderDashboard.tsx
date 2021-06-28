@@ -20,6 +20,7 @@ import { ProviderTabs } from '../../components/ProviderTabs';
 import { IItemProps } from '../../components/ProviderTabs/ProviderTabs';
 import { useProviderDashboardStyles } from './ProviderDashboardStyles';
 import { useProviderDashboard } from './useProviderDashboard';
+import { roundCeilHalf } from '../../../../common/utils/numbers/roundCeilHalf';
 
 export type OpenedFromName = 'ankr' | 'own-node';
 
@@ -146,9 +147,7 @@ export const ProviderDashboard = () => {
               ) : (
                 <>
                   {t('provider-dashboard.balance-eth', {
-                    balance: providerStats?.ethBalance.decimalPlaces(
-                      BALANCE_PRECISION,
-                    ),
+                    balance: providerStats ? roundCeilHalf(providerStats.ethBalance) : 0
                   })}
                   <div className={classes.divider} />
                   {t('provider-dashboard.balance-ankr', {
