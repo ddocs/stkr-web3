@@ -89,24 +89,27 @@ export const Stake = () => {
               </StakeDescriptionValue>
             </>
           )}
+          {yearlyInterest && (
+            <>
+              <StakeDescriptionName>
+                {t('stake.yearly-earning')}
 
-          <StakeDescriptionName>
-            {t('stake.yearly-earning')}
+                <Tooltip title={tHTML('stake.yearly-earning-tooltip')}>
+                  <Box component={IconButton} padding={1}>
+                    <QuestionIcon size="xs" />
+                  </Box>
+                </Tooltip>
+              </StakeDescriptionName>
 
-            <Tooltip title={tHTML('stake.yearly-earning-tooltip')}>
-              <Box component={IconButton} padding={1}>
-                <QuestionIcon size="xs" />
-              </Box>
-            </Tooltip>
-          </StakeDescriptionName>
-
-          <StakeDescriptionValue>
-            {t('unit.~eth-value', {
-              value: new BigNumber(amount)
-                .multipliedBy(yearlyInterest)
-                .decimalPlaces(FIXED_DECIMAL_PLACES),
-            })}
-          </StakeDescriptionValue>
+              <StakeDescriptionValue>
+                {t('unit.~eth-value', {
+                  value: new BigNumber(amount)
+                    .multipliedBy(yearlyInterest)
+                    .decimalPlaces(FIXED_DECIMAL_PLACES),
+                })}
+              </StakeDescriptionValue>
+            </>
+          )}
         </StakeDescriptionContainer>
       );
     },
