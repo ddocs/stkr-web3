@@ -89,7 +89,7 @@ export const Stake = () => {
               </StakeDescriptionValue>
             </>
           )}
-          {yearlyInterest && (
+          {yearlyInterest ? (
             <>
               <StakeDescriptionName>
                 {t('stake.yearly-earning')}
@@ -109,7 +109,7 @@ export const Stake = () => {
                 })}
               </StakeDescriptionValue>
             </>
-          )}
+          ) : null}
         </StakeDescriptionContainer>
       );
     },
