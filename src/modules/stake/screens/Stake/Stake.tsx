@@ -80,7 +80,7 @@ export const Stake = () => {
               </StakeDescriptionName>
 
               <StakeDescriptionValue>
-                {t('~eth-value', {
+                {t('unit.~eth-value', {
                   value: stakingFeeRate
                     .multipliedBy(amount / MAX_AMOUNT)
                     .decimalPlaces(DECIMAL_PLACES)
