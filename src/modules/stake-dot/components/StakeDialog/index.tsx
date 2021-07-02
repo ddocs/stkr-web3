@@ -1,0 +1,1 @@
+export { StakeDialog } from './StakeDialog';

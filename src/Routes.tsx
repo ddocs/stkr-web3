@@ -25,6 +25,7 @@ import {
   STAKER_STAKE_PATH,
   STAKER_AVALANCHE_PATH,
   STAKER_STAKE_DOT_ROUTE,
+  STAKER_DOT_PATH,
 } from './common/const';
 import { PageNotFound } from './components/PageNotFound/PageNotFound';
 import { QueryLoadingAbsolute } from './components/QueryLoading/QueryLoading';
@@ -119,6 +120,18 @@ const WalletListBnbContainer = withDefaultLayout(
   ) as LoadableComponent<any>,
 );
 
+const StakerDotPathContainer = withDefaultLayout(
+  loadable(
+    async () =>
+      import('./modules/stake-dot/screens/StakeDot').then(
+        module => module.StakeDot,
+      ),
+    {
+      fallback: <QueryLoadingAbsolute />,
+    },
+  ) as LoadableComponent<any>,
+);
+
 const StakerContainer = withDefaultLayout(
   loadable(
     async () =>
@@ -132,7 +145,9 @@ const StakerContainer = withDefaultLayout(
 const StakerDotContainer = withDefaultLayout(
   loadable(
     async () =>
-      import('./modules/stake/screens/StakeDot').then(module => module.StakeDot),
+      import('./modules/stake/screens/StakeDot').then(
+        module => module.StakeDot,
+      ),
     {
       fallback: <QueryLoadingAbsolute />,
     },
@@ -260,21 +275,17 @@ const LoadableAboutSmartchainContainer = withDefaultLayout(
 export function Routes() {
   return (
     <Switch>
-      <Route
-        path={INDEX_PATH}
-        exact={true}
-        component={LoadableOverviewContainer}
-      />
+      <Route path={INDEX_PATH} exact component={LoadableOverviewContainer} />
       <PrivateRoute
         path={PROVIDER_CREATE_NODE_PATH}
         component={CreateBeaconChainContainer}
-        exact={true}
+        exact
       />
       <Route path={ANKR_IFRAME_PATH} component={LoadableIframeContainer} />
       <PrivateRoute
         path={[PROVIDER_DEPOSIT_ROUTE]}
         component={TopUpContainer}
-        exact={true}
+        exact
       />
       <PrivateRoute
         path={[
@@ -282,29 +293,34 @@ export function Routes() {
           PROVIDER_NODE_LIST_PATH,
           PROVIDER_DEPOSIT_LIST_PATH,
         ]}
-        exact={true}
+        exact
         component={ProviderContainer}
       />
       <PrivateRoute path={FEATURES_PATH} component={FeaturesListContainer} />
       <PrivateRoute
         path={STAKER_DASHBOARD_PATH}
         component={StakerDashboardContainer}
-        exact={true}
+        exact
       />
       <PrivateRoute
         path={STAKER_DASHBOARD_BNB_ROUTE}
         component={StakerDashboardBnbContainer}
-        exact={true}
+        exact
       />
       <PrivateRoute
         path={STAKER_BNB_PATH}
         component={WalletListBnbContainer}
-        exact={true}
+        exact
+      />
+      <PrivateRoute
+        path={STAKER_DOT_PATH}
+        component={StakerDotPathContainer}
+        exact
       />
       <PrivateRoutePlaceholder
         path={STAKER_AVALANCHE_PATH}
         component={LoadableAvalancheContainer}
-        exact={true}
+        exact
       />
       <PrivateRoute path={STAKER_STAKE_PATH} component={StakerContainer} />
       <PrivateRoute
@@ -318,43 +334,35 @@ export function Routes() {
       <PrivateRoute
         path={GOVERNANCE_PROJECT_LIST_PATH}
         component={GovernanceListContainer}
-        exact={true}
+        exact
       />
       <PrivateRoute
         path={GOVERNANCE_CREATE_PROJECT_PATH}
         component={CreateProjectContainer}
-        exact={true}
+        exact
       />
       <PrivateRoute
         path={GOVERNANCE_PROJECT_ROUTE}
         component={ProjectContainer}
-        exact={true}
+        exact
       />
-      <Route
-        path={ABOUT_AETH_PATH}
-        component={AboutAethContainer}
-        exact={true}
-      />
+      <Route path={ABOUT_AETH_PATH} component={AboutAethContainer} exact />
       <Route
         path={ABOUT_SMARTCHAIN_PATH}
         component={LoadableAboutSmartchainContainer}
-        exact={true}
+        exact
       />
       {/*TODO Only Smartchain Route*/}
       <PrivateRoute
         path={CONVERT_ROUTE}
         component={LoadableConvertContainer}
-        exact={true}
+        exact
       />
-      <Route
-        path={BRIDGE_PATH}
-        component={LoadableBridgeContainer}
-        exact={true}
-      />
+      <Route path={BRIDGE_PATH} component={LoadableBridgeContainer} exact />
       <Route
         path={BRIDGE_RECOVERY_PATH}
         component={LoadableBridgeRecoverContainer}
-        exact={true}
+        exact
       />
       <PrivateRoute component={PageNotFound} />
     </Switch>
