@@ -80,10 +80,7 @@ export const StakeForm = ({
       ? floor(balance.toNumber(), stakingAmountStep)
       : minAmount;
 
-  const handleInputAmountBlur = (
-    onChange: (v: any) => void,
-    onBlur: () => void,
-  ) => (e: React.FocusEvent<HTMLInputElement>) => {
+  const handleInputAmountBlur = (onChange: (v: any) => void, onBlur: () => void) => (e: React.FocusEvent<HTMLInputElement>) => {
     onBlur();
     let nearestValue = roundByStep(+e.target.value, stakingAmountStep);
     nearestValue = Math.min(nearestValue, max);
@@ -105,21 +102,18 @@ export const StakeForm = ({
             </Headline2>
 
             <label className={classes.range}>
-              <Headline2 component="div" classes={{ root: classes.label }}>
+              <Headline2 component="p" classes={{ root: classes.label }}>
                 <div className={classes.labelText}>{t('stake.i-want')}</div>
 
                 <div className={classes.amount}>
                   <Field name="amount">
-                    {props => (
-                      <input
-                        {...props.input}
-                        className={classes.inputAmount}
-                        onBlur={handleInputAmountBlur(
-                          props.input.onChange,
-                          props.input.onBlur,
-                        )}
-                        type="number"
-                      />
+                    {(props) => (
+                        <input
+                          {...props.input}
+                          className={classes.inputAmount}
+                          onBlur={handleInputAmountBlur(props.input.onChange, props.input.onBlur)}
+                          type='number'
+                        />
                     )}
                   </Field>
                   <div>{currency}</div>

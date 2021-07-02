@@ -28,14 +28,9 @@ import { DECIMAL_PLACES } from '../StakerDashboard/StakerDashboardConst';
 
 const FIXED_DECIMAL_PLACES = 2;
 
-export interface IStakeDotProps {
-  onSubmit?: () => void;
-  onCancel?: () => void;
-}
-
-export const StakeDot = ({ onSubmit, onCancel }: IStakeDotProps) => {
+export const StakeDot = () => {
   const dispatch = useRequestDispatch();
-  const { replace } = useHistory();
+  const { replace, push } = useHistory();
 
   const handleSubmit = ({ amount }: IStakePayload) => {
     dispatch(UserActions.stakeDot(amount.toString(10))).then(data => {
@@ -43,9 +38,6 @@ export const StakeDot = ({ onSubmit, onCancel }: IStakeDotProps) => {
         replace(FEATURES_PATH);
       }
     });
-    if (onSubmit) {
-      onSubmit();
-    }
 
     pushEvent('stake_dot_submit', { stakingAmount: amount });
   };
@@ -59,10 +51,8 @@ export const StakeDot = ({ onSubmit, onCancel }: IStakeDotProps) => {
   });
 
   const handleCancel = useCallback(() => {
-    if (onCancel) {
-      onCancel();
-    }
-  }, [onCancel]);
+    push(FEATURES_PATH);
+  }, [push]);
 
   const yearlyInterest =
     globalStats && globalStats.currentApr
