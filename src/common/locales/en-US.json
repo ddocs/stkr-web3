@@ -291,6 +291,7 @@
   },
   "navigation": {
     "BSC": "BSC",
+    "bridge": "Bridge",
     "coming-soon": "Coming soon",
     "community": "Community",
     "connect": "Connect",
@@ -300,22 +301,22 @@
     "create": "Create",
     "create-micropool": "Create micropool",
     "disconnect": "Disconnect",
+    "discord": "Discord",
     "docs": "Docs",
     "governance": "Governance",
     "litepaper": "Litepaper",
-    "bridge": "Bridge",
     "medium": "Medium",
     "provider": "Provider",
     "select": "Select",
     "select-wallet-provider": "Select a wallet provider",
     "sidecar-list": "Sidecar list",
+    "stakefi-launchpad": "StakeFi launchpad",
     "staker": "Staker",
     "staker-bnb": "Staker BNB",
     "telegram-announcements": "Telegram Announcements",
     "telegram-chat": "Telegram Chat",
     "top-up": "Top up",
     "twitter": "Twitter",
-    "discord": "Discord",
     "unlock-wallet": "Launch App",
     "unlock-your-wallet": "Connect your wallet",
     "view-on-etherscan": "View on Etherscan",
@@ -628,7 +629,7 @@
       "stake-avax": {
         "1": "Stake any amount of AVAX and claim AVAX bond (aAVAXb) while earning staking rewards.",
         "2": "Connect your staking rewards to DeFi, and trade, sell or participate in DeFi applications using aAVAXb reward earning bond.",
-        "3": "Unstake/redeem your aAVAXb and receive the equivalent amount of AVAX in maximum 14 days",
+        "3": "Unstake/redeem your aAVAXb and receive the equivalent amount of AVAX in maximum 14 days.",
         "4": "No technical knowledge required!"
       },
       "stake-ksm": {
@@ -856,7 +857,17 @@
     "access-request": "Access Request",
     "ask-connect": "Would you like to let ankr.com access you Ankr Staking account?",
     "grant": "Grant Access",
-    "info": "Pressing this button will prompt you for your concent"
+    "info": "Pressing this button will prompt you for your concent",
+    "available-networks": "The network you need to connect:",
+    "unsupported-network": "The current page is not available on this network.<br />Please select the network you need:",
+    "networks": {
+      "ethereum-mainnet": "Ethereum Mainnet",
+      "ethereum-goerli": "Ethereum Goerli",
+      "binance-smart-chain": "Binance Smart Chain",
+      "smart-chain-testnet": "Smart Chain Testnet",
+      "avax-chain": "AVAX C Chain",
+      "avax-fuji-testnet": "AVAX Fuji Testnet"
+    }
   },
   "zendesk": {
     "get-help": "Help"

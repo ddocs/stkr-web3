@@ -1,14 +1,19 @@
 import React, { useCallback } from 'react';
 import { RouteProps } from 'react-router-dom';
 import Paper from '@material-ui/core/Paper';
-import { makeStyles, Theme } from '@material-ui/core/styles';
+import { fade, makeStyles, Theme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import { t } from '../../common/utils/intl';
 import Button from '@material-ui/core/Button';
 import { useDispatch } from 'react-redux';
 import { UserActions } from '../../store/actions/UserActions';
+import { NetworkSelector } from '../NetworkSelector/NetworkSelector';
+import { INetwork } from '../../UiKit/GuardRoute';
+import { Headline5 } from '../../UiKit/Typography';
 
-interface IConnectProps extends RouteProps {}
+interface IConnectProps extends RouteProps {
+  networks: INetwork[];
+}
 
 const useConnectStyles = makeStyles<Theme>(theme => {
   return {
@@ -19,7 +24,7 @@ const useConnectStyles = makeStyles<Theme>(theme => {
       flexDirection: 'column',
       alignItems: 'center',
       margin: theme.spacing(15, 'auto'),
-      padding: theme.spacing(8, 3),
+      padding: '60px 0',
       [theme.breakpoints.down('sm')]: {
         width: 'unset',
         margin: theme.spacing(15, 10),
@@ -54,6 +59,12 @@ const useConnectStyles = makeStyles<Theme>(theme => {
         maxWidth: 'none',
       },
     },
+    networksWrapper: {
+      width: '100%',
+      borderTop: `1px solid ${fade(theme.palette.common.white, 0.2)}`,
+      marginTop: 12,
+      paddingTop: 28,
+    },
   };
 });
 
@@ -81,6 +92,11 @@ export const Connect = (props: IConnectProps) => {
         {t('connect.grant')}
       </Button>
       <Typography className={classes.info}>{t('connect.info')}</Typography>
+
+      <div className={classes.networksWrapper}>
+        <Headline5>{t('connect.available-networks')}</Headline5>
+        <NetworkSelector networks={props.networks} />
+      </div>
     </Paper>
   );
 };

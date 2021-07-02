@@ -6,7 +6,10 @@ import { STAKER_DASHBOARD_PATH } from '../../../../common/const';
 import { useFeaturesAvailable } from '../../../../common/hooks/useFeaturesAvailable';
 import { pushEvent } from '../../../../common/utils/pushEvent';
 import { useRequestDispatch } from '../../../../common/utils/useRequestDispatch';
-import { UserActions, UserActionTypes } from '../../../../store/actions/UserActions';
+import {
+  UserActions,
+  UserActionTypes,
+} from '../../../../store/actions/UserActions';
 import { IUserInfo } from '../../../../store/apiMappers/userApi';
 import { IStakePayload, StakeForm } from '../../components/StakeForm';
 

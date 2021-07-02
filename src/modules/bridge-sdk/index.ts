@@ -6,7 +6,7 @@ import {
   ITokenResponse,
 } from './entity';
 import { IStkrSdk } from '../api';
-import { BlockchainNetworkId } from '@ankr.com/stkr-jssdk';
+import { BlockchainNetworkId } from '../../common/types';
 import PEG_ETH_ABI from './Peg-ETH.json';
 import { Contract } from 'web3-eth-contract';
 import { ETH_DIVIDER, ETH_SCALE_FACTOR } from '../../common/const';

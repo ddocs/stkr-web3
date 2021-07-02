@@ -2,6 +2,7 @@ import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
 import React from 'react';
 import { FocusOn } from 'react-focus-on';
+import { useRouteMatch } from 'react-router-dom';
 import { Blockchain, Provider } from '../../../../common/types';
 import { t } from '../../../../common/utils/intl';
 import { MutationErrorHandler } from '../../../../components/MutationErrorHandler/MutationErrorHandler';
@@ -18,6 +19,7 @@ import { Wallet } from '../Wallet';
 import { WalletBalance } from '../WalletBalance';
 import { WalletCard } from '../WalletCard';
 import { useHeader } from './useHeader';
+import { FEATURES_PATH } from '../../../../common/const';
 
 interface IHeaderFrameProps {
   isAuth: boolean;
@@ -53,10 +55,11 @@ export const HeaderComponent = ({
     isMDUp,
     isSMUp,
     isFilteredError,
-    handleConnect,
     handleMobileNavClose,
     handleMobileNavOpen,
   } = useHeader();
+
+  const isFeatures = useRouteMatch(FEATURES_PATH)?.isExact;
 
   const renderedSwitcher = showSwitcher && <Switcher />;
 
@@ -69,15 +72,17 @@ export const HeaderComponent = ({
     />
   );
 
-  const renderedAppButton = (
+  const renderedAppButton = isFeatures ? (
+    <div />
+  ) : (
     <Button
-      onClick={handleConnect}
+      href={FEATURES_PATH}
       className={classes.appButton}
       color="primary"
       size="large"
       fullWidth
     >
-      {t('navigation.unlock-wallet')}
+      {t('navigation.stakefi-launchpad')}
     </Button>
   );
 

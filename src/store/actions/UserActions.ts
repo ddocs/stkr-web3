@@ -1,4 +1,3 @@
-import { BlockchainNetworkId } from '@ankr.com/stkr-jssdk';
 import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { replace } from 'connected-react-router';
@@ -13,7 +12,13 @@ import {
   INDEX_PATH,
   isMainnet,
 } from '../../common/const';
-import { Blockchain, DepositType, Locale, Provider } from '../../common/types';
+import {
+  Blockchain,
+  BlockchainNetworkId,
+  DepositType,
+  Locale,
+  Provider,
+} from '../../common/types';
 import { authenticatedRequestGuard } from '../../common/utils/authenticatedRequestGuard';
 import { update } from '../../common/utils/update';
 import { StkrSdk } from '../../modules/api';

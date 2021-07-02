@@ -5,12 +5,12 @@ import {
   ABOUT_SMARTCHAIN_PATH,
   BRIDGE_PATH,
   DOCS_LINK,
+  FEATURES_PATH,
   featuresConfig,
   GOVERNANCE_PROJECT_LIST_PATH,
   LITEPAPER_LINK,
   PROVIDER_PATH,
   SOCIAL_LINK,
-  STAKER_DASHBOARD_PATH,
 } from '../../../../common/const';
 import { useFeaturesAvailable } from '../../../../common/hooks/useFeaturesAvailable';
 import { useIsMDDown } from '../../../../common/hooks/useTheme';
@@ -83,7 +83,7 @@ export const Links = ({ className, isAuth, blockchainType }: ILinksProps) => {
           ? GOVERNANCE_PROJECT_LIST_PATH
           : '',
       bridge: featuresConfig.bridge ? BRIDGE_PATH : '',
-      staker: isAuth && isMDDown ? STAKER_DASHBOARD_PATH : '',
+      staker: isAuth && isMDDown ? FEATURES_PATH : '',
       provider: isAuth && isMDDown && isProviderAvailable ? PROVIDER_PATH : '',
     }),
     [blockchainType, isAuth, isMDDown, isProviderAvailable],

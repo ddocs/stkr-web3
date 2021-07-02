@@ -150,12 +150,12 @@ export const useStakeFormStyles = makeStyles<Theme>(theme => {
       lineHeight: 1.3,
       padding: 0,
       marginRight: 10,
-      "-moz-appearance": "textfield",
+      '-moz-appearance': 'textfield',
 
-      "&::-webkit-outer-spin-button, &::-webkit-inner-spin-button": {
-        "-webkit-appearance": "none",
-        margin: 0
-      }
+      '&::-webkit-outer-spin-button, &::-webkit-inner-spin-button': {
+        '-webkit-appearance': 'none',
+        margin: 0,
+      },
     },
 
     amountError: {

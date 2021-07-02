@@ -2,7 +2,7 @@ import { VoteStatus } from '@ankr.com/stkr-jssdk';
 import BigNumber from 'bignumber.js';
 import { EventEmitter } from 'events';
 import { SendOptions } from 'web3-eth-contract';
-import { DepositType } from '../../common/types';
+import { DepositType, SupportedBlockchainNetworkId } from '../../common/types';
 import {
   BNB_RPC_CONFIG,
   configFromEnv,
@@ -266,7 +266,9 @@ export class StkrSdk implements IStkrSdk {
       this.stkrConfig.contractConfig,
     );
 
-    await this.setupCrossChain();
+    if (SupportedBlockchainNetworkId.includes(result.chainId)) {
+      await this.setupCrossChain();
+    }
 
     this.eventEmitter.on(KeyProviderEvents.ChainChanged, async () => {
       await this.setupCrossChain();

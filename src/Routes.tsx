@@ -25,12 +25,14 @@ import {
   STAKER_STAKE_PATH,
   STAKER_AVALANCHE_PATH,
   STAKER_STAKE_DOT_ROUTE,
+  isMainnet,
 } from './common/const';
 import { PageNotFound } from './components/PageNotFound/PageNotFound';
 import { QueryLoadingAbsolute } from './components/QueryLoading/QueryLoading';
 import { withDefaultLayout } from './modules/layout';
 import { PrivateRoute } from './UiKit/PrivateRoute';
-import { PrivateRoutePlaceholder } from './UiKit/PrivateRoutePlaceholder';
+import { GuardRoute } from './UiKit/GuardRoute';
+import { BlockchainNetworkId } from './common/types';
 
 const LoadableOverviewContainer = withDefaultLayout(
   loadable(async () => import('./modules/lobby').then(module => module.Lobby), {
@@ -132,7 +134,9 @@ const StakerContainer = withDefaultLayout(
 const StakerDotContainer = withDefaultLayout(
   loadable(
     async () =>
-      import('./modules/stake/screens/StakeDot').then(module => module.StakeDot),
+      import('./modules/stake/screens/StakeDot').then(
+        module => module.StakeDot,
+      ),
     {
       fallback: <QueryLoadingAbsolute />,
     },
@@ -285,26 +289,40 @@ export function Routes() {
         exact={true}
         component={ProviderContainer}
       />
-      <PrivateRoute path={FEATURES_PATH} component={FeaturesListContainer} />
-      <PrivateRoute
+      <Route exact path={FEATURES_PATH} component={FeaturesListContainer} />
+
+      <GuardRoute
         path={STAKER_DASHBOARD_PATH}
         component={StakerDashboardContainer}
-        exact={true}
+        exact
+        availableNetworks={[
+          isMainnet ? BlockchainNetworkId.mainnet : BlockchainNetworkId.goerli,
+        ]}
       />
       <PrivateRoute
         path={STAKER_DASHBOARD_BNB_ROUTE}
         component={StakerDashboardBnbContainer}
         exact={true}
       />
-      <PrivateRoute
+      <GuardRoute
         path={STAKER_BNB_PATH}
         component={WalletListBnbContainer}
-        exact={true}
+        exact
+        availableNetworks={[
+          isMainnet
+            ? BlockchainNetworkId.smartchain
+            : BlockchainNetworkId.smartchainTestnet,
+        ]}
       />
-      <PrivateRoutePlaceholder
+      <GuardRoute
         path={STAKER_AVALANCHE_PATH}
         component={LoadableAvalancheContainer}
-        exact={true}
+        exact
+        availableNetworks={[
+          isMainnet
+            ? BlockchainNetworkId.avalanche
+            : BlockchainNetworkId.avalancheTestnet,
+        ]}
       />
       <PrivateRoute path={STAKER_STAKE_PATH} component={StakerContainer} />
       <PrivateRoute

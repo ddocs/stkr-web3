@@ -1,9 +1,7 @@
 import { Query, useMutation } from '@redux-requests/react';
 import React, { useCallback } from 'react';
 import { useHistory, useParams } from 'react-router';
-import {
-  getStakerDashboardBnbPath,
-} from '../../../../common/const';
+import { getStakerDashboardBnbPath } from '../../../../common/const';
 import { t } from '../../../../common/utils/intl';
 import { useRequestDispatch } from '../../../../common/utils/useRequestDispatch';
 import { MutationErrorHandler } from '../../../../components/MutationErrorHandler/MutationErrorHandler';
