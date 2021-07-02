@@ -606,7 +606,7 @@
       "stake-eth": "Stake ETH",
       "stake-bnb": "Stake BNB",
       "stake-avax": "Stake AVAX",
-      "stake-polkadot": "Stake DOT",
+      "stake-dot": "Stake DOT",
       "stake-ksm": "Stake KSM",
       "provider": "Become a provider"
     },
@@ -786,6 +786,21 @@
       "to-address": "Wrong destination address. In order to finish claim, you need to connect to this account: ",
       "transaction-info": "Transaction info not found",
       "invalid-address": "Invald address"
+    }
+  },
+  "stake-dot": {
+    "connect-wallet": "Please connect to Ethereum Mainnet to see your aDOTb balance",
+    "dot": "DOT",
+    "aDotb": "aDOTb",
+    "dashboard": {
+      "aDotb-balance": "aDOTb balance",
+      "dot-staking": "DOT Staking",
+      "stake-dot": "Stake DOT",
+      "tokens-to-claim": "Tokens to claim",
+      "claim": "Claim",
+      "what-is": "What is aDOTb?",
+      "claim-tooltip": "Tooltip text",
+      "can-connect-wallet": "You can claim your aDOTb in Ethereum network"
     }
   },
   "bnb-fetch-stats-error": {

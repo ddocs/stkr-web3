@@ -105,7 +105,7 @@ export const StakeForm = ({
             </Headline2>
 
             <label className={classes.range}>
-              <Headline2 component="p" classes={{ root: classes.label }}>
+              <Headline2 component="div" classes={{ root: classes.label }}>
                 <div className={classes.labelText}>{t('stake.i-want')}</div>
 
                 <div className={classes.amount}>

@@ -17,7 +17,7 @@ import {
   PROVIDER_MAIN_PATH,
   ENABLE_DOT,
   ENABLE_KSM,
-  STAKER_STAKE_DOT_ROUTE,
+  STAKER_DOT_PATH,
 } from '../../common/const';
 import { FeatureListVerticalItem } from './components/FeatureListVerticalItem/FeatureListVerticalItem';
 
@@ -88,10 +88,10 @@ export const FeaturesList = () => {
           {ENABLE_DOT && (
             <FeatureListVerticalItem
               Icon={PolkadotIcon}
-              title={t('features-list.header.stake-polkadot')}
+              title={t('features-list.header.stake-dot')}
               features={[]}
               buttonText={t('features-list.action.start-staking')}
-              onClickTo={STAKER_STAKE_DOT_ROUTE}
+              onClickTo={STAKER_DOT_PATH}
             />
           )}
           {ENABLE_KSM && (
