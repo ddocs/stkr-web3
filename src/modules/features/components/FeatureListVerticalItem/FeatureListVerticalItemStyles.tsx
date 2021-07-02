@@ -13,6 +13,10 @@ export const useFeaturesListVerticalItemStyles = makeStyles((theme: Theme) => ({
     height: 440,
     position: 'relative',
     margin: '16px',
+    minWidth: 300,
+    [theme.breakpoints.down('sm')]: {
+      height: 450,
+    },
   },
   new: {
     background: 'rgba(255, 255, 255, 0.18)',
@@ -29,15 +33,21 @@ export const useFeaturesListVerticalItemStyles = makeStyles((theme: Theme) => ({
     width: 70,
     height: 70,
     marginTop: 28,
+    [theme.breakpoints.down('sm')]: {
+      marginTop: 25,
+    },
   },
   title: {
     color: 'white',
     paddingTop: 14,
   },
   featureItem: {
-    padding: '16px 25px 0 25px',
+    padding: '16px 25px 0',
     color: 'rgba(255, 255, 255, 0.5)',
     display: 'flex',
+    [theme.breakpoints.down('sm')]: {
+      padding: '14px 22px 0',
+    },
   },
   featureItemText: {
     fontSize: 14,
@@ -54,12 +64,12 @@ export const useFeaturesListVerticalItemStyles = makeStyles((theme: Theme) => ({
     '&:hover': {
       background: '#006DFF',
       borderTop: '1px solid rgba(255, 255, 255, 0)',
-    }
+    },
   },
   buttonText: {
     color: 'white',
     fontWeight: 500,
     fontSize: 16,
     lineHeight: '125%',
-  }
+  },
 }));
