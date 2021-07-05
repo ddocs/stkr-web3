@@ -2,8 +2,8 @@ import { Dialog, DialogContent, IconButton } from '@material-ui/core';
 import React from 'react';
 import ReactPlayer from 'react-player';
 import { ReactComponent as PlayIcon } from '../../common/assets/play.svg';
-import { DIALOG_PRESENTATION } from '../../store/dialogs/actions';
-import { useDialog } from '../../store/dialogs/selectors';
+import { DIALOG_PRESENTATION } from '../../modules/dialogs/actions';
+import { useDialog } from '../../modules/dialogs/selectors';
 import { CancelIcon } from '../../UiKit/Icons/CancelIcon';
 import { useVideoStyles } from './VideoStyles';
 

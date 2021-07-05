@@ -1,4 +1,4 @@
-import { MuiThemeProvider } from '@material-ui/core';
+import { Button, MuiThemeProvider } from '@material-ui/core';
 import * as React from 'react';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
@@ -13,6 +13,8 @@ import { Features } from './components/Features';
 import { Promo } from './components/Promo';
 import { VideoTutorial } from './components/VideoTutorial';
 import { useLobbyStyles } from './LobbyStyles';
+import { ConnectPolkadotButton } from '../pokadot/component/ConnectPolkadotButton/ConnectPolkadotButton';
+import { ConnectPokadotDialog } from '../pokadot/component/ConnectPokadotDialog';
 
 export const Lobby = () => {
   const dispatch = useDispatch();
@@ -23,6 +25,10 @@ export const Lobby = () => {
 
   return (
     <>
+      <ConnectPolkadotButton>
+        <Button>Connect polkadot</Button>
+      </ConnectPolkadotButton>
+      <ConnectPokadotDialog />
       <Promo />
       <Features />
       <VideoTutorial />

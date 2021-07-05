@@ -25,8 +25,8 @@ import {
   GovernanceActions,
   GovernanceActionTypes,
 } from '../../store/actions/GovernanceActions';
-import { DIALOG_GOVERNANCE_RULES_OF_PROPOSAL } from '../../store/dialogs/actions';
-import { useDialog } from '../../store/dialogs/selectors';
+import { DIALOG_GOVERNANCE_RULES_OF_PROPOSAL } from '../dialogs/actions';
+import { useDialog } from '../dialogs/selectors';
 import { ReactComponent as PlusIcon } from './assets/plus.svg';
 import { ProjectListItem } from './components/ProjectListItem';
 import { RulesDialog } from './components/RulesDialog';

@@ -44,7 +44,7 @@ import {
   mapStakerStats,
 } from '../apiMappers/stakerStatsApi';
 import { IStakingFeeInfo, IUserInfo } from '../apiMappers/userApi';
-import { closeModalAction } from '../dialogs/actions';
+import { closeModalAction } from '../../modules/dialogs/actions';
 import { IStoreState } from '../reducers';
 
 export interface ISetLanguagePayload {

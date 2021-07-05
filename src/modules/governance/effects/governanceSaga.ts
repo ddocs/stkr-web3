@@ -4,7 +4,7 @@ import { GovernanceActionTypes } from '../../../store/actions/GovernanceActions'
 import {
   DIALOG_GOVERNANCE_PROJECT_CREATED,
   openModalAction,
-} from '../../../store/dialogs/actions';
+} from '../../dialogs/actions';
 
 function* onCreateProject() {
   yield put(openModalAction(DIALOG_GOVERNANCE_PROJECT_CREATED));

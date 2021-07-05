@@ -886,5 +886,8 @@
   },
   "zendesk": {
     "get-help": "Help"
+  },
+  "connect-polkadot-dialog": {
+    "title": "Select Polkadot account"
   }
 }

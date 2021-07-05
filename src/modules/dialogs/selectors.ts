@@ -1,5 +1,5 @@
 import { closeModalAction, KnownModal, openModalAction } from './actions';
-import { IStoreState } from '../reducers';
+import { IStoreState } from '../../store/reducers';
 import { useDispatch, useSelector } from 'react-redux';
 import { useCallback } from 'react';
 

@@ -21,8 +21,8 @@ import {
   GovernanceActions,
   GovernanceActionTypes,
 } from '../../store/actions/GovernanceActions';
-import { DIALOG_GOVERNANCE_PROJECT_CREATED } from '../../store/dialogs/actions';
-import { useDialog } from '../../store/dialogs/selectors';
+import { DIALOG_GOVERNANCE_PROJECT_CREATED } from '../dialogs/actions';
+import { useDialog } from '../dialogs/selectors';
 import { Button } from '../../UiKit/Button';
 import { Curtains } from '../../UiKit/Curtains';
 import { CancelIcon } from '../../UiKit/Icons/CancelIcon';

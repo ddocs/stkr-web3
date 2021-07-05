@@ -5,6 +5,7 @@ export const useWalletListItemStyles = makeStyles(theme => ({
     display: 'flex',
     alignItems: 'baseline',
     padding: theme.spacing(2.5),
+    cursor: 'pointer',
   },
   name: {
     marginRight: theme.spacing(1.5),

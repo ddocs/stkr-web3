@@ -9,11 +9,8 @@ import {
   UserActionTypes,
 } from '../../../../store/actions/UserActions';
 import { IProviderStats } from '../../../../store/apiMappers/providerStatsApi';
-import {
-  DIALOG_ALERT,
-  DIALOG_CREATE_NODE,
-} from '../../../../store/dialogs/actions';
-import { useDialog } from '../../../../store/dialogs/selectors';
+import { DIALOG_ALERT, DIALOG_CREATE_NODE } from '../../../dialogs/actions';
+import { useDialog } from '../../../dialogs/selectors';
 import { SIDECARS_PER_PAGE } from '../../const';
 import { useSidecarsQuery } from '../../hooks/useSidecarsQuery';
 

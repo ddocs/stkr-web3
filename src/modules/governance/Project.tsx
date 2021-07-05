@@ -35,8 +35,8 @@ import {
 } from '../../store/actions/GovernanceActions';
 import { UserActionTypes } from '../../store/actions/UserActions';
 import { IUserInfo } from '../../store/apiMappers/userApi';
-import { DIALOG_GOVERNANCE_HOW_IT_WORKS } from '../../store/dialogs/actions';
-import { useDialog } from '../../store/dialogs/selectors';
+import { DIALOG_GOVERNANCE_HOW_IT_WORKS } from '../dialogs/actions';
+import { useDialog } from '../dialogs/selectors';
 import { Curtains } from '../../UiKit/Curtains';
 import { CancelIcon } from '../../UiKit/Icons/CancelIcon';
 import { SliderField } from '../../UiKit/RangeField';
