@@ -94,7 +94,7 @@ export const useTableBodyCellStyles = makeStyles<
       paddingBottom: props =>
         props.dense ? theme.spacing(1.5) : theme.spacing(2.5),
 
-      minHeight: props => (props.dense ? 0 : theme.spacing(10)),
+      minHeight: props => (props.dense ? 0 : theme.spacing(8)),
     },
   },
 

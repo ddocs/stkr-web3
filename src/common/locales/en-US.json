@@ -570,6 +570,7 @@
     "feth-value": "{value, number} aETHb",
     "number-value": "{value, number}",
     "avax-value": "{value, number} AVAX",
+    "dot-value": "{value, number} DOT",
     "aavaxb-value": "{value, number} aAVAXb",
     "peg-eth": "{value, number} Peg-ETH",
     "separated-aeth-value": "{value, number}<span class=\"unit\">aETHc</span>",
@@ -755,26 +756,7 @@
       "aavaxb-balance": "aAVAXb Balance",
       "aavaxb-balance-tip": "aAVAXb Balance",
       "convert": "Convert",
-      "finish-withdraw": "Finish withdraw",
-      "column": {
-        "date": "Stake date",
-        "status": "Status",
-        "hash": "Transaction Hash",
-        "type": "Transaction Type",
-        "amount": "Staking Amount"
-      },
-      "tip": {
-        "date": "Stake date",
-        "status": "Status",
-        "hash": "Transaction Hash",
-        "type": "Transaction Type",
-        "amount": "Staking Amount"
-      },
-      "status": {
-        "STAKE_ACTION_CONFIRMED": "Confirmed",
-        "STAKE_ACTION_PENDING": "Created",
-        "STAKE_ACTION_UNSTAKE": "Removed"
-      }
+      "finish-withdraw": "Finish withdraw"
     },
     "stake": {
       "title": "Staking Manager"
@@ -786,6 +768,25 @@
       "to-address": "Wrong destination address. In order to finish claim, you need to connect to this account: ",
       "transaction-info": "Transaction info not found",
       "invalid-address": "Invald address"
+    }
+  },
+  "history-table": {
+    "staking-history": "Staking history",
+    "total-staked": "Total staked: ",
+    "column": {
+      "date": "Stake date",
+      "status": "Status",
+      "hash": "Transaction Hash",
+      "type": "Transaction Type",
+      "amount": "Staking Amount"
+    },
+    "tip": {
+      "status": "Transaction status"
+    },
+    "status": {
+      "STAKE_ACTION_CONFIRMED": "Confirmed",
+      "STAKE_ACTION_PENDING": "Created",
+      "STAKE_ACTION_UNSTAKE": "Removed"
     }
   },
   "stake-dot": {

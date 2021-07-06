@@ -18,6 +18,7 @@ export const useTableHeadStyles = makeStyles<
         props.customCell ? props.customCell : `repeat(${props.count}, 1fr)`,
       alignItems: 'stretch',
       boxSizing: 'border-box',
+      borderTop: `1px solid ${fade(theme.palette.common.white, 0.2)}`,
       borderBottom: `1px solid ${fade(theme.palette.common.white, 0.2)}`,
     },
   },

@@ -8,6 +8,7 @@ import { StakeDialog } from '../StakeDialog';
 import { t } from '../../../../common/utils/intl';
 import { IStakerStats } from '../../../avalanche-sdk/types';
 import { Spinner } from '../../../../components/Spinner';
+import { HistoryTable } from '../../../../components/HistoryTable';
 import { ReactComponent as PlusIcon } from '../../assets/plus.svg';
 import { Headline2 } from '../../../../UiKit/Typography';
 
@@ -20,6 +21,7 @@ export interface IDashboardProps {
 export const Dashboard = ({ isConnected }: IDashboardProps) => {
   const classes = useStakeAvaxDashboardComponentStyles();
 
+  const stakingHistoryData: Record<string, unknown>[] = [];
   const stakingInProgress = false;
   const showStaking = true;
   const stakerStats: IStakerStats = {
@@ -61,6 +63,9 @@ export const Dashboard = ({ isConnected }: IDashboardProps) => {
             </div>
           )}
         </Box>
+      )}
+      {stakingHistoryData.length > 0 && (
+        <HistoryTable data={stakingHistoryData} unitName="dot" />
       )}
     </section>
   );
