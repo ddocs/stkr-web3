@@ -8,6 +8,9 @@ import { handleRequests } from '@redux-requests/core';
 import { createDriver } from '@redux-requests/promise';
 import { History } from 'history';
 import { isDev } from '../common/utils/isProd';
+import { createDriver as createAxiosDriver } from '@redux-requests/axios';
+import axios from 'axios';
+import { configFromEnv } from '../modules/api/config';
 
 export interface IApplicationStore {
   store: Store;
@@ -28,9 +31,16 @@ export const createApplicationStore = ({
   history: History;
 }): IApplicationStore => {
   const { requestsReducer, requestsMiddleware } = handleRequests({
-    driver: createDriver({
-      processResponse: response => ({ data: response }),
-    }),
+    driver: {
+      default: createDriver({
+        processResponse: response => ({ data: response }),
+      }),
+      axios: createAxiosDriver(
+        axios.create({
+          baseURL: configFromEnv().gatewayConfig.baseUrl,
+        }),
+      ),
+    },
     ...(isDev()
       ? {
           onError: error => {
