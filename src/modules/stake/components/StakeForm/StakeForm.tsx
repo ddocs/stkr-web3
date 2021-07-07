@@ -135,7 +135,7 @@ export const StakeForm = ({
               />
             </label>
 
-            {renderStats ? renderStats(amount) : null}
+            {renderStats && amount ? renderStats(amount) : null}
           </div>
         </div>
 

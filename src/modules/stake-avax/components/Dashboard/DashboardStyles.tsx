@@ -2,19 +2,19 @@ import { makeStyles, Theme } from '@material-ui/core/styles';
 
 export const useDashboardStyles = makeStyles<Theme>(theme => ({
   root: {
-    marginTop: theme.spacing(10),
+    maxWidth: 1500,
+    margin: `${theme.spacing(10)}px auto 0`,
+    padding: theme.spacing(0, 15),
+    [theme.breakpoints.down('lg')]: {
+      padding: theme.spacing(0, 10),
+    },
   },
   header: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'start',
-    margin: `${theme.spacing(6)}px auto ${theme.spacing(3)}px`,
-    maxWidth: 1500,
+    margin: `${theme.spacing(6)}px auto ${theme.spacing(1)}px`,
     width: '100%',
-    padding: theme.spacing(0, 15),
-    [theme.breakpoints.down('lg')]: {
-      padding: theme.spacing(0, 10),
-    },
   },
   stats: {
     display: 'grid',
@@ -22,11 +22,6 @@ export const useDashboardStyles = makeStyles<Theme>(theme => ({
     gridTemplateRows: '1fr',
     gap: theme.spacing(4, 4),
     margin: `${theme.spacing(6)}px auto ${theme.spacing(3)}px`,
-    padding: theme.spacing(0, 15),
-    maxWidth: 1500,
-    [theme.breakpoints.down('lg')]: {
-      padding: theme.spacing(0, 10),
-    },
     [theme.breakpoints.down('md')]: {
       gap: theme.spacing(4, 0),
       gridTemplateColumns: '1fr',

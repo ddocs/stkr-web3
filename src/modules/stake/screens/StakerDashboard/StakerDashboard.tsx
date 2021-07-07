@@ -111,9 +111,7 @@ export const StakerDashboardComponent = () => {
                     classes={{ root: classes.history }}
                     data={stakingHistory.stakes}
                   />
-                ) : (
-                  <QueryLoadingAbsolute />
-                )}
+                ) : null}
               </>
             );
           }}

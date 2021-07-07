@@ -475,4 +475,15 @@ export const AvalancheActions = {
       },
     }),
   ),
+  fetchEstimatedAPY: createAction<RequestAction>('FETCH_ESTIMATED_APY', () => ({
+    request: {
+      url: `/v1alpha/avax/estimatedapy`,
+      method: 'get',
+    },
+    meta: {
+      driver: 'axios',
+      asMutation: false,
+      getData: data => new BigNumber(data.apy.slice(0, -1)),
+    },
+  })),
 };

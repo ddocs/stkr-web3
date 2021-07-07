@@ -22,6 +22,6 @@ export function useFeaturesAvailable() {
     stakingAmountStep: isSmartChain ? 0.1 : 0.5,
     stakingFeeRate: stakingFeeInfo?.stakingFeeRate,
     isBnbStakingAvailable: !!window.BinanceChain,
-    isEthStakingAvailable: isETHChain,
+    isEthStakingAvailable: isETHChain || isSmartChain,
   };
 }
