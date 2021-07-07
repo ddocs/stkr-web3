@@ -790,7 +790,7 @@
     }
   },
   "stake-dot": {
-    "connect-wallet": "Please connect to Ethereum Mainnet to see your aDOTb balance",
+    "connect-wallet": "Please connect Polkadot address to see your aDOTb balance",
     "dot": "DOT",
     "aDotb": "aDOTb",
     "dashboard": {

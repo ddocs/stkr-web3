@@ -13,6 +13,8 @@ import { ReactComponent as PlusIcon } from '../../assets/plus.svg';
 import { Headline2 } from '../../../../UiKit/Typography';
 
 import { useDashboardStyles as useStakeAvaxDashboardComponentStyles } from './DashboardStyles';
+import { useSelector } from 'react-redux';
+import { IStoreState } from '../../../../store/reducers';
 
 export interface IDashboardProps {
   isConnected: boolean;
@@ -20,6 +22,9 @@ export interface IDashboardProps {
 
 export const Dashboard = ({ isConnected }: IDashboardProps) => {
   const classes = useStakeAvaxDashboardComponentStyles();
+  const step = useSelector((state: IStoreState) => {
+    return state.polkadot.step;
+  });
 
   const stakingHistoryData: Record<string, unknown>[] = [];
   const stakingInProgress = false;
@@ -59,7 +64,10 @@ export const Dashboard = ({ isConnected }: IDashboardProps) => {
               {stakerStats.claimAvailable && (
                 <Claim amount={stakerStats.claimAvailable} />
               )}
-              <Balance amount={stakerStats.balance} />
+              <Balance
+                amount={stakerStats.balance}
+                isConnected={step === 'connection'}
+              />
             </div>
           )}
         </Box>

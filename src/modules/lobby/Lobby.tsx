@@ -25,10 +25,6 @@ export const Lobby = () => {
 
   return (
     <>
-      <ConnectPolkadotButton>
-        <Button>Connect polkadot</Button>
-      </ConnectPolkadotButton>
-      <ConnectPokadotDialog />
       <Promo />
       <Features />
       <VideoTutorial />
