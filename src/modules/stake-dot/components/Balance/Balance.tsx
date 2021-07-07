@@ -1,4 +1,4 @@
-import { Paper, Typography, Button, Box } from '@material-ui/core';
+import { Paper, Typography, Button, Box, Tooltip } from '@material-ui/core';
 import React from 'react';
 import BigNumber from 'bignumber.js';
 
@@ -7,8 +7,6 @@ import { ReactComponent as DOTIcon } from '../../assets/DOT.svg';
 
 import { useBalanceStyles } from './BalanceStyles';
 import { Body1, Body2 } from '../../../../UiKit/Typography';
-import { ConnectPolkadotButton } from '../../../pokadot/component/ConnectPolkadotButton/ConnectPolkadotButton';
-import { ConnectPokadotDialog } from '../../../pokadot/component/ConnectPokadotDialog';
 
 interface IBalanceProps {
   amount: BigNumber;
@@ -20,7 +18,6 @@ export const Balance = ({ amount, isConnected = false }: IBalanceProps) => {
 
   return (
     <Paper variant="outlined" square={false} className={classes.root}>
-      <ConnectPokadotDialog />
       <div className={classes.header}>
         <Body1 className={classes.headerContent}>
           <DOTIcon />
@@ -47,21 +44,24 @@ export const Balance = ({ amount, isConnected = false }: IBalanceProps) => {
             <Typography variant="h6">{t('stake-dot.aDotb')}</Typography>
           </div>
         ) : (
-          <>
-            <div>
-              <Body2 className={classes.info} color="secondary" component="p">
-                {t('stake-dot.connect-wallet')}
-              </Body2>
-            </div>
-            <ConnectPolkadotButton>
-              <Box display="inline-block">
-                <Button color="primary" size="large" className={classes.button}>
-                  {t('navigation.connect')}
-                </Button>
-              </Box>
-            </ConnectPolkadotButton>
-          </>
+          <div>
+            <Body2 className={classes.info} color="secondary" component="p">
+              {t('stake-dot.connect-wallet')}
+            </Body2>
+          </div>
         )}
+        <Tooltip title={t('coming-soon')}>
+          <Box display="inline-block">
+            <Button
+              color="primary"
+              size="large"
+              className={classes.button}
+              disabled
+            >
+              {t('navigation.connect')}
+            </Button>
+          </Box>
+        </Tooltip>
       </div>
     </Paper>
   );

@@ -41,7 +41,7 @@ export const ConnectPokadotDialog = () => {
 
   return (
     <Dialog
-      open={step === 'init'}
+      open={!!step}
       onClose={handleClose}
       fullWidth={true}
       maxWidth="md"
@@ -55,21 +55,31 @@ export const ConnectPokadotDialog = () => {
           {t('connect-polkadot-dialog.title')}
         </Typography>
         <Box maxWidth={455} width="100%" mt={13}>
-          <Queries<ResponseData<typeof fetchPolkadotWalletsAction>>
-            requestActions={[fetchPolkadotWalletsAction]}
-          >
-            {({ data }) =>
-              data?.accounts?.map(item => (
-                <Box mb={2}>
-                  <WalletListItem
-                    name={item.name}
-                    address={item.address}
-                    onClick={handleConnect}
-                  />
-                </Box>
-              ))
-            }
-          </Queries>
+          {step === 'init' ? (
+            <Queries<ResponseData<typeof fetchPolkadotWalletsAction>>
+              requestActions={[fetchPolkadotWalletsAction]}
+            >
+              {({ data }) =>
+                data?.accounts?.map(item => (
+                  <Box mb={2}>
+                    <WalletListItem
+                      name={item.name}
+                      address={item.address}
+                      onClick={handleConnect}
+                    />
+                  </Box>
+                ))
+              }
+            </Queries>
+          ) : null}
+          {step === 'connection' ? (
+            <Mutation type={connectPolkadotAction.toString()}>
+              {() => {
+                // TODO Update connected status UI
+                return 'Done';
+              }}
+            </Mutation>
+          ) : null}
         </Box>
       </DialogContent>
     </Dialog>

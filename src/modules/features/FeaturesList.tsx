@@ -8,6 +8,7 @@ import { ReactComponent as PolkadotIcon } from './assets/polkadot.svg';
 import { ReactComponent as KSMIcon } from './assets/ksm.svg';
 import { ReactComponent as ProviderIcon } from './assets/provider.svg';
 import { t } from '../../common/utils/intl';
+import { useFeaturesAvailable } from '../../common/hooks/useFeaturesAvailable';
 import {
   STAKER_BNB_PATH,
   STAKER_DASHBOARD_PATH,
@@ -24,6 +25,7 @@ type ActionType = 'Staking' | 'Providing';
 
 export const FeaturesList = () => {
   const classes = useFeaturesListStyles();
+  const { isProviderAvailable } = useFeaturesAvailable();
   const [currentAction, setCurrentAction] = useState<ActionType>('Staking');
 
   const handleCurrentActionChange = (newAction: ActionType) => () => {
@@ -120,6 +122,7 @@ export const FeaturesList = () => {
             ]}
             buttonText={t('features-list.action.provider')}
             onClickTo={PROVIDER_MAIN_PATH}
+            disabled={!isProviderAvailable}
           />
         </div>
       )}

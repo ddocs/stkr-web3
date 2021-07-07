@@ -1,5 +1,5 @@
 import { Dialog } from '@material-ui/core';
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode, useCallback, useState } from 'react';
 import { StakeDot as StakeDotModalContent } from '../../../stake/screens/StakeDot';
 import { useStakeDialogStyles } from './StakeDialogStyles';
 
