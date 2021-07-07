@@ -46,6 +46,7 @@ import {
 import { IStakingFeeInfo, IUserInfo } from '../apiMappers/userApi';
 import { closeModalAction } from '../../modules/dialogs/actions';
 import { IStoreState } from '../reducers';
+import { ITokenInfo } from '../../modules/api/contract';
 
 export interface ISetLanguagePayload {
   locale: Locale;
@@ -102,6 +103,8 @@ export const UserActionTypes = {
   TOP_UP: 'TOP_UP',
 
   SET_LOCALE: 'SET_LOCALE',
+
+  ADD_TOKEN_TO_WALLET: 'ADD_TOKEN_TO_WALLET',
 };
 
 // todo: remove this method after SDK update
@@ -662,4 +665,16 @@ export const UserActions = {
     },
   }),
   setLocale: createAction<ISetLanguagePayload>(UserActionTypes.SET_LOCALE),
+  addTokenToWallet: (tokenInfo: ITokenInfo) => ({
+    type: UserActionTypes.ADD_TOKEN_TO_WALLET,
+    request: {
+      promise: (async function () {
+        const stkrSdk = StkrSdk.getForEnv();
+        return stkrSdk.addTokenToWallet(tokenInfo);
+      })(),
+    },
+    meta: {
+      asMutation: true,
+    },
+  }),
 };

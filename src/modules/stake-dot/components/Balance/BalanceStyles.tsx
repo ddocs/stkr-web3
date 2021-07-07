@@ -28,6 +28,7 @@ export const useBalanceStyles = makeStyles<Theme>(theme => {
       marginBottom: theme.spacing(6),
       display: 'flex',
       alignItems: 'center',
+      cursor: 'pointer',
     },
     whatIs: {
       color: '#ffffff !important',

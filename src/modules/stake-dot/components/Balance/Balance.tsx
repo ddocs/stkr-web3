@@ -1,5 +1,5 @@
 import { Paper, Typography, Button, Box, Tooltip } from '@material-ui/core';
-import React from 'react';
+import React, { useCallback } from 'react';
 import BigNumber from 'bignumber.js';
 
 import { t } from '../../../../common/utils/intl';
@@ -7,6 +7,10 @@ import { ReactComponent as DOTIcon } from '../../assets/DOT.svg';
 
 import { useBalanceStyles } from './BalanceStyles';
 import { Body1, Body2 } from '../../../../UiKit/Typography';
+import { UserActions } from '../../../../store/actions/UserActions';
+import { useDispatch } from 'react-redux';
+import { ConnectPolkadotButton } from '../../../pokadot/component/ConnectPolkadotButton/ConnectPolkadotButton';
+import { ConnectPokadotDialog } from '../../../pokadot/component/ConnectPokadotDialog';
 
 interface IBalanceProps {
   amount: BigNumber;
@@ -15,11 +19,22 @@ interface IBalanceProps {
 
 export const Balance = ({ amount, isConnected = false }: IBalanceProps) => {
   const classes = useBalanceStyles();
+  const dispatch = useDispatch();
+
+  const handleIconClick = useCallback(() => {
+    dispatch(
+      UserActions.addTokenToWallet({
+        address: '0x7af963cf6d228e564e2a0aa0ddbf06210b38615d',
+        symbol: 'aDOTb',
+        decimals: 18,
+      }),
+    );
+  }, [dispatch]);
 
   return (
     <Paper variant="outlined" square={false} className={classes.root}>
       <div className={classes.header}>
-        <Body1 className={classes.headerContent}>
+        <Body1 className={classes.headerContent} onClick={handleIconClick}>
           <DOTIcon />
           <div className={classes.headerText}>
             {t('stake-dot.dashboard.aDotb-balance')}

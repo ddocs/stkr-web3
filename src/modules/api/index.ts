@@ -14,6 +14,7 @@ import {
   EthereumContractManager,
   AvalancheContractManager,
   IContractManager,
+  ITokenInfo,
 } from './contract';
 import { ContractManagerEvent, KeyProviderEvents } from './event';
 import {
@@ -192,6 +193,8 @@ export interface IStkrSdk extends IStakerSdk, IProviderSdk, IGovernanceSdk {
   ): Promise<IConvertEstimateReply>;
 
   switchNetwork(chainId: number): Promise<any>;
+
+  addTokenToWallet(tokenInfo: ITokenInfo): Promise<boolean>;
 }
 
 export class StkrSdk implements IStkrSdk {
@@ -764,5 +767,9 @@ export class StkrSdk implements IStkrSdk {
       toAddress,
       depositAmount,
     );
+  }
+
+  public async addTokenToWallet(tokenInfo: ITokenInfo): Promise<boolean> {
+    return this.keyProvider?.addTokenToWallet(tokenInfo) ?? false;
   }
 }

@@ -18,6 +18,7 @@ import mathLogo from './assets/math.svg';
 import trustWalletLogo from './assets/trust.svg';
 import { IRPCConfig } from './config';
 import { KeyProviderEvents } from './event';
+import { ITokenInfo } from './contract';
 
 export interface IProviderConfig {
   ethereumChainId: BlockchainNetworkId;
@@ -153,6 +154,8 @@ export abstract class KeyProvider {
   ): Promise<string>;
 
   public abstract switchNetwork(settings: IRPCConfig): Promise<string>;
+
+  public abstract addTokenToWallet(tokenInfo: ITokenInfo): Promise<boolean>;
 
   public abstract sendAsync(
     from: string,
@@ -479,6 +482,18 @@ export class Web3ModalKeyProvider extends KeyProvider {
     /* eslint-disable */
     return this.provider
       .request({ method: 'wallet_addEthereumChain', params: [settings] })
+      .catch();
+  }
+
+  public addTokenToWallet(tokenInfo: ITokenInfo): Promise<boolean> {
+    return this.provider
+      .request({
+        method: 'metamask_watchAsset',
+        params: {
+          type: 'ERC20',
+          options: tokenInfo,
+        },
+      })
       .catch();
   }
 

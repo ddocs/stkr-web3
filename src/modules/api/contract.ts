@@ -52,6 +52,13 @@ export interface IAvalancheConfig {
   avalanchePool: string;
 }
 
+export interface ITokenInfo {
+  address: string;
+  symbol?: string;
+  decimals?: number;
+  image?: string;
+}
+
 export interface IContractManager {
   connect(): Promise<void>;
 
@@ -118,6 +125,8 @@ export interface IContractManager {
   getAnkrAvailableDepositsOf(address: string): Promise<BigNumber>;
 
   claimAnkr(amount: BigNumber): Promise<ISendAsyncResult>;
+
+  addTokenToWallet(tokenInfo: ITokenInfo): Promise<boolean>;
 }
 
 export class EthereumContractManager implements IContractManager {
@@ -1006,6 +1015,10 @@ export class EthereumContractManager implements IContractManager {
         data: data,
       },
     );
+  }
+
+  async addTokenToWallet(tokenInfo: ITokenInfo): Promise<boolean> {
+    return this.keyProvider.addTokenToWallet(tokenInfo);
   }
 }
 
