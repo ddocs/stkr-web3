@@ -11,11 +11,11 @@ import { configFromEnv } from '../../../api/config';
 import { StkrSdk } from '../../../api';
 
 interface IBalanceProps {
-  amount: BigNumber;
+  amount?: BigNumber;
   isConnected?: boolean;
 }
 
-export const Balance = ({ amount, isConnected = false }: IBalanceProps) => {
+export const Balance = ({ amount, isConnected = true }: IBalanceProps) => {
   const classes = useBalanceStyles();
 
   const handleIconClick = useCallback(async () => {
@@ -59,7 +59,7 @@ export const Balance = ({ amount, isConnected = false }: IBalanceProps) => {
       <div className={classes.footer}>
         {isConnected ? (
           <div className={classes.amount}>
-            <Typography variant="h2">{amount.toFixed(2)}</Typography>
+            <Typography variant="h2">{amount?.toFixed(2)}</Typography>
             <Typography variant="h6">{t('stake-dot.aDotb')}</Typography>
           </div>
         ) : (

@@ -206,12 +206,12 @@ export const UserActions = {
         const address = stkrSdk.getKeyProvider().currentAccount();
         const ethereumBalance = await stkrSdk.getEthBalance();
         const nativeBalance = await stkrSdk.getNativeBalance();
-        const dotBalance = new BigNumber(0.1);
         const walletMeta = stkrSdk.getWalletMeta();
         let walletType = Provider.metamask,
           blockchainType = Blockchain.ethereum;
         let bnbBalance = undefined,
-          ankrBalance = undefined;
+          ankrBalance = undefined,
+          dotBalance = undefined;
         if (stkrSdk.getKeyProvider().isBinanceWallet()) {
           walletType = Provider.binance;
         }
@@ -222,6 +222,7 @@ export const UserActions = {
           blockchainType = Blockchain.avalanche;
         } else {
           ankrBalance = await stkrSdk.getAnkrBalance();
+          dotBalance = await stkrSdk.getDotBalance();
         }
         return {
           address,

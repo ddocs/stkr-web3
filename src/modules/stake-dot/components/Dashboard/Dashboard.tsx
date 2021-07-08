@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box, Button } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
+import { useQuery } from '@redux-requests/react';
 
 import { Balance } from '../Balance';
 import { Claim } from '../Claim';
@@ -11,6 +12,8 @@ import { Spinner } from '../../../../components/Spinner';
 import { HistoryTable } from '../../../../components/HistoryTable';
 import { ReactComponent as PlusIcon } from '../../assets/plus.svg';
 import { Headline2 } from '../../../../UiKit/Typography';
+import { UserActionTypes } from '../../../../store/actions/UserActions';
+import { IUserInfo } from '../../../../store/apiMappers/userApi';
 
 import { useDashboardStyles as useStakeAvaxDashboardComponentStyles } from './DashboardStyles';
 
@@ -20,6 +23,10 @@ export interface IDashboardProps {
 
 export const Dashboard = ({ isConnected }: IDashboardProps) => {
   const classes = useStakeAvaxDashboardComponentStyles();
+
+  const { data: userInfo } = useQuery<IUserInfo | null>({
+    type: UserActionTypes.FETCH_ACCOUNT_DATA,
+  });
 
   const stakingHistoryData: Record<string, unknown>[] = [];
   const stakingInProgress = false;
@@ -59,7 +66,7 @@ export const Dashboard = ({ isConnected }: IDashboardProps) => {
               {stakerStats.claimAvailable && (
                 <Claim amount={stakerStats.claimAvailable} />
               )}
-              <Balance amount={stakerStats.balance} />
+              <Balance amount={userInfo?.dotBalance} />
             </div>
           )}
         </Box>

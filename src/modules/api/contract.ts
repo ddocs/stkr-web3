@@ -899,10 +899,10 @@ export class EthereumContractManager implements IContractManager {
   }
 
   public async dotBalanceOf(address: string): Promise<BigNumber> {
-    if (!this.ankrContract) {
+    if (!this.adotbContract) {
       return new BigNumber('0');
     }
-    return new BigNumber('0'); // TODO: implement this
+    return this.keyProvider.getErc20Balance(this.adotbContract, address);
   }
 
   public async aethBalanceOf(address: string): Promise<BigNumber> {
