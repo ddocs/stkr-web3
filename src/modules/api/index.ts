@@ -68,8 +68,6 @@ interface IStakerSdk {
 
   getAethBalance(): Promise<BigNumber>;
 
-  getAdotbDecimals(): Promise<number>;
-
   getFethBalance(): Promise<BigNumber>;
 
   getStakerStats(): Promise<IStakerStats>;
@@ -571,16 +569,6 @@ export class StkrSdk implements IStkrSdk {
     }
     const currentAccount = this.getKeyProvider().currentAccount();
     return this.getContractManager().fethBalanceOf(currentAccount);
-  }
-
-  public async getAdotbDecimals(): Promise<number> {
-    if (
-      this.getKeyProvider().isBinanceSmartChain() ||
-      this.getKeyProvider().isAvalancheChain()
-    ) {
-      return 18;
-    }
-    return this.getContractManager().dotDecimals();
   }
 
   public async getStakerStats(): Promise<IStakerStats> {

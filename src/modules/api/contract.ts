@@ -68,6 +68,8 @@ export interface ITokenInfo {
 }
 
 export interface IContractManager {
+  adotbContract?: Contract;
+
   connect(): Promise<void>;
 
   stakePendingEventLogs(): Promise<IStakePendingEvent[]>;
@@ -135,8 +137,6 @@ export interface IContractManager {
   claimAnkr(amount: BigNumber): Promise<ISendAsyncResult>;
 
   addTokenToWallet(tokenInfo: ITokenInfo): Promise<boolean>;
-
-  dotDecimals(): Promise<number>;
 }
 
 export class EthereumContractManager implements IContractManager {
@@ -919,13 +919,6 @@ export class EthereumContractManager implements IContractManager {
       return new BigNumber('0');
     }
     return this.keyProvider.getErc20Balance(this.fethContract, address);
-  }
-
-  public async dotDecimals(): Promise<number> {
-    if (!this.adotbContract) {
-      return 18;
-    }
-    return this.keyProvider.getErc20Decimals(this.adotbContract);
   }
 
   public async pendingEtherBalanceOf(address: string): Promise<BigNumber> {

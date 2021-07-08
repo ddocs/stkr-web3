@@ -24,14 +24,20 @@ export const Balance = ({ amount, isConnected = false }: IBalanceProps) => {
   const handleIconClick = useCallback(async () => {
     const stkrSdk = StkrSdk.getForEnv();
     const stkrConfig = configFromEnv();
-    const decimals = await stkrSdk.getAdotbDecimals();
-    dispatch(
-      UserActions.addTokenToWallet({
-        address: stkrConfig.dotConfig.aDOTbContract,
-        symbol: 'aDOTb',
-        decimals: decimals,
-      }),
-    );
+    const adotbContract = stkrSdk.getContractManager().adotbContract;
+    if (adotbContract) {
+      const decimals = await stkrSdk
+        .getKeyProvider()
+        .getErc20Decimals(adotbContract);
+
+      dispatch(
+        UserActions.addTokenToWallet({
+          address: stkrConfig.dotConfig.aDOTbContract,
+          symbol: 'aDOTb',
+          decimals: decimals,
+        }),
+      );
+    }
   }, [dispatch]);
 
   return (
