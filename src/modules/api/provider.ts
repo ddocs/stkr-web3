@@ -197,6 +197,19 @@ export abstract class KeyProvider {
       new BigNumber(10).pow(decimals),
     );
   }
+
+  public async getErc20Decimals(contract: Contract): Promise<number> {
+    let result = 18;
+    try {
+      result = await contract.methods.decimals().call();
+      if (!Number(result)) {
+        result = 18;
+      }
+    } catch (e) {
+      console.error(`Unable to calculate contract decimals: ${e}`);
+    }
+    return result;
+  }
 }
 
 export class Web3ModalKeyProvider extends KeyProvider {

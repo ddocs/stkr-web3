@@ -9,8 +9,8 @@ import { useBalanceStyles } from './BalanceStyles';
 import { Body1, Body2 } from '../../../../UiKit/Typography';
 import { UserActions } from '../../../../store/actions/UserActions';
 import { useDispatch } from 'react-redux';
-import { ConnectPolkadotButton } from '../../../pokadot/component/ConnectPolkadotButton/ConnectPolkadotButton';
-import { ConnectPokadotDialog } from '../../../pokadot/component/ConnectPokadotDialog';
+import { configFromEnv } from '../../../api/config';
+import { StkrSdk } from '../../../api';
 
 interface IBalanceProps {
   amount: BigNumber;
@@ -21,12 +21,15 @@ export const Balance = ({ amount, isConnected = false }: IBalanceProps) => {
   const classes = useBalanceStyles();
   const dispatch = useDispatch();
 
-  const handleIconClick = useCallback(() => {
+  const handleIconClick = useCallback(async () => {
+    const stkrSdk = StkrSdk.getForEnv();
+    const stkrConfig = configFromEnv();
+    const decimals = await stkrSdk.getAdotbDecimals();
     dispatch(
       UserActions.addTokenToWallet({
-        address: '0x7af963cf6d228e564e2a0aa0ddbf06210b38615d',
+        address: stkrConfig.dotConfig.aDOTbContract,
         symbol: 'aDOTb',
-        decimals: 18,
+        decimals: decimals,
       }),
     );
   }, [dispatch]);

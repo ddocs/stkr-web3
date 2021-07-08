@@ -11,6 +11,7 @@ import ABI_IERC20 from './contract/IERC20.json';
 import ABI_SYSTEM from './contract/SystemParameters.json';
 import ABI_ANKR_DEPOSIT from './contract/AnkrDeposit.json';
 import ABI_AVALANCHE_POOL from './contract/AvalanchePool.json';
+import ABI_ADOTB from './contract/ADOTB.json';
 
 import {
   ContractManagerEvents,
@@ -26,6 +27,7 @@ import { AvalancheSdk } from '../avalanche-sdk';
 export interface IContractConfig {
   aethContract?: string;
   fethContract?: string;
+  adotbContract?: string;
   microPoolContract: string;
   microPoolBlock: string | undefined;
   maxBlocksPerScan?: number;
@@ -50,6 +52,12 @@ export interface IAvalancheConfig {
   globalPoolContract: string;
   futureBondAVAX: string;
   avalanchePool: string;
+}
+
+export interface IDotConfig {
+  aDOTbContract: string;
+  aKSMbContract: string;
+  polkadotPoolContract: string;
 }
 
 export interface ITokenInfo {
@@ -127,6 +135,8 @@ export interface IContractManager {
   claimAnkr(amount: BigNumber): Promise<ISendAsyncResult>;
 
   addTokenToWallet(tokenInfo: ITokenInfo): Promise<boolean>;
+
+  dotDecimals(): Promise<number>;
 }
 
 export class EthereumContractManager implements IContractManager {
@@ -134,6 +144,7 @@ export class EthereumContractManager implements IContractManager {
   protected readonly aethContract?: Contract;
   protected readonly fethContract?: Contract;
   protected readonly ankrContract?: Contract;
+  protected readonly adotbContract?: Contract;
   protected readonly systemContract?: Contract;
   protected readonly governanceContract?: Contract;
   protected readonly jssdkManager?: JssdkManager;
@@ -179,6 +190,12 @@ export class EthereumContractManager implements IContractManager {
       this.governanceContract = this.keyProvider.createContract(
         ABI_ANKR_DEPOSIT as any,
         contractConfig.governanceAddress,
+      );
+    }
+    if (contractConfig.adotbContract) {
+      this.adotbContract = this.keyProvider.createContract(
+        ABI_ADOTB as any,
+        contractConfig.adotbContract,
       );
     }
     this.jssdkManager = new JssdkManager(this.keyProvider, contractConfig);
@@ -902,6 +919,13 @@ export class EthereumContractManager implements IContractManager {
       return new BigNumber('0');
     }
     return this.keyProvider.getErc20Balance(this.fethContract, address);
+  }
+
+  public async dotDecimals(): Promise<number> {
+    if (!this.adotbContract) {
+      return 18;
+    }
+    return this.keyProvider.getErc20Decimals(this.adotbContract);
   }
 
   public async pendingEtherBalanceOf(address: string): Promise<BigNumber> {

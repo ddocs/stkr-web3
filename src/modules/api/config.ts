@@ -1,4 +1,9 @@
-import { IAvalancheConfig, IBinanceConfig, IContractConfig } from './contract';
+import {
+  IAvalancheConfig,
+  IBinanceConfig,
+  IContractConfig,
+  IDotConfig,
+} from './contract';
 import { IGatewayConfig } from './gateway';
 import { IProviderConfig } from './provider';
 
@@ -8,6 +13,7 @@ export interface IStkrConfig {
   contractConfig: IContractConfig;
   binanceConfig: IBinanceConfig;
   avalancheConfig: IAvalancheConfig;
+  dotConfig: IDotConfig;
 }
 
 const LOCAL_CONFIG: IStkrConfig = {
@@ -27,6 +33,7 @@ const LOCAL_CONFIG: IStkrConfig = {
     globalPoolDepositContract: '0x07b39F4fDE4A38bACe212b546dAc87C58DfE3fDC',
     governanceAddress: '0xB0a2AF91d74Fe7F60E7c147E3217e78d38784556',
     futureBondAVAX: '0xEb52941a1eb73b23e2E22C09C71A9B2F1B4228b3',
+    adotbContract: '0xdcce869f3e314e2144361d5c10eabd3dd2364a89',
   },
   binanceConfig: {
     globalPoolContract: '0xd61c4B16Cf2576F329e17eA73e63f11FACA81518',
@@ -39,6 +46,11 @@ const LOCAL_CONFIG: IStkrConfig = {
     globalPoolContract: '0x5B525ec8e1F6A64cDbfbd064753058d0b1D15C5C',
     futureBondAVAX: '0xb45A2749a3966992DC65fe8c22996E96C5c2BE3d',
     avalanchePool: '0x5B525ec8e1F6A64cDbfbd064753058d0b1D15C5C',
+  },
+  dotConfig: {
+    aDOTbContract: '0xdcce869f3e314e2144361d5c10eabd3dd2364a89',
+    aKSMbContract: '0x8c850d9462f93ee18cb405abfddbe8e3292cc082',
+    polkadotPoolContract: '0x33e8ffea8651B65F15CB888692B24c1Ca6Aff2fD',
   },
   gatewayConfig: {
     baseUrl: 'http://localhost:8080/',
@@ -79,6 +91,9 @@ const GOERLI_CONFIG: IStkrConfig = {
         crossChainBridge: '0xC512F180454B5C1f2E53CD8B34d7Cd230564C963',
       },
     },
+    dotConfig: {
+      ...LOCAL_CONFIG.dotConfig,
+    },
   },
   gatewayConfig: {
     baseUrl: 'https://api.goerli.stkr.io/',
@@ -115,6 +130,9 @@ const MAINNET_CONFIG: IStkrConfig = {
     globalPoolContract: '0x7BAa1E3bFe49db8361680785182B80BB420A836D',
     futureBondAVAX: '0x6C6f910A79639dcC94b4feEF59Ff507c2E843929',
     avalanchePool: '0x7BAa1E3bFe49db8361680785182B80BB420A836D',
+  },
+  dotConfig: {
+    ...LOCAL_CONFIG.dotConfig, // TODO: add address before mainnet deploy
   },
   gatewayConfig: {
     baseUrl: 'https://api.stkr.io/',
