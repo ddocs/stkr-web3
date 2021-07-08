@@ -135,8 +135,6 @@ export interface IContractManager {
   getAnkrAvailableDepositsOf(address: string): Promise<BigNumber>;
 
   claimAnkr(amount: BigNumber): Promise<ISendAsyncResult>;
-
-  addTokenToWallet(tokenInfo: ITokenInfo): Promise<boolean>;
 }
 
 export class EthereumContractManager implements IContractManager {
@@ -144,7 +142,7 @@ export class EthereumContractManager implements IContractManager {
   protected readonly aethContract?: Contract;
   protected readonly fethContract?: Contract;
   protected readonly ankrContract?: Contract;
-  protected readonly adotbContract?: Contract;
+  public readonly adotbContract?: Contract;
   protected readonly systemContract?: Contract;
   protected readonly governanceContract?: Contract;
   protected readonly jssdkManager?: JssdkManager;
@@ -1032,10 +1030,6 @@ export class EthereumContractManager implements IContractManager {
         data: data,
       },
     );
-  }
-
-  async addTokenToWallet(tokenInfo: ITokenInfo): Promise<boolean> {
-    return this.keyProvider.addTokenToWallet(tokenInfo);
   }
 }
 

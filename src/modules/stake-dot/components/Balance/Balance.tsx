@@ -7,8 +7,6 @@ import { ReactComponent as DOTIcon } from '../../assets/DOT.svg';
 
 import { useBalanceStyles } from './BalanceStyles';
 import { Body1, Body2 } from '../../../../UiKit/Typography';
-import { UserActions } from '../../../../store/actions/UserActions';
-import { useDispatch } from 'react-redux';
 import { configFromEnv } from '../../../api/config';
 import { StkrSdk } from '../../../api';
 
@@ -19,7 +17,6 @@ interface IBalanceProps {
 
 export const Balance = ({ amount, isConnected = false }: IBalanceProps) => {
   const classes = useBalanceStyles();
-  const dispatch = useDispatch();
 
   const handleIconClick = useCallback(async () => {
     const stkrSdk = StkrSdk.getForEnv();
@@ -30,15 +27,13 @@ export const Balance = ({ amount, isConnected = false }: IBalanceProps) => {
         .getKeyProvider()
         .getErc20Decimals(adotbContract);
 
-      dispatch(
-        UserActions.addTokenToWallet({
-          address: stkrConfig.dotConfig.aDOTbContract,
-          symbol: 'aDOTb',
-          decimals: decimals,
-        }),
-      );
+      await stkrSdk.getKeyProvider().addTokenToWallet({
+        address: stkrConfig.dotConfig.aDOTbContract,
+        symbol: 'aDOTb',
+        decimals: decimals,
+      });
     }
-  }, [dispatch]);
+  }, []);
 
   return (
     <Paper variant="outlined" square={false} className={classes.root}>
