@@ -24,6 +24,7 @@ import {
   STAKER_STAKE_BNB_ROUTE,
   STAKER_STAKE_PATH,
   STAKER_AVALANCHE_PATH,
+  POLKADOT_SLOT_AUCTION_PATH,
 } from './common/const';
 import { PageNotFound } from './components/PageNotFound/PageNotFound';
 import { QueryLoadingAbsolute } from './components/QueryLoading/QueryLoading';
@@ -246,6 +247,18 @@ const LoadableAboutSmartchainContainer = withDefaultLayout(
   ) as LoadableComponent<any>,
 );
 
+const PolkadotSlotAuctionContainer = withDefaultLayout(
+  loadable(
+    async () =>
+      import('./components/PolkadotSlotAuction').then(
+        module => module.PolkadotSlotAuction,
+      ),
+    {
+      fallback: <QueryLoadingAbsolute />,
+    },
+  ) as LoadableComponent<any>,
+);
+
 export function Routes() {
   return (
     <Switch>
@@ -339,6 +352,11 @@ export function Routes() {
       <Route
         path={BRIDGE_RECOVERY_PATH}
         component={LoadableBridgeRecoverContainer}
+        exact={true}
+      />
+      <Route
+        path={POLKADOT_SLOT_AUCTION_PATH}
+        component={PolkadotSlotAuctionContainer}
         exact={true}
       />
       <PrivateRoute component={PageNotFound} />

@@ -1,0 +1,39 @@
+import { Theme } from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
+
+export const useTableHeadStyles = makeStyles<
+  Theme,
+  {
+    count: number;
+    customCell?: string;
+    paddingCollapse?: boolean;
+  }
+>(theme => ({
+  head: {
+    display: 'none',
+
+    [theme.breakpoints.up('sm')]: {
+      display: 'grid',
+      gridTemplateColumns: props =>
+        props.customCell ? props.customCell : `repeat(${props.count}, 1fr)`,
+      alignItems: 'stretch',
+      boxSizing: 'border-box',
+      background: '#1E1E1E',
+      borderRadius: theme.spacing(1.5),
+      padding: theme.spacing(0, 3, 0, 3),
+    },
+  },
+
+  headSticky: {
+    [theme.breakpoints.up('sm')]: {
+      position: 'sticky',
+      zIndex: 1,
+      top: 0,
+      backgroundColor: theme.palette.background.default,
+    },
+  },
+
+  row: {
+    display: 'contents',
+  },
+}));

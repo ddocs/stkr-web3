@@ -1,0 +1,47 @@
+import { fade, Theme } from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
+
+export const useTableRowStyles = makeStyles<
+  Theme,
+  {
+    count: number;
+    customCell?: string;
+    paddingCollapse?: boolean;
+    dense?: boolean;
+  }
+>(theme => ({
+  wrapper: {
+    border: `1px solid ${fade(theme.palette.common.white, 0.1)}`,
+    borderRadius: theme.spacing(3),
+    marginTop: theme.spacing(2.5),
+    padding: theme.spacing(0, 3, 0, 3),
+    display: 'contents',
+    width: '100%',
+
+    [theme.breakpoints.up('sm')]: {
+      display: 'grid',
+      gridTemplateColumns: props =>
+        props.customCell ? props.customCell : `repeat(${props.count}, 1fr)`,
+      alignItems: 'stretch',
+    },
+  },
+  row: {
+    listStyle: 'none',
+    margin: 0,
+    padding: theme.spacing(1.5, 0),
+
+    [theme.breakpoints.up('sm')]: {
+      display: 'contents',
+      border: 'none',
+      padding: 0,
+    },
+  },
+
+  rowHovered: {
+    position: 'relative',
+    textDecoration: 'none',
+    '&:hover $cell:first-child::after': {
+      height: '100%',
+    },
+  },
+}));
