@@ -864,16 +864,19 @@
       "my-rewards": "My Rewards"
     },
     "header": {
-      "project": "Project",
-      "status": "Status",
-      "lease-duration": "Lease Duration",
-      "lease-duration-tip": "Lease Duration",
-      "total-raised": "Total Raised",
-      "raised-on-ankr": "Raised on Ankr",
+      "daily-reward": "Daily Reward per aDOTp",
+      "end-lease-period": "End Lease Period",
+      "expected-daily-reward": "Estimated daily reward per aDOTp",
       "expected-initial-reward": "Expected Initial reward airdrop per aDOTp",
       "expected-initial-reward-tip": "Expected Initial reward airdrop per aDOTp",
-      "expected-daily-reward": "Estimated daily reward per aDOTp"
+      "lease-duration": "Lease Duration",
+      "lease-duration-tip": "Lease Duration",
+      "project": "Project",
+      "raised-on-ankr": "Raised on Ankr",
+      "status": "Status",
+      "total-raised": "Total Raised"
     },
-    "button-label":"Lend DOT"
+    "lend-dot":"Lend DOT",
+    "claim-dot":"Claim DOT"
   }
 }
