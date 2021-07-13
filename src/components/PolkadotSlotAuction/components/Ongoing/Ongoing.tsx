@@ -109,7 +109,7 @@ export const Ongoing = ({ isConnected }: IOngoingProps) => {
                 className={classes.button}
                 disabled={!isConnected}
               >
-                {t('polkadot-slot-auction.lend-dot')}
+                {t('polkadot-slot-auction.lend-dot-button')}
               </Button>
             </TableBodyCell>
           </TableRow>

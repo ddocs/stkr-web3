@@ -859,24 +859,30 @@
   },
   "polkadot-slot-auction": {
     "tabs": {
-      "ongoing": "Ongoing",
       "completed": "Completed",
-      "my-rewards": "My Rewards"
+      "my-rewards": "My Rewards",
+      "ongoing": "Ongoing"
     },
     "header": {
+      "claimable-rewards": "Claimable rewards",
       "daily-reward": "Daily Reward per aDOTp",
+      "date": "Date",
       "end-lease-period": "End Lease Period",
       "expected-daily-reward": "Estimated daily reward per aDOTp",
       "expected-initial-reward": "Expected Initial reward airdrop per aDOTp",
       "expected-initial-reward-tip": "Expected Initial reward airdrop per aDOTp",
+      "future-rewards": "Future rewards until maturity",
       "lease-duration": "Lease Duration",
       "lease-duration-tip": "Lease Duration",
+      "parachain-bond": "Parachain bond",
       "project": "Project",
       "raised-on-ankr": "Raised on Ankr",
       "status": "Status",
-      "total-raised": "Total Raised"
+      "total-raised": "Total Raised",
+      "total-rewards": "Total rewards"
     },
-    "lend-dot":"Lend DOT",
-    "claim-dot":"Claim DOT"
+    "claim-button":"Claim",
+    "claim-dot-button":"Claim DOT",
+    "lend-dot-button":"Lend DOT"
   }
 }

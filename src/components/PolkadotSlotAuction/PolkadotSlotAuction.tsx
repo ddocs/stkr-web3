@@ -5,6 +5,7 @@ import { Headline3 } from '../../UiKit/Typography';
 import { Box } from '@material-ui/core';
 import { Ongoing } from './components/Ongoing';
 import { Completed } from './components/Completed';
+import { MyRewards } from './components/MyRewards';
 
 interface IPolkadotSlotAuctionProps {}
 // TODO: remove const after SDK
@@ -19,10 +20,12 @@ export const PolkadotSlotAuction = ({}: IPolkadotSlotAuctionProps) => {
         <Headline3 className={classes.title}>
           {t('polkadot-slot-auction.tabs.ongoing')}
           {t('polkadot-slot-auction.tabs.completed')}
+          {t('polkadot-slot-auction.tabs.my-rewards')}
         </Headline3>
 
         <Ongoing isConnected={isConnected} />
         <Completed />
+        <MyRewards />
       </Box>
     </Box>
   );

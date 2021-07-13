@@ -84,7 +84,7 @@ export const Completed = ({}: ICompletedProps) => {
             <TableBodyCell>{item.dailyReward}</TableBodyCell>
             <TableBodyCell align="right">
               <Button variant="outlined" className={classes.button}>
-                {t('polkadot-slot-auction.claim-dot')}
+                {t('polkadot-slot-auction.claim-dot-button')}
               </Button>
             </TableBodyCell>
           </TableRow>
