@@ -11,29 +11,19 @@ export const useTableBodyCellStyles = makeStyles<
 >(theme => ({
   cell: {
     fontWeight: 400,
-
-    [theme.breakpoints.up('sm')]: {
-      display: 'inline-grid',
-      alignItems: 'center',
-    },
+    display: 'inline-grid',
+    alignItems: 'center',
 
     '&:first-child': {
-      [theme.breakpoints.up('sm')]: {
-        paddingLeft: props => (props.paddingCollapse ? 0 : theme.spacing(3.75)),
-      },
+      paddingLeft: props => (props.paddingCollapse ? 0 : theme.spacing(3.75)),
     },
 
     '&:last-child': {
-      [theme.breakpoints.up('sm')]: {
-        paddingRight: props =>
-          props.paddingCollapse ? 0 : theme.spacing(3.75),
-      },
+      paddingRight: props => (props.paddingCollapse ? 0 : theme.spacing(3.75)),
     },
 
     '&$centerCell': {
-      [theme.breakpoints.up('sm')]: {
-        textAlign: 'center',
-      },
+      textAlign: 'center',
     },
 
     '&$leftCell': {
@@ -41,40 +31,7 @@ export const useTableBodyCellStyles = makeStyles<
     },
 
     '&$rightCell': {
-      [theme.breakpoints.up('sm')]: {
-        textAlign: 'right',
-      },
-    },
-  },
-
-  withCaption: {
-    display: 'grid',
-    gridTemplateColumns: '0.4fr 0.6fr',
-    gap: theme.spacing(0, 2),
-    textAlign: 'right',
-
-    [theme.breakpoints.up('sm')]: {
-      display: 'inline-grid',
-      textAlign: 'left',
-      gridTemplateColumns: 'auto',
-      gap: 0,
-    },
-
-    '&::before': {
-      content: 'attr(data-label)',
-      display: 'block',
-      maxWidth: '100%',
-      fontSize: 14,
-      color: theme.palette.text.secondary,
-      textAlign: 'left',
-
-      overflow: 'hidden',
-      textOverflow: 'ellipsis',
-      whiteSpace: 'nowrap',
-
-      [theme.breakpoints.up('sm')]: {
-        display: 'none',
-      },
+      textAlign: 'right',
     },
   },
 
@@ -84,14 +41,12 @@ export const useTableBodyCellStyles = makeStyles<
     lineHeight: 1.3,
     color: theme.palette.common.white,
 
-    [theme.breakpoints.up('sm')]: {
-      paddingTop: props =>
-        props.dense ? theme.spacing(1.5) : theme.spacing(2.5),
-      paddingBottom: props =>
-        props.dense ? theme.spacing(1.5) : theme.spacing(2.5),
+    paddingTop: props =>
+      props.dense ? theme.spacing(1.5) : theme.spacing(2.5),
+    paddingBottom: props =>
+      props.dense ? theme.spacing(1.5) : theme.spacing(2.5),
 
-      minHeight: props => (props.dense ? 0 : theme.spacing(11)),
-    },
+    minHeight: props => (props.dense ? 0 : theme.spacing(11)),
   },
 
   centerCell: {},

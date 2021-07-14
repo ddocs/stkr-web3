@@ -1,6 +1,5 @@
 import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import { DENSE_HEADER_HEIGHT, HEADER_HEIGHT } from '../const';
 
 export const useTableBodyStyles = makeStyles<
   Theme,
@@ -15,12 +14,5 @@ export const useTableBodyStyles = makeStyles<
     position: 'relative',
     width: '100%',
     boxSizing: 'border-box',
-
-    [theme.breakpoints.up('sm')]: {
-      height: props =>
-        props.dense
-          ? `calc(100% - ${DENSE_HEADER_HEIGHT}px)`
-          : `calc(100% - ${HEADER_HEIGHT}px)`,
-    },
   },
 }));

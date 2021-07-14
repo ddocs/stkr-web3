@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import React, { ReactNode } from 'react';
 import { createPureContext } from 'react-shallow-context';
 import { ICustomProps, IStyleProps } from '../types';
@@ -22,18 +21,12 @@ interface ITableComponentProps extends ICustomProps, IStyleProps {
   minWidth?: string | number;
 }
 
-const TableComponent = ({
-  className,
-  children,
-  minWidth,
-}: ITableComponentProps) => {
+const TableComponent = ({ children, minWidth }: ITableComponentProps) => {
   const classes = useTableStyles({ minWidth });
 
   return (
-    <div className={classNames(classes.container, className)}>
-      <div className={classes.table} role="grid">
-        {children}
-      </div>
+    <div className={classes.table} role="grid">
+      {children}
     </div>
   );
 };

@@ -10,27 +10,22 @@ export const useTableHeadStyles = makeStyles<
   }
 >(theme => ({
   head: {
-    display: 'none',
-
-    [theme.breakpoints.up('sm')]: {
-      display: 'grid',
-      gridTemplateColumns: props =>
-        props.customCell ? props.customCell : `repeat(${props.count}, 1fr)`,
-      alignItems: 'stretch',
-      boxSizing: 'border-box',
-      background: '#1E1E1E',
-      borderRadius: theme.spacing(1.5),
-      padding: theme.spacing(0, 3, 0, 3),
-    },
+    display: 'grid',
+    gridTemplateColumns: props =>
+      props.customCell ? props.customCell : `repeat(${props.count}, 1fr)`,
+    alignItems: 'stretch',
+    boxSizing: 'border-box',
+    background: '#1E1E1E',
+    borderRadius: theme.spacing(1.5),
+    padding: theme.spacing(0, 3, 0, 3),
+    height: theme.spacing(8),
   },
 
   headSticky: {
-    [theme.breakpoints.up('sm')]: {
-      position: 'sticky',
-      zIndex: 1,
-      top: 0,
-      backgroundColor: theme.palette.background.default,
-    },
+    position: 'sticky',
+    zIndex: 1,
+    top: 0,
+    backgroundColor: theme.palette.background.default,
   },
 
   row: {

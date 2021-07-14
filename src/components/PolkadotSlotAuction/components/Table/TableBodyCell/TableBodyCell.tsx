@@ -38,7 +38,6 @@ export const TableBodyCellComponent = ({
         classes.cell,
         classes.bodyCell,
         {
-          [classes.withCaption]: !!label,
           [classes.centerCell]: alignCell === 'center' || align === 'center',
           [classes.rightCell]: alignCell === 'right' || align === 'right',
           [classes.leftCell]: alignCell === 'left' || align === 'left',
