@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
-import BigNumber from 'bignumber.js';
 import { useDashboardStyles as useStakeAvaxDashboardComponentStyles } from './DashboardStyles';
 import { Balance } from '../Balance';
 import { Claim } from '../Claim';
@@ -18,7 +17,6 @@ import { QueryEmpty } from '../../../../components/QueryEmpty/QueryEmpty';
 import { useDispatch } from 'react-redux';
 import { Spinner } from '../../../../components/Spinner';
 import { configFromEnv } from '../../../api/config';
-import { Body2 } from '../../../../UiKit/Typography';
 
 export interface IDashboardProps {
   wallet: IWalletStatus;
@@ -43,7 +41,6 @@ export const Dashboard = ({
       dispatch(AvalancheActions.fetchClaimStats());
     } else {
       dispatch(AvalancheActions.fetchStakerStats());
-      dispatch(AvalancheActions.fetchEstimatedAPY());
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [requiredNetwork, dispatch]);
@@ -85,21 +82,6 @@ export const Dashboard = ({
               </StakeDialog>
             )}
         </Box>
-        <Query<BigNumber>
-          type={AvalancheActions.fetchEstimatedAPY.toString()}
-          errorComponent={QueryError}
-          loadingComponent={QueryLoading}
-          noDataMessage={<QueryEmpty />}
-          showLoaderDuringRefetch={false}
-        >
-          {({ data }) => (
-            <Body2 color="textSecondary">
-              {t('stake-avax.dashboard.apy', {
-                value: data.decimalPlaces(2).toFormat(),
-              })}
-            </Body2>
-          )}
-        </Query>
       </Box>
       {!isConnected && (
         <Connect
