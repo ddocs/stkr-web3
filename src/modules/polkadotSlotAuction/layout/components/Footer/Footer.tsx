@@ -6,7 +6,7 @@ import { SOCIAL_LINK } from '../../../../../common/const';
 import { Curtains } from '../../../../../UiKit/Curtains';
 import { t, tHTML } from '../../../../../common/utils/intl';
 import { NavLink } from '../../../../../UiKit/NavLink';
-import { Social } from '../../../../../modules/layout/components/Social';
+import { Social } from '../../../../layout/components/Social';
 
 export interface IFooterProps {
   className?: string;

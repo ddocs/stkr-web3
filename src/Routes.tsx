@@ -31,7 +31,7 @@ import { QueryLoadingAbsolute } from './components/QueryLoading/QueryLoading';
 import { withDefaultLayout } from './modules/layout';
 import { PrivateRoute } from './UiKit/PrivateRoute';
 import { PrivateRoutePlaceholder } from './UiKit/PrivateRoutePlaceholder';
-import { withPolkadotSlotAuctionLayout } from './components/PolkadotSlotAuction/layout';
+import { withPolkadotSlotAuctionLayout } from './modules/polkadotSlotAuction/layout';
 
 const LoadableOverviewContainer = withDefaultLayout(
   loadable(async () => import('./modules/lobby').then(module => module.Lobby), {
@@ -251,7 +251,7 @@ const LoadableAboutSmartchainContainer = withDefaultLayout(
 const PolkadotSlotAuctionContainer = withPolkadotSlotAuctionLayout(
   loadable(
     async () =>
-      import('./components/PolkadotSlotAuction').then(
+      import('./modules/polkadotSlotAuction').then(
         module => module.PolkadotSlotAuction,
       ),
     {
