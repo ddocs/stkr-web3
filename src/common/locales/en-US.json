@@ -858,6 +858,8 @@
     "get-help": "Help"
   },
   "polkadot-slot-auction": {
+    "title": "Parachain Crowdloan Marketplace",
+    "connect-button": "Connect Polkadot Wallet",
     "tabs": {
       "completed": "Completed",
       "my-rewards": "My Rewards",
