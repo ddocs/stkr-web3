@@ -4,7 +4,7 @@ import React from 'react';
 import { ReactComponent as LogoIcon } from './assets/logo.svg';
 import { Body2 } from '../../../../../UiKit/Typography';
 import { NavLink } from '../../../../../UiKit/NavLink';
-import { POLKADOT_SLOT_AUCTION_PATH } from '../../../../../common/const';
+import { INDEX_PATH } from '../../../../../common/const';
 import { t } from '../../../../../common/utils/intl';
 import { useLogotypeStyles } from './LogotypeStyles';
 
@@ -25,7 +25,7 @@ export const Logotype = ({ className }: ILogotypeProps) => {
         className={classes.link}
         activeClassName={classes.active}
         color="primary"
-        href={POLKADOT_SLOT_AUCTION_PATH}
+        href={INDEX_PATH}
         exactMatch={true}
       >
         <LogoIcon />

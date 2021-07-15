@@ -8,6 +8,7 @@ import { QueryLoadingAbsolute } from './components/QueryLoading/QueryLoading';
 import { ScrollToTop } from './components/ScrollToTop';
 import { ZendeskMounter } from './components/ZendeskMounter';
 import { Routes } from './Routes';
+import { PolkadotSlotAuctionRoutes } from './PolkadotSlotAuctionRoutes';
 import { persistor, store } from './store';
 
 function App() {
@@ -17,7 +18,12 @@ function App() {
         <AppBase>
           <ZendeskMounter />
           <ScrollToTop />
-          <Routes />
+          {/* TODO remove === undefined */}
+          {process.env.POLKADOT_SLOT_AUCTION === undefined ? (
+            <PolkadotSlotAuctionRoutes />
+          ) : (
+            <Routes />
+          )}
           <NoSsr>
             <Notifications />
           </NoSsr>
