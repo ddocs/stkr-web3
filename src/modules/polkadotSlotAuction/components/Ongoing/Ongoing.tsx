@@ -13,6 +13,8 @@ import {
   TableRow,
 } from '../Table';
 import { CaptionType } from '../Table/types';
+import { SlotAuctionSdk } from '@ankr.com/stakefi-polkadot';
+import BigNumber from 'bignumber.js';
 
 // TODO: remove when data will be from SDK
 const data = [
@@ -37,10 +39,10 @@ const data = [
 ];
 
 interface IOngoingProps {
-  isConnected: boolean;
+  slotAuctionSdk: SlotAuctionSdk;
 }
 
-export const Ongoing = ({ isConnected }: IOngoingProps) => {
+export const Ongoing = ({ slotAuctionSdk }: IOngoingProps) => {
   const classes = useOngoingStyles();
 
   const captions: CaptionType[] = [
@@ -73,6 +75,7 @@ export const Ongoing = ({ isConnected }: IOngoingProps) => {
     },
   ];
 
+  const isConnected = slotAuctionSdk.isConnected();
   if (!isConnected) {
     captions.splice(3, 1);
   }
@@ -107,6 +110,17 @@ export const Ongoing = ({ isConnected }: IOngoingProps) => {
               <Button
                 variant="outlined"
                 className={classes.button}
+                onClick={async () => {
+                  // FIXME: "take random account"
+                  const [
+                    polkadotAccount,
+                  ] = await slotAuctionSdk.getPolkadotAccounts();
+                  await slotAuctionSdk.depositFundsToCrowdloan(
+                    polkadotAccount,
+                    2003,
+                    new BigNumber('1'),
+                  );
+                }}
                 disabled={!isConnected}
               >
                 {t('polkadot-slot-auction.lend-dot-button')}

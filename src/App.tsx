@@ -18,8 +18,8 @@ function App() {
         <AppBase>
           <ZendeskMounter />
           <ScrollToTop />
-          {/* TODO remove === undefined */}
-          {process.env.POLKADOT_SLOT_AUCTION === undefined ? (
+          {/* TODO remove ! */}
+          {!process.env.POLKADOT_SLOT_AUCTION ? (
             <PolkadotSlotAuctionRoutes />
           ) : (
             <Routes />

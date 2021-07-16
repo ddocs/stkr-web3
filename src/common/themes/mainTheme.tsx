@@ -1,14 +1,9 @@
+import { createMuiTheme, darken, fade, lighten } from '@material-ui/core';
+import { ThemeOptions } from '@material-ui/core/styles/createMuiTheme';
 import { PaletteOptions } from '@material-ui/core/styles/createPalette';
 import { NOTIFICATION_AUTO_HIDE_DURATION } from '../const';
 import { ReactComponent as ArrowDownIcon } from './assets/arrowDown.svg';
 import { StepIcon } from './components/StepIcon/StepIcon';
-import {
-  alpha,
-  createTheme,
-  darken,
-  ThemeOptions,
-} from '@material-ui/core/styles';
-import { lighten } from '@material-ui/core';
 
 export const DEFAULT_FONT = '"Helvetica Neue", sans-serif';
 
@@ -29,7 +24,7 @@ export const PALETTE = {
   },
   text: {
     primary: '#ffffff',
-    secondary: alpha('#ffffff', 0.5),
+    secondary: fade('#ffffff', 0.5),
   },
   grey: {
     900: '#1D1D1D',
@@ -60,7 +55,7 @@ const BREAKPOINTS = {
 
 export const MAX_WIDTH = 1620;
 
-export const defaultTheme = createTheme({
+export const defaultTheme = createMuiTheme({
   breakpoints: BREAKPOINTS,
 });
 
@@ -69,7 +64,7 @@ export const selection = {
   backgroundColor: PALETTE.primary.main,
 };
 
-const mainTheme = createTheme({
+const mainTheme = createMuiTheme({
   typography: {
     fontFamily: DEFAULT_FONT,
     color: PALETTE.text.primary,
@@ -208,7 +203,7 @@ const mainTheme = createTheme({
         overflow: 'initial',
       },
       outlined: {
-        border: `1px solid ${alpha('#ffffff', 0.2)}`,
+        border: `1px solid ${fade('#ffffff', 0.2)}`,
         background: PALETTE.background.default,
         padding: '52px 92px',
         [defaultTheme.breakpoints.down('sm')]: {
@@ -335,10 +330,10 @@ const mainTheme = createTheme({
       },
       containedSecondary: {
         color: PALETTE.primary.main,
-        backgroundColor: alpha(PALETTE.primary.main, 0.15),
+        backgroundColor: fade(PALETTE.primary.main, 0.15),
 
         '&:hover, &:focus, &:active': {
-          backgroundColor: alpha(PALETTE.primary.main, 0.2),
+          backgroundColor: fade(PALETTE.primary.main, 0.2),
         },
       },
       outlined: {
@@ -374,7 +369,7 @@ const mainTheme = createTheme({
       },
       outlinedSecondary: {
         color: PALETTE.text.secondary,
-        border: `1px solid ${alpha(PALETTE.text.primary, 0.2)}`,
+        border: `1px solid ${fade(PALETTE.text.primary, 0.2)}`,
         backgroundColor: 'transparent',
         transitionDuration: '0.2s',
         transitionProperty: 'color, border-color, background-color',
@@ -557,7 +552,7 @@ const mainTheme = createTheme({
     },
     MuiDivider: {
       root: {
-        backgroundColor: alpha('#fff', 0.2),
+        backgroundColor: fade('#fff', 0.2),
       },
       light: {
         backgroundColor: PALETTE.primary.main,
@@ -641,20 +636,20 @@ const mainTheme = createTheme({
 
     MuiOutlinedInput: {
       root: {
-        border: `1px solid ${alpha('#fff', 0.1)}`,
+        border: `1px solid ${fade('#fff', 0.1)}`,
         borderRadius: 8,
         transition: 'border 0.2s',
 
         '&:hover': {
-          borderColor: alpha('#fff', 0.3),
+          borderColor: fade('#fff', 0.3),
         },
 
         '&.Mui-focused': {
-          borderColor: alpha('#fff', 1),
+          borderColor: fade('#fff', 1),
         },
         '&.Mui-disabled': {
           '&:hover': {
-            borderColor: alpha('#fff', 0.1),
+            borderColor: fade('#fff', 0.1),
           },
         },
       },
@@ -703,7 +698,7 @@ const mainTheme = createTheme({
     },
     MuiListItem: {
       root: {
-        color: alpha(defaultTheme.palette.common.white, 0.5),
+        color: fade(defaultTheme.palette.common.white, 0.5),
         '&.Mui-selected, &:hover': {
           '&&': {
             backgroundColor: 'transparent',

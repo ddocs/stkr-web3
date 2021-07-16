@@ -13,6 +13,7 @@ import {
   TableRow,
 } from '../Table';
 import { CaptionType } from '../Table/types';
+import { SlotAuctionSdk } from '@ankr.com/stakefi-polkadot';
 
 // TODO: remove when data will be from SDK
 const data = [
@@ -32,9 +33,11 @@ const data = [
   },
 ];
 
-interface ICompletedProps {}
+interface ICompletedProps {
+  slotAuctionSdk: SlotAuctionSdk;
+}
 
-export const Completed = ({}: ICompletedProps) => {
+export const Completed = ({ slotAuctionSdk }: ICompletedProps) => {
   const classes = useCompletedStyles();
 
   const captions: CaptionType[] = [
@@ -83,7 +86,20 @@ export const Completed = ({}: ICompletedProps) => {
             <TableBodyCell>{item.totalRaised}</TableBodyCell>
             <TableBodyCell>{item.dailyReward}</TableBodyCell>
             <TableBodyCell align="right">
-              <Button variant="outlined" className={classes.button}>
+              <Button
+                variant="outlined"
+                onClick={async () => {
+                  // FIXME: "take random account"
+                  const [
+                    polkadotAccount,
+                  ] = await slotAuctionSdk.getPolkadotAccounts();
+                  await slotAuctionSdk.claimRewardPoolTokens(
+                    polkadotAccount,
+                    2003,
+                  );
+                }}
+                className={classes.button}
+              >
                 {t('polkadot-slot-auction.claim-dot-button')}
               </Button>
             </TableBodyCell>

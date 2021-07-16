@@ -1,4 +1,5 @@
-import { createTheme, alpha, ThemeOptions } from '@material-ui/core/styles';
+import { createMuiTheme, fade } from '@material-ui/core';
+import { ThemeOptions } from '@material-ui/core/styles/createMuiTheme';
 import { PaletteOptions } from '@material-ui/core/styles/createPalette';
 import { defaultTheme, DEFAULT_FONT, mainTheme, MAX_WIDTH } from './mainTheme';
 
@@ -7,7 +8,7 @@ const PALETTE = {
   primary: {
     light: '',
     main: '#FFF',
-    dark: alpha('#FFF', 0.5),
+    dark: fade('#FFF', 0.5),
     contrastText: '#006DFF',
   },
   background: {
@@ -15,7 +16,7 @@ const PALETTE = {
   },
   text: {
     primary: '#FFF',
-    secondary: alpha('#FFF', 0.5),
+    secondary: fade('#FFF', 0.5),
   },
   grey: {
     900: '#1D1D1D',
@@ -34,7 +35,7 @@ const PALETTE = {
   divider: '#E1E4EB',
 };
 
-export const invertTheme = createTheme({
+export const invertTheme = createMuiTheme({
   ...mainTheme,
   typography: {
     fontFamily: DEFAULT_FONT,

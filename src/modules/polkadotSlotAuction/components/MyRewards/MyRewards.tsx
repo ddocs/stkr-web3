@@ -13,6 +13,7 @@ import {
   TableRow,
 } from '../Table';
 import { CaptionType } from '../Table/types';
+import { SlotAuctionSdk } from '@ankr.com/stakefi-polkadot';
 
 // TODO: remove when data will be from SDK
 const data = [
@@ -34,9 +35,11 @@ const data = [
   },
 ];
 
-interface ICompletedProps {}
+interface ICompletedProps {
+  slotAuctionSdk: SlotAuctionSdk;
+}
 
-export const MyRewards = ({}: ICompletedProps) => {
+export const MyRewards = ({ slotAuctionSdk }: ICompletedProps) => {
   const classes = useMyRewardsStyles();
 
   const captions: CaptionType[] = [
@@ -88,6 +91,25 @@ export const MyRewards = ({}: ICompletedProps) => {
               <Button
                 variant="outlined"
                 className={classes.button}
+                onClick={async () => {
+                  const myLoanId = 2003;
+                  // FIXME: "take random account"
+                  const [
+                    polkadotAccount,
+                  ] = await slotAuctionSdk.getPolkadotAccounts();
+                  const claimableStakingRewards = await slotAuctionSdk.getClaimableStakingRewards(),
+                    [currentClaimableRewards] = claimableStakingRewards.filter(
+                      csr => csr.loanId === myLoanId,
+                    );
+                  if (currentClaimableRewards.amount.isZero()) {
+                    alert(`There is no staking rewards`);
+                    return;
+                  }
+                  await slotAuctionSdk.claimStakingRewards(
+                    polkadotAccount,
+                    myLoanId,
+                  );
+                }}
                 disabled={item.disabled}
               >
                 {t('polkadot-slot-auction.claim-button')}
