@@ -15,16 +15,15 @@ import {
 import { CaptionType } from '../Table/types';
 import { ICrowdloanType } from '@ankr.com/stakefi-polkadot';
 import BigNumber from 'bignumber.js';
-import { useQuery } from '@redux-requests/react';
 import { useSlotAuctionSdk } from '../../hooks/useSlotAuctionSdk';
-import { SlotAuctionActions } from '../../actions/SlotAuctionActions';
+import { useCrowdloansWithBalances } from '../../hooks/useCrowdloans';
 
 interface IOngoingProps {}
 
 export const Ongoing = ({}: IOngoingProps) => {
   const classes = useOngoingStyles();
 
-  const { slotAuctionSdk, isConnected } = useSlotAuctionSdk();
+  const { slotAuctionSdk, isConnected, polkadotAccount } = useSlotAuctionSdk();
 
   const captions: CaptionType[] = [
     {
@@ -38,50 +37,55 @@ export const Ongoing = ({}: IOngoingProps) => {
       tip: t('polkadot-slot-auction.header.lease-duration-tip'),
     },
     {
-      label: t('polkadot-slot-auction.header.total-raised'),
-    },
-    {
       label: t('polkadot-slot-auction.header.raised-on-ankr'),
-    },
-    {
-      label: t('polkadot-slot-auction.header.expected-initial-reward'),
-      tip: t('polkadot-slot-auction.header.expected-initial-reward-tip'),
-    },
-    {
-      label: t('polkadot-slot-auction.header.expected-daily-reward'),
     },
     {
       label: '',
       align: 'right',
     },
   ];
-  if (!isConnected) {
-    captions.splice(3, 1);
-  }
-  const customCell = `1fr 1fr 1fr ${isConnected ? '2fr' : ''} 2fr 2fr 2fr 2fr`;
+  const customCell = `2fr 2fr 2fr 2fr 2fr`;
 
-  const {
-    data: crowdloans,
-  }: {
-    data: ICrowdloanType[];
-  } = useQuery({
-    type: SlotAuctionActions.fetchCrowdloans,
-    defaultData: [],
-    variables: [
-      slotAuctionSdk,
-      'SUCCEEDED', // TODO: "replace with ONGOING when u're ready for it"
-    ],
-    autoLoad: true,
-  });
+  const { crowdloans, balances } = useCrowdloansWithBalances(
+    slotAuctionSdk,
+    'SUCCEEDED',
+    polkadotAccount,
+  );
 
-  const handleLend = async (item: ICrowdloanType) => {
-    // FIXME: "take random account"
-    const [polkadotAccount] = await slotAuctionSdk.getPolkadotAccounts();
+  const handleDepositFunds = async (item: ICrowdloanType) => {
     const amount = prompt('Enter lend amount: ');
+    if (!amount) {
+      return;
+    }
     await slotAuctionSdk.depositFundsToCrowdloan(
       polkadotAccount,
       item.loanId,
       new BigNumber(`${amount}`),
+    );
+  };
+
+  const renderDepositButton = (item: ICrowdloanType) => {
+    let balanceText = ``;
+    const balance = balances[item.loanId];
+    if (balance) {
+      balanceText = `${balance.total
+        .plus(balance.onchain)
+        .plus(balance.claimable)
+        .toString(10)}`;
+    }
+    return (
+      <div>
+        <Button
+          variant="outlined"
+          className={classes.button}
+          onClick={() => handleDepositFunds(item)}
+          disabled={!isConnected}
+        >
+          {t('polkadot-slot-auction.lend-dot-button')}
+        </Button>
+        <br />
+        <p className={classes.subText}>Lent: {balanceText} DOT</p>
+      </div>
     );
   };
 
@@ -106,23 +110,19 @@ export const Ongoing = ({}: IOngoingProps) => {
             <TableBodyCell>{item.name}</TableBodyCell>
             <TableBodyCell>{item.status}</TableBodyCell>
             <TableBodyCell>
-              {item.startTime}-${item.endTime}
+              {new Date(item.startTime).toLocaleDateString()}-
+              {new Date(item.endTime).toLocaleDateString()}
             </TableBodyCell>
-            <TableBodyCell>{item.totalRaiseTarget.toString(10)}</TableBodyCell>
             <TableBodyCell>
-              {item.stakeFiContributed.toString(10)}
+              {item.alreadyContributed.toString(10)}&nbsp;/&nbsp;
+              {item.totalRaiseTarget.toString(10)}&nbsp;DOT
+              <br />
+              <p className={classes.subText}>
+                {item.stakeFiContributed.toString(10)}&nbsp;DOT
+              </p>
             </TableBodyCell>
-            <TableBodyCell>N/A</TableBodyCell>
-            <TableBodyCell>N/A</TableBodyCell>
             <TableBodyCell align="right">
-              <Button
-                variant="outlined"
-                className={classes.button}
-                onClick={() => handleLend(item)}
-                disabled={!isConnected}
-              >
-                {t('polkadot-slot-auction.lend-dot-button')}
-              </Button>
+              {renderDepositButton(item)}
             </TableBodyCell>
           </TableRow>
         ))}

@@ -14,6 +14,7 @@ import {
 } from '../Table';
 import { CaptionType } from '../Table/types';
 import { useSlotAuctionSdk } from '../../hooks/useSlotAuctionSdk';
+import { useCrowdloansWithBalances } from '../../hooks/useCrowdloans';
 
 // TODO: remove when data will be from SDK
 const data = [
@@ -40,7 +41,7 @@ interface ICompletedProps {}
 export const MyRewards = ({}: ICompletedProps) => {
   const classes = useMyRewardsStyles();
 
-  const { slotAuctionSdk } = useSlotAuctionSdk();
+  const { slotAuctionSdk, polkadotAccount } = useSlotAuctionSdk();
 
   const captions: CaptionType[] = [
     {
@@ -64,6 +65,12 @@ export const MyRewards = ({}: ICompletedProps) => {
     },
   ];
 
+  const { crowdloans, balances } = useCrowdloansWithBalances(
+    slotAuctionSdk,
+    'SUCCEEDED',
+    polkadotAccount,
+  );
+
   const handleClaim = async () => {
     const myLoanId = 2003;
     // FIXME: "take random account"
@@ -76,7 +83,11 @@ export const MyRewards = ({}: ICompletedProps) => {
       alert(`There is no staking rewards`);
       return;
     }
-    await slotAuctionSdk.claimStakingRewards(polkadotAccount, myLoanId);
+    await slotAuctionSdk.claimStakingRewards(
+      polkadotAccount,
+      myLoanId,
+      'ERC20',
+    );
   };
 
   return (
@@ -95,19 +106,23 @@ export const MyRewards = ({}: ICompletedProps) => {
         ))}
       </TableHead>
       <TableBody>
-        {data.map(item => (
+        {crowdloans.map(item => (
           <TableRow key={uid(item)}>
-            <TableBodyCell>{item.parachainBond}</TableBodyCell>
-            <TableBodyCell>{item.date}</TableBodyCell>
-            <TableBodyCell>{item.claimableRewards}</TableBodyCell>
-            <TableBodyCell>{item.futureRewards}</TableBodyCell>
-            <TableBodyCell>{item.totalRewards}</TableBodyCell>
+            <TableBodyCell>{item.name}</TableBodyCell>
+            <TableBodyCell>
+              {new Date(item.endTime).toLocaleDateString()}
+            </TableBodyCell>
+            <TableBodyCell>
+              {balances[item.loanId].claimableStakingRewards.toString(10)}
+              &nbsp;ABC
+            </TableBodyCell>
+            <TableBodyCell>{0}</TableBodyCell>
+            <TableBodyCell>{0}</TableBodyCell>
             <TableBodyCell align="right">
               <Button
                 variant="outlined"
                 className={classes.button}
                 onClick={handleClaim}
-                disabled={item.disabled}
               >
                 {t('polkadot-slot-auction.claim-button')}
               </Button>

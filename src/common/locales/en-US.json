@@ -287,7 +287,12 @@
     "zh-CN": "中文"
   },
   "moderation-status": {
-    "status": ["Waiting", "Voting", "Fail", "Passed"]
+    "status": [
+      "Waiting",
+      "Voting",
+      "Fail",
+      "Passed"
+    ]
   },
   "navigation": {
     "BSC": "BSC",
@@ -883,8 +888,8 @@
       "total-raised": "Total Raised",
       "total-rewards": "Total rewards"
     },
-    "claim-button":"Claim",
-    "claim-dot-button":"Claim DOT",
-    "lend-dot-button":"Lend DOT"
+    "claim-button": "Claim Staking Rewards",
+    "claim-dot-button": "Claim {value} aDOTp",
+    "lend-dot-button": "Lend DOT"
   }
 }

@@ -7,9 +7,17 @@ export const useSlotAuctionSdk = () => {
     type: SlotAuctionActions.initialize.toString(),
   });
 
-  const { data: isConnected } = useQuery<boolean>({
+  const {
+    data: { isConnected, polkadotAccount },
+  } = useQuery<{
+    isConnected: boolean;
+    polkadotAccount: string;
+  }>({
+    defaultData: {
+      isConnected: false,
+    },
     type: SlotAuctionActions.connect.toString(),
   });
 
-  return { slotAuctionSdk, isConnected };
+  return { slotAuctionSdk, isConnected, polkadotAccount };
 };

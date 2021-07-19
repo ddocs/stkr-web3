@@ -25,7 +25,7 @@ export const PolkadotSlotAuction = ({}: IPolkadotSlotAuctionProps) => {
   const { isConnected } = useSlotAuctionSdk();
   useEffect(() => {
     dispatch(SlotAuctionActions.initialize());
-  }, []);
+  }, [dispatch]);
 
   const ongoingText = t('polkadot-slot-auction.tabs.ongoing');
   const completedText = t('polkadot-slot-auction.tabs.completed');
@@ -39,7 +39,7 @@ export const PolkadotSlotAuction = ({}: IPolkadotSlotAuctionProps) => {
 
   const tabs = Object.keys(BodyComponent);
   if (!isConnected) {
-    tabs.splice(2, 1);
+    tabs.splice(1, 2);
   }
 
   const handleChangeTab = (newTab: string) => () => {
