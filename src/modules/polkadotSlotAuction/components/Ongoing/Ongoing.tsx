@@ -19,28 +19,6 @@ import { useQuery } from '@redux-requests/react';
 import { useSlotAuctionSdk } from '../../hooks/useSlotAuctionSdk';
 import { SlotAuctionActions } from '../../actions/SlotAuctionActions';
 
-// TODO: remove when data will be from SDK
-const data = [
-  {
-    project: 'Bifrost',
-    status: 'Active',
-    leaseDuration: '13-20',
-    totalRaised: '956,000 / 1M DOT',
-    raisedOnAnkr: '100,000 / 100,000 DOT',
-    expectedInitialReward: '2.5 BNC',
-    expectedDailyReward: '2.5 BNC\nAPR: 52%',
-  },
-  {
-    project: 'Bifrost',
-    status: 'Active',
-    leaseDuration: '13-20',
-    totalRaised: '956,000 / 1M DOT',
-    raisedOnAnkr: '100,000 / 100,000 DOT',
-    expectedInitialReward: '2.5 BNC',
-    expectedDailyReward: '2.5 BNC\nAPR: 52%',
-  },
-];
-
 interface IOngoingProps {}
 
 export const Ongoing = ({}: IOngoingProps) => {
@@ -96,7 +74,7 @@ export const Ongoing = ({}: IOngoingProps) => {
     autoLoad: true,
   });
 
-  const handleLend = async item => {
+  const handleLend = async (item: ICrowdloanType) => {
     // FIXME: "take random account"
     const [polkadotAccount] = await slotAuctionSdk.getPolkadotAccounts();
     const amount = prompt('Enter lend amount: ');
