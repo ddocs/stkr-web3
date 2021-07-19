@@ -101,7 +101,7 @@ workflows:
           type: approval
           filters:
             branches:
-              only: [ master ]
+              only: [master]
       - build-prod:
           context: stkr_build_prod
           requires:
@@ -117,7 +117,7 @@ workflows:
           type: approval
           filters:
             branches:
-              only: [ master ]
+              only: [master]
       - build-stakefi:
           context: stkr_build_prod
           requires:
@@ -145,7 +145,7 @@ workflows:
       - approve-bs-2:
           type: approval
       - build-bs-2:
-          context: stkr_build_prod
+          context: stkr_build_develop
           requires:
             - approve-bs-2
       - upload-bs-2:
