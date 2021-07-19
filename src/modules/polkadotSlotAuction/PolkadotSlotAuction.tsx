@@ -39,7 +39,7 @@ export const PolkadotSlotAuction = ({}: IPolkadotSlotAuctionProps) => {
 
   const tabs = Object.keys(BodyComponent);
   if (!isConnected) {
-    tabs.splice(1, 2);
+    tabs.splice(2, 1);
   }
 
   const handleChangeTab = (newTab: string) => () => {
