@@ -13,7 +13,7 @@ import {
   TableRow,
 } from '../Table';
 import { CaptionType } from '../Table/types';
-import { SlotAuctionSdk } from '@ankr.com/stakefi-polkadot';
+import { useSlotAuctionSdk } from '../../hooks/useSlotAuctionSdk';
 
 // TODO: remove when data will be from SDK
 const data = [
@@ -33,12 +33,12 @@ const data = [
   },
 ];
 
-interface ICompletedProps {
-  slotAuctionSdk: SlotAuctionSdk;
-}
+interface ICompletedProps {}
 
-export const Completed = ({ slotAuctionSdk }: ICompletedProps) => {
+export const Completed = ({}: ICompletedProps) => {
   const classes = useCompletedStyles();
+
+  const { slotAuctionSdk } = useSlotAuctionSdk();
 
   const captions: CaptionType[] = [
     {
@@ -61,6 +61,12 @@ export const Completed = ({ slotAuctionSdk }: ICompletedProps) => {
       align: 'right',
     },
   ];
+
+  const handleClaim = async () => {
+    // FIXME: "take random account"
+    const [polkadotAccount] = await slotAuctionSdk.getPolkadotAccounts();
+    await slotAuctionSdk.claimRewardPoolTokens(polkadotAccount, 2003);
+  };
 
   return (
     <Table
@@ -88,16 +94,7 @@ export const Completed = ({ slotAuctionSdk }: ICompletedProps) => {
             <TableBodyCell align="right">
               <Button
                 variant="outlined"
-                onClick={async () => {
-                  // FIXME: "take random account"
-                  const [
-                    polkadotAccount,
-                  ] = await slotAuctionSdk.getPolkadotAccounts();
-                  await slotAuctionSdk.claimRewardPoolTokens(
-                    polkadotAccount,
-                    2003,
-                  );
-                }}
+                onClick={handleClaim}
                 className={classes.button}
               >
                 {t('polkadot-slot-auction.claim-dot-button')}

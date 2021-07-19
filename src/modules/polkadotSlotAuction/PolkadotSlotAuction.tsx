@@ -22,7 +22,7 @@ export const PolkadotSlotAuction = ({}: IPolkadotSlotAuctionProps) => {
 
   const dispatch = useDispatch();
 
-  const { slotAuctionSdk, isConnected } = useSlotAuctionSdk();
+  const { isConnected } = useSlotAuctionSdk();
   useEffect(() => {
     dispatch(SlotAuctionActions.initialize());
   }, []);
@@ -32,9 +32,9 @@ export const PolkadotSlotAuction = ({}: IPolkadotSlotAuctionProps) => {
   const myRewardsText = t('polkadot-slot-auction.tabs.my-rewards');
   const [currentTab, setCurrentTab] = useState<string>(ongoingText);
   const BodyComponent = {
-    [ongoingText]: <Ongoing slotAuctionSdk={slotAuctionSdk} />,
-    [completedText]: <Completed slotAuctionSdk={slotAuctionSdk} />,
-    [myRewardsText]: <MyRewards slotAuctionSdk={slotAuctionSdk} />,
+    [ongoingText]: <Ongoing />,
+    [completedText]: <Completed />,
+    [myRewardsText]: <MyRewards />,
   };
 
   const tabs = Object.keys(BodyComponent);

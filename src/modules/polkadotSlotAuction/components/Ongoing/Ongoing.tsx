@@ -13,8 +13,8 @@ import {
   TableRow,
 } from '../Table';
 import { CaptionType } from '../Table/types';
-import { SlotAuctionSdk } from '@ankr.com/stakefi-polkadot';
 import BigNumber from 'bignumber.js';
+import { useSlotAuctionSdk } from '../../hooks/useSlotAuctionSdk';
 
 // TODO: remove when data will be from SDK
 const data = [
@@ -38,12 +38,12 @@ const data = [
   },
 ];
 
-interface IOngoingProps {
-  slotAuctionSdk: SlotAuctionSdk;
-}
+interface IOngoingProps {}
 
-export const Ongoing = ({ slotAuctionSdk }: IOngoingProps) => {
+export const Ongoing = ({}: IOngoingProps) => {
   const classes = useOngoingStyles();
+
+  const { slotAuctionSdk, isConnected } = useSlotAuctionSdk();
 
   const captions: CaptionType[] = [
     {
@@ -74,12 +74,20 @@ export const Ongoing = ({ slotAuctionSdk }: IOngoingProps) => {
       align: 'right',
     },
   ];
-
-  const isConnected = slotAuctionSdk.isConnected();
   if (!isConnected) {
     captions.splice(3, 1);
   }
   const customCell = `1fr 1fr 1fr ${isConnected ? '2fr' : ''} 2fr 2fr 2fr 2fr`;
+
+  const handleLend = async () => {
+    // FIXME: "take random account"
+    const [polkadotAccount] = await slotAuctionSdk.getPolkadotAccounts();
+    await slotAuctionSdk.depositFundsToCrowdloan(
+      polkadotAccount,
+      2003,
+      new BigNumber('1'),
+    );
+  };
 
   return (
     <Table
@@ -110,17 +118,7 @@ export const Ongoing = ({ slotAuctionSdk }: IOngoingProps) => {
               <Button
                 variant="outlined"
                 className={classes.button}
-                onClick={async () => {
-                  // FIXME: "take random account"
-                  const [
-                    polkadotAccount,
-                  ] = await slotAuctionSdk.getPolkadotAccounts();
-                  await slotAuctionSdk.depositFundsToCrowdloan(
-                    polkadotAccount,
-                    2003,
-                    new BigNumber('1'),
-                  );
-                }}
+                onClick={handleLend}
                 disabled={!isConnected}
               >
                 {t('polkadot-slot-auction.lend-dot-button')}
