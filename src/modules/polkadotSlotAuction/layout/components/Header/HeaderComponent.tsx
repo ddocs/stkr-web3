@@ -1,15 +1,37 @@
-import React from 'react';
+import React, { useState } from 'react';
 import classNames from 'classnames';
+import { SlotAuctionActions } from '../../../actions/SlotAuctionActions';
+import { walletConversion } from '../../../../../common/utils/convertWallet';
 import { Curtains } from '../../../../../UiKit/Curtains';
 import { Logotype } from '../Logotype';
-import { useHeaderStyles } from './HeaderStyles';
 import { Button } from '../../../../../UiKit/Button';
 import { t } from '../../../../../common/utils/intl';
+import { useHeaderStyles } from './HeaderStyles';
+import { useDispatch } from 'react-redux';
+import { useSlotAuctionSdk } from '../../../hooks/useSlotAuctionSdk';
 
 interface IHeaderFrameProps {}
 
 export const HeaderComponent = ({}: IHeaderFrameProps) => {
   const classes = useHeaderStyles();
+
+  const dispatch = useDispatch();
+
+  const { slotAuctionSdk, isConnected } = useSlotAuctionSdk();
+
+  const [loading, setLoading] = useState(false);
+  const [polkadotAccount, setPolkadotAccount] = useState('');
+
+  const handleConnect = async () => {
+    setLoading(true);
+
+    await dispatch(SlotAuctionActions.connect(slotAuctionSdk));
+
+    const polkadotAccounts = await slotAuctionSdk?.getPolkadotAccounts();
+    setPolkadotAccount(walletConversion(polkadotAccounts[0]));
+
+    setLoading(false);
+  };
 
   return (
     <>
@@ -20,13 +42,24 @@ export const HeaderComponent = ({}: IHeaderFrameProps) => {
           }}
         >
           <Logotype />
-          <Button
-            color="primary"
-            className={classes.button}
-            onClick={() => null}
-          >
-            {t('polkadot-slot-auction.connect-button')}
-          </Button>
+          {isConnected ? (
+            <Button
+              variant="outlined"
+              color="secondary"
+              className={classes.button}
+            >
+              {polkadotAccount}
+            </Button>
+          ) : (
+            <Button
+              color="primary"
+              className={classes.button}
+              disabled={loading}
+              onClick={handleConnect}
+            >
+              {t('polkadot-slot-auction.connect-button')}
+            </Button>
+          )}
         </Curtains>
       </header>
     </>
