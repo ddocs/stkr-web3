@@ -13,30 +13,10 @@ import {
   TableRow,
 } from '../Table';
 import { CaptionType } from '../Table/types';
-import { SlotAuctionSdk } from '@ankr.com/stakefi-polkadot';
+import { ICrowdloanType, SlotAuctionSdk } from '@ankr.com/stakefi-polkadot';
 import BigNumber from 'bignumber.js';
-
-// TODO: remove when data will be from SDK
-const data = [
-  {
-    project: 'Bifrost',
-    status: 'Active',
-    leaseDuration: '13-20',
-    totalRaised: '956,000 / 1M DOT',
-    raisedOnAnkr: '100,000 / 100,000 DOT',
-    expectedInitialReward: '2.5 BNC',
-    expectedDailyReward: '2.5 BNC\nAPR: 52%',
-  },
-  {
-    project: 'Bifrost',
-    status: 'Active',
-    leaseDuration: '13-20',
-    totalRaised: '956,000 / 1M DOT',
-    raisedOnAnkr: '100,000 / 100,000 DOT',
-    expectedInitialReward: '2.5 BNC',
-    expectedDailyReward: '2.5 BNC\nAPR: 52%',
-  },
-];
+import { useQuery } from '@redux-requests/react';
+import { SlotAuctionActions } from '../../actions/SlotAuctionActions';
 
 interface IOngoingProps {
   slotAuctionSdk: SlotAuctionSdk;
@@ -76,10 +56,21 @@ export const Ongoing = ({ slotAuctionSdk }: IOngoingProps) => {
   ];
 
   const isConnected = slotAuctionSdk.isConnected();
-  if (!isConnected) {
-    captions.splice(3, 1);
-  }
-  const customCell = `1fr 1fr 1fr ${isConnected ? '2fr' : ''} 2fr 2fr 2fr 2fr`;
+  const customCell = `1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr`;
+
+  const {
+    data: crowdloans,
+  }: {
+    data: ICrowdloanType[];
+  } = useQuery({
+    type: SlotAuctionActions.fetchCrowdloans,
+    defaultData: [],
+    variables: [
+      slotAuctionSdk,
+      'SUCCEEDED', // TODO: "replace with ONGOING when u're ready for it"
+    ],
+    autoLoad: true,
+  });
 
   return (
     <Table
@@ -97,15 +88,19 @@ export const Ongoing = ({ slotAuctionSdk }: IOngoingProps) => {
         ))}
       </TableHead>
       <TableBody>
-        {data.map(item => (
+        {crowdloans.map(item => (
           <TableRow key={uid(item)}>
-            <TableBodyCell>{item.project}</TableBodyCell>
+            <TableBodyCell>{item.name}</TableBodyCell>
             <TableBodyCell>{item.status}</TableBodyCell>
-            <TableBodyCell>{item.leaseDuration}</TableBodyCell>
-            {isConnected && <TableBodyCell>{item.totalRaised}</TableBodyCell>}
-            <TableBodyCell>{item.raisedOnAnkr}</TableBodyCell>
-            <TableBodyCell>{item.expectedInitialReward}</TableBodyCell>
-            <TableBodyCell>{item.expectedDailyReward}</TableBodyCell>
+            <TableBodyCell>
+              {item.startTime}-${item.endTime}
+            </TableBodyCell>
+            <TableBodyCell>{item.totalRaiseTarget.toString(10)}</TableBodyCell>
+            <TableBodyCell>
+              {item.stakeFiContributed.toString(10)}
+            </TableBodyCell>
+            <TableBodyCell>N/A</TableBodyCell>
+            <TableBodyCell>N/A</TableBodyCell>
             <TableBodyCell align="right">
               <Button
                 variant="outlined"
@@ -115,15 +110,35 @@ export const Ongoing = ({ slotAuctionSdk }: IOngoingProps) => {
                   const [
                     polkadotAccount,
                   ] = await slotAuctionSdk.getPolkadotAccounts();
+                  const amount = prompt('Enter lend amount: ');
                   await slotAuctionSdk.depositFundsToCrowdloan(
                     polkadotAccount,
-                    2003,
-                    new BigNumber('1'),
+                    item.loanId,
+                    new BigNumber(`${amount}`),
                   );
                 }}
                 disabled={!isConnected}
               >
                 {t('polkadot-slot-auction.lend-dot-button')}
+              </Button>
+              <Button
+                variant="outlined"
+                className={classes.button}
+                onClick={async () => {
+                  // FIXME: "don't take random account"
+                  const [
+                    polkadotAccount,
+                  ] = await slotAuctionSdk.getPolkadotAccounts();
+                  const amount = prompt('Enter lend amount: ');
+                  await slotAuctionSdk.depositFundsToCrowdloan(
+                    polkadotAccount,
+                    item.loanId,
+                    new BigNumber(`${amount}`),
+                  );
+                }}
+                disabled={!isConnected}
+              >
+                {t('polkadot-slot-auction.claim-dot-button')}
               </Button>
             </TableBodyCell>
           </TableRow>
