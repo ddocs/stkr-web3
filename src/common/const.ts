@@ -27,6 +27,11 @@ export const CONVERT_ROUTE = '/convert/:from/:to';
 export const ABOUT_SMARTCHAIN_PATH = '/bsc';
 export const BRIDGE_PATH = '/bridge';
 export const BRIDGE_RECOVERY_PATH = `${BRIDGE_PATH}/recovery`;
+export const POLKADOT_SLOT_AUCTION_LEND_PATH = '/lend/:id/:name';
+
+export function getPolkadotSlotAuctionLendPath(id: number, name: string) {
+  return generatePath(POLKADOT_SLOT_AUCTION_LEND_PATH, { id, name });
+}
 
 export function getStakerBnbPath(id: string) {
   return generatePath(STAKER_STAKE_BNB_ROUTE, { id });

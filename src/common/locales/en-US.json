@@ -863,6 +863,7 @@
     "get-help": "Help"
   },
   "polkadot-slot-auction": {
+    "dot": "DOT",
     "title": "Parachain Crowdloan Marketplace",
     "connect-button": "Connect Polkadot Wallet",
     "tabs": {
@@ -887,6 +888,16 @@
       "status": "Status",
       "total-raised": "Total Raised",
       "total-rewards": "Total rewards"
+    },
+    "supportProject": {
+      "title": "Support {value} project",
+      "wantContribute": "I want to contribute",
+      "balance": "Your balance: {value} DOT",
+      "willGet": "You will get aDOTp BNC",
+      "initialReward": "Expected Initial airdrop BNC Reward",
+      "dailyReward": "Daily BNC Reward",
+      "disclaimer": "aDOTp tokens can be claimed on Ethereum if Bifrost wins a Polkadot Parachain slot auction. aDOTp will enable claiming daily rewards on Ethereum as well as potentially an initial airdrop reward after winning a Polkadot Parachain slot auction.",
+      "contribute": "Contribute"
     },
     "claim-button": "Claim Staking Rewards",
     "claim-dot-button": "Claim {value} aDOTp",
