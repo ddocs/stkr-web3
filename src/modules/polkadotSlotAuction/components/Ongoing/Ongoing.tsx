@@ -18,6 +18,7 @@ import { useCrowdloansWithBalances } from '../../hooks/useCrowdloans';
 import { Body2 } from '../../../../UiKit/Typography';
 import { NavLink } from '../../../../UiKit/NavLink';
 import { getPolkadotSlotAuctionLendPath } from '../../../../common/const';
+import { getBalance } from '../../utils/getBalance';
 
 interface IOngoingProps {}
 
@@ -52,20 +53,6 @@ export const Ongoing = ({}: IOngoingProps) => {
     polkadotAccount,
   );
 
-  const getBalance = (loanId: number) => {
-    let balanceResult = ``;
-    const balance = balances[loanId];
-
-    if (balance) {
-      balanceResult = `${balance.total
-        .plus(balance.onchain)
-        .plus(balance.claimable)
-        .toString(10)}`;
-    }
-
-    return balanceResult;
-  };
-
   return (
     <Table
       customCell="3fr 2fr 3fr 2fr 3fr"
@@ -83,7 +70,7 @@ export const Ongoing = ({}: IOngoingProps) => {
       </TableHead>
       <TableBody>
         {crowdloans.map(item => {
-          const balance = getBalance(item.loanId);
+          const balance = getBalance(balances, item.loanId);
 
           return (
             <TableRow key={uid(item)}>

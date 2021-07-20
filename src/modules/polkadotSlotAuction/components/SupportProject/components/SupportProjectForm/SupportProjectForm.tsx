@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { useParams } from 'react-router';
@@ -14,23 +14,40 @@ import { Body1 } from '../../../../../../UiKit/Typography';
 import { Button } from '../../../../../../UiKit/Button';
 import { FormErrors } from '../../../../../../common/types/FormErrors';
 import { useSlotAuctionSdk } from '../../../../hooks/useSlotAuctionSdk';
+import { INDEX_PATH } from '../../../../../../common/const';
+import { QueryLoading } from '../../../../../../components/QueryLoading/QueryLoading';
+import { useCrowdloansWithBalances } from '../../../../hooks/useCrowdloans';
+import { getBalance } from '../../../../utils/getBalance';
+import { historyInstance } from '../../../../../../common/utils/historyInstance';
 
 export const SupportProjectForm = () => {
   const classes = useSupportProjectFormStyles();
-  const balance = 47;
+  const [isLoading, setIsLoading] = useState(false);
   const dailyReward = 1.25;
   const initialReward = 825.25;
 
   const { id } = useParams<{ id: string; name: string }>();
   const { slotAuctionSdk, polkadotAccount } = useSlotAuctionSdk();
+  const { balances } = useCrowdloansWithBalances(
+    slotAuctionSdk,
+    'SUCCEEDED',
+    polkadotAccount,
+  );
+  const balance = parseFloat(getBalance(balances, Number.parseInt(id)));
 
   const handleSubmit = async (payload: FormPayload) => {
-    console.log(payload);
-    await slotAuctionSdk.depositFundsToCrowdloan(
-      polkadotAccount,
-      Number.parseInt(id),
-      new BigNumber(`${payload.contributeValue}`),
-    );
+    setIsLoading(true);
+    try {
+      await slotAuctionSdk.depositFundsToCrowdloan(
+        polkadotAccount,
+        Number.parseInt(id),
+        new BigNumber(`${payload.contributeValue}`),
+      );
+    } catch (e) {
+    } finally {
+      setIsLoading(false);
+      historyInstance.replace(INDEX_PATH);
+    }
   };
 
   const validate = useCallback(
@@ -118,16 +135,19 @@ export const SupportProjectForm = () => {
             </Body1>
           </Field>
         </div>
-        <Button
-          className={classes.button}
-          onClick={handleSubmit}
-          color="primary"
-          size="large"
-          type="submit"
-          disabled={!values.agreement || !values.contributeValue}
-        >
-          {t('polkadot-slot-auction.supportProject.contribute')}
-        </Button>
+        <div className={classes.buttonContainer}>
+          <Button
+            className={classes.button}
+            onClick={handleSubmit}
+            color="primary"
+            size="large"
+            type="submit"
+            disabled={!values.agreement || !values.contributeValue || isLoading}
+          >
+            {t('polkadot-slot-auction.supportProject.contribute')}
+          </Button>
+          {isLoading && <QueryLoading />}
+        </div>
       </div>
     </>
   );

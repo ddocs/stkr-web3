@@ -17,10 +17,16 @@ export const HeaderComponent = ({}: IHeaderFrameProps) => {
 
   const dispatch = useDispatch();
 
-  const { slotAuctionSdk, isConnected } = useSlotAuctionSdk();
+  const {
+    slotAuctionSdk,
+    isConnected,
+    polkadotAccount: polkadotAccountSdk,
+  } = useSlotAuctionSdk();
 
   const [loading, setLoading] = useState(false);
-  const [polkadotAccount, setPolkadotAccount] = useState('');
+  const [polkadotAccount, setPolkadotAccount] = useState(
+    walletConversion(polkadotAccountSdk),
+  );
 
   const handleConnect = async () => {
     setLoading(true);
