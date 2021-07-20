@@ -902,6 +902,7 @@
     "buy-adotp-button": "Buy aDOTp",
     "claim-button": "Claim Staking Rewards",
     "claim-dot-button": "Claim {value} aDOTp",
+    "my-balance": "My balance {value} aDOTp",
     "lend-dot-button": "Lend DOT",
     "lent-dot": "Lent {value} DOT"
   }

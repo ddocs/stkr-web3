@@ -77,15 +77,14 @@ export const Completed = ({}: ICompletedProps) => {
       );
     }
     return (
-      <div>
-        <p>My balance:</p>
-        <br />
-        {balance.total
-          .plus(balance.onchain)
-          .plus(balance.claimable)
-          .toString(10)}
-        &nbsp;aDOTp
-      </div>
+      <Body2>
+        {t('polkadot-slot-auction.my-balance', {
+          value: balance.total
+            .plus(balance.onchain)
+            .plus(balance.claimable)
+            .toString(10),
+        })}
+      </Body2>
     );
   };
 
