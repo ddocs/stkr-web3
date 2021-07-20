@@ -890,6 +890,7 @@
     },
     "claim-button": "Claim Staking Rewards",
     "claim-dot-button": "Claim {value} aDOTp",
-    "lend-dot-button": "Lend DOT"
+    "lend-dot-button": "Lend DOT",
+    "lent-dot": "Lent {value} DOT"
   }
 }

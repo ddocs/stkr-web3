@@ -17,6 +17,7 @@ import { ICrowdloanType } from '@ankr.com/stakefi-polkadot';
 import BigNumber from 'bignumber.js';
 import { useSlotAuctionSdk } from '../../hooks/useSlotAuctionSdk';
 import { useCrowdloansWithBalances } from '../../hooks/useCrowdloans';
+import { Body2 } from '../../../../UiKit/Typography';
 
 interface IOngoingProps {}
 
@@ -44,7 +45,6 @@ export const Ongoing = ({}: IOngoingProps) => {
       align: 'right',
     },
   ];
-  const customCell = `2fr 2fr 2fr 2fr 2fr`;
 
   const { crowdloans, balances } = useCrowdloansWithBalances(
     slotAuctionSdk,
@@ -64,34 +64,23 @@ export const Ongoing = ({}: IOngoingProps) => {
     );
   };
 
-  const renderDepositButton = (item: ICrowdloanType) => {
-    let balanceText = ``;
-    const balance = balances[item.loanId];
+  const getBalance = (loanId: number) => {
+    let balanceResult = ``;
+    const balance = balances[loanId];
+
     if (balance) {
-      balanceText = `${balance.total
+      balanceResult = `${balance.total
         .plus(balance.onchain)
         .plus(balance.claimable)
         .toString(10)}`;
     }
-    return (
-      <div>
-        <Button
-          variant="outlined"
-          className={classes.button}
-          onClick={() => handleDepositFunds(item)}
-          disabled={!isConnected}
-        >
-          {t('polkadot-slot-auction.lend-dot-button')}
-        </Button>
-        <br />
-        <p className={classes.subText}>Lent: {balanceText} DOT</p>
-      </div>
-    );
+
+    return balanceResult;
   };
 
   return (
     <Table
-      customCell={customCell}
+      customCell="3fr 2fr 3fr 2fr 3fr"
       columnsCount={captions.length}
       paddingCollapse
     >
@@ -99,33 +88,54 @@ export const Ongoing = ({}: IOngoingProps) => {
         {captions.map(cell => (
           <TableHeadCell
             key={uid(cell)}
-            label={<Box display="flex">{cell.label}</Box>}
+            label={cell.label}
             align={cell.align}
           />
         ))}
       </TableHead>
       <TableBody>
-        {crowdloans.map(item => (
-          <TableRow key={uid(item)}>
-            <TableBodyCell>{item.name}</TableBodyCell>
-            <TableBodyCell>{item.status}</TableBodyCell>
-            <TableBodyCell>
-              {new Date(item.startTime).toLocaleDateString()}-
-              {new Date(item.endTime).toLocaleDateString()}
-            </TableBodyCell>
-            <TableBodyCell>
-              {item.alreadyContributed.toString(10)}&nbsp;/&nbsp;
-              {item.totalRaiseTarget.toString(10)}&nbsp;DOT
-              <br />
-              <p className={classes.subText}>
-                {item.stakeFiContributed.toString(10)}&nbsp;DOT
-              </p>
-            </TableBodyCell>
-            <TableBodyCell align="right">
-              {renderDepositButton(item)}
-            </TableBodyCell>
-          </TableRow>
-        ))}
+        {crowdloans.map(item => {
+          const balance = getBalance(item.loanId);
+
+          return (
+            <TableRow key={uid(item)}>
+              <TableBodyCell>{item.name}</TableBodyCell>
+              <TableBodyCell>{item.status}</TableBodyCell>
+              <TableBodyCell>
+                {new Date(item.startTime).toLocaleDateString()}-
+                {new Date(item.endTime).toLocaleDateString()}
+              </TableBodyCell>
+              <TableBodyCell>
+                {item.alreadyContributed.toString(10)}&nbsp;/&nbsp;
+                {item.totalRaiseTarget.toString(10)}&nbsp;DOT
+                <br />
+                <p className={classes.subText}>
+                  {item.stakeFiContributed.toString(10)}&nbsp;DOT
+                </p>
+              </TableBodyCell>
+              <TableBodyCell align="right">
+                <Button
+                  variant="outlined"
+                  className={classes.button}
+                  onClick={() => handleDepositFunds(item)}
+                  disabled={!isConnected}
+                >
+                  {t('polkadot-slot-auction.lend-dot-button')}
+                </Button>
+
+                {balance && (
+                  <Box mt={1}>
+                    <Body2 color="secondary">
+                      {t('polkadot-slot-auction.lent-dot', {
+                        value: balance,
+                      })}
+                    </Body2>
+                  </Box>
+                )}
+              </TableBodyCell>
+            </TableRow>
+          );
+        })}
       </TableBody>
     </Table>
   );

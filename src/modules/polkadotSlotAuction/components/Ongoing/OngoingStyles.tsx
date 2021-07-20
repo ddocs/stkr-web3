@@ -5,8 +5,4 @@ export const useOngoingStyles = makeStyles<Theme>(theme => ({
   button: {
     padding: theme.spacing(0, 5),
   },
-  subText: {
-    color: 'grey',
-    margin: '0',
-  },
 }));

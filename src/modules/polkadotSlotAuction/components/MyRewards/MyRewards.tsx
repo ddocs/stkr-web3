@@ -1,6 +1,5 @@
 import React from 'react';
 import { uid } from 'react-uid';
-import { Box } from '@material-ui/core';
 import { Button } from '../../../../UiKit/Button';
 import { t } from '../../../../common/utils/intl';
 import { useMyRewardsStyles } from './MyRewardsStyles';
@@ -15,26 +14,6 @@ import {
 import { CaptionType } from '../Table/types';
 import { useSlotAuctionSdk } from '../../hooks/useSlotAuctionSdk';
 import { useCrowdloansWithBalances } from '../../hooks/useCrowdloans';
-
-// TODO: remove when data will be from SDK
-const data = [
-  {
-    parachainBond: '1500 aDOTp ABC ',
-    date: '30 June 2023',
-    claimableRewards: '10 ABC ',
-    futureRewards: '110 ABC ',
-    totalRewards: '20 ABC ',
-    disabled: false,
-  },
-  {
-    parachainBond: '1500 aDOTp ABC ',
-    date: '30 June 2023',
-    claimableRewards: '10 ABC ',
-    futureRewards: '110 ABC ',
-    totalRewards: '20 ABC ',
-    disabled: true,
-  },
-];
 
 interface ICompletedProps {}
 
@@ -75,7 +54,8 @@ export const MyRewards = ({}: ICompletedProps) => {
     const myLoanId = 2003;
     // FIXME: "take random account"
     const [polkadotAccount] = await slotAuctionSdk.getPolkadotAccounts();
-    const claimableStakingRewards = await slotAuctionSdk.getClaimableStakingRewards(),
+    const claimableStakingRewards =
+        await slotAuctionSdk.getClaimableStakingRewards(),
       [currentClaimableRewards] = claimableStakingRewards.filter(
         csr => csr.loanId === myLoanId,
       );
@@ -100,7 +80,7 @@ export const MyRewards = ({}: ICompletedProps) => {
         {captions.map(cell => (
           <TableHeadCell
             key={uid(cell)}
-            label={<Box display="flex">{cell.label}</Box>}
+            label={cell.label}
             align={cell.align}
           />
         ))}

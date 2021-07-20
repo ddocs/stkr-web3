@@ -1,6 +1,5 @@
 import React from 'react';
 import { uid } from 'react-uid';
-import { Box } from '@material-ui/core';
 import { Button } from '../../../../UiKit/Button';
 import { t } from '../../../../common/utils/intl';
 import { useCompletedStyles } from './CompletedStyles';
@@ -15,28 +14,7 @@ import {
 import { CaptionType } from '../Table/types';
 import { useSlotAuctionSdk } from '../../hooks/useSlotAuctionSdk';
 import { ICrowdloanType } from '@ankr.com/stakefi-polkadot';
-import { useQuery } from '@redux-requests/react';
-import { SlotAuctionActions } from '../../actions/SlotAuctionActions';
-import BigNumber from 'bignumber.js';
 import { useCrowdloansWithBalances } from '../../hooks/useCrowdloans';
-
-// TODO: remove when data will be from SDK
-const data = [
-  {
-    project: 'Bifrost',
-    status: 'Active',
-    endLeasePeriod: '13th June 2022',
-    totalRaised: '956,000 / 1M DOT',
-    dailyReward: '2.5 BNC',
-  },
-  {
-    project: 'Bifrost',
-    status: 'Active',
-    endLeasePeriod: '13th June 2022',
-    totalRaised: '956,000 / 1M DOT',
-    dailyReward: '2.5 BNC',
-  },
-];
 
 interface ICompletedProps {}
 
@@ -122,7 +100,7 @@ export const Completed = ({}: ICompletedProps) => {
         {captions.map(cell => (
           <TableHeadCell
             key={uid(cell)}
-            label={<Box display="flex">{cell.label}</Box>}
+            label={cell.label}
             align={cell.align}
           />
         ))}
