@@ -14,10 +14,7 @@ import {
 } from '../Table';
 import { CaptionType } from '../Table/types';
 import { useSlotAuctionSdk } from '../../hooks/useSlotAuctionSdk';
-import {
-  useCrowdloansByStatus,
-  useCrowdloansWithBalances,
-} from '../../hooks/useCrowdloans';
+import { useCrowdloansWithBalances } from '../../hooks/useCrowdloans';
 import { Body2 } from '../../../../UiKit/Typography';
 import { NavLink } from '../../../../UiKit/NavLink';
 import { getPolkadotSlotAuctionLendPath } from '../../../../common/const';
@@ -47,18 +44,11 @@ export const Ongoing = () => {
     },
   ];
 
-  const { crowdloans: ongoingCrowdloans, balances } = useCrowdloansWithBalances(
+  const { crowdloans, balances } = useCrowdloansWithBalances(
     slotAuctionSdk,
     'ONGOING',
     polkadotAccount,
   );
-
-  const { crowdloans: succeedCrowdloans } = useCrowdloansByStatus(
-    slotAuctionSdk,
-    'SUCCEEDED',
-  );
-
-  const crowdloans = ongoingCrowdloans.concat(succeedCrowdloans);
 
   const getBalance = (loanId: number) => {
     let balanceResult = ``;
@@ -112,7 +102,10 @@ export const Ongoing = () => {
               </TableBodyCell>
               <TableBodyCell align="right">
                 <NavLink
-                  href={getPolkadotSlotAuctionLendPath(item.loanId, item.name)}
+                  href={getPolkadotSlotAuctionLendPath(
+                    /*item.loanId*/ 2003,
+                    item.name,
+                  )}
                 >
                   <Button
                     variant="outlined"
