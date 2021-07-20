@@ -1,6 +1,8 @@
 import { useQuery } from '@redux-requests/react';
 import { SlotAuctionSdk } from '@ankr.com/stakefi-polkadot';
 import { SlotAuctionActions } from '../actions/SlotAuctionActions';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 
 export const useSlotAuctionSdk = () => {
   const { data: slotAuctionSdk } = useQuery<SlotAuctionSdk>({
@@ -18,6 +20,20 @@ export const useSlotAuctionSdk = () => {
     },
     type: SlotAuctionActions.connect.toString(),
   });
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (!isConnected) return;
+    const timer = setInterval(() => {
+      dispatch(
+        SlotAuctionActions.fetchCrowdloanBalances(
+          slotAuctionSdk,
+          polkadotAccount,
+        ),
+      );
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [slotAuctionSdk, isConnected, polkadotAccount, dispatch]);
 
   return { slotAuctionSdk, isConnected, polkadotAccount };
 };
