@@ -9,6 +9,7 @@ export const useSlotAuctionSdk = () => {
 
   const { data: slotAuctionSdk } = useQuery<SlotAuctionSdk>({
     type: SlotAuctionActions.initialize,
+    autoLoad: true,
   });
 
   const {

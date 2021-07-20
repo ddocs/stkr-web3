@@ -72,7 +72,7 @@ export const Ongoing = () => {
       </TableHead>
       <TableBody>
         <Query
-          type={SlotAuctionActions.fetchCrowdloans.toString()}
+          type={SlotAuctionActions.fetchCrowdloansByStatus}
           errorComponent={QueryError}
           loadingComponent={QueryLoadingCentered}
           showLoaderDuringRefetch={false}
