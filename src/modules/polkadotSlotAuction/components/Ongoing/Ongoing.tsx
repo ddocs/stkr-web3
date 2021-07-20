@@ -18,6 +18,8 @@ import BigNumber from 'bignumber.js';
 import { useSlotAuctionSdk } from '../../hooks/useSlotAuctionSdk';
 import { useCrowdloansWithBalances } from '../../hooks/useCrowdloans';
 import { Body2 } from '../../../../UiKit/Typography';
+import { NavLink } from '../../../../UiKit/NavLink';
+import { getPolkadotSlotAuctionLendPath } from '../../../../common/const';
 
 interface IOngoingProps {}
 
@@ -51,18 +53,6 @@ export const Ongoing = ({}: IOngoingProps) => {
     'SUCCEEDED',
     polkadotAccount,
   );
-
-  const handleDepositFunds = async (item: ICrowdloanType) => {
-    const amount = prompt('Enter lend amount: ');
-    if (!amount) {
-      return;
-    }
-    await slotAuctionSdk.depositFundsToCrowdloan(
-      polkadotAccount,
-      item.loanId,
-      new BigNumber(`${amount}`),
-    );
-  };
 
   const getBalance = (loanId: number) => {
     let balanceResult = ``;
@@ -115,14 +105,17 @@ export const Ongoing = ({}: IOngoingProps) => {
                 </Body2>
               </TableBodyCell>
               <TableBodyCell align="right">
-                <Button
-                  variant="outlined"
-                  className={classes.button}
-                  onClick={() => handleDepositFunds(item)}
-                  disabled={!isConnected}
+                <NavLink
+                  href={getPolkadotSlotAuctionLendPath(item.loanId, item.name)}
                 >
-                  {t('polkadot-slot-auction.lend-dot-button')}
-                </Button>
+                  <Button
+                    variant="outlined"
+                    className={classes.button}
+                    disabled={!isConnected}
+                  >
+                    {t('polkadot-slot-auction.lend-dot-button')}
+                  </Button>
+                </NavLink>
 
                 {balance && (
                   <Box mt={1}>
