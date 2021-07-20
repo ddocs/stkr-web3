@@ -23,8 +23,8 @@ import { historyInstance } from '../../../../../../common/utils/historyInstance'
 export const SupportProjectForm = () => {
   const classes = useSupportProjectFormStyles();
   const [isLoading, setIsLoading] = useState(false);
-  const dailyReward = 1.25;
-  const initialReward = 825.25;
+  const dailyReward = 'N/A';
+  const initialReward = 'N/A';
 
   const { id } = useParams<{ id: string; name: string }>();
   const { slotAuctionSdk, polkadotAccount } = useSlotAuctionSdk();
