@@ -52,4 +52,14 @@ export const useSupportProjectFormStyles = makeStyles(theme => ({
     boxSizing: 'content-box',
     marginLeft: 50,
   },
+  buttonContainer: {
+    display: 'flex',
+    position: 'relative',
+
+    '& svg': {
+      position: 'absolute',
+      top: 5,
+      right: -60,
+    },
+  },
 }));
