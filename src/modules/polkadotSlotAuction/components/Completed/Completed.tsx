@@ -112,7 +112,7 @@ export const Completed = ({}: ICompletedProps) => {
               {item.status === 'SUCCEEDED' && 'Active'}
             </TableBodyCell>
             <TableBodyCell>
-              {new Date(item.startTime * 1000).toLocaleDateString()} -{' '}
+              {new Date(item.startTime * 1000).toLocaleDateString()} –{' '}
               {new Date(item.endTime * 1000).toLocaleDateString()}
             </TableBodyCell>
             <TableBodyCell>
