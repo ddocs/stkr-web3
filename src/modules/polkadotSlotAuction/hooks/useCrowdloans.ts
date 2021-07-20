@@ -28,21 +28,23 @@ export const useCrowdloansByStatus = (
   };
 };
 
+export type BalancesType = Record<
+  number,
+  {
+    total: BigNumber;
+    claimable: BigNumber;
+    onchain: BigNumber;
+    claimableStakingRewards: BigNumber;
+  }
+>;
+
 export const useCrowdloansWithBalances = (
   slotAuctionSdk: SlotAuctionSdk,
   crowdloanStatus: TCrowdloanStatus,
   polkadotAccount: string,
 ): {
   crowdloans: ICrowdloanType[];
-  balances: Record<
-    number,
-    {
-      total: BigNumber;
-      claimable: BigNumber;
-      onchain: BigNumber;
-      claimableStakingRewards: BigNumber;
-    }
-  >;
+  balances: BalancesType;
 } => {
   const {
     data: crowdloans,

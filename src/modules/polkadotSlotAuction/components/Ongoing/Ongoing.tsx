@@ -18,6 +18,11 @@ import { useCrowdloansWithBalances } from '../../hooks/useCrowdloans';
 import { Body2 } from '../../../../UiKit/Typography';
 import { NavLink } from '../../../../UiKit/NavLink';
 import { getPolkadotSlotAuctionLendPath } from '../../../../common/const';
+import { getBalance } from '../../utils/getBalance';
+import { SlotAuctionActions } from '../../actions/SlotAuctionActions';
+import { QueryError } from '../../../../components/QueryError/QueryError';
+import { QueryLoadingCentered } from '../../../../components/QueryLoading/QueryLoading';
+import { Query } from '@redux-requests/react';
 
 export const Ongoing = () => {
   const classes = useOngoingStyles();
@@ -50,20 +55,6 @@ export const Ongoing = () => {
     polkadotAccount,
   );
 
-  const getBalance = (loanId: number) => {
-    let balanceResult = ``;
-    const balance = balances[loanId];
-
-    if (balance) {
-      balanceResult = `${balance.total
-        .plus(balance.onchain)
-        .plus(balance.claimable)
-        .toString(10)}`;
-    }
-
-    return balanceResult;
-  };
-
   return (
     <Table
       customCell="3fr 2fr 3fr 2fr 3fr"
@@ -80,55 +71,64 @@ export const Ongoing = () => {
         ))}
       </TableHead>
       <TableBody>
-        {crowdloans.map(item => {
-          const balance = getBalance(item.loanId);
+        <Query
+          type={SlotAuctionActions.fetchCrowdloans.toString()}
+          errorComponent={QueryError}
+          loadingComponent={QueryLoadingCentered}
+          showLoaderDuringRefetch={false}
+        >
+          {() =>
+            crowdloans.map(item => {
+              const balance = getBalance(balances, item.loanId);
 
-          return (
-            <TableRow key={uid(item)}>
-              <TableBodyCell>{item.name}</TableBodyCell>
-              <TableBodyCell>
-                {t(`polkadot-slot-auction.crowdloan-status.${item.status}`)}
-              </TableBodyCell>
-              <TableBodyCell>
-                {new Date(item.startTime * 1000).toLocaleDateString()} –{' '}
-                {new Date(item.endTime * 1000).toLocaleDateString()}
-              </TableBodyCell>
-              <TableBodyCell>
-                {item.alreadyContributed.toString(10)}&nbsp;/&nbsp;
-                {item.totalRaiseTarget.toString(10)}&nbsp;DOT
-                <Body2 color="secondary">
-                  {item.stakeFiContributed.toString(10)}&nbsp;DOT
-                </Body2>
-              </TableBodyCell>
-              <TableBodyCell align="right">
-                <NavLink
-                  href={getPolkadotSlotAuctionLendPath(
-                    /*item.loanId*/ 2003,
-                    item.name,
-                  )}
-                >
-                  <Button
-                    variant="outlined"
-                    className={classes.button}
-                    disabled={!isConnected}
-                  >
-                    {t('polkadot-slot-auction.lend-dot-button')}
-                  </Button>
-                </NavLink>
-
-                {balance && (
-                  <Box mt={1}>
+              return (
+                <TableRow key={uid(item)}>
+                  <TableBodyCell>{item.name}</TableBodyCell>
+                  <TableBodyCell>
+                    {t(`polkadot-slot-auction.crowdloan-status.${item.status}`)}
+                  </TableBodyCell>
+                  <TableBodyCell>
+                    {new Date(item.startTime * 1000).toLocaleDateString()} –{' '}
+                    {new Date(item.endTime * 1000).toLocaleDateString()}
+                  </TableBodyCell>
+                  <TableBodyCell>
+                    {item.alreadyContributed.toString(10)}&nbsp;/&nbsp;
+                    {item.totalRaiseTarget.toString(10)}&nbsp;DOT
                     <Body2 color="secondary">
-                      {t('polkadot-slot-auction.lent-dot', {
-                        value: balance,
-                      })}
+                      {item.stakeFiContributed.toString(10)}&nbsp;DOT
                     </Body2>
-                  </Box>
-                )}
-              </TableBodyCell>
-            </TableRow>
-          );
-        })}
+                  </TableBodyCell>
+                  <TableBodyCell align="right">
+                    <NavLink
+                      href={getPolkadotSlotAuctionLendPath(
+                        /*item.loanId*/ 2003,
+                        item.name,
+                      )}
+                    >
+                      <Button
+                        variant="outlined"
+                        className={classes.button}
+                        disabled={!isConnected}
+                      >
+                        {t('polkadot-slot-auction.lend-dot-button')}
+                      </Button>
+                    </NavLink>
+
+                    {balance && (
+                      <Box mt={1}>
+                        <Body2 color="secondary">
+                          {t('polkadot-slot-auction.lent-dot', {
+                            value: balance,
+                          })}
+                        </Body2>
+                      </Box>
+                    )}
+                  </TableBodyCell>
+                </TableRow>
+              );
+            })
+          }
+        </Query>
       </TableBody>
     </Table>
   );

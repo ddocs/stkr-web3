@@ -20,10 +20,23 @@ export const PolkadotSlotAuction = () => {
 
   const dispatch = useDispatch();
 
-  const { isConnected } = useSlotAuctionSdk();
+  const { slotAuctionSdk, isConnected, polkadotAccount } = useSlotAuctionSdk();
+
   useEffect(() => {
     dispatch(SlotAuctionActions.initialize());
-  }, [dispatch]);
+
+    if (isConnected) {
+      const timer = setInterval(() => {
+        dispatch(
+          SlotAuctionActions.fetchCrowdloanBalances(
+            slotAuctionSdk,
+            polkadotAccount,
+          ),
+        );
+      }, 5000);
+      return () => clearInterval(timer);
+    }
+  }, [dispatch, isConnected, polkadotAccount, slotAuctionSdk]);
 
   const ongoingText = t('polkadot-slot-auction.tabs.ongoing');
   const completedText = t('polkadot-slot-auction.tabs.completed');
