@@ -90,7 +90,7 @@ export const MyRewards = ({}: ICompletedProps) => {
           <TableRow key={uid(item)}>
             <TableBodyCell>{item.name}</TableBodyCell>
             <TableBodyCell>
-              {new Date(item.endTime).toLocaleDateString()}
+              {new Date(item.endTime * 1000).toLocaleDateString()}
             </TableBodyCell>
             <TableBodyCell>
               {balances[item.loanId].claimableStakingRewards.toString(10)}

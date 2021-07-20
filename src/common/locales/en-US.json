@@ -888,6 +888,7 @@
       "total-raised": "Total Raised",
       "total-rewards": "Total rewards"
     },
+    "buy-adotp-button": "Buy aDOTp",
     "claim-button": "Claim Staking Rewards",
     "claim-dot-button": "Claim {value} aDOTp",
     "lend-dot-button": "Lend DOT",

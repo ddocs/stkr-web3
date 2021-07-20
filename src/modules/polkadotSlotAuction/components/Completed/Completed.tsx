@@ -15,6 +15,7 @@ import { CaptionType } from '../Table/types';
 import { useSlotAuctionSdk } from '../../hooks/useSlotAuctionSdk';
 import { ICrowdloanType } from '@ankr.com/stakefi-polkadot';
 import { useCrowdloansWithBalances } from '../../hooks/useCrowdloans';
+import { Body2 } from '../../../../UiKit/Typography';
 
 interface ICompletedProps {}
 
@@ -42,7 +43,6 @@ export const Completed = ({}: ICompletedProps) => {
       align: 'right',
     },
   ];
-  const customCell = `2fr 2fr 2fr 2fr 2fr`;
 
   const { crowdloans, balances } = useCrowdloansWithBalances(
     slotAuctionSdk,
@@ -59,14 +59,13 @@ export const Completed = ({}: ICompletedProps) => {
     if (!balance) {
       return (
         <Button variant="outlined" className={classes.button} disabled={true}>
-          Buy aDOTp
+          {t('polkadot-slot-auction.buy-adotp-button')}
         </Button>
       );
     }
     if (!balance.claimable.isZero()) {
       return (
         <Button
-          variant="contained"
           color="primary"
           className={classes.button}
           onClick={() => handleClaimRewardTokens(item)}
@@ -92,7 +91,7 @@ export const Completed = ({}: ICompletedProps) => {
 
   return (
     <Table
-      customCell={customCell}
+      customCell="3fr 2fr 3fr 2fr 3fr"
       columnsCount={captions.length}
       paddingCollapse
     >
@@ -109,18 +108,20 @@ export const Completed = ({}: ICompletedProps) => {
         {crowdloans.map(item => (
           <TableRow key={uid(item)}>
             <TableBodyCell>{item.name}</TableBodyCell>
-            <TableBodyCell>{item.status}</TableBodyCell>
             <TableBodyCell>
-              {new Date(item.startTime).toLocaleDateString()}-
-              {new Date(item.endTime).toLocaleDateString()}
+              {item.status === 'SUCCEEDED' && 'Active'}
+            </TableBodyCell>
+            <TableBodyCell>
+              {new Date(item.startTime * 1000).toLocaleDateString()} -{' '}
+              {new Date(item.endTime * 1000).toLocaleDateString()}
             </TableBodyCell>
             <TableBodyCell>
               {item.alreadyContributed.toString(10)}&nbsp;/&nbsp;
               {item.totalRaiseTarget.toString(10)}&nbsp;DOT
               <br />
-              <p className={classes.subText}>
+              <Body2 color="secondary">
                 {item.stakeFiContributed.toString(10)}&nbsp;DOT
-              </p>
+              </Body2>
             </TableBodyCell>
             <TableBodyCell align="right">
               {renderClaimButton(item)}
