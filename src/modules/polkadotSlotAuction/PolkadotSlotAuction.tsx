@@ -15,9 +15,7 @@ import { SlotAuctionActions } from './actions/SlotAuctionActions';
 import { usePolkadotSlotAuctionStyles } from './PolkadotSlotAuctionStyles';
 import { useSlotAuctionSdk } from './hooks/useSlotAuctionSdk';
 
-interface IPolkadotSlotAuctionProps {}
-
-export const PolkadotSlotAuction = ({}: IPolkadotSlotAuctionProps) => {
+export const PolkadotSlotAuction = () => {
   const classes = usePolkadotSlotAuctionStyles();
 
   const dispatch = useDispatch();
@@ -38,7 +36,7 @@ export const PolkadotSlotAuction = ({}: IPolkadotSlotAuctionProps) => {
       }, 5000);
       return () => clearInterval(timer);
     }
-  }, [dispatch]);
+  }, [dispatch, isConnected, polkadotAccount, slotAuctionSdk]);
 
   const ongoingText = t('polkadot-slot-auction.tabs.ongoing');
   const completedText = t('polkadot-slot-auction.tabs.completed');

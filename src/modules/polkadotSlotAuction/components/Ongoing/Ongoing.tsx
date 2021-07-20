@@ -24,9 +24,7 @@ import { QueryError } from '../../../../components/QueryError/QueryError';
 import { QueryLoadingCentered } from '../../../../components/QueryLoading/QueryLoading';
 import { Query } from '@redux-requests/react';
 
-interface IOngoingProps {}
-
-export const Ongoing = ({}: IOngoingProps) => {
+export const Ongoing = () => {
   const classes = useOngoingStyles();
 
   const { slotAuctionSdk, isConnected, polkadotAccount } = useSlotAuctionSdk();

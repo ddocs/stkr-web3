@@ -73,7 +73,7 @@ export const SupportProjectForm = () => {
 
       return errors;
     },
-    [],
+    [balance],
   );
 
   const validateNumber = useCallback((value: string) => {

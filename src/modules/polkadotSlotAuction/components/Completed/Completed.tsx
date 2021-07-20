@@ -17,9 +17,7 @@ import { ICrowdloanType } from '@ankr.com/stakefi-polkadot';
 import { useCrowdloansWithBalances } from '../../hooks/useCrowdloans';
 import { Body2 } from '../../../../UiKit/Typography';
 
-interface ICompletedProps {}
-
-export const Completed = ({}: ICompletedProps) => {
+export const Completed = () => {
   const classes = useCompletedStyles();
 
   const { slotAuctionSdk, polkadotAccount } = useSlotAuctionSdk();

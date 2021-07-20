@@ -11,9 +11,7 @@ import { useDispatch } from 'react-redux';
 import { useSlotAuctionSdk } from '../../../hooks/useSlotAuctionSdk';
 import { QueryLoading } from '../../../../../components/QueryLoading/QueryLoading';
 
-interface IHeaderFrameProps {}
-
-export const HeaderComponent = ({}: IHeaderFrameProps) => {
+export const HeaderComponent = () => {
   const classes = useHeaderStyles();
 
   const dispatch = useDispatch();
