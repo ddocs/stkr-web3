@@ -2,6 +2,7 @@ import { createAction } from 'redux-smart-actions';
 import { SlotAuctionSdk, TCrowdloanStatus } from '@ankr.com/stakefi-polkadot';
 import { Web3KeyProvider } from '@ankr.com/stakefi-web3';
 import BigNumber from 'bignumber.js';
+import { ContractManager } from '@ankr.com/stakefi-polkadot';
 
 export const SlotAuctionActions = {
   initialize: createAction('INITIALIZE_SLOT_AUCTION_SDK', () => ({
@@ -37,8 +38,8 @@ export const SlotAuctionActions = {
       },
     }),
   ),
-  fetchCrowdloans: createAction(
-    'FETCH_CROWDLOANS_BY_TYPE',
+  fetchCrowdloansByStatus: createAction(
+    'FETCH_CROWDLOANS_BY_STATUS',
     (slotAuctionSdk: SlotAuctionSdk, status: TCrowdloanStatus) => ({
       request: {
         promise: (async () => {
@@ -65,6 +66,8 @@ export const SlotAuctionActions = {
               claimable: BigNumber;
               onchain: BigNumber;
               claimableStakingRewards: BigNumber;
+              rewardPoolSymbol: string;
+              stakingTokenSymbol: string;
             }
           > = backendBalances.reduce((result, item) => {
             return {
@@ -94,6 +97,54 @@ export const SlotAuctionActions = {
             }
             return result;
           }, result);
+
+          const crowdloanTokenName: Record<
+            number,
+            {
+              rewardPoolSymbol: string;
+              stakingTokenSymbol: string;
+            }
+          > = {};
+          for (const key of Object.keys(result)) {
+            if (crowdloanTokenName[Number(key)]) {
+              continue;
+            }
+            const crowdloan = await slotAuctionSdk.getCrowdloanById(
+              Number(key),
+            );
+            const contractManager = new ContractManager(
+              slotAuctionSdk.getKeyProvider(),
+              {
+                rewardPoolAddress: crowdloan.bondTokenContract,
+              },
+            );
+            let rewardPoolSymbol = 'aDOTp';
+            try {
+              rewardPoolSymbol = await contractManager.getRewardPoolSymbol();
+            } catch (e) {
+              console.error(e);
+            }
+            let stakingTokenSymbol = 'ABC';
+            try {
+              stakingTokenSymbol = await contractManager.getStakingTokenSymbol();
+            } catch (e) {
+              console.error(e);
+            }
+            crowdloanTokenName[Number(key)] = {
+              rewardPoolSymbol,
+              stakingTokenSymbol,
+            };
+          }
+          for (const [key, value] of Object.entries(result)) {
+            if (!crowdloanTokenName[Number(key)]) {
+              continue;
+            }
+            value.rewardPoolSymbol =
+              crowdloanTokenName[Number(key)].rewardPoolSymbol;
+            value.stakingTokenSymbol =
+              crowdloanTokenName[Number(key)].stakingTokenSymbol;
+            result[Number(key)] = value;
+          }
           console.log(`Current balances: ${JSON.stringify(result, null, 2)}`);
           return result;
         })(),

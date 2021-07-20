@@ -15,9 +15,7 @@ import { SlotAuctionActions } from './actions/SlotAuctionActions';
 import { usePolkadotSlotAuctionStyles } from './PolkadotSlotAuctionStyles';
 import { useSlotAuctionSdk } from './hooks/useSlotAuctionSdk';
 
-interface IPolkadotSlotAuctionProps {}
-
-export const PolkadotSlotAuction = ({}: IPolkadotSlotAuctionProps) => {
+export const PolkadotSlotAuction = () => {
   const classes = usePolkadotSlotAuctionStyles();
 
   const dispatch = useDispatch();

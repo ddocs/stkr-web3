@@ -13,7 +13,10 @@ import {
   STAKER_BNB_PATH,
   STAKER_DASHBOARD_PATH,
   STAKER_AVALANCHE_PATH,
-  ENABLE_AVA, PROVIDER_MAIN_PATH, ENABLE_DOT, ENABLE_KSM,
+  ENABLE_AVA,
+  PROVIDER_MAIN_PATH,
+  ENABLE_DOT,
+  ENABLE_KSM,
 } from '../../common/const';
 import { FeatureListVerticalItem } from './components/FeatureListVerticalItem/FeatureListVerticalItem';
 
@@ -21,22 +24,26 @@ type ActionType = 'Staking' | 'Providing';
 
 export const FeaturesList = () => {
   const classes = useFeaturesListStyles();
-  const { isProviderAvailable, isBnbStakingAvailable, isEthStakingAvailable } = useFeaturesAvailable();
+  const {
+    isProviderAvailable,
+    isBnbStakingAvailable,
+    isEthStakingAvailable,
+  } = useFeaturesAvailable();
   const [currentAction, setCurrentAction] = useState<ActionType>('Staking');
 
   const handleCurrentActionChange = (newAction: ActionType) => () => {
     setCurrentAction(newAction);
-  }
+  };
 
   return (
     <div>
       <div className={classes.toggler}>
-        {(['Staking', 'Providing'] as ActionType[]).map((action) => (
+        {(['Staking', 'Providing'] as ActionType[]).map(action => (
           <div
             key={action}
             onClick={handleCurrentActionChange(action)}
             className={cn(classes.togglerButton, {
-              [classes.activeTogglerButton]: action === currentAction
+              [classes.activeTogglerButton]: action === currentAction,
             })}
           >
             {action}
@@ -108,24 +115,22 @@ export const FeaturesList = () => {
           )}
         </div>
       )}
-      {
-        currentAction === 'Providing' && (
-          <div className={classes.container}>
-            <FeatureListVerticalItem
-              Icon={ProviderIcon}
-              title={t('features-list.header.provider')}
-              features={[
-                t('features-list.list-item.provider.1'),
-                t('features-list.list-item.provider.2'),
-                t('features-list.list-item.provider.3'),
-              ]}
-              buttonText={t('features-list.action.provider')}
-              onClickTo={PROVIDER_MAIN_PATH}
-              disabled={!isProviderAvailable}
-            />
-          </div>
-        )
-      }
+      {currentAction === 'Providing' && (
+        <div className={classes.container}>
+          <FeatureListVerticalItem
+            Icon={ProviderIcon}
+            title={t('features-list.header.provider')}
+            features={[
+              t('features-list.list-item.provider.1'),
+              t('features-list.list-item.provider.2'),
+              t('features-list.list-item.provider.3'),
+            ]}
+            buttonText={t('features-list.action.provider')}
+            onClickTo={PROVIDER_MAIN_PATH}
+            disabled={!isProviderAvailable}
+          />
+        </div>
+      )}
     </div>
   );
 };

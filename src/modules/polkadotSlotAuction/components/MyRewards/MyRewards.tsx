@@ -15,9 +15,7 @@ import { CaptionType } from '../Table/types';
 import { useSlotAuctionSdk } from '../../hooks/useSlotAuctionSdk';
 import { useCrowdloansWithBalances } from '../../hooks/useCrowdloans';
 
-interface ICompletedProps {}
-
-export const MyRewards = ({}: ICompletedProps) => {
+export const MyRewards = () => {
   const classes = useMyRewardsStyles();
 
   const { slotAuctionSdk, polkadotAccount } = useSlotAuctionSdk();
@@ -54,8 +52,7 @@ export const MyRewards = ({}: ICompletedProps) => {
     const myLoanId = 2003;
     // FIXME: "take random account"
     const [polkadotAccount] = await slotAuctionSdk.getPolkadotAccounts();
-    const claimableStakingRewards =
-        await slotAuctionSdk.getClaimableStakingRewards(),
+    const claimableStakingRewards = await slotAuctionSdk.getClaimableStakingRewards(),
       [currentClaimableRewards] = claimableStakingRewards.filter(
         csr => csr.loanId === myLoanId,
       );
@@ -93,7 +90,9 @@ export const MyRewards = ({}: ICompletedProps) => {
               {new Date(item.endTime * 1000).toLocaleDateString()}
             </TableBodyCell>
             <TableBodyCell>
-              {balances[item.loanId].claimableStakingRewards.toString(10)}
+              {balances[item.loanId]
+                ? balances[item.loanId].claimableStakingRewards.toString(10)
+                : '0'}
               &nbsp;ABC
             </TableBodyCell>
             <TableBodyCell>{0}</TableBodyCell>

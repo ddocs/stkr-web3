@@ -7,6 +7,27 @@ import BigNumber from 'bignumber.js';
 import { useQuery } from '@redux-requests/react';
 import { SlotAuctionActions } from '../actions/SlotAuctionActions';
 
+export const useCrowdloansByStatus = (
+  slotAuctionSdk: SlotAuctionSdk,
+  crowdloanStatus: TCrowdloanStatus,
+): {
+  crowdloans: ICrowdloanType[];
+} => {
+  const {
+    data: crowdloans,
+  }: {
+    data: ICrowdloanType[];
+  } = useQuery({
+    type: SlotAuctionActions.fetchCrowdloansByStatus,
+    defaultData: [],
+    variables: [slotAuctionSdk, crowdloanStatus],
+    autoLoad: true,
+  });
+  return {
+    crowdloans,
+  };
+};
+
 export const useCrowdloansWithBalances = (
   slotAuctionSdk: SlotAuctionSdk,
   crowdloanStatus: TCrowdloanStatus,
@@ -28,7 +49,7 @@ export const useCrowdloansWithBalances = (
   }: {
     data: ICrowdloanType[];
   } = useQuery({
-    type: SlotAuctionActions.fetchCrowdloans,
+    type: SlotAuctionActions.fetchCrowdloansByStatus,
     defaultData: [],
     variables: [slotAuctionSdk, crowdloanStatus],
     autoLoad: true,

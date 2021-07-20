@@ -17,9 +17,7 @@ import { ICrowdloanType } from '@ankr.com/stakefi-polkadot';
 import { useCrowdloansWithBalances } from '../../hooks/useCrowdloans';
 import { Body2 } from '../../../../UiKit/Typography';
 
-interface ICompletedProps {}
-
-export const Completed = ({}: ICompletedProps) => {
+export const Completed = () => {
   const classes = useCompletedStyles();
 
   const { slotAuctionSdk, polkadotAccount } = useSlotAuctionSdk();
@@ -109,7 +107,7 @@ export const Completed = ({}: ICompletedProps) => {
           <TableRow key={uid(item)}>
             <TableBodyCell>{item.name}</TableBodyCell>
             <TableBodyCell>
-              {item.status === 'SUCCEEDED' && 'Active'}
+              {t(`polkadot-slot-auction.crowdloan-status.${item.status}`)}
             </TableBodyCell>
             <TableBodyCell>
               {new Date(item.startTime * 1000).toLocaleDateString()} –{' '}

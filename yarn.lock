@@ -2,22 +2,22 @@
 # yarn lockfile v1
 
 
-"@ankr.com/stakefi-polkadot@^0.0.35":
-  version "0.0.35"
-  resolved "https://registry.yarnpkg.com/@ankr.com/stakefi-polkadot/-/stakefi-polkadot-0.0.35.tgz#e75f61841a85f3d2b7abb192b9a69cb6bb98918b"
-  integrity sha512-A+bmuplxqCl8B2KtzeGirf6acENHgYv9Pwg3uGDiCfbk1pw7BAQw4eks3pEFU3mcJI2IctXcEYWwVksB8/4+iw==
+"@ankr.com/stakefi-polkadot@^0.0.40":
+  version "0.0.40"
+  resolved "https://registry.yarnpkg.com/@ankr.com/stakefi-polkadot/-/stakefi-polkadot-0.0.40.tgz#90265c9e3a37a64f8ad4473088a3b08a80a97a2e"
+  integrity sha512-Z/HZalybMsvlc1QEYKa5UOUjUNonyaeTJjF5ISp69tcjX0HO5j0Q86M9D1B2vteI+UNK33PLv4DgzyQ5yPG9sA==
   dependencies:
-    "@ankr.com/stakefi-web3" "^0.0.35"
+    "@ankr.com/stakefi-web3" "^0.0.40"
     "@polkadot/api" "^4.17.1"
     "@polkadot/extension-dapp" "^0.38.8"
     axios "^0.21.1"
     axios-cache-adapter "^2.7.3"
     base58-js "^1.0.0"
 
-"@ankr.com/stakefi-web3@^0.0.35":
-  version "0.0.35"
-  resolved "https://registry.yarnpkg.com/@ankr.com/stakefi-web3/-/stakefi-web3-0.0.35.tgz#ee70ffe18356855ce011acc38d1df8860607282e"
-  integrity sha512-c0RT1N+XRCBlampDfNAUom0MJhBlFQVoD/Ar6iNfB0zBj9N19J4nEuykxt56zCM6jBIBEzZgcuDcJ0BGMt9vdQ==
+"@ankr.com/stakefi-web3@^0.0.40":
+  version "0.0.40"
+  resolved "https://registry.yarnpkg.com/@ankr.com/stakefi-web3/-/stakefi-web3-0.0.40.tgz#975c1d52328ab91a002cb417ad91ffd894eabbbe"
+  integrity sha512-vo51DSjiCQWrrcglYtjBGUVzTXWDnK47QnD5XhFKd71o70DV6IIG9TjFepgwsG9XQyFakpvLKUMpXiiFpTcORA==
   dependencies:
     "@types/node" "^14.14.41"
     bignumber.js "^9.0.1"
@@ -2326,6 +2326,13 @@
   integrity sha512-0C6Ha2kvr42se3Gevx6UhHzv3KnPHML0N73Amjwvdr4y0HLZ1Nfw+vcm5yqpz5gpiehqz97XqFrsPRauYdcksQ==
   dependencies:
     "@babel/runtime" "^7.14.6"
+
+"@polkadot/react-hooks@^0.39.1":
+  version "0.39.1"
+  resolved "https://registry.yarnpkg.com/@polkadot/react-hooks/-/react-hooks-0.39.1.tgz#89f8e5dd4829c5a08dbd68c18304214de481eaed"
+  integrity sha512-aTu8RWRRwtnxt34ihXCw/9aVD26w5ZnbUeUetPIP8nBxkLLLvfixVZ2Xyl9HKMRSTVhnu8C+qTamDDnfWSoubQ==
+  dependencies:
+    "@babel/runtime" "^7.8.3"
 
 "@polkadot/rpc-core@4.17.1":
   version "4.17.1"

@@ -34,7 +34,8 @@ export const useSlotAuctionSdk = () => {
       );
     }, 5000);
     return () => clearInterval(timer);
-  }, [slotAuctionSdk, isConnected, polkadotAccount, dispatch]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return { slotAuctionSdk, isConnected, polkadotAccount };
 };

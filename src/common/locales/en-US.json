@@ -903,6 +903,14 @@
     "claim-button": "Claim Staking Rewards",
     "claim-dot-button": "Claim {value} aDOTp",
     "lend-dot-button": "Lend DOT",
-    "lent-dot": "Lent {value} DOT"
+    "lent-dot": "Lent {value} DOT",
+    "crowdloan-status": {
+      "ONGOING": "Ongoing",
+      "SUCCESSFULLY_RETIRED": "Successfully Retired",
+      "SUCCESSFULLY_REFUNDING": "Refunding",
+      "SUCCEEDED": "Succeeded",
+      "FAILED_RETIRED": "Failed Retired",
+      "FAILED_REFUNDING": "Failed Refunding"
+    }
   }
 }

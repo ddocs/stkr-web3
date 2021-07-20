@@ -13,17 +13,16 @@ import {
   TableRow,
 } from '../Table';
 import { CaptionType } from '../Table/types';
-import { ICrowdloanType } from '@ankr.com/stakefi-polkadot';
-import BigNumber from 'bignumber.js';
 import { useSlotAuctionSdk } from '../../hooks/useSlotAuctionSdk';
-import { useCrowdloansWithBalances } from '../../hooks/useCrowdloans';
+import {
+  useCrowdloansByStatus,
+  useCrowdloansWithBalances,
+} from '../../hooks/useCrowdloans';
 import { Body2 } from '../../../../UiKit/Typography';
 import { NavLink } from '../../../../UiKit/NavLink';
 import { getPolkadotSlotAuctionLendPath } from '../../../../common/const';
 
-interface IOngoingProps {}
-
-export const Ongoing = ({}: IOngoingProps) => {
+export const Ongoing = () => {
   const classes = useOngoingStyles();
 
   const { slotAuctionSdk, isConnected, polkadotAccount } = useSlotAuctionSdk();
@@ -48,11 +47,18 @@ export const Ongoing = ({}: IOngoingProps) => {
     },
   ];
 
-  const { crowdloans, balances } = useCrowdloansWithBalances(
+  const { crowdloans: ongoingCrowdloans, balances } = useCrowdloansWithBalances(
     slotAuctionSdk,
-    'SUCCEEDED',
+    'ONGOING',
     polkadotAccount,
   );
+
+  const { crowdloans: succeedCrowdloans } = useCrowdloansByStatus(
+    slotAuctionSdk,
+    'SUCCEEDED',
+  );
+
+  const crowdloans = ongoingCrowdloans.concat(succeedCrowdloans);
 
   const getBalance = (loanId: number) => {
     let balanceResult = ``;
@@ -91,7 +97,7 @@ export const Ongoing = ({}: IOngoingProps) => {
             <TableRow key={uid(item)}>
               <TableBodyCell>{item.name}</TableBodyCell>
               <TableBodyCell>
-                {item.status === 'SUCCEEDED' && 'Active'}
+                {t(`polkadot-slot-auction.crowdloan-status.${item.status}`)}
               </TableBodyCell>
               <TableBodyCell>
                 {new Date(item.startTime * 1000).toLocaleDateString()} –{' '}

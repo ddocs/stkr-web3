@@ -7,5 +7,5 @@ if (DOMAIN && !DOMAIN.includes('https://')) {
 
 module.exports = {
   URL: DOMAIN || 'https://goerli.stkr.io/',
-  PROD_URL: 'https://stkr.ankr.com/'
+  PROD_URL: 'https://stkr.ankr.com/',
 };

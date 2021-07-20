@@ -28,5 +28,5 @@ export const useFeaturesListStyles = makeStyles((theme: Theme) => ({
   activeTogglerButton: {
     background: '#006DFF',
     borderRadius: 59,
-  }
+  },
 }));
