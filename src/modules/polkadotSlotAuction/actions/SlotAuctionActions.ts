@@ -70,8 +70,8 @@ export const SlotAuctionActions = {
             return {
               ...result,
               [item.loanId]: {
-                total: new BigNumber('0'),
-                claimable: new BigNumber('0'),
+                total: new BigNumber(item.total),
+                claimable: new BigNumber(item.claimable),
                 onchain: new BigNumber('0'),
                 claimableStakingRewards: new BigNumber('0'),
               },

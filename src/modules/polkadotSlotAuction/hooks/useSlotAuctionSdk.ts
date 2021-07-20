@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 
 export const useSlotAuctionSdk = () => {
   const { data: slotAuctionSdk } = useQuery<SlotAuctionSdk>({
-    type: SlotAuctionActions.initialize.toString(),
+    type: SlotAuctionActions.initialize,
   });
 
   const {
@@ -18,7 +18,7 @@ export const useSlotAuctionSdk = () => {
     defaultData: {
       isConnected: false,
     },
-    type: SlotAuctionActions.connect.toString(),
+    type: SlotAuctionActions.connect,
   });
 
   const dispatch = useDispatch();

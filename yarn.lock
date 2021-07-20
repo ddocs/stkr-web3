@@ -2,21 +2,22 @@
 # yarn lockfile v1
 
 
-"@ankr.com/stakefi-polkadot@^0.0.34":
-  version "0.0.34"
-  resolved "https://registry.yarnpkg.com/@ankr.com/stakefi-polkadot/-/stakefi-polkadot-0.0.34.tgz#a157f4ce7ac7bdae7ea47cf6018e1177b2f8da2e"
-  integrity sha512-d8nHoUr/BdU4pcSmccP/FNGKQTmdk4nLBGUZYQqVVu/AQYfS85u0TgNPvVBMNedtPI/iAyR790xcOvTuDle2CA==
+"@ankr.com/stakefi-polkadot@^0.0.35":
+  version "0.0.35"
+  resolved "https://registry.yarnpkg.com/@ankr.com/stakefi-polkadot/-/stakefi-polkadot-0.0.35.tgz#e75f61841a85f3d2b7abb192b9a69cb6bb98918b"
+  integrity sha512-A+bmuplxqCl8B2KtzeGirf6acENHgYv9Pwg3uGDiCfbk1pw7BAQw4eks3pEFU3mcJI2IctXcEYWwVksB8/4+iw==
   dependencies:
-    "@ankr.com/stakefi-web3" "^0.0.34"
+    "@ankr.com/stakefi-web3" "^0.0.35"
     "@polkadot/api" "^4.17.1"
     "@polkadot/extension-dapp" "^0.38.8"
     axios "^0.21.1"
+    axios-cache-adapter "^2.7.3"
     base58-js "^1.0.0"
 
-"@ankr.com/stakefi-web3@^0.0.34":
-  version "0.0.34"
-  resolved "https://registry.yarnpkg.com/@ankr.com/stakefi-web3/-/stakefi-web3-0.0.34.tgz#3b19248bd6acfa5f07501d664e46857959425f3e"
-  integrity sha512-T8LEfK7anlFsFHec7+OWXIXXAudn4wd37pTYZ/9gx1nkmpLVf7BYQvpi/Be4MU0dF23Ly59t69EGC+HpmSAeqQ==
+"@ankr.com/stakefi-web3@^0.0.35":
+  version "0.0.35"
+  resolved "https://registry.yarnpkg.com/@ankr.com/stakefi-web3/-/stakefi-web3-0.0.35.tgz#ee70ffe18356855ce011acc38d1df8860607282e"
+  integrity sha512-c0RT1N+XRCBlampDfNAUom0MJhBlFQVoD/Ar6iNfB0zBj9N19J4nEuykxt56zCM6jBIBEzZgcuDcJ0BGMt9vdQ==
   dependencies:
     "@types/node" "^14.14.41"
     bignumber.js "^9.0.1"
@@ -4730,6 +4731,14 @@ axe-core@^4.0.2:
   resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-4.1.1.tgz#70a7855888e287f7add66002211a423937063eaf"
   integrity sha512-5Kgy8Cz6LPC9DJcNb3yjAXTu3XihQgEdnIg50c//zOC/MyLP0Clg+Y8Sh9ZjjnvBrDZU4DgXS9C3T9r4/scGZQ==
 
+axios-cache-adapter@^2.7.3:
+  version "2.7.3"
+  resolved "https://registry.yarnpkg.com/axios-cache-adapter/-/axios-cache-adapter-2.7.3.tgz#0d1eefa0f25b88f42a95c7528d7345bde688181d"
+  integrity sha512-A+ZKJ9lhpjthOEp4Z3QR/a9xC4du1ALaAsejgRGrH9ef6kSDxdFrhRpulqsh9khsEnwXxGfgpUuDp1YXMNMEiQ==
+  dependencies:
+    cache-control-esm "1.0.0"
+    md5 "^2.2.1"
+
 axios@^0.20.0:
   version "0.20.0"
   resolved "https://registry.yarnpkg.com/axios/-/axios-0.20.0.tgz#057ba30f04884694993a8cd07fa394cff11c50bd"
@@ -5792,6 +5801,11 @@ cache-base@^1.0.1:
     union-value "^1.0.0"
     unset-value "^1.0.0"
 
+cache-control-esm@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/cache-control-esm/-/cache-control-esm-1.0.0.tgz#417647ecf1837a5e74155f55d5a4ae32a84e2581"
+  integrity sha512-Fa3UV4+eIk4EOih8FTV6EEsVKO0W5XWtNs6FC3InTfVz+EjurjPfDXY5wZDo/lxjDxg5RjNcurLyxEJBcEUx9g==
+
 cacheable-request@^6.0.0:
   version "6.1.0"
   resolved "https://registry.yarnpkg.com/cacheable-request/-/cacheable-request-6.1.0.tgz#20ffb8bd162ba4be11e9567d823db651052ca912"
@@ -5987,6 +6001,11 @@ chardet@^0.7.0:
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/chardet/-/chardet-0.7.0.tgz#90094849f0937f2eedc2425d0d28a9e5f0cbad9e"
   integrity sha512-mT8iDcrh03qDGRRmoA2hmBJnxpllMR+0/0qlzjqZES6NdiWDcZkCNAk4rPFZ9Q85r27unkiNNg8ZOiwZXBHwcA==
+
+charenc@0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/charenc/-/charenc-0.0.2.tgz#c0a1d2f3a7092e03774bfa83f14c0fc5790a8667"
+  integrity sha1-wKHS86cJLgN3S/qD8UwPxXkKhmc=
 
 check-types@^11.1.1:
   version "11.1.2"
@@ -6748,6 +6767,11 @@ cross-spawn@^5.0.1:
     lru-cache "^4.0.1"
     shebang-command "^1.2.0"
     which "^1.2.9"
+
+crypt@0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/crypt/-/crypt-0.0.2.tgz#88d7ff7ec0dfb86f713dc87bbb42d044d3e6c41b"
+  integrity sha1-iNf/fsDfuG9xPch7u0LQRNPmxBs=
 
 crypto-browserify@3.12.0, crypto-browserify@^3.11.0:
   version "3.12.0"
@@ -10482,7 +10506,7 @@ is-boolean-object@^1.1.0:
   dependencies:
     call-bind "^1.0.2"
 
-is-buffer@^1.0.2, is-buffer@^1.1.5:
+is-buffer@^1.0.2, is-buffer@^1.1.5, is-buffer@~1.1.6:
   version "1.1.6"
   resolved "https://registry.yarnpkg.com/is-buffer/-/is-buffer-1.1.6.tgz#efaa2ea9daa0d7ab2ea13a97b2b8ad51fefbe8be"
   integrity sha512-NcdALwpXkTm5Zvvbk7owOUSvVvBKDgKP5/ewfXEznmQFfs4ZRmanOeKBTjRVjka3QFoN6XJ+9F3USqfHqTaU5w==
@@ -12568,6 +12592,15 @@ md5.js@^1.3.4:
     hash-base "^3.0.0"
     inherits "^2.0.1"
     safe-buffer "^5.1.2"
+
+md5@^2.2.1:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/md5/-/md5-2.3.0.tgz#c3da9a6aae3a30b46b7b0c349b87b110dc3bda4f"
+  integrity sha512-T1GITYmFaKuO91vxyoQMFETst+O71VUPEU3ze5GNzDm0OWdP8v1ziTaAEPUr/3kLsY3Sftgz242A1SetQiDL7g==
+  dependencies:
+    charenc "0.0.2"
+    crypt "0.0.2"
+    is-buffer "~1.1.6"
 
 mdast-squeeze-paragraphs@^4.0.0:
   version "4.0.0"
