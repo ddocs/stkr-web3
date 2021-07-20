@@ -90,18 +90,19 @@ export const Ongoing = ({}: IOngoingProps) => {
           return (
             <TableRow key={uid(item)}>
               <TableBodyCell>{item.name}</TableBodyCell>
-              <TableBodyCell>{item.status}</TableBodyCell>
               <TableBodyCell>
-                {new Date(item.startTime).toLocaleDateString()}-
-                {new Date(item.endTime).toLocaleDateString()}
+                {item.status === 'SUCCEEDED' && 'Active'}
+              </TableBodyCell>
+              <TableBodyCell>
+                {new Date(item.startTime * 1000).toLocaleDateString()} –{' '}
+                {new Date(item.endTime * 1000).toLocaleDateString()}
               </TableBodyCell>
               <TableBodyCell>
                 {item.alreadyContributed.toString(10)}&nbsp;/&nbsp;
                 {item.totalRaiseTarget.toString(10)}&nbsp;DOT
-                <br />
-                <p className={classes.subText}>
+                <Body2 color="secondary">
                   {item.stakeFiContributed.toString(10)}&nbsp;DOT
-                </p>
+                </Body2>
               </TableBodyCell>
               <TableBodyCell align="right">
                 <NavLink

@@ -899,6 +899,7 @@
       "disclaimer": "aDOTp tokens can be claimed on Ethereum if Bifrost wins a Polkadot Parachain slot auction. aDOTp will enable claiming daily rewards on Ethereum as well as potentially an initial airdrop reward after winning a Polkadot Parachain slot auction.",
       "contribute": "Contribute"
     },
+    "buy-adotp-button": "Buy aDOTp",
     "claim-button": "Claim Staking Rewards",
     "claim-dot-button": "Claim {value} aDOTp",
     "lend-dot-button": "Lend DOT",

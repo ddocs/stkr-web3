@@ -5,6 +5,8 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 export const useSlotAuctionSdk = () => {
+  const dispatch = useDispatch();
+
   const { data: slotAuctionSdk } = useQuery<SlotAuctionSdk>({
     type: SlotAuctionActions.initialize,
   });
@@ -21,7 +23,6 @@ export const useSlotAuctionSdk = () => {
     type: SlotAuctionActions.connect,
   });
 
-  const dispatch = useDispatch();
   useEffect(() => {
     if (!isConnected) return;
     const timer = setInterval(() => {
