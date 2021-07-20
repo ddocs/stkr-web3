@@ -22,9 +22,22 @@ export const PolkadotSlotAuction = ({}: IPolkadotSlotAuctionProps) => {
 
   const dispatch = useDispatch();
 
-  const { isConnected } = useSlotAuctionSdk();
+  const { slotAuctionSdk, isConnected, polkadotAccount } = useSlotAuctionSdk();
+
   useEffect(() => {
     dispatch(SlotAuctionActions.initialize());
+
+    if (isConnected) {
+      const timer = setInterval(() => {
+        dispatch(
+          SlotAuctionActions.fetchCrowdloanBalances(
+            slotAuctionSdk,
+            polkadotAccount,
+          ),
+        );
+      }, 5000);
+      return () => clearInterval(timer);
+    }
   }, [dispatch]);
 
   const ongoingText = t('polkadot-slot-auction.tabs.ongoing');

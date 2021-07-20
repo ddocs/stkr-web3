@@ -13,8 +13,6 @@ import {
   TableRow,
 } from '../Table';
 import { CaptionType } from '../Table/types';
-import { ICrowdloanType } from '@ankr.com/stakefi-polkadot';
-import BigNumber from 'bignumber.js';
 import { useSlotAuctionSdk } from '../../hooks/useSlotAuctionSdk';
 import { useCrowdloansWithBalances } from '../../hooks/useCrowdloans';
 import { Body2 } from '../../../../UiKit/Typography';
