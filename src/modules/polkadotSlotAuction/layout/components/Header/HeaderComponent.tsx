@@ -9,6 +9,7 @@ import { t } from '../../../../../common/utils/intl';
 import { useHeaderStyles } from './HeaderStyles';
 import { useDispatch } from 'react-redux';
 import { useSlotAuctionSdk } from '../../../hooks/useSlotAuctionSdk';
+import { QueryLoading } from '../../../../../components/QueryLoading/QueryLoading';
 
 interface IHeaderFrameProps {}
 
@@ -57,14 +58,17 @@ export const HeaderComponent = ({}: IHeaderFrameProps) => {
               {polkadotAccount}
             </Button>
           ) : (
-            <Button
-              color="primary"
-              className={classes.button}
-              disabled={loading}
-              onClick={handleConnect}
-            >
-              {t('polkadot-slot-auction.connect-button')}
-            </Button>
+            <>
+              <Button
+                color="primary"
+                className={classes.button}
+                disabled={loading}
+                onClick={handleConnect}
+              >
+                {t('polkadot-slot-auction.connect-button')}
+              </Button>
+              {loading && <QueryLoading />}
+            </>
           )}
         </Curtains>
       </header>
