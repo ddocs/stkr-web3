@@ -51,7 +51,7 @@ export const SupportProject = ({ onClose }: SupportProjectProps) => {
       </IconButton>
       <Typography variant="h2" className={classes.title}>
         {t('polkadot-slot-auction.supportProject.title', {
-          value: crowdloan.name,
+          value: crowdloan.projectName,
         })}
       </Typography>
       <SupportProjectForm crowdloan={crowdloan} />

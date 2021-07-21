@@ -31,7 +31,7 @@ export const SupportProjectForm = ({
   const dailyReward = 'N/A';
   const initialReward = 'N/A';
 
-  const { slotAuctionSdk, polkadotAccount, isConnected } = useSlotAuctionSdk();
+  const { slotAuctionSdk, polkadotAccount } = useSlotAuctionSdk();
   const { balance, symbol } = usePolkadotBalance();
 
   const handleSubmit = async (payload: FormPayload) => {
@@ -62,9 +62,11 @@ export const SupportProjectForm = ({
           errors.contributeValue = t('validation.numberOnly');
         } else if (value <= 0) {
           errors.contributeValue = t('validation.min', { value: 0 });
-        } /*else if (value > balance) {
-          errors.contributeValue = t('validation.max', { value: balance }); // TODO: "this is not true"
-        }*/
+        } else if (value > balance.toNumber()) {
+          errors.contributeValue = t('validation.max', {
+            value: balance.toNumber(),
+          });
+        }
       }
 
       if (!agreement) {
@@ -73,7 +75,7 @@ export const SupportProjectForm = ({
 
       return errors;
     },
-    [],
+    [balance],
   );
 
   const validateNumber = useCallback((value: string) => {
