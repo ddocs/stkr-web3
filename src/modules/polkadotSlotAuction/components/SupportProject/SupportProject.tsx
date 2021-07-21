@@ -10,6 +10,7 @@ import { NavLink } from '../../../../UiKit/NavLink';
 import { SupportProjectForm } from './components/SupportProjectForm/SupportProjectForm';
 import { useCrowdloanById } from '../../hooks/useCrowdloans';
 import { QueryLoading } from '../../../../components/QueryLoading/QueryLoading';
+import { useSlotAuctionSdk } from '../../hooks/useSlotAuctionSdk';
 
 export interface FormPayload {
   agreement: boolean;
@@ -29,6 +30,10 @@ export const SupportProject = ({ onClose }: SupportProjectProps) => {
   const loanId = Number.parseInt(id);
   if (Number.isNaN(loanId)) {
     history.goBack();
+  }
+  const { isConnected } = useSlotAuctionSdk();
+  if (!isConnected) {
+    history.push(INDEX_PATH);
   }
   const { crowdloan, isLoading } = useCrowdloanById(loanId);
 
