@@ -9,8 +9,6 @@ import { NotificationActions } from '../../../../store/actions/NotificationActio
 import { useDispatch } from 'react-redux';
 import { t } from '../../../../common/utils/intl';
 
-const ENABLE_DOMAIN_CHECK = false;
-
 const parseSearchQuery = (): any => {
   const query = new URL(window.location.href);
   return {
@@ -90,7 +88,7 @@ export const CreateSignature = () => {
   }, [dispatch]);
 
   const { origin } = parseSearchQuery();
-  if (ENABLE_DOMAIN_CHECK && origin !== 'ankr.com') {
+  if (origin !== 'ankr.com') {
     throw new Error('Not [ankr.com] domain not allowed');
   }
   return (
