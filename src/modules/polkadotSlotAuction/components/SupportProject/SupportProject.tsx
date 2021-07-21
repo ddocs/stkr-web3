@@ -1,6 +1,6 @@
 import React from 'react';
 import { IconButton, Typography } from '@material-ui/core';
-import { useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 
 import { t } from '../../../../common/utils/intl';
 import { CancelIcon } from '../../../../UiKit/Icons/CancelIcon';
@@ -8,6 +8,8 @@ import { useSupportProjectStyles } from './SupportProjectStyles';
 import { INDEX_PATH } from '../../../../common/const';
 import { NavLink } from '../../../../UiKit/NavLink';
 import { SupportProjectForm } from './components/SupportProjectForm/SupportProjectForm';
+import { useCrowdloanById } from '../../hooks/useCrowdloans';
+import { QueryLoading } from '../../../../components/QueryLoading/QueryLoading';
 
 export interface FormPayload {
   agreement: boolean;
@@ -18,15 +20,27 @@ interface SupportProjectProps {
   projectName: string;
   onClose?: () => void;
 }
+
 export const SupportProject = ({ onClose }: SupportProjectProps) => {
   const classes = useSupportProjectStyles();
-  const { name } = useParams<{ id: string; name: string }>();
+  const { id } = useParams<{ id: string }>();
+
+  const history = useHistory();
+  const loanId = Number.parseInt(id);
+  if (Number.isNaN(loanId)) {
+    history.goBack();
+  }
+  const { crowdloan, isLoading } = useCrowdloanById(loanId);
 
   const handleClose = () => {
     if (onClose) {
       onClose();
     }
   };
+
+  if (isLoading) {
+    return <QueryLoading />;
+  }
 
   return (
     <div className={classes.container}>
@@ -37,10 +51,10 @@ export const SupportProject = ({ onClose }: SupportProjectProps) => {
       </IconButton>
       <Typography variant="h2" className={classes.title}>
         {t('polkadot-slot-auction.supportProject.title', {
-          value: name,
+          value: crowdloan.name,
         })}
       </Typography>
-      <SupportProjectForm />
+      <SupportProjectForm crowdloan={crowdloan} />
     </div>
   );
 };

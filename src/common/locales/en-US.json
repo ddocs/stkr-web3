@@ -864,6 +864,12 @@
   },
   "polkadot-slot-auction": {
     "dot": "DOT",
+    "currency": {
+      "DOT": "DOT",
+      "KSM": "KSM",
+      "WND": "WND",
+      "ROC": "ROC"
+    },
     "title": "Parachain Crowdloan Marketplace",
     "connect-button": "Connect Polkadot Wallet",
     "tabs": {
@@ -892,7 +898,7 @@
     "supportProject": {
       "title": "Support {value} project",
       "wantContribute": "I want to contribute",
-      "balance": "Your balance: {value} DOT",
+      "balance": "Your balance: {value} {symbol}",
       "willGet": "You will get aDOTp BNC",
       "initialReward": "Expected Initial airdrop BNC Reward",
       "dailyReward": "Daily BNC Reward",

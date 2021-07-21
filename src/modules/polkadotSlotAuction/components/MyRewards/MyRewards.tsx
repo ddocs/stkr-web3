@@ -85,7 +85,7 @@ export const MyRewards = () => {
       <TableBody>
         {crowdloans.map(item => (
           <TableRow key={uid(item)}>
-            <TableBodyCell>{item.name}</TableBodyCell>
+            <TableBodyCell>{item.projectName}</TableBodyCell>
             <TableBodyCell>
               {new Date(item.endTime * 1000).toLocaleDateString()}
             </TableBodyCell>

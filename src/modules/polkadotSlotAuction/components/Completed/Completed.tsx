@@ -104,7 +104,7 @@ export const Completed = () => {
       <TableBody>
         {crowdloans.map(item => (
           <TableRow key={uid(item)}>
-            <TableBodyCell>{item.name}</TableBodyCell>
+            <TableBodyCell>{item.projectName}</TableBodyCell>
             <TableBodyCell>
               {t(`polkadot-slot-auction.crowdloan-status.${item.status}`)}
             </TableBodyCell>
@@ -113,8 +113,8 @@ export const Completed = () => {
               {new Date(item.endTime * 1000).toLocaleDateString()}
             </TableBodyCell>
             <TableBodyCell>
-              {item.alreadyContributed.toString(10)}&nbsp;/&nbsp;
-              {item.totalRaiseTarget.toString(10)}&nbsp;DOT
+              {/*{item.alreadyContributed.toString(10)}&nbsp;/&nbsp;*/}
+              {/*{item.totalRaiseTarget.toString(10)}&nbsp;DOT*/}
               <br />
               <Body2 color="secondary">
                 {item.stakeFiContributed.toString(10)}&nbsp;DOT

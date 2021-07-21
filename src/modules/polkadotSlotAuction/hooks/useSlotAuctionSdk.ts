@@ -3,6 +3,7 @@ import { SlotAuctionSdk } from '@ankr.com/stakefi-polkadot';
 import { SlotAuctionActions } from '../actions/SlotAuctionActions';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import BigNumber from 'bignumber.js';
 
 export const useSlotAuctionSdk = () => {
   const dispatch = useDispatch();
@@ -13,11 +14,8 @@ export const useSlotAuctionSdk = () => {
   });
 
   const {
-    data: { isConnected, polkadotAccount },
-  } = useQuery<{
-    isConnected: boolean;
-    polkadotAccount: string;
-  }>({
+    data: { isConnected, polkadotAccount, polkadotAccounts, networkType },
+  } = useQuery({
     defaultData: {
       isConnected: false,
     },
@@ -38,5 +36,49 @@ export const useSlotAuctionSdk = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return { slotAuctionSdk, isConnected, polkadotAccount };
+  return {
+    slotAuctionSdk,
+    isConnected,
+    polkadotAccount,
+    polkadotAccounts,
+    networkType,
+  };
+};
+
+export const usePolkadotBalance = (): {
+  balance: BigNumber;
+  symbol: string;
+} => {
+  const {
+    isConnected,
+    slotAuctionSdk,
+    networkType,
+    polkadotAccount,
+  } = useSlotAuctionSdk();
+  const {
+    data: { balance, symbol },
+  } = useQuery({
+    defaultData: {
+      balance: new BigNumber('0'),
+      symbol: networkType,
+    },
+    variables: [slotAuctionSdk, polkadotAccount],
+    autoLoad: true,
+    type: SlotAuctionActions.fetchPolkadotBalance,
+  });
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (!isConnected) return;
+    const timer = setInterval(() => {
+      dispatch(
+        SlotAuctionActions.fetchPolkadotBalance(
+          slotAuctionSdk,
+          polkadotAccount,
+        ),
+      );
+    }, 5000);
+    return () => clearInterval(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  return { balance, symbol };
 };

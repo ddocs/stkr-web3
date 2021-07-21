@@ -1,7 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
-import { useParams } from 'react-router';
 import { Field, Form, FormRenderProps } from 'react-final-form';
 
 import { useSupportProjectFormStyles } from './SupportProjectFormStyles';
@@ -13,37 +12,40 @@ import { CheckboxField } from '../../../../../../UiKit/Checkbox/CheckboxField';
 import { Body1 } from '../../../../../../UiKit/Typography';
 import { Button } from '../../../../../../UiKit/Button';
 import { FormErrors } from '../../../../../../common/types/FormErrors';
-import { useSlotAuctionSdk } from '../../../../hooks/useSlotAuctionSdk';
+import {
+  usePolkadotBalance,
+  useSlotAuctionSdk,
+} from '../../../../hooks/useSlotAuctionSdk';
 import { INDEX_PATH } from '../../../../../../common/const';
 import { QueryLoading } from '../../../../../../components/QueryLoading/QueryLoading';
-import { useCrowdloansWithBalances } from '../../../../hooks/useCrowdloans';
-import { getBalance } from '../../../../utils/getBalance';
 import { historyInstance } from '../../../../../../common/utils/historyInstance';
+import { ICrowdloanType } from '@ankr.com/stakefi-polkadot';
 
-export const SupportProjectForm = () => {
+export const SupportProjectForm = ({
+  crowdloan,
+}: {
+  crowdloan: ICrowdloanType;
+}) => {
   const classes = useSupportProjectFormStyles();
   const [isLoading, setIsLoading] = useState(false);
   const dailyReward = 'N/A';
   const initialReward = 'N/A';
 
-  const { id } = useParams<{ id: string; name: string }>();
-  const { slotAuctionSdk, polkadotAccount } = useSlotAuctionSdk();
-  const { balances } = useCrowdloansWithBalances(
-    slotAuctionSdk,
-    'SUCCEEDED',
-    polkadotAccount,
-  );
-  const balance = parseFloat(getBalance(balances, Number.parseInt(id)));
+  const { slotAuctionSdk, polkadotAccount, isConnected } = useSlotAuctionSdk();
+  const { balance, symbol } = usePolkadotBalance();
+  console.log(`isConnected: ${isConnected}`);
+  console.log(`balance: ${balance} ${symbol}`);
 
   const handleSubmit = async (payload: FormPayload) => {
     setIsLoading(true);
     try {
       await slotAuctionSdk.depositFundsToCrowdloan(
         polkadotAccount,
-        Number.parseInt(id),
+        crowdloan.loanId,
         new BigNumber(`${payload.contributeValue}`),
       );
     } catch (e) {
+      console.error(`Failed to lend funds: ${e}`);
     } finally {
       setIsLoading(false);
       historyInstance.replace(INDEX_PATH);
@@ -62,9 +64,9 @@ export const SupportProjectForm = () => {
           errors.contributeValue = t('validation.numberOnly');
         } else if (value <= 0) {
           errors.contributeValue = t('validation.min', { value: 0 });
-        } else if (value > balance) {
-          errors.contributeValue = t('validation.max', { value: balance });
-        }
+        } /*else if (value > balance) {
+          errors.contributeValue = t('validation.max', { value: balance }); // TODO: "this is not true"
+        }*/
       }
 
       if (!agreement) {
@@ -73,7 +75,7 @@ export const SupportProjectForm = () => {
 
       return errors;
     },
-    [balance],
+    [],
   );
 
   const validateNumber = useCallback((value: string) => {
@@ -98,7 +100,7 @@ export const SupportProjectForm = () => {
             classes={{ root: classes.input }}
             component={InputField}
             name="contributeValue"
-            label={t('polkadot-slot-auction.dot')}
+            label={t(`polkadot-slot-auction.currency.${symbol}`)}
             variant="outlined"
             type="number"
             validate={validateNumber}
@@ -106,6 +108,7 @@ export const SupportProjectForm = () => {
           <div className={classes.balance}>
             {t('polkadot-slot-auction.supportProject.balance', {
               value: balance,
+              symbol: t(`polkadot-slot-auction.currency.${symbol}`),
             })}
           </div>
         </div>

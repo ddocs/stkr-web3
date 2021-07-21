@@ -3,6 +3,7 @@ import { SlotAuctionSdk, TCrowdloanStatus } from '@ankr.com/stakefi-polkadot';
 import { Web3KeyProvider } from '@ankr.com/stakefi-web3';
 import BigNumber from 'bignumber.js';
 import { ContractManager } from '@ankr.com/stakefi-polkadot';
+import * as net from 'net';
 
 export const SlotAuctionActions = {
   initialize: createAction('INITIALIZE_SLOT_AUCTION_SDK', () => ({
@@ -24,12 +25,43 @@ export const SlotAuctionActions = {
     (slotAuctionSdk: SlotAuctionSdk) => ({
       request: {
         promise: (async function () {
-          await slotAuctionSdk.connect();
+          if (!slotAuctionSdk.isConnected()) {
+            await slotAuctionSdk.connect();
+          }
+          const polkadotAccounts = await slotAuctionSdk.getPolkadotAccounts();
+          /* TODO: "don't use it, choose from list instead" */
           const [polkadotAccount] = await slotAuctionSdk.getPolkadotAccounts();
           const isConnected = slotAuctionSdk.isConnected();
+          const networkType = await slotAuctionSdk
+            .getPolkadotProvider()
+            .getNetworkType();
           return {
             polkadotAccount,
+            polkadotAccounts,
+            networkType,
             isConnected,
+          };
+        })(),
+      },
+      meta: {
+        asMutation: false,
+      },
+    }),
+  ),
+  fetchPolkadotBalance: createAction(
+    'FETCH_POLKADOT_BALANCE',
+    (slotAuctionSdk: SlotAuctionSdk, polkadotAccount: string) => ({
+      request: {
+        promise: (async () => {
+          const balance = await slotAuctionSdk.getPolkadotBalance(
+              polkadotAccount,
+            ),
+            networkType = await slotAuctionSdk
+              .getPolkadotProvider()
+              .getNetworkType();
+          return {
+            balance,
+            symbol: networkType,
           };
         })(),
       },
@@ -44,6 +76,23 @@ export const SlotAuctionActions = {
       request: {
         promise: (async () => {
           return slotAuctionSdk.getCrowdloansByStatus(status);
+        })(),
+      },
+      meta: {
+        asMutation: false,
+      },
+    }),
+  ),
+  fetchCrowdloanById: createAction(
+    'FETCH_CROWDLOAN_BY_ID',
+    (slotAuctionSdk: SlotAuctionSdk, loanId: number) => ({
+      request: {
+        promise: (async () => {
+          const crowdloan = await slotAuctionSdk.getCrowdloanById(loanId);
+          return {
+            crowdloan,
+            isLoading: false,
+          };
         })(),
       },
       meta: {

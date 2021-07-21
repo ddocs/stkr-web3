@@ -30,7 +30,10 @@ export const BRIDGE_RECOVERY_PATH = `${BRIDGE_PATH}/recovery`;
 export const POLKADOT_SLOT_AUCTION_LEND_PATH = '/lend/:id/:name';
 
 export function getPolkadotSlotAuctionLendPath(id: number, name: string) {
-  return generatePath(POLKADOT_SLOT_AUCTION_LEND_PATH, { id, name });
+  return generatePath(POLKADOT_SLOT_AUCTION_LEND_PATH, {
+    id,
+    name: name ? name.toLowerCase() : name,
+  });
 }
 
 export function getStakerBnbPath(id: string) {

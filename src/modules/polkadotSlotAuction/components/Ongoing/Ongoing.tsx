@@ -83,7 +83,7 @@ export const Ongoing = () => {
 
               return (
                 <TableRow key={uid(item)}>
-                  <TableBodyCell>{item.name}</TableBodyCell>
+                  <TableBodyCell>{item.projectName}</TableBodyCell>
                   <TableBodyCell>
                     {t(`polkadot-slot-auction.crowdloan-status.${item.status}`)}
                   </TableBodyCell>
@@ -92,8 +92,8 @@ export const Ongoing = () => {
                     {new Date(item.endTime * 1000).toLocaleDateString()}
                   </TableBodyCell>
                   <TableBodyCell>
-                    {item.alreadyContributed.toString(10)}&nbsp;/&nbsp;
-                    {item.totalRaiseTarget.toString(10)}&nbsp;DOT
+                    {/*{item.alreadyContributed.toString(10)}&nbsp;/&nbsp;*/}
+                    {/*{item.totalRaiseTarget.toString(10)}&nbsp;DOT*/}
                     <Body2 color="secondary">
                       {item.stakeFiContributed.toString(10)}&nbsp;DOT
                     </Body2>
@@ -102,7 +102,7 @@ export const Ongoing = () => {
                     <NavLink
                       href={getPolkadotSlotAuctionLendPath(
                         /*item.loanId*/ 2003,
-                        item.name,
+                        item.projectName,
                       )}
                     >
                       <Button
