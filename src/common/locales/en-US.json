@@ -719,8 +719,8 @@
     },
     "connect": {
       "switch-to": {
-        "1": "In order to proceed, your wallet needs to be connected to Etherium Mainnet wallet address",
-        "5": "In order to proceed, your wallet needs to be connected to Etherium Goerli wallet address",
+        "1": "In order to proceed, your wallet needs to be connected to Ethereum Mainnet wallet address",
+        "5": "In order to proceed, your wallet needs to be connected to Ethereum Goerli wallet address",
         "56": "In order to proceed, your wallet needs to be connected to Binance Smartchain wallet address",
         "97": "In order to proceed, your wallet needs to be connected to Binance Smartchain Testnet wallet address",
         "info": "This is because you have claimed the tokens and they are now pending withdrawal"
