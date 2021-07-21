@@ -33,8 +33,6 @@ export const SupportProjectForm = ({
 
   const { slotAuctionSdk, polkadotAccount, isConnected } = useSlotAuctionSdk();
   const { balance, symbol } = usePolkadotBalance();
-  console.log(`isConnected: ${isConnected}`);
-  console.log(`balance: ${balance} ${symbol}`);
 
   const handleSubmit = async (payload: FormPayload) => {
     setIsLoading(true);

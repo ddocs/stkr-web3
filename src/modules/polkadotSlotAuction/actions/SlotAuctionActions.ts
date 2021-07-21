@@ -3,17 +3,25 @@ import { SlotAuctionSdk, TCrowdloanStatus } from '@ankr.com/stakefi-polkadot';
 import { Web3KeyProvider } from '@ankr.com/stakefi-web3';
 import BigNumber from 'bignumber.js';
 import { ContractManager } from '@ankr.com/stakefi-polkadot';
-import * as net from 'net';
+
+class SlotAuctionSdkSingleton {
+  private static sdk?: SlotAuctionSdk;
+  public static getInstance(): SlotAuctionSdk {
+    if (SlotAuctionSdkSingleton.sdk) return SlotAuctionSdkSingleton.sdk;
+    const web3KeyProvider = new Web3KeyProvider({
+      expectedChainId: 5,
+    });
+    // TODO: "by default it uses develop config, replace with envs"
+    SlotAuctionSdkSingleton.sdk = new SlotAuctionSdk(web3KeyProvider);
+    return SlotAuctionSdkSingleton.sdk;
+  }
+}
 
 export const SlotAuctionActions = {
   initialize: createAction('INITIALIZE_SLOT_AUCTION_SDK', () => ({
     request: {
       promise: (async function () {
-        const web3KeyProvider = new Web3KeyProvider({
-          expectedChainId: 5,
-        });
-        // TODO: "by default it uses develop config, replace with envs"
-        return new SlotAuctionSdk(web3KeyProvider);
+        return SlotAuctionSdkSingleton.getInstance();
       })(),
     },
     meta: {
