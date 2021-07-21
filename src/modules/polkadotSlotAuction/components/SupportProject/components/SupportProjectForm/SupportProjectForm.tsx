@@ -134,7 +134,9 @@ export const SupportProjectForm = ({
               color="secondary"
               className={classes.disclaimerText}
             >
-              {t('polkadot-slot-auction.supportProject.disclaimer')}
+              {t('polkadot-slot-auction.supportProject.disclaimer', {
+                project: crowdloan.projectName,
+              })}
             </Body1>
           </Field>
         </div>
