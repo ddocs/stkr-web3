@@ -1,6 +1,5 @@
 import React from 'react';
 import { uid } from 'react-uid';
-import { Box } from '@material-ui/core';
 import { Button } from '../../../../UiKit/Button';
 import { t } from '../../../../common/utils/intl';
 import { useOngoingStyles } from './OngoingStyles';
@@ -110,19 +109,18 @@ export const Ongoing = () => {
                         className={classes.button}
                         disabled={!isConnected}
                       >
-                        {t('polkadot-slot-auction.lend-dot-button')}
+                        {balance ? (
+                          <>
+                            {t('polkadot-slot-auction.lent-dot', {
+                              value: balance,
+                            })}
+                            <span className={classes.plus}>+</span>
+                          </>
+                        ) : (
+                          t('polkadot-slot-auction.lend-dot-button')
+                        )}
                       </Button>
                     </NavLink>
-
-                    {balance && (
-                      <Box mt={1}>
-                        <Body2 color="secondary">
-                          {t('polkadot-slot-auction.lent-dot', {
-                            value: balance,
-                          })}
-                        </Body2>
-                      </Box>
-                    )}
                   </TableBodyCell>
                 </TableRow>
               );
