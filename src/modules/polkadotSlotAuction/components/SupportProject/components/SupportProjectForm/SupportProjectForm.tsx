@@ -12,14 +12,12 @@ import { CheckboxField } from '../../../../../../UiKit/Checkbox/CheckboxField';
 import { Body1 } from '../../../../../../UiKit/Typography';
 import { Button } from '../../../../../../UiKit/Button';
 import { FormErrors } from '../../../../../../common/types/FormErrors';
-import {
-  usePolkadotBalance,
-  useSlotAuctionSdk,
-} from '../../../../hooks/useSlotAuctionSdk';
+import { useSlotAuctionSdk } from '../../../../hooks/useSlotAuctionSdk';
 import { INDEX_PATH } from '../../../../../../common/const';
 import { QueryLoading } from '../../../../../../components/QueryLoading/QueryLoading';
 import { historyInstance } from '../../../../../../common/utils/historyInstance';
 import { ICrowdloanType } from '@ankr.com/stakefi-polkadot';
+import { usePolkadotBalance } from '../../../../hooks/usePolkadotBalance';
 
 export const SupportProjectForm = ({
   crowdloan,

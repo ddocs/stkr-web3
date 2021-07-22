@@ -37,15 +37,14 @@ export const SlotAuctionActions = {
             await slotAuctionSdk.connect();
           }
           const polkadotAccounts = await slotAuctionSdk.getPolkadotAccounts();
-          /* TODO: "don't use it, choose from list instead" */
-          const [polkadotAccount] = await slotAuctionSdk.getPolkadotAccounts();
+          /* TODO: user choose from the list */
+          const polkadotAccount = polkadotAccounts[0];
           const isConnected = slotAuctionSdk.isConnected();
           const networkType = await slotAuctionSdk
             .getPolkadotProvider()
             .getNetworkType();
           return {
             polkadotAccount,
-            polkadotAccounts,
             networkType,
             isConnected,
           };
