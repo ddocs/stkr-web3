@@ -56,7 +56,7 @@ export const MyRewards = () => {
       [currentClaimableRewards] = claimableStakingRewards.filter(
         csr => csr.loanId === myLoanId,
       );
-    if (currentClaimableRewards.amount.isZero()) {
+    if (!currentClaimableRewards || currentClaimableRewards.amount.isZero()) {
       alert(`There is no staking rewards`);
       return;
     }
