@@ -906,7 +906,7 @@
       "contribute": "Contribute"
     },
     "buy-adotp-button": "Buy aDOTp",
-    "claim-button": "Claim Staking Rewards",
+    "claim-rewards-button": "Claim Rewards",
     "claim-dot-button": "Claim {value} aDOTp",
     "my-balance": "My balance {value} aDOTp",
     "lend-dot-button": "Lend DOT",

@@ -69,7 +69,7 @@ export const MyRewards = () => {
 
   return (
     <Table
-      customCell="1fr 1fr 1fr 1fr 1fr 1fr"
+      customCell="1fr 1fr 2fr 1fr 1fr 1fr"
       columnsCount={captions.length}
       paddingCollapse
     >
@@ -103,7 +103,7 @@ export const MyRewards = () => {
                 className={classes.button}
                 onClick={handleClaim}
               >
-                {t('polkadot-slot-auction.claim-button')}
+                {t('polkadot-slot-auction.claim-rewards-button')}
               </Button>
             </TableBodyCell>
           </TableRow>
