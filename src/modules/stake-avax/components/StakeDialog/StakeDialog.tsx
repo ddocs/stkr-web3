@@ -1,14 +1,14 @@
 import { Box, Dialog, IconButton, Typography } from '@material-ui/core';
+import { Mutation } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
 import React, { ReactNode, useCallback, useState } from 'react';
 import { t } from '../../../../common/utils/intl';
+import { useRequestDispatch } from '../../../../common/utils/useRequestDispatch';
+import { MutationErrorHandler } from '../../../../components/MutationErrorHandler/MutationErrorHandler';
+import { AvalancheActions } from '../../../../store/actions/AvalancheActions';
 import { CancelIcon } from '../../../../UiKit/Icons/CancelIcon';
 import { StakeForm } from '../StakeForm';
 import { useStakeDialogStyles } from './StakeDialogStyles';
-import { AvalancheActions } from '../../../../store/actions/AvalancheActions';
-import { Mutation } from '@redux-requests/react';
-import { MutationErrorHandler } from '../../../../components/MutationErrorHandler/MutationErrorHandler';
-import { useRequestDispatch } from '../../../../common/utils/useRequestDispatch';
 
 interface IStakeDialogProps {
   amount: BigNumber;
@@ -60,6 +60,7 @@ export const StakeDialog = ({
         open={isOpened}
         onClose={handleClose}
         fullWidth={true}
+        scroll="body"
         maxWidth="md"
         PaperProps={{ square: false }}
         classes={{ paper: classes.root }}

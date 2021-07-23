@@ -1,19 +1,17 @@
+import { Button, Theme } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import { Mutation } from '@redux-requests/react';
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { ProviderDashboard } from './screens/ProviderDashboard';
-import { UserActions, UserActionTypes } from '../../store/actions/UserActions';
-import { Mutation } from '@redux-requests/react';
-import { useAuthentication } from '../../common/utils/useAuthentications';
-import { Headline2 } from '../../UiKit/Typography';
-import { Spinner } from '../../components/Spinner';
-import { t } from '../../common/utils/intl';
-import { Button, Theme } from '@material-ui/core';
-import { Curtains } from '../../UiKit/Curtains';
-import { makeStyles } from '@material-ui/core/styles';
-import { useRequestDispatch } from '../../common/utils/useRequestDispatch';
 import { useFeaturesAvailable } from '../../common/hooks/useFeaturesAvailable';
-import { Redirect } from 'react-router-dom';
-import { INDEX_PATH } from '../../common/const';
+import { t } from '../../common/utils/intl';
+import { useAuthentication } from '../../common/utils/useAuthentications';
+import { useRequestDispatch } from '../../common/utils/useRequestDispatch';
+import { Spinner } from '../../components/Spinner';
+import { UserActions, UserActionTypes } from '../../store/actions/UserActions';
+import { Curtains } from '../../UiKit/Curtains';
+import { Headline2 } from '../../UiKit/Typography';
+import { ProviderDashboard } from './screens/ProviderDashboard';
 
 export const useStyles = makeStyles<Theme>(theme => ({
   component: {
@@ -66,10 +64,6 @@ export const ProviderComponent = ({ authorizeProvider }: IProviderProps) => {
     isProviderAuthenticated,
     isProviderAvailable,
   ]);
-
-  if (!isProviderAvailable) {
-    return <Redirect to={INDEX_PATH} />;
-  }
 
   if (isProviderAuthenticated && isConnected) {
     return <ProviderDashboard />;

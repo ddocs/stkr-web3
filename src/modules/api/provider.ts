@@ -1,4 +1,4 @@
-import { BlockchainNetworkId } from '@ankr.com/stkr-jssdk';
+import { BlockchainNetworkId } from '../../common/types';
 import { BscConnector } from '@binance-chain/bsc-connector';
 import { fade, lighten } from '@material-ui/core';
 import WalletConnectProvider from '@walletconnect/web3-provider';
@@ -11,7 +11,6 @@ import { Contract } from 'web3-eth-contract';
 import { AbiItem, bytesToHex, numberToHex } from 'web3-utils';
 import Web3Modal, { getProviderInfo, IProviderOptions } from 'web3modal';
 import { PALETTE } from '../../common/themes/mainTheme';
-import { getNetworkName } from '../../common/utils/getNetworkName';
 import binanceWalletLogo from './assets/binanceWallet.svg';
 import huobiLogo from './assets/huobi.svg';
 import imTokenLogo from './assets/imToken.svg';
@@ -370,22 +369,6 @@ export class Web3ModalKeyProvider extends KeyProvider {
       this.chainId ?? provider.chainId ?? provider.networkVersion,
     );
 
-    if (
-      chainId !== this.providerConfig.ethereumChainId &&
-      chainId !== this.providerConfig.binanceChainId &&
-      chainId !== this.providerConfig.avalancheChainId
-    ) {
-      console.error(
-        `ethereum networks mismatched ${chainId} != ${this.providerConfig.ethereumChainId} or ${this.providerConfig.binanceChainId}`,
-      );
-      await this.disconnect();
-
-      throw new Error(
-        `Please, change your wallet network to ${getNetworkName(
-          this.providerConfig.ethereumChainId,
-        )} or ${getNetworkName(this.providerConfig.binanceChainId)}.`,
-      );
-    }
     await this.unlockAccounts(web3);
     provider.on('accountsChanged', (accounts: Address[]) => {
       this.eventEmitter.emit(KeyProviderEvents.AccountChanged, { accounts });
@@ -414,12 +397,18 @@ export class Web3ModalKeyProvider extends KeyProvider {
   }
 
   public isBinanceSmartChain(): boolean {
-    return this.chainId === 97 || this.chainId === 56;
+    return (
+      this.chainId === BlockchainNetworkId.smartchain ||
+      this.chainId === BlockchainNetworkId.smartchainTestnet
+    );
   }
 
   public isAvalancheChain(): boolean {
     console.log('CHAIN ID: ' + this.chainId);
-    return this.chainId === 43113 || this.chainId === 43114;
+    return (
+      this.chainId === BlockchainNetworkId.avalanche ||
+      this.chainId === BlockchainNetworkId.avalancheTestnet
+    );
   }
 
   public isBinanceWallet(): boolean {

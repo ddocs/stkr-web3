@@ -1,20 +1,29 @@
 import { useQuery } from '@redux-requests/react';
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Provider } from '../../../../common/types';
+import {
+  Provider,
+  SupportedBlockchainNetworkId,
+} from '../../../../common/types';
 import { t } from '../../../../common/utils/intl';
 import { QueryError } from '../../../../components/QueryError/QueryError';
 import { UserActionTypes } from '../../../../store/actions/UserActions';
 import { IStakerStats } from '../../../../store/apiMappers/stakerStatsApi';
 import { IUserInfo } from '../../../../store/apiMappers/userApi';
 import { IStoreState } from '../../../../store/reducers';
-import { isConnected } from '../../../../store/reducers/userReducer';
 import { binance as binanceLogo } from '../assets/assets';
 import { PROVIDERS } from '../const';
 import { HeaderComponent } from './HeaderComponent';
 
 export const Header = () => {
-  const isAuth = useSelector((state: IStoreState) => isConnected(state.user));
+  const { isConnected: isAuth, chainId } = useSelector(
+    (state: IStoreState) => state.user,
+  );
+
+  const isSupportedNetwork =
+    chainId !== undefined
+      ? SupportedBlockchainNetworkId.includes(chainId)
+      : false;
 
   const { data, error } = useQuery<IUserInfo | null>({
     type: UserActionTypes.FETCH_ACCOUNT_DATA,
@@ -31,7 +40,7 @@ export const Header = () => {
 
   const authorized = (
     <HeaderComponent
-      isAuth={isAuth}
+      isAuth={isSupportedNetwork && isAuth}
       walletAddress={data?.address}
       blockchainType={data?.blockchainType}
       walletName={walletName}
@@ -46,7 +55,7 @@ export const Header = () => {
 
   const notAuthorized = <HeaderComponent isAuth={isAuth} />;
 
-  if (error) {
+  if (error && isSupportedNetwork) {
     return <QueryError error={error} />;
   }
 

@@ -1,16 +1,16 @@
 import { Box, Dialog, IconButton, Typography } from '@material-ui/core';
-import React, { ReactNode, useCallback, useState, useEffect } from 'react';
-import { t } from '../../../../common/utils/intl';
-import { CancelIcon } from '../../../../UiKit/Icons/CancelIcon';
-import { useClaimDialogStyles } from './ClaimDialogStyles';
-import { AvalancheActions } from '../../../../store/actions/AvalancheActions';
 import { Mutation } from '@redux-requests/react';
-import { MutationErrorHandler } from '../../../../components/MutationErrorHandler/MutationErrorHandler';
-import { ClaimForm } from '../ClaimForm';
 import BigNumber from 'bignumber.js';
-import { IClaimPayload } from '../../../avalanche-sdk/types';
+import React, { ReactNode, useCallback, useEffect, useState } from 'react';
 import { useMutationStatus } from '../../../../common/hooks/useMutationStatus';
+import { t } from '../../../../common/utils/intl';
 import { useRequestDispatch } from '../../../../common/utils/useRequestDispatch';
+import { MutationErrorHandler } from '../../../../components/MutationErrorHandler/MutationErrorHandler';
+import { AvalancheActions } from '../../../../store/actions/AvalancheActions';
+import { CancelIcon } from '../../../../UiKit/Icons/CancelIcon';
+import { IClaimPayload } from '../../../avalanche-sdk/types';
+import { ClaimForm } from '../ClaimForm';
+import { useClaimDialogStyles } from './ClaimDialogStyles';
 
 interface IClaimDialogProps {
   amount: BigNumber;
@@ -57,6 +57,7 @@ export const ClaimDialog = ({ children, amount }: IClaimDialogProps) => {
       <Dialog
         open={isOpened}
         onClose={handleClose}
+        scroll="body"
         fullWidth={true}
         maxWidth="md"
         PaperProps={{ square: false }}

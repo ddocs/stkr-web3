@@ -27,7 +27,7 @@ export const useConnect = () => {
     } else if (isBridgeRecoveryPath) {
       dispatch(UserActions.connect(BRIDGE_RECOVERY_PATH));
     } else {
-      dispatch(UserActions.connect());
+      dispatch(UserActions.connect(null));
     }
   }, [dispatch, isAuth, isBridgePath, isBridgeRecoveryPath]);
 

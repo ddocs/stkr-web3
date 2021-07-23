@@ -1,4 +1,4 @@
-import { BlockchainNetworkId } from '@ankr.com/stkr-jssdk';
+import { BlockchainNetworkId } from '../../common/types';
 
 export interface IConnectResponse {
   chainId: BlockchainNetworkId;

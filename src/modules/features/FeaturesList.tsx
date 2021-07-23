@@ -1,42 +1,44 @@
-import React, { useState } from 'react';
 import cn from 'classnames';
-import { useFeaturesListStyles } from './FeaturesListStyles';
-import { ReactComponent as StakeAvalancheIcon } from './assets/stake-avax.svg';
-import { ReactComponent as EthereumIcon } from './assets/ethereum.svg';
-import { ReactComponent as BnbIcon } from './assets/bnb.svg';
-import { ReactComponent as PolkadotIcon } from './assets/polkadot.svg';
-import { ReactComponent as KSMIcon } from './assets/ksm.svg';
-import { ReactComponent as ProviderIcon } from './assets/provider.svg';
-import { t } from '../../common/utils/intl';
-import { useFeaturesAvailable } from '../../common/hooks/useFeaturesAvailable';
+import React, { useState } from 'react';
 import {
+  ENABLE_AVA,
+  ENABLE_DOT,
+  ENABLE_KSM,
+  PROVIDER_MAIN_PATH,
+  STAKER_AVALANCHE_PATH,
   STAKER_BNB_PATH,
   STAKER_DASHBOARD_PATH,
-  STAKER_AVALANCHE_PATH,
-  ENABLE_AVA, PROVIDER_MAIN_PATH, ENABLE_DOT, ENABLE_KSM,
+  STAKER_STAKE_DOT_ROUTE,
 } from '../../common/const';
+import { t } from '../../common/utils/intl';
+import { ReactComponent as BnbIcon } from './assets/bnb.svg';
+import { ReactComponent as EthereumIcon } from './assets/ethereum.svg';
+import { ReactComponent as KSMIcon } from './assets/ksm.svg';
+import { ReactComponent as PolkadotIcon } from './assets/polkadot.svg';
+import { ReactComponent as ProviderIcon } from './assets/provider.svg';
+import { ReactComponent as StakeAvalancheIcon } from './assets/stake-avax.svg';
 import { FeatureListVerticalItem } from './components/FeatureListVerticalItem/FeatureListVerticalItem';
+import { useFeaturesListStyles } from './FeaturesListStyles';
 
 type ActionType = 'Staking' | 'Providing';
 
 export const FeaturesList = () => {
   const classes = useFeaturesListStyles();
-  const { isProviderAvailable, isBnbStakingAvailable, isEthStakingAvailable } = useFeaturesAvailable();
   const [currentAction, setCurrentAction] = useState<ActionType>('Staking');
 
   const handleCurrentActionChange = (newAction: ActionType) => () => {
     setCurrentAction(newAction);
-  }
+  };
 
   return (
-    <div>
+    <section>
       <div className={classes.toggler}>
-        {(['Staking', 'Providing'] as ActionType[]).map((action) => (
+        {(['Staking', 'Providing'] as ActionType[]).map(action => (
           <div
             key={action}
             onClick={handleCurrentActionChange(action)}
             className={cn(classes.togglerButton, {
-              [classes.activeTogglerButton]: action === currentAction
+              [classes.activeTogglerButton]: action === currentAction,
             })}
           >
             {action}
@@ -55,7 +57,6 @@ export const FeaturesList = () => {
             ]}
             buttonText={t('features-list.action.stake-eth.mainnet')}
             onClickTo={STAKER_DASHBOARD_PATH}
-            disabled={!isEthStakingAvailable}
           />
           <FeatureListVerticalItem
             Icon={BnbIcon}
@@ -67,7 +68,6 @@ export const FeaturesList = () => {
             ]}
             buttonText={t('features-list.action.start-staking')}
             onClickTo={STAKER_BNB_PATH}
-            disabled={!isBnbStakingAvailable}
           />
           {ENABLE_AVA && (
             <FeatureListVerticalItem
@@ -89,7 +89,7 @@ export const FeaturesList = () => {
               title={t('features-list.header.stake-polkadot')}
               features={[]}
               buttonText={t('features-list.action.start-staking')}
-              onClickTo={''}
+              onClickTo={STAKER_STAKE_DOT_ROUTE}
             />
           )}
           {ENABLE_KSM && (
@@ -108,24 +108,21 @@ export const FeaturesList = () => {
           )}
         </div>
       )}
-      {
-        currentAction === 'Providing' && (
-          <div className={classes.container}>
-            <FeatureListVerticalItem
-              Icon={ProviderIcon}
-              title={t('features-list.header.provider')}
-              features={[
-                t('features-list.list-item.provider.1'),
-                t('features-list.list-item.provider.2'),
-                t('features-list.list-item.provider.3'),
-              ]}
-              buttonText={t('features-list.action.provider')}
-              onClickTo={PROVIDER_MAIN_PATH}
-              disabled={!isProviderAvailable}
-            />
-          </div>
-        )
-      }
-    </div>
+      {currentAction === 'Providing' && (
+        <div className={classes.container}>
+          <FeatureListVerticalItem
+            Icon={ProviderIcon}
+            title={t('features-list.header.provider')}
+            features={[
+              t('features-list.list-item.provider.1'),
+              t('features-list.list-item.provider.2'),
+              t('features-list.list-item.provider.3'),
+            ]}
+            buttonText={t('features-list.action.provider')}
+            onClickTo={PROVIDER_MAIN_PATH}
+          />
+        </div>
+      )}
+    </section>
   );
 };

@@ -1,8 +1,5 @@
-import Stkr, {
-  BlockchainNetworkId,
-  GovernanceEvents,
-  VoteStatus,
-} from '@ankr.com/stkr-jssdk';
+import Stkr, { GovernanceEvents, VoteStatus } from '@ankr.com/stkr-jssdk';
+import { BlockchainNetworkId } from '../../common/types';
 import { Contract } from 'web3-eth-contract';
 import { SendOptions } from 'web3-eth-contract';
 import { KeyProvider } from './provider';

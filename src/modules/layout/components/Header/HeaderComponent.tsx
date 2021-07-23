@@ -2,12 +2,14 @@ import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
 import React from 'react';
 import { FocusOn } from 'react-focus-on';
+import { useRouteMatch } from 'react-router-dom';
+import { FEATURES_PATH } from '../../../../common/const';
 import { Blockchain, Provider } from '../../../../common/types';
 import { t } from '../../../../common/utils/intl';
 import { MutationErrorHandler } from '../../../../components/MutationErrorHandler/MutationErrorHandler';
 import { UserActionTypes } from '../../../../store/actions/UserActions';
-import { Button } from '../../../../UiKit/Button';
 import { Curtains } from '../../../../UiKit/Curtains';
+import { NavLink } from '../../../../UiKit/NavLink';
 import { Links } from '../Links';
 import { LocaleLinks } from '../LocaleLinks';
 import { LocaleSwitcher } from '../LocaleSwitcher';
@@ -53,10 +55,11 @@ export const HeaderComponent = ({
     isMDUp,
     isSMUp,
     isFilteredError,
-    handleConnect,
     handleMobileNavClose,
     handleMobileNavOpen,
   } = useHeader();
+
+  const isFeatures = useRouteMatch(FEATURES_PATH)?.isExact;
 
   const renderedSwitcher = showSwitcher && <Switcher />;
 
@@ -69,16 +72,19 @@ export const HeaderComponent = ({
     />
   );
 
-  const renderedAppButton = (
-    <Button
-      onClick={handleConnect}
+  const renderedAppButton = isFeatures ? (
+    <div />
+  ) : (
+    <NavLink
+      href={FEATURES_PATH}
       className={classes.appButton}
       color="primary"
+      variant="contained"
       size="large"
       fullWidth
     >
-      {t('navigation.unlock-wallet')}
-    </Button>
+      {t('navigation.stakefi-launchpad')}
+    </NavLink>
   );
 
   const renderedErrorHandler = (

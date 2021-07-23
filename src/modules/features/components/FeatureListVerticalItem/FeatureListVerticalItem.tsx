@@ -1,8 +1,7 @@
-import React, { ReactElement } from 'react';
 import { Button, Typography } from '@material-ui/core';
-
-import { useFeaturesListVerticalItemStyles } from './FeatureListVerticalItemStyles';
+import React, { ReactElement } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
+import { useFeaturesListVerticalItemStyles } from './FeatureListVerticalItemStyles';
 
 export interface IFeatureListVerticalItemProps {
   Icon: (props: React.SVGProps<any>) => ReactElement | null;
@@ -14,16 +13,25 @@ export interface IFeatureListVerticalItemProps {
   isNew?: boolean;
   disabled?: boolean;
 }
-export const FeatureListVerticalItem = ({ Icon, title, features, buttonText, onClick, onClickTo, isNew, disabled }: IFeatureListVerticalItemProps) => {
+export const FeatureListVerticalItem = ({
+  Icon,
+  title,
+  features,
+  buttonText,
+  onClick,
+  onClickTo,
+  isNew,
+  disabled,
+}: IFeatureListVerticalItemProps) => {
   const classes = useFeaturesListVerticalItemStyles();
 
   return (
     <div className={classes.container}>
-      {isNew && (
-        <div className={classes.new}>NEW</div>
-      )}
+      {isNew && <div className={classes.new}>NEW</div>}
       <Icon className={classes.icon} />
-      <Typography className={classes.title} variant="h4">{title}</Typography>
+      <Typography className={classes.title} variant="h4">
+        {title}
+      </Typography>
       <div>
         {features.map((text, i) => (
           <div key={i} className={classes.featureItem}>
@@ -40,16 +48,16 @@ export const FeatureListVerticalItem = ({ Icon, title, features, buttonText, onC
       </div>
       <Button
         variant="contained"
+        color="primary"
+        size="large"
         className={classes.button}
-        fullWidth={true}
+        fullWidth
         component={RouterLink}
         onClick={onClick}
         to={onClickTo}
         disabled={disabled}
       >
-        <div className={classes.buttonText}>
-          {buttonText}
-        </div>
+        {buttonText}
       </Button>
     </div>
   );
