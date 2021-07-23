@@ -81,7 +81,6 @@ export const Ongoing = () => {
               <QueryLoadingCentered />
             </Box>
           )}
-          showLoaderDuringRefetch={false}
         >
           {() =>
             crowdloans.map(item => {

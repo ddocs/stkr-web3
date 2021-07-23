@@ -14,6 +14,11 @@ import {
 import { CaptionType } from '../Table/types';
 import { useSlotAuctionSdk } from '../../hooks/useSlotAuctionSdk';
 import { useCrowdloanBalances, useCrowdloans } from '../../hooks/useCrowdloans';
+import { SlotAuctionActions } from '../../actions/SlotAuctionActions';
+import { QueryError } from '../../../../components/QueryError/QueryError';
+import { Box } from '@material-ui/core';
+import { QueryLoadingCentered } from '../../../../components/QueryLoading/QueryLoading';
+import { Query } from '@redux-requests/react';
 
 export const MyRewards = () => {
   const classes = useMyRewardsStyles();
@@ -85,31 +90,43 @@ export const MyRewards = () => {
         ))}
       </TableHead>
       <TableBody>
-        {crowdloans.map(item => (
-          <TableRow key={uid(item)}>
-            <TableBodyCell>{item.projectName}</TableBodyCell>
-            <TableBodyCell>
-              {new Date(item.endTime * 1000).toLocaleDateString()}
-            </TableBodyCell>
-            <TableBodyCell>
-              {balances[item.loanId]
-                ? balances[item.loanId].claimableStakingRewards.toString(10)
-                : '0'}
-              &nbsp;ABC
-            </TableBodyCell>
-            <TableBodyCell>{0}</TableBodyCell>
-            <TableBodyCell>{0}</TableBodyCell>
-            <TableBodyCell align="right">
-              <Button
-                variant="outlined"
-                className={classes.button}
-                onClick={handleClaim}
-              >
-                {t('polkadot-slot-auction.claim-rewards-button')}
-              </Button>
-            </TableBodyCell>
-          </TableRow>
-        ))}
+        <Query
+          type={SlotAuctionActions.fetchCrowdloansByStatus}
+          errorComponent={QueryError}
+          loadingComponent={() => (
+            <Box mt={5}>
+              <QueryLoadingCentered />
+            </Box>
+          )}
+        >
+          {() =>
+            crowdloans.map(item => (
+              <TableRow key={uid(item)}>
+                <TableBodyCell>{item.projectName}</TableBodyCell>
+                <TableBodyCell>
+                  {new Date(item.endTime * 1000).toLocaleDateString()}
+                </TableBodyCell>
+                <TableBodyCell>
+                  {balances[item.loanId]
+                    ? balances[item.loanId].claimableStakingRewards.toString(10)
+                    : '0'}
+                  &nbsp;ABC
+                </TableBodyCell>
+                <TableBodyCell>{0}</TableBodyCell>
+                <TableBodyCell>{0}</TableBodyCell>
+                <TableBodyCell align="right">
+                  <Button
+                    variant="outlined"
+                    className={classes.button}
+                    onClick={handleClaim}
+                  >
+                    {t('polkadot-slot-auction.claim-rewards-button')}
+                  </Button>
+                </TableBodyCell>
+              </TableRow>
+            ))
+          }
+        </Query>
       </TableBody>
     </Table>
   );

@@ -16,6 +16,11 @@ import { useSlotAuctionSdk } from '../../hooks/useSlotAuctionSdk';
 import { ICrowdloanType } from '@ankr.com/stakefi-polkadot';
 import { useCrowdloanBalances, useCrowdloans } from '../../hooks/useCrowdloans';
 import { Body2 } from '../../../../UiKit/Typography';
+import { SlotAuctionActions } from '../../actions/SlotAuctionActions';
+import { QueryError } from '../../../../components/QueryError/QueryError';
+import { Box } from '@material-ui/core';
+import { QueryLoadingCentered } from '../../../../components/QueryLoading/QueryLoading';
+import { Query } from '@redux-requests/react';
 
 export const Completed = () => {
   const classes = useCompletedStyles();
@@ -104,29 +109,41 @@ export const Completed = () => {
         ))}
       </TableHead>
       <TableBody>
-        {crowdloans.map(item => (
-          <TableRow key={uid(item)}>
-            <TableBodyCell>{item.projectName}</TableBodyCell>
-            <TableBodyCell>
-              {t(`polkadot-slot-auction.crowdloan-status.${item.status}`)}
-            </TableBodyCell>
-            <TableBodyCell>
-              {new Date(item.startTime * 1000).toLocaleDateString()} –{' '}
-              {new Date(item.endTime * 1000).toLocaleDateString()}
-            </TableBodyCell>
-            <TableBodyCell>
-              {/*{item.alreadyContributed.toString(10)}&nbsp;/&nbsp;*/}
-              {/*{item.totalRaiseTarget.toString(10)}&nbsp;DOT*/}
-              <br />
-              <Body2 color="secondary">
-                {item.stakeFiContributed.toString(10)}&nbsp;DOT
-              </Body2>
-            </TableBodyCell>
-            <TableBodyCell align="right">
-              {renderClaimButton(item)}
-            </TableBodyCell>
-          </TableRow>
-        ))}
+        <Query
+          type={SlotAuctionActions.fetchCrowdloansByStatus}
+          errorComponent={QueryError}
+          loadingComponent={() => (
+            <Box mt={5}>
+              <QueryLoadingCentered />
+            </Box>
+          )}
+        >
+          {() =>
+            crowdloans.map(item => (
+              <TableRow key={uid(item)}>
+                <TableBodyCell>{item.projectName}</TableBodyCell>
+                <TableBodyCell>
+                  {t(`polkadot-slot-auction.crowdloan-status.${item.status}`)}
+                </TableBodyCell>
+                <TableBodyCell>
+                  {new Date(item.startTime * 1000).toLocaleDateString()} –{' '}
+                  {new Date(item.endTime * 1000).toLocaleDateString()}
+                </TableBodyCell>
+                <TableBodyCell>
+                  {/*{item.alreadyContributed.toString(10)}&nbsp;/&nbsp;*/}
+                  {/*{item.totalRaiseTarget.toString(10)}&nbsp;DOT*/}
+                  <br />
+                  <Body2 color="secondary">
+                    {item.stakeFiContributed.toString(10)}&nbsp;DOT
+                  </Body2>
+                </TableBodyCell>
+                <TableBodyCell align="right">
+                  {renderClaimButton(item)}
+                </TableBodyCell>
+              </TableRow>
+            ))
+          }
+        </Query>
       </TableBody>
     </Table>
   );
