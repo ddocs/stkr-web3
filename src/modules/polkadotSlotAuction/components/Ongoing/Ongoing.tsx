@@ -24,30 +24,29 @@ import { QueryLoadingCentered } from '../../../../components/QueryLoading/QueryL
 import { Query } from '@redux-requests/react';
 import { Box } from '@material-ui/core';
 
+const captions: CaptionType[] = [
+  {
+    label: t('polkadot-slot-auction.header.project'),
+  },
+  {
+    label: t('polkadot-slot-auction.header.status'),
+  },
+  {
+    label: t('polkadot-slot-auction.header.lease-duration'),
+    tip: t('polkadot-slot-auction.header.lease-duration-tip'),
+  },
+  {
+    label: t('polkadot-slot-auction.header.raised-on-ankr'),
+  },
+  {
+    label: '',
+  },
+];
+
 export const Ongoing = () => {
   const classes = useOngoingStyles();
 
   const { slotAuctionSdk, isConnected, polkadotAccount } = useSlotAuctionSdk();
-
-  const captions: CaptionType[] = [
-    {
-      label: t('polkadot-slot-auction.header.project'),
-    },
-    {
-      label: t('polkadot-slot-auction.header.status'),
-    },
-    {
-      label: t('polkadot-slot-auction.header.lease-duration'),
-      tip: t('polkadot-slot-auction.header.lease-duration-tip'),
-    },
-    {
-      label: t('polkadot-slot-auction.header.raised-on-ankr'),
-    },
-    {
-      label: '',
-      align: 'right',
-    },
-  ];
 
   const { crowdloans } = useCrowdloans(slotAuctionSdk, 'ONGOING');
 

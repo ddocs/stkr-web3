@@ -213,4 +213,42 @@ export const SlotAuctionActions = {
       },
     }),
   ),
+  fetchClaimableStakingRewards: createAction(
+    'FETCH_CLAIMABLE_STAKING_REWARDS',
+    (slotAuctionSdk: SlotAuctionSdk) => ({
+      request: {
+        promise: (async () => {
+          const claimableStakingRewards = await slotAuctionSdk.getClaimableStakingRewards();
+
+          return { claimableStakingRewards };
+        })(),
+      },
+      meta: {
+        asMutation: false,
+      },
+    }),
+  ),
+  claimStakingRewards: createAction(
+    'CLAIM_STAKING_REWARDS',
+    (
+      slotAuctionSdk: SlotAuctionSdk,
+      polkadotAccount: string,
+      myLoanId: number,
+    ) => ({
+      request: {
+        promise: (async () => {
+          await slotAuctionSdk.claimStakingRewards(
+            polkadotAccount,
+            myLoanId,
+            'ERC20',
+          );
+
+          return;
+        })(),
+      },
+      meta: {
+        asMutation: true,
+      },
+    }),
+  ),
 };

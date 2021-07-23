@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { uid } from 'react-uid';
 import { Button } from '../../../../UiKit/Button';
 import { t } from '../../../../common/utils/intl';
@@ -17,35 +17,43 @@ import { useCrowdloanBalances, useCrowdloans } from '../../hooks/useCrowdloans';
 import { SlotAuctionActions } from '../../actions/SlotAuctionActions';
 import { QueryError } from '../../../../components/QueryError/QueryError';
 import { Box } from '@material-ui/core';
-import { QueryLoadingCentered } from '../../../../components/QueryLoading/QueryLoading';
+import {
+  QueryLoading,
+  QueryLoadingCentered,
+} from '../../../../components/QueryLoading/QueryLoading';
 import { Query } from '@redux-requests/react';
+import { useRewards } from '../../hooks/useRewards';
+import { useDispatch } from 'react-redux';
+
+const captions: CaptionType[] = [
+  {
+    label: t('polkadot-slot-auction.header.parachain-bond'),
+  },
+  {
+    label: t('polkadot-slot-auction.header.date'),
+  },
+  {
+    label: t('polkadot-slot-auction.header.claimable-rewards'),
+  },
+  {
+    label: t('polkadot-slot-auction.header.future-rewards'),
+  },
+  {
+    label: t('polkadot-slot-auction.header.total-rewards'),
+  },
+  {
+    label: '',
+  },
+];
 
 export const MyRewards = () => {
   const classes = useMyRewardsStyles();
 
-  const { slotAuctionSdk, polkadotAccount } = useSlotAuctionSdk();
+  const dispatch = useDispatch();
 
-  const captions: CaptionType[] = [
-    {
-      label: t('polkadot-slot-auction.header.parachain-bond'),
-    },
-    {
-      label: t('polkadot-slot-auction.header.date'),
-    },
-    {
-      label: t('polkadot-slot-auction.header.claimable-rewards'),
-    },
-    {
-      label: t('polkadot-slot-auction.header.future-rewards'),
-    },
-    {
-      label: t('polkadot-slot-auction.header.total-rewards'),
-    },
-    {
-      label: '',
-      align: 'right',
-    },
-  ];
+  const [loading, setLoading] = useState(false);
+
+  const { slotAuctionSdk, polkadotAccount } = useSlotAuctionSdk();
 
   const { crowdloans } = useCrowdloans(slotAuctionSdk, 'SUCCEEDED');
 
@@ -55,28 +63,29 @@ export const MyRewards = () => {
     polkadotAccount,
   );
 
+  const { claimableStakingRewards } = useRewards(slotAuctionSdk);
+  const myLoanId = 2003;
+  const currentClaimableRewards = claimableStakingRewards?.find(
+    csr => csr.loanId === myLoanId,
+  );
+  const hasStakingRewards =
+    currentClaimableRewards && !currentClaimableRewards.amount.isZero();
+
   const handleClaim = async () => {
-    const myLoanId = 2003;
-    // FIXME: "take random account"
-    const [polkadotAccount] = await slotAuctionSdk.getPolkadotAccounts();
-    const claimableStakingRewards = await slotAuctionSdk.getClaimableStakingRewards(),
-      [currentClaimableRewards] = claimableStakingRewards.filter(
-        csr => csr.loanId === myLoanId,
-      );
-    if (!currentClaimableRewards || currentClaimableRewards.amount.isZero()) {
-      alert(`There is no staking rewards`);
-      return;
-    }
-    await slotAuctionSdk.claimStakingRewards(
-      polkadotAccount,
-      myLoanId,
-      'ERC20',
+    setLoading(true);
+    await dispatch(
+      SlotAuctionActions.claimStakingRewards(
+        slotAuctionSdk,
+        polkadotAccount,
+        myLoanId,
+      ),
     );
+    setLoading(false);
   };
 
   return (
     <Table
-      customCell="1fr 1fr 2fr 1fr 1fr 1fr"
+      customCell="1fr 1fr 2fr 1fr 1fr 2fr"
       columnsCount={captions.length}
       paddingCollapse
     >
@@ -114,14 +123,18 @@ export const MyRewards = () => {
                 </TableBodyCell>
                 <TableBodyCell>{0}</TableBodyCell>
                 <TableBodyCell>{0}</TableBodyCell>
-                <TableBodyCell align="right">
-                  <Button
-                    variant="outlined"
-                    className={classes.button}
-                    onClick={handleClaim}
-                  >
-                    {t('polkadot-slot-auction.claim-rewards-button')}
-                  </Button>
+                <TableBodyCell>
+                  <Box display="flex" justifyContent="flex-end">
+                    <Button
+                      variant="outlined"
+                      className={classes.button}
+                      onClick={handleClaim}
+                      disabled={!hasStakingRewards || loading}
+                    >
+                      {t('polkadot-slot-auction.claim-rewards-button')}
+                    </Button>
+                    {loading && <QueryLoading size={40} />}
+                  </Box>
                 </TableBodyCell>
               </TableRow>
             ))
