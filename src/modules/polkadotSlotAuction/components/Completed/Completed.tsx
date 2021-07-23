@@ -82,14 +82,19 @@ export const Completed = () => {
       );
     }
     return (
-      <Body2>
-        {t('polkadot-slot-auction.my-balance', {
-          value: balance.total
-            .plus(balance.onchain)
-            .plus(balance.claimable)
-            .toString(10),
-        })}
-      </Body2>
+      <>
+        <span className={classes.myBalance}>
+          {t('polkadot-slot-auction.my-balance')}
+        </span>
+        <Body2>
+          {t('polkadot-slot-auction.adotp-balance', {
+            value: balance.total
+              .plus(balance.onchain)
+              .plus(balance.claimable)
+              .toString(10),
+          })}
+        </Body2>
+      </>
     );
   };
 

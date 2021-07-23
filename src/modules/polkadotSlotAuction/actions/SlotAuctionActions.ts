@@ -30,15 +30,18 @@ export const SlotAuctionActions = {
   })),
   connect: createAction(
     'CONNECT_SLOT_AUCTION_SDK',
-    (slotAuctionSdk: SlotAuctionSdk) => ({
+    (slotAuctionSdk: SlotAuctionSdk, selectedPolkadotAccount?: string) => ({
       request: {
         promise: (async function () {
           if (!slotAuctionSdk.isConnected()) {
             await slotAuctionSdk.connect();
           }
-          const polkadotAccounts = await slotAuctionSdk.getPolkadotAccounts();
-          /* TODO: user choose from the list */
-          const polkadotAccount = polkadotAccounts[0];
+          const accounts = await slotAuctionSdk.getPolkadotAccounts();
+          const selectedAccountIndex = accounts.indexOf(
+            selectedPolkadotAccount ?? '',
+          );
+          const polkadotAccount =
+            accounts[selectedAccountIndex === -1 ? 0 : selectedAccountIndex];
           const isConnected = slotAuctionSdk.isConnected();
           const networkType = await slotAuctionSdk
             .getPolkadotProvider()

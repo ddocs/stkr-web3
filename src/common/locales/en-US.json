@@ -908,7 +908,8 @@
     "buy-adotp-button": "Buy aDOTp",
     "claim-rewards-button": "Claim Rewards",
     "claim-dot-button": "Claim {value} aDOTp",
-    "my-balance": "My balance {value} aDOTp",
+    "my-balance": "My balance",
+    "adotp-balance": "{value} aDOTp",
     "lend-dot-button": "Lend DOT",
     "lent-dot": "Lent {value} DOT",
     "crowdloan-status": {

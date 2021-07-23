@@ -71,7 +71,10 @@ export const PolkadotSlotAuction = () => {
                 mr={4}
                 mb={3.5}
               >
-                <Headline3 color={tab === currentTab ? 'initial' : 'secondary'}>
+                <Headline3
+                  className={classes.tab}
+                  color={tab === currentTab ? 'initial' : 'secondary'}
+                >
                   {tab}
                 </Headline3>
               </Box>

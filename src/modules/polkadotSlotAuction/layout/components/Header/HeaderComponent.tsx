@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 import { SlotAuctionActions } from '../../../actions/SlotAuctionActions';
-import { walletConversion } from '../../../../../common/utils/convertWallet';
 import { Curtains } from '../../../../../UiKit/Curtains';
 import { Logotype } from '../Logotype';
 import { Button } from '../../../../../UiKit/Button';
@@ -10,30 +9,24 @@ import { useHeaderStyles } from './HeaderStyles';
 import { useDispatch } from 'react-redux';
 import { useSlotAuctionSdk } from '../../../hooks/useSlotAuctionSdk';
 import { QueryLoading } from '../../../../../components/QueryLoading/QueryLoading';
+import { WalletSwitcher } from '../WalletSwitcher/WalletSwitcher';
 
 export const HeaderComponent = () => {
   const classes = useHeaderStyles();
 
   const dispatch = useDispatch();
 
-  const {
-    slotAuctionSdk,
-    isConnected,
-    polkadotAccount: polkadotAccountSdk,
-  } = useSlotAuctionSdk();
-
+  const { slotAuctionSdk, polkadotAccount, isConnected } = useSlotAuctionSdk();
   const [loading, setLoading] = useState(false);
-  const [polkadotAccount, setPolkadotAccount] = useState(
-    walletConversion(polkadotAccountSdk),
-  );
+  const [polkadotAccounts, setPolkadotAccounts] = useState<string[]>([]);
 
-  const handleConnect = async () => {
+  const handleConnect = (newAccount?: string) => async () => {
     setLoading(true);
 
-    await dispatch(SlotAuctionActions.connect(slotAuctionSdk));
+    await dispatch(SlotAuctionActions.connect(slotAuctionSdk, newAccount));
 
     const polkadotAccounts = await slotAuctionSdk?.getPolkadotAccounts();
-    setPolkadotAccount(walletConversion(polkadotAccounts[0]));
+    setPolkadotAccounts(polkadotAccounts);
 
     setLoading(false);
   };
@@ -48,20 +41,18 @@ export const HeaderComponent = () => {
         >
           <Logotype />
           {isConnected ? (
-            <Button
-              variant="outlined"
-              color="secondary"
-              className={classes.button}
-            >
-              {polkadotAccount}
-            </Button>
+            <WalletSwitcher
+              wallets={polkadotAccounts}
+              currentWallet={polkadotAccount}
+              onConnect={handleConnect}
+            />
           ) : (
             <>
               <Button
                 color="primary"
                 className={classes.button}
                 disabled={loading}
-                onClick={handleConnect}
+                onClick={handleConnect()}
               >
                 {t('polkadot-slot-auction.connect-button')}
               </Button>
