@@ -14,7 +14,7 @@ import {
 import { CaptionType } from '../Table/types';
 import { useSlotAuctionSdk } from '../../hooks/useSlotAuctionSdk';
 import { ICrowdloanType } from '@ankr.com/stakefi-polkadot';
-import { useCrowdloansWithBalances } from '../../hooks/useCrowdloans';
+import { useCrowdloanBalances, useCrowdloans } from '../../hooks/useCrowdloans';
 import { Body2 } from '../../../../UiKit/Typography';
 
 export const Completed = () => {
@@ -42,7 +42,9 @@ export const Completed = () => {
     },
   ];
 
-  const { crowdloans, balances } = useCrowdloansWithBalances(
+  const { crowdloans } = useCrowdloans(slotAuctionSdk, 'SUCCEEDED');
+
+  const { balances } = useCrowdloanBalances(
     slotAuctionSdk,
     'SUCCEEDED',
     polkadotAccount,

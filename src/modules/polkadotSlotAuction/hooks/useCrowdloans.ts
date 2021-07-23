@@ -58,13 +58,11 @@ export type BalancesType = Record<
   }
 >;
 
-export const useCrowdloansWithBalances = (
+export const useCrowdloans = (
   slotAuctionSdk: SlotAuctionSdk,
   crowdloanStatus: TCrowdloanStatus,
-  polkadotAccount: string,
 ): {
   crowdloans: ICrowdloanType[];
-  balances: BalancesType;
 } => {
   const {
     data: crowdloans,
@@ -76,6 +74,19 @@ export const useCrowdloansWithBalances = (
     variables: [slotAuctionSdk, crowdloanStatus],
     autoLoad: true,
   });
+
+  return {
+    crowdloans,
+  };
+};
+
+export const useCrowdloanBalances = (
+  slotAuctionSdk: SlotAuctionSdk,
+  crowdloanStatus: TCrowdloanStatus,
+  polkadotAccount: string,
+): {
+  balances: BalancesType;
+} => {
   const {
     data: balances,
   }: {
@@ -95,7 +106,6 @@ export const useCrowdloansWithBalances = (
     autoLoad: true,
   });
   return {
-    crowdloans,
     balances,
   };
 };

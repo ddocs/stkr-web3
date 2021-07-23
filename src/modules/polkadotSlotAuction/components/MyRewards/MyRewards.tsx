@@ -13,7 +13,7 @@ import {
 } from '../Table';
 import { CaptionType } from '../Table/types';
 import { useSlotAuctionSdk } from '../../hooks/useSlotAuctionSdk';
-import { useCrowdloansWithBalances } from '../../hooks/useCrowdloans';
+import { useCrowdloanBalances, useCrowdloans } from '../../hooks/useCrowdloans';
 
 export const MyRewards = () => {
   const classes = useMyRewardsStyles();
@@ -42,7 +42,9 @@ export const MyRewards = () => {
     },
   ];
 
-  const { crowdloans, balances } = useCrowdloansWithBalances(
+  const { crowdloans } = useCrowdloans(slotAuctionSdk, 'SUCCEEDED');
+
+  const { balances } = useCrowdloanBalances(
     slotAuctionSdk,
     'SUCCEEDED',
     polkadotAccount,

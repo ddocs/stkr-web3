@@ -13,7 +13,7 @@ import {
 } from '../Table';
 import { CaptionType } from '../Table/types';
 import { useSlotAuctionSdk } from '../../hooks/useSlotAuctionSdk';
-import { useCrowdloansWithBalances } from '../../hooks/useCrowdloans';
+import { useCrowdloanBalances, useCrowdloans } from '../../hooks/useCrowdloans';
 import { Body2 } from '../../../../UiKit/Typography';
 import { NavLink } from '../../../../UiKit/NavLink';
 import { getPolkadotSlotAuctionLendPath } from '../../../../common/const';
@@ -22,6 +22,7 @@ import { SlotAuctionActions } from '../../actions/SlotAuctionActions';
 import { QueryError } from '../../../../components/QueryError/QueryError';
 import { QueryLoadingCentered } from '../../../../components/QueryLoading/QueryLoading';
 import { Query } from '@redux-requests/react';
+import { Box } from '@material-ui/core';
 
 export const Ongoing = () => {
   const classes = useOngoingStyles();
@@ -48,7 +49,9 @@ export const Ongoing = () => {
     },
   ];
 
-  const { crowdloans, balances } = useCrowdloansWithBalances(
+  const { crowdloans } = useCrowdloans(slotAuctionSdk, 'ONGOING');
+
+  const { balances } = useCrowdloanBalances(
     slotAuctionSdk,
     'ONGOING',
     polkadotAccount,
@@ -73,7 +76,11 @@ export const Ongoing = () => {
         <Query
           type={SlotAuctionActions.fetchCrowdloansByStatus}
           errorComponent={QueryError}
-          loadingComponent={QueryLoadingCentered}
+          loadingComponent={() => (
+            <Box mt={5}>
+              <QueryLoadingCentered />
+            </Box>
+          )}
           showLoaderDuringRefetch={false}
         >
           {() =>
@@ -98,29 +105,48 @@ export const Ongoing = () => {
                     </Body2>
                   </TableBodyCell>
                   <TableBodyCell align="right">
-                    <NavLink
-                      href={getPolkadotSlotAuctionLendPath(
-                        /*item.loanId*/ 2003,
-                        item.projectName,
-                      )}
-                    >
+                    {isConnected ? (
+                      <Query
+                        type={SlotAuctionActions.fetchCrowdloanBalances}
+                        errorComponent={QueryError}
+                        loadingComponent={() => (
+                          <QueryLoadingCentered size={40} />
+                        )}
+                      >
+                        {() => (
+                          <NavLink
+                            href={getPolkadotSlotAuctionLendPath(
+                              /*item.loanId*/ 2003,
+                              item.projectName,
+                            )}
+                          >
+                            <Button
+                              variant="outlined"
+                              className={classes.button}
+                            >
+                              {balance ? (
+                                <>
+                                  {t('polkadot-slot-auction.lent-dot', {
+                                    value: balance,
+                                  })}
+                                  <span className={classes.plus}>+</span>
+                                </>
+                              ) : (
+                                t('polkadot-slot-auction.lend-dot-button')
+                              )}
+                            </Button>
+                          </NavLink>
+                        )}
+                      </Query>
+                    ) : (
                       <Button
                         variant="outlined"
                         className={classes.button}
-                        disabled={!isConnected}
+                        disabled
                       >
-                        {balance ? (
-                          <>
-                            {t('polkadot-slot-auction.lent-dot', {
-                              value: balance,
-                            })}
-                            <span className={classes.plus}>+</span>
-                          </>
-                        ) : (
-                          t('polkadot-slot-auction.lend-dot-button')
-                        )}
+                        {t('polkadot-slot-auction.lend-dot-button')}
                       </Button>
-                    </NavLink>
+                    )}
                   </TableBodyCell>
                 </TableRow>
               );
