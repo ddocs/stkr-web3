@@ -44,7 +44,7 @@ export const StakeBnb = () => {
             stakingAmountStep={BNB_STAKING_AMOUNT_STEP}
             minAmount={BNB_MIN_AMOUNT}
             loading={loading}
-            currency={t('unit')}
+            currency={t('unit.bnb')}
           />
         )}
       </Query>

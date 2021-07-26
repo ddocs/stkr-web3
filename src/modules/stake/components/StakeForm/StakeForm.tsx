@@ -6,6 +6,7 @@ import { Field, Form, FormRenderProps } from 'react-final-form';
 import { FormErrors } from '../../../../common/types/FormErrors';
 import { floor } from '../../../../common/utils/floor';
 import { t } from '../../../../common/utils/intl';
+import { roundByStep } from '../../../../common/utils/numbers/roundByStep';
 import { MutationErrorHandler } from '../../../../components/MutationErrorHandler/MutationErrorHandler';
 import { UserActionTypes } from '../../../../store/actions/UserActions';
 import { Button } from '../../../../UiKit/Button';
@@ -15,7 +16,6 @@ import { CloseIcon } from '../../../../UiKit/Icons/CloseIcon';
 import { SliderField } from '../../../../UiKit/RangeField';
 import { Body2, Headline2 } from '../../../../UiKit/Typography';
 import { useStakeFormStyles } from './StakeFormStyles';
-import { roundByStep } from '../../../../common/utils/numbers/roundByStep';
 
 export const MAX_AMOUNT = 32;
 
@@ -105,7 +105,7 @@ export const StakeForm = ({
             </Headline2>
 
             <label className={classes.range}>
-              <Headline2 component="p" classes={{ root: classes.label }}>
+              <Headline2 component="div" classes={{ root: classes.label }}>
                 <div className={classes.labelText}>{t('stake.i-want')}</div>
 
                 <div className={classes.amount}>
