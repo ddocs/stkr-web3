@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { uid } from 'react-uid';
 import { Query } from '@redux-requests/react';
 import { Box } from '@material-ui/core';
@@ -13,27 +13,11 @@ import { QueryLoading } from '../../components/QueryLoading/QueryLoading';
 import { SlotAuctionActions } from './actions/SlotAuctionActions';
 import { usePolkadotSlotAuctionStyles } from './PolkadotSlotAuctionStyles';
 import { useSlotAuctionSdk } from './hooks/useSlotAuctionSdk';
-import { useDispatch } from 'react-redux';
 
 export const PolkadotSlotAuction = () => {
   const classes = usePolkadotSlotAuctionStyles();
 
-  const dispatch = useDispatch();
-
-  const { isConnected, slotAuctionSdk, polkadotAccount } = useSlotAuctionSdk();
-
-  useEffect(() => {
-    if (!isConnected) return;
-    const timer = setInterval(() => {
-      dispatch(
-        SlotAuctionActions.fetchPolkadotBalance(
-          slotAuctionSdk,
-          polkadotAccount,
-        ),
-      );
-    }, 5000);
-    return () => clearInterval(timer);
-  }, [dispatch, isConnected, polkadotAccount, slotAuctionSdk]);
+  const { isConnected } = useSlotAuctionSdk();
 
   const ongoingText = t('polkadot-slot-auction.tabs.ongoing');
   const completedText = t('polkadot-slot-auction.tabs.completed');

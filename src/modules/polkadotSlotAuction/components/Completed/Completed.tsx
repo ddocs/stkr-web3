@@ -58,45 +58,6 @@ export const Completed = () => {
     await slotAuctionSdk.claimRewardPoolTokens(polkadotAccount, item.loanId);
   };
 
-  const renderClaimButton = (item: ICrowdloanType) => {
-    const balance = balances[item.loanId];
-    if (!balance) {
-      return (
-        <Button variant="outlined" className={classes.button} disabled={true}>
-          {t('polkadot-slot-auction.buy-adotp-button')}
-        </Button>
-      );
-    }
-    if (!balance.claimable.isZero()) {
-      return (
-        <Button
-          color="primary"
-          className={classes.button}
-          onClick={() => handleClaimRewardTokens(item)}
-        >
-          {t('polkadot-slot-auction.claim-dot-button', {
-            value: balance ? balance.claimable.toString(10) : '0',
-          })}
-        </Button>
-      );
-    }
-    return (
-      <>
-        <span className={classes.myBalance}>
-          {t('polkadot-slot-auction.my-balance')}
-        </span>
-        <Body2>
-          {t('polkadot-slot-auction.adotp-balance', {
-            value: balance.total
-              .plus(balance.onchain)
-              .plus(balance.claimable)
-              .toString(10),
-          })}
-        </Body2>
-      </>
-    );
-  };
-
   return (
     <Table
       customCell="3fr 2fr 3fr 2fr 3fr"
@@ -123,29 +84,65 @@ export const Completed = () => {
           )}
         >
           {() =>
-            crowdloans.map(item => (
-              <TableRow key={uid(item)}>
-                <TableBodyCell>{item.projectName}</TableBodyCell>
-                <TableBodyCell>
-                  {t(`polkadot-slot-auction.crowdloan-status.${item.status}`)}
-                </TableBodyCell>
-                <TableBodyCell>
-                  {new Date(item.startTime * 1000).toLocaleDateString()} –{' '}
-                  {new Date(item.endTime * 1000).toLocaleDateString()}
-                </TableBodyCell>
-                <TableBodyCell>
-                  {/*{item.alreadyContributed.toString(10)}&nbsp;/&nbsp;*/}
-                  {/*{item.totalRaiseTarget.toString(10)}&nbsp;DOT*/}
-                  <br />
-                  <Body2 color="secondary">
-                    {item.stakeFiContributed.toString(10)}&nbsp;DOT
-                  </Body2>
-                </TableBodyCell>
-                <TableBodyCell align="right">
-                  {renderClaimButton(item)}
-                </TableBodyCell>
-              </TableRow>
-            ))
+            crowdloans.map(item => {
+              const balance = balances[item.loanId];
+
+              return (
+                <TableRow key={uid(item)}>
+                  <TableBodyCell>{item.projectName}</TableBodyCell>
+                  <TableBodyCell>
+                    {t(`polkadot-slot-auction.crowdloan-status.${item.status}`)}
+                  </TableBodyCell>
+                  <TableBodyCell>
+                    {new Date(item.startTime * 1000).toLocaleDateString()} –{' '}
+                    {new Date(item.endTime * 1000).toLocaleDateString()}
+                  </TableBodyCell>
+                  <TableBodyCell>
+                    {/*{item.alreadyContributed.toString(10)}&nbsp;/&nbsp;*/}
+                    {/*{item.totalRaiseTarget.toString(10)}&nbsp;DOT*/}
+                    <br />
+                    <Body2 color="secondary">
+                      {item.stakeFiContributed.toString(10)}&nbsp;DOT
+                    </Body2>
+                  </TableBodyCell>
+                  <TableBodyCell align="right">
+                    {!balance ? (
+                      <Button
+                        variant="outlined"
+                        className={classes.button}
+                        disabled
+                      >
+                        {t('polkadot-slot-auction.buy-adotp-button')}
+                      </Button>
+                    ) : !balance.claimable.isZero() ? (
+                      <Button
+                        color="primary"
+                        className={classes.button}
+                        onClick={() => handleClaimRewardTokens(item)}
+                      >
+                        {t('polkadot-slot-auction.claim-dot-button', {
+                          value: balance ? balance.claimable.toString(10) : '0',
+                        })}
+                      </Button>
+                    ) : (
+                      <>
+                        <span className={classes.myBalance}>
+                          {t('polkadot-slot-auction.my-balance')}
+                        </span>
+                        <Body2>
+                          {t('polkadot-slot-auction.adotp-balance', {
+                            value: balance.total
+                              .plus(balance.onchain)
+                              .plus(balance.claimable)
+                              .toString(10),
+                          })}
+                        </Body2>
+                      </>
+                    )}
+                  </TableBodyCell>
+                </TableRow>
+              );
+            })
           }
         </Query>
       </TableBody>
