@@ -1,5 +1,5 @@
 import { t } from '../../common/utils/intl';
-import { IAvaxStakingSession } from './types';
+import { IAvaxStakingSession, IIWalletStake, IWalletStatus } from './types';
 
 const AVAX_STAKING_SESSION_KEY = 'aAVAXbStaking';
 
@@ -13,6 +13,10 @@ export const getStakingSession = (): IAvaxStakingSession | null => {
     return null;
   }
 };
+
+export function isWalletStake(status: IWalletStatus): status is IIWalletStake {
+  return (status as IIWalletStake).requiredNetwork !== undefined;
+}
 
 export const saveStakingSession = (
   session: Partial<IAvaxStakingSession>,

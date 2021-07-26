@@ -179,7 +179,10 @@ export const UserActions = {
     },
   }),
   // TODO Positive expectation response
-  disconnect: (redirectOnSuccess: string = INDEX_PATH) => ({
+  disconnect: (
+    redirectOnSuccess: string = INDEX_PATH,
+    search: string | undefined = undefined,
+  ) => ({
     type: UserActionTypes.DISCONNECT,
     request: {
       promise: (async function () {
@@ -193,7 +196,12 @@ export const UserActions = {
         _action: RequestAction,
         store: Store<IStoreState>,
       ) => {
-        store.dispatch(replace(redirectOnSuccess));
+        store.dispatch(
+          replace({
+            pathname: redirectOnSuccess,
+            search: search || store.getState().router.location.search,
+          }),
+        );
         return request;
       },
     },

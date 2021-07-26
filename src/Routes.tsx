@@ -302,6 +302,9 @@ export function Routes() {
         exact
         availableNetworks={[
           isMainnet ? BlockchainNetworkId.mainnet : BlockchainNetworkId.goerli,
+          isMainnet
+            ? BlockchainNetworkId.smartchain
+            : BlockchainNetworkId.smartchainTestnet,
         ]}
       />
 

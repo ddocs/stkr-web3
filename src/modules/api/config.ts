@@ -176,6 +176,5 @@ export function configFromEnv() {
   const env = process.env.REACT_APP_STKR_ENV
     ? process.env.REACT_APP_STKR_ENV
     : 'develop';
-  console.log(`Current environment is: ${env}`);
   return configFromNetwork(env);
 }

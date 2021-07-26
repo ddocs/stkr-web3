@@ -50,12 +50,10 @@ export class AvalancheSdk {
       this.disconnect();
     }
 
-    const selectedChainId = await stkrSdk
+    this._cacheChainId = await stkrSdk
       .getKeyProvider()
       .getWeb3()
       .eth.getChainId();
-
-    this._cacheChainId = selectedChainId;
 
     this._cachedSdk = await AvalancheSdk.fromConfigFile(
       stkrSdk.getKeyProvider().getWeb3(),
@@ -93,6 +91,7 @@ export class AvalancheSdk {
     if (!entry) {
       throw new Error('CrossChain is not supported by current chain');
     }
+
     if (entry.AvalanchePool) {
       this.poolContract = new web3.eth.Contract(
         ABI_AVALANCHE_POOL as any,
@@ -150,10 +149,9 @@ export class AvalancheSdk {
       .balanceOf(currentAccount)
       .call();
     const decimals = 18;
-    const result = new BigNumber(`${balance}`).dividedBy(
+    return new BigNumber(`${balance}`).dividedBy(
       new BigNumber(10).pow(decimals),
     );
-    return result;
   }
 
   public async getNativeBalance() {
@@ -179,10 +177,9 @@ export class AvalancheSdk {
       .dividedBy(new BigNumber(lastConfirmedRatio));
 
     const decimals = 18;
-    const result = new BigNumber(`${correctedBalance}`).dividedBy(
+    return new BigNumber(`${correctedBalance}`).dividedBy(
       new BigNumber(10).pow(decimals),
     );
-    return result;
   }
 
   public async stake(stakeAmount: string): Promise<ISendAsyncResult> {

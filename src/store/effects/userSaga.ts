@@ -66,22 +66,26 @@ function createEventChannel() {
 
 function* listenKeyProviderEvents() {
   const channel = yield call(createEventChannel);
-  const isBridgePath = historyInstance.location.pathname === BRIDGE_PATH;
-  const isBridgeRecoveryPath =
-    historyInstance.location.pathname === BRIDGE_RECOVERY_PATH;
 
   try {
     while (true) {
+      const isBridgePath = historyInstance.location.pathname === BRIDGE_PATH;
+      const isAvalancheStakePath =
+        historyInstance.location.pathname === STAKER_AVALANCHE_PATH;
+      const isBridgeRecoveryPath =
+        historyInstance.location.pathname === BRIDGE_RECOVERY_PATH;
+      const search = historyInstance.location.search;
+
       const event: KeyProviderEvent &
         ContractManagerEvent &
         CrossChainEvent = yield take(channel);
 
       if (event.type === KeyProviderEvents.ChainChanged) {
         if (isBridgePath) {
-          yield put(UserActions.disconnect(BRIDGE_PATH));
+          yield put(UserActions.disconnect(BRIDGE_PATH, search));
           return;
-        } else if (isBridgeRecoveryPath) {
-          yield put(UserActions.disconnect(BRIDGE_RECOVERY_PATH));
+        } else if (isAvalancheStakePath) {
+          yield put(UserActions.disconnect(STAKER_AVALANCHE_PATH, search));
           return;
         } else {
           const isAvalanchePath =
@@ -112,7 +116,10 @@ function* listenKeyProviderEvents() {
 
         if (currentAddress.toLowerCase() !== address?.toLowerCase()) {
           if (isBridgePath) {
-            yield put(UserActions.disconnect(BRIDGE_PATH));
+            yield put(UserActions.disconnect(BRIDGE_PATH, search));
+          } else if (isAvalancheStakePath) {
+            yield put(UserActions.disconnect(STAKER_AVALANCHE_PATH, search));
+            return;
           } else if (isBridgeRecoveryPath) {
             yield put(UserActions.disconnect(BRIDGE_RECOVERY_PATH));
             return;

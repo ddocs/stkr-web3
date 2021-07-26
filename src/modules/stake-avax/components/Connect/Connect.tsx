@@ -6,17 +6,17 @@ import { QuestionIcon } from '../../../../UiKit/Icons/QuestionIcon';
 import { useInitEffect } from '../../../../common/hooks/useInitEffect';
 import { useDispatch } from 'react-redux';
 import { AvalancheActions } from '../../../../store/actions/AvalancheActions';
-import { Milliseconds } from '../../../../common/types';
+import { BlockchainNetworkId, Milliseconds } from '../../../../common/types';
 import BigNumber from 'bignumber.js';
 import { DEFAULT_FIXED } from '../../../../common/const';
 
 interface IConnectProps {
-  network: string;
+  network: BlockchainNetworkId;
   amount?: BigNumber;
   recipient?: string;
 }
 
-const REFRESH_INTERVAL: Milliseconds = 5 * 1000;
+const REFRESH_INTERVAL: Milliseconds = 20 * 1000;
 
 export const Connect = ({ network, amount, recipient }: IConnectProps) => {
   const classes = useConnectStyles();

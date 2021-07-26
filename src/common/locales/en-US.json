@@ -353,6 +353,7 @@
     "submit": "Support with {value} ANKR",
     "support": "Support",
     "time-left": "<span class=\"bold\">Time left</span> {value}",
+    "time-is-up": "Time is up!",
     "claim": "Claim {value} Ankr"
   },
   "project-created-dialog": {
@@ -704,7 +705,7 @@
     "not-enough-claim": "Not enough aAVAXb available to claim",
     "not-enough-convert": "Not enough aAVAXb available to convert",
     "convert": {
-      "convert": "Convert to AVAX",
+      "convert": "Unstake",
       "amount": "Amount",
       "title": "How much do you want convert?",
       "will-get": "You will get",
@@ -751,6 +752,8 @@
       "avax-balance": "AVAX balance",
       "balance-tip": "Balance...",
       "avax-staking": "AVAX Staking",
+      "validating-period": "Validating period ends in:",
+      "apy": "APY: {value}%",
       "stake-avax": "Stake AVAX",
       "aavaxb-balance": "aAVAXb Balance",
       "aavaxb-balance-tip": "aAVAXb Balance",

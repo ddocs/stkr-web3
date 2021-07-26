@@ -4,14 +4,10 @@ import { makeStyles } from '@material-ui/styles';
 export const useConvertStyles = makeStyles<Theme>(theme => {
   return {
     root: {
-      textAlign: 'center',
       display: 'flex',
       flexDirection: 'column',
       padding: theme.spacing(5, 5, 3),
-      margin: `${theme.spacing(5)}px 180px`,
-      [theme.breakpoints.down('lg')]: {
-        margin: theme.spacing(5, 10),
-      },
+      margin: theme.spacing(5, 0),
     },
     header: {
       fontSize: 20,
@@ -79,7 +75,6 @@ export const useConvertStyles = makeStyles<Theme>(theme => {
       },
     },
     warning: {
-      margin: theme.spacing(0, 0, 0, 3),
       textAlign: 'left',
       borderLeft: `2px solid ${theme.palette.error.main}`,
       paddingLeft: theme.spacing(2.5),
