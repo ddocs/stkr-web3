@@ -1,6 +1,6 @@
 import { applyMiddleware, compose, createStore, Store } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import { routerMiddleware } from 'connected-react-router';
+import { routerMiddleware, RouterRootState } from 'connected-react-router';
 import { persistStore } from 'redux-persist';
 import { rootSaga } from './effects';
 import { createRootReducer } from './reducers';
@@ -8,17 +8,24 @@ import { handleRequests } from '@redux-requests/core';
 import { createDriver } from '@redux-requests/promise';
 import { History } from 'history';
 import { isDev } from '../common/utils/isProd';
+import { createDriver as createAxiosDriver } from '@redux-requests/axios';
+import axios from 'axios';
+import { configFromEnv } from '../modules/api/config';
 
-export interface IApplicationStore {
+export interface IApplicationStore extends RouterRootState {
   store: Store;
   saga: any;
 }
 
-export const persistApplicationStore = ({ store }: IApplicationStore) => {
+export const persistApplicationStore = ({
+  store,
+}: Pick<IApplicationStore, 'store'>) => {
   return persistStore(store);
 };
 
-export const runApplicationStore = ({ saga }: IApplicationStore) => {
+export const runApplicationStore = ({
+  saga,
+}: Pick<IApplicationStore, 'saga'>) => {
   saga.run(rootSaga);
 };
 
@@ -26,11 +33,18 @@ export const createApplicationStore = ({
   history,
 }: {
   history: History;
-}): IApplicationStore => {
+}): Omit<IApplicationStore, 'router'> => {
   const { requestsReducer, requestsMiddleware } = handleRequests({
-    driver: createDriver({
-      processResponse: response => ({ data: response }),
-    }),
+    driver: {
+      default: createDriver({
+        processResponse: response => ({ data: response }),
+      }),
+      axios: createAxiosDriver(
+        axios.create({
+          baseURL: configFromEnv().gatewayConfig.baseUrl,
+        }),
+      ),
+    },
     ...(isDev()
       ? {
           onError: error => {

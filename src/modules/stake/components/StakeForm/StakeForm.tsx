@@ -6,6 +6,7 @@ import { Field, Form, FormRenderProps } from 'react-final-form';
 import { FormErrors } from '../../../../common/types/FormErrors';
 import { floor } from '../../../../common/utils/floor';
 import { t } from '../../../../common/utils/intl';
+import { roundByStep } from '../../../../common/utils/numbers/roundByStep';
 import { MutationErrorHandler } from '../../../../components/MutationErrorHandler/MutationErrorHandler';
 import { UserActionTypes } from '../../../../store/actions/UserActions';
 import { Button } from '../../../../UiKit/Button';
@@ -27,13 +28,12 @@ export interface IStakeFormComponentProps {
   onSubmit: (payload: IStakePayload) => void;
   onCancel: () => void;
   balance?: BigNumber;
-  yearlyInterest: number;
-  stakingFeeRate?: BigNumber;
   stakingAmountStep: number;
   minAmount?: number;
   loading: boolean;
-  renderValue?: (value: BigNumber) => ReactNode;
+  currency?: string;
   renderStats?: (amount: number) => ReactNode;
+  stakeInfo?: string;
 }
 
 export const StakeForm = ({
@@ -43,11 +43,9 @@ export const StakeForm = ({
   stakingAmountStep,
   minAmount = stakingAmountStep,
   loading,
-  renderValue = value =>
-    t('unit.eth-value', {
-      value,
-    }),
+  currency = t('unit.eth'),
   renderStats,
+  stakeInfo = t('stake.info'),
 }: IStakeFormComponentProps) => {
   const classes = useStakeFormStyles();
 
@@ -82,6 +80,18 @@ export const StakeForm = ({
       ? floor(balance.toNumber(), stakingAmountStep)
       : minAmount;
 
+  const handleInputAmountBlur = (
+    onChange: (v: any) => void,
+    onBlur: () => void,
+  ) => (e: React.FocusEvent<HTMLInputElement>) => {
+    onBlur();
+    let nearestValue = roundByStep(+e.target.value, stakingAmountStep);
+    nearestValue = Math.min(nearestValue, max);
+    nearestValue = Math.max(nearestValue, minAmount);
+
+    onChange(nearestValue);
+  };
+
   const renderForm = ({
     handleSubmit,
     values: { amount },
@@ -95,12 +105,25 @@ export const StakeForm = ({
             </Headline2>
 
             <label className={classes.range}>
-              <Headline2 component="p" classes={{ root: classes.label }}>
-                {t('stake.i-want')}
+              <Headline2 component="div" classes={{ root: classes.label }}>
+                <div className={classes.labelText}>{t('stake.i-want')}</div>
 
-                <span className={classes.amount}>
-                  {renderValue(new BigNumber(amount))}
-                </span>
+                <div className={classes.amount}>
+                  <Field name="amount">
+                    {props => (
+                      <input
+                        {...props.input}
+                        className={classes.inputAmount}
+                        onBlur={handleInputAmountBlur(
+                          props.input.onChange,
+                          props.input.onBlur,
+                        )}
+                        type="number"
+                      />
+                    )}
+                  </Field>
+                  <div>{currency}</div>
+                </div>
               </Headline2>
 
               <Field
@@ -119,7 +142,7 @@ export const StakeForm = ({
         <div className={classes.footer}>
           <div className={classNames(classes.wrapper, classes.footerWrapper)}>
             <Body2 className={classes.info} color="secondary" component="p">
-              {t('stake.info')}
+              {stakeInfo}
             </Body2>
 
             <MutationErrorHandler type={UserActionTypes.STAKE} />

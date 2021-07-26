@@ -24,6 +24,7 @@ export interface IUserState {
   isConnectionAvailable: boolean;
   providerAccessToken?: string;
   locale: Locale;
+  chainId: number | undefined;
 }
 
 const initialState: IUserState = {
@@ -32,6 +33,7 @@ const initialState: IUserState = {
   isConnected: false,
   isConnectionAvailable: false,
   locale: Locale.en,
+  chainId: undefined,
 };
 
 export const userReducer = createReducer(initialState, {
@@ -39,10 +41,11 @@ export const userReducer = createReducer(initialState, {
     UserActionTypes.CONNECT,
     'connectStatus',
     {
-      onSuccess: state => ({
+      onSuccess: (state, action: any) => ({
         ...state,
         isConnected: true,
         isConnectionAvailable: true,
+        chainId: action.response.data.chainId,
       }),
     },
   ),

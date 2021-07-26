@@ -1,15 +1,23 @@
-import { RequestAction } from '@redux-requests/core';
+import { DispatchRequest, RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
+import { routerActions } from 'connected-react-router';
+import { stringify } from 'querystring';
+import { Store } from 'redux';
 import { createAction } from 'redux-smart-actions';
+import Web3 from 'web3';
+import { BlockchainNetworkId } from '../../common/types';
+import { t } from '../../common/utils/intl';
 import { StkrSdk } from '../../modules/api';
 import { configFromEnv } from '../../modules/api/config';
 import { AvalancheSdk } from '../../modules/avalanche-sdk';
+import { AvalancheEventsHistory } from '../../modules/avalanche-sdk/AvalancheEventsHistory';
 import {
   IClaimPayload,
   IClaimStats,
   IConvertPayload,
   IStakerStats,
   IWalletStatus,
+  IWalletWithdrawalAAvaxB,
   StakingStep,
 } from '../../modules/avalanche-sdk/types';
 import {
@@ -17,11 +25,8 @@ import {
   getStakingSession,
   msToEstimate,
   retry,
-  saveStakingSession,
-  setSessionInProgress,
 } from '../../modules/avalanche-sdk/utils';
-import { t } from '../../common/utils/intl';
-import Web3 from 'web3';
+import { IApplicationStore } from '../createStore';
 
 const {
   providerConfig: { ethereumChainId, binanceChainId, avalancheChainId },
@@ -31,69 +36,124 @@ const {
 } = configFromEnv();
 
 export const AvalancheActions = {
-  checkWallet: createAction(
+  checkWallet: createAction<RequestAction<IWalletStatus, IWalletStatus>>(
     'CHECK_WALLET',
     (): RequestAction => ({
       request: {
-        promise: (async (): Promise<IWalletStatus> => {
-          const stkrSdk = StkrSdk.getForEnv();
-          const session = getStakingSession();
+        promise: (async () => null)(),
+      },
+      meta: {
+        getData: data => data,
+        onRequest: (
+          request: { promise: Promise<any> },
+          action: RequestAction,
+          store: Store<IApplicationStore> & {
+            dispatchRequest: DispatchRequest;
+          },
+        ) => {
+          return {
+            promise: (async function () {
+              const stkrSdk = StkrSdk.getForEnv();
 
-          const defaultState = {
-            step: StakingStep.Stake,
-            requiredNetwork: String(avalancheChainId),
+              const currentChainId = await stkrSdk
+                .getKeyProvider()
+                .getWeb3()
+                .eth.getChainId();
+
+              const currentAccount = stkrSdk.currentAccount();
+
+              if (
+                currentChainId === BlockchainNetworkId.avalanche ||
+                currentChainId === BlockchainNetworkId.avalancheTestnet
+              ) {
+                const avalancheEventsHistory = new AvalancheEventsHistory(
+                  currentChainId,
+                );
+
+                const [
+                  uncompletedTransaction,
+                ] = await avalancheEventsHistory.getUncompletedTransactions(
+                  currentAccount,
+                  currentChainId,
+                );
+
+                if (uncompletedTransaction) {
+                  const stkrSdk = StkrSdk.getForEnv();
+                  const { signature, amount } = await retry<{
+                    signature: string;
+                    amount: string;
+                    recipient: string;
+                  }>(
+                    () =>
+                      // TODO memoize
+                      stkrSdk.notarizeTransfer(
+                        'AVAX',
+                        uncompletedTransaction.txHash,
+                      ),
+                    e => e.message && e.message.includes('blocks more'),
+                  );
+
+                  return {
+                    step: StakingStep.AwaitingSwitchNetwork,
+                    requiredNetwork: uncompletedTransaction.toChain,
+                    currentChainId,
+                    amount: new BigNumber(Web3.utils.fromWei(amount)),
+                    recipient: uncompletedTransaction.toAddress,
+                    signature,
+                    txHash: uncompletedTransaction.txHash,
+                    fromAddress: uncompletedTransaction.fromAddress,
+                  };
+                }
+
+                return {
+                  step: StakingStep.Stake,
+                  requiredNetwork: avalancheChainId,
+                  currentNetwork: currentChainId,
+                };
+              }
+
+              const {
+                router: { location },
+              } = store.getState();
+
+              const query = (location as any).query;
+
+              if (query.recipient === currentAccount) {
+                return {
+                  step: StakingStep.WithdrawalAAvaxB,
+                  requiredNetwork: currentChainId,
+                  currentChainId,
+                  isConnected: true,
+                  amount: new BigNumber(query.amount),
+                  recipient: query.recipient,
+                  signature: query.signature,
+                  txHash: query.txHash,
+                  fromAddress: query.fromAddress,
+                };
+              }
+
+              return {
+                step: StakingStep.HoldExternalWallet,
+              };
+            })(),
           };
-
-          const selectedChainId = await stkrSdk
-            .getKeyProvider()
-            .getWeb3()
-            .eth.getChainId();
-
-          if (!session || !session.nextStep) {
-            clearStakingSession();
-            return {
-              ...defaultState,
-              isConnected: String(selectedChainId) === String(avalancheChainId),
-            };
+        },
+        onSuccess: (response, action, store) => {
+          if (response.data.step === StakingStep.AwaitingSwitchNetwork) {
+            const pathname = store.getState().router.location.pathname;
+            store.dispatch(
+              routerActions.replace({
+                pathname,
+                search: stringify({
+                  ...response.data,
+                  amount: response.data?.amount?.toFixed(),
+                }),
+              }),
+            );
           }
 
-          if (session.nextStep === StakingStep.DepositAvax) {
-            return {
-              step: StakingStep.WithdrawAAvaxB,
-              requiredNetwork: String(selectedChainId),
-              isConnected: true,
-            };
-          }
-
-          if (
-            [StakingStep.WithdrawAAvaxB, StakingStep.NotarizeAvax].includes(
-              session.nextStep,
-            )
-          ) {
-            if (!session.network) {
-              clearStakingSession();
-              return {
-                ...defaultState,
-                isConnected: false,
-              };
-            } else {
-              return {
-                step: StakingStep.WithdrawAAvaxB,
-                requiredNetwork: session.network,
-                isConnected: String(selectedChainId) === session.network,
-                amount: session.amount
-                  ? new BigNumber(Web3.utils.fromWei(session.amount))
-                  : undefined,
-                recipient: session.recipient,
-              };
-            }
-          } else {
-            return {
-              ...defaultState,
-              isConnected: String(selectedChainId) === String(avalancheChainId),
-            };
-          }
-        })(),
+          return response;
+        },
       },
     }),
   ),
@@ -102,17 +162,8 @@ export const AvalancheActions = {
     ({ amount }): RequestAction => ({
       request: {
         promise: (async () => {
-          saveStakingSession(
-            {
-              nextStep: StakingStep.Stake,
-            },
-            true,
-          );
           const avalancheSdk = await AvalancheSdk.connect();
           await avalancheSdk.stake(amount.toString());
-          saveStakingSession({
-            nextStep: StakingStep.DepositAAvaxB,
-          });
         })(),
       },
       meta: {
@@ -125,35 +176,22 @@ export const AvalancheActions = {
     (payload: IClaimPayload): RequestAction => ({
       request: {
         promise: (async () => {
-          saveStakingSession(
-            {
-              nextStep: StakingStep.DepositAAvaxB,
-            },
-            true,
-          );
           const stkrSdk = StkrSdk.getForEnv();
 
           const isToBNB = payload.network === binanceChainId;
 
-          const toChain = isToBNB ? `${binanceChainId}` : `${ethereumChainId}`;
+          const toChain = isToBNB ? binanceChainId : ethereumChainId;
           const toToken = isToBNB ? `${bnbAAvaxB}` : `${ethAAvaxB}`;
 
           const { transactionHash } = await stkrSdk.crossDeposit(
             avalancheAAvaxB,
             toToken,
-            toChain,
+            `${toChain}`,
             payload.address,
             new BigNumber(payload.amount),
           );
 
           const address = stkrSdk.currentAccount();
-
-          saveStakingSession({
-            nextStep: StakingStep.NotarizeAAvaxB,
-            transactionHash,
-            from: address,
-            network: `${payload.network}`,
-          });
 
           try {
             const stkrSdk = StkrSdk.getForEnv();
@@ -166,64 +204,71 @@ export const AvalancheActions = {
               e => e.message && e.message.includes('blocks more'),
             );
 
-            saveStakingSession({
-              nextStep: StakingStep.WithdrawAAvaxB,
-              transactionHash,
-              from: address,
-              recipient,
-              amount,
-              signature,
-              network: `${payload.network}`,
-            });
-          } catch (e) {
-            saveStakingSession({
-              nextStep: StakingStep.NotarizeAAvaxB,
-              transactionHash,
-              from: address,
-              network: `${payload.network}`,
-              error: e.message || e.stack,
-            });
+            const currentChainId = await stkrSdk
+              .getKeyProvider()
+              .getWeb3()
+              .eth.getChainId();
 
+            return {
+              step: StakingStep.AwaitingSwitchNetwork,
+              requiredNetwork: toChain,
+              currentChainId,
+              amount: new BigNumber(Web3.utils.fromWei(amount)),
+              recipient,
+              signature,
+              txHash: transactionHash,
+              fromAddress: address,
+            };
+          } catch (e) {
             throw e;
           }
         })(),
       },
       meta: {
         asMutation: true,
+        mutations: {
+          [AvalancheActions.checkWallet.toString()]: (data, mutationData) => {
+            return mutationData;
+          },
+        },
+        onSuccess: (response, action, store) => {
+          const pathname = store.getState().router.location.pathname;
+          store.dispatch(
+            routerActions.replace({
+              pathname,
+              search: stringify({
+                ...response.data,
+                amount: response.data?.amount?.toFixed(),
+              }),
+            }),
+          );
+          return response;
+        },
       },
     }),
   ),
   withdrawAAvaxB: createAction(
     'WITHDRAW_AAVAXB',
-    (): RequestAction => ({
+    ({
+      txHash,
+      amount,
+      signature,
+      fromAddress,
+      recipient,
+      requiredNetwork,
+    }: Omit<IWalletWithdrawalAAvaxB, 'step'>): RequestAction => ({
       request: {
         promise: (async () => {
           const stkrSdk = StkrSdk.getForEnv();
-          const web3 = stkrSdk.getKeyProvider().getWeb3();
-
-          const session = getStakingSession();
-
-          if (
-            !session ||
-            !session.transactionHash ||
-            !session.amount ||
-            !session.signature ||
-            !session.from ||
-            !session.recipient
-          ) {
-            throw new Error(t('stake-avax.error.transaction-info'));
-          }
 
           const address = stkrSdk.currentAccount();
-          if (address !== session.recipient) {
+          if (address !== recipient) {
             throw new Error(t('stake-avax.error.to-address'));
           }
 
-          const isToBNB = session.network === String(binanceChainId);
+          const isToBNB = requiredNetwork === binanceChainId;
 
           const toToken = isToBNB ? `${bnbAAvaxB}` : `${ethAAvaxB}`;
-
-          setSessionInProgress();
 
           const {
             receiptPromise,
@@ -232,47 +277,34 @@ export const AvalancheActions = {
             avalancheAAvaxB,
             toToken,
             `${avalancheChainId}`,
-            session.from,
-            session.amount,
-            session.transactionHash,
-            session.signature,
+            fromAddress,
+            Web3.utils.toWei(amount.toFixed()),
+            txHash,
+            signature,
           );
 
-          try {
-            saveStakingSession({
-              ...session,
-              transactionHash,
-            });
+          await receiptPromise;
 
-            await receiptPromise;
-
-            saveStakingSession({
-              nextStep: StakingStep.DepositAvax,
-              amount: session.amount,
-              network: session.network,
-            });
-            return transactionHash;
-          } catch (e) {
-            return await new Promise(resolve => {
-              // TODO: move to utils, or SDK
-              const interval = setInterval(async () => {
-                const receipt = await web3.eth.getTransactionReceipt(
-                  transactionHash,
-                );
-                if (receipt) {
-                  clearInterval(interval);
-                  resolve(transactionHash);
-                }
-              }, 10 * 1000);
-            });
-          }
+          return transactionHash;
         })(),
       },
       meta: {
         asMutation: true,
-        onError: error => {
-          setSessionInProgress(false);
-          throw error;
+        mutations: {
+          [AvalancheActions.checkWallet.toString()]: () => {
+            return {
+              step: StakingStep.HoldExternalWallet,
+            };
+          },
+        },
+        onSuccess: (response, action, store) => {
+          const pathname = store.getState().router.location.pathname;
+          store.dispatch(
+            routerActions.replace({
+              pathname,
+            }),
+          );
+          return response;
         },
       },
     }),
@@ -312,7 +344,6 @@ export const AvalancheActions = {
             throw new Error(t('stake-avax.error.transaction-info'));
           }
 
-          setSessionInProgress();
           const stkrSdk = StkrSdk.getForEnv();
 
           const currentChainId = await stkrSdk
@@ -334,12 +365,6 @@ export const AvalancheActions = {
             new BigNumber(confirmedAmount),
           );
 
-          saveStakingSession({
-            nextStep: StakingStep.NotarizeAvax,
-            transactionHash,
-            network: session.network,
-          });
-
           try {
             const stkrSdk = StkrSdk.getForEnv();
             const fromNetwork = isFromBNB ? 'BSC' : 'ETH';
@@ -350,23 +375,9 @@ export const AvalancheActions = {
               () => stkrSdk.notarizeTransfer(fromNetwork, `${transactionHash}`),
               e => e.message && e.message.includes('1 blocks more'),
             );
-
-            saveStakingSession({
-              nextStep: StakingStep.WithdrawAvax,
-              transactionHash,
-              amount,
-              network: session.network,
-              signature,
-              recipient: address,
-            });
+            // TODO Remove
+            console.log(signature, amount);
           } catch (e) {
-            saveStakingSession({
-              nextStep: StakingStep.NotarizeAvax,
-              transactionHash,
-              error: e.message || e.stack,
-              network: session.network,
-            });
-
             throw e;
           }
         })(),
@@ -381,7 +392,6 @@ export const AvalancheActions = {
     (): RequestAction => ({
       request: {
         promise: (async () => {
-          setSessionInProgress();
           const stkrSdk = StkrSdk.getForEnv();
 
           const session = getStakingSession();
@@ -410,10 +420,6 @@ export const AvalancheActions = {
             session.transactionHash,
             session.signature,
           );
-          saveStakingSession({
-            nextStep: StakingStep.ClaimAvax,
-            amount: session.amount,
-          });
         })(),
       },
       meta: {
@@ -426,7 +432,6 @@ export const AvalancheActions = {
     (): RequestAction => ({
       request: {
         promise: (async () => {
-          setSessionInProgress();
           const avalancheSdk = await AvalancheSdk.connect();
           const session = getStakingSession();
           if (!session || !session.amount) {
@@ -467,6 +472,7 @@ export const AvalancheActions = {
         promise: (async (): Promise<IClaimStats> => {
           const avalancheSdk = await AvalancheSdk.connect();
           const balance = await avalancheSdk.getAAvaxBBalance();
+
           return {
             history: [],
             balance,
@@ -475,4 +481,31 @@ export const AvalancheActions = {
       },
     }),
   ),
+  fetchEstimatedAPY: createAction<RequestAction<any, BigNumber>>(
+    'FETCH_ESTIMATED_APY',
+    () => ({
+      request: {
+        url: `/v1alpha/avax/estimatedapy`,
+        method: 'get',
+      },
+      meta: {
+        driver: 'axios',
+        asMutation: false,
+        getData: data => new BigNumber(data.apy.slice(0, -1)),
+      },
+    }),
+  ),
+  fetchClaimServeTime: createAction<
+    RequestAction<{ validationEndTime: number }, Date>
+  >('FETCH_CLAIM_SERVE_TIME', () => ({
+    request: {
+      url: `/v1alpha/avax/claimservetime`,
+      method: 'get',
+    },
+    meta: {
+      driver: 'axios',
+      asMutation: false,
+      getData: data => new Date(data.validationEndTime * 1000), // to milliseconds
+    },
+  })),
 };

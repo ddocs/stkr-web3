@@ -1,42 +1,43 @@
-import React, { useCallback, useMemo } from 'react';
-import { useQuery } from '@redux-requests/react';
-import { AvalancheActions } from '../../../../store/actions/AvalancheActions';
+import React from 'react';
 import { useDispatch } from 'react-redux';
-import { StakeAvaxAlert } from '../../components/StakeAvaxAlert/StakeAvaxAlert';
-import { Dashboard } from '../../components/Dashboard';
 import { useInitEffect } from '../../../../common/hooks/useInitEffect';
-import { QueryLoading } from '../../../../components/QueryLoading/QueryLoading';
-import { IWalletStatus } from '../../../avalanche-sdk/types';
-import { configFromEnv } from '../../../api/config';
+import { Queries } from '../../../../components/Queries/Queries';
+import { ResponseData } from '../../../../components/ResponseData';
+import { AvalancheActions } from '../../../../store/actions/AvalancheActions';
+import { StakingStep } from '../../../avalanche-sdk/types';
+import { Connect } from '../../components/Connect';
+import { Dashboard } from '../../components/Dashboard';
+import { useStakeAvaxStyles } from './StakeAvaxStyles';
 
 export const StakeAvax = () => {
   const dispatch = useDispatch();
-  const config = useMemo(() => configFromEnv(), []);
-
-  const {
-    data: wallet,
-    loading: checkingWallet,
-  } = useQuery<IWalletStatus | null>({
-    type: AvalancheActions.checkWallet.toString(),
-  });
+  const classes = useStakeAvaxStyles();
 
   useInitEffect(() => {
     dispatch(AvalancheActions.checkWallet());
   });
 
-  const renderAlert = useCallback(() => <StakeAvaxAlert />, []);
+  return (
+    <Queries<ResponseData<typeof AvalancheActions.checkWallet>>
+      requestActions={[AvalancheActions.checkWallet]}
+      showLoaderDuringRefetch={false}
+    >
+      {({ data: wallet }) => {
+        if (wallet.step === StakingStep.AwaitingSwitchNetwork) {
+          const { requiredNetwork, amount, recipient } = wallet;
+          return (
+            <section className={classes.root}>
+              <Connect
+                network={requiredNetwork}
+                amount={amount}
+                recipient={recipient}
+              />
+            </section>
+          );
+        }
 
-  if (checkingWallet) {
-    return <QueryLoading />;
-  }
-
-  if (
-    !wallet ||
-    (!wallet.isConnected &&
-      wallet.requiredNetwork === `${config.providerConfig.avalancheChainId}`)
-  ) {
-    return renderAlert();
-  }
-
-  return wallet && <Dashboard wallet={wallet} />;
+        return wallet && <Dashboard {...(wallet as any)} />;
+      }}
+    </Queries>
+  );
 };

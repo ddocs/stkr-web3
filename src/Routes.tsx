@@ -13,23 +13,27 @@ import {
   GOVERNANCE_PROJECT_LIST_PATH,
   GOVERNANCE_PROJECT_ROUTE,
   INDEX_PATH,
+  isMainnet,
   PROVIDER_CREATE_NODE_PATH,
   PROVIDER_DEPOSIT_LIST_PATH,
   PROVIDER_DEPOSIT_ROUTE,
   PROVIDER_MAIN_PATH,
   PROVIDER_NODE_LIST_PATH,
+  STAKER_AVALANCHE_PATH,
   STAKER_BNB_PATH,
   STAKER_DASHBOARD_BNB_ROUTE,
   STAKER_DASHBOARD_PATH,
   STAKER_STAKE_BNB_ROUTE,
+  STAKER_STAKE_DOT_ROUTE,
   STAKER_STAKE_PATH,
-  STAKER_AVALANCHE_PATH,
 } from './common/const';
-import { PageNotFound } from './components/PageNotFound/PageNotFound';
+import { BlockchainNetworkId } from './common/types';
+import { PageNotFound } from './components/PageNotFound';
 import { QueryLoadingAbsolute } from './components/QueryLoading/QueryLoading';
 import { withDefaultLayout } from './modules/layout';
+import { GuardRoute } from './UiKit/GuardRoute';
+import { BinanceGuardRoute } from './UiKit/GuardRoute/BinanceGuardRoute';
 import { PrivateRoute } from './UiKit/PrivateRoute';
-import { PrivateRoutePlaceholder } from './UiKit/PrivateRoutePlaceholder';
 
 const LoadableOverviewContainer = withDefaultLayout(
   loadable(async () => import('./modules/lobby').then(module => module.Lobby), {
@@ -122,6 +126,18 @@ const StakerContainer = withDefaultLayout(
   loadable(
     async () =>
       import('./modules/stake/screens/Stake').then(module => module.Stake),
+    {
+      fallback: <QueryLoadingAbsolute />,
+    },
+  ) as LoadableComponent<any>,
+);
+
+const StakerDotContainer = withDefaultLayout(
+  loadable(
+    async () =>
+      import('./modules/stake/screens/StakeDot').then(
+        module => module.StakeDot,
+      ),
     {
       fallback: <QueryLoadingAbsolute />,
     },
@@ -249,99 +265,154 @@ const LoadableAboutSmartchainContainer = withDefaultLayout(
 export function Routes() {
   return (
     <Switch>
-      <Route
-        path={INDEX_PATH}
-        exact={true}
-        component={LoadableOverviewContainer}
-      />
+      <Route path={INDEX_PATH} exact component={LoadableOverviewContainer} />
+
       <PrivateRoute
         path={PROVIDER_CREATE_NODE_PATH}
         component={CreateBeaconChainContainer}
-        exact={true}
+        exact
       />
+
       <Route path={ANKR_IFRAME_PATH} component={LoadableIframeContainer} />
+
       <PrivateRoute
         path={[PROVIDER_DEPOSIT_ROUTE]}
         component={TopUpContainer}
-        exact={true}
+        exact
       />
-      <PrivateRoute
+
+      <GuardRoute
         path={[
           PROVIDER_MAIN_PATH,
           PROVIDER_NODE_LIST_PATH,
           PROVIDER_DEPOSIT_LIST_PATH,
         ]}
-        exact={true}
+        exact
         component={ProviderContainer}
+        availableNetworks={[
+          isMainnet ? BlockchainNetworkId.mainnet : BlockchainNetworkId.goerli,
+        ]}
       />
-      <PrivateRoute path={FEATURES_PATH} component={FeaturesListContainer} />
-      <PrivateRoute
+
+      <Route exact path={FEATURES_PATH} component={FeaturesListContainer} />
+
+      <GuardRoute
         path={STAKER_DASHBOARD_PATH}
         component={StakerDashboardContainer}
-        exact={true}
+        exact
+        availableNetworks={[
+          isMainnet ? BlockchainNetworkId.mainnet : BlockchainNetworkId.goerli,
+          isMainnet
+            ? BlockchainNetworkId.smartchain
+            : BlockchainNetworkId.smartchainTestnet,
+        ]}
       />
-      <PrivateRoute
+
+      <BinanceGuardRoute
         path={STAKER_DASHBOARD_BNB_ROUTE}
         component={StakerDashboardBnbContainer}
-        exact={true}
+        exact
+        availableNetworks={[
+          isMainnet
+            ? BlockchainNetworkId.smartchain
+            : BlockchainNetworkId.smartchainTestnet,
+        ]}
       />
-      <PrivateRoute
+
+      <BinanceGuardRoute
         path={STAKER_BNB_PATH}
         component={WalletListBnbContainer}
-        exact={true}
+        exact
+        availableNetworks={[
+          isMainnet
+            ? BlockchainNetworkId.smartchain
+            : BlockchainNetworkId.smartchainTestnet,
+        ]}
       />
-      <PrivateRoutePlaceholder
-        path={STAKER_AVALANCHE_PATH}
-        component={LoadableAvalancheContainer}
-        exact={true}
-      />
-      <PrivateRoute path={STAKER_STAKE_PATH} component={StakerContainer} />
+
       <PrivateRoute
         path={STAKER_STAKE_BNB_ROUTE}
         component={StakerBnbContainer}
       />
-      <PrivateRoute
+
+      <GuardRoute
+        path={STAKER_AVALANCHE_PATH}
+        component={LoadableAvalancheContainer}
+        exact
+        availableNetworks={[
+          isMainnet
+            ? BlockchainNetworkId.avalanche
+            : BlockchainNetworkId.avalancheTestnet,
+          isMainnet ? BlockchainNetworkId.mainnet : BlockchainNetworkId.goerli,
+        ]}
+      />
+
+      <GuardRoute
+        path={STAKER_STAKE_PATH}
+        component={StakerContainer}
+        availableNetworks={[
+          isMainnet ? BlockchainNetworkId.mainnet : BlockchainNetworkId.goerli,
+        ]}
+      />
+
+      <GuardRoute
+        path={STAKER_STAKE_DOT_ROUTE}
+        component={StakerDotContainer}
+        // todo: fill with actual networks
+        availableNetworks={[
+          isMainnet ? BlockchainNetworkId.mainnet : BlockchainNetworkId.goerli,
+        ]}
+      />
+
+      <GuardRoute
         path={GOVERNANCE_PROJECT_LIST_PATH}
         component={GovernanceListContainer}
-        exact={true}
+        exact
+        availableNetworks={[
+          isMainnet ? BlockchainNetworkId.mainnet : BlockchainNetworkId.goerli,
+        ]}
       />
+
       <PrivateRoute
         path={GOVERNANCE_CREATE_PROJECT_PATH}
         component={CreateProjectContainer}
-        exact={true}
+        exact
       />
+
       <PrivateRoute
         path={GOVERNANCE_PROJECT_ROUTE}
         component={ProjectContainer}
-        exact={true}
+        exact
       />
-      <Route
-        path={ABOUT_AETH_PATH}
-        component={AboutAethContainer}
-        exact={true}
-      />
+
+      <Route path={ABOUT_AETH_PATH} component={AboutAethContainer} exact />
+
       <Route
         path={ABOUT_SMARTCHAIN_PATH}
         component={LoadableAboutSmartchainContainer}
-        exact={true}
+        exact
       />
-      {/*TODO Only Smartchain Route*/}
-      <PrivateRoute
+
+      <GuardRoute
         path={CONVERT_ROUTE}
         component={LoadableConvertContainer}
-        exact={true}
+        exact
+        availableNetworks={[
+          isMainnet
+            ? BlockchainNetworkId.smartchain
+            : BlockchainNetworkId.smartchainTestnet,
+        ]}
       />
-      <Route
-        path={BRIDGE_PATH}
-        component={LoadableBridgeContainer}
-        exact={true}
-      />
+
+      <Route path={BRIDGE_PATH} component={LoadableBridgeContainer} exact />
+
       <Route
         path={BRIDGE_RECOVERY_PATH}
         component={LoadableBridgeRecoverContainer}
-        exact={true}
+        exact
       />
-      <PrivateRoute component={PageNotFound} />
+
+      <Route component={withDefaultLayout(PageNotFound)} />
     </Switch>
   );
 }

@@ -1,19 +1,19 @@
-import * as React from 'react';
-import { useWalletListBnbStyles } from './WalletListStyles';
 import { Box, Typography } from '@material-ui/core';
-import { t } from '../../../../common/utils/intl';
-import { WalletListItem } from './components/WalletListItem';
 import { Query, useQuery } from '@redux-requests/react';
-import { StakeBnbActions } from '../../actions/StakeBnbActions';
-import { useInitEffect } from '../../../../common/hooks/useInitEffect';
-import { useRequestDispatch } from '../../../../common/utils/useRequestDispatch';
-import { QueryLoading } from '../../../../components/QueryLoading/QueryLoading';
-import { IBnbAccount } from '../../api/binanceWalletApi';
-import { QueryError } from '../../../../components/QueryError/QueryError';
+import * as React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import { getStakerDashboardBnbPath } from '../../../../common/const';
-import { HeadedPaper } from '../../components/HeadedPaper';
 import { uid } from 'react-uid';
+import { getStakerDashboardBnbPath } from '../../../../common/const';
+import { useInitEffect } from '../../../../common/hooks/useInitEffect';
+import { t } from '../../../../common/utils/intl';
+import { useRequestDispatch } from '../../../../common/utils/useRequestDispatch';
+import { QueryError } from '../../../../components/QueryError/QueryError';
+import { QueryLoading } from '../../../../components/QueryLoading/QueryLoading';
+import { StakeBnbActions } from '../../actions/StakeBnbActions';
+import { IBnbAccount } from '../../api/binanceWalletApi';
+import { HeadedPaper } from '../../components/HeadedPaper';
+import { WalletListItem } from './components/WalletListItem';
+import { useWalletListBnbStyles } from './WalletListStyles';
 
 export const WalletListBnb = () => {
   const classes = useWalletListBnbStyles();
@@ -51,6 +51,7 @@ export const WalletListBnb = () => {
         >
           {data.map(item => (
             <RouterLink
+              key={item.id}
               to={getStakerDashboardBnbPath(item.id)}
               className={classes.walletListItem}
             >

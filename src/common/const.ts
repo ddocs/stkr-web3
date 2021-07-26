@@ -4,6 +4,7 @@ import { ETH, Milliseconds } from './types';
 export const INDEX_PATH = '/';
 export const STAKER_STAKE_PATH = '/staker/ETH/stake';
 export const STAKER_STAKE_BNB_ROUTE = '/staker/BNB/stake/:id';
+export const STAKER_STAKE_DOT_ROUTE = '/staker/DOT/stake';
 export const STAKER_PATH = '/staker/ETH';
 export const STAKER_DASHBOARD_PATH = STAKER_PATH;
 export const STAKER_BNB_PATH = `/staker/BNB`;
@@ -80,5 +81,5 @@ export const featuresConfig = {
 };
 
 export const ENABLE_AVA = true;
-export const ENABLE_DOT = false;
+export const ENABLE_DOT = true;
 export const ENABLE_KSM = false;

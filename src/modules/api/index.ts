@@ -2,7 +2,7 @@ import { VoteStatus } from '@ankr.com/stkr-jssdk';
 import BigNumber from 'bignumber.js';
 import { EventEmitter } from 'events';
 import { SendOptions } from 'web3-eth-contract';
-import { DepositType } from '../../common/types';
+import { DepositType, SupportedBlockchainNetworkId } from '../../common/types';
 import {
   BNB_RPC_CONFIG,
   configFromEnv,
@@ -62,6 +62,8 @@ interface IStakerSdk {
   getEthBalance(): Promise<BigNumber>;
 
   getAnkrBalance(): Promise<BigNumber>;
+
+  getDotBalance(): Promise<BigNumber>;
 
   getAethBalance(): Promise<BigNumber>;
 
@@ -264,7 +266,9 @@ export class StkrSdk implements IStkrSdk {
       this.stkrConfig.contractConfig,
     );
 
-    await this.setupCrossChain();
+    if (SupportedBlockchainNetworkId.includes(result.chainId)) {
+      await this.setupCrossChain();
+    }
 
     this.eventEmitter.on(KeyProviderEvents.ChainChanged, async () => {
       await this.setupCrossChain();
@@ -535,6 +539,17 @@ export class StkrSdk implements IStkrSdk {
       return new BigNumber('0');
     }
     return this.getContractManager().ankrBalanceOf(currentAccount);
+  }
+
+  public async getDotBalance(): Promise<BigNumber> {
+    const currentAccount = this.getKeyProvider().currentAccount();
+    if (
+      this.getKeyProvider().isBinanceSmartChain() ||
+      this.getKeyProvider().isAvalancheChain()
+    ) {
+      return new BigNumber('0');
+    }
+    return this.getContractManager().dotBalanceOf(currentAccount);
   }
 
   public async getAethBalance(): Promise<BigNumber> {

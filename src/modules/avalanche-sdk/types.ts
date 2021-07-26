@@ -1,4 +1,6 @@
 import BigNumber from 'bignumber.js';
+import { BlockchainNetworkId } from '../../common/types';
+import { Address } from '../api/provider';
 
 export interface IStakingEntry {
   stakingDate: string;
@@ -12,13 +14,74 @@ export interface IStakingHistory {
   data: IStakingEntry[];
 }
 
-export interface IWalletStatus {
-  step: StakingStep;
-  isConnected: boolean;
-  requiredNetwork: string;
-  amount?: BigNumber;
-  recipient?: string;
+export enum StakingStep {
+  Stake = 'Stake',
+  DepositAAvaxB = 'DepositAAvaxB',
+  AwaitingSwitchNetwork = 'AwaitingSwitchNetwork',
+  WithdrawalAAvaxB = 'WithdrawalAAvaxB',
+  HoldExternalWallet = 'HoldExternalWallet',
+
+  DepositAvax = 'DepositAvax',
+  WithdrawAvax = 'WithdrawAvax',
+  ClaimAvax = 'ClaimAvax',
 }
+
+interface IIWalletClaimAvax {
+  step: StakingStep.ClaimAvax;
+  amount: BigNumber;
+}
+
+interface IIWalletWithdrawAvax {
+  step: StakingStep.WithdrawAvax;
+  transactionHash: string;
+  amount: BigNumber;
+  network: BlockchainNetworkId;
+  signature: string;
+  recipient: Address;
+}
+
+export interface IIWalletStatusDepositAvax {
+  step: StakingStep.DepositAvax;
+  amount: BigNumber;
+  network: BlockchainNetworkId;
+}
+
+export interface IIWalletStake {
+  step: StakingStep.Stake;
+  requiredNetwork: BlockchainNetworkId;
+  currentNetwork: BlockchainNetworkId;
+}
+
+export interface IWalletAwaitingSwitchNetwork {
+  step: StakingStep.AwaitingSwitchNetwork;
+  requiredNetwork: BlockchainNetworkId;
+  currentChainId: BlockchainNetworkId;
+  isConnected: boolean;
+  amount: BigNumber;
+  recipient: Address;
+  signature: string;
+  txHash: string;
+  from: Address;
+}
+
+export interface IWalletWithdrawalAAvaxB {
+  step: StakingStep.WithdrawalAAvaxB;
+  requiredNetwork: BlockchainNetworkId;
+  currentChainId: BlockchainNetworkId;
+  isConnected: boolean;
+  amount: BigNumber;
+  recipient: Address;
+  signature: string;
+  txHash: string;
+  fromAddress: string;
+}
+
+export type IWalletStatus =
+  | IIWalletStake
+  | IWalletAwaitingSwitchNetwork
+  | IWalletWithdrawalAAvaxB
+  | IIWalletWithdrawAvax
+  | IIWalletClaimAvax;
 
 export interface IClaimAvalable {
   amount: BigNumber;
@@ -36,17 +99,6 @@ export interface IStakerStats {
 export interface IClaimStats {
   balance: BigNumber;
   history: IStakingEntry[];
-}
-
-export enum StakingStep {
-  Stake,
-  DepositAAvaxB,
-  NotarizeAAvaxB,
-  WithdrawAAvaxB,
-  DepositAvax,
-  NotarizeAvax,
-  WithdrawAvax,
-  ClaimAvax,
 }
 
 export interface IClaimPayload {

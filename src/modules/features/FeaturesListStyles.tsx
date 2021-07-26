@@ -1,5 +1,5 @@
-import { makeStyles } from '@material-ui/styles';
 import { Theme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/styles';
 
 export const useFeaturesListStyles = makeStyles((theme: Theme) => ({
   container: {
@@ -19,14 +19,18 @@ export const useFeaturesListStyles = makeStyles((theme: Theme) => ({
     borderRadius: 59,
   },
   togglerButton: {
-    width: 185,
+    width: 165,
     height: 60,
     lineHeight: '60px',
     textAlign: 'center',
     cursor: 'pointer',
+
+    [theme.breakpoints.up('sm')]: {
+      width: 185,
+    },
   },
   activeTogglerButton: {
     background: '#006DFF',
     borderRadius: 59,
-  }
+  },
 }));

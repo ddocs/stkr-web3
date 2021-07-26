@@ -1,5 +1,5 @@
-import { makeStyles } from '@material-ui/styles';
 import { Theme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/styles';
 
 export const useFeaturesListVerticalItemStyles = makeStyles((theme: Theme) => ({
   container: {
@@ -10,9 +10,14 @@ export const useFeaturesListVerticalItemStyles = makeStyles((theme: Theme) => ({
     alignItems: 'center',
     overflow: 'hidden',
     width: 380,
-    height: 440,
+    minHeight: 440,
+    paddingBottom: theme.spacing(10),
     position: 'relative',
-    margin: '16px',
+    margin: theme.spacing(2),
+    minWidth: 300,
+    [theme.breakpoints.down('sm')]: {
+      height: 450,
+    },
   },
   new: {
     background: 'rgba(255, 255, 255, 0.18)',
@@ -28,38 +33,49 @@ export const useFeaturesListVerticalItemStyles = makeStyles((theme: Theme) => ({
   icon: {
     width: 70,
     height: 70,
-    marginTop: 28,
+    marginTop: theme.spacing(3.5),
+    [theme.breakpoints.down('sm')]: {
+      marginTop: 25,
+    },
   },
   title: {
-    color: 'white',
-    paddingTop: 14,
+    color: theme.palette.text.primary,
+    paddingTop: theme.spacing(2),
   },
   featureItem: {
-    padding: '16px 25px 0 25px',
+    padding: theme.spacing(2, 3, 0, 3),
     color: 'rgba(255, 255, 255, 0.5)',
     display: 'flex',
+    [theme.breakpoints.down('sm')]: {
+      padding: '14px 22px 0',
+    },
   },
   featureItemText: {
     fontSize: 14,
-    paddingLeft: 10,
+    paddingLeft: theme.spacing(1.25),
   },
   button: {
     background: 'transparent',
     borderRadius: 0,
     position: 'absolute',
     bottom: 0,
-    height: 62,
+    height: theme.spacing(8),
+    border: 'none',
     borderTop: '1px solid rgba(255, 255, 255, 0.1)',
 
+    '&:before': {
+      display: 'none',
+    },
+
     '&:hover': {
-      background: '#006DFF',
+      background: theme.palette.primary.main,
       borderTop: '1px solid rgba(255, 255, 255, 0)',
-    }
+    },
   },
   buttonText: {
     color: 'white',
     fontWeight: 500,
     fontSize: 16,
     lineHeight: '125%',
-  }
+  },
 }));

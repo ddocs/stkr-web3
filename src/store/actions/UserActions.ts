@@ -1,4 +1,3 @@
-import { BlockchainNetworkId } from '@ankr.com/stkr-jssdk';
 import { RequestAction } from '@redux-requests/core';
 import BigNumber from 'bignumber.js';
 import { replace } from 'connected-react-router';
@@ -13,7 +12,13 @@ import {
   INDEX_PATH,
   isMainnet,
 } from '../../common/const';
-import { Blockchain, DepositType, Locale, Provider } from '../../common/types';
+import {
+  Blockchain,
+  BlockchainNetworkId,
+  DepositType,
+  Locale,
+  Provider,
+} from '../../common/types';
 import { authenticatedRequestGuard } from '../../common/utils/authenticatedRequestGuard';
 import { update } from '../../common/utils/update';
 import { StkrSdk } from '../../modules/api';
@@ -83,6 +88,8 @@ export const UserActionTypes = {
   FAUCET: 'FAUCET',
 
   STAKE: 'STAKE',
+
+  STAKE_DOT: 'STAKE_DOT',
 
   FETCH_STAKER_STATS: 'FETCH_STAKER_STATS',
 
@@ -172,7 +179,10 @@ export const UserActions = {
     },
   }),
   // TODO Positive expectation response
-  disconnect: (redirectOnSuccess: string = INDEX_PATH) => ({
+  disconnect: (
+    redirectOnSuccess: string = INDEX_PATH,
+    search: string | undefined = undefined,
+  ) => ({
     type: UserActionTypes.DISCONNECT,
     request: {
       promise: (async function () {
@@ -186,7 +196,12 @@ export const UserActions = {
         _action: RequestAction,
         store: Store<IStoreState>,
       ) => {
-        store.dispatch(replace(redirectOnSuccess));
+        store.dispatch(
+          replace({
+            pathname: redirectOnSuccess,
+            search: search || store.getState().router.location.search,
+          }),
+        );
         return request;
       },
     },
@@ -199,6 +214,7 @@ export const UserActions = {
         const address = stkrSdk.getKeyProvider().currentAccount();
         const ethereumBalance = await stkrSdk.getEthBalance();
         const nativeBalance = await stkrSdk.getNativeBalance();
+        const dotBalance = new BigNumber(0.1);
         const walletMeta = stkrSdk.getWalletMeta();
         let walletType = Provider.metamask,
           blockchainType = Blockchain.ethereum;
@@ -221,6 +237,7 @@ export const UserActions = {
           walletType,
           ankrBalance,
           nativeBalance,
+          dotBalance,
           bnbBalance,
           ethereumBalance: new BigNumber(ethereumBalance),
           walletIcon: walletMeta?.icons ? walletMeta.icons[0] : undefined,
@@ -429,6 +446,17 @@ export const UserActions = {
           console.log(`New staking amount is: ${amount.toString(10)}`);
         }
         return stkrSdk.stake(amount);
+      })(),
+    },
+    meta: {
+      asMutation: true,
+    },
+  }),
+  stakeDot: (amount: BigNumber | string) => ({
+    type: UserActionTypes.STAKE_DOT,
+    request: {
+      promise: (async function () {
+        return 0; // TODO: implement this
       })(),
     },
     meta: {

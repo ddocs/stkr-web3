@@ -2,37 +2,48 @@ import {
   Box,
   Button,
   Dialog,
+  Grid,
   IconButton,
   Paper,
   Tooltip,
   Typography,
 } from '@material-ui/core';
-import React, { useCallback, useState } from 'react';
-import { useConvertStyles } from './ConvertStyles';
-import { t } from '../../../../common/utils/intl';
-import { QuestionIcon } from '../../../../UiKit/Icons/QuestionIcon';
+import { Mutation, useQuery } from '@redux-requests/react';
 import BigNumber from 'bignumber.js';
+import classNames from 'classnames';
+import React, { useCallback, useState } from 'react';
 // import { ConvertDialog } from '../ConvertDialog';
-import { AvalancheActions } from '../../../../store/actions/AvalancheActions';
-import { Mutation } from '@redux-requests/react';
-import { ConfirmConvertDialog } from '../ConfirmConvertDialog';
-import { IConvertEstimates } from '../../../avalanche-sdk/types';
+import { DEFAULT_FIXED } from '../../../../common/const';
+import { BlockchainNetworkId } from '../../../../common/types';
+import { t } from '../../../../common/utils/intl';
 // import { getStakingSession } from '../../../avalanche-sdk/utils';
 import { useRequestDispatch } from '../../../../common/utils/useRequestDispatch';
-import { CancelIcon } from '../../../../UiKit/Icons/CancelIcon';
-import { Body2, Headline3, Headline5 } from '../../../../UiKit/Typography';
-import classNames from 'classnames';
+import { MutationErrorHandler } from '../../../../components/MutationErrorHandler/MutationErrorHandler';
 // import { ConvertDialog } from '../ConvertDialog';
-import { useClaimState } from '../../hooks/useClaimState';
-import { DEFAULT_FIXED } from '../../../../common/const';
+import { AvalancheActions } from '../../../../store/actions/AvalancheActions';
+import { CancelIcon } from '../../../../UiKit/Icons/CancelIcon';
+import { QuestionIcon } from '../../../../UiKit/Icons/QuestionIcon';
+import { Headline3, Headline5 } from '../../../../UiKit/Typography';
+import {
+  IConvertEstimates,
+  IWalletStatus,
+  StakingStep,
+} from '../../../avalanche-sdk/types';
+import { ConfirmConvertDialog } from '../ConfirmConvertDialog';
+import { useConvertStyles } from './ConvertStyles';
 
 interface IConvertProps {
   amount: BigNumber;
-  network: string;
+  network: BlockchainNetworkId;
   onSuccess: () => void;
+  isClaimAvailable: boolean;
 }
 
-export const Convert = ({ amount, onSuccess }: IConvertProps) => {
+export const Convert = ({
+  amount,
+  onSuccess,
+  isClaimAvailable,
+}: IConvertProps) => {
   const classes = useConvertStyles();
   const [convertEstimates, setConvertEstimates] = useState<
     IConvertEstimates | undefined
@@ -41,21 +52,20 @@ export const Convert = ({ amount, onSuccess }: IConvertProps) => {
 
   const dispatchRequest = useRequestDispatch();
 
-  const {
-    isPendingClaim,
-    isInProgress,
-    isValidRecipient: isCorrectAccountConnected,
-    recipient,
-  } = useClaimState();
+  const { data: wallet } = useQuery<IWalletStatus | null>({
+    type: AvalancheActions.checkWallet.toString(),
+  });
 
   const handleWithdraw = useCallback(() => {
-    dispatchRequest(AvalancheActions.withdrawAAvaxB()).then(data => {
-      if (data.error) {
-        dispatchRequest(AvalancheActions.checkWallet());
-      }
-      onSuccess();
-    });
-  }, [dispatchRequest, onSuccess]);
+    if (wallet?.step === StakingStep.WithdrawalAAvaxB) {
+      dispatchRequest(AvalancheActions.withdrawAAvaxB(wallet)).then(data => {
+        if (data.error) {
+          dispatchRequest(AvalancheActions.checkWallet());
+        }
+        onSuccess();
+      });
+    }
+  }, [dispatchRequest, onSuccess, wallet]);
 
   // const handleReceivedEstimates = useCallback(
   //   (estimates: IConvertEstimates) => {
@@ -75,58 +85,51 @@ export const Convert = ({ amount, onSuccess }: IConvertProps) => {
     setConvertEstimates(undefined);
   }, []);
 
-  const isClaimAvailable = isPendingClaim && isCorrectAccountConnected;
-
   const renderButtons = useCallback(() => {
     if (isClaimAvailable) {
       return (
-        <Mutation type={AvalancheActions.withdrawAAvaxB.toString()}>
-          {({ loading }) => (
-            <Button
-              color="primary"
-              size="large"
-              className={classes.button}
-              onClick={handleWithdraw}
-              disabled={loading || isInProgress}
-            >
-              {t('stake-avax.convert.finish-claim')}
-            </Button>
-          )}
-        </Mutation>
-      );
-    }
-    if (isPendingClaim) {
-      return (
-        <Body2 className={classes.warning} color="secondary" component="p">
-          {t('stake-avax.error.to-address')}
-          <Body2 color="textPrimary" component="span">
-            &nbsp;
-            {recipient}
-          </Body2>
-        </Body2>
+        <>
+          <MutationErrorHandler
+            type={AvalancheActions.withdrawAAvaxB.toString()}
+          />
+          <Mutation type={AvalancheActions.withdrawAAvaxB.toString()}>
+            {({ loading }) => (
+              <Button
+                color="primary"
+                size="large"
+                className={classes.button}
+                onClick={handleWithdraw}
+                disabled={loading}
+              >
+                {t('stake-avax.convert.finish-claim')}
+              </Button>
+            )}
+          </Mutation>
+        </>
       );
     }
 
     return (
-      <div>
+      <Box display="flex" alignItems="center">
         <Tooltip title={t('coming-soon')}>
           <Box display="inline-block">
             <Button
               color="primary"
               size="large"
               className={classes.button}
-              disabled={true}
+              disabled
             >
               {t('stake-avax.convert.convert')}
             </Button>
           </Box>
         </Tooltip>
+
         <Tooltip title={t('stake-avax.convert.claim-summary')}>
           <IconButton className={classes.question}>
             <QuestionIcon size="xs" />
           </IconButton>
         </Tooltip>
-      </div>
+      </Box>
     );
 
     // return (
@@ -151,7 +154,7 @@ export const Convert = ({ amount, onSuccess }: IConvertProps) => {
     //   </Mutation>
     // );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isPendingClaim]);
+  }, []);
   return (
     <Paper variant="outlined" square={false} classes={{ root: classes.root }}>
       {!isClaimAvailable && (
@@ -159,18 +162,23 @@ export const Convert = ({ amount, onSuccess }: IConvertProps) => {
           {t('stake-avax.dashboard.aavaxb-balance')}
         </Typography>
       )}
+
       <div className={classes.footer}>
-        {!isClaimAvailable && amount && (
-          <Box mr={3}>
-            <Typography variant="h2">
-              {amount.toFixed(DEFAULT_FIXED)}
-            </Typography>
-          </Box>
-        )}
-        <Box display="flex" alignItems="center">
-          {renderButtons()}
-        </Box>
+        <Grid container spacing={3} alignItems="center">
+          {!isClaimAvailable && amount && (
+            <Grid item xs={12} sm="auto">
+              <Typography variant="h2">
+                {amount.toFixed(DEFAULT_FIXED)}
+              </Typography>
+            </Grid>
+          )}
+
+          <Grid item xs={12} sm>
+            {renderButtons()}
+          </Grid>
+        </Grid>
       </div>
+
       {convertEstimates && (
         <ConfirmConvertDialog
           onSubmit={handleConvertSubmit}
