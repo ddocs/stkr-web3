@@ -36,6 +36,10 @@ export const WalletSwitcher = ({
     }
   };
 
+  if (!wallets) {
+    return null;
+  }
+
   return (
     <>
       <Button
