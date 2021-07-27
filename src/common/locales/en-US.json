@@ -1,4 +1,12 @@
 {
+  "time": {
+    "days-short": "{days}d",
+    "hours-short": "{hours}h",
+    "minutes-short": "{minutes}m",
+    "seconds-short": "{seconds}s",
+    "time-left-short": "{days} {hours} {minutes} {seconds}",
+    "time-is-up": "Time is up!"
+  },
   "about": {
     "providers": "Providers",
     "stakers": "Stakers with Ankr",
@@ -353,7 +361,6 @@
     "submit": "Support with {value} ANKR",
     "support": "Support",
     "time-left": "<span class=\"bold\">Time left</span> {value}",
-    "time-is-up": "Time is up!",
     "claim": "Claim {value} Ankr"
   },
   "project-created-dialog": {
