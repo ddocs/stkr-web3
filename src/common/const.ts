@@ -81,5 +81,5 @@ export const featuresConfig = {
 };
 
 export const ENABLE_AVA = true;
-export const ENABLE_DOT = true;
+export const ENABLE_DOT = false;
 export const ENABLE_KSM = false;
