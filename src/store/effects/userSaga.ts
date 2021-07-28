@@ -87,16 +87,6 @@ function* listenKeyProviderEvents() {
         } else if (isAvalancheStakePath) {
           yield put(UserActions.disconnect(STAKER_AVALANCHE_PATH, search));
           return;
-        } else {
-          const isAvalanchePath =
-            historyInstance.location.pathname === STAKER_AVALANCHE_PATH;
-          if (isAvalanchePath) {
-            setTimeout(() => {
-              window.location.reload();
-            });
-            yield put(AvalancheActions.checkWallet());
-            return;
-          }
         }
 
         yield put(UserActions.disconnect());
