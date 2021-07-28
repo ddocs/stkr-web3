@@ -18,6 +18,8 @@ import { QueryLoading } from '../../../../../../components/QueryLoading/QueryLoa
 import { historyInstance } from '../../../../../../common/utils/historyInstance';
 import { ICrowdloanType } from '@ankr.com/stakefi-polkadot';
 import { usePolkadotBalance } from '../../../../hooks/usePolkadotBalance';
+import { useDispatch } from 'react-redux';
+import { SlotAuctionActions } from '../../../../actions/SlotAuctionActions';
 
 export const SupportProjectForm = ({
   crowdloan,
@@ -29,16 +31,20 @@ export const SupportProjectForm = ({
   const dailyReward = 'N/A';
   const initialReward = 'N/A';
 
+  const dispatch = useDispatch();
   const { slotAuctionSdk, polkadotAccount } = useSlotAuctionSdk();
   const { balance, symbol } = usePolkadotBalance();
 
   const handleSubmit = async (payload: FormPayload) => {
     setIsLoading(true);
     try {
-      await slotAuctionSdk.depositFundsToCrowdloan(
-        polkadotAccount,
-        crowdloan.loanId,
-        new BigNumber(`${payload.contributeValue}`),
+      dispatch(
+        SlotAuctionActions.depositFundsToCrowdloan(
+          slotAuctionSdk,
+          polkadotAccount,
+          crowdloan.loanId,
+          payload.contributeValue,
+        ),
       );
     } catch (e) {
       console.error(`Failed to lend funds: ${e}`);

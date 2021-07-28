@@ -10,6 +10,7 @@ import { useDispatch } from 'react-redux';
 import { useSlotAuctionSdk } from '../../../hooks/useSlotAuctionSdk';
 import { QueryLoading } from '../../../../../components/QueryLoading/QueryLoading';
 import { WalletSwitcher } from '../WalletSwitcher/WalletSwitcher';
+import { usePolkadotAccounts } from '../../../hooks/usePolkadotAccounts';
 
 export const HeaderComponent = () => {
   const classes = useHeaderStyles();
@@ -18,15 +19,13 @@ export const HeaderComponent = () => {
 
   const { slotAuctionSdk, polkadotAccount, isConnected } = useSlotAuctionSdk();
   const [loading, setLoading] = useState(false);
-  const [polkadotAccounts, setPolkadotAccounts] = useState<string[]>([]);
+  const { polkadotAccounts } = usePolkadotAccounts(slotAuctionSdk);
 
   const handleConnect = (newAccount?: string) => async () => {
     setLoading(true);
 
     await dispatch(SlotAuctionActions.connect(slotAuctionSdk, newAccount));
-
-    const polkadotAccounts = await slotAuctionSdk?.getPolkadotAccounts();
-    setPolkadotAccounts(polkadotAccounts);
+    await dispatch(SlotAuctionActions.fetchPolkadotAccounts(slotAuctionSdk));
 
     setLoading(false);
   };

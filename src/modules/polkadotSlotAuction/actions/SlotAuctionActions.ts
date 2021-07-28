@@ -213,6 +213,21 @@ export const SlotAuctionActions = {
       },
     }),
   ),
+  fetchPolkadotAccounts: createAction(
+    'FETCH_POLKADOT_ACCOUNTS',
+    (slotAuctionSdk: SlotAuctionSdk) => ({
+      request: {
+        promise: (async () => {
+          const polkadotAccounts = await slotAuctionSdk.getPolkadotAccounts();
+
+          return { polkadotAccounts };
+        })(),
+      },
+      meta: {
+        asMutation: false,
+      },
+    }),
+  ),
   fetchClaimableStakingRewards: createAction(
     'FETCH_CLAIMABLE_STAKING_REWARDS',
     (slotAuctionSdk: SlotAuctionSdk) => ({
@@ -263,6 +278,28 @@ export const SlotAuctionActions = {
           await slotAuctionSdk.claimRewardPoolTokens(polkadotAccount, loanId);
 
           return;
+        })(),
+      },
+      meta: {
+        asMutation: true,
+      },
+    }),
+  ),
+  depositFundsToCrowdloan: createAction(
+    'DEPOSIT_FUNDS_TO_CROWDLOAN',
+    (
+      slotAuctionSdk: SlotAuctionSdk,
+      polkadotAccount: string,
+      loanId: number,
+      value: string,
+    ) => ({
+      request: {
+        promise: (async function () {
+          return slotAuctionSdk.depositFundsToCrowdloan(
+            polkadotAccount,
+            loanId,
+            new BigNumber(value),
+          );
         })(),
       },
       meta: {
