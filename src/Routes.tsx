@@ -352,6 +352,9 @@ export function Routes() {
         component={StakerContainer}
         availableNetworks={[
           isMainnet ? BlockchainNetworkId.mainnet : BlockchainNetworkId.goerli,
+          isMainnet
+            ? BlockchainNetworkId.smartchain
+            : BlockchainNetworkId.smartchainTestnet,
         ]}
       />
 

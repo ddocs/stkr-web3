@@ -25,6 +25,9 @@ export interface IRequestActionPromiseData<T = any, D = any, E = any> {
   isAborted: boolean;
 }
 
+export type Timestamp = number;
+export type Days = number;
+export type Minutes = number;
 export type Seconds = number;
 export type Milliseconds = number;
 export type Megabytes = number;
