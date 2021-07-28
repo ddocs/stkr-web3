@@ -1,4 +1,3 @@
-import { BlockchainNetworkId } from '../../common/types';
 import { BscConnector } from '@binance-chain/bsc-connector';
 import { fade, lighten } from '@material-ui/core';
 import WalletConnectProvider from '@walletconnect/web3-provider';
@@ -11,6 +10,7 @@ import { Contract } from 'web3-eth-contract';
 import { AbiItem, bytesToHex, numberToHex } from 'web3-utils';
 import Web3Modal, { getProviderInfo, IProviderOptions } from 'web3modal';
 import { PALETTE } from '../../common/themes/mainTheme';
+import { BlockchainNetworkId } from '../../common/types';
 import binanceWalletLogo from './assets/binanceWallet.svg';
 import huobiLogo from './assets/huobi.svg';
 import imTokenLogo from './assets/imToken.svg';
@@ -475,11 +475,30 @@ export class Web3ModalKeyProvider extends KeyProvider {
     }
   }
 
-  public switchNetwork(settings: IRPCConfig): Promise<string> {
-    /* eslint-disable */
+  public switchNetwork(settings: IRPCConfig): Promise<any> {
     return this.provider
-      .request({ method: 'wallet_addEthereumChain', params: [settings] })
-      .catch();
+      .request({
+        /**
+         * Method [API](https://docs.metamask.io/guide/rpc-api.html#wallet-switchethereumchain)
+         */
+        method: 'wallet_switchEthereumChain',
+        params: [{ chainId: settings.chainId }],
+      })
+      .catch((switchError: { code: number }) => {
+        const isChainNotAdded = switchError.code === 4902;
+
+        if (isChainNotAdded) {
+          return this.provider.request({
+            /**
+             * Method [API](https://docs.metamask.io/guide/rpc-api.html#wallet-addethereumchain)
+             */
+            method: 'wallet_addEthereumChain',
+            params: [settings],
+          });
+        }
+        // handle other "switch" errors
+        throw new Error('switchError');
+      });
   }
 
   private tryGetRawTx(rawTx: any): string {
