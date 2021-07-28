@@ -114,7 +114,7 @@ const useProgressDemo = (isInProgress: boolean) => {
   const [timeLeft, setTimeLeft] = useState(9);
   const [iterationCount, setIterationCount] = useState(1);
   const totalBlocks = 24;
-  const interval = !isInProgress || isTxnCompleted ? undefined : 1.5 * 1000;
+  const interval = !isInProgress || isTxnCompleted ? null : 1.5 * 1000;
 
   const statusText = isTxnCompleted
     ? 'Please switch your wallet network to BSC to claim tokens'

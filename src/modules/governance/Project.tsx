@@ -21,7 +21,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { GOVERNANCE_PROJECT_LIST_PATH } from '../../common/const';
 import { FormErrors } from '../../common/types/FormErrors';
 import { getProgress } from '../../common/utils/getProgress';
-import { t, tHTML } from '../../common/utils/intl';
+import { t } from '../../common/utils/intl';
 import { MutationErrorHandler } from '../../components/MutationErrorHandler/MutationErrorHandler';
 import { QueryEmpty } from '../../components/QueryEmpty/QueryEmpty';
 import { QueryError } from '../../components/QueryError/QueryError';
@@ -42,7 +42,7 @@ import { CancelIcon } from '../../UiKit/Icons/CancelIcon';
 import { SliderField } from '../../UiKit/RangeField';
 import { HowItWorksDialog } from './components/HowItWorksDialog';
 import { ModerationStatusLed } from './components/ModerationStatusLed';
-import { Timer } from './components/Timer';
+import { ProjectTimer } from './components/ProjectTimer';
 import { VoteField } from './components/VoteField';
 import { useProjectStyles } from './ProjectStyles';
 import { IProject } from './types';
@@ -153,14 +153,11 @@ export const Project = () => {
                     <Box mb={2.5}>
                       <Typography variant="h2">{project.topic}</Typography>
                     </Box>
-                    <Typography
-                      variant="body2"
-                      color="textSecondary"
+
+                    <ProjectTimer
+                      endDate={project.endTime}
                       className={classes.time}
-                    >
-                      <span className="bold">{tHTML('project.time-left')}</span>{' '}
-                      <Timer component="span" endTime={project.endTime} />
-                    </Typography>
+                    />
 
                     <Divider className={classes.divider} />
 
