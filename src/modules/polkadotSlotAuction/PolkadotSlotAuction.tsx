@@ -40,7 +40,7 @@ export const PolkadotSlotAuction = () => {
 
   return (
     <Query<SlotAuctionSdk>
-      type={SlotAuctionActions.initialize.toString()}
+      type={SlotAuctionActions.initialize}
       errorComponent={QueryError}
       loadingComponent={QueryLoading}
       showLoaderDuringRefetch={false}

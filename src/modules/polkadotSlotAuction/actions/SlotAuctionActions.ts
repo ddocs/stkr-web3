@@ -251,4 +251,23 @@ export const SlotAuctionActions = {
       },
     }),
   ),
+  claimRewardPoolTokens: createAction(
+    'CLAIM_REWARD_POOL_TOKENS',
+    (
+      slotAuctionSdk: SlotAuctionSdk,
+      polkadotAccount: string,
+      loanId: number,
+    ) => ({
+      request: {
+        promise: (async () => {
+          await slotAuctionSdk.claimRewardPoolTokens(polkadotAccount, loanId);
+
+          return;
+        })(),
+      },
+      meta: {
+        asMutation: true,
+      },
+    }),
+  ),
 };

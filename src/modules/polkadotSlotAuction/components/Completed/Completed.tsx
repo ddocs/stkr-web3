@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { uid } from 'react-uid';
 import { Button } from '../../../../UiKit/Button';
 import { t } from '../../../../common/utils/intl';
@@ -13,14 +13,17 @@ import {
 } from '../Table';
 import { CaptionType } from '../Table/types';
 import { useSlotAuctionSdk } from '../../hooks/useSlotAuctionSdk';
-import { ICrowdloanType } from '@ankr.com/stakefi-polkadot';
 import { useCrowdloanBalances, useCrowdloans } from '../../hooks/useCrowdloans';
 import { Body2 } from '../../../../UiKit/Typography';
 import { SlotAuctionActions } from '../../actions/SlotAuctionActions';
 import { QueryError } from '../../../../components/QueryError/QueryError';
 import { Box } from '@material-ui/core';
-import { QueryLoadingCentered } from '../../../../components/QueryLoading/QueryLoading';
+import {
+  QueryLoading,
+  QueryLoadingCentered,
+} from '../../../../components/QueryLoading/QueryLoading';
 import { Query } from '@redux-requests/react';
+import { useDispatch } from 'react-redux';
 
 const captions: CaptionType[] = [
   {
@@ -44,6 +47,10 @@ const captions: CaptionType[] = [
 export const Completed = () => {
   const classes = useCompletedStyles();
 
+  const dispatch = useDispatch();
+
+  const [loading, setLoading] = useState(false);
+
   const { slotAuctionSdk, polkadotAccount } = useSlotAuctionSdk();
 
   const { crowdloans } = useCrowdloans(slotAuctionSdk, 'SUCCEEDED');
@@ -54,8 +61,16 @@ export const Completed = () => {
     polkadotAccount,
   );
 
-  const handleClaimRewardTokens = async (item: ICrowdloanType) => {
-    await slotAuctionSdk.claimRewardPoolTokens(polkadotAccount, item.loanId);
+  const handleClaimRewardTokens = async (loanId: number) => {
+    setLoading(true);
+    await dispatch(
+      SlotAuctionActions.claimRewardPoolTokens(
+        slotAuctionSdk,
+        polkadotAccount,
+        loanId,
+      ),
+    );
+    setLoading(false);
   };
 
   return (
@@ -85,7 +100,8 @@ export const Completed = () => {
         >
           {() =>
             crowdloans.map(item => {
-              const balance = balances[item.loanId];
+              const loanId = item.loanId;
+              const balance = balances[loanId];
 
               return (
                 <TableRow key={uid(item)}>
@@ -115,15 +131,21 @@ export const Completed = () => {
                         {t('polkadot-slot-auction.buy-adotp-button')}
                       </Button>
                     ) : !balance.claimable.isZero() ? (
-                      <Button
-                        color="primary"
-                        className={classes.button}
-                        onClick={() => handleClaimRewardTokens(item)}
-                      >
-                        {t('polkadot-slot-auction.claim-dot-button', {
-                          value: balance ? balance.claimable.toString(10) : '0',
-                        })}
-                      </Button>
+                      <Box display="flex" justifyContent="flex-end">
+                        <Button
+                          color="primary"
+                          className={classes.button}
+                          onClick={() => handleClaimRewardTokens(loanId)}
+                          disabled={loading}
+                        >
+                          {t('polkadot-slot-auction.claim-dot-button', {
+                            value: balance
+                              ? balance.claimable.toString(10)
+                              : '0',
+                          })}
+                        </Button>
+                        {loading && <QueryLoading size={40} />}
+                      </Box>
                     ) : (
                       <>
                         <span className={classes.myBalance}>
