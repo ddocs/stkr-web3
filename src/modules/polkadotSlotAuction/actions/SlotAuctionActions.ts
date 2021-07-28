@@ -218,7 +218,7 @@ export const SlotAuctionActions = {
     (slotAuctionSdk: SlotAuctionSdk) => ({
       request: {
         promise: (async () => {
-          const polkadotAccounts = await slotAuctionSdk.getPolkadotAccounts();
+          const polkadotAccounts = await slotAuctionSdk?.getPolkadotAccounts();
 
           return { polkadotAccounts };
         })(),

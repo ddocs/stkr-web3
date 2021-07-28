@@ -1,6 +1,5 @@
 import React, { useCallback, useState } from 'react';
 import { Typography } from '@material-ui/core';
-import BigNumber from 'bignumber.js';
 import { Field, Form, FormRenderProps } from 'react-final-form';
 
 import { useSupportProjectFormStyles } from './SupportProjectFormStyles';

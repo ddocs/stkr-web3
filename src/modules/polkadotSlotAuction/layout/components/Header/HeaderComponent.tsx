@@ -17,8 +17,10 @@ export const HeaderComponent = () => {
 
   const dispatch = useDispatch();
 
-  const { slotAuctionSdk, polkadotAccount, isConnected } = useSlotAuctionSdk();
   const [loading, setLoading] = useState(false);
+
+  const { slotAuctionSdk, polkadotAccount, isConnected } = useSlotAuctionSdk();
+
   const { polkadotAccounts } = usePolkadotAccounts(slotAuctionSdk);
 
   const handleConnect = (newAccount?: string) => async () => {
