@@ -29,9 +29,6 @@ export const useProjectStyles = makeStyles(theme => ({
   },
   time: {
     marginBottom: theme.spacing(5),
-    '& .bold': {
-      fontWeight: 500,
-    },
   },
   tooltip: {
     background: 'transparent',

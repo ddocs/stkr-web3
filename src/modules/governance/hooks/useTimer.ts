@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { Seconds } from '../../../../common/types';
-import { getTimeRemaining } from '../../../../common/utils/getTimeRemaining';
-import { t } from '../../../../common/utils/intl';
-import { useInterval } from '../../../../common/utils/useInterval';
+import { Seconds } from '../../../common/types';
+import { getTimeRemaining } from '../../../common/utils/getTimeRemaining';
+import { t } from '../../../common/utils/intl';
+import { useInterval } from '../../../common/utils/useInterval';
 
 const ONE_SECOND: Seconds = 1000;
 

@@ -1,7 +1,7 @@
 import { Box, BoxProps } from '@material-ui/core';
 import React from 'react';
 import { t } from '../../../../common/utils/intl';
-import { useTimer } from './useTimer';
+import { useTimer } from '../../hooks/useTimer';
 
 interface ITimerProps extends BoxProps {
   endTime: Date;
