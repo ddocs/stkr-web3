@@ -213,6 +213,21 @@ export const SlotAuctionActions = {
       },
     }),
   ),
+  fetchPolkadotAccounts: createAction(
+    'FETCH_POLKADOT_ACCOUNTS',
+    (slotAuctionSdk: SlotAuctionSdk) => ({
+      request: {
+        promise: (async () => {
+          const polkadotAccounts = await slotAuctionSdk.getPolkadotAccounts();
+
+          return { polkadotAccounts };
+        })(),
+      },
+      meta: {
+        asMutation: false,
+      },
+    }),
+  ),
   fetchClaimableStakingRewards: createAction(
     'FETCH_CLAIMABLE_STAKING_REWARDS',
     (slotAuctionSdk: SlotAuctionSdk) => ({
