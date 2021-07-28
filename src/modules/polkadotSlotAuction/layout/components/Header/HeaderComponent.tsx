@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import classNames from 'classnames';
 import { SlotAuctionActions } from '../../../actions/SlotAuctionActions';
 import { Curtains } from '../../../../../UiKit/Curtains';
@@ -19,11 +19,7 @@ export const HeaderComponent = () => {
 
   const { slotAuctionSdk, polkadotAccount, isConnected } = useSlotAuctionSdk();
   const [loading, setLoading] = useState(false);
-  const { polkadotAccounts } = usePolkadotAccounts();
-
-  useEffect(() => {
-    dispatch(SlotAuctionActions.fetchPolkadotAccounts(slotAuctionSdk));
-  }, [slotAuctionSdk, dispatch]);
+  const { polkadotAccounts } = usePolkadotAccounts(slotAuctionSdk);
 
   const handleConnect = (newAccount?: string) => async () => {
     setLoading(true);

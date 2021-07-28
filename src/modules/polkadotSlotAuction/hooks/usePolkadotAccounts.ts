@@ -1,9 +1,10 @@
 import { useQuery } from '@redux-requests/react';
 import { SlotAuctionActions } from '../actions/SlotAuctionActions';
-import { useSlotAuctionSdk } from './useSlotAuctionSdk';
+import { SlotAuctionSdk } from '@ankr.com/stakefi-polkadot';
 
-export const usePolkadotAccounts = (): { polkadotAccounts: string[] } => {
-  const { slotAuctionSdk } = useSlotAuctionSdk();
+export const usePolkadotAccounts = (
+  slotAuctionSdk: SlotAuctionSdk,
+): { polkadotAccounts: string[] } => {
   const {
     data: { polkadotAccounts },
   } = useQuery({

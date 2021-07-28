@@ -266,4 +266,26 @@ export const SlotAuctionActions = {
       },
     }),
   ),
+  depositFundsToCrowdloan: createAction(
+    'DEPOSIT_FUNDS_TO_CROWDLOAN',
+    (
+      slotAuctionSdk: SlotAuctionSdk,
+      polkadotAccount: string,
+      loanId: number,
+      value: string,
+    ) => ({
+      request: {
+        promise: (async function () {
+          return slotAuctionSdk.depositFundsToCrowdloan(
+            polkadotAccount,
+            loanId,
+            new BigNumber(value),
+          );
+        })(),
+      },
+      meta: {
+        asMutation: true,
+      },
+    }),
+  ),
 };
