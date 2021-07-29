@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/styles';
-import {Theme} from "@material-ui/core";
+import { Theme } from '@material-ui/core';
 
-export const useStyles = makeStyles<Theme>((theme) => ({
+export const useStyles = makeStyles<Theme>(theme => ({
   container: {
     paddingBottom: 130,
     [theme.breakpoints.down('xs')]: {
@@ -35,7 +35,7 @@ export const useStyles = makeStyles<Theme>((theme) => ({
 
       '&:last-child': {
         marginRight: 0,
-      }
+      },
     },
   },
   productsContainer: {
@@ -61,5 +61,5 @@ export const useStyles = makeStyles<Theme>((theme) => ({
       marginTop: 10,
       marginRight: 35,
     },
-  }
+  },
 }));

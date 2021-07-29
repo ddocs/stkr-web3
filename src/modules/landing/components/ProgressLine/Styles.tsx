@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/styles';
-import {Theme} from "@material-ui/core";
+import { Theme } from '@material-ui/core';
 
-export const useStyles = makeStyles<Theme>((theme) => ({
+export const useStyles = makeStyles<Theme>(theme => ({
   container: {
     width: '100%',
     borderTop: '1px solid #ffffff',

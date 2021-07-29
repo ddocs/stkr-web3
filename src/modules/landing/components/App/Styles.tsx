@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/styles';
-import {Theme} from "@material-ui/core";
+import { Theme } from '@material-ui/core';
 
-export const useStyles = makeStyles<Theme>((theme) => ({
+export const useStyles = makeStyles<Theme>(theme => ({
   container: {
     background: 'black',
     position: 'relative',
@@ -24,11 +24,11 @@ export const useStyles = makeStyles<Theme>((theme) => ({
     },
   },
   containerWithMenu: {
-    overflowY: "hidden",
+    overflowY: 'hidden',
     height: '100vh',
   },
   launchButton: {
-    position: "absolute",
+    position: 'absolute',
     zIndex: 6,
     top: 90,
     right: 170,
@@ -38,7 +38,7 @@ export const useStyles = makeStyles<Theme>((theme) => ({
     },
     [theme.breakpoints.down('xs')]: {
       right: 20,
-    }
+    },
   },
   launchButtonText: {
     fontSize: 60,
@@ -48,12 +48,12 @@ export const useStyles = makeStyles<Theme>((theme) => ({
     },
     [theme.breakpoints.down('xs')]: {
       fontSize: 30,
-    }
+    },
   },
   bgVideo: {
     zIndex: 0,
     position: 'absolute',
     top: 0,
     left: 0,
-  }
+  },
 }));

@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/styles';
-import {Theme} from "@material-ui/core";
+import { Theme } from '@material-ui/core';
 
-export const useStyles = makeStyles<Theme>((theme) => ({
+export const useStyles = makeStyles<Theme>(theme => ({
   container: {
     display: 'flex',
     color: '#FFFFFF',
@@ -21,7 +21,7 @@ export const useStyles = makeStyles<Theme>((theme) => ({
     background: '#FFFFFF',
     [theme.breakpoints.down('xs')]: {
       margin: '0 15px',
-    }
+    },
   },
   menu: {
     cursor: 'pointer',
@@ -30,5 +30,5 @@ export const useStyles = makeStyles<Theme>((theme) => ({
     '&:hover': {
       color: '#E6007A',
     },
-  }
+  },
 }));

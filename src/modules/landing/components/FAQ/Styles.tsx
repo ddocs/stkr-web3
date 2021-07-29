@@ -1,9 +1,9 @@
 import { makeStyles } from '@material-ui/styles';
-import {Theme} from "@material-ui/core";
+import { Theme } from '@material-ui/core';
 
-export const useStyles = makeStyles<Theme>((theme) => ({
+export const useStyles = makeStyles<Theme>(theme => ({
   container: {
-    display: "flex",
+    display: 'flex',
     fontSize: 15,
     justifyContent: 'space-between',
     marginTop: 160,
@@ -13,7 +13,7 @@ export const useStyles = makeStyles<Theme>((theme) => ({
     },
   },
   title: {
-    fontWeight: "bold",
+    fontWeight: 'bold',
     [theme.breakpoints.down('xs')]: {
       paddingBottom: 35,
     },
@@ -24,5 +24,5 @@ export const useStyles = makeStyles<Theme>((theme) => ({
     [theme.breakpoints.down('xs')]: {
       width: '100%',
     },
-  }
+  },
 }));

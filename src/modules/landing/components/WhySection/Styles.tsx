@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/styles';
-import {Theme} from "@material-ui/core";
+import { Theme } from '@material-ui/core';
 
-export const useStyles = makeStyles<Theme>((theme) => ({
+export const useStyles = makeStyles<Theme>(theme => ({
   container: {
     fontSize: 15,
     display: 'flex',
@@ -48,7 +48,7 @@ export const useStyles = makeStyles<Theme>((theme) => ({
     },
     '&:last-child': {
       borderBottom: 'none',
-    }
+    },
   },
   title: {
     fontWeight: 'bold',
@@ -57,5 +57,5 @@ export const useStyles = makeStyles<Theme>((theme) => ({
     [theme.breakpoints.down('xs')]: {
       paddingBottom: 45,
     },
-  }
+  },
 }));

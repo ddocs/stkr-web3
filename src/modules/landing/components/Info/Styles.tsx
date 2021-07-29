@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/styles';
-import {Theme} from "@material-ui/core";
+import { Theme } from '@material-ui/core';
 
-export const useStyles = makeStyles<Theme>((theme) => ({
+export const useStyles = makeStyles<Theme>(theme => ({
   container: {
     display: 'flex',
     justifyContent: 'flex-end',
@@ -17,5 +17,5 @@ export const useStyles = makeStyles<Theme>((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'flex-end',
-  }
+  },
 }));
