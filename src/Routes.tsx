@@ -24,12 +24,15 @@ import {
   STAKER_STAKE_BNB_ROUTE,
   STAKER_STAKE_PATH,
   STAKER_AVALANCHE_PATH,
+  PARACHAIN_BONDS_LEND_PATH,
+  PARACHAIN_BONDS_CROWDLOANS,
 } from './common/const';
 import { PageNotFound } from './components/PageNotFound/PageNotFound';
 import { QueryLoadingAbsolute } from './components/QueryLoading/QueryLoading';
 import { withDefaultLayout } from './modules/layout';
 import { PrivateRoute } from './UiKit/PrivateRoute';
 import { PrivateRoutePlaceholder } from './UiKit/PrivateRoutePlaceholder';
+import { withPolkadotSlotAuctionLayout } from './modules/polkadotSlotAuction/layout';
 
 const LoadableOverviewContainer = withDefaultLayout(
   loadable(async () => import('./modules/lobby').then(module => module.Lobby), {
@@ -246,6 +249,30 @@ const LoadableAboutSmartchainContainer = withDefaultLayout(
   ) as LoadableComponent<any>,
 );
 
+const PolkadotSlotAuctionContainer = withPolkadotSlotAuctionLayout(
+  loadable(
+    async () =>
+      import('./modules/polkadotSlotAuction/PolkadotSlotAuction').then(
+        module => module.PolkadotSlotAuction,
+      ),
+    {
+      fallback: <QueryLoadingAbsolute />,
+    },
+  ) as LoadableComponent<any>,
+);
+
+const PolkadotSlotAuctionLend = withPolkadotSlotAuctionLayout(
+  loadable(
+    async () =>
+      import('./modules/polkadotSlotAuction/components/SupportProject').then(
+        module => module.SupportProject,
+      ),
+    {
+      fallback: <QueryLoadingAbsolute />,
+    },
+  ) as LoadableComponent<any>,
+);
+
 export function Routes() {
   return (
     <Switch>
@@ -340,6 +367,16 @@ export function Routes() {
         path={BRIDGE_RECOVERY_PATH}
         component={LoadableBridgeRecoverContainer}
         exact={true}
+      />
+      <Route
+        path={PARACHAIN_BONDS_CROWDLOANS}
+        component={PolkadotSlotAuctionContainer}
+        exact
+      />
+      <Route
+        path={PARACHAIN_BONDS_LEND_PATH}
+        component={PolkadotSlotAuctionLend}
+        exact
       />
       <PrivateRoute component={PageNotFound} />
     </Switch>

@@ -16,7 +16,7 @@ import { useSlotAuctionSdk } from '../../hooks/useSlotAuctionSdk';
 import { useCrowdloanBalances, useCrowdloans } from '../../hooks/useCrowdloans';
 import { Body2 } from '../../../../UiKit/Typography';
 import { NavLink } from '../../../../UiKit/NavLink';
-import { getPolkadotSlotAuctionLendPath } from '../../../../common/const';
+import { getParachainBondsLendPath } from '../../../../common/const';
 import { getBalance } from '../../utils/getBalance';
 import { SlotAuctionActions } from '../../actions/SlotAuctionActions';
 import { QueryError } from '../../../../components/QueryError/QueryError';
@@ -113,7 +113,7 @@ export const Ongoing = () => {
                       >
                         {() => (
                           <NavLink
-                            href={getPolkadotSlotAuctionLendPath(
+                            href={getParachainBondsLendPath(
                               /*item.loanId*/ 2003,
                               item.projectName,
                             )}

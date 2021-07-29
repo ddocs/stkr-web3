@@ -27,10 +27,11 @@ export const CONVERT_ROUTE = '/convert/:from/:to';
 export const ABOUT_SMARTCHAIN_PATH = '/bsc';
 export const BRIDGE_PATH = '/bridge';
 export const BRIDGE_RECOVERY_PATH = `${BRIDGE_PATH}/recovery`;
-export const POLKADOT_SLOT_AUCTION_LEND_PATH = '/lend/:id/:name';
+export const PARACHAIN_BONDS_CROWDLOANS = '/parachain-bonds/crowdloans';
+export const PARACHAIN_BONDS_LEND_PATH = '/parachain-bonds/lend/:id/:name';
 
-export function getPolkadotSlotAuctionLendPath(id: number, name?: string) {
-  return generatePath(POLKADOT_SLOT_AUCTION_LEND_PATH, {
+export function getParachainBondsLendPath(id: number, name?: string) {
+  return generatePath(PARACHAIN_BONDS_LEND_PATH, {
     id,
     name: name ? name.toLowerCase() : '/',
   });

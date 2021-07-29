@@ -12,7 +12,7 @@ import { Body1 } from '../../../../../../UiKit/Typography';
 import { Button } from '../../../../../../UiKit/Button';
 import { FormErrors } from '../../../../../../common/types/FormErrors';
 import { useSlotAuctionSdk } from '../../../../hooks/useSlotAuctionSdk';
-import { INDEX_PATH } from '../../../../../../common/const';
+import { PARACHAIN_BONDS_CROWDLOANS } from '../../../../../../common/const';
 import { QueryLoading } from '../../../../../../components/QueryLoading/QueryLoading';
 import { historyInstance } from '../../../../../../common/utils/historyInstance';
 import { ICrowdloanType } from '@ankr.com/stakefi-polkadot';
@@ -49,7 +49,7 @@ export const SupportProjectForm = ({
       console.error(`Failed to lend funds: ${e}`);
     } finally {
       setIsLoading(false);
-      historyInstance.replace(INDEX_PATH);
+      historyInstance.replace(PARACHAIN_BONDS_CROWDLOANS);
     }
   };
 
