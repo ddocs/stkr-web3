@@ -5,7 +5,7 @@ import { useHistory, useParams } from 'react-router';
 import { t } from '../../../../common/utils/intl';
 import { CancelIcon } from '../../../../UiKit/Icons/CancelIcon';
 import { useSupportProjectStyles } from './SupportProjectStyles';
-import { INDEX_PATH } from '../../../../common/const';
+import { PARACHAIN_BONDS_CROWDLOANS } from '../../../../common/const';
 import { NavLink } from '../../../../UiKit/NavLink';
 import { SupportProjectForm } from './components/SupportProjectForm/SupportProjectForm';
 import { useCrowdloanById } from '../../hooks/useCrowdloans';
@@ -33,7 +33,7 @@ export const SupportProject = ({ onClose }: SupportProjectProps) => {
   }
   const { isConnected } = useSlotAuctionSdk();
   if (!isConnected) {
-    history.push(INDEX_PATH);
+    history.push(PARACHAIN_BONDS_CROWDLOANS);
   }
   const { crowdloan, isLoading } = useCrowdloanById(loanId);
 
@@ -50,7 +50,7 @@ export const SupportProject = ({ onClose }: SupportProjectProps) => {
   return (
     <div className={classes.container}>
       <IconButton className={classes.close}>
-        <NavLink href={INDEX_PATH}>
+        <NavLink href={PARACHAIN_BONDS_CROWDLOANS}>
           <CancelIcon size="xmd" onClick={handleClose} />
         </NavLink>
       </IconButton>
