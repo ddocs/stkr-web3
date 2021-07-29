@@ -26,6 +26,7 @@ import {
   STAKER_AVALANCHE_PATH,
   PARACHAIN_BONDS_LEND_PATH,
   PARACHAIN_BONDS_CROWDLOANS,
+  PARACHAIN_BONDS,
 } from './common/const';
 import { PageNotFound } from './components/PageNotFound/PageNotFound';
 import { QueryLoadingAbsolute } from './components/QueryLoading/QueryLoading';
@@ -33,6 +34,7 @@ import { withDefaultLayout } from './modules/layout';
 import { PrivateRoute } from './UiKit/PrivateRoute';
 import { PrivateRoutePlaceholder } from './UiKit/PrivateRoutePlaceholder';
 import { withPolkadotSlotAuctionLayout } from './modules/polkadotSlotAuction/layout';
+import PolkadotSlotAuctionLanding from './modules/landing';
 
 const LoadableOverviewContainer = withDefaultLayout(
   loadable(async () => import('./modules/lobby').then(module => module.Lobby), {
@@ -376,6 +378,11 @@ export function Routes() {
       <Route
         path={PARACHAIN_BONDS_LEND_PATH}
         component={PolkadotSlotAuctionLend}
+        exact
+      />
+      <Route
+        path={PARACHAIN_BONDS}
+        component={PolkadotSlotAuctionLanding}
         exact
       />
       <PrivateRoute component={PageNotFound} />

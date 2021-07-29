@@ -15401,6 +15401,13 @@ rc@^1.0.1, rc@^1.1.6, rc@^1.2.8:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
+react-animated-numbers@0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/react-animated-numbers/-/react-animated-numbers-0.3.1.tgz#f32c4963cb9ab61dfc1864cd2cf94ff1e7edc92f"
+  integrity sha512-r9YiB1OsmaPR5UBnIM9v7sKoJ90B6BXbbmAqa1/ZlZptxJq32O2AafUSYJ1mbViOuo3lrNp+NJZkIYjIIo6EVw==
+  dependencies:
+    react-spring "^8.0.27"
+
 react-app-polyfill@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/react-app-polyfill/-/react-app-polyfill-2.0.0.tgz#a0bea50f078b8a082970a9d853dc34b6dcc6a3cf"
@@ -15618,6 +15625,11 @@ react-hotkeys@2.0.0:
   dependencies:
     prop-types "^15.6.1"
 
+react-intersection-observer@^8.32.0:
+  version "8.32.0"
+  resolved "https://registry.yarnpkg.com/react-intersection-observer/-/react-intersection-observer-8.32.0.tgz#47249332e12e8bb99ed35a10bb7dd10446445a7b"
+  integrity sha512-RlC6FvS3MFShxTn4FHAy904bVjX5Nn4/eTjUkurW0fHK+M/fyQdXuyCy9+L7yjA+YMGogzzSJNc7M4UtfSKvtw==
+
 react-intl-universal@^2.4.1:
   version "2.4.1"
   resolved "https://registry.yarnpkg.com/react-intl-universal/-/react-intl-universal-2.4.1.tgz#930aab866b2fad0c24ffb09469ae872bba6d9776"
@@ -15825,6 +15837,14 @@ react-sizeme@^2.6.7:
     invariant "^2.2.4"
     shallowequal "^1.1.0"
     throttle-debounce "^2.1.0"
+
+react-spring@^8.0.27:
+  version "8.0.27"
+  resolved "https://registry.yarnpkg.com/react-spring/-/react-spring-8.0.27.tgz#97d4dee677f41e0b2adcb696f3839680a3aa356a"
+  integrity sha512-nDpWBe3ZVezukNRandTeLSPcwwTMjNVu1IDq9qA/AMiUqHuRN4BeSWvKr3eIxxg1vtiYiOLy4FqdfCP5IoP77g==
+  dependencies:
+    "@babel/runtime" "^7.3.1"
+    prop-types "^15.5.8"
 
 react-stroller@^1.6.7:
   version "1.6.7"

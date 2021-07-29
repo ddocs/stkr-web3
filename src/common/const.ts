@@ -29,6 +29,7 @@ export const BRIDGE_PATH = '/bridge';
 export const BRIDGE_RECOVERY_PATH = `${BRIDGE_PATH}/recovery`;
 export const PARACHAIN_BONDS_CROWDLOANS = '/parachain-bonds/crowdloans';
 export const PARACHAIN_BONDS_LEND_PATH = '/parachain-bonds/lend/:id/:name';
+export const PARACHAIN_BONDS = '/parachain-bonds';
 
 export function getParachainBondsLendPath(id: number, name?: string) {
   return generatePath(PARACHAIN_BONDS_LEND_PATH, {
