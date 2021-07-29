@@ -3,7 +3,7 @@ import React from 'react';
 import { tHTML } from '../../common/utils/intl';
 import { INetwork } from '../../UiKit/GuardRoute';
 import { Headline5 } from '../../UiKit/Typography';
-import { NetworkSelector } from '../NetworkSelector/NetworkSelector';
+import { NetworkSelector } from '../NetworkSelector';
 import { useUnsupportedNetworkStyles } from './UnsupportedNetworkStyles';
 
 export interface IUnsupportedNetwork {
@@ -19,6 +19,7 @@ export const UnsupportedNetwork = (props: IUnsupportedNetwork) => {
         <Headline5 className={classes.header}>
           {tHTML('connect.unsupported-network')}
         </Headline5>
+
         <NetworkSelector networks={props.networks} />
       </Paper>
     </Container>

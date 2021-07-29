@@ -1,18 +1,15 @@
 import { VoteStatus } from '@ankr.com/stkr-jssdk';
 import BigNumber from 'bignumber.js';
 import { EventEmitter } from 'events';
+import Web3 from 'web3';
 import { SendOptions } from 'web3-eth-contract';
 import { DepositType, SupportedBlockchainNetworkId } from '../../common/types';
+import { CrossChainSdk } from '../cross-chain-sdk';
+import { configFromEnv, IStkrConfig, RPCConfig } from './config';
 import {
-  BNB_RPC_CONFIG,
-  configFromEnv,
-  ETH_RPC_CONFIG,
-  IStkrConfig,
-} from './config';
-import {
+  AvalancheContractManager,
   BinanceContractManager,
   EthereumContractManager,
-  AvalancheContractManager,
   IContractManager,
 } from './contract';
 import { ContractManagerEvent, KeyProviderEvents } from './event';
@@ -33,8 +30,6 @@ import {
   KeyProvider,
   Web3ModalKeyProvider,
 } from './provider';
-import Web3 from 'web3';
-import { CrossChainSdk } from '../cross-chain-sdk';
 
 interface IStakerSdk {
   allowTokens(remainingAllowance?: BigNumber): Promise<ISendAsyncResult>;
@@ -716,12 +711,7 @@ export class StkrSdk implements IStkrSdk {
   }
 
   public async switchNetwork(chainId: number): Promise<any> {
-    const stkrConfig = configFromEnv();
-    const settings =
-      chainId === stkrConfig.providerConfig.binanceChainId
-        ? BNB_RPC_CONFIG
-        : ETH_RPC_CONFIG;
-    return await this.keyProvider?.switchNetwork(settings);
+    return await this.keyProvider?.switchNetwork(RPCConfig[chainId]);
   }
 
   public async crossWithdrawAsync(

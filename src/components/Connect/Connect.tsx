@@ -6,7 +6,7 @@ import { RouteProps } from 'react-router-dom';
 import { useConnect } from '../../common/hooks/useConnect';
 import { t } from '../../common/utils/intl';
 import { INetwork } from '../../UiKit/GuardRoute';
-import { NetworkSelector } from '../NetworkSelector/NetworkSelector';
+import { NetworkSelector } from '../NetworkSelector';
 import { useConnectStyles } from './useConnectStyles';
 
 export interface IConnectProps extends RouteProps {
@@ -49,7 +49,10 @@ export const ConnectComponent = ({
       </Typography>
 
       <div className={classes.networksWrapper}>
-        <Typography variant="h5">{t('connect.available-networks')}</Typography>
+        <Typography variant="h5" className={classes.networksTitle}>
+          {t('connect.available-networks')}
+        </Typography>
+
         <NetworkSelector networks={networks} />
       </div>
     </Paper>

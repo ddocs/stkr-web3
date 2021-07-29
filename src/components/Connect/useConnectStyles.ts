@@ -49,5 +49,9 @@ export const useConnectStyles = makeStyles<Theme>(theme => {
       margin: theme.spacing(4, -3, 0),
       padding: theme.spacing(3.5, 3, 0),
     },
+
+    networksTitle: {
+      marginBottom: theme.spacing(3),
+    },
   };
 });

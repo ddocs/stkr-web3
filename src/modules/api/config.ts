@@ -1,3 +1,5 @@
+import { numberToHex } from 'web3-utils';
+import { BlockchainNetworkId } from '../../common/types';
 import { IAvalancheConfig, IBinanceConfig, IContractConfig } from './contract';
 import { IGatewayConfig } from './gateway';
 import { IProviderConfig } from './provider';
@@ -122,42 +124,81 @@ const MAINNET_CONFIG: IStkrConfig = {
 };
 
 export interface IRPCConfig {
-  chainId: string;
+  chainId: string; // A 0x-prefixed hexadecimal string
   chainName: string;
   nativeCurrency: {
     name: string;
-    symbol: string;
+    symbol: string; // 2-6 characters long
     decimals: number;
   };
   rpcUrls: string[];
-  blockExplorerUrls: string[];
+  blockExplorerUrls?: string[];
+  iconUrls?: string[]; // Currently ignored.
 }
 
-export const BNB_RPC_CONFIG: IRPCConfig = {
-  chainId: '0x61',
-  chainName: 'Binance Smart Chain',
-  nativeCurrency: {
-    name: 'BNB',
-    symbol: 'BNB',
-    decimals: 18,
+export const RPCConfig: Record<number, IRPCConfig> = {
+  [BlockchainNetworkId.goerli]: {
+    chainId: numberToHex(BlockchainNetworkId.goerli),
+    chainName: 'Goerli Test Network',
+    nativeCurrency: {
+      name: 'ETH',
+      symbol: 'ETH',
+      decimals: 18,
+    },
+    rpcUrls: ['https://rpc.goerli.mudit.blog/'],
+    blockExplorerUrls: [
+      'https://goerli.etherscan.io/',
+      'https://blockscout.com/eth/goerli ',
+    ],
   },
-  rpcUrls: ['https://data-seed-prebsc-1-s1.binance.org:8545/'],
-  blockExplorerUrls: ['https://testnet.bscscan.com'],
-};
 
-export const ETH_RPC_CONFIG: IRPCConfig = {
-  chainId: '0x5',
-  chainName: 'Goerli Test Network',
-  nativeCurrency: {
-    name: 'ETH',
-    symbol: 'ETH',
-    decimals: 18,
+  [BlockchainNetworkId.smartchain]: {
+    chainId: numberToHex(BlockchainNetworkId.smartchain),
+    chainName: 'Binance Smart Chain',
+    nativeCurrency: {
+      name: 'BNB',
+      symbol: 'BNB',
+      decimals: 18,
+    },
+    rpcUrls: ['https://bsc-dataseed.binance.org/'],
+    blockExplorerUrls: ['https://bscscan.com'],
   },
-  rpcUrls: ['https://rpc.goerli.mudit.blog/'],
-  blockExplorerUrls: [
-    'https://goerli.etherscan.io/',
-    'https://blockscout.com/eth/goerli ',
-  ],
+
+  [BlockchainNetworkId.smartchainTestnet]: {
+    chainId: numberToHex(BlockchainNetworkId.smartchainTestnet),
+    chainName: 'Binance Smart Chain - Testnet',
+    nativeCurrency: {
+      name: 'BNB',
+      symbol: 'BNB',
+      decimals: 18,
+    },
+    rpcUrls: ['https://data-seed-prebsc-1-s1.binance.org:8545/'],
+    blockExplorerUrls: ['https://testnet.bscscan.com'],
+  },
+
+  [BlockchainNetworkId.avalanche]: {
+    chainId: numberToHex(BlockchainNetworkId.avalanche),
+    chainName: 'Avalanche Mainnet C-Chain',
+    nativeCurrency: {
+      name: 'AVAX',
+      symbol: 'AVAX',
+      decimals: 18,
+    },
+    rpcUrls: ['https://api.avax.network/ext/bc/C/rpc'],
+    blockExplorerUrls: ['https://cchain.explorer.avax.network/'],
+  },
+
+  [BlockchainNetworkId.avalancheTestnet]: {
+    chainId: numberToHex(BlockchainNetworkId.avalancheTestnet),
+    chainName: 'Avalanche FUJI C-Chain',
+    nativeCurrency: {
+      name: 'AVAX',
+      symbol: 'AVAX',
+      decimals: 18,
+    },
+    rpcUrls: ['https://api.avax-test.network/ext/bc/C/rpc'],
+    blockExplorerUrls: ['https://cchain.explorer.avax-test.network'],
+  },
 };
 
 export function configFromNetwork(networkName: string): IStkrConfig {

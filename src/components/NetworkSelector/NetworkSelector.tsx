@@ -1,22 +1,35 @@
-import { Box } from '@material-ui/core';
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { uid } from 'react-uid';
+import { useConnect } from '../../common/hooks/useConnect';
+import { switchNetwork } from '../../store/actions/switchNetwork';
 import { INetwork } from '../../UiKit/GuardRoute';
-import { Body2 } from '../../UiKit/Typography';
+import { NetworkSelectorItem } from './NetworkSelectorItem';
+import { NetworkSelectorList } from './NetworkSelectorList';
 
 interface INetworkSelector {
   networks: INetwork[];
 }
 
-export const NetworkSelector = (props: INetworkSelector) => {
-  return (
-    <Box display="flex" justifyContent="center">
-      {props.networks.map(network => (
-        <Box key={uid(network)} textAlign="center" mt={2} mx={1} width={100}>
-          {network.icon}
-          <Body2>{network.title}</Body2>
-        </Box>
-      ))}
-    </Box>
-  );
+export const NetworkSelector = ({ networks }: INetworkSelector) => {
+  const dispatch = useDispatch();
+  const { isAuth } = useConnect();
+
+  const renderedItems = networks.map(network => {
+    const onClick = () => {
+      dispatch(switchNetwork(network.chainId));
+    };
+
+    return (
+      <NetworkSelectorItem
+        key={uid(network)}
+        icon={network.icon}
+        title={network.title}
+        onClick={isAuth ? onClick : undefined}
+        disabled={!isAuth}
+      />
+    );
+  });
+
+  return <NetworkSelectorList>{renderedItems}</NetworkSelectorList>;
 };

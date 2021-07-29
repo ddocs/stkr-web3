@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import { Route, RouteProps } from 'react-router-dom';
 import { BlockchainNetworkId } from '../../common/types';
 import { Connect } from '../../components/Connect';
@@ -8,7 +8,7 @@ import { useGuardRoute } from './useGuardRoute';
 
 export interface INetwork {
   title: string;
-  icon: ReactNode;
+  icon: JSX.Element;
   chainId: BlockchainNetworkId;
 }
 
