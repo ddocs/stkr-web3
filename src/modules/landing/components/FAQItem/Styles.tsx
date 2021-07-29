@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/styles';
-import {Theme} from "@material-ui/core";
+import { Theme } from '@material-ui/core';
 
-export const useStyles = makeStyles<Theme>((theme) => ({
+export const useStyles = makeStyles<Theme>(theme => ({
   container: {
     borderBottom: '1px solid white',
     '&:first-child > div': {
@@ -9,7 +9,7 @@ export const useStyles = makeStyles<Theme>((theme) => ({
     },
     '&:last-child': {
       borderBottom: 'none',
-    }
+    },
   },
   header: {
     display: 'flex',
@@ -30,17 +30,17 @@ export const useStyles = makeStyles<Theme>((theme) => ({
   },
   content: {
     height: 0,
-    visibility: "hidden",
+    visibility: 'hidden',
     opacity: 0,
     transition: 'height 250ms linear',
   },
   contentOpened: {
     height: 'auto',
-    visibility: "visible",
+    visibility: 'visible',
     opacity: 1,
   },
   answer: {
     paddingBottom: 20,
     lineHeight: 1.2,
-  }
+  },
 }));

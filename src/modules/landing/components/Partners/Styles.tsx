@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/styles';
-import {Theme} from "@material-ui/core";
+import { Theme } from '@material-ui/core';
 
-export const useStyles = makeStyles<Theme>((theme) => ({
+export const useStyles = makeStyles<Theme>(theme => ({
   container: {},
   sectionName: {
     fontSize: 15,
@@ -34,7 +34,7 @@ export const useStyles = makeStyles<Theme>((theme) => ({
 
       '&:last-child': {
         marginRight: 0,
-      }
+      },
     },
     [theme.breakpoints.down('xs')]: {
       flexWrap: 'wrap',

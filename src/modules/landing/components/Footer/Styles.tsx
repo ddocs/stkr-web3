@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/styles';
-import {Theme} from "@material-ui/core";
+import { Theme } from '@material-ui/core';
 
-export const useStyles = makeStyles<Theme>((theme) => ({
+export const useStyles = makeStyles<Theme>(theme => ({
   container: {
     display: 'flex',
     color: '#FFFFFF',
@@ -12,7 +12,7 @@ export const useStyles = makeStyles<Theme>((theme) => ({
     marginTop: 150,
 
     '& a': {
-      color: "white",
+      color: 'white',
       textDecoration: 'none !important',
     },
     [theme.breakpoints.down('xs')]: {

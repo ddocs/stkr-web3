@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/styles';
-import {Theme} from "@material-ui/core";
+import { Theme } from '@material-ui/core';
 
-export const useStyles = makeStyles<Theme>((theme) => ({
+export const useStyles = makeStyles<Theme>(theme => ({
   container: {
     width: '100vw',
     height: '100vh',
@@ -20,7 +20,7 @@ export const useStyles = makeStyles<Theme>((theme) => ({
     opacity: 1,
   },
   content: {
-    position: "absolute",
+    position: 'absolute',
     bottom: -5,
     left: 15,
     [theme.breakpoints.down('sm')]: {
@@ -36,7 +36,7 @@ export const useStyles = makeStyles<Theme>((theme) => ({
     lineHeight: '85%',
     transition: 'color 200ms',
     cursor: 'pointer',
-    width: "fit-content",
+    width: 'fit-content',
     paddingRight: 30,
 
     '&:hover': {
@@ -52,7 +52,7 @@ export const useStyles = makeStyles<Theme>((theme) => ({
   },
   social: {
     display: 'flex',
-    position: "absolute",
+    position: 'absolute',
     bottom: 20,
     right: 20,
     '& a': {

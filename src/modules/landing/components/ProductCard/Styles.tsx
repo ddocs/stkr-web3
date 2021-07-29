@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/styles';
-import {Theme} from "@material-ui/core";
+import { Theme } from '@material-ui/core';
 
-export const useStyles = makeStyles<Theme>((theme) => ({
+export const useStyles = makeStyles<Theme>(theme => ({
   container: {
     background: 'rgba(255, 255, 255, 0.1)',
     position: 'relative',
@@ -21,7 +21,7 @@ export const useStyles = makeStyles<Theme>((theme) => ({
     background: 'rgba(255, 255, 255, 0.1)',
     borderRadius: 20,
     padding: '12px 20px 10px 20px',
-    position: "absolute",
+    position: 'absolute',
     top: 20,
     right: 20,
     [theme.breakpoints.down('xs')]: {
@@ -33,10 +33,15 @@ export const useStyles = makeStyles<Theme>((theme) => ({
   title: {
     fontSize: 60,
     lineHeight: 1,
+    [theme.breakpoints.down('md')]: {
+      minHeight: 110,
+    },
     [theme.breakpoints.down('sm')]: {
+      minHeight: 80,
       fontSize: 40,
     },
     [theme.breakpoints.down('xs')]: {
+      minHeight: 30,
       fontSize: 30,
     },
   },
@@ -45,7 +50,13 @@ export const useStyles = makeStyles<Theme>((theme) => ({
     lineHeight: 1.2,
     paddingTop: 20,
     color: 'rgba(255, 255, 255, 0.5)',
-    height: 20 + 21*4,
+    height: 20 + 21 * 4,
+    [theme.breakpoints.down('sm')]: {
+      height: 20 + 21 * 5,
+    },
+    [theme.breakpoints.down('xs')]: {
+      height: 20 + 21 * 5,
+    },
   },
   icon: {
     width: 80,
@@ -78,7 +89,7 @@ export const useStyles = makeStyles<Theme>((theme) => ({
     lineHeight: '17px',
     '& > span': {
       color: 'rgba(255, 255, 255, 0.5)',
-    }
+    },
   },
   infoItem: {
     width: 182,
@@ -112,5 +123,5 @@ export const useStyles = makeStyles<Theme>((theme) => ({
     fontSize: 18,
     fontWeight: 600,
     paddingBottom: 12,
-  }
+  },
 }));

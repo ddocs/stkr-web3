@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/styles';
-import {Theme} from "@material-ui/core";
+import { Theme } from '@material-ui/core';
 
-export const useStyles = makeStyles<Theme>((theme) => ({
+export const useStyles = makeStyles<Theme>(theme => ({
   container: {
     display: 'flex',
     alignItems: 'flex-end',
@@ -65,5 +65,5 @@ export const useStyles = makeStyles<Theme>((theme) => ({
       textAlign: 'right',
       marginTop: -10,
     },
-  }
+  },
 }));

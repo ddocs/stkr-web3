@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/styles';
-import {Theme} from "@material-ui/core";
+import { Theme } from '@material-ui/core';
 
-export const useStyles = makeStyles<Theme>((theme) => ({
+export const useStyles = makeStyles<Theme>(theme => ({
   bgVideo: {
     zIndex: 0,
     position: 'absolute',
@@ -11,7 +11,7 @@ export const useStyles = makeStyles<Theme>((theme) => ({
       objectFit: 'cover',
       width: '100vw',
       height: '100vh',
-    }
+    },
   },
   gradient: {
     position: 'absolute',
@@ -24,7 +24,8 @@ export const useStyles = makeStyles<Theme>((theme) => ({
     },
     [theme.breakpoints.down('xs')]: {
       height: 380,
-      background: 'linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,1) 100%)',
+      background:
+        'linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,1) 100%)',
     },
-  }
+  },
 }));

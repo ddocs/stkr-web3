@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/styles';
-import {Theme} from "@material-ui/core";
+import { Theme } from '@material-ui/core';
 
-export const useStyles = makeStyles<Theme>((theme) => ({
+export const useStyles = makeStyles<Theme>(theme => ({
   container: {
     background: 'rgba(255, 255, 255, 0.1)',
     position: 'relative',
@@ -49,7 +49,7 @@ export const useStyles = makeStyles<Theme>((theme) => ({
     fontSize: 20,
     '&:last-child': {
       marginBottom: 0,
-    }
+    },
   },
   advantageText: {
     fontSize: 15,
@@ -86,5 +86,5 @@ export const useStyles = makeStyles<Theme>((theme) => ({
     fontSize: 18,
     fontWeight: 600,
     paddingTop: 30,
-  }
+  },
 }));

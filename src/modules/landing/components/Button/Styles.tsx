@@ -1,9 +1,9 @@
 import { makeStyles } from '@material-ui/styles';
-import {Theme} from "@material-ui/core";
+import { Theme } from '@material-ui/core';
 
-export const useStyles = makeStyles<Theme>((theme) => ({
+export const useStyles = makeStyles<Theme>(theme => ({
   container: {
-    display: "flex",
+    display: 'flex',
     alignItems: 'center',
     color: '#FFFFFF',
     cursor: 'pointer',
@@ -32,7 +32,7 @@ export const useStyles = makeStyles<Theme>((theme) => ({
   },
   arrow: {
     transition: 'all 200ms',
-    display: "flex",
+    display: 'flex',
     fontSize: 60,
     [theme.breakpoints.down('sm')]: {
       fontSize: 40,
@@ -40,5 +40,5 @@ export const useStyles = makeStyles<Theme>((theme) => ({
     [theme.breakpoints.down('xs')]: {
       fontSize: 25,
     },
-  }
+  },
 }));
