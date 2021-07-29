@@ -91,7 +91,6 @@ const mainTheme = createMuiTheme({
       InputLabelProps: {
         shrink: true,
       },
-      InputProps: { disableUnderline: true },
     },
     MuiTypography: {
       component: 'div',
