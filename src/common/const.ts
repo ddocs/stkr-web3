@@ -28,6 +28,7 @@ export const CONVERT_ROUTE = '/convert/:from/:to';
 export const ABOUT_SMARTCHAIN_PATH = '/bsc';
 export const BRIDGE_PATH = '/bridge';
 export const BRIDGE_RECOVERY_PATH = `${BRIDGE_PATH}/recovery`;
+export const PARACHAIN_BONDS = '/parachain-bonds';
 
 export function getStakerBnbPath(id: string) {
   return generatePath(STAKER_STAKE_BNB_ROUTE, { id });
