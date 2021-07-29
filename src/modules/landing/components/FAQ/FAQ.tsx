@@ -57,7 +57,7 @@ const questions = [
         <u>Become a Parachain Bond Market Maker</u>: What is the fair price of a
         Parachain Bond? That depends on your individual risk tolerance. We can
         define the price of 1 Parachain Bonds as the following:
-        <img src="/landing/formula.png" width="100%" />
+        <img src="/landing/formula.png" width="100%" alt="formula" />
         <br />
         <br />
         Depending on the risk premium required by buyers/sellers of Parachain

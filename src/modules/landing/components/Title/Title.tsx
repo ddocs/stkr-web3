@@ -1,4 +1,5 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import FontFaceOnload from 'fontfaceonload';
 
 import { useStyles } from './Styles';
 import SectionWrapper from '../SectionWrapper/SectionWrapper';
@@ -21,13 +22,17 @@ const Title = () => {
         );
       }
     };
-    handleResize();
-    window.addEventListener('resize', handleResize);
+    FontFaceOnload('TT Commons', {
+      success: () => {
+        handleResize();
+        window.addEventListener('resize', handleResize);
+      },
+    });
 
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, [ref.current?.clientHeight]);
+  }, [ref]);
 
   return (
     <SectionWrapper needTimeout={false}>

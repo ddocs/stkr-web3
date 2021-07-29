@@ -9062,6 +9062,11 @@ follow-redirects@^1.10.0:
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.14.1.tgz#d9114ded0a1cfdd334e164e6662ad02bfd91ff43"
   integrity sha512-HWqDgT7ZEkqRzBvc2s64vSZ/hfOceEol3ac/7tKwzuvEyWx3/4UegXh5oBOIotkGsObyk3xznnSRVADBgWSQVg==
 
+fontfaceonload@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/fontfaceonload/-/fontfaceonload-1.0.2.tgz#b783b4d252ab559a073b697586c49cd21c8ff5e7"
+  integrity sha1-t4O00lKrVZoHO2l1hsSc0hyP9ec=
+
 for-in@^0.1.3:
   version "0.1.8"
   resolved "https://registry.yarnpkg.com/for-in/-/for-in-0.1.8.tgz#d8773908e31256109952b1fdb9b3fa867d2775e1"

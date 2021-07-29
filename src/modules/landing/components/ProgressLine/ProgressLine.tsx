@@ -12,7 +12,10 @@ const ProgressLine = ({ value, max }: ProgressLineProps) => {
 
   return (
     <div className={classes.container}>
-      <div className={classes.line} style={{ width: `${value / max * 100}%`}} />
+      <div
+        className={classes.line}
+        style={{ width: `${(value / max) * 100}%` }}
+      />
     </div>
   );
 };

@@ -20,9 +20,9 @@ const Header = ({ onMenuToggle, isMenuOpened }: HeaderProps) => {
         <div className={classes.logo}>
           <Link href="/">
             {isMobile ? (
-              <img src="/landing/logoMobile.svg" width={32} />
+              <img src="/landing/logoMobile.svg" width={32} alt="logo" />
             ) : (
-              <img src="/landing/logo.svg" width={103} />
+              <img src="/landing/logo.svg" width={103} alt="logo" />
             )}
           </Link>
           <div className={classes.divider} />

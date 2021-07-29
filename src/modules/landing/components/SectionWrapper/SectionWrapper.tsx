@@ -1,13 +1,17 @@
-import React, {useEffect, useState} from 'react';
-import {Fade} from "@material-ui/core";
-import {useInView} from 'react-intersection-observer';
+import React, { useEffect, useState } from 'react';
+import { Fade } from '@material-ui/core';
+import { useInView } from 'react-intersection-observer';
 
 interface SectionWrapperProps {
   needTimeout?: boolean;
   delay?: number;
-  children: React.ReactElement,
+  children: React.ReactElement;
 }
-const SectionWrapper = ({ children, needTimeout = true, delay = 100 }: SectionWrapperProps) => {
+const SectionWrapper = ({
+  children,
+  needTimeout = true,
+  delay = 100,
+}: SectionWrapperProps) => {
   const [isShow, setIsShow] = useState(false);
   const { ref, inView } = useInView();
 

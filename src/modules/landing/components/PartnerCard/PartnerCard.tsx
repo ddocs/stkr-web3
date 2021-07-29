@@ -72,7 +72,7 @@ const PartnerCard = ({
       }}
     >
       <div className={classes.header}>
-        <img className={classes.icon} src={iconUrl} />
+        <img className={classes.icon} src={iconUrl} alt={title} />
         <div className={classes.title}>{title}</div>
       </div>
       {!isMobile && (
@@ -92,7 +92,12 @@ const PartnerCard = ({
         <div className={classes.advantages}>
           {advantages.map(advantage => (
             <div className={classes.advantageItem} key={advantage.text}>
-              <img src="/landing/icons/plus.svg" width={20} height={20} />
+              <img
+                src="/landing/icons/plus.svg"
+                width={20}
+                height={20}
+                alt="plus"
+              />
               <div className={classes.advantageText}>{advantage.text}</div>
               {!advantage.isReady && <div className={classes.soon}>Soon</div>}
             </div>
