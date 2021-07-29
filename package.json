@@ -29,6 +29,7 @@
     "ethereumjs-tx": "^2.1.2",
     "events": "^3.2.0",
     "final-form": "^4.20.1",
+    "fontfaceonload": "^1.0.2",
     "react": "^16.13.1",
     "react-animated-numbers": "0.3.1",
     "react-copy-to-clipboard": "^5.0.2",

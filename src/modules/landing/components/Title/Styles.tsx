@@ -2,15 +2,13 @@ import { makeStyles } from '@material-ui/styles';
 import { Theme } from '@material-ui/core';
 
 export const useStyles = makeStyles<Theme>(theme => ({
-  container: {
+  content: {
+    position: 'relative',
+    zIndex: 1,
     marginBottom: 160,
     [theme.breakpoints.down('xs')]: {
       marginBottom: 105,
     },
-  },
-  content: {
-    position: 'relative',
-    zIndex: 1,
   },
   title: {
     fontSize: 200,
