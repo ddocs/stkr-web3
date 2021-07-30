@@ -85,8 +85,7 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
-      "prettier --write",
-      "git add"
+      "prettier --write"
     ]
   },
   "scripts": {
@@ -109,31 +108,29 @@
       "react-app"
     ],
     "rules": {},
-    "overrides": [
-      {
-        "files": [
-          "**/*.ts?(x)"
-        ],
-        "rules": {
-          "@typescript-eslint/ban-types": [
-            "error",
-            {
-              "types": {
-                "React.FC": {
-                  "message": "In favor of unification use the form \"(props: IComponentNameProp) => ReactNode\""
-                }
+    "overrides": [{
+      "files": [
+        "**/*.ts?(x)"
+      ],
+      "rules": {
+        "@typescript-eslint/ban-types": [
+          "error",
+          {
+            "types": {
+              "React.FC": {
+                "message": "In favor of unification use the form \"(props: IComponentNameProp) => ReactNode\""
               }
             }
-          ],
-          "@typescript-eslint/ban-ts-ignore": "off",
-          "@typescript-eslint/no-empty-interface": "off",
-          "@typescript-eslint/explicit-function-return-type": "off",
-          "@typescript-eslint/no-explicit-any": "off",
-          "@typescript-eslint/camelcase": "off",
-          "@typescript-eslint/explicit-module-boundary-types": "off"
-        }
+          }
+        ],
+        "@typescript-eslint/ban-ts-ignore": "off",
+        "@typescript-eslint/no-empty-interface": "off",
+        "@typescript-eslint/explicit-function-return-type": "off",
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/camelcase": "off",
+        "@typescript-eslint/explicit-module-boundary-types": "off"
       }
-    ]
+    }]
   },
   "browserslist": {
     "production": [
