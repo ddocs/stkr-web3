@@ -291,9 +291,7 @@ async function getWithdrawPastEvents({
 
   return events
     .filter(item => !item.removed && item.returnValues.toAddress === address)
-    .map(item => 
-      mapWithdrawal(item.returnValues as IApiWithdraw, item);
-    );
+    .map(item => mapWithdrawal(item.returnValues as IApiWithdraw, item));
 }
 
 function mapTransfer(data: IApiTransfer): ITransfer {
