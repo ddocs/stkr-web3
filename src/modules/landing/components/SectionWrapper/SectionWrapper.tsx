@@ -17,7 +17,7 @@ const SectionWrapper = ({
 
   useEffect(() => {
     if (inView) {
-      if (needTimeout === true) {
+      if (needTimeout) {
         setTimeout(() => setIsShow(true), delay);
       } else {
         setIsShow(true);

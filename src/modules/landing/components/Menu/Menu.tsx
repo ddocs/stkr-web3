@@ -5,18 +5,16 @@ import cn from 'classnames';
 import { useStyles } from './Styles';
 
 interface MenuProps {
-  onClose: () => void;
+  onMenuToggle: () => void;
   isVisible: boolean;
 }
-const Menu = ({ onClose, isVisible }: MenuProps) => {
+const Menu = ({ onMenuToggle, isVisible }: MenuProps) => {
   const classes = useStyles();
   const isMobile = useMediaQuery('(max-width:600px)');
 
   const handleClose = (e: React.MouseEvent<HTMLDivElement>) => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    if ((e.target.classList[0] as string).includes('container')) {
-      onClose();
+    if ((e.target as Element).classList[0].includes('container')) {
+      onMenuToggle();
     }
   };
 

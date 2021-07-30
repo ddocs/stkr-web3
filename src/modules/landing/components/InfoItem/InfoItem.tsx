@@ -25,7 +25,7 @@ const InfoItem = ({ value, children, startValue = 0 }: InfoItemProps) => {
     <div className={classes.container} ref={ref}>
       <SectionWrapper>
         <div className={classes.container}>
-          {isShow ? (
+          {isShow && (
             <>
               <div className={classes.value}>
                 <AnimatedNumber
@@ -36,7 +36,7 @@ const InfoItem = ({ value, children, startValue = 0 }: InfoItemProps) => {
               </div>
               <div className={classes.description}>{children}</div>
             </>
-          ) : null}
+          )}
         </div>
       </SectionWrapper>
     </div>

@@ -17,7 +17,7 @@ const FAQItem = ({ question, answer }: FAQItemProps) => {
   const classes = useStyles();
   const [isOpened, setIsOpened] = useState(false);
 
-  const handleToggleAnswer = () => setIsOpened(v => !v);
+  const handleToggleAnswer = () => setIsOpened(isOpened => !isOpened);
 
   return (
     <div className={classes.container}>

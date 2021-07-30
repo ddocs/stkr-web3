@@ -19,10 +19,7 @@ const App = () => {
   const [isMenuOpened, setIsMenuOpened] = useState(false);
 
   const handleMenuToggle = () => {
-    setIsMenuOpened(v => !v);
-  };
-  const handleMenuClose = () => {
-    setIsMenuOpened(false);
+    setIsMenuOpened(isOpened => !isOpened);
   };
 
   return (
@@ -32,7 +29,7 @@ const App = () => {
       })}
     >
       <Header onMenuToggle={handleMenuToggle} isMenuOpened={isMenuOpened} />
-      <Menu onClose={handleMenuClose} isVisible={isMenuOpened} />
+      <Menu onMenuToggle={handleMenuToggle} isVisible={isMenuOpened} />
       <div className={classes.launchButton}>
         <Fade in timeout={1500}>
           <div className={classes.launchButtonText}>Coming soon</div>
