@@ -1,11 +1,11 @@
+import BigNumber from 'bignumber.js';
 import Web3 from 'web3';
-import { singleton } from '../../common/utils/Singleton';
 import { Contract, EventData } from 'web3-eth-contract';
+import { BlockchainNetworkId } from '../../common/types';
+import { singleton } from '../../common/utils/Singleton';
+import { Address } from '../api/provider';
 import ABI_CROSS_CHAIN_BRIDGE from '../cross-chain-sdk/abi/CrossChainBridge.json';
 import DEFAULT_CONFIG from './addresses.json';
-import { Address } from '../api/provider';
-import BigNumber from 'bignumber.js';
-import { BlockchainNetworkId } from '../../common/types';
 
 declare module 'web3-eth-contract' {
   interface EventData {
@@ -53,45 +53,9 @@ interface IWithdrawal extends ITransfer {
   depositTxHash: string;
 }
 
-function mapTransfer(data: IApiTransfer): ITransfer {
-  return {
-    fromAddress: data.fromAddress,
-    fromChain: parseInt(data.fromChain, 10),
-    fromToken: data.fromToken,
-    toAddress: data.toAddress,
-    toChain: parseInt(data.toChain, 10),
-    toToken: data.toToken,
-  };
-}
-
-function mapDeposit(data: IApiDeposit, transaction: EventData): IDeposit {
-  return {
-    txHash: transaction.transactionHash,
-    depositAmountRaw: data.depositAmount,
-    depositAmount: new BigNumber(Web3.utils.fromWei(data.depositAmount)),
-    ...mapTransfer(data),
-  } as any;
-}
-
-function mapWithdrawal(
-  data: IApiWithdraw,
-  transaction: EventData,
-): IWithdrawal {
-  return {
-    depositTxHash: data.depositTxHash,
-    withdrawAmountRaw: data.withdrawAmount,
-    withdrawAmount: new BigNumber(Web3.utils.fromWei(data.withdrawAmount)),
-    signature: transaction.signature,
-    transactionHash: transaction.transactionHash,
-    ...mapTransfer(data),
-  } as any;
-}
-
-function unique(arr: any[]) {
-  return Array.from(new Set(arr));
-}
-
+const BATCH_SIZE = 2;
 const BLOCKS_DEEP = 1990;
+const BLOCKS_DEEP_AVALANCHE = BLOCKS_DEEP * BATCH_SIZE;
 
 enum Event {
   CrossChainWithdraw = 'CrossChainWithdraw',
@@ -178,47 +142,19 @@ export class AvalancheEventsHistory {
   }
 
   private async getEthereumEvents(address: Address) {
-    const contract = this.crossChainBridgeEthereum;
-    const provider = this.web3Etherium;
-
-    return contract
-      .getPastEvents(Event.CrossChainWithdraw, {
-        fromBlock: (await provider.eth.getBlockNumber()) - BLOCKS_DEEP,
-        filter: {
-          // TODO Indexing https://ankrnetwork.atlassian.net/browse/STAKAN-92
-        },
-      })
-      .then(data => {
-        return data
-          .filter(
-            item => !item.removed && item.returnValues.toAddress === address,
-          )
-          .map(item => {
-            return mapWithdrawal(item.returnValues as IApiWithdraw, item);
-          });
-      });
+    return getWithdrawPastEvents({
+      address,
+      contract: this.crossChainBridgeEthereum,
+      provider: this.web3Etherium,
+    });
   }
 
   private async getSmartchainEvents(address: Address) {
-    const contract = this.crossChainBridgeSmartchain;
-    const provider = this.web3Smartchain;
-
-    return contract
-      .getPastEvents(Event.CrossChainWithdraw, {
-        fromBlock: (await provider.eth.getBlockNumber()) - BLOCKS_DEEP,
-        filter: {
-          // TODO Indexing https://ankrnetwork.atlassian.net/browse/STAKAN-92
-        },
-      })
-      .then(data => {
-        return data
-          .filter(
-            item => !item.removed && item.returnValues.toAddress === address,
-          )
-          .map(item => {
-            return mapWithdrawal(item.returnValues as IApiWithdraw, item);
-          });
-      });
+    return getWithdrawPastEvents({
+      address,
+      contract: this.crossChainBridgeSmartchain,
+      provider: this.web3Smartchain,
+    });
   }
 
   private async getAvalancheEvents(address: Address) {
@@ -227,7 +163,8 @@ export class AvalancheEventsHistory {
 
     return contract
       .getPastEvents(Event.CrossChainDeposit, {
-        fromBlock: (await provider.eth.getBlockNumber()) - BLOCKS_DEEP,
+        fromBlock:
+          (await provider.eth.getBlockNumber()) - BLOCKS_DEEP_AVALANCHE,
         filter: {
           // TODO Indexing https://ankrnetwork.atlassian.net/browse/STAKAN-92
         },
@@ -323,4 +260,76 @@ export class AvalancheEventsHistory {
       });
     });
   }
+}
+
+async function getWithdrawPastEvents({
+  address,
+  contract,
+  provider,
+}: {
+  address: Address;
+  contract: Contract;
+  provider: Web3;
+}) {
+  const blockNumber = await provider.eth.getBlockNumber();
+
+  const pastEventsBatch = Array(BATCH_SIZE)
+    .fill(0)
+    .map((_, i) =>
+      contract.getPastEvents(Event.CrossChainWithdraw, {
+        fromBlock: blockNumber - BLOCKS_DEEP * (i + 1),
+        toBlock: i ? blockNumber - BLOCKS_DEEP * i : undefined,
+        filter: {
+          // TODO Indexing https://ankrnetwork.atlassian.net/browse/STAKAN-92
+        },
+      }),
+    );
+
+  const data = await Promise.all(pastEventsBatch);
+
+  const events = data.reduce((acc, pastEvents) => [...acc, ...pastEvents]);
+
+  return events
+    .filter(item => !item.removed && item.returnValues.toAddress === address)
+    .map(item => 
+      mapWithdrawal(item.returnValues as IApiWithdraw, item);
+    );
+}
+
+function mapTransfer(data: IApiTransfer): ITransfer {
+  return {
+    fromAddress: data.fromAddress,
+    fromChain: parseInt(data.fromChain, 10),
+    fromToken: data.fromToken,
+    toAddress: data.toAddress,
+    toChain: parseInt(data.toChain, 10),
+    toToken: data.toToken,
+  };
+}
+
+function mapDeposit(data: IApiDeposit, transaction: EventData): IDeposit {
+  return {
+    txHash: transaction.transactionHash,
+    depositAmountRaw: data.depositAmount,
+    depositAmount: new BigNumber(Web3.utils.fromWei(data.depositAmount)),
+    ...mapTransfer(data),
+  } as any;
+}
+
+function mapWithdrawal(
+  data: IApiWithdraw,
+  transaction: EventData,
+): IWithdrawal {
+  return {
+    depositTxHash: data.depositTxHash,
+    withdrawAmountRaw: data.withdrawAmount,
+    withdrawAmount: new BigNumber(Web3.utils.fromWei(data.withdrawAmount)),
+    signature: transaction.signature,
+    transactionHash: transaction.transactionHash,
+    ...mapTransfer(data),
+  } as any;
+}
+
+function unique(arr: any[]) {
+  return Array.from(new Set(arr));
 }
