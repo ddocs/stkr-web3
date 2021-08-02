@@ -26,6 +26,7 @@ import {
   STAKER_STAKE_BNB_ROUTE,
   STAKER_STAKE_DOT_ROUTE,
   STAKER_STAKE_PATH,
+  PARACHAIN_BONDS,
 } from './common/const';
 import { BlockchainNetworkId } from './common/types';
 import { PageNotFound } from './components/PageNotFound';
@@ -34,6 +35,7 @@ import { withDefaultLayout } from './modules/layout';
 import { GuardRoute } from './UiKit/GuardRoute';
 import { BinanceGuardRoute } from './UiKit/GuardRoute/BinanceGuardRoute';
 import { PrivateRoute } from './UiKit/PrivateRoute';
+import PolkadotSlotAuctionLanding from './modules/landing';
 
 const LoadableOverviewContainer = withDefaultLayout(
   loadable(async () => import('./modules/lobby').then(module => module.Lobby), {
@@ -412,6 +414,12 @@ export function Routes() {
       <Route
         path={BRIDGE_RECOVERY_PATH}
         component={LoadableBridgeRecoverContainer}
+        exact
+      />
+
+      <Route
+        path={PARACHAIN_BONDS}
+        component={PolkadotSlotAuctionLanding}
         exact
       />
 
