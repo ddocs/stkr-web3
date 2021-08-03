@@ -10,7 +10,7 @@ interface MenuProps {
 }
 const Menu = ({ onMenuToggle, isVisible }: MenuProps) => {
   const classes = useStyles();
-  const isMobile = useMediaQuery('(max-width:600px)');
+  const isDesktop = useMediaQuery('(min-width:960px)');
 
   const handleClose = (e: React.MouseEvent<HTMLDivElement>) => {
     if ((e.target as Element).classList[0].includes('container')) {
@@ -29,40 +29,64 @@ const Menu = ({ onMenuToggle, isVisible }: MenuProps) => {
         <div className={classes.menuItem}>Main</div>
         <div className={classes.menuItem}>Community</div>
         <div className={classes.menuItem}>Docs</div>
-        <div className={classes.menuItem}>About</div>
+        <div className={classes.menuItem}>
+          <a
+            href="https://twitter.com/ankr?s=20"
+            target="_blank"
+            rel="noreferrer"
+          >
+            About
+          </a>
+        </div>
       </div>
       <div className={classes.social}>
         <a
-          href="/"
+          href="https://twitter.com/ankr?s=20"
           target="_blank"
           rel="noreferrer"
           className={classes.socialLink}
         >
-          {isMobile ? 'Tw' : 'Twitter'}
+          {isDesktop ? 'Twitter' : 'Tw'}
         </a>
         <a
-          href="/"
+          href="https://t.me/ankrnetwork"
           target="_blank"
           rel="noreferrer"
           className={classes.socialLink}
         >
-          {isMobile ? 'Tg' : 'Telegram'}
+          {isDesktop ? 'Telegram chat' : 'Tg chat'}
         </a>
         <a
-          href="/"
+          href="https://t.me/anrknetworkann"
           target="_blank"
           rel="noreferrer"
           className={classes.socialLink}
         >
-          {isMobile ? 'Me' : 'Medium'}
+          {isDesktop ? 'Telegram announcements' : 'Tg ann'}
         </a>
         <a
-          href="/"
+          href="https://discord.gg/R9mzypfZb8"
           target="_blank"
           rel="noreferrer"
           className={classes.socialLink}
         >
-          {isMobile ? 'Di' : 'Discord'}
+          {isDesktop ? 'Discord' : 'Di'}
+        </a>
+        <a
+          href="https://www.reddit.com/r/Ankrofficial/"
+          target="_blank"
+          rel="noreferrer"
+          className={classes.socialLink}
+        >
+          {isDesktop ? 'Reddit' : 'Re'}
+        </a>
+        <a
+          href="https://medium.com/ankr-network"
+          target="_blank"
+          rel="noreferrer"
+          className={classes.socialLink}
+        >
+          {isDesktop ? 'Medium' : 'Me'}
         </a>
       </div>
     </div>

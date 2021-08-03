@@ -39,6 +39,11 @@ export const useStyles = makeStyles<Theme>(theme => ({
     width: 'fit-content',
     paddingRight: 30,
 
+    '& > a': {
+      textDecoration: 'none',
+      color: 'inherit',
+    },
+
     '&:hover': {
       color: '#E6007A',
     },
