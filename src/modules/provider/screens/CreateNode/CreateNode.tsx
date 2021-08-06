@@ -14,10 +14,7 @@ import React, { useCallback } from 'react';
 import { Field, Form, FormRenderProps } from 'react-final-form';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
-import {
-  PROVIDER_MAIN_PATH,
-  PROVIDER_NODE_LIST_PATH,
-} from '../../../../common/const';
+import { PROVIDER_PATH } from '../../../../common/const';
 import { FormErrors } from '../../../../common/types/FormErrors';
 import { t, tHTML } from '../../../../common/utils/intl';
 import { isNodeNameValid } from '../../../../common/utils/isNodeNameValid';
@@ -229,7 +226,7 @@ export const CreateNode = () => {
   });
 
   const handleCancel = useCallback(() => {
-    history.push(PROVIDER_MAIN_PATH);
+    history.push(PROVIDER_PATH);
 
     // reset store data associated with sidecar creation errors
     dispatch(resetRequests([UserActionTypes.CREATE_SIDECAR], false));
@@ -251,7 +248,7 @@ export const CreateNode = () => {
       }
 
       if (action.type === success(UserActionTypes.CREATE_SIDECAR)) {
-        history.replace(PROVIDER_NODE_LIST_PATH);
+        history.replace(PROVIDER_PATH);
       }
     },
     [history, requestDispatch],

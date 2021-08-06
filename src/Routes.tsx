@@ -1,6 +1,6 @@
 import loadable, { LoadableComponent } from '@loadable/component';
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import {
   ABOUT_AETH_PATH,
   ABOUT_SMARTCHAIN_PATH,
@@ -8,6 +8,7 @@ import {
   BRIDGE_PATH,
   BRIDGE_RECOVERY_PATH,
   CONVERT_ROUTE,
+  EMPTY_PATH,
   FEATURES_PATH,
   GOVERNANCE_CREATE_PROJECT_PATH,
   GOVERNANCE_PROJECT_LIST_PATH,
@@ -17,12 +18,11 @@ import {
   PROVIDER_CREATE_NODE_PATH,
   PROVIDER_DEPOSIT_LIST_PATH,
   PROVIDER_DEPOSIT_ROUTE,
-  PROVIDER_MAIN_PATH,
-  PROVIDER_NODE_LIST_PATH,
+  PROVIDER_PATH,
   STAKER_AVALANCHE_PATH,
   STAKER_BNB_PATH,
   STAKER_DASHBOARD_BNB_ROUTE,
-  STAKER_DASHBOARD_PATH,
+  STAKER_PATH,
   STAKER_STAKE_BNB_ROUTE,
   STAKER_STAKE_DOT_ROUTE,
   STAKER_STAKE_PATH,
@@ -269,6 +269,10 @@ export function Routes() {
     <Switch>
       <Route path={INDEX_PATH} exact component={LoadableOverviewContainer} />
 
+      <Route path={EMPTY_PATH} exact>
+        <Redirect to={INDEX_PATH} />
+      </Route>
+
       <PrivateRoute
         path={PROVIDER_CREATE_NODE_PATH}
         component={CreateBeaconChainContainer}
@@ -284,11 +288,7 @@ export function Routes() {
       />
 
       <GuardRoute
-        path={[
-          PROVIDER_MAIN_PATH,
-          PROVIDER_NODE_LIST_PATH,
-          PROVIDER_DEPOSIT_LIST_PATH,
-        ]}
+        path={[PROVIDER_PATH, PROVIDER_DEPOSIT_LIST_PATH]}
         exact
         component={ProviderContainer}
         availableNetworks={[
@@ -299,7 +299,7 @@ export function Routes() {
       <Route exact path={FEATURES_PATH} component={FeaturesListContainer} />
 
       <GuardRoute
-        path={STAKER_DASHBOARD_PATH}
+        path={STAKER_PATH}
         component={StakerDashboardContainer}
         exact
         availableNetworks={[

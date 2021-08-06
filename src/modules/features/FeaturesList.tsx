@@ -4,10 +4,10 @@ import {
   ENABLE_AVA,
   ENABLE_DOT,
   ENABLE_KSM,
-  PROVIDER_MAIN_PATH,
+  PROVIDER_PATH,
   STAKER_AVALANCHE_PATH,
   STAKER_BNB_PATH,
-  STAKER_DASHBOARD_PATH,
+  STAKER_PATH,
   STAKER_STAKE_DOT_ROUTE,
 } from '../../common/const';
 import { t } from '../../common/utils/intl';
@@ -56,7 +56,7 @@ export const FeaturesList = () => {
               t('features-list.list-item.stake-eth.3'),
             ]}
             buttonText={t('features-list.action.stake-eth.mainnet')}
-            onClickTo={STAKER_DASHBOARD_PATH}
+            onClickTo={STAKER_PATH}
           />
           <FeatureListVerticalItem
             Icon={BnbIcon}
@@ -119,7 +119,7 @@ export const FeaturesList = () => {
               t('features-list.list-item.provider.3'),
             ]}
             buttonText={t('features-list.action.provider')}
-            onClickTo={PROVIDER_MAIN_PATH}
+            onClickTo={PROVIDER_PATH}
           />
         </div>
       )}
