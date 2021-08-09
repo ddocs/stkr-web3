@@ -165,6 +165,9 @@ const mainTheme = createMuiTheme({
             zIndex: defaultTheme.zIndex.modal,
           },
         },
+        '#launcher': {
+          display: 'none',
+        },
         a: {
           textDecoration: 'none',
         },

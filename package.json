@@ -100,7 +100,6 @@
       "--disable-setuid-sandbox"
     ],
     "skipThirdPartyRequests": true,
-    "asyncScriptTags": true,
     "inlineCss": true
   },
   "scripts": {

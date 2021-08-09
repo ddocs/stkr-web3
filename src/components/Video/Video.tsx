@@ -29,7 +29,7 @@ export const Video = ({ coverUrl, fullUrl, videoTitle }: IVideoProps) => {
           controls={false}
           playing={true}
           muted={true}
-          volume={0.7}
+          volume={0}
           loop={true}
           width="100%"
           height="auto"

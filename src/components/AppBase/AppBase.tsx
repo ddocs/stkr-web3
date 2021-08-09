@@ -4,7 +4,7 @@ import intl from 'react-intl-universal';
 import { CssBaseline } from '@material-ui/core';
 import { MuiThemeProvider, StylesProvider } from '@material-ui/core/styles';
 import { ReactReduxContext } from 'react-redux';
-import { create } from 'jss';
+import { create, Rule } from 'jss';
 import preset from 'jss-preset-default';
 
 import { locales } from '../../common/locales';
@@ -20,11 +20,11 @@ interface IAppBaseProps {
 
 const createGenerateClassName = () => {
   let counter = 0;
-  return () =>
+  return (rule: Rule) =>
     `c${
       Math.random().toString(36).substring(2, 4) +
       Math.random().toString(36).substring(2, 4)
-    }-${counter++}`;
+    }-${rule.key}-${counter++}`;
 };
 const jss = create(preset());
 
