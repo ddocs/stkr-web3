@@ -13,7 +13,7 @@ const Menu = ({ onMenuToggle, isVisible }: MenuProps) => {
   const isDesktop = useMediaQuery('(min-width:960px)');
 
   const handleClose = (e: React.MouseEvent<HTMLDivElement>) => {
-    if ((e.target as Element).classList[0].includes('container')) {
+    if ((e.target as Element).classList[0]?.includes('container')) {
       onMenuToggle();
     }
   };
@@ -43,15 +43,6 @@ const Menu = ({ onMenuToggle, isVisible }: MenuProps) => {
             rel="noreferrer"
           >
             Docs
-          </a>
-        </div>
-        <div className={classes.menuItem}>
-          <a
-            href="https://twitter.com/ankr?s=20"
-            target="_blank"
-            rel="noreferrer"
-          >
-            About
           </a>
         </div>
       </div>
