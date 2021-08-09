@@ -19,6 +19,7 @@ import { t } from '../../../../common/utils/intl';
 // import { getStakingSession } from '../../../avalanche-sdk/utils';
 import { useRequestDispatch } from '../../../../common/utils/useRequestDispatch';
 import { MutationErrorHandler } from '../../../../components/MutationErrorHandler/MutationErrorHandler';
+import { Spinner } from '../../../../components/Spinner';
 // import { ConvertDialog } from '../ConvertDialog';
 import { AvalancheActions } from '../../../../store/actions/AvalancheActions';
 import { CancelIcon } from '../../../../UiKit/Icons/CancelIcon';
@@ -33,7 +34,7 @@ import { ConfirmConvertDialog } from '../ConfirmConvertDialog';
 import { useConvertStyles } from './ConvertStyles';
 
 interface IConvertProps {
-  amount: BigNumber;
+  amount?: BigNumber;
   network: BlockchainNetworkId;
   onSuccess: () => void;
   isClaimAvailable: boolean;
@@ -101,7 +102,11 @@ export const Convert = ({
                 onClick={handleWithdraw}
                 disabled={loading}
               >
-                {t('stake-avax.convert.finish-claim')}
+                {loading ? (
+                  <Spinner size={32} />
+                ) : (
+                  t('stake-avax.convert.finish-claim')
+                )}
               </Button>
             )}
           </Mutation>
@@ -165,7 +170,7 @@ export const Convert = ({
 
       <div className={classes.footer}>
         <Grid container spacing={3} alignItems="center">
-          {!isClaimAvailable && amount && (
+          {amount && (
             <Grid item xs={12} sm="auto">
               <Typography variant="h2">
                 {amount.toFixed(DEFAULT_FIXED)}

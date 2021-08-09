@@ -66,12 +66,19 @@ export const ClaimDialog = ({ children, amount }: IClaimDialogProps) => {
         <IconButton className={classes.close} onClick={handleClose}>
           <CancelIcon size="xmd" />
         </IconButton>
-        <Box mb={5} width={700} m="auto">
-          <Typography variant="h2" align="center">
+
+        <Box
+          mb={{ xs: 4, sm: 6 }}
+          mt={{ xs: 6, sm: 1 }}
+          className={classes.container}
+        >
+          <Typography variant="h3" className={classes.title}>
             {t('stake-avax.claim.title')}
           </Typography>
         </Box>
+
         <MutationErrorHandler type={AvalancheActions.claimAAvaxB.toString()} />
+
         <Mutation type={AvalancheActions.claimAAvaxB.toString()}>
           {({ loading }) => {
             return (

@@ -790,7 +790,8 @@
       "title": "Staking Manager"
     },
     "claim": {
-      "title": "On which network do you want to use aAVAXb tokens?"
+      "title": "On which network do you want to use aAVAXb tokens?",
+      "info": "This may take a few minutes, your funds are safe even if you close the window"
     },
     "error": {
       "to-address": "Wrong destination address. In order to finish claim, you need to connect to this account: ",

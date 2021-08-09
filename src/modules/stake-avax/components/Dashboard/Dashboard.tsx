@@ -1,5 +1,8 @@
 import { Box, Button, Grid, Typography } from '@material-ui/core';
-import { Mutation } from '@redux-requests/react';
+import { Skeleton } from '@material-ui/lab';
+import { useMutation } from '@redux-requests/react';
+import BigNumber from 'bignumber.js';
+import classNames from 'classnames';
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { BlockchainNetworkId } from '../../../../common/types';
@@ -10,6 +13,7 @@ import { Spinner } from '../../../../components/Spinner';
 import { AvalancheActions } from '../../../../store/actions/AvalancheActions';
 import { Curtains } from '../../../../UiKit/Curtains';
 import { StakingStep } from '../../../avalanche-sdk/types';
+import { useQueryParams } from '../../hooks/useQueryParams';
 import { Balance } from '../Balance';
 import { Claim } from '../Claim';
 import { Convert } from '../Convert';
@@ -27,10 +31,16 @@ export interface IDashboardProps {
 export const Dashboard = ({ requiredNetwork, step }: IDashboardProps) => {
   const classes = useStakeAvaxDashboardComponentStyles();
   const dispatch = useDispatch();
+  const queryParams = useQueryParams();
+  const amount = queryParams.get('amount');
 
   const isAvalancheChain =
     requiredNetwork === BlockchainNetworkId.avalanche ||
     requiredNetwork === BlockchainNetworkId.avalancheTestnet;
+
+  const { loading: stakeLoading } = useMutation({
+    type: AvalancheActions.stake.toString(),
+  });
 
   useEffect(() => {
     if (isAvalancheChain) {
@@ -75,6 +85,15 @@ export const Dashboard = ({ requiredNetwork, step }: IDashboardProps) => {
                   >
                     requestActions={[AvalancheActions.fetchStakerStats]}
                     showLoaderDuringRefetch={false}
+                    noDataMessage={
+                      <Skeleton
+                        variant="rect"
+                        className={classNames(
+                          classes.buttonStakeSkeleton,
+                          classes.buttonStake,
+                        )}
+                      />
+                    }
                   >
                     {response => {
                       if (!response) {
@@ -93,18 +112,14 @@ export const Dashboard = ({ requiredNetwork, step }: IDashboardProps) => {
                             color="secondary"
                             variant="outlined"
                             className={classes.buttonStake}
-                            startIcon={<PlusIcon />}
+                            startIcon={stakeLoading ? undefined : <PlusIcon />}
                             fullWidth
                           >
-                            <Mutation type={AvalancheActions.stake.toString()}>
-                              {({ loading }) => {
-                                return loading ? (
-                                  <Spinner size={32} />
-                                ) : (
-                                  t('stake-avax.dashboard.stake-avax')
-                                );
-                              }}
-                            </Mutation>
+                            {stakeLoading ? (
+                              <Spinner size={32} />
+                            ) : (
+                              t('stake-avax.dashboard.stake-avax')
+                            )}
                           </Button>
                         </StakeDialog>
                       );
@@ -142,30 +157,14 @@ export const Dashboard = ({ requiredNetwork, step }: IDashboardProps) => {
             </Queries>
           ) : null}
 
-          {step === StakingStep.WithdrawalAAvaxB ? (
-            <Queries<ResponseData<typeof AvalancheActions.fetchClaimStats>>
-              requestActions={[AvalancheActions.fetchClaimStats]}
-              showLoaderDuringRefetch={false}
-            >
-              {response => {
-                if (!response) {
-                  return null;
-                }
-
-                const { data } = response;
-                return (
-                  data && (
-                    <Convert
-                      network={requiredNetwork}
-                      amount={data.balance}
-                      onSuccess={handleWithdrawSuccess}
-                      isClaimAvailable={true}
-                    />
-                  )
-                );
-              }}
-            </Queries>
-          ) : null}
+          {step === StakingStep.WithdrawalAAvaxB && (
+            <Convert
+              network={requiredNetwork}
+              amount={amount ? new BigNumber(amount) : undefined}
+              onSuccess={handleWithdrawSuccess}
+              isClaimAvailable
+            />
+          )}
 
           {step === StakingStep.HoldExternalWallet ? (
             <Queries<ResponseData<typeof AvalancheActions.fetchClaimStats>>
