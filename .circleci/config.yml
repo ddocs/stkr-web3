@@ -139,7 +139,7 @@ workflows:
       - approve-bs-1:
           type: approval
       - build-bs-1:
-          context: stkr_build_goerli
+          context: stkr_build_prod
           requires:
             - approve-bs-1
       - upload-bs-1:
