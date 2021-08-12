@@ -12,7 +12,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
     letterSpacing: '-0.02em',
     overflowX: 'hidden',
     '& a': {
-      textDecoration: 'underline',
+      textDecoration: 'none',
       color: 'inherit',
     },
     [theme.breakpoints.down('xs')]: {
@@ -23,7 +23,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
       color: '#000000',
     },
   },
-  containerWithMenu: {
+  containerWithModal: {
     overflowY: 'hidden',
     height: '100vh',
   },
@@ -31,13 +31,13 @@ export const useStyles = makeStyles<Theme>(theme => ({
     position: 'absolute',
     zIndex: 6,
     top: 90,
-    right: 170,
+    right: 150,
 
     [theme.breakpoints.down('sm')]: {
-      right: 30,
+      right: 10,
     },
     [theme.breakpoints.down('xs')]: {
-      right: 20,
+      right: 0,
     },
   },
   launchButtonText: {
@@ -45,9 +45,11 @@ export const useStyles = makeStyles<Theme>(theme => ({
     fontWeight: 400,
     [theme.breakpoints.down('sm')]: {
       fontSize: 40,
+      right: 10,
     },
     [theme.breakpoints.down('xs')]: {
       fontSize: 30,
+      right: 0,
     },
   },
   bgVideo: {

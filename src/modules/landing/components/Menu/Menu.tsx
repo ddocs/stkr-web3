@@ -1,8 +1,8 @@
 import React from 'react';
 import { useMediaQuery } from '@material-ui/core';
-import cn from 'classnames';
 
 import { useStyles } from './Styles';
+import Modal from '../Modal/Modal';
 
 interface MenuProps {
   onMenuToggle: () => void;
@@ -12,19 +12,8 @@ const Menu = ({ onMenuToggle, isVisible }: MenuProps) => {
   const classes = useStyles();
   const isDesktop = useMediaQuery('(min-width:960px)');
 
-  const handleClose = (e: React.MouseEvent<HTMLDivElement>) => {
-    if ((e.target as Element).classList[0]?.includes('container')) {
-      onMenuToggle();
-    }
-  };
-
   return (
-    <div
-      className={cn(classes.container, {
-        [classes.containerVisible]: isVisible,
-      })}
-      onClick={handleClose}
-    >
+    <Modal isVisible={isVisible} onToggle={onMenuToggle} hideAll={false}>
       <div className={classes.content}>
         <div className={classes.menuItem}>
           <a href="/" target="_blank" rel="noreferrer">
@@ -96,7 +85,7 @@ const Menu = ({ onMenuToggle, isVisible }: MenuProps) => {
           {isDesktop ? 'Medium' : 'Me'}
         </a>
       </div>
-    </div>
+    </Modal>
   );
 };
 
