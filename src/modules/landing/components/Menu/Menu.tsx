@@ -34,6 +34,11 @@ const Menu = ({ onMenuToggle, isVisible }: MenuProps) => {
             Docs
           </a>
         </div>
+        <div className={classes.menuItem}>
+          <a href="/litepaper.pdf" target="_blank" rel="noreferrer">
+            Litepaper
+          </a>
+        </div>
       </div>
       <div className={classes.social}>
         <a
