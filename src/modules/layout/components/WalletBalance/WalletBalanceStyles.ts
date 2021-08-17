@@ -18,26 +18,6 @@ export const useWalletBalance = makeStyles<Theme>(theme => ({
     margin: theme.spacing(-1, 0, 0, -2),
   },
 
-  item: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    margin: theme.spacing(1, 0, 0, 2),
-    fontSize: 'inherit',
-
-    '&::before': {
-      position: 'relative',
-      content: '""',
-      display: 'block',
-      width: 16,
-      height: 16,
-      marginRight: theme.spacing(0.5),
-      backgroundPosition: 'center',
-      backgroundRepeat: 'no-repeat',
-      backgroundSize: 'contain',
-    },
-  },
-
   aeth: {
     '&::before': {
       backgroundImage: `url(${aeth})`,
@@ -50,7 +30,7 @@ export const useWalletBalance = makeStyles<Theme>(theme => ({
     },
   },
 
-  binance: {
+  bnb: {
     '&::before': {
       backgroundImage: `url(${binance})`,
     },
