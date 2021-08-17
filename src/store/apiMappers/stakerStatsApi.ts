@@ -7,6 +7,7 @@ export interface IStakerStats {
   aEthRatio: BigNumber;
   fEthBalance: BigNumber;
   pendingStake: BigNumber;
+  balance: BigNumber;
   claimableAETHRewardOf: BigNumber;
   claimableFETHRewardOf: BigNumber;
 }
@@ -46,6 +47,7 @@ export function isAllowedTransaction(data: IStakeHistoryItem) {
 }
 
 export function mapStakerStats(data: {
+  balance: BigNumber;
   aEthBalance: BigNumber;
   fEthBalance: BigNumber;
   aEthRatio: BigNumber;
@@ -54,6 +56,7 @@ export function mapStakerStats(data: {
   claimableFETHRewardOf: BigNumber;
 }): IStakerStats {
   return {
+    balance: data.balance,
     aEthBalance: data.aEthBalance,
     aEthRatio: data.aEthRatio,
     pendingStake: data.pendingStake,
