@@ -39,11 +39,12 @@ export const Wallet = ({
 
   return (
     <div className={classNames(classes.component, className)}>
-      <button className={classes.toggle} onClick={handleOpen} ref={controlRef}>
+      <button className={classes.toggle} ref={controlRef}>
         {balance}
 
         {address && (
           <Address
+            onClick={handleOpen}
             className={classes.address}
             address={address}
             walletIcon={icon}

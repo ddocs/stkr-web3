@@ -18,6 +18,20 @@ export const useWalletBalance = makeStyles<Theme>(theme => ({
     margin: theme.spacing(-1, 0, 0, -2),
   },
 
+  dropdown: {
+    '& > div > svg': {
+      display: 'none',
+    },
+  },
+
+  dropdownSelect: {
+    border: 'none',
+
+    '&:focus': {
+      border: 'none',
+    },
+  },
+
   aeth: {
     '&::before': {
       backgroundImage: `url(${aeth})`,

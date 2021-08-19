@@ -66,6 +66,13 @@ export interface IWalletMeta {
   url?: string;
 }
 
+export interface ITokenInfo {
+  address: string;
+  symbol?: string;
+  decimals?: number;
+  image?: string;
+}
+
 export abstract class KeyProvider {
   protected _currentAccount: string | null = null;
   protected _web3: Web3 | null = null;
@@ -155,6 +162,8 @@ export abstract class KeyProvider {
   ): Promise<string>;
 
   public abstract switchNetwork(settings: IRPCConfig): Promise<string>;
+
+  public abstract addTokenToWallet(tokenInfo: ITokenInfo): Promise<boolean>;
 
   public abstract sendAsync(
     from: string,
@@ -560,6 +569,18 @@ export class Web3ModalKeyProvider extends KeyProvider {
         })
         .catch(reject);
     });
+  }
+
+  public addTokenToWallet(tokenInfo: ITokenInfo): Promise<boolean> {
+    return this.provider
+      .request({
+        method: 'metamask_watchAsset',
+        params: {
+          type: 'ERC20',
+          options: tokenInfo,
+        },
+      })
+      .catch();
   }
 
   private async unlockAccounts(web3: Web3): Promise<string[]> {

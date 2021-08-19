@@ -7,15 +7,17 @@ import { useWalletBalanceItem } from './WalletBalanceItemStyles';
 
 interface IWalletBalanceItemProps {
   className?: string;
+  hide?: boolean;
   value?: BigNumber;
 }
 
 export const WalletBalanceItem = ({
   className,
   value,
+  hide = false,
 }: IWalletBalanceItemProps) => {
   const classes = useWalletBalanceItem();
-  if (!value) {
+  if (!value || hide) {
     return null;
   }
 

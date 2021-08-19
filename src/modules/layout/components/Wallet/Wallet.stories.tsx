@@ -24,6 +24,7 @@ const WalletStory = () => {
         icon="https://via.placeholder.com/40"
         balance={
           <WalletBalance
+            showInARow={false}
             ethereum={new BigNumber(23)}
             ankr={new BigNumber(10500)}
           />

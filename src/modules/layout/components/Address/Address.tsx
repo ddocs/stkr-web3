@@ -8,13 +8,19 @@ export interface IAddressProps {
   className?: string;
   address: string;
   walletIcon?: string;
+  onClick?: () => void;
 }
 
-export const Address = ({ className, address, walletIcon }: IAddressProps) => {
+export const Address = ({
+  className,
+  address,
+  walletIcon,
+  onClick,
+}: IAddressProps) => {
   const classes = useAddressStyles();
 
   return (
-    <div className={classNames(classes.component, className)}>
+    <div className={classNames(classes.component, className)} onClick={onClick}>
       <WalletIcon icon={walletIcon} className={classes.icon} />
 
       {walletConversion(address)}

@@ -73,6 +73,7 @@ export const HeaderComponent = ({
       aeth={aEthBalance}
       avax={avaxBalance}
       blockchainType={blockchainType}
+      showInARow={!isMDUp}
     />
   );
 
