@@ -34,6 +34,25 @@ export const BRIDGE_RECOVERY_PATH = `${BRIDGE_PATH}/recovery`;
 export const CONVERT_ROUTE = '/convert/:from/:to';
 
 export const PARACHAIN_BONDS = '/parachain-bonds';
+export const PARACHAIN_BONDS_CROWDLOANS_PATH =
+  '/parachain-bonds/:network/crowdloans';
+export const PARACHAIN_BONDS_LEND_PATH = `${PARACHAIN_BONDS_CROWDLOANS_PATH}/lend/:id/:name`;
+
+export function getParachainBondsCrowdloansPath(network: string) {
+  return generatePath(PARACHAIN_BONDS_CROWDLOANS_PATH, { network });
+}
+
+export function getParachainBondsLendPath(
+  network: string,
+  id: number,
+  name?: string,
+) {
+  return generatePath(PARACHAIN_BONDS_LEND_PATH, {
+    network,
+    id,
+    name: name ? name.toLowerCase() : '/',
+  });
+}
 
 export function getStakerBnbPath(id: string) {
   return generatePath(STAKER_STAKE_BNB_ROUTE, { id });
@@ -60,6 +79,8 @@ export const ANKR_DEPOSIT_LINK =
 export const DOCS_LINK = 'https://ankr.gitbook.io/stkr-docs/.';
 export const LITEPAPER_LINK =
   'https://assets.ankr.com/files/stakefi_litepaper.pdf';
+export const POLKADOT_EXTENSION_LINK =
+  'https://chrome.google.com/webstore/detail/polkadot%7Bjs%7D-extension/mopnmbcafieddcagagdcbnhejhlodfdd';
 
 export const DEFAULT_FIXED = 4;
 export const DEFAULT_STAKING_AMOUNT = 32;

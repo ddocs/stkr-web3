@@ -889,5 +889,63 @@
     "title": "Page not found",
     "btn-home": "Go home",
     "btn-back": "Previous page"
+  },
+  "polkadot-slot-auction": {
+    "extensions": {
+      "connect-polkadot": "You need to connect your Polkadot wallet to continue",
+      "install": "Install"
+    },
+    "currency": {
+      "DOT": "DOT",
+      "KSM": "KSM",
+      "WND": "WND",
+      "ROC": "ROC"
+    },
+    "title": "Parachain Crowdloan Marketplace",
+    "connect-button": "Connect Polkadot Wallet",
+    "tabs": {
+      "completed": "Completed",
+      "my-rewards": "My Rewards",
+      "ongoing": "Ongoing"
+    },
+    "header": {
+      "claimable-rewards": "Claimable rewards",
+      "date": "Date",
+      "end-lease-period": "End Lease Period",
+      "future-rewards": "Future rewards until maturity",
+      "lease-duration": "Lease Duration",
+      "lease-duration-tip": "Lease Duration",
+      "parachain-bond": "Parachain bond",
+      "project": "Project",
+      "raised-on-ankr": "Raised on Ankr",
+      "status": "Status",
+      "total-raised": "Total Raised",
+      "total-rewards": "Total rewards"
+    },
+    "supportProject": {
+      "title": "Support {value} project",
+      "wantContribute": "I want to contribute",
+      "balance": "Your balance: {value} {currency}",
+      "willGet": "You will get a{currency}p BNC",
+      "initialReward": "Expected Initial airdrop BNC Reward",
+      "dailyReward": "Daily BNC Reward",
+      "disclaimer": "a{currency}p tokens can be claimed on Ethereum if {project} wins a Polkadot Parachain slot auction. a{currency}p will enable claiming daily rewards on Ethereum as well as potentially an initial airdrop reward after winning a Polkadot Parachain slot auction.",
+      "contribute": "Contribute"
+    },
+    "contribute-button": "Contribute {currency}",
+    "provided-button": "Provided {value} {currency}",
+    "buy-tokens-button": "Buy a{currency}p",
+    "claim-tokens-button": "Claim {value} a{currency}p",
+    "my-balance": "My balance",
+    "tokens-balance": "{value} a{currency}p",
+    "claim-rewards-button": "Claim Rewards",
+    "crowdloan-status": {
+      "ONGOING": "Ongoing",
+      "SUCCESSFULLY_RETIRED": "Successfully Retired",
+      "SUCCESSFULLY_REFUNDING": "Refunding",
+      "SUCCEEDED": "Succeeded",
+      "FAILED_RETIRED": "Failed Retired",
+      "FAILED_REFUNDING": "Failed Refunding"
+    }
   }
 }
