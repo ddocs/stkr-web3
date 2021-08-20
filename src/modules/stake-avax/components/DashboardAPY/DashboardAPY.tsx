@@ -5,8 +5,7 @@ import BigNumber from 'bignumber.js';
 import React, { ReactNode, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { t } from '../../../../common/utils/intl';
-import { AvalancheActions } from '../../../../store/actions/AvalancheActions';
-import { useWalletStatus } from '../../hooks/useWalletStatus';
+import { AvalancheActions } from '../../actions/AvalancheActions';
 import { useDashboardAPYStyles } from './useDashboardAPYStyles';
 
 interface IDashboardAPYProps {
@@ -37,19 +36,14 @@ const DashboardAPYSkeleton = () => {
 
 export const DashboardAPY = () => {
   const dispatch = useDispatch();
-  const { isAvalancheChain } = useWalletStatus();
 
   const { data, error, loading } = useQuery<BigNumber | null>({
     type: AvalancheActions.fetchEstimatedAPY.toString(),
   });
 
   useEffect(() => {
-    if (!isAvalancheChain) {
-      return;
-    }
-
     dispatch(AvalancheActions.fetchEstimatedAPY());
-  }, [dispatch, isAvalancheChain]);
+  }, [dispatch]);
 
   if (loading) {
     return <DashboardAPYSkeleton />;

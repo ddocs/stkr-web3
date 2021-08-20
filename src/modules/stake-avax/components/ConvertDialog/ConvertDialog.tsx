@@ -1,91 +1,225 @@
-import { Box, Dialog, IconButton, Typography } from '@material-ui/core';
-import React, { ReactNode, useCallback, useState } from 'react';
-import { t } from '../../../../common/utils/intl';
-import { CancelIcon } from '../../../../UiKit/Icons/CancelIcon';
-import { useConvertDialogStyles } from './ConvertDialogStyles';
-import { AvalancheActions } from '../../../../store/actions/AvalancheActions';
-import { Mutation } from '@redux-requests/react';
-import { MutationErrorHandler } from '../../../../components/MutationErrorHandler/MutationErrorHandler';
-import { ConvertForm } from '../ConvertForm';
 import {
-  IConvertEstimates,
-  IConvertPayload,
-} from '../../../avalanche-sdk/types';
+  Box,
+  Container,
+  Dialog,
+  Grid,
+  IconButton,
+  Typography,
+} from '@material-ui/core';
 import BigNumber from 'bignumber.js';
-import { useRequestDispatch } from '../../../../common/utils/useRequestDispatch';
+import { FormApi } from 'final-form';
+import React, { useCallback } from 'react';
+import { Field, Form } from 'react-final-form';
+import { FormErrors } from '../../../../common/types/FormErrors';
+import { t } from '../../../../common/utils/intl';
+import { QueryLoading } from '../../../../components/QueryLoading/QueryLoading';
+import { Spinner } from '../../../../components/Spinner';
+import { Button } from '../../../../UiKit/Button';
+import { CancelIcon } from '../../../../UiKit/Icons/CancelIcon';
+import { InputField } from '../../../../UiKit/InputField';
+import { useConvertDialogStyles } from './useConvertDialogStyles';
+
+const DEFAULT_FIXED = 4;
+const MIN_AMOUNT = 0;
+const CONVERT_FORM_ID = 'convert-form';
+
+export interface IConvertFormValues {
+  amount: string | number;
+  address: string;
+}
 
 interface IConvertDialogProps {
-  amount: BigNumber;
-  onReceivedEstimates: (estimates: IConvertEstimates) => void;
-  children?: ReactNode;
+  isOpened?: boolean;
+  balance?: BigNumber;
+  isLoading?: boolean;
+  submitDisabled?: boolean;
+  isBalanceLoading?: boolean;
+  onClose?: () => void;
+  onSubmit: (values: IConvertFormValues) => void;
 }
 
 export const ConvertDialog = ({
-  children,
-  amount,
-  onReceivedEstimates,
+  isOpened = false,
+  isBalanceLoading,
+  isLoading,
+  submitDisabled,
+  balance,
+  onClose,
+  onSubmit,
 }: IConvertDialogProps) => {
   const classes = useConvertDialogStyles();
-  const dispatch = useRequestDispatch();
-  const [isOpened, setIsOpened] = useState(false);
-  const handleOpen = useCallback(() => {
-    setIsOpened(true);
-  }, []);
+  const zeroBalance = new BigNumber(0);
+  const maxAmount = balance || zeroBalance;
+  const withBalance = !!balance;
+  const withAddress = true;
+  const roundedBalance = balance
+    ? balance.decimalPlaces(DEFAULT_FIXED).toFormat()
+    : '0';
 
-  const handleClose = useCallback(() => {
-    setIsOpened(false);
-  }, []);
+  const setMaxAmount = useCallback(
+    (form: FormApi<IConvertFormValues>, maxAmount: string) => () =>
+      form.change('amount', maxAmount),
+    [],
+  );
 
-  const element = React.isValidElement(children)
-    ? React.cloneElement(children, { onClick: handleOpen })
-    : null;
+  const validate = useCallback(
+    ({ amount, address }: IConvertFormValues) => {
+      const currentAmount = new BigNumber(amount);
+      const minAmount = new BigNumber(MIN_AMOUNT);
+      const errors: FormErrors<IConvertFormValues> = {};
+      const isAddress =
+        address && address.length === 42 && address.slice(0, 2) === '0x';
 
-  const handleSubmit = useCallback(
-    (payload: IConvertPayload) => {
-      dispatch(AvalancheActions.estimateConvert(payload)).then(data => {
-        if (!data.error) {
-          onReceivedEstimates(data.data);
-          handleClose();
+      if (!amount) {
+        errors.amount = t('validation.required');
+      } else if (currentAmount.isNaN()) {
+        errors.amount = t('validation.numberOnly');
+      } else if (currentAmount.isLessThanOrEqualTo(minAmount)) {
+        errors.amount = t('validation.min', {
+          value: MIN_AMOUNT,
+        });
+      } else if (withBalance && currentAmount.isGreaterThan(maxAmount)) {
+        errors.amount = t('validation.max', {
+          value: maxAmount,
+        });
+      }
+
+      if (withAddress) {
+        if (!address) {
+          errors.address = t('validation.required');
+        } else if (!isAddress) {
+          errors.address = t('validation.invalid-address-format');
         }
-      });
+      }
+
+      return errors;
     },
-    [dispatch, handleClose, onReceivedEstimates],
+    [maxAmount, withAddress, withBalance],
   );
 
   return (
-    <>
-      {element}
-      <Dialog
-        open={isOpened}
-        onClose={handleClose}
-        fullWidth={true}
-        maxWidth="md"
-        PaperProps={{ square: false }}
-        classes={{ paper: classes.root }}
-      >
-        <IconButton className={classes.close} onClick={handleClose}>
-          <CancelIcon size="xmd" />
-        </IconButton>
-        <Box mb={5} width={700} m="auto">
-          <Typography variant="h2" align="center">
-            {t('stake-avax.convert.title')}
-          </Typography>
-        </Box>
-        <MutationErrorHandler
-          type={AvalancheActions.estimateConvert.toString()}
+    <Dialog
+      open={isOpened}
+      onClose={onClose}
+      fullWidth
+      maxWidth="sm"
+      PaperProps={{ square: false }}
+      classes={{ paper: classes.root }}
+      scroll="body"
+    >
+      <Container className={classes.container}>
+        <Typography variant="h3" className={classes.title}>
+          {t('stake-avax.convert.title')}
+        </Typography>
+
+        <Form
+          validate={validate}
+          onSubmit={onSubmit}
+          render={({ handleSubmit, form, values }) => (
+            <form
+              onSubmit={handleSubmit}
+              autoComplete="off"
+              id={CONVERT_FORM_ID}
+            >
+              <Box mb={4}>
+                {(withBalance || isBalanceLoading) && (
+                  <Typography
+                    variant="body2"
+                    className={classes.balance}
+                    color="textSecondary"
+                  >
+                    {t('cross-chain-bridge.form.balance')}:{' '}
+                    {isBalanceLoading ? (
+                      <div className={classes.balanceLoadingBox}>
+                        <QueryLoading size={16} />
+                      </div>
+                    ) : (
+                      `${roundedBalance} aAVAXb`
+                    )}
+                  </Typography>
+                )}
+
+                <Field
+                  classes={{ root: classes.input }}
+                  component={InputField}
+                  name="amount"
+                  label={t('stake-avax.convert.amount')}
+                  placeholder="0"
+                  variant="outlined"
+                  disabled={submitDisabled}
+                  InputProps={{
+                    endAdornment: withBalance && (
+                      <Button
+                        className={classes.maxBtn}
+                        variant="outlined"
+                        size="small"
+                        color="secondary"
+                        onClick={setMaxAmount(form, maxAmount.toString())}
+                        disabled={submitDisabled}
+                      >
+                        {t('cross-chain-bridge.form.btn-max')}
+                      </Button>
+                    ),
+                  }}
+                  fullWidth
+                />
+              </Box>
+
+              <Box mb={4}>
+                <Field
+                  classes={{ root: classes.input }}
+                  component={InputField}
+                  name="address"
+                  label={t('stake-avax.convert.address')}
+                  variant="outlined"
+                  disabled={submitDisabled}
+                  fullWidth
+                />
+              </Box>
+            </form>
+          )}
         />
-        <Mutation type={AvalancheActions.estimateConvert.toString()}>
-          {({ loading }) => {
-            return (
-              <ConvertForm
-                loading={loading}
-                maxAmount={amount}
-                onSubmit={handleSubmit}
-              />
-            );
-          }}
-        </Mutation>
-      </Dialog>
-    </>
+      </Container>
+
+      <div className={classes.footer}>
+        <Container className={classes.container}>
+          {isLoading ? (
+            <Grid container spacing={3} alignItems="center">
+              <Grid item xs>
+                <Typography
+                  className={classes.info}
+                  variant="body2"
+                  color="textSecondary"
+                >
+                  {t('stake-avax.claim.info')}
+                </Typography>
+              </Grid>
+
+              <Grid item xs="auto">
+                <Spinner size={32} />
+              </Grid>
+            </Grid>
+          ) : (
+            <div className={classes.btnWrapper}>
+              <Button
+                type="submit"
+                size="large"
+                color="primary"
+                form={CONVERT_FORM_ID}
+                fullWidth
+                disabled={submitDisabled}
+                isLoading={isLoading}
+              >
+                {t('stake-avax.convert.continue')}
+              </Button>
+            </div>
+          )}
+        </Container>
+      </div>
+
+      <IconButton className={classes.closeBtn} onClick={onClose}>
+        <CancelIcon size="xmd" />
+      </IconButton>
+    </Dialog>
   );
 };

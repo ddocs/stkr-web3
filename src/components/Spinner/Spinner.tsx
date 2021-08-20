@@ -1,7 +1,7 @@
-import * as React from 'react';
-import { useSpinnerStyles } from './SpinnerStyles';
-import { ReactComponent as SpinnerIcon } from './assets/spinner.svg';
 import classNames from 'classnames';
+import * as React from 'react';
+import { ReactComponent as SpinnerIcon } from './assets/spinner.svg';
+import { useSpinnerStyles } from './SpinnerStyles';
 
 interface ISpinnerProps {
   centered?: boolean;

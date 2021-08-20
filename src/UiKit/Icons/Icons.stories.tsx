@@ -2,7 +2,9 @@
 import { Box, Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import React from 'react';
+import { AAvaxBIcon } from './AAvaxBIcon';
 import { AEthIcon } from './AEthIcon';
+import { AvaxIcon } from './AvaxIcon';
 import { BinanceIcon } from './BinanceIcon';
 import { CancelIcon } from './CancelIcon';
 import { CloseIcon } from './CloseIcon';
@@ -46,6 +48,8 @@ const iconsMap = {
   toggle: ToggleIcon,
   view: ViewIcon,
   metamask: MetaMaskIcon,
+  avax: AvaxIcon,
+  aAvaxB: AAvaxBIcon,
 };
 
 const icons = Object.keys(iconsMap) as Array<keyof typeof iconsMap>;

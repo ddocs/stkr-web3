@@ -4,13 +4,17 @@ import classNames from 'classnames';
 import React from 'react';
 import { DEFAULT_FIXED } from '../../../../common/const';
 import { useWalletBalance } from './WalletBalanceStyles';
+import { Blockchain } from '../../../../common/types';
+import { t } from '../../../../common/utils/intl';
 
 interface IWalletBalanceProps {
   className?: string;
+  blockchainType?: Blockchain;
   ethereum?: BigNumber;
   ankr?: BigNumber;
   bnbBalance?: BigNumber;
   aeth?: BigNumber;
+  avax?: BigNumber;
 }
 
 export const WalletBalance = ({
@@ -18,28 +22,37 @@ export const WalletBalance = ({
   ankr,
   bnbBalance,
   aeth,
+  avax,
   className,
+  blockchainType,
 }: IWalletBalanceProps) => {
   const classes = useWalletBalance();
+  const showMainBalances =
+    blockchainType &&
+    [Blockchain.ethereum, Blockchain.binance].includes(blockchainType);
 
   return (
     <div className={classNames(classes.root, className)}>
       <div className={classes.grid}>
-        <Typography
-          color="textSecondary"
-          className={classNames(classes.item, classes.aeth)}
-          title="aETHc"
-        >
-          {aeth ? aeth.decimalPlaces(DEFAULT_FIXED).toFormat() : 0}
-        </Typography>
+        {showMainBalances && (
+          <>
+            <Typography
+              color="textSecondary"
+              className={classNames(classes.item, classes.aeth)}
+              title="aETHc"
+            >
+              {aeth?.decimalPlaces(DEFAULT_FIXED).toFormat() ?? 0}
+            </Typography>
 
-        <Typography
-          color="textSecondary"
-          className={classNames(classes.item, classes.ethereum)}
-          title="Ethereum"
-        >
-          {ethereum ? ethereum.decimalPlaces(DEFAULT_FIXED).toFormat() : 0}
-        </Typography>
+            <Typography
+              color="textSecondary"
+              className={classNames(classes.item, classes.ethereum)}
+              title="Ethereum"
+            >
+              {ethereum?.decimalPlaces(DEFAULT_FIXED).toFormat() ?? 0}
+            </Typography>
+          </>
+        )}
 
         {bnbBalance && (
           <Typography
@@ -58,6 +71,16 @@ export const WalletBalance = ({
             title="Ankr"
           >
             {ankr.decimalPlaces(DEFAULT_FIXED).toFormat()}
+          </Typography>
+        )}
+
+        {avax && (
+          <Typography
+            color="textSecondary"
+            className={classNames(classes.item, classes.avax)}
+            title={t('stake-avax.avax')}
+          >
+            {avax.decimalPlaces(DEFAULT_FIXED).toFormat()}
           </Typography>
         )}
       </div>

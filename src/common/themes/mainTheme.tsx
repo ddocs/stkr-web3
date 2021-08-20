@@ -165,6 +165,9 @@ const mainTheme = createMuiTheme({
             zIndex: defaultTheme.zIndex.modal,
           },
         },
+        '#launcher': {
+          display: 'none',
+        },
         a: {
           textDecoration: 'none',
         },
@@ -326,6 +329,10 @@ const mainTheme = createMuiTheme({
 
         '&:hover, &:focus, &:active': {
           backgroundColor: PALETTE.primary.main,
+        },
+
+        '& svg': {
+          color: PALETTE.primary.contrastText,
         },
       },
       containedSecondary: {

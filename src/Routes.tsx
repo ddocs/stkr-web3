@@ -1,6 +1,6 @@
 import loadable, { LoadableComponent } from '@loadable/component';
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import {
   ABOUT_AETH_PATH,
   ABOUT_SMARTCHAIN_PATH,
@@ -8,6 +8,7 @@ import {
   BRIDGE_PATH,
   BRIDGE_RECOVERY_PATH,
   CONVERT_ROUTE,
+  EMPTY_PATH,
   FEATURES_PATH,
   GOVERNANCE_CREATE_PROJECT_PATH,
   GOVERNANCE_PROJECT_LIST_PATH,
@@ -17,15 +18,18 @@ import {
   PROVIDER_CREATE_NODE_PATH,
   PROVIDER_DEPOSIT_LIST_PATH,
   PROVIDER_DEPOSIT_ROUTE,
-  PROVIDER_MAIN_PATH,
-  PROVIDER_NODE_LIST_PATH,
+  PROVIDER_PATH,
   STAKER_AVALANCHE_PATH,
   STAKER_BNB_PATH,
   STAKER_DASHBOARD_BNB_ROUTE,
-  STAKER_DASHBOARD_PATH,
+  STAKER_PATH,
   STAKER_STAKE_BNB_ROUTE,
   STAKER_STAKE_DOT_ROUTE,
   STAKER_STAKE_PATH,
+  PARACHAIN_BONDS,
+  PARACHAIN_BONDS_LEND_PATH,
+  PARACHAIN_BONDS_CROWDLOANS_PATH,
+  ENABLE_PARACHAIN_APP,
 } from './common/const';
 import { BlockchainNetworkId } from './common/types';
 import { PageNotFound } from './components/PageNotFound';
@@ -34,6 +38,8 @@ import { withDefaultLayout } from './modules/layout';
 import { GuardRoute } from './UiKit/GuardRoute';
 import { BinanceGuardRoute } from './UiKit/GuardRoute/BinanceGuardRoute';
 import { PrivateRoute } from './UiKit/PrivateRoute';
+import PolkadotSlotAuctionLanding from './modules/landing';
+import { withPolkadotSlotAuctionLayout } from './modules/polkadotSlotAuction/layout';
 
 const LoadableOverviewContainer = withDefaultLayout(
   loadable(async () => import('./modules/lobby').then(module => module.Lobby), {
@@ -262,10 +268,38 @@ const LoadableAboutSmartchainContainer = withDefaultLayout(
   ) as LoadableComponent<any>,
 );
 
+const PolkadotSlotAuctionContainer = withPolkadotSlotAuctionLayout(
+  loadable(
+    async () =>
+      import('./modules/polkadotSlotAuction/PolkadotSlotAuction').then(
+        module => module.PolkadotSlotAuction,
+      ),
+    {
+      fallback: <QueryLoadingAbsolute />,
+    },
+  ) as LoadableComponent<any>,
+);
+
+const PolkadotSlotAuctionLend = withPolkadotSlotAuctionLayout(
+  loadable(
+    async () =>
+      import('./modules/polkadotSlotAuction/components/SupportProject').then(
+        module => module.SupportProject,
+      ),
+    {
+      fallback: <QueryLoadingAbsolute />,
+    },
+  ) as LoadableComponent<any>,
+);
+
 export function Routes() {
   return (
     <Switch>
       <Route path={INDEX_PATH} exact component={LoadableOverviewContainer} />
+
+      <Route path={EMPTY_PATH} exact>
+        <Redirect to={INDEX_PATH} />
+      </Route>
 
       <PrivateRoute
         path={PROVIDER_CREATE_NODE_PATH}
@@ -282,11 +316,7 @@ export function Routes() {
       />
 
       <GuardRoute
-        path={[
-          PROVIDER_MAIN_PATH,
-          PROVIDER_NODE_LIST_PATH,
-          PROVIDER_DEPOSIT_LIST_PATH,
-        ]}
+        path={[PROVIDER_PATH, PROVIDER_DEPOSIT_LIST_PATH]}
         exact
         component={ProviderContainer}
         availableNetworks={[
@@ -297,7 +327,7 @@ export function Routes() {
       <Route exact path={FEATURES_PATH} component={FeaturesListContainer} />
 
       <GuardRoute
-        path={STAKER_DASHBOARD_PATH}
+        path={STAKER_PATH}
         component={StakerDashboardContainer}
         exact
         availableNetworks={[
@@ -414,6 +444,28 @@ export function Routes() {
         component={LoadableBridgeRecoverContainer}
         exact
       />
+
+      <Route
+        path={PARACHAIN_BONDS}
+        component={PolkadotSlotAuctionLanding}
+        exact
+      />
+
+      {ENABLE_PARACHAIN_APP && (
+        <>
+          <Route
+            path={PARACHAIN_BONDS_CROWDLOANS_PATH}
+            component={PolkadotSlotAuctionContainer}
+            exact
+          />
+
+          <Route
+            path={PARACHAIN_BONDS_LEND_PATH}
+            component={PolkadotSlotAuctionLend}
+            exact
+          />
+        </>
+      )}
 
       <Route component={withDefaultLayout(PageNotFound)} />
     </Switch>

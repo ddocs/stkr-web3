@@ -21,7 +21,8 @@ import {
 } from './event';
 import { ISendAsyncResult, KeyProvider } from './provider';
 import { JssdkManager } from './jssdk';
-import { AvalancheSdk } from '../avalanche-sdk';
+import { AvalancheSdk } from '../stake-avax/api';
+import { configFromEnv } from './config';
 
 export interface IContractConfig {
   aethContract?: string;
@@ -310,6 +311,12 @@ export class EthereumContractManager implements IContractManager {
       .getWeb3()
       .eth.subscribe('newBlockHeaders')
       .on('data', async (blockHeader: BlockHeader) => {
+        const currentNetwork = this.keyProvider.currentNetwork();
+        const config = configFromEnv();
+        if (currentNetwork !== config.providerConfig.ethereumChainId) {
+          return;
+        }
+
         const currentAddress = this.keyProvider.currentAccount();
         this.keyProvider.changeLatestBlockHeight(blockHeader.number);
         const ethBalance = await this.keyProvider.getNativeBalance(
@@ -480,11 +487,8 @@ export class EthereumContractManager implements IContractManager {
           fromBlock: latestBlockHeight,
         })
         .on('data', (eventLog: EventLog) => {
-          const {
-            provider,
-            ankrAmount,
-            etherEquivalence,
-          } = eventLog.returnValues;
+          const { provider, ankrAmount, etherEquivalence } =
+            eventLog.returnValues;
           console.log(
             `handled provider slashed ankr log: `,
             JSON.stringify(eventLog, null, 2),
@@ -776,8 +780,10 @@ export class EthereumContractManager implements IContractManager {
     if (!this.jssdkManager) {
       if (!this.jssdkManager) throw new Error(`Jssdk is not available`);
     }
-    const providerMinimumStaking = await this.jssdkManager?.getMinimumStakingAmount();
-    const providerMinimumDeposit = await this.jssdkManager?.getMinimumDepositThreshold();
+    const providerMinimumStaking =
+      await this.jssdkManager?.getMinimumStakingAmount();
+    const providerMinimumDeposit =
+      await this.jssdkManager?.getMinimumDepositThreshold();
     const requesterMinimumStaking = await this.systemContract.methods
       .REQUESTER_MINIMUM_POOL_STAKING()
       .call();

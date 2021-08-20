@@ -50,6 +50,7 @@ export const Header = () => {
       ankrBalance={data?.ankrBalance}
       bnbBalance={data?.bnbBalance}
       aEthBalance={stakerStatsQuery.data?.aEthBalance}
+      avaxBalance={stakerStatsQuery.data?.balance}
     />
   );
 

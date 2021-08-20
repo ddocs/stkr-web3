@@ -11,14 +11,14 @@ export const QueryLoading = ({ size }: IQueryLoadingProps) => {
   return <Spinner size={size} />;
 };
 
-export const QueryLoadingAbsolute = () => {
-  return <Spinner centered={true} />;
+export const QueryLoadingAbsolute = ({ size }: IQueryLoadingProps) => {
+  return <Spinner centered={true} size={size} />;
 };
 
-export const QueryLoadingCentered = () => {
+export const QueryLoadingCentered = ({ size }: IQueryLoadingProps) => {
   return (
     <Box display="flex" justifyContent="center">
-      <Spinner />
+      <Spinner size={size} />
     </Box>
   );
 };

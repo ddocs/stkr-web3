@@ -2,7 +2,7 @@ import { makeStyles, Theme } from '@material-ui/core/styles';
 
 const DEFAULT_SIZE = 54;
 
-export const useSpinnerStyles = makeStyles<Theme, { size?: number }>(() => ({
+export const useSpinnerStyles = makeStyles<Theme, { size?: number }>(theme => ({
   component: {
     animationName: '$spin',
     animationDuration: '1s',
@@ -13,10 +13,13 @@ export const useSpinnerStyles = makeStyles<Theme, { size?: number }>(() => ({
     margin: 'auto',
     width: ({ size }) => size ?? DEFAULT_SIZE,
     height: ({ size }) => size ?? DEFAULT_SIZE,
+    color: theme.palette.primary.main,
   },
+
   '@keyframes spin': {
     '100%': { transform: 'rotate(360deg)' },
   },
+
   centered: {
     position: 'absolute',
     left: 0,

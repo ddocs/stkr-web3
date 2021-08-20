@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { useLocation } from 'react-router';
-import { PROVIDER_PATH, STAKER_DASHBOARD_PATH } from '../../../../common/const';
+import { PROVIDER_PATH, STAKER_PATH } from '../../../../common/const';
 import { useConnect } from '../../../../common/hooks/useConnect';
 import {
   useIsLGUp,
@@ -26,10 +26,7 @@ export const useHeader = () => {
   const location = useLocation();
   const classes = useHeaderStyles();
 
-  const switcherPaths = useMemo(
-    () => [STAKER_DASHBOARD_PATH, PROVIDER_PATH],
-    [],
-  );
+  const switcherPaths = useMemo(() => [STAKER_PATH, PROVIDER_PATH], []);
 
   const showSwitcher = useMemo(
     () =>

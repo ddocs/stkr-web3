@@ -1,14 +1,14 @@
 import BigNumber from 'bignumber.js';
+import { Transaction } from 'ethereumjs-tx';
 import { EventEmitter } from 'events';
 import { EventLog } from 'web3-core';
-import { Transaction } from 'ethereumjs-tx';
 import { Contract } from 'web3-eth-contract';
 import { StkrSdk } from '../api';
 import { ISendAsyncResult, KeyProvider, SendOptions } from '../api/provider';
 import ABI_CROSS_CHAIN_BRIDGE from './abi/CrossChainBridge.json';
 import DEFAULT_CONFIG from './addresses.json';
-import { AVAILABLE_NETWORKS, INetworkEntity } from './network';
 import { CrossChainEvent } from './events';
+import { AVAILABLE_NETWORKS, INetworkEntity } from './network';
 
 export interface IBridgeEntity {
   bridgeStatus: 'Disabled' | 'Enabled';
@@ -395,7 +395,7 @@ export class CrossChainSdk {
   }
 
   private tryGetRawTx(rawTx: any, chainId: string): string {
-    const allowedChains = ['1', '3', '4', '42', '5'];
+    const allowedChains = ['1', '3', '4', '42'];
     if (!allowedChains.includes(`${chainId}`)) {
       console.warn(`raw tx can't be greated for this chain id ${chainId}`);
       return '';

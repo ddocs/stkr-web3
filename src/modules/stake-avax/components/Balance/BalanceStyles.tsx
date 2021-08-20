@@ -18,32 +18,11 @@ export const useBalanceStyles = makeStyles<Theme>(theme => {
       },
     },
 
-    header: {
-      fontSize: 20,
-      marginBottom: theme.spacing(6),
-
-      [theme.breakpoints.up('sm')]: {
-        marginBottom: theme.spacing(8),
-      },
-    },
-
     footer: {
       display: 'grid',
       gridTemplateColumns: 'auto auto',
       gridGap: theme.spacing(2),
       alignItems: 'end',
-    },
-
-    amount: {
-      display: 'grid',
-      gridTemplateColumns: 'auto 100%',
-      gridGap: theme.spacing(1),
-      alignItems: 'end',
-    },
-
-    amountLabel: {
-      fontSize: 36,
-      lineHeight: 1,
     },
   };
 });

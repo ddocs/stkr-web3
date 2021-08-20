@@ -1,14 +1,14 @@
 import { Box, IconButton, Paper, Tooltip, Typography } from '@material-ui/core';
-import React from 'react';
-import { useConnectStyles } from './ConnectStyles';
-import { t } from '../../../../common/utils/intl';
-import { QuestionIcon } from '../../../../UiKit/Icons/QuestionIcon';
-import { useInitEffect } from '../../../../common/hooks/useInitEffect';
-import { useDispatch } from 'react-redux';
-import { AvalancheActions } from '../../../../store/actions/AvalancheActions';
-import { BlockchainNetworkId, Milliseconds } from '../../../../common/types';
 import BigNumber from 'bignumber.js';
+import React from 'react';
+import { useDispatch } from 'react-redux';
 import { DEFAULT_FIXED } from '../../../../common/const';
+import { useInitEffect } from '../../../../common/hooks/useInitEffect';
+import { BlockchainNetworkId, Milliseconds } from '../../../../common/types';
+import { t } from '../../../../common/utils/intl';
+import { AvalancheActions } from '../../actions/AvalancheActions';
+import { QuestionIcon } from '../../../../UiKit/Icons/QuestionIcon';
+import { useConnectStyles } from './ConnectStyles';
 
 interface IConnectProps {
   network: BlockchainNetworkId;
@@ -24,7 +24,7 @@ export const Connect = ({ network, amount, recipient }: IConnectProps) => {
 
   useInitEffect(() => {
     const interval = setInterval(() => {
-      dispatch(AvalancheActions.checkWallet());
+      dispatch(AvalancheActions.fetchTransactionStatus());
     }, REFRESH_INTERVAL);
 
     return () => clearInterval(interval);
@@ -50,7 +50,7 @@ export const Connect = ({ network, amount, recipient }: IConnectProps) => {
         </Typography>
       </Box>
       <Typography variant="subtitle1" className={classes.address}>
-        {t(`stake-avax.connect.destination.${network}`, { value: recipient })}
+        {t('stake-avax.connect.destination', { value: recipient })}
       </Typography>
     </Paper>
   );

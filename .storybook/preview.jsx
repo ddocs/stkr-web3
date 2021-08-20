@@ -1,27 +1,29 @@
-import 'regenerator-runtime';
-import React from 'react';
 import { addDecorator } from '@storybook/react';
-
-import { AppShell } from './componets/AppShell';
-
+import React from 'react';
+import 'regenerator-runtime';
 import '../src/common/fonts/stylesheet.css';
+import { AppShell } from './componets/AppShell';
 
 addDecorator((story, ctx) => (
   <AppShell>
     <style
       dangerouslySetInnerHTML={{
         __html: `
-       #root {
-        height: 100%;
-        width: 100%;
-        font-family: 'Helvetica Neue', sans-serif;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-      }
-    `,
+          #root {
+            height: 100%;
+            width: 100%;
+            font-family: 'Helvetica Neue', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+          }
+          .story-path {
+            overflow-y: auto;
+            opacity: 0.5;
+          }
+        `,
       }}
     />
-    <pre>{ctx.parameters.fileName}</pre>
+    <pre className="story-path">{ctx.parameters.fileName}</pre>
     <hr />
     <br />
     {story()}

@@ -1,15 +1,15 @@
 import { applyMiddleware, compose, createStore, Store } from 'redux';
-import createSagaMiddleware from 'redux-saga';
-import { routerMiddleware, RouterRootState } from 'connected-react-router';
-import { persistStore } from 'redux-persist';
-import { rootSaga } from './effects';
-import { createRootReducer } from './reducers';
+import axios from 'axios';
 import { handleRequests } from '@redux-requests/core';
 import { createDriver } from '@redux-requests/promise';
+import createSagaMiddleware from 'redux-saga';
+import { persistStore } from 'redux-persist';
+import { createDriver as createAxiosDriver } from '@redux-requests/axios';
+import { routerMiddleware, RouterRootState } from 'connected-react-router';
+import { rootSaga } from './effects';
+import { createRootReducer } from './reducers';
 import { History } from 'history';
 import { isDev } from '../common/utils/isProd';
-import { createDriver as createAxiosDriver } from '@redux-requests/axios';
-import axios from 'axios';
 import { configFromEnv } from '../modules/api/config';
 
 export interface IApplicationStore extends RouterRootState {

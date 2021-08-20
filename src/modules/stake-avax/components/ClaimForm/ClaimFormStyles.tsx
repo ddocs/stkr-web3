@@ -16,46 +16,10 @@ export const useClaimFormStyles = makeStyles<Theme>(theme => {
       },
     },
 
-    container: {
-      '&&': {
-        [theme.breakpoints.down('xs')]: {
-          padding: theme.spacing(0, 2),
-        },
-      },
-    },
-
-    box: {
-      position: 'relative',
-      padding: 0,
-      maxWidth: 900,
-      margin: '0 auto',
-
-      [theme.breakpoints.up('lg')]: {
-        borderRadius: 65,
-      },
-    },
-
-    body: {
-      padding: theme.spacing(3, 0, 4),
-
-      [theme.breakpoints.up('sm')]: {
-        padding: theme.spacing(6, 0, 8),
-      },
-    },
-
     footer: {
       borderTop: `1px solid ${fade(theme.palette.text.primary, 0.2)}`,
-      paddingTop: theme.spacing(6),
-    },
-
-    wrapper: {
-      padding: theme.spacing(0, 2.5),
-
-      [theme.breakpoints.up('sm')]: {
-        padding: theme.spacing(0, 5),
-        maxWidth: 720,
-        margin: '0 auto',
-      },
+      paddingTop: theme.spacing(4),
+      marginTop: theme.spacing(7),
     },
 
     footerWrapper: {
@@ -100,27 +64,6 @@ export const useClaimFormStyles = makeStyles<Theme>(theme => {
       },
     },
 
-    networksContainer: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      marginBottom: theme.spacing(5),
-    },
-    network: {
-      display: 'grid',
-      gridTemplateColumns: '1fr auto',
-      gap: `${theme.spacing(3)}px`,
-      padding: theme.spacing(3.5, 8, 3.5, 3.5),
-      alignItems: 'center',
-      fontWeight: 500,
-      fontSize: 18,
-      lineHeight: '130%',
-      maxWidth: 300,
-      cursor: 'pointer',
-      '&.selected': {
-        background: 'rgba(96, 96, 96, 0.15)',
-        border: '1px solid rgba(255, 255, 255, 0.4)',
-      },
-    },
     range: {
       marginTop: theme.spacing(4),
       marginBottom: theme.spacing(4),
@@ -140,9 +83,10 @@ export const useClaimFormStyles = makeStyles<Theme>(theme => {
         fontSize: 14,
       },
     },
-    disabled: {
-      opacity: 0.5,
-      cursor: 'default',
+
+    info: {
+      paddingLeft: theme.spacing(2),
+      borderLeft: `2px solid ${theme.palette.primary.main}`,
     },
   };
 });

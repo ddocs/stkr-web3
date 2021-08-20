@@ -1,6 +1,6 @@
+import BigNumber from 'bignumber.js';
 import React from 'react';
 import { StakeForm } from '../../components/StakeForm/StakeForm';
-import BigNumber from 'bignumber.js';
 
 const AvaxStakeFormStory = () => {
   return (
@@ -15,5 +15,5 @@ const AvaxStakeFormStory = () => {
 export const AvaxStakeFormExample = () => <AvaxStakeFormStory />;
 
 export default {
-  title: 'modules/staking/avax/form',
+  title: 'modules/AvaxStaking/components/form',
 };

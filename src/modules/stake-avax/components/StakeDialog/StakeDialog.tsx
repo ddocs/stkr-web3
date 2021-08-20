@@ -5,7 +5,7 @@ import React, { ReactNode, useCallback, useState } from 'react';
 import { t } from '../../../../common/utils/intl';
 import { useRequestDispatch } from '../../../../common/utils/useRequestDispatch';
 import { MutationErrorHandler } from '../../../../components/MutationErrorHandler/MutationErrorHandler';
-import { AvalancheActions } from '../../../../store/actions/AvalancheActions';
+import { AvalancheActions } from '../../actions/AvalancheActions';
 import { CancelIcon } from '../../../../UiKit/Icons/CancelIcon';
 import { StakeForm } from '../StakeForm';
 import { useStakeDialogStyles } from './StakeDialogStyles';

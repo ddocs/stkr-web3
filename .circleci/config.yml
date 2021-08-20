@@ -1,13 +1,20 @@
 version: 2.1
 
+orbs:
+  puppeteer: threetreeslight/puppeteer@0.1.2
+
 build-template: &build-template
   docker:
-    - image: tarampampam/node:14-alpine
+    - image: circleci/node:latest-browsers
   steps:
     - checkout
     - setup_remote_docker
     - attach_workspace:
         at: '.'
+    - run:
+        name: Install puppeteer with chronium
+        command: |
+          PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
     - run:
         name: 'Build artifacts'
         command: |
