@@ -7,7 +7,6 @@ import { Button } from '../../../../UiKit/Button';
 import { SliderField } from '../../../../UiKit/RangeField';
 import { Body2, Headline2 } from '../../../../UiKit/Typography';
 import { useStakeFormStyles } from './StakeFormStyles';
-import { Spinner } from '../../../../components/Spinner';
 
 const MIN_AMOUNT = 1;
 
@@ -47,7 +46,7 @@ export const StakeForm = ({
     return (
       <form onSubmit={handleSubmit}>
         <div className={classes.body}>
-          <div className={classes.wrapper}>
+          <div className={classes.container}>
             <label className={classes.range}>
               <Headline2 component="p" classes={{ root: classes.label }}>
                 {t('stake.i-want')}
@@ -65,28 +64,27 @@ export const StakeForm = ({
                 name="amount"
               />
             </label>
+
+            <div className={classes.earnings} />
           </div>
-          <div className={classes.earnings} />
         </div>
 
         <div className={classes.footer}>
-          <div className={classNames(classes.wrapper, classes.footerWrapper)}>
+          <div className={classNames(classes.container, classes.footerWrapper)}>
             <Body2 className={classes.info} color="secondary" component="p">
               {t('stake-avax.info')}
             </Body2>
-            {!loading ? (
-              <Button
-                color="primary"
-                size="large"
-                className={classes.submit}
-                type="submit"
-                disabled={amount <= 0 || loading}
-              >
-                {t('stake.stake')}
-              </Button>
-            ) : (
-              <Spinner size={32} />
-            )}
+
+            <Button
+              color="primary"
+              size="large"
+              className={classes.submit}
+              type="submit"
+              disabled={amount <= 0 || loading}
+              isLoading={loading}
+            >
+              {t('stake.stake')}
+            </Button>
           </div>
         </div>
       </form>

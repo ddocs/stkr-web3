@@ -1,7 +1,10 @@
 {
   "time": {
+    "days": "{days} days",
     "days-short": "{days}d",
+    "hours": "{hours} hours",
     "hours-short": "{hours}h",
+    "minutes": "{minutes} minutes",
     "minutes-short": "{minutes}m",
     "seconds-short": "{seconds}s",
     "time-left-short": "{days} {hours} {minutes} {seconds}",
@@ -714,9 +717,7 @@
     "convert": {
       "convert": "Unstake",
       "amount": "Amount",
-      "title": "How much do you want convert?",
-      "will-get": "You will get",
-      "info": "Сonvertation will take about 5 days",
+      "title": "How many aAVAXb do you want to transfer to Avalanche?",
       "continue": "Continue",
       "summary": "You will receive your AVAX tokens in 5 days",
       "sub-summary": "AVAX tokens will be available in the AVAX chain",
@@ -730,30 +731,40 @@
       "claim-summary": "After completion of the first validation period, you will be able to claim your aAVAXb tokens. You can switch back to AVAX chain now",
       "convert-success": "Conversion Successful"
     },
+    "unstake": {
+      "title": "How many AVAX do you want to unstake?",
+      "info": "Requested AVAXes will appear automatically on your wallet in {time}",
+      "will-get": "You will get",
+      "btn": "Unstake"
+    },
+    "unstake-success": {
+      "title": "You will receive your AVAX tokens in {time}",
+      "descr": "AVAX tokens will be available in the AVAX chain",
+      "btn": "Close"
+    },
     "connect": {
       "switch-to": {
         "1": "In order to proceed, your wallet needs to be connected to Ethereum Mainnet wallet address",
         "5": "In order to proceed, your wallet needs to be connected to Ethereum Goerli wallet address",
         "56": "In order to proceed, your wallet needs to be connected to Binance Smartchain wallet address",
         "97": "In order to proceed, your wallet needs to be connected to Binance Smartchain Testnet wallet address",
+        "43113": "In order to proceed, your wallet needs to be connected to Avalanche FUJI C-Chain wallet address",
+        "43114": "In order to proceed, your wallet needs to be connected to Avalanche wallet address",
         "info": "This is because you have claimed the tokens and they are now pending withdrawal"
       },
       "claim-on": {
         "1": "aAVAXb to claim on Ethereum Mainnet network: {value} aAVAXb",
         "5": "aAVAXb to claim on Ethereum Goerli network: {value} aAVAXb",
         "56": "aAVAXb to claim on Binance Smartchain network: {value} aAVAXb",
-        "97": "aAVAXb to claim on Binance Smartchain Testnet network: {value} aAVAXb"
+        "97": "aAVAXb to claim on Binance Smartchain Testnet network: {value} aAVAXb",
+        "43113": "aAVAXb to claim on Avalanche FUJI C-Chain network: {value} aAVAXb",
+        "43114": "aAVAXb to claim on Avalanche network: {value} aAVAXb"
       },
-      "destination": {
-        "1": "Destination address: {value}",
-        "5": "Destination address: {value}",
-        "56": "Destination address: {value}",
-        "97": "Destination address: {value}"
-      }
+      "destination": "Destination address: {value}"
     },
     "dashboard": {
       "tokens-to-claim": "Tokens to claim",
-      "claim-info": "To start staking you need to claim your aAVAXb",
+      "claim-info": "You can claim your tokens to Mainnet or BSC at any time",
       "claim-tip": "To start staking you need to claim your aAVAXb",
       "claim": "Claim",
       "avax-balance": "AVAX balance",
@@ -792,6 +803,9 @@
     "claim": {
       "title": "On which network do you want to use aAVAXb tokens?",
       "info": "This may take a few minutes, your funds are safe even if you close the window"
+    },
+    "finish-claim": {
+      "title": "You have an unfinished claim"
     },
     "error": {
       "to-address": "Wrong destination address. In order to finish claim, you need to connect to this account: ",

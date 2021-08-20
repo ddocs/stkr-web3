@@ -330,6 +330,10 @@ const mainTheme = createMuiTheme({
         '&:hover, &:focus, &:active': {
           backgroundColor: PALETTE.primary.main,
         },
+
+        '& svg': {
+          color: PALETTE.primary.contrastText,
+        },
       },
       containedSecondary: {
         color: PALETTE.primary.main,

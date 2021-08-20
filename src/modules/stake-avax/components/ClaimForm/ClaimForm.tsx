@@ -11,7 +11,7 @@ import { InputField } from '../../../../UiKit/InputField';
 import { SliderField } from '../../../../UiKit/RangeField';
 import { Body2 } from '../../../../UiKit/Typography';
 import { configFromEnv } from '../../../api/config';
-import { IClaimPayload } from '../../../avalanche-sdk/types';
+import { IClaimPayload } from '../../api/types';
 import { useClaimDialogStyles } from '../ClaimDialog/ClaimDialogStyles';
 import { NetworkTab, NetworkTabs } from '../NetworkTabs';
 import { ReactComponent as BnbIcon } from './assets/bnb.svg';
@@ -72,12 +72,14 @@ export const ClaimForm = ({
             />
 
             <Tooltip title={t('coming-soon')}>
-              <NetworkTab
-                icon={<BnbIcon />}
-                selected={network === config.providerConfig.binanceChainId}
-                disabled
-                title={t('cross-chain-bridge.chain-binance')}
-              />
+              <div>
+                <NetworkTab
+                  icon={<BnbIcon />}
+                  selected={network === config.providerConfig.binanceChainId}
+                  disabled
+                  title={t('cross-chain-bridge.chain-binance')}
+                />
+              </div>
             </Tooltip>
           </NetworkTabs>
 

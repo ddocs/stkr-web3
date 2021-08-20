@@ -55,6 +55,7 @@
     "redux-smart-actions": "^1.0.0",
     "reselect": "^4.0.0",
     "typescript": "~3.7.2",
+    "web3": "1.2.11",
     "web3modal": "^1.9.1"
   },
   "devDependencies": {
@@ -68,6 +69,7 @@
     "@types/react-router": "^5.1.8",
     "@types/react-router-dom": "^5.1.5",
     "@types/redux-actions": "^2.6.1",
+    "@types/web3": "^1.2.2",
     "babel-loader": "8.1.0",
     "classnames": "^2.2.6",
     "env-cmd": "^10.1.0",
@@ -103,14 +105,13 @@
     "inlineCss": true
   },
   "scripts": {
-    "start": "env-cmd react-scripts start",
-    "start:localhost": "env-cmd -f .env.localhost react-scripts start",
-    "start:goerli": "env-cmd -f .env.goerli react-scripts start",
-    "start:mainnet": "env-cmd -f .env.mainnet react-scripts start",
+    "start:develop": "env-cmd -f .env.develop react-scripts start",
+    "start:stage": "env-cmd -f .env.stage react-scripts start",
+    "start:prod": "env-cmd -f .env.prod react-scripts start",
     "build": "env-cmd react-scripts build",
     "test": "env-cmd react-scripts test",
     "eject": "env-cmd react-scripts eject",
-    "storybook": "env-cmd start-storybook -p 3000",
+    "storybook": "env-cmd start-storybook",
     "postbuild": "react-snap"
   },
   "extends": [

@@ -1,64 +1,82 @@
-import { Button, Paper, Typography } from '@material-ui/core';
-import { useMutation } from '@redux-requests/react';
-import BigNumber from 'bignumber.js';
-import React, { useMemo } from 'react';
-import { t } from '../../../../common/utils/intl';
-import { Spinner } from '../../../../components/Spinner';
-import { AvalancheActions } from '../../../../store/actions/AvalancheActions';
+import { useQuery } from '@redux-requests/react';
+import React from 'react';
+import { MutationErrorHandler } from '../../../../components/MutationErrorHandler/MutationErrorHandler';
+import { AvalancheActions } from '../../actions/AvalancheActions';
+import { IStakerStats } from '../../api/types';
 import { ClaimDialog } from '../ClaimDialog';
-import { useClaimStyles } from './ClaimStyles';
+import { ClaimForm } from '../ClaimForm';
+import { UnstakeDialog } from '../UnstakeDialog';
+import { UnstakeSuccessDialog } from '../UnstakeSuccessDialog';
+import { ClaimComponent } from './ClaimComponent';
+import { useClaim } from './useClaim';
+import { useUnstake } from './useUnstake';
 
-interface IClaimProps {
-  amount: BigNumber;
-}
+export const Claim = () => {
+  const {
+    isOpened: isClaimDialogOpened,
+    onClose: onClaimDialogClose,
+    onOpen: onClaimDialogOpen,
+    onSubmit: onClaimSubmit,
+    loading: claimLoading,
+  } = useClaim();
 
-export const Claim = ({ amount }: IClaimProps) => {
-  const classes = useClaimStyles();
-  const isClaimAvailable = useMemo(() => amount && amount.gt(0), [amount]);
-  const { loading } = useMutation({
-    type: AvalancheActions.claimAAvaxB.toString(),
-  });
+  const {
+    maxTimeLeft,
+    onSubmit: onUnstakeSubmit,
+    isOpened: isUnstakeDialogOpened,
+    onClose: onUnstakeDialogClose,
+    onOpen: onUnstakeDialogOpen,
+    isLoading: unstakeLoading,
+    isSuccessOpened,
+    onSuccessClose,
+  } = useUnstake();
+
+  const { data: stakerStats, loading: stakerStatsLoading } =
+    useQuery<IStakerStats | null>({
+      type: AvalancheActions.fetchStakerStats.toString(),
+    });
+
+  if (!stakerStats) {
+    return null;
+  }
 
   return (
-    <Paper variant="outlined" square={false} className={classes.root}>
-      <Typography variant="body1" className={classes.header}>
-        {t('stake-avax.dashboard.tokens-to-claim')}
-      </Typography>
+    <>
+      <MutationErrorHandler
+        type={AvalancheActions.depositToAvalancheBridge.toString()}
+      />
 
-      <div className={classes.footer}>
-        <div className={classes.amount}>
-          {amount && (
-            <Typography variant="h2" className={classes.amountLabel}>
-              {amount.toFixed(2)}
-            </Typography>
-          )}
+      <ClaimComponent
+        amount={stakerStats.claimAvailable}
+        claimLoading={claimLoading}
+        onClaimClick={onClaimDialogOpen}
+        onUnstakeClick={onUnstakeDialogOpen}
+      />
 
-          <Typography variant="h6">{t('stake-avax.aavaxb')}</Typography>
-        </div>
+      <ClaimDialog isOpened={isClaimDialogOpened} onClose={onClaimDialogClose}>
+        <ClaimForm
+          loading={claimLoading}
+          amount={stakerStats.claimAvailable}
+          onSubmit={onClaimSubmit}
+        />
+      </ClaimDialog>
 
-        <Typography variant="body2" className={classes.info} component="p">
-          {t('stake-avax.dashboard.claim-info')}
-        </Typography>
+      <UnstakeDialog
+        isOpened={isUnstakeDialogOpened}
+        isBalanceLoading={stakerStatsLoading}
+        isLoading={unstakeLoading}
+        submitDisabled={unstakeLoading}
+        balance={stakerStats.claimAvailable}
+        onClose={onUnstakeDialogClose}
+        onSubmit={onUnstakeSubmit}
+        maxTimeLeft={maxTimeLeft}
+      />
 
-        <div>
-          <ClaimDialog amount={amount}>
-            {!loading ? (
-              <Button
-                color="primary"
-                size="large"
-                className={classes.buttonClaim}
-                type="submit"
-                disabled={!isClaimAvailable || loading}
-                fullWidth
-              >
-                {t('stake-avax.dashboard.claim')}
-              </Button>
-            ) : (
-              <Spinner size={32} />
-            )}
-          </ClaimDialog>
-        </div>
-      </div>
-    </Paper>
+      <UnstakeSuccessDialog
+        isOpened={isSuccessOpened}
+        onClose={onSuccessClose}
+        maxTimeLeft={maxTimeLeft}
+      />
+    </>
   );
 };

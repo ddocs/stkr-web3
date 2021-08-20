@@ -5,9 +5,8 @@ import classNames from 'classnames';
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { t } from '../../../../common/utils/intl';
-import { AvalancheActions } from '../../../../store/actions/AvalancheActions';
+import { AvalancheActions } from '../../actions/AvalancheActions';
 import { Timer as BasicTimer } from '../../../governance/components/Timer';
-import { useWalletStatus } from '../../hooks/useWalletStatus';
 import { useTimerStyles } from './useTimerStyles';
 
 interface ITimerProps extends BoxProps {
@@ -41,32 +40,25 @@ const TimerComponent = ({
 };
 
 export const Timer = () => {
-  const { isAvalancheChain } = useWalletStatus();
   const dispatch = useDispatch();
 
-  const {
-    data: claimServeTime,
-    loading: claimServeTimeLoading,
-    error: claimServeTimeError,
-  } = useQuery<Date | null>({
+  const { data, loading, error } = useQuery<Date | null>({
     type: AvalancheActions.fetchClaimServeTime.toString(),
   });
 
   useEffect(() => {
-    if (!isAvalancheChain) {
-      return;
+    if (!data) {
+      dispatch(AvalancheActions.fetchClaimServeTime());
     }
+  }, [data, dispatch]);
 
-    dispatch(AvalancheActions.fetchClaimServeTime());
-  }, [dispatch, isAvalancheChain]);
-
-  if (claimServeTimeLoading) {
+  if (loading) {
     return <TimerComponent isLoading />;
   }
 
-  if (claimServeTimeError || !claimServeTime) {
+  if (error || !data) {
     return null;
   }
 
-  return <TimerComponent endDate={claimServeTime} />;
+  return <TimerComponent endDate={data} />;
 };
