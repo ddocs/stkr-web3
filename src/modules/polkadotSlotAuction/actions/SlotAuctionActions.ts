@@ -1,3 +1,5 @@
+import Web3 from 'web3';
+import Web3Modal from 'web3modal';
 import { createAction } from 'redux-smart-actions';
 import BigNumber from 'bignumber.js';
 import { Web3KeyProvider } from '@ankr.com/stakefi-web3';
@@ -7,12 +9,37 @@ import {
   ContractManager,
 } from '@ankr.com/stakefi-polkadot';
 import { ISlotAuctionConfig } from '@ankr.com/stakefi-polkadot/dist/types/config';
+import { PALETTE } from '../../../common/themes/mainTheme';
+import { providerDefaultOptions } from '../../api/provider';
+import { alpha, lighten } from '@material-ui/core';
+
+class Web3KeyProviderParachain extends Web3KeyProvider {
+  public async connectFromInjected(): Promise<void> {
+    const web3Modal = new Web3Modal({
+      cacheProvider: false,
+      providerDefaultOptions,
+      theme: {
+        background: PALETTE.background.paper,
+        main: PALETTE.text.primary,
+        secondary: alpha(PALETTE.text.primary, 0.5),
+        border: PALETTE.background.default,
+        hover: lighten(PALETTE.background.paper, 0.03),
+      },
+    } as any);
+
+    const provider = await web3Modal.connect();
+
+    const web3 = new Web3(provider);
+
+    return this.connect(web3);
+  }
+}
 
 class SlotAuctionSdkSingleton {
   private static sdk?: SlotAuctionSdk;
   public static getInstance(config: ISlotAuctionConfig): SlotAuctionSdk {
     if (SlotAuctionSdkSingleton.sdk) return SlotAuctionSdkSingleton.sdk;
-    const web3KeyProvider = new Web3KeyProvider({
+    const web3KeyProvider = new Web3KeyProviderParachain({
       expectedChainId: 5,
     });
 
