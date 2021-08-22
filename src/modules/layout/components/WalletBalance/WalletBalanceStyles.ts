@@ -18,18 +18,15 @@ export const useWalletBalance = makeStyles<Theme>(theme => ({
     margin: theme.spacing(-1, 0, 0, -2),
   },
 
-  dropdown: {
-    '& > div > svg': {
-      display: 'none',
+  listMenu: {
+    padding: theme.spacing(1, 0.5),
+    '& > li': {
+      padding: theme.spacing(0, 2, 1, 0),
     },
   },
 
-  dropdownSelect: {
-    border: 'none',
-
-    '&:focus': {
-      border: 'none',
-    },
+  paperMenu: {
+    marginTop: theme.spacing(2),
   },
 
   aeth: {

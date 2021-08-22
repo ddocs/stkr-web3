@@ -6,7 +6,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 
 import { Blockchain } from '../../../../common/types';
 import { WalletBalanceItem } from '../WalletBalanceItem';
-import { addTokenToMetamask, tokenType } from '../../utils/token';
+import { addTokenToMetamask, getMainToken, tokenType } from '../../utils/token';
 
 import { useWalletBalance } from './WalletBalanceStyles';
 
@@ -101,7 +101,7 @@ export const WalletBalance = ({
               aria-controls="menu"
               aria-haspopup="true"
             >
-              {getBalanceItem('ETH')}
+              {getBalanceItem(getMainToken(blockchainType))}
             </div>
             <Menu
               id="menu"
@@ -110,6 +110,7 @@ export const WalletBalance = ({
               open={Boolean(anchorEl)}
               onClose={handleClose}
               getContentAnchorEl={null}
+              classes={{ list: classes.listMenu, paper: classes.paperMenu }}
               anchorOrigin={{
                 vertical: 'bottom',
                 horizontal: 'center',

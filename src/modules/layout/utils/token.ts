@@ -1,6 +1,7 @@
 import { StkrSdk } from '../../api';
 import { configFromEnv } from '../../api/config';
 import IERC20 from '../../api/contract/IERC20.json';
+import { Blockchain } from '../../../common/types';
 
 const tokens = ['aETH', 'ETH', 'BNB', 'ANKR', 'AVAX'] as const;
 export type tokenType = typeof tokens[number];
@@ -36,4 +37,16 @@ export const addTokenToMetamask = async (token: tokenType) => {
     symbol: token,
     decimals,
   });
+};
+
+export const getMainToken = (blockchainType?: Blockchain): tokenType => {
+  switch (blockchainType) {
+    case Blockchain.avalanche:
+      return 'AVAX';
+    case Blockchain.binance:
+      return 'BNB';
+    case Blockchain.ethereum:
+    default:
+      return 'ETH';
+  }
 };

@@ -34,7 +34,7 @@ export const useWalletStyles = makeStyles<Theme>(theme => ({
       display: 'block',
       width: 1,
       height: 22,
-      margin: theme.spacing(0, 1.5, 0, 1.8),
+      margin: theme.spacing(0, 2),
       backgroundColor: fade(theme.palette.text.primary, 0.2),
     },
   },
