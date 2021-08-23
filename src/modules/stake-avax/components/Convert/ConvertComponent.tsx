@@ -9,7 +9,7 @@ import { BalanceTitle } from '../BalanceTitle';
 import { BalanceValue } from '../BalanceValue';
 import { useConvertStyles } from './useConvertStyles';
 
-const ENABLED_UNSTAKE = false;
+const ENABLED_UNSTAKE = true;
 
 interface IConvertProps {
   amount?: BigNumber;

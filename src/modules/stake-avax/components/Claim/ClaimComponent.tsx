@@ -7,7 +7,7 @@ import { BalanceTitle } from '../BalanceTitle';
 import { BalanceValue } from '../BalanceValue';
 import { useClaimStyles } from './ClaimStyles';
 
-const ENABLED_UNSTAKE = false;
+const ENABLED_UNSTAKE = true;
 
 interface IClaimProps {
   amount: BigNumber;
