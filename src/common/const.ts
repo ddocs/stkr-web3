@@ -7,7 +7,6 @@ export const FEATURES_PATH = `${INDEX_PATH}/launchpad`;
 export const ABOUT_AETH_PATH = `${INDEX_PATH}/aETHc`;
 export const STAKER_PATH = `${INDEX_PATH}/ETH`;
 export const STAKER_AVALANCHE_PATH = `${INDEX_PATH}/AVAX`;
-export const STAKER_STAKE_DOT_ROUTE = `${INDEX_PATH}/DOT`;
 export const STAKER_STAKE_PATH = `${STAKER_PATH}/stake`;
 
 export const STAKER_BNB_PATH = '/staking/BNB';
@@ -93,8 +92,8 @@ export const PROVIDE_MIN_BALANCE: ETH = 2;
 export const STAKER_RATE = 0.85;
 
 export const ENABLE_AVA = true;
-export const ENABLE_DOT = false;
-export const ENABLE_KSM = false;
+export const ENABLE_DOT = true;
+export const ENABLE_KSM = true;
 export const ENABLE_PROVIDER = true;
 export const ENABLE_PARACHAIN_APP = false;
 

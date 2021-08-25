@@ -617,7 +617,7 @@
       "stake-eth": "Stake ETH",
       "stake-bnb": "Stake BNB",
       "stake-avax": "Stake AVAX",
-      "stake-polkadot": "Stake DOT",
+      "stake-dot": "Stake DOT",
       "stake-ksm": "Stake KSM",
       "provider": "Become a provider"
     },
@@ -642,6 +642,12 @@
         "2": "Connect your staking rewards to DeFi, and trade, sell or participate in DeFi applications using aAVAXb reward earning bond.",
         "3": "Unstake/redeem your aAVAXb and receive the equivalent amount of AVAX in maximum 14 days.",
         "4": "No technical knowledge required!"
+      },
+      "stake-dot": {
+        "1": "Stake any amount of DOT (minimum 1 DOT) to earn staking rewards. ",
+        "2": "Keep your DOT liquid to trade, sell, or participate in DeFi applications through aDOTb.",
+        "3": "No technical knowledge required.",
+        "4": "Unstake/unbond DOT by redeeming aDOTb and get back the fair value of DOT in 7 days."
       },
       "stake-ksm": {
         "1": "Stake any amount of KSM (minimum 1 KSM) to earn staking rewards. ",
@@ -811,6 +817,21 @@
       "to-address": "Wrong destination address. In order to finish claim, you need to connect to this account: ",
       "transaction-info": "Transaction info not found",
       "invalid-address": "Invald address"
+    }
+  },
+  "stake-dot": {
+    "connect-wallet": "Please connect to Ethereum Mainnet to see your aDOTb balance",
+    "dot": "DOT",
+    "aDotb": "aDOTb",
+    "dashboard": {
+      "aDotb-balance": "aDOTb balance",
+      "dot-staking": "DOT Staking",
+      "stake-dot": "Stake DOT",
+      "tokens-to-claim": "Tokens to claim",
+      "claim": "Claim",
+      "what-is": "What is aDOTb?",
+      "claim-tooltip": "Tooltip text",
+      "can-connect-wallet": "You can claim your aDOTb in Ethereum network"
     }
   },
   "bnb-fetch-stats-error": {

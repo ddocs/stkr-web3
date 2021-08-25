@@ -9,12 +9,16 @@ import {
   BRIDGE_RECOVERY_PATH,
   CONVERT_ROUTE,
   EMPTY_PATH,
+  ENABLE_PARACHAIN_APP,
   FEATURES_PATH,
   GOVERNANCE_CREATE_PROJECT_PATH,
   GOVERNANCE_PROJECT_LIST_PATH,
   GOVERNANCE_PROJECT_ROUTE,
   INDEX_PATH,
   isMainnet,
+  PARACHAIN_BONDS,
+  PARACHAIN_BONDS_CROWDLOANS_PATH,
+  PARACHAIN_BONDS_LEND_PATH,
   PROVIDER_CREATE_NODE_PATH,
   PROVIDER_DEPOSIT_LIST_PATH,
   PROVIDER_DEPOSIT_ROUTE,
@@ -24,12 +28,7 @@ import {
   STAKER_DASHBOARD_BNB_ROUTE,
   STAKER_PATH,
   STAKER_STAKE_BNB_ROUTE,
-  STAKER_STAKE_DOT_ROUTE,
   STAKER_STAKE_PATH,
-  PARACHAIN_BONDS,
-  PARACHAIN_BONDS_LEND_PATH,
-  PARACHAIN_BONDS_CROWDLOANS_PATH,
-  ENABLE_PARACHAIN_APP,
 } from './common/const';
 import { BlockchainNetworkId } from './common/types';
 import { PageNotFound } from './components/PageNotFound';
@@ -40,6 +39,7 @@ import { BinanceGuardRoute } from './UiKit/GuardRoute/BinanceGuardRoute';
 import { PrivateRoute } from './UiKit/PrivateRoute';
 import PolkadotSlotAuctionLanding from './modules/landing';
 import { withPolkadotSlotAuctionLayout } from './modules/polkadotSlotAuction/layout';
+import { StakeDotRoutes } from './modules/stake-dot/StakeDotRoutes';
 
 const LoadableOverviewContainer = withDefaultLayout(
   loadable(async () => import('./modules/lobby').then(module => module.Lobby), {
@@ -132,18 +132,6 @@ const StakerContainer = withDefaultLayout(
   loadable(
     async () =>
       import('./modules/stake/screens/Stake').then(module => module.Stake),
-    {
-      fallback: <QueryLoadingAbsolute />,
-    },
-  ) as LoadableComponent<any>,
-);
-
-const StakerDotContainer = withDefaultLayout(
-  loadable(
-    async () =>
-      import('./modules/stake/screens/StakeDot').then(
-        module => module.StakeDot,
-      ),
     {
       fallback: <QueryLoadingAbsolute />,
     },
@@ -389,15 +377,6 @@ export function Routes() {
       />
 
       <GuardRoute
-        path={STAKER_STAKE_DOT_ROUTE}
-        component={StakerDotContainer}
-        // todo: fill with actual networks
-        availableNetworks={[
-          isMainnet ? BlockchainNetworkId.mainnet : BlockchainNetworkId.goerli,
-        ]}
-      />
-
-      <GuardRoute
         path={GOVERNANCE_PROJECT_LIST_PATH}
         component={GovernanceListContainer}
         exact
@@ -450,6 +429,8 @@ export function Routes() {
         component={PolkadotSlotAuctionLanding}
         exact
       />
+
+      <StakeDotRoutes />
 
       {ENABLE_PARACHAIN_APP && (
         <>
