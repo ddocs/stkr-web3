@@ -45,7 +45,7 @@ export const useClaimStyles = makeStyles<Theme, { amount: BigNumber }>(
         alignItems: 'baseline',
       },
       amountLabel: {
-        fontSize: props => 38 - 8 * (props.amount.toFixed().length - 2),
+        fontSize: 46,
       },
       question: {
         padding: theme.spacing(1),
