@@ -8,7 +8,7 @@ export const useDashboardStyles = makeStyles<Theme>(theme => ({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'start',
-    margin: `${theme.spacing(6)}px auto ${theme.spacing(3)}px`,
+    margin: theme.spacing(6, 'auto', 3),
     maxWidth: 1500,
     width: '100%',
     padding: theme.spacing(0, 15),
@@ -21,7 +21,7 @@ export const useDashboardStyles = makeStyles<Theme>(theme => ({
     gridTemplateColumns: '1fr 1fr',
     gridTemplateRows: '1fr',
     gap: theme.spacing(4, 4),
-    margin: `${theme.spacing(6)}px auto ${theme.spacing(3)}px`,
+    margin: theme.spacing(6, 'auto', 3),
     padding: theme.spacing(0, 15),
     maxWidth: 1500,
     [theme.breakpoints.down('lg')]: {
