@@ -27,10 +27,7 @@ const DefaultStory = () => {
         visible={true}
         address="0x603366e08380EceB2E334621A27eeD36F34A9D50"
         balance={
-          <WalletBalance
-            ethereum={new BigNumber(23)}
-            ankr={new BigNumber(10500)}
-          />
+          <WalletBalance eth={new BigNumber(23)} ankr={new BigNumber(10500)} />
         }
       />
     </div>

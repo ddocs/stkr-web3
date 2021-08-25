@@ -105,6 +105,7 @@
     "inlineCss": true
   },
   "scripts": {
+    "start": "env-cmd -f .env.develop react-scripts start",
     "start:develop": "env-cmd -f .env.develop react-scripts start",
     "start:stage": "env-cmd -f .env.stage react-scripts start",
     "start:prod": "env-cmd -f .env.prod react-scripts start",

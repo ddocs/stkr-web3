@@ -67,7 +67,7 @@ export const HeaderComponent = ({
 
   const renderedBalance = (
     <WalletBalance
-      ethereum={ethereumBalance}
+      eth={ethereumBalance}
       ankr={ankrBalance}
       bnb={bnbBalance}
       aeth={aEthBalance}

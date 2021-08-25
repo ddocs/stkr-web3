@@ -3,9 +3,7 @@ import React from 'react';
 import { WalletBalance } from './WalletBalance';
 
 const DefaultStory = () => {
-  return (
-    <WalletBalance ethereum={new BigNumber(23)} ankr={new BigNumber(10500)} />
-  );
+  return <WalletBalance eth={new BigNumber(23)} ankr={new BigNumber(10500)} />;
 };
 
 export const Default = () => <DefaultStory />;

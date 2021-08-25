@@ -1,19 +1,23 @@
 import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
-import React, { useEffect, useState } from 'react';
+import React, { useMemo } from 'react';
 import { Menu } from '@material-ui/core';
 import MenuItem from '@material-ui/core/MenuItem';
 
 import { Blockchain } from '../../../../common/types';
 import { WalletBalanceItem } from '../WalletBalanceItem';
-import { addTokenToMetamask, getMainToken, tokenType } from '../../utils/token';
+import {
+  addTokenToWallet,
+  getVisibleTokens,
+  tokenType,
+} from '../../utils/token';
 
 import { useWalletBalance } from './WalletBalanceStyles';
 
 interface IWalletBalanceProps {
   className?: string;
   blockchainType?: Blockchain;
-  ethereum?: BigNumber;
+  eth?: BigNumber;
   ankr?: BigNumber;
   bnb?: BigNumber;
   aeth?: BigNumber;
@@ -22,7 +26,7 @@ interface IWalletBalanceProps {
 }
 
 export const WalletBalance = ({
-  ethereum,
+  eth,
   ankr,
   bnb,
   aeth,
@@ -32,30 +36,21 @@ export const WalletBalance = ({
   showInARow,
 }: IWalletBalanceProps) => {
   const classes = useWalletBalance();
-  const [visibleTokens, setVisibleTokens] = useState<tokenType[]>([]);
-  const showMainBalances =
-    blockchainType &&
-    [Blockchain.ethereum, Blockchain.binance].includes(blockchainType);
 
-  useEffect(() => {
-    const newVisibleTokens = [] as tokenType[];
-    if (showMainBalances && aeth?.isGreaterThan(0)) {
-      newVisibleTokens.push('aETH');
-    }
-    if (showMainBalances && ethereum?.isGreaterThan(0)) {
-      newVisibleTokens.push('ETH');
-    }
-    if (bnb?.isGreaterThan(0)) {
-      newVisibleTokens.push('BNB');
-    }
-    if (ankr?.isGreaterThan(0)) {
-      newVisibleTokens.push('ANKR');
-    }
-    if (avax?.isGreaterThan(0)) {
-      newVisibleTokens.push('AVAX');
-    }
-    setVisibleTokens(newVisibleTokens);
-  }, [aeth, ankr, avax, bnb, ethereum, showMainBalances]);
+  const visibleTokens = useMemo(
+    () =>
+      getVisibleTokens(
+        [
+          { name: 'aETH', balance: aeth },
+          { name: 'ETH', balance: eth },
+          { name: 'BNB', balance: bnb },
+          { name: 'ANKR', balance: ankr },
+          { name: 'AVAX', balance: avax },
+        ],
+        blockchainType,
+      ),
+    [aeth, ankr, avax, bnb, eth, blockchainType],
+  );
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -65,35 +60,26 @@ export const WalletBalance = ({
 
   const handleTokenClick = async (event: React.MouseEvent<HTMLLIElement>) => {
     const tokenName = event.currentTarget.getAttribute('value') as tokenType;
-    await addTokenToMetamask(tokenName);
+    const token = visibleTokens.find(t => t.name === tokenName);
+    if (token) {
+      await addTokenToWallet(token);
+    }
   };
 
   const handleClose = () => {
     setAnchorEl(null);
   };
 
-  const getBalanceItem = (token: tokenType) => {
-    switch (token) {
-      case 'aETH':
-        return <WalletBalanceItem value={aeth} className={classes.aeth} />;
-      case 'ETH':
-        return (
-          <WalletBalanceItem value={ethereum} className={classes.ethereum} />
-        );
-      case 'BNB':
-        return <WalletBalanceItem value={bnb} className={classes.bnb} />;
-      case 'ANKR':
-        return <WalletBalanceItem value={ankr} className={classes.ankr} />;
-      case 'AVAX':
-        return <WalletBalanceItem value={avax} className={classes.avax} />;
-    }
-  };
-
   return (
     <div className={classNames(classes.root, className)}>
       <div className={classes.grid}>
         {showInARow ? (
-          visibleTokens.map(token => getBalanceItem(token))
+          visibleTokens.map(token => (
+            <WalletBalanceItem
+              value={token.balance}
+              name={token.name.toLowerCase()}
+            />
+          ))
         ) : (
           <>
             <div
@@ -101,7 +87,10 @@ export const WalletBalance = ({
               aria-controls="menu"
               aria-haspopup="true"
             >
-              {getBalanceItem(getMainToken(blockchainType))}
+              <WalletBalanceItem
+                value={visibleTokens[0].balance}
+                name={visibleTokens[0].name.toLowerCase()}
+              />
             </div>
             <Menu
               id="menu"
@@ -121,8 +110,15 @@ export const WalletBalance = ({
               }}
             >
               {visibleTokens.map(token => (
-                <MenuItem key={token} value={token} onClick={handleTokenClick}>
-                  {getBalanceItem(token)}
+                <MenuItem
+                  key={token.name}
+                  value={token.name}
+                  onClick={handleTokenClick}
+                >
+                  <WalletBalanceItem
+                    value={token.balance}
+                    name={token.name.toLowerCase()}
+                  />
                 </MenuItem>
               ))}
             </Menu>

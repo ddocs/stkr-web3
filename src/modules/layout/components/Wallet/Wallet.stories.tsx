@@ -25,7 +25,7 @@ const WalletStory = () => {
         balance={
           <WalletBalance
             showInARow={false}
-            ethereum={new BigNumber(23)}
+            eth={new BigNumber(23)}
             ankr={new BigNumber(10500)}
           />
         }
