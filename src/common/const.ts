@@ -38,6 +38,8 @@ export const PARACHAIN_BONDS_CROWDLOANS_PATH =
   '/parachain-bonds/:network/crowdloans';
 export const PARACHAIN_BONDS_LEND_PATH = `${PARACHAIN_BONDS_CROWDLOANS_PATH}/lend/:id/:name`;
 
+export const SOLANA_PATH = '/solana';
+
 export function getParachainBondsCrowdloansPath(network: string) {
   return generatePath(PARACHAIN_BONDS_CROWDLOANS_PATH, { network });
 }
@@ -97,6 +99,7 @@ export const ENABLE_DOT = false;
 export const ENABLE_KSM = false;
 export const ENABLE_PROVIDER = true;
 export const ENABLE_PARACHAIN_APP = false;
+export const ENABLE_SOLANA_APP = true;
 
 export const featuresConfig = {
   aEthVideo: false,

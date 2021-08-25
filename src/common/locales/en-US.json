@@ -615,6 +615,7 @@
       "stake-bnb": "Stake BNB",
       "stake-avax": "Stake AVAX",
       "stake-polkadot": "Stake DOT",
+      "stake-sol-direct": "Direct Stake SOL",
       "stake-ksm": "Stake KSM",
       "provider": "Become a provider"
     },
@@ -946,6 +947,7 @@
       "SUCCEEDED": "Succeeded",
       "FAILED_RETIRED": "Failed Retired",
       "FAILED_REFUNDING": "Failed Refunding"
-    }
+    },
+    "solana": "Solana Direct Staking"
   }
 }

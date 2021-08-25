@@ -9,6 +9,8 @@ import {
   STAKER_BNB_PATH,
   STAKER_PATH,
   STAKER_STAKE_DOT_ROUTE,
+  ENABLE_SOLANA_APP,
+  SOLANA_PATH,
 } from '../../common/const';
 import { t } from '../../common/utils/intl';
 import { ReactComponent as BnbIcon } from './assets/bnb.svg';
@@ -104,6 +106,20 @@ export const FeaturesList = () => {
               ]}
               buttonText={t('features-list.action.start-staking')}
               onClickTo={''}
+            />
+          )}
+          {ENABLE_SOLANA_APP && (
+            <FeatureListVerticalItem
+              Icon={EthereumIcon}
+              title={t('features-list.header.stake-sol-direct')}
+              features={[
+                t('features-list.list-item.stake-ksm.1'),
+                t('features-list.list-item.stake-ksm.2'),
+                t('features-list.list-item.stake-ksm.3'),
+                t('features-list.list-item.stake-ksm.4'),
+              ]}
+              buttonText={t('features-list.action.start-staking')}
+              onClickTo={SOLANA_PATH}
             />
           )}
         </div>

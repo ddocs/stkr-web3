@@ -30,6 +30,8 @@ import {
   PARACHAIN_BONDS_LEND_PATH,
   PARACHAIN_BONDS_CROWDLOANS_PATH,
   ENABLE_PARACHAIN_APP,
+  ENABLE_SOLANA_APP,
+  SOLANA_PATH,
 } from './common/const';
 import { BlockchainNetworkId } from './common/types';
 import { PageNotFound } from './components/PageNotFound';
@@ -292,6 +294,15 @@ const PolkadotSlotAuctionLend = withPolkadotSlotAuctionLayout(
   ) as LoadableComponent<any>,
 );
 
+const LoadableSolanaContainer = withDefaultLayout(
+  loadable(
+    async () => import('./modules/solana').then(module => module.Solana),
+    {
+      fallback: <QueryLoadingAbsolute />,
+    },
+  ) as LoadableComponent<any>,
+);
+
 export function Routes() {
   return (
     <Switch>
@@ -436,6 +447,15 @@ export function Routes() {
             : BlockchainNetworkId.smartchainTestnet,
         ]}
       />
+      {ENABLE_SOLANA_APP && (
+        <>
+          <Route
+            path={SOLANA_PATH}
+            component={LoadableSolanaContainer}
+            exact={true}
+          />
+        </>
+      )}
 
       <Route path={BRIDGE_PATH} component={LoadableBridgeContainer} exact />
 
