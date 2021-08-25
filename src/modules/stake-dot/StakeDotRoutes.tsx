@@ -1,12 +1,13 @@
-import { withDefaultLayout } from '../layout';
+import React from 'react';
+import { generatePath } from 'react-router';
 import loadable, { LoadableComponent } from '@loadable/component';
 import { QueryLoadingAbsolute } from '../../components/QueryLoading/QueryLoading';
-import React from 'react';
-import { Route } from 'react-router-dom';
-import { PARACHAIN_BONDS } from '../../common/const';
-import { generatePath } from 'react-router';
+import { INDEX_PATH, isMainnet } from '../../common/const';
+import { withDefaultLayout } from '../layout';
+import { GuardRoute } from '../../UiKit/GuardRoute';
+import { BlockchainNetworkId } from '../../common/types';
 
-const STAKE_DOT_ROUTE = `${PARACHAIN_BONDS}/stake/:network`;
+const STAKE_DOT_ROUTE = `${INDEX_PATH}/:network`;
 
 export enum ParachainNetwork {
   DOT = 'DOT',
@@ -35,10 +36,16 @@ const StakeDotContainer = withDefaultLayout(
   ) as LoadableComponent<any>,
 );
 
-export function StakeDotRoutes() {
+export const StakeDotRoutes = () => {
   return (
-    <>
-      <Route path={STAKE_DOT_ROUTE} component={StakeDotContainer} exact />
-    </>
+    <GuardRoute
+      availableNetworks={[
+        isMainnet ? BlockchainNetworkId.mainnet : BlockchainNetworkId.goerli,
+      ]}
+      needPolkadotExtension
+      path={STAKE_DOT_ROUTE}
+      component={StakeDotContainer}
+      exact
+    />
   );
-}
+};

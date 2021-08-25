@@ -5,7 +5,7 @@ import React, { ReactNode } from 'react';
 import { RouteProps } from 'react-router-dom';
 import { useConnect } from '../../common/hooks/useConnect';
 import { t } from '../../common/utils/intl';
-import { INetwork } from '../../UiKit/GuardRoute';
+import { INetwork } from '../../UiKit/GuardRoute/useNetworks';
 import { NetworkSelector } from '../NetworkSelector/NetworkSelector';
 import { useConnectStyles } from './useConnectStyles';
 

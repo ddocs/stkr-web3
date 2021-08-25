@@ -1,8 +1,8 @@
 import { Box } from '@material-ui/core';
 import React from 'react';
 import { uid } from 'react-uid';
-import { INetwork } from '../../UiKit/GuardRoute';
 import { Body2 } from '../../UiKit/Typography';
+import { INetwork } from '../../UiKit/GuardRoute/useNetworks';
 
 interface INetworkSelector {
   networks: INetwork[];

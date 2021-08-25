@@ -5,18 +5,18 @@ import { Box } from '@material-ui/core';
 import { PolkadotProvider } from '@ankr.com/stakefi-polkadot';
 import { SlotAuctionActions } from '../../../actions/SlotAuctionActions';
 import { Curtains } from '../../../../../UiKit/Curtains';
-import { Logotype } from '../Logotype';
 import { Button } from '../../../../../UiKit/Button';
+import { Logotype } from '../Logotype';
 import { t } from '../../../../../common/utils/intl';
 import { useSlotAuctionSdk } from '../../../hooks/useSlotAuctionSdk';
 import { QueryLoading } from '../../../../../components/QueryLoading/QueryLoading';
 import { WalletSwitcher } from '../WalletSwitcher/WalletSwitcher';
 import { usePolkadotAccounts } from '../../../hooks/usePolkadotAccounts';
 import { NetworkSwitcher } from '../NetworkSwitcher/NetworkSwitcher';
-import { useHeaderStyles } from './HeaderStyles';
-import { PolkadotExtension } from '../../../components/PolkadotExtension/PolkadotExtension';
 import { useDialog } from '../../../../../store/dialogs/selectors';
 import { DIALOG_POLKADOT_EXTENSION } from '../../../../../store/dialogs/actions';
+import { PolkadotExtensionModal } from '../../../components/PolkadotExtension/PolkadotExtensionModal';
+import { useHeaderStyles } from './HeaderStyles';
 
 export const HeaderComponent = () => {
   const classes = useHeaderStyles();
@@ -80,7 +80,7 @@ export const HeaderComponent = () => {
         </Curtains>
       </header>
 
-      <PolkadotExtension isOpened={isOpened} onClose={handleClose} />
+      <PolkadotExtensionModal isOpened={isOpened} onClose={handleClose} />
     </>
   );
 };
