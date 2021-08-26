@@ -1,7 +1,7 @@
 import { Container, Paper } from '@material-ui/core';
 import React from 'react';
 import { tHTML } from '../../common/utils/intl';
-import { INetwork } from '../../UiKit/GuardRoute';
+import { INetwork } from '../../UiKit/GuardRoute/useNetworks';
 import { Headline5 } from '../../UiKit/Typography';
 import { NetworkSelector } from '../NetworkSelector/NetworkSelector';
 import { useUnsupportedNetworkStyles } from './UnsupportedNetworkStyles';

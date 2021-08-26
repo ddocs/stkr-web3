@@ -430,23 +430,23 @@ export function Routes() {
         exact
       />
 
-      <StakeDotRoutes />
+      {ENABLE_PARACHAIN_APP && (
+        <Route
+          path={PARACHAIN_BONDS_CROWDLOANS_PATH}
+          component={PolkadotSlotAuctionContainer}
+          exact
+        />
+      )}
 
       {ENABLE_PARACHAIN_APP && (
-        <>
-          <Route
-            path={PARACHAIN_BONDS_CROWDLOANS_PATH}
-            component={PolkadotSlotAuctionContainer}
-            exact
-          />
-
-          <Route
-            path={PARACHAIN_BONDS_LEND_PATH}
-            component={PolkadotSlotAuctionLend}
-            exact
-          />
-        </>
+        <Route
+          path={PARACHAIN_BONDS_LEND_PATH}
+          component={PolkadotSlotAuctionLend}
+          exact
+        />
       )}
+
+      <StakeDotRoutes />
 
       <Route component={withDefaultLayout(PageNotFound)} />
     </Switch>
