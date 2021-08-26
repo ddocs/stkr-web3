@@ -146,6 +146,8 @@
     "61": "Classic",
     "63": "Mordor",
     "97": "Binance SmartChain Testnet",
+    "43113": "Avalanche C-Chain",
+    "43114": "Avalanche",
     "2018": "Dev"
   },
   "claim-dialog": {
@@ -577,6 +579,7 @@
     "minute-value": "{value, plural, =1 {# minute} other {# minutes}}",
     "dot": "DOT",
     "eth": "ETH",
+    "avax": "AVAX",
     "eth-value": "{value, number} ETH",
     "feth-value": "{value, number} aETHb",
     "number-value": "{value, number}",
@@ -702,7 +705,6 @@
   },
   "stake-avax": {
     "connect-wallet": "To stake AVAX you have to connect to AVAX Chain in your wallet",
-    "info": "Stake any amount of AVAX and claim AVAX bond (aAVAXb) while earning staking rewards.",
     "yearly-earning": "Yearly earning",
     "yearly-earning-info": "Yearly earning info",
     "will-get": "You will get",
@@ -715,13 +717,12 @@
     "not-enough-claim": "Not enough aAVAXb available to claim",
     "not-enough-convert": "Not enough aAVAXb available to convert",
     "convert": {
-      "convert": "Unstake",
+      "convert": "Transfer",
       "amount": "Amount",
-      "title": "How many aAVAXb do you want to transfer to Avalanche?",
-      "continue": "Continue",
+      "title": "How many aAVAXb do you want to transfer to Avalanche C-Chain?",
       "summary": "You will receive your AVAX tokens in 5 days",
       "sub-summary": "AVAX tokens will be available in the AVAX chain",
-      "address": "Address",
+      "address": "Avalanche C-Chain address",
       "finish-claim": "Finish Claim",
       "i-want": "I want to convert",
       "estimate": "You will receive {amount} AVAX tokens in {estimate}",
@@ -733,14 +734,9 @@
     },
     "unstake": {
       "title": "How many AVAX do you want to unstake?",
-      "info": "Requested AVAXes will appear automatically on your wallet in {time}",
+      "info": "You will receive AVAX at the end of the validating period ending in",
       "will-get": "You will get",
       "btn": "Unstake"
-    },
-    "unstake-success": {
-      "title": "You will receive your AVAX tokens in {time}",
-      "descr": "AVAX tokens will be available in the AVAX chain",
-      "btn": "Close"
     },
     "connect": {
       "switch-to": {
@@ -763,16 +759,16 @@
       "destination": "Destination address: {value}"
     },
     "dashboard": {
-      "tokens-to-claim": "Tokens to claim",
-      "claim-info": "You can claim your tokens to Mainnet or BSC at any time",
+      "internet-bond": "Avalanche Internet Bond",
       "claim-tip": "To start staking you need to claim your aAVAXb",
-      "claim": "Claim",
-      "avax-balance": "AVAX balance",
-      "balance-tip": "Balance...",
+      "bridge": "Bridge",
+      "unstaked-balance": "Unstaked Balance",
+      "unstaked-balance-info": "You will recieve AVAX at the end of the validating period",
+      "balance-tip": "Balance…",
       "avax-staking": "AVAX Staking",
       "validating-period": "Validating period ends in:",
       "apy": "APY: {value}%",
-      "stake-avax": "Stake AVAX",
+      "stake": "Stake",
       "aavaxb-balance": "aAVAXb Balance",
       "aavaxb-balance-tip": "aAVAXb Balance",
       "convert": "Convert",
@@ -798,14 +794,16 @@
       }
     },
     "stake": {
-      "title": "Staking Manager"
+      "title": "Staking Manager",
+      "info": "Stake any amount of AVAX and claim AVAX Internet Bonds (aAVAXb) on Avalanche (C-Chain), while earning staking rewards.",
+      "btn": "Get {value} aAVAXb"
     },
     "claim": {
       "title": "On which network do you want to use aAVAXb tokens?",
       "info": "This may take a few minutes, your funds are safe even if you close the window"
     },
     "finish-claim": {
-      "title": "You have an unfinished claim"
+      "title": "You have an unfinished claim from {from} to {to}"
     },
     "error": {
       "to-address": "Wrong destination address. In order to finish claim, you need to connect to this account: ",

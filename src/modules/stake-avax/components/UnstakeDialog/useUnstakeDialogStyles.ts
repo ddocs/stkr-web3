@@ -91,4 +91,8 @@ export const useUnstakeDialogStyles = makeStyles<Theme>(theme => ({
     paddingLeft: theme.spacing(1.75),
     fontSize: 15,
   },
+
+  timer: {
+    whiteSpace: 'nowrap',
+  },
 }));

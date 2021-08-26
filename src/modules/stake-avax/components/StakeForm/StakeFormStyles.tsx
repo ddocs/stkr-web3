@@ -75,11 +75,40 @@ export const useStakeFormStyles = makeStyles<Theme>(theme => {
     },
 
     amount: {
+      display: 'grid',
       margin: theme.spacing(2, 0, 1.5),
       fontSize: 38,
       fontWeight: 700,
+      gridTemplateColumns: '1fr auto',
+      gap: theme.spacing(0, 1),
 
       [theme.breakpoints.up('sm')]: {
+        margin: 0,
+        gridTemplateColumns: '150px auto',
+      },
+    },
+
+    labelText: {
+      width: 'max-content',
+    },
+
+    inputAmount: {
+      color: 'white',
+      background: 'transparent',
+      outline: 'none',
+      border: 'none',
+      fontSize: 'inherit',
+      fontWeight: 'inherit',
+      lineHeight: 1.3,
+      padding: 0,
+      '-moz-appearance': 'textfield',
+
+      [theme.breakpoints.up('sm')]: {
+        textAlign: 'right',
+      },
+
+      '&::-webkit-outer-spin-button, &::-webkit-inner-spin-button': {
+        '-webkit-appearance': 'none',
         margin: 0,
       },
     },

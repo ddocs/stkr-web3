@@ -1,6 +1,8 @@
 import { Grid, Paper } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import React from 'react';
+import { BlockchainNetworkId } from '../../../../common/types';
+import { getNetworkName } from '../../../../common/utils/getNetworkName';
 import { t } from '../../../../common/utils/intl';
 import { Button } from '../../../../UiKit/Button';
 import { BalanceTitle } from '../BalanceTitle';
@@ -11,11 +13,15 @@ interface IFinishClaimProps {
   amount?: BigNumber;
   isLoading?: boolean;
   onClick?: () => void;
+  from?: BlockchainNetworkId;
+  to?: BlockchainNetworkId;
 }
 
 export const FinishClaimComponent = ({
   amount,
   isLoading,
+  from,
+  to,
   onClick,
 }: IFinishClaimProps) => {
   const classes = useFinishClaimStyles();
@@ -24,7 +30,10 @@ export const FinishClaimComponent = ({
     <Paper variant="outlined" square={false} classes={{ root: classes.root }}>
       <BalanceTitle
         mb={{ xs: 6, sm: 8 }}
-        title={t('stake-avax.finish-claim.title')}
+        title={t('stake-avax.finish-claim.title', {
+          from: from ? getNetworkName(from) : '…',
+          to: to ? getNetworkName(to) : '…',
+        })}
       />
 
       <Grid container spacing={3} alignItems="center">

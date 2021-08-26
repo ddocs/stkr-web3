@@ -5,8 +5,9 @@ import { stringify } from 'querystring';
 import { Store } from 'redux';
 import { createAction } from 'redux-smart-actions';
 import Web3 from 'web3';
-import { BlockchainNetworkId } from '../../../common/types';
+import { BlockchainNetworkId, Timestamp } from '../../../common/types';
 import { t } from '../../../common/utils/intl';
+import { IApplicationStore } from '../../../store/createStore';
 import { StkrSdk } from '../../api';
 import { configFromEnv } from '../../api/config';
 import { AvalancheSdk } from '../api';
@@ -24,7 +25,6 @@ import {
   StakingStep,
 } from '../api/types';
 import { msToEstimate, retry } from '../api/utils';
-import { IApplicationStore } from '../../../store/createStore';
 
 const {
   providerConfig: { ethereumChainId, binanceChainId, avalancheChainId },
@@ -588,20 +588,20 @@ export const AvalancheActions = {
       },
     }),
   ),
-  fetchEstimatedAPY: createAction<RequestAction<any, BigNumber>>(
-    'FETCH_ESTIMATED_APY',
-    () => ({
-      request: {
-        url: `/v1alpha/avax/estimatedapy`,
-        method: 'get',
-      },
-      meta: {
-        driver: 'axios',
-        asMutation: false,
-        getData: data => new BigNumber(data.apy.slice(0, -1)),
-      },
-    }),
-  ),
+  fetchEstimatedAPY: createAction<
+    RequestAction<{ apy: string; timestamp: Timestamp }, BigNumber>
+  >('FETCH_ESTIMATED_APY', () => ({
+    request: {
+      url: `/v1alpha/avax/estimatedapy`,
+      method: 'get',
+    },
+    meta: {
+      driver: 'axios',
+      asMutation: false,
+      // apy - can be 'NaN%'
+      getData: data => new BigNumber(data.apy.slice(0, -1)),
+    },
+  })),
   fetchClaimServeTime: createAction<
     RequestAction<{ validationEndTime: number }, Date>
   >('FETCH_CLAIM_SERVE_TIME', () => ({
@@ -615,4 +615,19 @@ export const AvalancheActions = {
       getData: data => new Date(data.validationEndTime * 1000), // to milliseconds
     },
   })),
+
+  fetchUnstakedBalance: createAction<RequestAction<any, BigNumber>>(
+    'FETCH_UNSTAKED_BALANCE',
+    () => ({
+      request: {
+        promise: (async () => {
+          const avalancheSdk = await AvalancheSdk.connect();
+          return await avalancheSdk.getUnstakedBalance();
+        })(),
+      },
+      meta: {
+        asMutation: false,
+      },
+    }),
+  ),
 };

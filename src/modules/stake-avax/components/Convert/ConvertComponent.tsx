@@ -1,6 +1,7 @@
 import { Box, Grid, IconButton, Paper, Tooltip } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import React from 'react';
+import { featuresConfig } from '../../../../common/const';
 import { t } from '../../../../common/utils/intl';
 import { Button } from '../../../../UiKit/Button';
 import { AAvaxBIcon } from '../../../../UiKit/Icons/AAvaxBIcon';
@@ -8,8 +9,6 @@ import { QuestionIcon } from '../../../../UiKit/Icons/QuestionIcon';
 import { BalanceTitle } from '../BalanceTitle';
 import { BalanceValue } from '../BalanceValue';
 import { useConvertStyles } from './useConvertStyles';
-
-const ENABLED_UNSTAKE = true;
 
 interface IConvertProps {
   amount?: BigNumber;
@@ -39,13 +38,20 @@ export const ConvertComponent = ({
 
         <Grid item xs={12} sm>
           <Box display="flex" alignItems="center">
-            <Tooltip title={t('coming-soon')}>
+            <Tooltip
+              title={t('coming-soon')}
+              open={featuresConfig.avalancheUnstake ? false : undefined}
+            >
               <div>
                 <Button
                   color="primary"
                   size="large"
                   className={classes.button}
-                  disabled={isLoading || !ENABLED_UNSTAKE}
+                  disabled={
+                    isLoading ||
+                    !featuresConfig.avalancheUnstake ||
+                    amount?.eq(0)
+                  }
                   isLoading={isLoading}
                   onClick={onClick}
                 >
@@ -54,7 +60,7 @@ export const ConvertComponent = ({
               </div>
             </Tooltip>
 
-            {ENABLED_UNSTAKE && (
+            {featuresConfig.avalancheUnstake && (
               <Tooltip title={t('stake-avax.convert.claim-summary')}>
                 <IconButton>
                   <QuestionIcon size="xs" />

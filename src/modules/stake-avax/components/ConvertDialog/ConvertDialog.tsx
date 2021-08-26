@@ -210,7 +210,7 @@ export const ConvertDialog = ({
                 disabled={submitDisabled}
                 isLoading={isLoading}
               >
-                {t('stake-avax.convert.continue')}
+                {t('stake-avax.convert.convert')}
               </Button>
             </div>
           )}
