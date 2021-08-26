@@ -140,7 +140,7 @@ const GetStakeAccountInfo: FC = () => {
       onClick={onClick}
       disabled={!publicKey}
     >
-      Get Stake Accounts bound to this wallet address (testnet)
+      Get Stake Accounts bound to this wallet address
     </Button>
   );
 };

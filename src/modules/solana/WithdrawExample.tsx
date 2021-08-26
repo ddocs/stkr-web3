@@ -1,6 +1,15 @@
 import { Button, Link, makeStyles } from '@material-ui/core';
 import LaunchIcon from '@material-ui/icons/Launch';
 import { useWallet } from '@solana/wallet-adapter-react';
+import {
+  Authorized,
+  Keypair,
+  LAMPORTS_PER_SOL,
+  PublicKey,
+  StakeProgram,
+  Transaction,
+  TransactionSignature,
+} from '@solana/web3.js';
 import { useSnackbar, VariantType } from 'notistack';
 import React, { FC, useCallback } from 'react';
 import { useConnection } from './useConnection';
@@ -27,11 +36,11 @@ const useStyles = makeStyles({
   },
 });
 
-const RequestAirdrop: FC = () => {
+const Withdraw: FC = () => {
   const styles = useStyles();
   const { enqueueSnackbar } = useSnackbar();
   const { connection } = useConnection();
-  const { publicKey } = useWallet();
+  const { wallet, publicKey, signTransaction } = useWallet();
   const { sdk } = useSdk();
 
   const notify = useCallback(
@@ -57,13 +66,29 @@ const RequestAirdrop: FC = () => {
   );
 
   const onClick = useCallback(async () => {
-    if (!publicKey) {
+    if (!publicKey || !wallet) {
       notify('error', 'Wallet not connected!');
       return;
     }
+    if (!sdk) {
+      notify('error', 'SDK is not initialized');
+      return;
+    }
+    if (!connection) {
+      notify('error', 'Connection is not initialized');
+      return;
+    }
 
-    await sdk.airdrop(publicKey, connection, notify);
-  }, [sdk, publicKey, notify, connection]);
+    await sdk.withdrawFromAccountWithSeed(
+      publicKey,
+      'ankr:01',
+      (LAMPORTS_PER_SOL * 4) / 10,
+      connection,
+      wallet,
+      signTransaction,
+      notify,
+    );
+  }, [sdk, notify, wallet, publicKey, connection, signTransaction]);
 
   return (
     <Button
@@ -72,9 +97,9 @@ const RequestAirdrop: FC = () => {
       onClick={onClick}
       disabled={!publicKey}
     >
-      Request Airdrop (testnet)
+      Withdraw 0.4 SOL (unstaked)
     </Button>
   );
 };
 
-export default RequestAirdrop;
+export default Withdraw;

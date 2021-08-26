@@ -1,15 +1,6 @@
 import { Button, Link, makeStyles } from '@material-ui/core';
 import LaunchIcon from '@material-ui/icons/Launch';
 import { useWallet } from '@solana/wallet-adapter-react';
-import {
-  Authorized,
-  Keypair,
-  LAMPORTS_PER_SOL,
-  PublicKey,
-  StakeProgram,
-  Transaction,
-  TransactionSignature,
-} from '@solana/web3.js';
 import { useSnackbar, VariantType } from 'notistack';
 import React, { FC, useCallback } from 'react';
 import { useConnection } from './useConnection';
@@ -78,62 +69,15 @@ const Unstake: FC = () => {
       notify('error', 'Connection is not initialized');
       return;
     }
-    const stakeAccount = Keypair.generate();
-    const authorized = new Authorized(publicKey, publicKey);
-    // const votePublicKey = new PublicKey('ArHE87oRDeQBh33ZZRxuyaAWDRS4CwE3Ye3PzqN6w2bz');
-    const votePublicKey = new PublicKey(
-      '57FPWd5YujVUooeo3rvLn9MeC4DkddLf4NnTcUTMonxT',
+
+    await sdk.unstakeFromAccountWithSeed(
+      publicKey,
+      'ankr:01',
+      connection,
+      wallet,
+      signTransaction,
+      notify,
     );
-    let signature: TransactionSignature = '';
-    try {
-      const stakeAccountPublicKey = await PublicKey.createWithSeed(
-        publicKey,
-        'ankr:00',
-        StakeProgram.programId,
-      );
-      const unstakeAccountPublicKey = await PublicKey.createWithSeed(
-        publicKey,
-        'ankr:00:unstake',
-        StakeProgram.programId,
-      );
-      const transaction = new Transaction().add(
-        StakeProgram.split({
-          stakePubkey: stakeAccountPublicKey,
-          authorizedPubkey: publicKey,
-          splitStakePubkey: unstakeAccountPublicKey,
-          lamports: (LAMPORTS_PER_SOL * 5) / 10,
-        }),
-      );
-      // transaction.add(
-      //   StakeProgram.deactivate({
-      //     stakePubkey: unstakeAccountPublicKey,
-      //     authorizedPubkey: publicKey,
-      //   }),
-      // );
-
-      signature = await sdk.sendTransaction(
-        signTransaction,
-        wallet,
-        publicKey,
-        transaction,
-        connection,
-      );
-      notify('info', 'Transaction sent:', signature);
-
-      await connection.confirmTransaction(signature);
-      console.log(
-        `SENT TX: https://explorer.solana.com/tx/${signature}?cluster=testnet`,
-      );
-      notify('success', 'Unstake transaction successful!', signature);
-    } catch (error) {
-      notify(
-        'error',
-        `Unstake transaction failed! ${error.message}`,
-        signature,
-      );
-      console.log(`TRANSACTION error: ${error}`);
-      return;
-    }
   }, [sdk, notify, wallet, publicKey, connection, signTransaction]);
 
   return (
@@ -143,7 +87,7 @@ const Unstake: FC = () => {
       onClick={onClick}
       disabled={!publicKey}
     >
-      Unstake 0.5 SOL (testnet)
+      Unstake 0.5 SOL (with ankr:01)
     </Button>
   );
 };

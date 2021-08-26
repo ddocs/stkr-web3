@@ -1,13 +1,7 @@
 import { Button, Link, makeStyles } from '@material-ui/core';
 import LaunchIcon from '@material-ui/icons/Launch';
 import { useWallet } from '@solana/wallet-adapter-react';
-import {
-  Keypair,
-  SystemProgram,
-  Transaction,
-  TransactionSignature,
-  LAMPORTS_PER_SOL,
-} from '@solana/web3.js';
+import { Keypair, LAMPORTS_PER_SOL } from '@solana/web3.js';
 import { useSnackbar, VariantType } from 'notistack';
 import React, { FC, useCallback } from 'react';
 import { useConnection } from './useConnection';
@@ -77,35 +71,15 @@ const SendCoins: FC = () => {
       return;
     }
 
-    let signature: TransactionSignature = '';
-    try {
-      const transaction = new Transaction().add(
-        SystemProgram.transfer({
-          fromPubkey: publicKey,
-          toPubkey: Keypair.generate().publicKey,
-          lamports: LAMPORTS_PER_SOL / 10,
-        }),
-      );
-
-      signature = await sdk.sendTransaction(
-        signTransaction,
-        wallet,
-        publicKey,
-        transaction,
-        connection,
-      );
-      notify('info', 'Transaction sent:', signature);
-
-      await connection.confirmTransaction(signature);
-      console.log(
-        `SENT TX: https://explorer.solana.com/tx/${signature}?cluster=testnet`,
-      );
-      notify('success', 'Transaction successful!', signature);
-    } catch (error) {
-      notify('error', `Transaction failed! ${error.message}`, signature);
-      console.log(`TRANSACTION error: ${error}`);
-      return;
-    }
+    await sdk.sendSol(
+      publicKey,
+      Keypair.generate().publicKey,
+      LAMPORTS_PER_SOL / 10,
+      connection,
+      wallet,
+      signTransaction,
+      notify,
+    );
   }, [sdk, notify, wallet, publicKey, connection, signTransaction]);
 
   return (

@@ -36,6 +36,8 @@ import SendCoins from './SendCoinsExample';
 import CreateStakeAccountAndStake from './CreateStakeAccountExample';
 import GetStakeAccountInfo from './GetStakeAccountInfoExample';
 import Unstake from './UnstakeExample';
+import Split from './SplitExample';
+import Withdraw from './WithdrawExample';
 
 const theme = createTheme({
   palette: {
@@ -210,7 +212,17 @@ export const Solana: FC = () => {
                   </TableRow>
                   <TableRow>
                     <TableCell>
+                      <Split />
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>
                       <Unstake />
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>
+                      <Withdraw />
                     </TableCell>
                   </TableRow>
                 </TableBody>
