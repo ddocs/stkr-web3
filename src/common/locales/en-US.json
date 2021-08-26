@@ -7,7 +7,7 @@
     "minutes": "{minutes} minutes",
     "minutes-short": "{minutes}m",
     "seconds-short": "{seconds}s",
-    "time-left-short": "{days} {hours} {minutes} {seconds}",
+    "time-left-short": "{time}",
     "time-is-up": "Time is up!"
   },
   "about": {

@@ -6,7 +6,7 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { t } from '../../../../common/utils/intl';
 import { AvalancheActions } from '../../actions/AvalancheActions';
-import { Timer as BasicTimer } from '../../../governance/components/Timer';
+import { Timer as BasicTimer } from '../../../../components/Timer';
 import { useTimerStyles } from './useTimerStyles';
 
 interface ITimerProps extends BoxProps {

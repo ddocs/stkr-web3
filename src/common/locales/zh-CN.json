@@ -4,7 +4,7 @@
 		"hours-short": "{hours}时",
 		"minutes-short": "{minutes}分",
 		"seconds-short": "{seconds}秒",
-		"time-left-short": "剩余{days} {hours} {minutes} {seconds}",
+		"time-left-short": "剩余{time}",
 		"time-is-up": "Time is up!"
 	},
 	"about": {

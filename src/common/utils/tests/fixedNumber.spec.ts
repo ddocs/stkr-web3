@@ -1,4 +1,4 @@
-import { fixedNumber } from '../fixedNumber';
+import { fixedNumber } from '../numbers/fixedNumber';
 
 describe('src/common/utils/fixedNumber', () => {
   describe('fixedNumber', () => {

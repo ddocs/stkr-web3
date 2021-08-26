@@ -12,7 +12,7 @@ import { getGovernanceProjectPath } from '../../../../common/const';
 import { getProgress } from '../../../../common/utils/getProgress';
 import { t } from '../../../../common/utils/intl';
 import { ModerationStatusLed } from '../ModerationStatusLed';
-import { Timer } from '../Timer';
+import { Timer } from '../../../../components/Timer';
 import { useProjectListItemStyles } from './ProjectListItemStyles';
 
 interface IProjectListItemProps {
