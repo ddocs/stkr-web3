@@ -35,6 +35,7 @@ import RequestAirdrop from './AirdropExample';
 import SendCoins from './SendCoinsExample';
 import CreateStakeAccountAndStake from './CreateStakeAccountExample';
 import GetStakeAccountInfo from './GetStakeAccountInfoExample';
+import Unstake from './UnstakeExample';
 
 const theme = createTheme({
   palette: {
@@ -205,6 +206,11 @@ export const Solana: FC = () => {
                   <TableRow>
                     <TableCell>
                       <CreateStakeAccountAndStake />
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>
+                      <Unstake />
                     </TableCell>
                   </TableRow>
                 </TableBody>
