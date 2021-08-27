@@ -154,7 +154,7 @@ export const ConvertDialog = ({
                         variant="outlined"
                         size="small"
                         color="secondary"
-                        onClick={setMaxAmount(form, maxAmount.toString())}
+                        onClick={setMaxAmount(form, maxAmount.toFormat())}
                         disabled={submitDisabled}
                       >
                         {t('cross-chain-bridge.form.btn-max')}

@@ -363,6 +363,8 @@ export const AvalancheActions = {
       },
     }),
   ),
+  // todo: need to merge with fetchClaimServeTime
+  // now this function is unused
   getConversionEstimate: createAction(
     'ESTIMATE_CONVERT_AAVAXB',
     ({ amount, address }: IConvertPayload): RequestAction => ({
