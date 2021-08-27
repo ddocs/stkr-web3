@@ -1,5 +1,4 @@
 import BigNumber from 'bignumber.js';
-import { Transaction } from 'ethereumjs-tx';
 import { EventEmitter } from 'events';
 import { EventLog } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
@@ -383,46 +382,13 @@ export class CrossChainSdk {
             `Found transaction in node: `,
             JSON.stringify(rawTx, null, 2),
           );
-          const rawTxHex = this.tryGetRawTx(rawTx, chainId);
           resolve({
             receiptPromise: promise,
             transactionHash: transactionHash,
-            rawTransaction: rawTxHex,
+            rawTransaction: '',
           });
         })
         .catch(reject);
     });
-  }
-
-  private tryGetRawTx(rawTx: any, chainId: string): string {
-    const allowedChains = ['1', '3', '4', '42'];
-    if (!allowedChains.includes(`${chainId}`)) {
-      console.warn(`raw tx can't be greated for this chain id ${chainId}`);
-      return '';
-    }
-    const { v, r, s } = rawTx as any; /* this fields are not-documented */
-    const web3 = this.keyProvider.getWeb3();
-    const newTx = new Transaction(
-      {
-        gasLimit: web3.utils.numberToHex(rawTx.gas),
-        gasPrice: web3.utils.numberToHex(Number(rawTx.gasPrice)),
-        to: `${rawTx.to}`,
-        nonce: web3.utils.numberToHex(rawTx.nonce),
-        data: rawTx.input,
-        v: v,
-        r: r,
-        s: s,
-        value: web3.utils.numberToHex(rawTx.value),
-      },
-      {
-        chain: chainId,
-      },
-    );
-    if (!newTx.verifySignature())
-      throw new Error(`The signature is not valid for this transaction`);
-    console.log(`New Tx: `, JSON.stringify(newTx, null, 2));
-    const rawTxHex = newTx.serialize().toString('hex');
-    console.log(`Raw transaction hex is: `, rawTxHex);
-    return rawTxHex;
   }
 }
