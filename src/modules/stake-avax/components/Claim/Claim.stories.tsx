@@ -1,7 +1,7 @@
 /* eslint-disable import/no-anonymous-default-export */
 import BigNumber from 'bignumber.js';
 import React from 'react';
-import { PlusMinusBtn } from '../PlusMinusBtn';
+import { Curtains } from '../../../../UiKit/Curtains';
 import { ClaimComponent } from './ClaimComponent';
 
 export default {
@@ -12,16 +12,22 @@ export const Default = () => {
   const onClaimClick = () => {
     console.log('onClaimClick');
   };
+  const onUnstakeClick = () => {
+    console.log('onClaimClick');
+  };
 
   const isLoading = false;
 
   return (
-    <ClaimComponent
-      amount={new BigNumber('1.5512')}
-      claimLoading={isLoading}
-      onClaimClick={onClaimClick}
-      stakeBtn={<PlusMinusBtn tooltip="Stake" icon="plus" />}
-      unstakeBtn={<PlusMinusBtn tooltip="Unstake" icon="minus" />}
-    />
+    <section>
+      <Curtains>
+        <ClaimComponent
+          amount={new BigNumber('1.5512')}
+          claimLoading={isLoading}
+          onClaimClick={onClaimClick}
+          onUnstakeClick={onUnstakeClick}
+        />
+      </Curtains>
+    </section>
   );
 };

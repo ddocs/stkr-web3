@@ -14,8 +14,7 @@ export const useDashboardStyles = makeStyles<Theme>(theme => ({
     gap: theme.spacing(4, 4),
 
     [theme.breakpoints.up('lg')]: {
-      gridAutoColumns: '1fr',
-      gridAutoFlow: 'column',
+      gridTemplateColumns: '1fr 1fr',
     },
   },
 
@@ -26,5 +25,21 @@ export const useDashboardStyles = makeStyles<Theme>(theme => ({
   buttonStakeSkeleton: {
     borderRadius: 48,
     height: 48,
+  },
+
+  apyCol: {
+    marginTop: theme.spacing(-2),
+
+    [theme.breakpoints.up('sm')]: {
+      order: 2,
+      alignSelf: 'stretch',
+      marginTop: theme.spacing(-3),
+    },
+  },
+
+  timerCol: {
+    [theme.breakpoints.up('sm')]: {
+      order: 1,
+    },
   },
 }));

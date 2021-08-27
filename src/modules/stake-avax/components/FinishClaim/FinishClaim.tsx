@@ -5,24 +5,18 @@ import { useSelector } from 'react-redux';
 import { BlockchainNetworkId } from '../../../../common/types';
 import { useRequestDispatch } from '../../../../common/utils/useRequestDispatch';
 import { MutationErrorHandler } from '../../../../components/MutationErrorHandler/MutationErrorHandler';
-import { selectUserChainId } from '../../../../store/reducers/userReducer';
 import { AvalancheActions } from '../../actions/AvalancheActions';
+import { selectUserChainId } from '../../../../store/reducers/userReducer';
 import { IWalletStatus, StakingStep } from '../../api/types';
 import { useQueryParams } from '../../hooks/useQueryParams';
 import { FinishClaimComponent } from './FinishClaimComponent';
-
-const checkChainId = (chainId: string | null) => {
-  if (chainId) {
-    return +chainId as unknown as BlockchainNetworkId;
-  }
-};
 
 export const FinishClaim = () => {
   const dispatchRequest = useRequestDispatch();
   const queryParams = useQueryParams();
   const amountQueryParam = queryParams.get('depositAmount');
   const amount = amountQueryParam ? new BigNumber(amountQueryParam) : undefined;
-  const currentChainId = useSelector(selectUserChainId);
+  const chainId = useSelector(selectUserChainId);
 
   const { data: transactionStatus } = useQuery<IWalletStatus | null>({
     type: AvalancheActions.fetchTransactionStatus.toString(),
@@ -42,8 +36,8 @@ export const FinishClaim = () => {
     }
 
     const isAvalancheChain =
-      currentChainId === BlockchainNetworkId.avalanche ||
-      currentChainId === BlockchainNetworkId.avalancheTestnet;
+      chainId === BlockchainNetworkId.avalanche ||
+      chainId === BlockchainNetworkId.avalancheTestnet;
 
     if (isAvalancheChain) {
       dispatchRequest(
@@ -66,7 +60,7 @@ export const FinishClaim = () => {
         }
       });
     }
-  }, [currentChainId, dispatchRequest, transactionStatus]);
+  }, [chainId, dispatchRequest, transactionStatus]);
 
   return (
     <>
@@ -79,8 +73,6 @@ export const FinishClaim = () => {
       />
 
       <FinishClaimComponent
-        from={checkChainId(queryParams.get('currentChainId'))}
-        to={currentChainId}
         amount={amount}
         onClick={onWithdraw}
         isLoading={withdrawFromAvaLoading || withdrawLoading}

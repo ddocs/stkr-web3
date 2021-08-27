@@ -5,11 +5,11 @@ import { AvalancheActions } from '../../actions/AvalancheActions';
 import { IStakerStats } from '../../api/types';
 import { ClaimDialog } from '../ClaimDialog';
 import { ClaimForm } from '../ClaimForm';
-import { StakeBtn } from '../StakeBtn';
-import { StakingAPY } from '../StakingAPY';
-import { UnstakeBtn } from '../UnstakeBtn';
+import { UnstakeDialog } from '../UnstakeDialog';
+import { UnstakeSuccessDialog } from '../UnstakeSuccessDialog';
 import { ClaimComponent } from './ClaimComponent';
 import { useClaim } from './useClaim';
+import { useUnstake } from './useUnstake';
 
 export const Claim = () => {
   const {
@@ -20,9 +20,21 @@ export const Claim = () => {
     loading: claimLoading,
   } = useClaim();
 
-  const { data: stakerStats } = useQuery<IStakerStats | null>({
-    type: AvalancheActions.fetchStakerStats.toString(),
-  });
+  const {
+    maxTimeLeft,
+    onSubmit: onUnstakeSubmit,
+    isOpened: isUnstakeDialogOpened,
+    onClose: onUnstakeDialogClose,
+    onOpen: onUnstakeDialogOpen,
+    isLoading: unstakeLoading,
+    isSuccessOpened,
+    onSuccessClose,
+  } = useUnstake();
+
+  const { data: stakerStats, loading: stakerStatsLoading } =
+    useQuery<IStakerStats | null>({
+      type: AvalancheActions.fetchStakerStats.toString(),
+    });
 
   if (!stakerStats) {
     return null;
@@ -38,9 +50,7 @@ export const Claim = () => {
         amount={stakerStats.claimAvailable}
         claimLoading={claimLoading}
         onClaimClick={onClaimDialogOpen}
-        apyInfo={<StakingAPY />}
-        stakeBtn={<StakeBtn />}
-        unstakeBtn={<UnstakeBtn />}
+        onUnstakeClick={onUnstakeDialogOpen}
       />
 
       <ClaimDialog isOpened={isClaimDialogOpened} onClose={onClaimDialogClose}>
@@ -50,6 +60,23 @@ export const Claim = () => {
           onSubmit={onClaimSubmit}
         />
       </ClaimDialog>
+
+      <UnstakeDialog
+        isOpened={isUnstakeDialogOpened}
+        isBalanceLoading={stakerStatsLoading}
+        isLoading={unstakeLoading}
+        submitDisabled={unstakeLoading}
+        balance={stakerStats.claimAvailable}
+        onClose={onUnstakeDialogClose}
+        onSubmit={onUnstakeSubmit}
+        maxTimeLeft={maxTimeLeft}
+      />
+
+      <UnstakeSuccessDialog
+        isOpened={isSuccessOpened}
+        onClose={onSuccessClose}
+        maxTimeLeft={maxTimeLeft}
+      />
     </>
   );
 };

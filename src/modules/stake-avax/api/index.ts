@@ -1,15 +1,18 @@
-import BigNumber from 'bignumber.js';
+import { Contract } from 'web3-eth-contract';
 import Web3 from 'web3';
 import { EventLog } from 'web3-core';
-import { Contract } from 'web3-eth-contract';
-import { StkrSdk } from '../../api';
-import { EthereumContractManager } from '../../api/contract';
+
 import ABI_AVALANCHE_POOL from '../../api/contract/AvalanchePool.json';
 import ABI_FUTURE_BOND from '../../api/contract/FutureBondAVAX.json';
-import { AvalanchePoolEvents } from '../../api/event';
-import { ISendAsyncResult } from '../../api/provider';
+
 import DEFAULT_CONFIG from './addresses.json';
+
+import BigNumber from 'bignumber.js';
+import { ISendAsyncResult } from '../../api/provider';
 import { IStakingEntry } from './types';
+import { EthereumContractManager } from '../../api/contract';
+import { AvalanchePoolEvents } from '../../api/event';
+import { StkrSdk } from '../../api';
 
 export class AvalancheSdk {
   private static _cachedSdk: AvalancheSdk | undefined;
@@ -107,13 +110,6 @@ export class AvalancheSdk {
     this.chainId = +chainId;
   }
 
-  protected getPoolContract(): Contract {
-    if (!this.poolContract) {
-      throw new Error('Contract not avalable');
-    }
-    return this.poolContract;
-  }
-
   public static async fromConfigFile(web3: Web3): Promise<AvalancheSdk> {
     return AvalancheSdk.fromConfigMap(web3, DEFAULT_CONFIG as any);
   }
@@ -164,15 +160,6 @@ export class AvalancheSdk {
     return new BigNumber(`${balance}`).dividedBy(new BigNumber(10).pow(18));
   }
 
-  public async getUnstakedBalance(): Promise<BigNumber> {
-    const [currentAccount] = await this.web3.eth.getAccounts();
-    const poolContract = this.getPoolContract();
-    const balance = await poolContract.methods
-      .pendingAvaxClaimsOf(currentAccount)
-      .call();
-    return new BigNumber(Web3.utils.fromWei(balance));
-  }
-
   public async getAAvaxBBalance() {
     if (!this.futureBondContract) {
       throw new Error('Contract not avalable');
@@ -196,23 +183,24 @@ export class AvalancheSdk {
   }
 
   public async stake(stakeAmount: string): Promise<ISendAsyncResult> {
-    const poolContract = this.getPoolContract();
-    if (!this.poolContractAddress) {
+    if (!this.poolContract || !this.poolContractAddress) {
       throw new Error('Contract not avalable');
     }
     const amount = new BigNumber(stakeAmount).multipliedBy(1e18);
     const scaledNumber = amount.toString(10);
     const [currentAccount] = await this.web3.eth.getAccounts();
-    return await poolContract.methods.stake().send({
+    return await this.poolContract.methods.stake().send({
       from: currentAccount,
       value: scaledNumber,
     });
   }
 
   public async claim(amount: string): Promise<ISendAsyncResult> {
-    const poolContract = this.getPoolContract();
+    if (!this.poolContract) {
+      throw new Error('Contract not avalable');
+    }
     const [currentAccount] = await this.web3.eth.getAccounts();
-    return poolContract.methods.claim(amount).send({
+    return this.poolContract.methods.claim(amount).send({
       from: currentAccount,
     });
   }

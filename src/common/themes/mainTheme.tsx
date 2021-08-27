@@ -1,10 +1,5 @@
-import {
-  createMuiTheme,
-  darken,
-  fade,
-  lighten,
-  ThemeOptions,
-} from '@material-ui/core';
+import { createMuiTheme, darken, fade, lighten } from '@material-ui/core';
+import { ThemeOptions } from '@material-ui/core/styles/createMuiTheme';
 import { PaletteOptions } from '@material-ui/core/styles/createPalette';
 import { NOTIFICATION_AUTO_HIDE_DURATION } from '../const';
 import { ReactComponent as ArrowDownIcon } from './assets/arrowDown.svg';
@@ -317,7 +312,7 @@ const mainTheme = createMuiTheme({
           position: 'relative',
         },
 
-        '&$disabled': {
+        '&.Mui-disabled': {
           '&::before': {
             display: 'none',
           },
@@ -338,12 +333,6 @@ const mainTheme = createMuiTheme({
 
         '& svg': {
           color: PALETTE.primary.contrastText,
-        },
-
-        '&$disabled': {
-          '&::before': {
-            display: 'none',
-          },
         },
       },
       containedSecondary: {

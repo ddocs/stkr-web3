@@ -24,15 +24,5 @@ export const useBalanceStyles = makeStyles<Theme>(theme => {
       gridGap: theme.spacing(2),
       alignItems: 'end',
     },
-
-    info: {
-      fontSize: 15,
-      borderLeft: `2px solid ${theme.palette.primary.main}`,
-      paddingLeft: theme.spacing(1.5),
-
-      [theme.breakpoints.up('lg')]: {
-        maxWidth: 200,
-      },
-    },
   };
 });

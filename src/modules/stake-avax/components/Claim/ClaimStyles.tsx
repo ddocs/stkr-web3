@@ -1,4 +1,4 @@
-import { fade, Theme } from '@material-ui/core';
+import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
 export const useClaimStyles = makeStyles<Theme>(theme => ({
@@ -17,22 +17,16 @@ export const useClaimStyles = makeStyles<Theme>(theme => ({
     },
   },
 
+  info: {
+    paddingLeft: theme.spacing(1.5),
+    borderLeft: `2px solid ${theme.palette.primary.main}`,
+    textAlign: 'left',
+    fontSize: 14,
+    maxWidth: 255,
+  },
+
   button: {
-    minWidth: 140,
+    minWidth: 120,
     padding: 0,
-
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing(1),
-    },
-  },
-
-  buttonLabel: {
-    display: 'block',
-  },
-
-  buttonInfo: {
-    display: 'block',
-    fontSize: 12,
-    color: fade(theme.palette.text.primary, 0.3),
   },
 }));

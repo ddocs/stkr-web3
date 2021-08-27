@@ -1,7 +1,6 @@
 import { Box, Grid, IconButton, Paper, Tooltip } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import React from 'react';
-import { featuresConfig } from '../../../../common/const';
 import { t } from '../../../../common/utils/intl';
 import { Button } from '../../../../UiKit/Button';
 import { AAvaxBIcon } from '../../../../UiKit/Icons/AAvaxBIcon';
@@ -9,6 +8,8 @@ import { QuestionIcon } from '../../../../UiKit/Icons/QuestionIcon';
 import { BalanceTitle } from '../BalanceTitle';
 import { BalanceValue } from '../BalanceValue';
 import { useConvertStyles } from './useConvertStyles';
+
+const ENABLED_UNSTAKE = false;
 
 interface IConvertProps {
   amount?: BigNumber;
@@ -27,7 +28,7 @@ export const ConvertComponent = ({
     <Paper variant="outlined" square={false} classes={{ root: classes.root }}>
       <BalanceTitle
         mb={6}
-        title={t('stake-avax.convert.title')}
+        title={t('stake-avax.dashboard.aavaxb-balance')}
         icon={<AAvaxBIcon />}
       />
 
@@ -38,30 +39,23 @@ export const ConvertComponent = ({
 
         <Grid item xs={12} sm>
           <Box display="flex" alignItems="center">
-            <Tooltip
-              title={t('coming-soon')}
-              open={featuresConfig.avalancheUnstake ? false : undefined}
-            >
+            <Tooltip title={t('coming-soon')}>
               <div>
                 <Button
                   color="primary"
                   size="large"
                   className={classes.button}
-                  disabled={
-                    isLoading ||
-                    !featuresConfig.avalancheUnstake ||
-                    amount?.eq(0)
-                  }
+                  disabled={isLoading || !ENABLED_UNSTAKE}
                   isLoading={isLoading}
                   onClick={onClick}
                 >
-                  {t('stake-avax.convert.btn')}
+                  {t('stake-avax.convert.convert')}
                 </Button>
               </div>
             </Tooltip>
 
-            {featuresConfig.avalancheUnstake && (
-              <Tooltip title={t('stake-avax.convert.bridge-tip')}>
+            {ENABLED_UNSTAKE && (
+              <Tooltip title={t('stake-avax.convert.claim-summary')}>
                 <IconButton>
                   <QuestionIcon size="xs" />
                 </IconButton>
