@@ -51,7 +51,7 @@ export const FinishClaimComponent = ({
             isLoading={isLoading}
             fullWidth
           >
-            {t('stake-avax.convert.finish-claim')}
+            {t('stake-avax.finish-claim.btn')}
           </Button>
         </Grid>
       </Grid>

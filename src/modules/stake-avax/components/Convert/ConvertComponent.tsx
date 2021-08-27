@@ -27,7 +27,7 @@ export const ConvertComponent = ({
     <Paper variant="outlined" square={false} classes={{ root: classes.root }}>
       <BalanceTitle
         mb={6}
-        title={t('stake-avax.dashboard.aavaxb-balance')}
+        title={t('stake-avax.convert.title')}
         icon={<AAvaxBIcon />}
       />
 
@@ -55,13 +55,13 @@ export const ConvertComponent = ({
                   isLoading={isLoading}
                   onClick={onClick}
                 >
-                  {t('stake-avax.convert.convert')}
+                  {t('stake-avax.convert.btn')}
                 </Button>
               </div>
             </Tooltip>
 
             {featuresConfig.avalancheUnstake && (
-              <Tooltip title={t('stake-avax.convert.claim-summary')}>
+              <Tooltip title={t('stake-avax.convert.bridge-tip')}>
                 <IconButton>
                   <QuestionIcon size="xs" />
                 </IconButton>

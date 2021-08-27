@@ -717,20 +717,15 @@
     "not-enough-claim": "Not enough aAVAXb available to claim",
     "not-enough-convert": "Not enough aAVAXb available to convert",
     "convert": {
-      "convert": "Transfer",
-      "amount": "Amount",
+      "title": "aAVAXb Balance",
+      "btn": "Bridge",
+      "bridge-tip": "To unstake, you need to use the Bridge to transfer aAVAXb from Ethereum network to Avalanche C-Chain."
+    },
+    "convert-dialog": {
       "title": "How many aAVAXb do you want to transfer to Avalanche C-Chain?",
-      "summary": "You will receive your AVAX tokens in 5 days",
-      "sub-summary": "AVAX tokens will be available in the AVAX chain",
-      "address": "Avalanche C-Chain address",
-      "finish-claim": "Finish Claim",
-      "i-want": "I want to convert",
-      "estimate": "You will receive {amount} AVAX tokens in {estimate}",
-      "estimate-note": "AVAX tokens will be available in the AVAX chain",
-      "confirm": "Confirm",
-      "ok": "OK",
-      "claim-summary": "After completion of the first validation period, you will be able to claim your aAVAXb tokens. You can switch back to AVAX chain now",
-      "convert-success": "Conversion Successful"
+      "submit": "Transfer",
+      "amount": "Amount",
+      "address": "Avalanche C-Chain address"
     },
     "unstake": {
       "title": "How many AVAX do you want to unstake?",
@@ -769,8 +764,6 @@
       "validating-period": "Validating period ends in:",
       "apy": "APY: {value}%",
       "stake": "Stake",
-      "aavaxb-balance": "aAVAXb Balance",
-      "aavaxb-balance-tip": "aAVAXb Balance",
       "convert": "Convert",
       "finish-withdraw": "Finish withdraw",
       "column": {
@@ -803,7 +796,8 @@
       "info": "This may take a few minutes, your funds are safe even if you close the window"
     },
     "finish-claim": {
-      "title": "You have an unfinished claim from {from} to {to}"
+      "title": "You have an unfinished claim from {from} to {to}",
+      "btn": "Finish Claim"
     },
     "error": {
       "to-address": "Wrong destination address. In order to finish claim, you need to connect to this account: ",

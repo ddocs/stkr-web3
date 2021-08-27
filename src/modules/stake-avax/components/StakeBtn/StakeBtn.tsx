@@ -54,6 +54,7 @@ export const StakeBtn = ({ className }: IStakeBtnProps) => {
               tooltip={t('stake-avax.dashboard.stake')}
               icon="plus"
               className={className}
+              isLoading={stakeLoading}
             />
 
             <MutationErrorHandler type={AvalancheActions.stake.toString()} />
