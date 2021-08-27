@@ -17,8 +17,8 @@ import { Button } from '../../../../UiKit/Button';
 import { AvaxIcon } from '../../../../UiKit/Icons/AvaxIcon';
 import { CancelIcon } from '../../../../UiKit/Icons/CancelIcon';
 import { InputField } from '../../../../UiKit/InputField';
-import { Timer } from '../../../governance/components/Timer';
 import { useUnstakeDialogStyles } from './useUnstakeDialogStyles';
+import { Timer } from '../../../../components/Timer';
 
 const DEFAULT_FIXED = 4;
 const MIN_AMOUNT = 0;

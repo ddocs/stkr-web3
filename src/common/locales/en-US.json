@@ -762,6 +762,7 @@
       "balance-tip": "Balance…",
       "avax-staking": "AVAX Staking",
       "validating-period": "Validating period ends in:",
+      "validating-period-ended": "The current validation period has ended. The new one will be started soon.",
       "apy": "APY: {value}%",
       "stake": "Stake",
       "convert": "Convert",

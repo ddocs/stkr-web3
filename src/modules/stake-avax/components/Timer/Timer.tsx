@@ -33,7 +33,12 @@ const TimerComponent = ({
           <Skeleton width={140} className={classes.timerSkeleton} />
         )}
 
-        {!isLoading && endDate && <BasicTimer endTime={endDate} />}
+        {!isLoading && endDate && (
+          <BasicTimer
+            endTime={endDate}
+            timeIsUpText={t('stake-avax.dashboard.validating-period-ended')}
+          />
+        )}
       </Typography>
     </Box>
   );

@@ -5,12 +5,15 @@ import { useTimer } from '../../modules/governance/hooks/useTimer';
 
 interface ITimerProps extends BoxProps {
   endTime: Date;
+  timeIsUpText?: string;
 }
 
-export const Timer = ({ endTime, ...restProps }: ITimerProps) => {
+export const Timer = ({
+  endTime,
+  timeIsUpText = t('time.time-is-up'),
+  ...restProps
+}: ITimerProps) => {
   const { duration, isTimeOver } = useTimer(endTime);
 
-  return (
-    <Box {...restProps}>{isTimeOver ? t('time.time-is-up') : duration}</Box>
-  );
+  return <Box {...restProps}>{isTimeOver ? timeIsUpText : duration}</Box>;
 };
