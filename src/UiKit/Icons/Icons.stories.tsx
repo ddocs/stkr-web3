@@ -6,6 +6,7 @@ import { AAvaxBIcon } from './AAvaxBIcon';
 import { AEthIcon } from './AEthIcon';
 import { AvaxIcon } from './AvaxIcon';
 import { BinanceIcon } from './BinanceIcon';
+import { BnbIcon } from './BnbIcon';
 import { CancelIcon } from './CancelIcon';
 import { CloseIcon } from './CloseIcon';
 import { CopiedIcon } from './CopiedIcon';
@@ -13,6 +14,8 @@ import { CopyIcon } from './CopyIcon';
 import { EthIcon } from './EthIcon';
 import { FEthIcon } from './FEthIcon';
 import { MetaMaskIcon } from './MetaMaskIcon';
+import { MinusIcon } from './MinusIcon';
+import { PlusIcon } from './PlusIcon';
 import { QuestionIcon } from './QuestionIcon';
 import { ToggleIcon } from './ToggleIcon';
 import { ViewIcon } from './ViewIcon';
@@ -50,6 +53,9 @@ const iconsMap = {
   metamask: MetaMaskIcon,
   avax: AvaxIcon,
   aAvaxB: AAvaxBIcon,
+  plus: PlusIcon,
+  minus: MinusIcon,
+  bnb: BnbIcon,
 };
 
 const icons = Object.keys(iconsMap) as Array<keyof typeof iconsMap>;
