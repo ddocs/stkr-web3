@@ -1,4 +1,3 @@
-import { BlockchainNetworkId } from '../../common/types';
 import { BscConnector } from '@binance-chain/bsc-connector';
 import { fade, lighten } from '@material-ui/core';
 import WalletConnectProvider from '@walletconnect/web3-provider';
@@ -11,6 +10,8 @@ import { Contract } from 'web3-eth-contract';
 import { AbiItem, bytesToHex, numberToHex } from 'web3-utils';
 import Web3Modal, { getProviderInfo, IProviderOptions } from 'web3modal';
 import { PALETTE } from '../../common/themes/mainTheme';
+import { BlockchainNetworkId } from '../../common/types';
+import { sleep } from '../../common/utils/sleep';
 import binanceWalletLogo from './assets/binanceWallet.svg';
 import huobiLogo from './assets/huobi.svg';
 import imTokenLogo from './assets/imToken.svg';
@@ -97,12 +98,9 @@ export abstract class KeyProvider {
   }
 
   public async latestBlockHeightOrWait(): Promise<number> {
-    const sleepFor = (ms: number): Promise<void> => {
-      return new Promise(resolve => setTimeout(resolve, ms));
-    };
     while (!this._latestBlockHeight) {
       console.log(`Waiting for latest block height...`);
-      await sleepFor(1_000);
+      await sleep(1_000);
     }
     return this._latestBlockHeight;
   }

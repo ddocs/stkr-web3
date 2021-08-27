@@ -101,7 +101,8 @@ export const ENABLE_PARACHAIN_APP = false;
 export const featuresConfig = {
   aEthVideo: false,
   bridge: false,
-  avalancheBridge: false,
+  // todo: turn off
+  avalancheBridge: true,
   avalancheUnstake: true,
 };
 
