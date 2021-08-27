@@ -14,7 +14,7 @@ export const useConvertDialog = () => {
   const onSubmit = ({ amount, address }: IConvertFormValues) => {
     dispatchRequest(
       AvalancheActions.depositToBridge({
-        amount: +amount,
+        amount: `${amount}`,
         address,
       }),
     ).then(({ error }) => {

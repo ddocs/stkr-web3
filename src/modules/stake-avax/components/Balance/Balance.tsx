@@ -1,17 +1,26 @@
-import { useQuery } from '@redux-requests/react';
+import { useDispatchRequest, useQuery } from '@redux-requests/react';
+import BigNumber from 'bignumber.js';
 import React from 'react';
+import { useInitEffect } from '../../../../common/hooks/useInitEffect';
 import { AvalancheActions } from '../../actions/AvalancheActions';
-import { IStakerStats } from '../../api/types';
 import { BalanceComponent } from './BalanceComponent';
 
 export const Balance = () => {
-  const { data } = useQuery<IStakerStats | null>({
-    type: AvalancheActions.fetchStakerStats.toString(),
+  const dispatchRequest = useDispatchRequest();
+
+  const { data, loading } = useQuery<BigNumber | null>({
+    type: AvalancheActions.fetchUnstakedBalance.toString(),
   });
 
-  if (!data) {
+  useInitEffect(() => {
+    if (!data && !loading) {
+      dispatchRequest(AvalancheActions.fetchUnstakedBalance());
+    }
+  });
+
+  if (!data || data.isEqualTo(0)) {
     return null;
   }
 
-  return <BalanceComponent amount={data.balance} />;
+  return <BalanceComponent amount={data} isBalanceLoading={loading} />;
 };
