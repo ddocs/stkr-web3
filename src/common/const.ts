@@ -101,8 +101,6 @@ export const ENABLE_PARACHAIN_APP = false;
 export const featuresConfig = {
   aEthVideo: false,
   bridge: false,
-  avalancheBridge: false,
-  avalancheUnstake: true,
 };
 
 const env = process.env.REACT_APP_STKR_ENV

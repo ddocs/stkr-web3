@@ -87,7 +87,7 @@ export interface IClaimPayload {
 }
 
 export interface IConvertPayload {
-  amount: string;
+  amount: number;
   address: string;
 }
 

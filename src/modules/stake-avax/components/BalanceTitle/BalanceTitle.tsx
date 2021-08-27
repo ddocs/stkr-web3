@@ -1,24 +1,15 @@
-import {
-  Box,
-  BoxProps,
-  IconButton,
-  Tooltip,
-  Typography,
-} from '@material-ui/core';
+import { Box, BoxProps, Typography } from '@material-ui/core';
 import React, { ReactNode } from 'react';
-import { QuestionIcon } from '../../../../UiKit/Icons/QuestionIcon';
 import { useBalanceTitleStyles } from './useBalanceTitleStyles';
 
 interface IBalanceTitleProps extends BoxProps {
   icon?: ReactNode;
   title: string;
-  tooltip?: string;
 }
 
 export const BalanceTitle = ({
   icon,
   title,
-  tooltip,
   ...restProps
 }: IBalanceTitleProps) => {
   const classes = useBalanceTitleStyles();
@@ -34,14 +25,6 @@ export const BalanceTitle = ({
       <Typography variant="body1" className={classes.title}>
         {title}
       </Typography>
-
-      {tooltip && (
-        <Tooltip title={tooltip}>
-          <IconButton>
-            <QuestionIcon size="xs" />
-          </IconButton>
-        </Tooltip>
-      )}
     </Box>
   );
 };

@@ -6,14 +6,14 @@ import React, { ReactNode, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { t } from '../../../../common/utils/intl';
 import { AvalancheActions } from '../../actions/AvalancheActions';
-import { useStakingAPYStyles } from './useStakingAPYStyles';
+import { useDashboardAPYStyles } from './useDashboardAPYStyles';
 
 interface IDashboardAPYProps {
   children: ReactNode;
 }
 
-const StakingAPYComponent = ({ children }: IDashboardAPYProps) => {
-  const classes = useStakingAPYStyles();
+const DashboardAPYComponent = ({ children }: IDashboardAPYProps) => {
+  const classes = useDashboardAPYStyles();
 
   return (
     <Typography
@@ -26,15 +26,15 @@ const StakingAPYComponent = ({ children }: IDashboardAPYProps) => {
   );
 };
 
-const StakingAPYSkeleton = () => {
+const DashboardAPYSkeleton = () => {
   return (
-    <StakingAPYComponent>
+    <DashboardAPYComponent>
       <Skeleton width={80} />
-    </StakingAPYComponent>
+    </DashboardAPYComponent>
   );
 };
 
-export const StakingAPY = () => {
+export const DashboardAPY = () => {
   const dispatch = useDispatch();
 
   const { data, error, loading } = useQuery<BigNumber | null>({
@@ -46,18 +46,18 @@ export const StakingAPY = () => {
   }, [dispatch]);
 
   if (loading) {
-    return <StakingAPYSkeleton />;
+    return <DashboardAPYSkeleton />;
   }
 
-  if (error || !data || data.isNaN()) {
+  if (error || !data) {
     return null;
   }
 
   return (
-    <StakingAPYComponent>
+    <DashboardAPYComponent>
       {t('stake-avax.dashboard.apy', {
         value: data.decimalPlaces(2).toFormat(),
       })}
-    </StakingAPYComponent>
+    </DashboardAPYComponent>
   );
 };

@@ -17,7 +17,6 @@ import { Button } from '../../../../UiKit/Button';
 import { AvaxIcon } from '../../../../UiKit/Icons/AvaxIcon';
 import { CancelIcon } from '../../../../UiKit/Icons/CancelIcon';
 import { InputField } from '../../../../UiKit/InputField';
-import { Timer } from '../../../governance/components/Timer';
 import { useUnstakeDialogStyles } from './useUnstakeDialogStyles';
 
 const DEFAULT_FIXED = 4;
@@ -48,7 +47,7 @@ interface IUnstakeDialogProps {
   isBalanceLoading?: boolean;
   onClose?: () => void;
   onSubmit: (values: IUnstakeFormValues) => void;
-  endDate?: Date;
+  maxTimeLeft?: string;
 }
 
 export const UnstakeDialog = ({
@@ -59,7 +58,7 @@ export const UnstakeDialog = ({
   balance,
   onClose,
   onSubmit,
-  endDate,
+  maxTimeLeft,
 }: IUnstakeDialogProps) => {
   const classes = useUnstakeDialogStyles();
   const zeroBalance = new BigNumber(0);
@@ -146,7 +145,7 @@ export const UnstakeDialog = ({
                   classes={{ root: classes.input }}
                   component={InputField}
                   name="amount"
-                  label={t('stake-avax.convert-dialog.amount')}
+                  label={t('stake-avax.convert.amount')}
                   placeholder="0"
                   variant="outlined"
                   disabled={false}
@@ -198,15 +197,11 @@ export const UnstakeDialog = ({
         <Container className={classes.container}>
           <Grid container alignItems="center" spacing={3}>
             <Grid item xs={12} sm>
-              {endDate && (
+              {maxTimeLeft && (
                 <Typography variant="body2" className={classes.info}>
-                  {t('stake-avax.unstake.info')}
-                  {` `}
-                  <Timer
-                    component="span"
-                    className={classes.timer}
-                    endTime={endDate}
-                  />
+                  {t('stake-avax.unstake.info', {
+                    time: maxTimeLeft,
+                  })}
                 </Typography>
               )}
             </Grid>
@@ -221,7 +216,7 @@ export const UnstakeDialog = ({
                 disabled={submitDisabled}
                 isLoading={isLoading}
               >
-                {t('stake-avax.unstake.btn')}
+                {t('stake-avax.convert.continue')}
               </Button>
             </Grid>
           </Grid>
