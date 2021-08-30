@@ -1,12 +1,12 @@
 import { useQuery } from '@redux-requests/react';
 import { BlockchainNetworkId } from '../../../common/types';
-import { AvalancheActions } from '../../../store/actions/AvalancheActions';
-import { IWalletStatus } from '../../avalanche-sdk/types';
-import { isWalletStake } from '../../avalanche-sdk/utils';
+import { AvalancheActions } from '../actions/AvalancheActions';
+import { IWalletStatus } from '../api/types';
+import { isWalletStake } from '../api/utils';
 
 export const useWalletStatus = () => {
   const { data: walletStatus } = useQuery<IWalletStatus | null>({
-    type: AvalancheActions.checkWallet.toString(),
+    type: AvalancheActions.fetchTransactionStatus.toString(),
   });
 
   const requiredNetwork =

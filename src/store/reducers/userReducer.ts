@@ -1,5 +1,6 @@
 import { success } from '@redux-requests/core';
 import { Action } from 'redux-actions';
+import { createSelector } from 'reselect';
 import { Locale } from '../../common/types';
 import { createAPIReducer } from '../../common/utils/redux/createAPIReducer';
 import { createReducer } from '../../common/utils/redux/createReducer';
@@ -11,9 +12,16 @@ import { ISetLanguagePayload, UserActionTypes } from '../actions/UserActions';
 import { IAuthorizeProviderResponse } from '../apiMappers/authorizeProvider';
 import { SuccessResponseAction } from '../apiMappers/successResponseAction';
 
+export const selectUserState = (state: any): IUserState => state.user;
+
 export function isConnected(state: IUserState) {
   return state.isConnected;
 }
+
+export const selectUserChainId = createSelector(
+  selectUserState,
+  ({ chainId }) => chainId,
+);
 
 export interface IConnectResponse {}
 

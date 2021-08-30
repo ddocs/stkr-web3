@@ -4,6 +4,7 @@ import aeth from './assets/aeth.svg';
 import ankr from './assets/ankr.svg';
 import ethereum from './assets/ethereum.svg';
 import binance from './assets/binance.svg';
+import avax from './assets/avax.svg';
 
 export const useWalletBalance = makeStyles<Theme>(theme => ({
   root: {
@@ -58,6 +59,12 @@ export const useWalletBalance = makeStyles<Theme>(theme => ({
   ankr: {
     '&::before': {
       backgroundImage: `url(${ankr})`,
+    },
+  },
+
+  avax: {
+    '&::before': {
+      backgroundImage: `url(${avax})`,
     },
   },
 }));

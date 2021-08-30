@@ -4,7 +4,11 @@ export const useStakeDialogStyles = makeStyles(theme => ({
   root: {
     backgroundColor: theme.palette.background.default,
     '&&': {
-      padding: theme.spacing(6, 0),
+      padding: theme.spacing(9, 0, 6),
+
+      [theme.breakpoints.up('sm')]: {
+        padding: theme.spacing(6, 0),
+      },
     },
   },
   close: {

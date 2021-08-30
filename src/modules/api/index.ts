@@ -182,7 +182,7 @@ export interface IStkrSdk extends IStakerSdk, IProviderSdk, IGovernanceSdk {
   ): Promise<INotarizeTransferReply>;
 
   getConversionEstimate(
-    amount: number,
+    amount: string,
     token: string,
   ): Promise<IConvertEstimateReply>;
 
@@ -702,7 +702,7 @@ export class StkrSdk implements IStkrSdk {
     });
   }
 
-  public async getConversionEstimate(amount: number, token: string) {
+  public async getConversionEstimate(amount: string, token: string) {
     const scaledAmount = new BigNumber(amount).multipliedBy(1e18);
     return await this.apiGateway.getConversionEstimate(
       scaledAmount.toString(10),

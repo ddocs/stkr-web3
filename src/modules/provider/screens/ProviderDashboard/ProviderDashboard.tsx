@@ -4,8 +4,7 @@ import { Route } from 'react-router-dom';
 import {
   PROVIDER_DEPOSIT_LIST_PATH,
   PROVIDER_DEPOSIT_PATH,
-  PROVIDER_MAIN_PATH,
-  PROVIDER_NODE_LIST_PATH,
+  PROVIDER_PATH,
 } from '../../../../common/const';
 import { t } from '../../../../common/utils/intl';
 import { QueryError } from '../../../../components/QueryError/QueryError';
@@ -55,8 +54,8 @@ export const ProviderDashboard = () => {
     () => [
       {
         label: t('navigation.sidecar-list'),
-        path: PROVIDER_NODE_LIST_PATH,
-        route: [PROVIDER_NODE_LIST_PATH, PROVIDER_MAIN_PATH],
+        path: PROVIDER_PATH,
+        route: [PROVIDER_PATH],
       },
       ...[
         {
@@ -147,7 +146,9 @@ export const ProviderDashboard = () => {
               ) : (
                 <>
                   {t('provider-dashboard.balance-eth', {
-                    balance: providerStats ? roundCeilHalf(providerStats.ethBalance) : 0
+                    balance: providerStats
+                      ? roundCeilHalf(providerStats.ethBalance)
+                      : 0,
                   })}
                   <div className={classes.divider} />
                   {t('provider-dashboard.balance-ankr', {
@@ -167,18 +168,14 @@ export const ProviderDashboard = () => {
 
             {hasSidecars && ( // TODO: revert hasEnoughBalance
               <Route
-                path={[PROVIDER_MAIN_PATH, PROVIDER_NODE_LIST_PATH]}
+                path={[PROVIDER_PATH]}
                 exact={true}
                 render={renderCreateNodeBtn}
               />
             )}
           </div>
 
-          <Route
-            path={[PROVIDER_MAIN_PATH, PROVIDER_NODE_LIST_PATH]}
-            render={renderNodeList}
-            exact={true}
-          />
+          <Route path={[PROVIDER_PATH]} render={renderNodeList} exact={true} />
 
           <Route
             path={[PROVIDER_DEPOSIT_LIST_PATH]}

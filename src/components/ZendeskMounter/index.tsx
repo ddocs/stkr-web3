@@ -66,17 +66,19 @@ const hideFieldByKey = (key: string) => {
   if (iframe) {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    const fieldLabel = iframe.contentWindow.document.body.querySelector(`label[data-fieldid='key:${key}']`);
+    const fieldLabel = iframe.contentWindow.document.body.querySelector(
+      `label[data-fieldid='key:${key}']`,
+    );
     if (fieldLabel) {
-      fieldLabel.parentElement.style.display = "none";
+      fieldLabel.parentElement.style.display = 'none';
     }
   }
-}
+};
 
 const hideUselessFields = () => {
   hideFieldByKey('360049219293');
   hideFieldByKey('360049245773');
-}
+};
 
 const ZendeskMounterComponent = ({ classes = {} }: StyledComponentProps) => {
   const { zendeskOrganization } = useZendeskOrganization();
@@ -116,7 +118,7 @@ const ZendeskMounterComponent = ({ classes = {} }: StyledComponentProps) => {
         handleShow();
       });
       ZendeskAPI('webWidget:on', 'userEvent', function (event: any) {
-        if (event.action === "Contact Form Shown") {
+        if (event.action === 'Contact Form Shown') {
           hideUselessFields();
         }
       });

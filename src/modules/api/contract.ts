@@ -21,7 +21,8 @@ import {
 } from './event';
 import { ISendAsyncResult, KeyProvider } from './provider';
 import { JssdkManager } from './jssdk';
-import { AvalancheSdk } from '../avalanche-sdk';
+import { AvalancheSdk } from '../stake-avax/api';
+import { configFromEnv } from './config';
 
 export interface IContractConfig {
   aethContract?: string;
@@ -310,6 +311,12 @@ export class EthereumContractManager implements IContractManager {
       .getWeb3()
       .eth.subscribe('newBlockHeaders')
       .on('data', async (blockHeader: BlockHeader) => {
+        const currentNetwork = this.keyProvider.currentNetwork();
+        const config = configFromEnv();
+        if (currentNetwork !== config.providerConfig.ethereumChainId) {
+          return;
+        }
+
         const currentAddress = this.keyProvider.currentAccount();
         this.keyProvider.changeLatestBlockHeight(blockHeader.number);
         const ethBalance = await this.keyProvider.getNativeBalance(

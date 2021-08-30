@@ -3,10 +3,26 @@ import { makeStyles } from '@material-ui/core/styles';
 export const useClaimDialogStyles = makeStyles(theme => ({
   root: {
     backgroundColor: theme.palette.background.default,
-    '&&': {
-      padding: theme.spacing(6, 0),
+    padding: theme.spacing(4, 0),
+    maxWidth: 740,
+    overflowX: 'hidden',
+  },
+
+  container: {
+    maxWidth: 550,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    padding: theme.spacing(0, 2),
+  },
+
+  title: {
+    textAlign: 'center',
+
+    [theme.breakpoints.up('sm')]: {
+      lineHeight: 1.5,
     },
   },
+
   close: {
     position: 'absolute',
 

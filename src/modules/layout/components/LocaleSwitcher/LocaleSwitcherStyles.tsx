@@ -7,11 +7,11 @@ export const useLocaleSwitcher = makeStyles<Theme>(theme => ({
   },
 
   darkened: {
-    '& .MuiInput-root': {
+    '& > div': {
       color: theme.palette.text.secondary,
       transition: 'color 0.2s',
 
-      '&:hover, &.Mui-focused': {
+      '&:hover': {
         color: theme.palette.text.primary,
       },
     },

@@ -3,12 +3,14 @@
   "version": "1.1.7",
   "private": true,
   "dependencies": {
+    "@ankr.com/stakefi-polkadot": "^0.0.48",
     "@binance-chain/bsc-connector": "^1.0.0",
     "@date-io/date-fns": "^2.10.6",
     "@loadable/component": "^5.13.2",
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.56",
+    "@polkadot/react-hooks": "^0.39.1",
     "@redux-requests/axios": "^1.1.1",
     "@redux-requests/core": "1.6.1",
     "@redux-requests/promise": "1.0.2",
@@ -29,9 +31,14 @@
     "ethereumjs-tx": "^2.1.2",
     "events": "^3.2.0",
     "final-form": "^4.20.1",
+    "fontfaceonload": "^1.0.2",
+    "jss-preset-default": "^10.7.1",
+    "puppeteer": "^10.1.0",
     "react": "^16.13.1",
+    "react-animated-numbers": "0.3.1",
     "react-copy-to-clipboard": "^5.0.2",
     "react-dom": "^16.13.1",
+    "react-intersection-observer": "^8.32.0",
     "react-intl-universal": "^2.4.1",
     "react-player": "^2.7.2",
     "react-redux": "^7.2.1",
@@ -39,6 +46,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.0",
     "react-shallow-context": "^1.0.1",
+    "react-snap": "^1.23.0",
     "redux": "^4.0.5",
     "redux-action": "^1.2.2",
     "redux-actions": "^2.6.5",
@@ -88,15 +96,23 @@
       "prettier --write"
     ]
   },
+  "reactSnap": {
+    "puppeteerArgs": [
+      "--no-sandbox",
+      "--disable-setuid-sandbox"
+    ],
+    "skipThirdPartyRequests": true,
+    "inlineCss": true
+  },
   "scripts": {
-    "start": "env-cmd react-scripts start",
-    "start:localhost": "env-cmd -f .env.localhost react-scripts start",
-    "start:goerli": "env-cmd -f .env.goerli react-scripts start",
-    "start:mainnet": "env-cmd -f .env.mainnet react-scripts start",
+    "start:develop": "env-cmd -f .env.develop react-scripts start",
+    "start:stage": "env-cmd -f .env.stage react-scripts start",
+    "start:prod": "env-cmd -f .env.prod react-scripts start",
     "build": "env-cmd react-scripts build",
     "test": "env-cmd react-scripts test",
     "eject": "env-cmd react-scripts eject",
-    "storybook": "env-cmd start-storybook -p 3000"
+    "storybook": "env-cmd start-storybook",
+    "postbuild": "react-snap"
   },
   "extends": [
     "plugin:@typescript-eslint/recommended",
@@ -108,29 +124,31 @@
       "react-app"
     ],
     "rules": {},
-    "overrides": [{
-      "files": [
-        "**/*.ts?(x)"
-      ],
-      "rules": {
-        "@typescript-eslint/ban-types": [
-          "error",
-          {
-            "types": {
-              "React.FC": {
-                "message": "In favor of unification use the form \"(props: IComponentNameProp) => ReactNode\""
+    "overrides": [
+      {
+        "files": [
+          "**/*.ts?(x)"
+        ],
+        "rules": {
+          "@typescript-eslint/ban-types": [
+            "error",
+            {
+              "types": {
+                "React.FC": {
+                  "message": "In favor of unification use the form \"(props: IComponentNameProp) => ReactNode\""
+                }
               }
             }
-          }
-        ],
-        "@typescript-eslint/ban-ts-ignore": "off",
-        "@typescript-eslint/no-empty-interface": "off",
-        "@typescript-eslint/explicit-function-return-type": "off",
-        "@typescript-eslint/no-explicit-any": "off",
-        "@typescript-eslint/camelcase": "off",
-        "@typescript-eslint/explicit-module-boundary-types": "off"
+          ],
+          "@typescript-eslint/ban-ts-ignore": "off",
+          "@typescript-eslint/no-empty-interface": "off",
+          "@typescript-eslint/explicit-function-return-type": "off",
+          "@typescript-eslint/no-explicit-any": "off",
+          "@typescript-eslint/camelcase": "off",
+          "@typescript-eslint/explicit-module-boundary-types": "off"
+        }
       }
-    }]
+    ]
   },
   "browserslist": {
     "production": [

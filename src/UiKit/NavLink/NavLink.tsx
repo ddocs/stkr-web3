@@ -1,7 +1,8 @@
-import React, { MutableRefObject } from 'react';
 import { Button, ButtonProps } from '@material-ui/core';
-import { Link as RouterLink, useRouteMatch } from 'react-router-dom';
 import classNames from 'classnames';
+import React, { MutableRefObject } from 'react';
+import { Link as RouterLink, useRouteMatch } from 'react-router-dom';
+import { QueryLoading } from '../../components/QueryLoading/QueryLoading';
 
 type NavLinksVariant = 'contained' | 'outlined' | 'text';
 
@@ -12,6 +13,7 @@ export interface INavLinkProps {
   onClick?: (e: React.MouseEvent<Element, MouseEvent>) => void;
   activeClassName?: string;
   exactMatch?: boolean;
+  isLoading?: boolean;
 }
 
 export const NavLink = React.forwardRef<
@@ -26,6 +28,7 @@ export const NavLink = React.forwardRef<
       activeClassName,
       className,
       exactMatch = false,
+      isLoading,
       ...props
     },
     ref,
@@ -40,6 +43,8 @@ export const NavLink = React.forwardRef<
       exact: exactMatch,
     });
 
+    const endIcon = isLoading ? <QueryLoading size={16} /> : undefined;
+
     if (isLink) {
       return (
         <Button
@@ -52,6 +57,7 @@ export const NavLink = React.forwardRef<
           target="_blank"
           ref={ref as MutableRefObject<HTMLAnchorElement>}
           className={className}
+          endIcon={endIcon}
           {...(props as any)}
         />
       );
@@ -65,6 +71,7 @@ export const NavLink = React.forwardRef<
         onClick={onClick}
         ref={ref}
         className={classNames(className, match && activeClassName)}
+        endIcon={endIcon}
         {...props}
       />
     );

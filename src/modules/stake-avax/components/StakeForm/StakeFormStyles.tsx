@@ -1,49 +1,24 @@
-import { Theme, fade } from '@material-ui/core';
+import { fade, Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
 export const useStakeFormStyles = makeStyles<Theme>(theme => {
   return {
-    root: {
-      flexGrow: 1,
-      display: 'grid',
-      gridTemplateColumns: '100%',
-      gridTemplateRows: '100%',
-      padding: theme.spacing(5, 0),
-      boxSizing: 'border-box',
-      width: 700,
-      margin: 'auto',
-
-      [theme.breakpoints.up('sm')]: {
-        padding: theme.spacing(8, 0, 5),
-      },
-    },
-
-    container: {
-      '&&': {
-        [theme.breakpoints.down('xs')]: {
-          padding: theme.spacing(0, 2),
-        },
-      },
-    },
-
-    box: {
-      position: 'relative',
-      padding: 0,
-      maxWidth: 1132,
-      margin: '0 auto',
-
-      [theme.breakpoints.up('lg')]: {
-        borderRadius: 65,
-      },
-    },
-
     body: {
-      width: 750,
-      margin: 'auto',
       padding: theme.spacing(3, 0),
 
       [theme.breakpoints.up('sm')]: {
         padding: theme.spacing(6, 0),
+      },
+    },
+
+    container: {
+      width: '100%',
+      margin: 'auto',
+      padding: theme.spacing(0, 2),
+
+      [theme.breakpoints.up('sm')]: {
+        maxWidth: 800,
+        padding: theme.spacing(0, 3),
       },
     },
 
@@ -100,11 +75,40 @@ export const useStakeFormStyles = makeStyles<Theme>(theme => {
     },
 
     amount: {
+      display: 'grid',
       margin: theme.spacing(2, 0, 1.5),
       fontSize: 38,
       fontWeight: 700,
+      gridTemplateColumns: '1fr auto',
+      gap: theme.spacing(0, 1),
 
       [theme.breakpoints.up('sm')]: {
+        margin: 0,
+        gridTemplateColumns: '150px auto',
+      },
+    },
+
+    labelText: {
+      width: 'max-content',
+    },
+
+    inputAmount: {
+      color: 'white',
+      background: 'transparent',
+      outline: 'none',
+      border: 'none',
+      fontSize: 'inherit',
+      fontWeight: 'inherit',
+      lineHeight: 1.3,
+      padding: 0,
+      '-moz-appearance': 'textfield',
+
+      [theme.breakpoints.up('sm')]: {
+        textAlign: 'right',
+      },
+
+      '&::-webkit-outer-spin-button, &::-webkit-inner-spin-button': {
+        '-webkit-appearance': 'none',
         margin: 0,
       },
     },
@@ -133,10 +137,9 @@ export const useStakeFormStyles = makeStyles<Theme>(theme => {
       paddingTop: theme.spacing(6),
       borderTop: `1px solid ${fade(theme.palette.text.primary, 0.2)}`,
     },
+
     footerWrapper: {
       display: 'grid',
-      width: 750,
-      margin: 'auto',
       gridRowGap: theme.spacing(3),
 
       [theme.breakpoints.up('md')]: {
@@ -144,6 +147,7 @@ export const useStakeFormStyles = makeStyles<Theme>(theme => {
         gridColumnGap: theme.spacing(4),
       },
     },
+
     info: {
       alignSelf: 'start',
       paddingLeft: theme.spacing(2.5),

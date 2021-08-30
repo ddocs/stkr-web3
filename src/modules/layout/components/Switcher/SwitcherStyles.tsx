@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 export const useNavigationSelectorStyles = makeStyles(theme => ({
   empty: {
-    '& .MuiSelect-selectMenu': {
+    '& > div > div': {
       paddingRight: 'unset !important',
       paddingLeft: 'unset !important',
       borderRadius: '50% !important',
@@ -10,18 +10,18 @@ export const useNavigationSelectorStyles = makeStyles(theme => ({
       height: '36px !important',
       padding: '0 !important',
     },
-    '& .MuiSelect-icon': {
-      top: 2,
-      right: 12,
+    '& svg': {
+      top: 1,
+      right: 11,
     },
   },
 
   darkened: {
-    '& .MuiInput-root': {
+    '& > div': {
       color: theme.palette.text.secondary,
       transition: 'color 0.2s',
 
-      '&:hover, &.Mui-focused': {
+      '&:hover': {
         color: theme.palette.text.primary,
       },
     },

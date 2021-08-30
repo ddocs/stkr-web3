@@ -213,9 +213,14 @@ export function configFromNetwork(networkName: string): IStkrConfig {
   }
 }
 
-export function configFromEnv() {
-  const env = process.env.REACT_APP_STKR_ENV
-    ? process.env.REACT_APP_STKR_ENV
+type Env = 'mainnet' | 'goerli' | 'develop';
+
+export function getEnv(): Env {
+  return (process.env.REACT_APP_STKR_ENV as Env)
+    ? (process.env.REACT_APP_STKR_ENV as Env)
     : 'develop';
-  return configFromNetwork(env);
+}
+
+export function configFromEnv() {
+  return configFromNetwork(getEnv());
 }

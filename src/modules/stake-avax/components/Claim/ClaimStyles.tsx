@@ -1,4 +1,4 @@
-import { Theme } from '@material-ui/core';
+import { fade, Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
 export const useClaimStyles = makeStyles<Theme>(theme => ({
@@ -17,49 +17,22 @@ export const useClaimStyles = makeStyles<Theme>(theme => ({
     },
   },
 
-  header: {
-    fontSize: 20,
-    marginBottom: theme.spacing(6),
+  button: {
+    minWidth: 140,
+    padding: 0,
 
     [theme.breakpoints.up('sm')]: {
-      marginBottom: theme.spacing(8),
+      marginLeft: theme.spacing(1),
     },
   },
 
-  footer: {
-    display: 'grid',
-    gap: theme.spacing(3, 2),
-
-    [theme.breakpoints.up('sm')]: {
-      gridTemplateColumns: '1fr auto auto',
-      alignItems: 'end',
-    },
+  buttonLabel: {
+    display: 'block',
   },
 
-  info: {
-    alignSelf: 'end',
-    paddingLeft: theme.spacing(1.5),
-    borderLeft: `2px solid ${theme.palette.primary.main}`,
-    textAlign: 'left',
-    fontSize: 14,
-
-    [theme.breakpoints.up('sm')]: {
-      maxWidth: 175,
-    },
-  },
-
-  buttonClaim: {
-    minWidth: 144,
-  },
-
-  amount: {
-    display: 'inline-grid',
-    gridTemplateColumns: 'auto 1fr',
-    gridGap: theme.spacing(1),
-    alignItems: 'end',
-  },
-  amountLabel: {
-    fontSize: 36,
-    lineHeight: 1,
+  buttonInfo: {
+    display: 'block',
+    fontSize: 12,
+    color: fade(theme.palette.text.primary, 0.3),
   },
 }));

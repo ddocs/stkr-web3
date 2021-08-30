@@ -10,7 +10,7 @@ import {
   PROVIDE_MIN_BALANCE,
   PROVIDER_DEPOSIT_LIST_PATH,
   PROVIDER_DEPOSIT_ROUTE,
-  PROVIDER_NODE_LIST_PATH,
+  PROVIDER_PATH,
 } from '../../../../common/const';
 import { DepositType } from '../../../../common/types';
 import { FormErrors } from '../../../../common/types/FormErrors';
@@ -171,7 +171,7 @@ export const Deposit = () => {
           ),
         ).then(data => {
           if (data.action.type === success(UserActionTypes.TOP_UP)) {
-            history.push(PROVIDER_NODE_LIST_PATH);
+            history.push(PROVIDER_PATH);
           }
         });
       } else {
@@ -180,7 +180,7 @@ export const Deposit = () => {
             UserActions.topUp(allowanceData.totalAllowance, DepositType.ANKR),
           ).then(data => {
             if (data.action.type === success(UserActionTypes.TOP_UP)) {
-              history.push(PROVIDER_NODE_LIST_PATH);
+              history.push(PROVIDER_PATH);
             }
           });
         }

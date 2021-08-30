@@ -2,7 +2,7 @@ import { success } from '@redux-requests/core';
 import { useMutation, useQuery } from '@redux-requests/react';
 import React, { useCallback } from 'react';
 import { useHistory } from 'react-router';
-import { STAKER_DASHBOARD_PATH } from '../../../../common/const';
+import { STAKER_PATH } from '../../../../common/const';
 import { useFeaturesAvailable } from '../../../../common/hooks/useFeaturesAvailable';
 import { pushEvent } from '../../../../common/utils/pushEvent';
 import { useRequestDispatch } from '../../../../common/utils/useRequestDispatch';
@@ -20,7 +20,7 @@ export const Stake = () => {
   const handleSubmit = ({ amount }: IStakePayload) => {
     dispatch(UserActions.stake(amount.toString(10))).then(data => {
       if (data.action.type === success(UserActionTypes.STAKE)) {
-        replace(STAKER_DASHBOARD_PATH);
+        replace(STAKER_PATH);
       }
     });
 
@@ -32,7 +32,7 @@ export const Stake = () => {
   });
 
   const handleCancel = useCallback(() => {
-    push(STAKER_DASHBOARD_PATH);
+    push(STAKER_PATH);
   }, [push]);
 
   const { stakingAmountStep } = useFeaturesAvailable();

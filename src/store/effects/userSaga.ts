@@ -27,9 +27,9 @@ import {
 import {
   clearStakingSession,
   getStakingSession,
-} from '../../modules/avalanche-sdk/utils';
+} from '../../modules/stake-avax/api/utils';
 import { CrossChainEvent } from '../../modules/cross-chain-sdk/events';
-import { AvalancheActions } from '../actions/AvalancheActions';
+import { AvalancheActions } from '../../modules/stake-avax/actions/AvalancheActions';
 import {
   GovernanceActions,
   GovernanceActionTypes,
@@ -193,7 +193,7 @@ function* listenKeyProviderEvents() {
         ) {
           clearStakingSession();
         }
-        yield put(AvalancheActions.checkWallet());
+        yield put(AvalancheActions.fetchTransactionStatus());
       }
     }
   } finally {
@@ -218,6 +218,9 @@ function* onDisconnectSuccess() {
     ...Object.keys(UserActionTypes),
     ...Object.keys(GovernanceActionTypes),
     ...Object.keys(NotificationActionsTypes),
+    ...Object.keys(AvalancheActions).map(key =>
+      (AvalancheActions as any)[key].toString(),
+    ),
   ];
 
   yield put(resetRequests(actions));
