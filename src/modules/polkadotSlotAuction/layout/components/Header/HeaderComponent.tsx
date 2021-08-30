@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import classNames from 'classnames';
 import { Box } from '@material-ui/core';
@@ -18,6 +18,7 @@ import { useHeaderStyles } from './HeaderStyles';
 import { PolkadotExtension } from '../../../components/PolkadotExtension/PolkadotExtension';
 import { useDialog } from '../../../../../store/dialogs/selectors';
 import { DIALOG_POLKADOT_EXTENSION } from '../../../../../store/dialogs/actions';
+import { useQuery } from '@redux-requests/react';
 
 export const HeaderComponent = () => {
   const classes = useHeaderStyles();
@@ -31,7 +32,17 @@ export const HeaderComponent = () => {
     DIALOG_POLKADOT_EXTENSION,
   );
 
-  const [loading, setLoading] = useState(false);
+  const { loading: connectLoading } = useQuery({
+    type: SlotAuctionActions.connect.toString(),
+    action: SlotAuctionActions.connect,
+  });
+
+  const { loading: connectLoadingFetchPolkadotAccountsLoading } = useQuery({
+    type: SlotAuctionActions.fetchPolkadotAccounts.toString(),
+    action: SlotAuctionActions.fetchPolkadotAccounts,
+  });
+
+  const loading = connectLoading || connectLoadingFetchPolkadotAccountsLoading;
 
   const handleConnect = (newAccount?: string) => async () => {
     await web3Enable('stakefi.com');
@@ -41,12 +52,8 @@ export const HeaderComponent = () => {
       return;
     }
 
-    setLoading(true);
-
     await dispatch(SlotAuctionActions.connect(slotAuctionSdk, newAccount));
     await dispatch(SlotAuctionActions.fetchPolkadotAccounts(slotAuctionSdk));
-
-    setLoading(false);
   };
 
   return (

@@ -9,11 +9,14 @@ import {
   SlotAuctionSdk,
   TCrowdloanStatus,
   ContractManager,
+  TNetworkType,
 } from '@ankr.com/stakefi-polkadot';
 import { BlockchainNetworkId } from '../../../common/types';
 import { isMainnet } from '../../../common/const';
 import { PALETTE } from '../../../common/themes/mainTheme';
 import { providerDefaultOptions } from '../../api/provider';
+import { RequestAction } from '@redux-requests/core';
+import { IWalletStatus } from '../../stake-avax/api/types';
 
 class Web3KeyProviderParachain extends Web3KeyProvider {
   public async connectFromInjected(): Promise<void> {
@@ -71,7 +74,20 @@ export const SlotAuctionActions = {
       },
     }),
   ),
-  connect: createAction(
+  connect: createAction<
+    RequestAction<
+      {
+        polkadotAccount: string;
+        networkType: TNetworkType;
+        isConnected: boolean;
+      },
+      {
+        polkadotAccount: string;
+        networkType: TNetworkType;
+        isConnected: boolean;
+      }
+    >
+  >(
     'CONNECT_SLOT_AUCTION_SDK',
     (slotAuctionSdk: SlotAuctionSdk, selectedPolkadotAccount?: string) => ({
       request: {
@@ -192,7 +208,8 @@ export const SlotAuctionActions = {
             }
             return result;
           }, result);
-          const claimableStakingRewards = await slotAuctionSdk.getClaimableStakingRewards();
+          const claimableStakingRewards =
+            await slotAuctionSdk.getClaimableStakingRewards();
           result = claimableStakingRewards.reduce((result, item) => {
             if (result[item.loanId]) {
               result[item.loanId].claimableStakingRewards = item.amount;
@@ -228,7 +245,8 @@ export const SlotAuctionActions = {
             }
             let stakingTokenSymbol = 'ABC';
             try {
-              stakingTokenSymbol = await contractManager.getStakingTokenSymbol();
+              stakingTokenSymbol =
+                await contractManager.getStakingTokenSymbol();
             } catch (e) {
               console.error(e);
             }
@@ -280,7 +298,8 @@ export const SlotAuctionActions = {
     (slotAuctionSdk: SlotAuctionSdk) => ({
       request: {
         promise: (async () => {
-          const claimableStakingRewards = await slotAuctionSdk.getClaimableStakingRewards();
+          const claimableStakingRewards =
+            await slotAuctionSdk.getClaimableStakingRewards();
 
           return { claimableStakingRewards };
         })(),
