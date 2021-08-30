@@ -17,6 +17,12 @@ import { PALETTE } from '../../../common/themes/mainTheme';
 import { providerDefaultOptions } from '../../api/provider';
 import { RequestAction } from '@redux-requests/core';
 
+interface IConnect {
+  polkadotAccount: string;
+  networkType: TNetworkType;
+  isConnected: boolean;
+}
+
 class Web3KeyProviderParachain extends Web3KeyProvider {
   public async connectFromInjected(): Promise<void> {
     if (this.isConnected()) return;
@@ -73,20 +79,7 @@ export const SlotAuctionActions = {
       },
     }),
   ),
-  connect: createAction<
-    RequestAction<
-      {
-        polkadotAccount: string;
-        networkType: TNetworkType;
-        isConnected: boolean;
-      },
-      {
-        polkadotAccount: string;
-        networkType: TNetworkType;
-        isConnected: boolean;
-      }
-    >
-  >(
+  connect: createAction<RequestAction<IConnect, IConnect>>(
     'CONNECT_SLOT_AUCTION_SDK',
     (slotAuctionSdk: SlotAuctionSdk, selectedPolkadotAccount?: string) => ({
       request: {
