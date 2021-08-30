@@ -41,7 +41,7 @@ export const Default = () => {
           onClose={onCloseClick}
           submitDisabled={isLoading}
           isLoading={isLoading}
-          maxTimeLeft="2 days"
+          endDate={new Date()}
         />
       </Curtains>
     </section>

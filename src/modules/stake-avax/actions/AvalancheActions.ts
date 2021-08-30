@@ -5,8 +5,11 @@ import { stringify } from 'querystring';
 import { Store } from 'redux';
 import { createAction } from 'redux-smart-actions';
 import Web3 from 'web3';
-import { BlockchainNetworkId } from '../../../common/types';
+import { isMainnet } from '../../../common/const';
+import { BlockchainNetworkId, Timestamp } from '../../../common/types';
 import { t } from '../../../common/utils/intl';
+import { sleep } from '../../../common/utils/sleep';
+import { IApplicationStore } from '../../../store/createStore';
 import { StkrSdk } from '../../api';
 import { configFromEnv } from '../../api/config';
 import { AvalancheSdk } from '../api';
@@ -24,7 +27,6 @@ import {
   StakingStep,
 } from '../api/types';
 import { msToEstimate, retry } from '../api/utils';
-import { IApplicationStore } from '../../../store/createStore';
 
 const {
   providerConfig: { ethereumChainId, binanceChainId, avalancheChainId },
@@ -93,11 +95,12 @@ export const AvalancheActions = {
                 currentChainId === BlockchainNetworkId.avalanche ||
                 currentChainId === BlockchainNetworkId.avalancheTestnet
               ) {
-                const [uncompletedTransaction] =
-                  await avalancheEventsHistory.getUncompletedAvalancheTxs(
-                    currentAccount,
-                    currentChainId,
-                  );
+                const [
+                  uncompletedTransaction,
+                ] = await avalancheEventsHistory.getUncompletedAvalancheTxs(
+                  currentAccount,
+                  currentChainId,
+                );
 
                 if (uncompletedTransaction) {
                   const { signature, amount } = await retry<{
@@ -137,18 +140,20 @@ export const AvalancheActions = {
                 let uncompletedTransaction: IDepositTxn;
 
                 if (isBinanceChain) {
-                  const [uncompletedBscTx] =
-                    await avalancheEventsHistory.getUncompletedBscTxs(
-                      currentAccount,
-                      currentChainId,
-                    );
+                  const [
+                    uncompletedBscTx,
+                  ] = await avalancheEventsHistory.getUncompletedBscTxs(
+                    currentAccount,
+                    currentChainId,
+                  );
                   uncompletedTransaction = uncompletedBscTx;
                 } else {
-                  const [uncompletedEthTx] =
-                    await avalancheEventsHistory.getUncompletedEthTxs(
-                      currentAccount,
-                      currentChainId,
-                    );
+                  const [
+                    uncompletedEthTx,
+                  ] = await avalancheEventsHistory.getUncompletedEthTxs(
+                    currentAccount,
+                    currentChainId,
+                  );
                   uncompletedTransaction = uncompletedEthTx;
                 }
 
@@ -326,16 +331,18 @@ export const AvalancheActions = {
 
           const toToken = isToBNB ? `${bnbAAvaxB}` : `${ethAAvaxB}`;
 
-          const { receiptPromise, transactionHash } =
-            await stkrSdk.crossWithdrawAsync(
-              avalancheAAvaxB,
-              toToken,
-              `${avalancheChainId}`,
-              fromAddress,
-              Web3.utils.toWei(amount.toFixed()),
-              txHash,
-              signature,
-            );
+          const {
+            receiptPromise,
+            transactionHash,
+          } = await stkrSdk.crossWithdrawAsync(
+            avalancheAAvaxB,
+            toToken,
+            `${avalancheChainId}`,
+            fromAddress,
+            Web3.utils.toWei(amount.toFixed()),
+            txHash,
+            signature,
+          );
 
           await receiptPromise;
 
@@ -363,14 +370,18 @@ export const AvalancheActions = {
       },
     }),
   ),
+  // todo: need to merge with fetchClaimServeTime
+  // now this function is unused
   getConversionEstimate: createAction(
     'ESTIMATE_CONVERT_AAVAXB',
     ({ amount, address }: IConvertPayload): RequestAction => ({
       request: {
         promise: (async () => {
           const stkrSdk = StkrSdk.getForEnv();
-          const { validationEndTime, amountAvailable } =
-            await stkrSdk.getConversionEstimate(amount, 'AVAX');
+          const {
+            validationEndTime,
+            amountAvailable,
+          } = await stkrSdk.getConversionEstimate(amount, 'AVAX');
 
           return {
             estimate: msToEstimate(validationEndTime),
@@ -414,6 +425,11 @@ export const AvalancheActions = {
             address,
             new BigNumber(confirmedAmount),
           );
+
+          // This takes a sleep approach because we need to wait
+          // until 12 blocks are mined in the production environment.
+          // Before it happens, notarization will be useless.
+          await sleep(isMainnet ? 50_000 : 0);
 
           try {
             const fromNetwork = isFromBNB ? 'BSC' : 'ETH';
@@ -499,16 +515,18 @@ export const AvalancheActions = {
             ? String(binanceChainId)
             : String(ethereumChainId);
 
-          const { receiptPromise, transactionHash } =
-            await stkrSdk.crossWithdrawAsync(
-              fromToken,
-              avalancheAAvaxB,
-              fromChain,
-              null,
-              Web3.utils.toWei(amount.toFixed()),
-              txHash,
-              signature,
-            );
+          const {
+            receiptPromise,
+            transactionHash,
+          } = await stkrSdk.crossWithdrawAsync(
+            fromToken,
+            avalancheAAvaxB,
+            fromChain,
+            null,
+            Web3.utils.toWei(amount.toFixed()),
+            txHash,
+            signature,
+          );
 
           await receiptPromise;
 
@@ -588,20 +606,20 @@ export const AvalancheActions = {
       },
     }),
   ),
-  fetchEstimatedAPY: createAction<RequestAction<any, BigNumber>>(
-    'FETCH_ESTIMATED_APY',
-    () => ({
-      request: {
-        url: `/v1alpha/avax/estimatedapy`,
-        method: 'get',
-      },
-      meta: {
-        driver: 'axios',
-        asMutation: false,
-        getData: data => new BigNumber(data.apy.slice(0, -1)),
-      },
-    }),
-  ),
+  fetchEstimatedAPY: createAction<
+    RequestAction<{ apy: string; timestamp: Timestamp }, BigNumber>
+  >('FETCH_ESTIMATED_APY', () => ({
+    request: {
+      url: `/v1alpha/avax/estimatedapy`,
+      method: 'get',
+    },
+    meta: {
+      driver: 'axios',
+      asMutation: false,
+      // apy - can be 'NaN%'
+      getData: data => new BigNumber(data.apy.slice(0, -1)),
+    },
+  })),
   fetchClaimServeTime: createAction<
     RequestAction<{ validationEndTime: number }, Date>
   >('FETCH_CLAIM_SERVE_TIME', () => ({
@@ -615,4 +633,19 @@ export const AvalancheActions = {
       getData: data => new Date(data.validationEndTime * 1000), // to milliseconds
     },
   })),
+
+  fetchUnstakedBalance: createAction<RequestAction<any, BigNumber>>(
+    'FETCH_UNSTAKED_BALANCE',
+    () => ({
+      request: {
+        promise: (async () => {
+          const avalancheSdk = await AvalancheSdk.connect();
+          return await avalancheSdk.getUnstakedBalance();
+        })(),
+      },
+      meta: {
+        asMutation: false,
+      },
+    }),
+  ),
 };
