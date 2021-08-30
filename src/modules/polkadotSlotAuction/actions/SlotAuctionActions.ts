@@ -1,19 +1,54 @@
+import Web3 from 'web3';
+import Web3Modal, { ICoreOptions } from 'web3modal';
 import { createAction } from 'redux-smart-actions';
 import BigNumber from 'bignumber.js';
 import { Web3KeyProvider } from '@ankr.com/stakefi-web3';
+import { fade, lighten } from '@material-ui/core';
+import { ISlotAuctionConfig } from '@ankr.com/stakefi-polkadot/dist/types/config';
 import {
   SlotAuctionSdk,
   TCrowdloanStatus,
   ContractManager,
 } from '@ankr.com/stakefi-polkadot';
-import { ISlotAuctionConfig } from '@ankr.com/stakefi-polkadot/dist/types/config';
+import { BlockchainNetworkId } from '../../../common/types';
+import { isMainnet } from '../../../common/const';
+import { PALETTE } from '../../../common/themes/mainTheme';
+import { providerDefaultOptions } from '../../api/provider';
+
+class Web3KeyProviderParachain extends Web3KeyProvider {
+  public async connectFromInjected(): Promise<void> {
+    if (this.isConnected()) return;
+
+    const web3Modal = new Web3Modal({
+      providerOptions: providerDefaultOptions,
+      theme: {
+        background: PALETTE.background.paper,
+        main: PALETTE.text.primary,
+        secondary: fade(PALETTE.text.primary, 0.5),
+        border: PALETTE.background.default,
+        hover: lighten(PALETTE.background.paper, 0.03),
+      },
+    } as ICoreOptions);
+
+    const provider = await web3Modal.connect();
+
+    const web3 = new Web3(provider);
+
+    return this.connect(web3);
+  }
+}
 
 class SlotAuctionSdkSingleton {
   private static sdk?: SlotAuctionSdk;
+
   public static getInstance(config: ISlotAuctionConfig): SlotAuctionSdk {
     if (SlotAuctionSdkSingleton.sdk) return SlotAuctionSdkSingleton.sdk;
-    const web3KeyProvider = new Web3KeyProvider({
-      expectedChainId: 5,
+
+    const web3KeyProvider = new Web3KeyProviderParachain({
+      // TODO set expectedChainId in runtime depends on current parachain
+      expectedChainId: isMainnet
+        ? BlockchainNetworkId.mainnet
+        : BlockchainNetworkId.goerli,
     });
 
     SlotAuctionSdkSingleton.sdk = new SlotAuctionSdk(web3KeyProvider, config);
@@ -157,8 +192,7 @@ export const SlotAuctionActions = {
             }
             return result;
           }, result);
-          const claimableStakingRewards =
-            await slotAuctionSdk.getClaimableStakingRewards();
+          const claimableStakingRewards = await slotAuctionSdk.getClaimableStakingRewards();
           result = claimableStakingRewards.reduce((result, item) => {
             if (result[item.loanId]) {
               result[item.loanId].claimableStakingRewards = item.amount;
@@ -194,8 +228,7 @@ export const SlotAuctionActions = {
             }
             let stakingTokenSymbol = 'ABC';
             try {
-              stakingTokenSymbol =
-                await contractManager.getStakingTokenSymbol();
+              stakingTokenSymbol = await contractManager.getStakingTokenSymbol();
             } catch (e) {
               console.error(e);
             }
@@ -247,8 +280,7 @@ export const SlotAuctionActions = {
     (slotAuctionSdk: SlotAuctionSdk) => ({
       request: {
         promise: (async () => {
-          const claimableStakingRewards =
-            await slotAuctionSdk.getClaimableStakingRewards();
+          const claimableStakingRewards = await slotAuctionSdk.getClaimableStakingRewards();
 
           return { claimableStakingRewards };
         })(),
