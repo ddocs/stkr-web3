@@ -6,9 +6,9 @@ import { Web3KeyProvider } from '@ankr.com/stakefi-web3';
 import { fade, lighten } from '@material-ui/core';
 import { ISlotAuctionConfig } from '@ankr.com/stakefi-polkadot/dist/types/config';
 import {
+  ContractManager,
   SlotAuctionSdk,
   TCrowdloanStatus,
-  ContractManager,
   TNetworkType,
 } from '@ankr.com/stakefi-polkadot';
 import { BlockchainNetworkId } from '../../../common/types';
@@ -16,7 +16,6 @@ import { isMainnet } from '../../../common/const';
 import { PALETTE } from '../../../common/themes/mainTheme';
 import { providerDefaultOptions } from '../../api/provider';
 import { RequestAction } from '@redux-requests/core';
-import { IWalletStatus } from '../../stake-avax/api/types';
 
 class Web3KeyProviderParachain extends Web3KeyProvider {
   public async connectFromInjected(): Promise<void> {

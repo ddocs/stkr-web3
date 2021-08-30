@@ -19,6 +19,7 @@ import { PolkadotExtension } from '../../../components/PolkadotExtension/Polkado
 import { useDialog } from '../../../../../store/dialogs/selectors';
 import { DIALOG_POLKADOT_EXTENSION } from '../../../../../store/dialogs/actions';
 import { useQuery } from '@redux-requests/react';
+import { name } from '../../../../../../package.json';
 
 export const HeaderComponent = () => {
   const classes = useHeaderStyles();
@@ -45,7 +46,7 @@ export const HeaderComponent = () => {
   const loading = connectLoading || connectLoadingFetchPolkadotAccountsLoading;
 
   const handleConnect = (newAccount?: string) => async () => {
-    await web3Enable('stakefi.com');
+    await web3Enable(name);
 
     if (!PolkadotProvider.isSupported()) {
       handleOpen();
