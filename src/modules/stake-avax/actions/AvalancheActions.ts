@@ -413,6 +413,7 @@ export const AvalancheActions = {
             .eth.getChainId();
           const isFromBNB = currentChainId === binanceChainId;
           const fromToken = isFromBNB ? bnbAAvaxB : ethAAvaxB;
+          const currentAddress = stkrSdk.currentAccount();
 
           if (!fromToken) {
             throw new Error('Contract configuration not available');
@@ -451,7 +452,7 @@ export const AvalancheActions = {
               recipient,
               signature,
               txHash: transactionHash,
-              fromAddress: address,
+              fromAddress: currentAddress,
             };
           } catch (e) {
             throw e;
@@ -495,10 +496,12 @@ export const AvalancheActions = {
       amount,
       txHash,
       signature,
+      fromAddress,
     }: {
       amount: BigNumber;
       txHash: string;
       signature: string;
+      fromAddress: string;
     }): RequestAction => ({
       request: {
         promise: (async () => {
@@ -522,7 +525,7 @@ export const AvalancheActions = {
             fromToken,
             avalancheAAvaxB,
             fromChain,
-            null,
+            fromAddress,
             Web3.utils.toWei(amount.toFixed()),
             txHash,
             signature,
