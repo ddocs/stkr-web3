@@ -17,6 +17,7 @@ import { QuestionIcon } from '../../../../UiKit/Icons/QuestionIcon';
 import { NavLink } from '../../../../UiKit/NavLink';
 import { StkrSdk } from '../../../api';
 import { useHistoryTableStyles } from './HistoryTableStyles';
+import { getShortTxHash } from '../../api/utils';
 
 function getTxLink(txID: string) {
   try {
@@ -109,7 +110,7 @@ export const HistoryTable = (props: IHistoryTableProps) => {
               </TableBodyCell>
               <TableBodyCell label={`${captions[2].label}`}>
                 <NavLink href={getTxLink(item.transactionHash)}>
-                  {item.transactionHash}
+                  {getShortTxHash(item.transactionHash)}
                 </NavLink>
               </TableBodyCell>
               <TableBodyCell label={`${captions[3].label}`}>
@@ -117,7 +118,7 @@ export const HistoryTable = (props: IHistoryTableProps) => {
               </TableBodyCell>
               <TableBodyCell align="right" label={`${captions[4].label}`}>
                 {t('unit.avax-value', {
-                  value: item.stakingAmount.toString(),
+                  value: item.stakingAmount?.toString(),
                 })}
               </TableBodyCell>
             </TableRow>

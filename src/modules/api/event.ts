@@ -56,6 +56,7 @@ export enum ContractManagerEvents {
 
 export enum AvalanchePoolEvents {
   StakePending = 'StakePending',
+  AllEvents = 'allEvents',
 }
 
 export interface IEventLog {

@@ -8,17 +8,22 @@ import { QueryLoadingCentered } from '../../../../components/QueryLoading/QueryL
 import { selectUserChainId } from '../../../../store/reducers/userReducer';
 import { Curtains } from '../../../../UiKit/Curtains';
 import { AvalancheActions } from '../../actions/AvalancheActions';
-import { StakingStep } from '../../api/types';
+import { IStakerStats, StakingStep } from '../../api/types';
 import { Balance } from '../Balance';
 import { Claim } from '../Claim';
 import { Convert } from '../Convert';
 import { FinishClaim } from '../FinishClaim';
 import { Timer } from '../Timer';
 import { useDashboardStyles } from './DashboardStyles';
+import { useQuery } from '@redux-requests/react';
+import { HistoryTable } from '../HistoryTable';
+import BigNumber from 'bignumber.js';
 
 export interface IDashboardProps {
   step: StakingStep;
 }
+
+const bnZero = new BigNumber(0);
 
 export const Dashboard = ({ step }: IDashboardProps) => {
   const classes = useDashboardStyles();
@@ -36,6 +41,18 @@ export const Dashboard = ({ step }: IDashboardProps) => {
       dispatch(AvalancheActions.fetchClaimStats());
     }
   }, [dispatch, isAvalancheChain]);
+
+  const { data: stakerStats } = useQuery<IStakerStats | null>({
+    type: AvalancheActions.fetchStakerStats.toString(),
+  });
+
+  const totalStaked = stakerStats?.history.length
+    ? stakerStats.history.reduce((acc, item) => {
+        const amount =
+          item.transactionType === 'Stake' ? item.stakingAmount : bnZero;
+        return amount.plus(acc);
+      }, bnZero)
+    : bnZero;
 
   return (
     <section className={classes.root}>
@@ -75,6 +92,22 @@ export const Dashboard = ({ step }: IDashboardProps) => {
         {step === StakingStep.WithdrawalAAvaxB && <FinishClaim />}
 
         {step === StakingStep.HoldExternalWallet && <Convert />}
+
+        {isAvalancheChain && stakerStats && stakerStats.history.length > 0 && (
+          <div className={classes.history}>
+            <div className={classes.historyHeader}>
+              <div className={classes.historyTitle}>
+                {t('stake-avax.dashboard.staking-history')}
+              </div>
+              <div className={classes.historyTotal}>
+                {t('stake-avax.dashboard.total-staked', {
+                  value: totalStaked.toFormat(),
+                })}
+              </div>
+            </div>
+            <HistoryTable data={stakerStats.history} />
+          </div>
+        )}
       </Curtains>
     </section>
   );

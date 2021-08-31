@@ -754,6 +754,8 @@
       "destination": "Destination address: {value}"
     },
     "dashboard": {
+      "staking-history": "Staking history",
+      "total-staked": "Total staked: {value} AVAX",
       "internet-bond": "Avalanche Internet Bond",
       "claim-tip": "To start staking you need to claim your aAVAXb",
       "bridge": "Bridge",

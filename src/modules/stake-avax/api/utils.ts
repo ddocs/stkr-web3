@@ -94,3 +94,22 @@ export const retry = async <T>(
 
   return result as T;
 };
+
+export const getShortTxHash = (hash: string) => {
+  const len = hash.length;
+
+  return len > 10 ? `${hash.slice(0, 4)}...${hash.slice(len - 5)}` : hash;
+};
+
+export const mapEventToTxType = (event: string) => {
+  switch (event) {
+    case 'StakePending':
+      return 'Stake';
+    case 'AvaxClaimPending':
+      return 'Unstake';
+    case 'ClaimsServed':
+      return 'Claim';
+    default:
+      return event;
+  }
+};

@@ -1,6 +1,5 @@
 import BigNumber from 'bignumber.js';
 import Web3 from 'web3';
-import { EventLog } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
 import { StkrSdk } from '../../api';
 import { EthereumContractManager } from '../../api/contract';
@@ -10,6 +9,7 @@ import { AvalanchePoolEvents } from '../../api/event';
 import { ISendAsyncResult } from '../../api/provider';
 import DEFAULT_CONFIG from './addresses.json';
 import { IStakingEntry } from './types';
+import { mapEventToTxType } from './utils';
 
 export class AvalancheSdk {
   private static _cachedSdk: AvalancheSdk | undefined;
@@ -218,53 +218,40 @@ export class AvalancheSdk {
   }
 
   public async fetchStakeLogs(): Promise<IStakingEntry[]> {
-    const fn = ({ provider, amount }: any) => {
-      return {
-        provider: provider,
-        amount: new BigNumber(amount).dividedBy(
-          EthereumContractManager.ETH_SCALE_FACTOR,
-        ),
-      };
-    };
-    return this.queryEventLogs(
-      AvalanchePoolEvents.StakePending,
-      'StakePending',
-      fn,
-      ({ address }) => ({
-        provider: address,
+    const logs = await this.queryEventLogs(AvalanchePoolEvents.AllEvents);
+    const filteredLogs = logs.filter(log => log.returnValues.amount);
+
+    return await Promise.all(
+      filteredLogs.map(async log => {
+        const blockInfo = await this.web3.eth.getBlock(log.blockNumber);
+
+        return {
+          stakingDate: new Date(+blockInfo.timestamp * 1000).toLocaleString(),
+          action: 'STAKE_ACTION_CONFIRMED',
+          transactionHash: log.transactionHash,
+          transactionType: mapEventToTxType(log.event),
+          stakingAmount: new BigNumber(log.returnValues.amount).dividedBy(
+            EthereumContractManager.ETH_SCALE_FACTOR,
+          ),
+        };
       }),
     );
   }
 
-  private async queryEventLogs(
-    eventType: string,
-    eventName: string,
-    fn: (returnValues: any) => any,
-    eventFilter?: (args: { address: string }) => any,
-  ): Promise<any[]> {
+  private async queryEventLogs(eventName: string): Promise<any[]> {
     if (!this.poolContract) {
       return [];
     }
     const [currentAccount] = await this.web3.eth.getAccounts();
-    const filter = eventFilter
-      ? eventFilter({ address: currentAccount })
-      : {
-          staker: currentAccount,
-        };
-
     const toBlock = await this.web3.eth.getBlockNumber();
-    const fromBlock = toBlock - 500;
-    const events = await this.poolContract.getPastEvents(eventName, {
+    const fromBlock = toBlock - 130000; // approximately 5 days
+
+    return await this.poolContract.getPastEvents(eventName, {
       fromBlock,
       toBlock,
-      filter,
-    });
-    return events.map((eventLog: EventLog) => {
-      const mappedValues = fn(eventLog.returnValues);
-      return {
-        type: eventType,
-        data: { eventLog, ...mappedValues },
-      };
+      filter: {
+        provider: currentAccount,
+      },
     });
   }
 }

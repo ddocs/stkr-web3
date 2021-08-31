@@ -582,10 +582,10 @@ export const AvalancheActions = {
           const avalancheSdk = await AvalancheSdk.connect();
           const claimAvailable = await avalancheSdk.getClaimableAmount();
           const balance = await avalancheSdk.getNativeBalance();
-          // const stats = await avalancheSdk.fetchStakeLogs();
+          const history = await avalancheSdk.fetchStakeLogs();
 
           return {
-            history: [],
+            history,
             balance,
             claimAvailable,
           };

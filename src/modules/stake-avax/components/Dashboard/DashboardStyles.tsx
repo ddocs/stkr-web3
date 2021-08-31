@@ -27,4 +27,26 @@ export const useDashboardStyles = makeStyles<Theme>(theme => ({
     borderRadius: 48,
     height: 48,
   },
+
+  history: {
+    marginTop: theme.spacing(7),
+  },
+
+  historyHeader: {
+    fontWeight: 500,
+    display: 'flex',
+    justifyContent: 'space-between',
+    borderBottom: '1px solid rgba(255, 255, 255, 0.2)',
+    paddingBottom: theme.spacing(3),
+  },
+
+  historyTitle: {
+    fontSize: 20,
+    lineHeight: '24px',
+  },
+
+  historyTotal: {
+    fontSize: 18,
+    lineHeight: '22px',
+  },
 }));
