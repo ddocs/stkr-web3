@@ -7,6 +7,8 @@ import {
   PROVIDER_PATH,
   STAKER_AVALANCHE_PATH,
   STAKER_BNB_PATH,
+  STAKER_DOT_PATH,
+  STAKER_KSM_PATH,
   STAKER_PATH,
 } from '../../common/const';
 import { t } from '../../common/utils/intl';
@@ -18,10 +20,6 @@ import { ReactComponent as ProviderIcon } from './assets/provider.svg';
 import { ReactComponent as StakeAvalancheIcon } from './assets/stake-avax.svg';
 import { FeatureListVerticalItem } from './components/FeatureListVerticalItem/FeatureListVerticalItem';
 import { useFeaturesListStyles } from './FeaturesListStyles';
-import {
-  ParachainNetwork,
-  StakeDotRoutesConfig,
-} from '../stake-dot/StakeDotRoutes';
 
 type ActionType = 'Staking' | 'Providing';
 
@@ -97,9 +95,7 @@ export const FeaturesList = () => {
                 t('features-list.list-item.stake-dot.4'),
               ]}
               buttonText={t('features-list.action.start-staking')}
-              onClickTo={StakeDotRoutesConfig.dashboard.generatePath(
-                ParachainNetwork.DOT,
-              )}
+              onClickTo={STAKER_DOT_PATH}
             />
           )}
           {ENABLE_KSM && (
@@ -113,9 +109,7 @@ export const FeaturesList = () => {
                 t('features-list.list-item.stake-ksm.4'),
               ]}
               buttonText={t('features-list.action.start-staking')}
-              onClickTo={StakeDotRoutesConfig.dashboard.generatePath(
-                ParachainNetwork.KSM,
-              )}
+              onClickTo={STAKER_KSM_PATH}
             />
           )}
         </div>

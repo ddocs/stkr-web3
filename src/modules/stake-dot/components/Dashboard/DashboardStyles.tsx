@@ -7,7 +7,7 @@ export const useDashboardStyles = makeStyles<Theme>(theme => ({
   header: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'start',
+    justifyContent: 'space-between',
     margin: theme.spacing(6, 'auto', 3),
     maxWidth: 1500,
     width: '100%',

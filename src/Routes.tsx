@@ -26,9 +26,13 @@ import {
   STAKER_AVALANCHE_PATH,
   STAKER_BNB_PATH,
   STAKER_DASHBOARD_BNB_ROUTE,
+  STAKER_DOT_PATH,
+  STAKER_KSM_PATH,
   STAKER_PATH,
+  STAKER_ROC_PATH,
   STAKER_STAKE_BNB_ROUTE,
   STAKER_STAKE_PATH,
+  STAKER_WND_PATH,
 } from './common/const';
 import { BlockchainNetworkId } from './common/types';
 import { PageNotFound } from './components/PageNotFound';
@@ -39,7 +43,6 @@ import { BinanceGuardRoute } from './UiKit/GuardRoute/BinanceGuardRoute';
 import { PrivateRoute } from './UiKit/PrivateRoute';
 import PolkadotSlotAuctionLanding from './modules/landing';
 import { withPolkadotSlotAuctionLayout } from './modules/polkadotSlotAuction/layout';
-import { StakeDotRoutes } from './modules/stake-dot/StakeDotRoutes';
 
 const LoadableOverviewContainer = withDefaultLayout(
   loadable(async () => import('./modules/lobby').then(module => module.Lobby), {
@@ -155,6 +158,18 @@ const LoadableAvalancheContainer = withDefaultLayout(
     async () =>
       import('./modules/stake-avax/screens/StakeAvax').then(
         module => module.StakeAvax,
+      ),
+    {
+      fallback: <QueryLoadingAbsolute />,
+    },
+  ) as LoadableComponent<any>,
+);
+
+const StakeDotContainer = withDefaultLayout(
+  loadable(
+    async () =>
+      import('./modules/stake-dot/screens/StakeDot').then(
+        module => module.StakeDot,
       ),
     {
       fallback: <QueryLoadingAbsolute />,
@@ -446,7 +461,20 @@ export function Routes() {
         />
       )}
 
-      <StakeDotRoutes />
+      <GuardRoute
+        availableNetworks={[
+          isMainnet ? BlockchainNetworkId.mainnet : BlockchainNetworkId.goerli,
+        ]}
+        needPolkadotExtension
+        path={[
+          STAKER_DOT_PATH,
+          STAKER_KSM_PATH,
+          STAKER_WND_PATH,
+          STAKER_ROC_PATH,
+        ]}
+        component={StakeDotContainer}
+        exact
+      />
 
       <Route component={withDefaultLayout(PageNotFound)} />
     </Switch>
