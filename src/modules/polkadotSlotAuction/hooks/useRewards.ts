@@ -15,8 +15,6 @@ export const useRewards = (
     data: { claimableStakingRewards },
   } = useQuery({
     type: SlotAuctionActions.fetchClaimableStakingRewards,
-    autoLoad: true,
-    variables: [slotAuctionSdk],
     defaultData: {},
   });
 

@@ -2,7 +2,6 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import classNames from 'classnames';
 import { Box } from '@material-ui/core';
-import { web3Enable } from '@polkadot/extension-dapp';
 import { PolkadotProvider } from '@ankr.com/stakefi-polkadot';
 import { SlotAuctionActions } from '../../../actions/SlotAuctionActions';
 import { Curtains } from '../../../../../UiKit/Curtains';
@@ -19,15 +18,14 @@ import { PolkadotExtension } from '../../../components/PolkadotExtension/Polkado
 import { useDialog } from '../../../../../store/dialogs/selectors';
 import { DIALOG_POLKADOT_EXTENSION } from '../../../../../store/dialogs/actions';
 import { useQuery } from '@redux-requests/react';
-import { name } from '../../../../../../package.json';
 
 export const HeaderComponent = () => {
   const classes = useHeaderStyles();
 
   const dispatch = useDispatch();
 
-  const { slotAuctionSdk, polkadotAccount, isConnected } = useSlotAuctionSdk();
-  const { polkadotAccounts } = usePolkadotAccounts(slotAuctionSdk);
+  const { polkadotAccount, isConnected } = useSlotAuctionSdk();
+  const { polkadotAccounts } = usePolkadotAccounts();
 
   const { isOpened, handleClose, handleOpen } = useDialog(
     DIALOG_POLKADOT_EXTENSION,
@@ -46,15 +44,12 @@ export const HeaderComponent = () => {
   const loading = connectLoading || connectLoadingFetchPolkadotAccountsLoading;
 
   const handleConnect = (newAccount?: string) => async () => {
-    await web3Enable(name);
-
     if (!PolkadotProvider.isSupported()) {
       handleOpen();
       return;
     }
 
-    await dispatch(SlotAuctionActions.connect(slotAuctionSdk, newAccount));
-    await dispatch(SlotAuctionActions.fetchPolkadotAccounts(slotAuctionSdk));
+    await dispatch(SlotAuctionActions.connect(newAccount));
   };
 
   return (

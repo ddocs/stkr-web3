@@ -1,7 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { Typography } from '@material-ui/core';
 import { Field, Form, FormRenderProps } from 'react-final-form';
-
 import { useSupportProjectFormStyles } from './SupportProjectFormStyles';
 import { FormPayload } from '../../SupportProject';
 import { t } from '../../../../../../common/utils/intl';

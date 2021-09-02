@@ -8,27 +8,6 @@ import { useQuery } from '@redux-requests/react';
 import { SlotAuctionActions } from '../actions/SlotAuctionActions';
 import { useSlotAuctionSdk } from './useSlotAuctionSdk';
 
-export const useCrowdloansByStatus = (
-  slotAuctionSdk: SlotAuctionSdk,
-  crowdloanStatus: TCrowdloanStatus,
-): {
-  crowdloans: ICrowdloanType[];
-} => {
-  const {
-    data: crowdloans,
-  }: {
-    data: ICrowdloanType[];
-  } = useQuery({
-    type: SlotAuctionActions.fetchCrowdloansByStatus,
-    defaultData: [],
-    variables: [slotAuctionSdk, crowdloanStatus],
-    autoLoad: true,
-  });
-  return {
-    crowdloans,
-  };
-};
-
 export const useCrowdloanById = (
   crowdloanId: number,
 ): {
@@ -81,11 +60,7 @@ export const useCrowdloans = (
   };
 };
 
-export const useCrowdloanBalances = (
-  slotAuctionSdk: SlotAuctionSdk,
-  crowdloanStatus: TCrowdloanStatus,
-  polkadotAccount: string,
-): {
+export const useCrowdloanBalances = (): {
   balances: BalancesType;
 } => {
   const {
@@ -95,8 +70,6 @@ export const useCrowdloanBalances = (
   } = useQuery({
     type: SlotAuctionActions.fetchCrowdloanBalances,
     defaultData: {},
-    variables: [slotAuctionSdk, polkadotAccount],
-    autoLoad: true,
   });
   return {
     balances,
