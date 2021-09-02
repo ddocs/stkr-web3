@@ -1,5 +1,4 @@
-import { createMuiTheme, fade } from '@material-ui/core';
-import { ThemeOptions } from '@material-ui/core/styles/createMuiTheme';
+import { createMuiTheme, fade, ThemeOptions } from '@material-ui/core';
 import { PaletteOptions } from '@material-ui/core/styles/createPalette';
 import { defaultTheme, DEFAULT_FONT, mainTheme, MAX_WIDTH } from './mainTheme';
 

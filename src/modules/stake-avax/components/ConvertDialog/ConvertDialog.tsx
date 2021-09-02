@@ -109,7 +109,7 @@ export const ConvertDialog = ({
     >
       <Container className={classes.container}>
         <Typography variant="h3" className={classes.title}>
-          {t('stake-avax.convert.title')}
+          {t('stake-avax.convert-dialog.title')}
         </Typography>
 
         <Form
@@ -143,7 +143,7 @@ export const ConvertDialog = ({
                   classes={{ root: classes.input }}
                   component={InputField}
                   name="amount"
-                  label={t('stake-avax.convert.amount')}
+                  label={t('stake-avax.convert-dialog.amount')}
                   placeholder="0"
                   variant="outlined"
                   disabled={submitDisabled}
@@ -154,7 +154,7 @@ export const ConvertDialog = ({
                         variant="outlined"
                         size="small"
                         color="secondary"
-                        onClick={setMaxAmount(form, maxAmount.toString())}
+                        onClick={setMaxAmount(form, maxAmount.toFormat())}
                         disabled={submitDisabled}
                       >
                         {t('cross-chain-bridge.form.btn-max')}
@@ -170,7 +170,7 @@ export const ConvertDialog = ({
                   classes={{ root: classes.input }}
                   component={InputField}
                   name="address"
-                  label={t('stake-avax.convert.address')}
+                  label={t('stake-avax.convert-dialog.address')}
                   variant="outlined"
                   disabled={submitDisabled}
                   fullWidth
@@ -210,7 +210,7 @@ export const ConvertDialog = ({
                 disabled={submitDisabled}
                 isLoading={isLoading}
               >
-                {t('stake-avax.convert.continue')}
+                {t('stake-avax.convert-dialog.submit')}
               </Button>
             </div>
           )}

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import classNames from 'classnames';
 import { Box } from '@material-ui/core';
+import { web3Enable } from '@polkadot/extension-dapp';
 import { PolkadotProvider } from '@ankr.com/stakefi-polkadot';
 import { SlotAuctionActions } from '../../../actions/SlotAuctionActions';
 import { Curtains } from '../../../../../UiKit/Curtains';
@@ -33,6 +34,8 @@ export const HeaderComponent = () => {
   const [loading, setLoading] = useState(false);
 
   const handleConnect = (newAccount?: string) => async () => {
+    await web3Enable('stakefi.com');
+
     if (!PolkadotProvider.isSupported()) {
       handleOpen();
       return;

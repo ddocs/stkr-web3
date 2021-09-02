@@ -1,8 +1,10 @@
 import { VoteStatus } from '@ankr.com/stkr-jssdk';
 import BigNumber from 'bignumber.js';
 import { EventEmitter } from 'events';
+import Web3 from 'web3';
 import { SendOptions } from 'web3-eth-contract';
 import { DepositType, SupportedBlockchainNetworkId } from '../../common/types';
+import { CrossChainSdk } from '../cross-chain-sdk';
 import {
   BNB_RPC_CONFIG,
   configFromEnv,
@@ -10,9 +12,9 @@ import {
   IStkrConfig,
 } from './config';
 import {
+  AvalancheContractManager,
   BinanceContractManager,
   EthereumContractManager,
-  AvalancheContractManager,
   IContractManager,
 } from './contract';
 import { ContractManagerEvent, KeyProviderEvents } from './event';
@@ -33,8 +35,6 @@ import {
   KeyProvider,
   Web3ModalKeyProvider,
 } from './provider';
-import Web3 from 'web3';
-import { CrossChainSdk } from '../cross-chain-sdk';
 
 interface IStakerSdk {
   allowTokens(remainingAllowance?: BigNumber): Promise<ISendAsyncResult>;
@@ -187,7 +187,7 @@ export interface IStkrSdk extends IStakerSdk, IProviderSdk, IGovernanceSdk {
   ): Promise<INotarizeTransferReply>;
 
   getConversionEstimate(
-    amount: number,
+    amount: string,
     token: string,
   ): Promise<IConvertEstimateReply>;
 
@@ -588,45 +588,39 @@ export class StkrSdk implements IStkrSdk {
       );
     }
 
-    const pendingItems = pending.map(
-      (item): IUserStakeReply => {
-        return {
-          user: item.data.staker,
-          amount: item.data.amount,
-          transactionHash: item.data.eventLog.transactionHash,
-          action: 'STAKE_ACTION_PENDING',
-          timestamp: item.data.eventLog.blockNumber,
-          isTopUp: hasItem(toppedUp, item),
-          type: DepositType.ETH,
-        };
-      },
-    );
-    const confirmedItems = confirmed.map(
-      (item): IUserStakeReply => {
-        return {
-          user: item.data.staker,
-          amount: item.data.amount,
-          transactionHash: item.data.eventLog.transactionHash,
-          action: 'STAKE_ACTION_CONFIRMED',
-          timestamp: item.data.eventLog.blockNumber,
-          isTopUp: hasItem(toppedUp, item),
-          type: DepositType.ETH,
-        };
-      },
-    );
-    const ankrTopUpItems = toppedUpAnkr.map(
-      (item): IUserStakeReply => {
-        return {
-          user: item.data.provider,
-          amount: item.data.amount,
-          transactionHash: item.data.eventLog.transactionHash,
-          action: 'STAKE_ACTION_CONFIRMED',
-          timestamp: item.data.eventLog.blockNumber,
-          isTopUp: true,
-          type: DepositType.ANKR,
-        };
-      },
-    );
+    const pendingItems = pending.map((item): IUserStakeReply => {
+      return {
+        user: item.data.staker,
+        amount: item.data.amount,
+        transactionHash: item.data.eventLog.transactionHash,
+        action: 'STAKE_ACTION_PENDING',
+        timestamp: item.data.eventLog.blockNumber,
+        isTopUp: hasItem(toppedUp, item),
+        type: DepositType.ETH,
+      };
+    });
+    const confirmedItems = confirmed.map((item): IUserStakeReply => {
+      return {
+        user: item.data.staker,
+        amount: item.data.amount,
+        transactionHash: item.data.eventLog.transactionHash,
+        action: 'STAKE_ACTION_CONFIRMED',
+        timestamp: item.data.eventLog.blockNumber,
+        isTopUp: hasItem(toppedUp, item),
+        type: DepositType.ETH,
+      };
+    });
+    const ankrTopUpItems = toppedUpAnkr.map((item): IUserStakeReply => {
+      return {
+        user: item.data.provider,
+        amount: item.data.amount,
+        transactionHash: item.data.eventLog.transactionHash,
+        action: 'STAKE_ACTION_CONFIRMED',
+        timestamp: item.data.eventLog.blockNumber,
+        isTopUp: true,
+        type: DepositType.ANKR,
+      };
+    });
 
     const stakes = [...pendingItems, ...confirmedItems, ...ankrTopUpItems].sort(
       (a, b) => b.timestamp - a.timestamp,
@@ -707,7 +701,7 @@ export class StkrSdk implements IStkrSdk {
     });
   }
 
-  public async getConversionEstimate(amount: number, token: string) {
+  public async getConversionEstimate(amount: string, token: string) {
     const scaledAmount = new BigNumber(amount).multipliedBy(1e18);
     return await this.apiGateway.getConversionEstimate(
       scaledAmount.toString(10),

@@ -1,4 +1,3 @@
-import { BlockchainNetworkId } from '../../common/types';
 import { BscConnector } from '@binance-chain/bsc-connector';
 import { fade, lighten } from '@material-ui/core';
 import WalletConnectProvider from '@walletconnect/web3-provider';
@@ -9,8 +8,14 @@ import Web3 from 'web3';
 import { PromiEvent, TransactionReceipt } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
 import { AbiItem, bytesToHex, numberToHex } from 'web3-utils';
-import Web3Modal, { getProviderInfo, IProviderOptions } from 'web3modal';
+import Web3Modal, {
+  getProviderInfo,
+  ICoreOptions,
+  IProviderOptions,
+} from 'web3modal';
 import { PALETTE } from '../../common/themes/mainTheme';
+import { BlockchainNetworkId } from '../../common/types';
+import { sleep } from '../../common/utils/sleep';
 import binanceWalletLogo from './assets/binanceWallet.svg';
 import huobiLogo from './assets/huobi.svg';
 import imTokenLogo from './assets/imToken.svg';
@@ -97,12 +102,9 @@ export abstract class KeyProvider {
   }
 
   public async latestBlockHeightOrWait(): Promise<number> {
-    const sleepFor = (ms: number): Promise<void> => {
-      return new Promise(resolve => setTimeout(resolve, ms));
-    };
     while (!this._latestBlockHeight) {
       console.log(`Waiting for latest block height...`);
-      await sleepFor(1_000);
+      await sleep(1_000);
     }
     return this._latestBlockHeight;
   }
@@ -196,6 +198,99 @@ export abstract class KeyProvider {
   }
 }
 
+export const providerDefaultOptions: IProviderOptions = {
+  'custom-imtoken': {
+    display: {
+      logo: imTokenLogo,
+      name: 'imToken',
+      description: 'Easy and secure digital wallet trusted by millions',
+    },
+    package: WalletConnectProvider,
+    options: {
+      rpc: {
+        1: 'https://eth-03.dccn.ankr.com',
+        5: 'https://goerli.infura.io/v3/3c88c0ec7e57421fa7d019780d2e6768',
+        56: 'https://bsc-dataseed.binance.org/',
+      },
+    },
+    connector: async (ProviderPackage: any, options: any) => {
+      const provider = new ProviderPackage(options);
+      await provider.enable();
+      return provider;
+    },
+  },
+  'custom-math': {
+    display: {
+      logo: mathLogo,
+      name: 'Math Wallet',
+      description: 'Gateway to the World of Blockchain',
+    },
+    package: WalletConnectProvider,
+    options: {
+      rpc: {
+        1: 'https://eth-03.dccn.ankr.com',
+        5: 'https://goerli.infura.io/v3/3c88c0ec7e57421fa7d019780d2e6768',
+        56: 'https://bsc-dataseed.binance.org/',
+      },
+    },
+    connector: async (ProviderPackage: any, options: any) => {
+      const provider = new ProviderPackage(options);
+      await provider.enable();
+      return provider;
+    },
+  },
+  'custom-trust': {
+    display: {
+      logo: trustWalletLogo,
+      name: 'Trust Wallet',
+      description: 'The most trusted & secure crypto wallet',
+    },
+    package: WalletConnectProvider,
+    options: {
+      rpc: {
+        1: 'https://eth-03.dccn.ankr.com',
+        5: 'https://goerli.infura.io/v3/3c88c0ec7e57421fa7d019780d2e6768',
+        56: 'https://bsc-dataseed.binance.org/',
+      },
+    },
+    connector: async (ProviderPackage: any, options: any) => {
+      const provider = new ProviderPackage(options);
+      await provider.enable();
+      return provider;
+    },
+  },
+  'custom-huobi': {
+    display: {
+      logo: huobiLogo,
+      name: 'Huobi Wallet',
+      description: 'Multi-currency support, practical and convenient',
+    },
+    package: WalletConnectProvider,
+    options: {
+      rpc: {
+        1: 'https://eth-03.dccn.ankr.com',
+        5: 'https://goerli.infura.io/v3/3c88c0ec7e57421fa7d019780d2e6768',
+        56: 'https://bsc-dataseed.binance.org/',
+      },
+    },
+    connector: async (ProviderPackage: any, options: any) => {
+      const provider = new ProviderPackage(options);
+      await provider.enable();
+      return provider;
+    },
+  },
+  walletconnect: {
+    package: WalletConnectProvider,
+    options: {
+      rpc: {
+        1: 'https://eth-03.dccn.ankr.com',
+        5: 'https://goerli.infura.io/v3/3c88c0ec7e57421fa7d019780d2e6768',
+        56: 'https://bsc-dataseed.binance.org/',
+      },
+    },
+  },
+};
+
 export class Web3ModalKeyProvider extends KeyProvider {
   private web3Modal: Web3Modal | undefined;
   private provider: any;
@@ -206,7 +301,7 @@ export class Web3ModalKeyProvider extends KeyProvider {
 
   async connect(): Promise<IConnectResult> {
     this.binanceWallet = false;
-    // TODO Move up the provider creation
+
     const providerOptions: IProviderOptions = {
       ...(window.BinanceChain
         ? {
@@ -246,96 +341,7 @@ export class Web3ModalKeyProvider extends KeyProvider {
             },
           }
         : {}),
-      'custom-imtoken': {
-        display: {
-          logo: imTokenLogo,
-          name: 'imToken',
-          description: 'Easy and secure digital wallet trusted by millions',
-        },
-        package: WalletConnectProvider,
-        options: {
-          rpc: {
-            1: 'https://eth-03.dccn.ankr.com',
-            5: 'https://goerli.infura.io/v3/3c88c0ec7e57421fa7d019780d2e6768',
-            56: 'https://bsc-dataseed.binance.org/',
-          },
-        },
-        connector: async (ProviderPackage: any, options: any) => {
-          const provider = new ProviderPackage(options);
-          await provider.enable();
-          return provider;
-        },
-      },
-      'custom-math': {
-        display: {
-          logo: mathLogo,
-          name: 'Math Wallet',
-          description: 'Gateway to the World of Blockchain',
-        },
-        package: WalletConnectProvider,
-        options: {
-          rpc: {
-            1: 'https://eth-03.dccn.ankr.com',
-            5: 'https://goerli.infura.io/v3/3c88c0ec7e57421fa7d019780d2e6768',
-            56: 'https://bsc-dataseed.binance.org/',
-          },
-        },
-        connector: async (ProviderPackage: any, options: any) => {
-          const provider = new ProviderPackage(options);
-          await provider.enable();
-          return provider;
-        },
-      },
-      'custom-trust': {
-        display: {
-          logo: trustWalletLogo,
-          name: 'Trust Wallet',
-          description: 'The most trusted & secure crypto wallet',
-        },
-        package: WalletConnectProvider,
-        options: {
-          rpc: {
-            1: 'https://eth-03.dccn.ankr.com',
-            5: 'https://goerli.infura.io/v3/3c88c0ec7e57421fa7d019780d2e6768',
-            56: 'https://bsc-dataseed.binance.org/',
-          },
-        },
-        connector: async (ProviderPackage: any, options: any) => {
-          const provider = new ProviderPackage(options);
-          await provider.enable();
-          return provider;
-        },
-      },
-      'custom-huobi': {
-        display: {
-          logo: huobiLogo,
-          name: 'Huobi Wallet',
-          description: 'Multi-currency support, practical and convenient',
-        },
-        package: WalletConnectProvider,
-        options: {
-          rpc: {
-            1: 'https://eth-03.dccn.ankr.com',
-            5: 'https://goerli.infura.io/v3/3c88c0ec7e57421fa7d019780d2e6768',
-            56: 'https://bsc-dataseed.binance.org/',
-          },
-        },
-        connector: async (ProviderPackage: any, options: any) => {
-          const provider = new ProviderPackage(options);
-          await provider.enable();
-          return provider;
-        },
-      },
-      walletconnect: {
-        package: WalletConnectProvider,
-        options: {
-          rpc: {
-            1: 'https://eth-03.dccn.ankr.com',
-            5: 'https://goerli.infura.io/v3/3c88c0ec7e57421fa7d019780d2e6768',
-            56: 'https://bsc-dataseed.binance.org/',
-          },
-        },
-      },
+      ...providerDefaultOptions,
     };
 
     this.web3Modal = new Web3Modal({
@@ -348,7 +354,7 @@ export class Web3ModalKeyProvider extends KeyProvider {
         border: PALETTE.background.default,
         hover: lighten(PALETTE.background.paper, 0.03),
       },
-    } as any);
+    } as ICoreOptions);
 
     const provider = await this.web3Modal.connect();
     this.provider = provider;
