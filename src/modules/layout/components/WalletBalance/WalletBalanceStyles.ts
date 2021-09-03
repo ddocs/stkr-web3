@@ -1,4 +1,4 @@
-import { Theme } from '@material-ui/core';
+import { fade, Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
 export const useWalletBalance = makeStyles<Theme>(theme => ({
@@ -13,6 +13,11 @@ export const useWalletBalance = makeStyles<Theme>(theme => ({
     margin: theme.spacing(-1, 0, 0, -2),
   },
 
+  walletBalance: {
+    display: 'flex',
+    alignItems: 'end',
+  },
+
   listMenu: {
     padding: theme.spacing(1, 0.5),
     '& > li': {
@@ -22,5 +27,12 @@ export const useWalletBalance = makeStyles<Theme>(theme => ({
 
   paperMenu: {
     marginTop: theme.spacing(2),
+  },
+
+  network: {
+    lineHeight: '18px',
+    padding: theme.spacing(0, 2),
+    marginLeft: theme.spacing(2),
+    borderLeft: `1px solid ${fade(theme.palette.text.primary, 0.2)}`,
   },
 }));

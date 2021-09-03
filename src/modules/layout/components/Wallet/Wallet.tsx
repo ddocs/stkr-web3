@@ -43,12 +43,7 @@ export const Wallet = ({
         {balance}
 
         {address && (
-          <Address
-            onClick={handleOpen}
-            className={classes.address}
-            address={address}
-            walletIcon={icon}
-          />
+          <Address onClick={handleOpen} address={address} walletIcon={icon} />
         )}
       </button>
 

@@ -26,19 +26,6 @@ export const useWalletStyles = makeStyles<Theme>(theme => ({
     },
   },
 
-  address: {
-    '&::after': {
-      position: 'relative',
-      order: -1,
-      content: '""',
-      display: 'block',
-      width: 1,
-      height: 22,
-      margin: theme.spacing(0, 2),
-      backgroundColor: fade(theme.palette.text.primary, 0.2),
-    },
-  },
-
   dropdown: {
     position: 'absolute',
     zIndex: theme.zIndex.tooltip,

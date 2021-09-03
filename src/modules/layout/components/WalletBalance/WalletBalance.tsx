@@ -8,6 +8,7 @@ import { Blockchain } from '../../../../common/types';
 import { WalletBalanceItem } from '../WalletBalanceItem';
 import {
   addTokenToWallet,
+  getNetworkNameByToken,
   getVisibleTokens,
   tokenType,
 } from '../../utils/token';
@@ -81,7 +82,7 @@ export const WalletBalance = ({
             />
           ))
         ) : (
-          <>
+          <div className={classes.walletBalance}>
             <div
               onClick={handleClick}
               aria-controls="menu"
@@ -122,7 +123,10 @@ export const WalletBalance = ({
                 </MenuItem>
               ))}
             </Menu>
-          </>
+            <div className={classes.network}>
+              {getNetworkNameByToken(blockchainType)}
+            </div>
+          </div>
         )}
       </div>
     </div>

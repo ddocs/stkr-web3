@@ -103,3 +103,16 @@ export const getVisibleTokens = (
     ),
   ];
 };
+
+export const getNetworkNameByToken = (blockchainType?: Blockchain) => {
+  switch (blockchainType) {
+    case Blockchain.avalanche:
+      return 'Avalanche';
+    case Blockchain.binance:
+      return 'Binance';
+    case Blockchain.ethereum:
+      return 'Ethereum';
+    default:
+      return '';
+  }
+};
