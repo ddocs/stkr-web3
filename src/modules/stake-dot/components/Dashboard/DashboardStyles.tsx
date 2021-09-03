@@ -2,41 +2,31 @@ import { makeStyles, Theme } from '@material-ui/core/styles';
 
 export const useDashboardStyles = makeStyles<Theme>(theme => ({
   root: {
-    marginTop: theme.spacing(10),
+    padding: theme.spacing(6, 0),
+
+    [theme.breakpoints.up('sm')]: {
+      padding: theme.spacing(10, 0),
+    },
   },
+
   header: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    margin: theme.spacing(6, 'auto', 3),
+    justifyContent: 'start',
+    marginBottom: theme.spacing(3),
     maxWidth: 1500,
     width: '100%',
-    padding: theme.spacing(0, 15),
-    [theme.breakpoints.down('lg')]: {
-      padding: theme.spacing(0, 10),
-    },
   },
+
   stats: {
     display: 'grid',
-    gridTemplateColumns: '1fr 1fr',
-    gridTemplateRows: '1fr',
+    gridTemplateColumns: '1fr',
     gap: theme.spacing(4, 4),
-    margin: theme.spacing(6, 'auto', 3),
-    padding: theme.spacing(0, 15),
-    maxWidth: 1500,
-    [theme.breakpoints.down('lg')]: {
-      padding: theme.spacing(0, 10),
+    marginTop: theme.spacing(6),
+
+    [theme.breakpoints.up('lg')]: {
+      gridTemplateColumns: '1fr 1fr',
+      gridTemplateRows: '1fr',
     },
-    [theme.breakpoints.down('md')]: {
-      gap: theme.spacing(4, 0),
-      gridTemplateColumns: '1fr',
-      gridTemplateRows: ' 1fr',
-    },
-  },
-  buttonStake: {
-    marginLeft: theme.spacing(2.5),
-    width: 170,
-    height: 44,
-    borderRadius: 65,
   },
 }));

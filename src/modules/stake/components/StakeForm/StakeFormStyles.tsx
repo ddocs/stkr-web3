@@ -166,7 +166,7 @@ export const useStakeFormStyles = makeStyles<Theme>(theme => {
     },
 
     info: {
-      alignSelf: 'start',
+      alignSelf: 'center',
       paddingLeft: theme.spacing(2.5),
       borderLeft: `2px solid ${theme.palette.primary.main}`,
 

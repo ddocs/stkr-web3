@@ -5,13 +5,13 @@ import {
   Tooltip,
   Typography,
 } from '@material-ui/core';
-import React, { useMemo } from 'react';
 import BigNumber from 'bignumber.js';
+import React, { useMemo } from 'react';
+import { DEFAULT_FIXED } from '../../../../common/const';
 import { t } from '../../../../common/utils/intl';
+import { QuestionIcon } from '../../../../UiKit/Icons/QuestionIcon';
 import { Body1, Body2 } from '../../../../UiKit/Typography';
 import { useClaimStyles } from './ClaimStyles';
-import { QuestionIcon } from '../../../../UiKit/Icons/QuestionIcon';
-import { DEFAULT_FIXED } from '../../../../common/const';
 
 interface IClaimProps {
   amount: BigNumber;
@@ -54,7 +54,7 @@ export const Claim = ({ amount }: IClaimProps) => {
             type="submit"
             disabled={!isClaimAvailable}
           >
-            {t('stake-avax.dashboard.claim')}
+            {t('stake-dot.dashboard.claim')}
           </Button>
         </div>
       </div>

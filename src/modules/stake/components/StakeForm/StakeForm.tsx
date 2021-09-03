@@ -30,6 +30,7 @@ export interface IStakeFormComponentProps {
   balance?: BigNumber;
   stakingAmountStep: number;
   minAmount?: number;
+  maxAmount?: number;
   loading: boolean;
   currency?: string;
   renderStats?: (amount: number) => ReactNode;
@@ -42,6 +43,7 @@ export const StakeForm = ({
   balance,
   stakingAmountStep,
   minAmount = stakingAmountStep,
+  maxAmount = MAX_AMOUNT,
   loading,
   currency = t('unit.eth'),
   renderStats,
@@ -67,12 +69,12 @@ export const StakeForm = ({
   const max = useMemo(
     () =>
       floor(
-        balance && balance.isGreaterThan(MAX_AMOUNT)
+        balance && balance.isGreaterThan(maxAmount)
           ? balance.toNumber()
-          : MAX_AMOUNT,
+          : maxAmount,
         stakingAmountStep,
       ),
-    [balance, stakingAmountStep],
+    [balance, maxAmount, stakingAmountStep],
   );
 
   const INIT_AMOUNT =
@@ -119,6 +121,9 @@ export const StakeForm = ({
                           props.input.onBlur,
                         )}
                         type="number"
+                        min={minAmount}
+                        max={max}
+                        step={stakingAmountStep}
                       />
                     )}
                   </Field>
@@ -135,7 +140,7 @@ export const StakeForm = ({
               />
             </label>
 
-            {renderStats && amount ? renderStats(amount) : null}
+            {renderStats && renderStats(amount)}
           </div>
         </div>
 
@@ -153,6 +158,7 @@ export const StakeForm = ({
               className={classes.submit}
               type="submit"
               disabled={loading}
+              isLoading={loading}
             >
               {t('stake.stake')}
             </Button>
@@ -162,6 +168,7 @@ export const StakeForm = ({
     );
   };
 
+  // todo: form must be separated from layout (section, paper...)
   return (
     <section className={classes.root}>
       <Curtains classes={{ root: classes.container }}>

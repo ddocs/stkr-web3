@@ -12,14 +12,19 @@ export const Button = React.forwardRef<
     style?: React.CSSProperties;
     isLoading?: boolean;
   }
->(({ variant = 'contained', submit, style, isLoading, ...props }, ref) => (
-  <ButtonComponent
-    variant={variant}
-    component="button"
-    type={submit ? 'submit' : 'button'}
-    ref={ref}
-    style={style}
-    endIcon={isLoading ? <QueryLoading size={16} /> : undefined}
-    {...props}
-  />
-));
+>(
+  (
+    { variant = 'contained', submit, style, isLoading, endIcon, ...props },
+    ref,
+  ) => (
+    <ButtonComponent
+      variant={variant}
+      component="button"
+      type={submit ? 'submit' : 'button'}
+      ref={ref}
+      style={style}
+      {...props}
+      endIcon={isLoading ? <QueryLoading size={16} /> : endIcon}
+    />
+  ),
+);

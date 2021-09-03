@@ -1,36 +1,18 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import {
-  DEVELOP_ROCOCO_CONFIG,
-  DEVELOP_WESTEND_CONFIG,
-  MAINNET_KUSAMA_CONFIG,
-  MAINNET_POLKADOT_CONFIG,
-} from '@ankr.com/stakefi-polkadot';
-import { PolkadotProviderActions } from '../actions/PolkadotProviderActions';
+import { connect } from '../actions/connect';
+import { initialize } from '../actions/initialize';
+import { ParachainNetwork } from '../types/ParachainNetwork';
+import { getConfig } from '../utils/getConfig';
 
-const configs = {
-  ksm: MAINNET_KUSAMA_CONFIG,
-  dot: MAINNET_POLKADOT_CONFIG,
-  wnd: DEVELOP_WESTEND_CONFIG,
-  roc: DEVELOP_ROCOCO_CONFIG,
-};
-
-export const usePolkadotProvider = (network: keyof typeof configs) => {
+export const usePolkadotProvider = (network: ParachainNetwork) => {
   const dispatch = useDispatch();
-
-  const config = configs[network];
+  const config = getConfig(network);
 
   useEffect(() => {
-    const connectPolkadotProvider = async () => {
-      await dispatch(PolkadotProviderActions.initialize(config));
-      dispatch(PolkadotProviderActions.connect());
-    };
-    connectPolkadotProvider();
+    (async () => {
+      await dispatch(initialize(config));
+      dispatch(connect());
+    })();
   }, [dispatch, config]);
-
-  const handleConnect = (newAccount: string) => async () => {
-    await dispatch(PolkadotProviderActions.connect(newAccount));
-  };
-
-  return { handleConnect };
 };

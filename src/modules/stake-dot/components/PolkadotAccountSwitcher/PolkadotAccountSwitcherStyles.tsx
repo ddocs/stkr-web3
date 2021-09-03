@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 export const usePolkadotAccountSwitcherStyles = makeStyles<Theme>(theme => ({
   button: {
-    height: theme.spacing(5.5),
+    height: theme.spacing(6),
     width: theme.spacing(22),
     padding: theme.spacing(0, 2, 0),
   },

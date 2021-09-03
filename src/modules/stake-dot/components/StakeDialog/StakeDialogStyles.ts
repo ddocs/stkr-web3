@@ -4,6 +4,13 @@ export const useStakeDialogStyles = makeStyles(theme => ({
   root: {
     padding: '0 !important',
     backgroundColor: 'transparent',
+
+    [theme.breakpoints.down('xs')]: {
+      width: '100% !important',
+      maxWidth: '100% !important',
+      marginLeft: 0,
+      marginRight: 0,
+    },
   },
   close: {
     position: 'absolute',

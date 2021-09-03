@@ -108,10 +108,11 @@
     "start:develop": "env-cmd -f .env.develop react-scripts start",
     "start:stage": "env-cmd -f .env.stage react-scripts start",
     "start:prod": "env-cmd -f .env.prod react-scripts start",
+    "start": "yarn start:develop",
     "build": "env-cmd react-scripts build",
     "test": "env-cmd react-scripts test",
     "eject": "env-cmd react-scripts eject",
-    "storybook": "env-cmd start-storybook",
+    "storybook": "env-cmd start-storybook -p 3030",
     "postbuild": "react-snap"
   },
   "extends": [

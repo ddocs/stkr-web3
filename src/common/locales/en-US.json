@@ -465,7 +465,6 @@
   },
   "stake": {
     "info": "Your staked ETH will be locked for the duration of the Eth 2.0 staking period, but instead you should be able to get aETHc or aETHb",
-    "info-dot": "Some text about staked DOT",
     "i-want": "I want to stake",
     "operation-fee": "Fee",
     "operation-fee-tooltip": "We charge some fee for Peg-ETH conversion.",
@@ -578,8 +577,11 @@
     "hour-value": "{value, plural, =1 {# hour} other {# hours}}",
     "minute-value": "{value, plural, =1 {# minute} other {# minutes}}",
     "dot": "DOT",
+    "adotb": "aDOTb",
     "eth": "ETH",
     "avax": "AVAX",
+    "adotb-value": "{value, number} aDOTb",
+    "dot-value": "{value, number} DOT",
     "eth-value": "{value, number} ETH",
     "feth-value": "{value, number} aETHb",
     "number-value": "{value, number}",
@@ -824,6 +826,12 @@
       "what-is": "What is aDOTb?",
       "claim-tooltip": "Tooltip text",
       "can-connect-wallet": "You can claim your aDOTb in Ethereum network"
+    },
+    "stake-dialog": {
+      "will-get": "You will get",
+      "get-tooltip": "some text",
+      "earning-tooltip": "some text",
+      "info": "Some text about staked DOT"
     }
   },
   "bnb-fetch-stats-error": {

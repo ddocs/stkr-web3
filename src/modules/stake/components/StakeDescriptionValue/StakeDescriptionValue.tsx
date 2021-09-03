@@ -1,6 +1,6 @@
+import { Typography } from '@material-ui/core';
 import React, { ReactNode } from 'react';
 import { useStakeDescriptionValueStyles } from './StakeDescriptionValueStyles';
-import { Headline5 } from '../../../../UiKit/Typography';
 
 export interface IStakeDescriptionValueProps {
   children: ReactNode;
@@ -12,8 +12,8 @@ export const StakeDescriptionValue = ({
   const classes = useStakeDescriptionValueStyles();
 
   return (
-    <Headline5 classes={{ root: classes.root }} component="dd">
+    <Typography variant="h5" component="div" classes={{ root: classes.root }}>
       {children}
-    </Headline5>
+    </Typography>
   );
 };
