@@ -27,4 +27,12 @@ export const useDashboardStyles = makeStyles<Theme>(theme => ({
     borderRadius: 48,
     height: 48,
   },
+  title: {
+    position: 'relative',
+  },
+  label: {
+    position: 'absolute',
+    top: 4,
+    right: -65,
+  },
 }));

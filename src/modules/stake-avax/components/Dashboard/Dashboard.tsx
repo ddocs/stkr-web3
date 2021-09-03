@@ -15,6 +15,7 @@ import { Convert } from '../Convert';
 import { FinishClaim } from '../FinishClaim';
 import { Timer } from '../Timer';
 import { useDashboardStyles } from './DashboardStyles';
+import { Label } from '../../../../components/Label';
 
 export interface IDashboardProps {
   step: StakingStep;
@@ -42,12 +43,12 @@ export const Dashboard = ({ step }: IDashboardProps) => {
       <Curtains>
         <Box mb={4}>
           <Grid container spacing={3} alignItems="center">
-            <Grid item xs="auto">
+            <Grid item xs="auto" className={classes.title}>
               <Typography variant="h4">
                 {t('stake-avax.dashboard.avax-staking')}
               </Typography>
+              <Label title="Beta" className={classes.label} />
             </Grid>
-
             <Grid item xs={12} sm>
               <Timer />
             </Grid>
