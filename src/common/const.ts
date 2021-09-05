@@ -1,5 +1,6 @@
 import { generatePath } from 'react-router';
 import { ETH, Milliseconds } from './types';
+import { ParachainNetwork } from '../modules/stake-polkadot/types/ParachainNetwork';
 
 export const EMPTY_PATH = '/';
 export const INDEX_PATH = '/internet-bonds';
@@ -7,10 +8,7 @@ export const FEATURES_PATH = `${INDEX_PATH}/launchpad`;
 export const ABOUT_AETH_PATH = `${INDEX_PATH}/aETHc`;
 export const STAKER_PATH = `${INDEX_PATH}/ETH`;
 export const STAKER_AVALANCHE_PATH = `${INDEX_PATH}/AVAX`;
-export const STAKER_DOT_PATH = `${INDEX_PATH}/DOT`;
-export const STAKER_KSM_PATH = `${INDEX_PATH}/KSM`;
-export const STAKER_WND_PATH = `${INDEX_PATH}/WND`;
-export const STAKER_ROC_PATH = `${INDEX_PATH}/ROC`;
+export const STAKER_POLKADOT_PATH = `${INDEX_PATH}/:network`;
 
 export const STAKER_STAKE_PATH = `${STAKER_PATH}/stake`;
 
@@ -41,6 +39,14 @@ export const PARACHAIN_BONDS = '/parachain-bonds';
 export const PARACHAIN_BONDS_CROWDLOANS_PATH =
   '/parachain-bonds/:network/crowdloans';
 export const PARACHAIN_BONDS_LEND_PATH = `${PARACHAIN_BONDS_CROWDLOANS_PATH}/lend/:id/:name`;
+
+export function getPolkadotPath(network: ParachainNetwork) {
+  if (!Object.values(ParachainNetwork).includes(network)) {
+    return FEATURES_PATH;
+  }
+
+  return generatePath(STAKER_POLKADOT_PATH, { network });
+}
 
 export function getParachainBondsCrowdloansPath(network: string) {
   return generatePath(PARACHAIN_BONDS_CROWDLOANS_PATH, { network });

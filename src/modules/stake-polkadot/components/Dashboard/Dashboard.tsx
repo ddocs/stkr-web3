@@ -1,11 +1,10 @@
-import { Box, Grid, Typography } from '@material-ui/core';
-import BigNumber from 'bignumber.js';
 import React from 'react';
+import BigNumber from 'bignumber.js';
+import { Box, Grid, Typography } from '@material-ui/core';
 import { t } from '../../../../common/utils/intl';
 import { Curtains } from '../../../../UiKit/Curtains';
 import { IStakerStats } from '../../../stake-avax/api/types';
 import { usePolkadotProvider } from '../../hooks/usePolkadotProvider';
-import { ParachainNetwork } from '../../types/ParachainNetwork';
 import { Balance } from '../Balance';
 import { Claim } from '../Claim';
 import { PolkadotAccountSwitcher } from '../PolkadotAccountSwitcher';
@@ -33,8 +32,10 @@ export interface IDashboardProps {
 
 export const Dashboard = ({ isConnected }: IDashboardProps) => {
   const classes = useDashboardStyles();
+
   const { showStaking, stakerStats } = useDemo();
-  usePolkadotProvider(ParachainNetwork.WND);
+
+  usePolkadotProvider();
 
   return (
     <section className={classes.root}>

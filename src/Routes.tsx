@@ -26,13 +26,10 @@ import {
   STAKER_AVALANCHE_PATH,
   STAKER_BNB_PATH,
   STAKER_DASHBOARD_BNB_ROUTE,
-  STAKER_DOT_PATH,
-  STAKER_KSM_PATH,
   STAKER_PATH,
-  STAKER_ROC_PATH,
+  STAKER_POLKADOT_PATH,
   STAKER_STAKE_BNB_ROUTE,
   STAKER_STAKE_PATH,
-  STAKER_WND_PATH,
 } from './common/const';
 import { BlockchainNetworkId } from './common/types';
 import { PageNotFound } from './components/PageNotFound';
@@ -466,12 +463,7 @@ export function Routes() {
           isMainnet ? BlockchainNetworkId.mainnet : BlockchainNetworkId.goerli,
         ]}
         needPolkadotExtension
-        path={[
-          STAKER_DOT_PATH,
-          STAKER_KSM_PATH,
-          STAKER_WND_PATH,
-          STAKER_ROC_PATH,
-        ]}
+        path={STAKER_POLKADOT_PATH}
         component={StakeDotContainer}
         exact
       />

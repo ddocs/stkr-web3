@@ -1,5 +1,5 @@
-import cn from 'classnames';
 import React, { useState } from 'react';
+import cn from 'classnames';
 import {
   ENABLE_AVA,
   ENABLE_DOT,
@@ -7,9 +7,8 @@ import {
   PROVIDER_PATH,
   STAKER_AVALANCHE_PATH,
   STAKER_BNB_PATH,
-  STAKER_DOT_PATH,
-  STAKER_KSM_PATH,
   STAKER_PATH,
+  getPolkadotPath,
 } from '../../common/const';
 import { t } from '../../common/utils/intl';
 import { ReactComponent as BnbIcon } from './assets/bnb.svg';
@@ -20,6 +19,7 @@ import { ReactComponent as ProviderIcon } from './assets/provider.svg';
 import { ReactComponent as StakeAvalancheIcon } from './assets/stake-avax.svg';
 import { FeatureListVerticalItem } from './components/FeatureListVerticalItem/FeatureListVerticalItem';
 import { useFeaturesListStyles } from './FeaturesListStyles';
+import { ParachainNetwork } from '../stake-polkadot/types/ParachainNetwork';
 
 type ActionType = 'Staking' | 'Providing';
 
@@ -95,7 +95,7 @@ export const FeaturesList = () => {
                 t('features-list.list-item.stake-dot.4'),
               ]}
               buttonText={t('features-list.action.start-staking')}
-              onClickTo={STAKER_DOT_PATH}
+              onClickTo={getPolkadotPath(ParachainNetwork.DOT)}
             />
           )}
           {ENABLE_KSM && (
@@ -109,7 +109,7 @@ export const FeaturesList = () => {
                 t('features-list.list-item.stake-ksm.4'),
               ]}
               buttonText={t('features-list.action.start-staking')}
-              onClickTo={STAKER_KSM_PATH}
+              onClickTo={getPolkadotPath(ParachainNetwork.KSM)}
             />
           )}
         </div>
