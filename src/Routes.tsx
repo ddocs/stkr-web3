@@ -168,7 +168,7 @@ const LoadableAvalancheContainer = withDefaultLayout(
 const StakeDotContainer = withDefaultLayout(
   loadable(
     async () =>
-      import('./modules/stake-dot/screens/StakeDot').then(
+      import('./modules/stake-polkadot/screens/StakeDot').then(
         module => module.StakeDot,
       ),
     {

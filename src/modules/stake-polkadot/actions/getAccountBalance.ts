@@ -18,8 +18,7 @@ export const getAccountBalance = createSmartAction<
   request: {
     promise: (async () => {
       const polkadotProviderInstance = PolkadotProviderSingleton.getInstance();
-      const balance = await polkadotProviderInstance.getAccountBalance(address);
-      return balance;
+      return await polkadotProviderInstance.getAccountBalance(address);
     })(),
   },
   meta: {
