@@ -15,7 +15,7 @@ export const useBalanceStyles = makeStyles<Theme>(theme => {
     },
     header: {
       display: 'flex',
-      alignItems: 'end',
+      alignItems: 'center',
       justifyContent: 'space-between',
     },
     headerText: {
@@ -25,7 +25,6 @@ export const useBalanceStyles = makeStyles<Theme>(theme => {
       fontSize: 20,
       textAlign: 'left',
       fontWeight: 500,
-      marginBottom: theme.spacing(6),
       display: 'flex',
       alignItems: 'center',
     },
@@ -39,6 +38,7 @@ export const useBalanceStyles = makeStyles<Theme>(theme => {
       display: 'grid',
       gridTemplateColumns: 'auto auto',
       gridGap: theme.spacing(2),
+      marginTop: theme.spacing(6),
       alignItems: 'end',
       textAlign: 'left',
       justifyContent: 'space-between',

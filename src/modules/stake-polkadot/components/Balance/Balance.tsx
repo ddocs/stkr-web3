@@ -1,19 +1,22 @@
-import { Box, Button, Paper, Tooltip, Typography } from '@material-ui/core';
 import React from 'react';
 import BigNumber from 'bignumber.js';
+import { Box, Paper, Typography } from '@material-ui/core';
 import { t } from '../../../../common/utils/intl';
+import { useConnect } from '../../../../common/hooks/useConnect';
 import { ReactComponent as DOTIcon } from '../../assets/DOT.svg';
-import { useBalanceStyles } from './BalanceStyles';
 import { Body1, Body2 } from '../../../../UiKit/Typography';
 import { DEFAULT_FIXED } from '../../../../common/const';
+import { useBalanceStyles } from './BalanceStyles';
+import { Button } from '../../../../UiKit/Button';
 
 interface IBalanceProps {
   amount: BigNumber;
-  isConnected?: boolean;
 }
 
-export const Balance = ({ amount, isConnected = false }: IBalanceProps) => {
+export const Balance = ({ amount }: IBalanceProps) => {
   const classes = useBalanceStyles();
+
+  const { dispatchConnect, loading, isAuth } = useConnect();
 
   return (
     <Paper variant="outlined" square={false} className={classes.root}>
@@ -37,7 +40,7 @@ export const Balance = ({ amount, isConnected = false }: IBalanceProps) => {
       </div>
 
       <div className={classes.footer}>
-        {isConnected ? (
+        {isAuth ? (
           <div className={classes.amount}>
             <Typography variant="h2">
               {amount.decimalPlaces(DEFAULT_FIXED).toFormat()}
@@ -45,24 +48,27 @@ export const Balance = ({ amount, isConnected = false }: IBalanceProps) => {
             <Typography variant="h6">{t('stake-dot.aDotb')}</Typography>
           </div>
         ) : (
-          <div>
-            <Body2 className={classes.info} color="secondary" component="p">
-              {t('stake-dot.connect-wallet')}
-            </Body2>
-          </div>
+          <>
+            <div>
+              <Body2 className={classes.info} color="secondary" component="p">
+                {t('stake-dot.connect-wallet')}
+              </Body2>
+            </div>
+
+            <Box display="inline-block">
+              <Button
+                color="primary"
+                size="large"
+                className={classes.button}
+                onClick={dispatchConnect}
+                disabled={loading}
+                isLoading={loading}
+              >
+                {t('navigation.connect')}
+              </Button>
+            </Box>
+          </>
         )}
-        <Tooltip title={t('coming-soon')}>
-          <Box display="inline-block">
-            <Button
-              color="primary"
-              size="large"
-              className={classes.button}
-              disabled
-            >
-              {t('navigation.connect')}
-            </Button>
-          </Box>
-        </Tooltip>
       </div>
     </Paper>
   );
