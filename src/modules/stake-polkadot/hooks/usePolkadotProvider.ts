@@ -19,7 +19,7 @@ export const usePolkadotProvider = () => {
   useEffect(() => {
     (async () => {
       if (!Object.values(ParachainNetwork).includes(network)) {
-        return history.push(FEATURES_PATH);
+        return history.replace(FEATURES_PATH);
       }
 
       await dispatch(initialize(config));
