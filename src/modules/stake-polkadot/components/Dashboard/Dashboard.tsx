@@ -26,11 +26,7 @@ const useDemo = () => {
   };
 };
 
-export interface IDashboardProps {
-  isConnected: boolean;
-}
-
-export const Dashboard = ({ isConnected }: IDashboardProps) => {
+export const Dashboard = () => {
   const classes = useDashboardStyles();
 
   const { showStaking, stakerStats } = useDemo();
@@ -58,7 +54,7 @@ export const Dashboard = ({ isConnected }: IDashboardProps) => {
           </Grid>
         </div>
 
-        {isConnected && showStaking && stakerStats && (
+        {showStaking && stakerStats && (
           <Box display="flex" flexDirection="column">
             <div className={classes.stats}>
               {stakerStats.claimAvailable && (

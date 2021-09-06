@@ -40,6 +40,7 @@ import { BinanceGuardRoute } from './UiKit/GuardRoute/BinanceGuardRoute';
 import { PrivateRoute } from './UiKit/PrivateRoute';
 import PolkadotSlotAuctionLanding from './modules/landing';
 import { withPolkadotSlotAuctionLayout } from './modules/polkadotSlotAuction/layout';
+import { PolkadotGuardRoute } from './UiKit/GuardRoute/PolkadotGuardRoute';
 
 const LoadableOverviewContainer = withDefaultLayout(
   loadable(async () => import('./modules/lobby').then(module => module.Lobby), {
@@ -458,11 +459,7 @@ export function Routes() {
         />
       )}
 
-      <GuardRoute
-        availableNetworks={[
-          isMainnet ? BlockchainNetworkId.mainnet : BlockchainNetworkId.goerli,
-        ]}
-        needPolkadotExtension
+      <PolkadotGuardRoute
         path={STAKER_POLKADOT_PATH}
         component={StakeDotContainer}
         exact
