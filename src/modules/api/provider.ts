@@ -428,6 +428,7 @@ export class Web3ModalKeyProvider extends KeyProvider {
   disconnect(): Promise<void> {
     this.chainId = undefined;
     try {
+      clearInterval(this._fetchInterval);
       this.provider?.close();
       this.web3Modal?.clearCachedProvider();
     } catch (error) {
