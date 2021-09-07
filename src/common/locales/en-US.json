@@ -832,6 +832,13 @@
       "get-tooltip": "some text",
       "earning-tooltip": "some text",
       "info": "Some text about staked DOT"
+    },
+    "claim-dialog": {
+      "title": "How many aDOTb you want to claim?",
+      "amount": "Amount",
+      "address": "Destinaton address (Ethereum Mainnet)",
+      "info": "This may take a few minutes, your funds are safe even if you close the window",
+      "submit": "Claim"
     }
   },
   "bnb-fetch-stats-error": {
