@@ -76,7 +76,7 @@ export const SOCIAL_LINK = {
 };
 export const ANKR_DEPOSIT_LINK =
   'https://app.uniswap.org/#/swap?outputCurrency=0x8290333cef9e6d528dd5618fb97a76f268f3edd4';
-export const DOCS_LINK = 'https://ankr.gitbook.io/stkr-docs/.';
+export const DOCS_LINK = 'https://docs.ankr.com/';
 export const LITEPAPER_LINK =
   'https://assets.ankr.com/files/stakefi_litepaper.pdf';
 export const POLKADOT_EXTENSION_LINK =
