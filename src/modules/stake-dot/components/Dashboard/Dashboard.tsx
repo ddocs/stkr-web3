@@ -8,6 +8,7 @@ import { usePolkadotProvider } from '../../hooks/usePolkadotProvider';
 import { ParachainNetwork } from '../../types/ParachainNetwork';
 import { Balance } from '../Balance';
 import { Claim } from '../Claim';
+import { ConnectErrorMessage } from '../ErrorMessage';
 import { PolkadotAccountSwitcher } from '../PolkadotAccountSwitcher';
 import { StakeBtn } from '../StakeBtn';
 import { useDashboardStyles } from './DashboardStyles';
@@ -56,6 +57,8 @@ export const Dashboard = ({ isConnected }: IDashboardProps) => {
             </Grid>
           </Grid>
         </div>
+
+        <ConnectErrorMessage />
 
         {isConnected && showStaking && stakerStats && (
           <Box display="flex" flexDirection="column">
