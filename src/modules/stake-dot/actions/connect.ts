@@ -5,6 +5,7 @@ import { createAction } from 'redux-smart-actions';
 import { IStoreState } from '../../../store/reducers';
 import { PolkadotProviderSingleton } from '../api/PolkadotProviderSingleton';
 import { getAccountBalance } from './getAccountBalance';
+import { getBalance } from './getBalance';
 import { getDepositAddress } from './getDepositAddress';
 
 export interface IPolkadotConnected {
@@ -58,6 +59,13 @@ export const connect = createAction<
         getAccountBalance(response.data.currentPolkadotAccount),
       );
       store.dispatchRequest(getDepositAddress(response.data.networkType));
+
+      store.dispatchRequest(
+        getBalance({
+          network: response.data.networkType,
+          address: response.data.currentPolkadotAccount,
+        }),
+      );
 
       return response;
     },

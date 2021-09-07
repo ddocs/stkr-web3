@@ -60,9 +60,7 @@ export const Dashboard = ({ isConnected }: IDashboardProps) => {
         {isConnected && showStaking && stakerStats && (
           <Box display="flex" flexDirection="column">
             <div className={classes.stats}>
-              {stakerStats.claimAvailable && (
-                <Claim amount={stakerStats.claimAvailable} />
-              )}
+              <Claim />
               <Balance amount={stakerStats.balance} />
             </div>
           </Box>

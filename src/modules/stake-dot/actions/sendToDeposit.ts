@@ -6,6 +6,7 @@ import { IStoreState } from '../../../store/reducers';
 import { PolkadotProviderSingleton } from '../api/PolkadotProviderSingleton';
 import { connect, IPolkadotConnected } from './connect';
 import { getAccountBalance } from './getAccountBalance';
+import { getBalance } from './getBalance';
 import { getDepositAddress } from './getDepositAddress';
 import { IPolkadotDepositReply, makeDeposit } from './makeDeposit';
 
@@ -75,6 +76,13 @@ export const sendToDeposit = createSmartAction<
 
       store.dispatchRequest(
         getAccountBalance(connectData.currentPolkadotAccount),
+      );
+
+      store.dispatchRequest(
+        getBalance({
+          network: connectData.networkType,
+          address: connectData.currentPolkadotAccount,
+        }),
       );
 
       return response;

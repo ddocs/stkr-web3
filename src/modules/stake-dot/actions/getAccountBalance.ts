@@ -14,7 +14,7 @@ export interface IAccountBalanceReply {
 export const getAccountBalance = createSmartAction<
   RequestAction<any, IAccountBalanceReply>,
   [string]
->('POLKADOT_BALANCE', address => ({
+>('POLKADOT_ACCOUNT_BALANCE', address => ({
   request: {
     promise: (async () => {
       const polkadotProviderInstance = PolkadotProviderSingleton.getInstance();
