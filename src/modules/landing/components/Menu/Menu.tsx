@@ -27,7 +27,7 @@ const Menu = ({ onMenuToggle, isVisible }: MenuProps) => {
         </div>
         <div className={classes.menuItem}>
           <a
-            href="https://ankr.gitbook.io/staking-docs/"
+            href="https://docs.ankr.com/"
             target="_blank"
             rel="noreferrer"
           >
