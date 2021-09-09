@@ -3,6 +3,7 @@ import React from 'react';
 import { useStyles } from './Styles';
 import Modal from '../Modal/Modal';
 import NetworkCard from '../NetworkCard/NetworkCard';
+import { getEnv } from '../../../api/config';
 
 const CARDS = [
   {
@@ -14,21 +15,27 @@ const CARDS = [
     logo: '/landing/icons/polkadot.svg',
     title: 'Polkadot',
     url: '/parachain-bonds/dot/crowdloans',
-  },
-  {
-    logo: '/landing/icons/westend.svg',
-    title: 'Westend',
-    description: 'There is no ongoing crowdloan on Westend at the moment',
+    description: 'There is no ongoing crowdloan on Polkadot at the moment',
     disabled: true,
-    url: '/',
   },
-  {
-    logo: '/landing/icons/rococo.svg',
-    title: 'Rococo',
-    description: 'There is no ongoing crowdloan on Westend at the moment',
-    disabled: true,
-    url: '/',
-  },
+  ...(getEnv() === 'mainnet'
+    ? []
+    : [
+        {
+          logo: '/landing/icons/westend.svg',
+          title: 'Westend',
+          description: 'There is no ongoing crowdloan on Westend at the moment',
+          disabled: true,
+          url: '/',
+        },
+        {
+          logo: '/landing/icons/rococo.svg',
+          title: 'Rococo',
+          description: 'There is no ongoing crowdloan on Westend at the moment',
+          disabled: true,
+          url: '/',
+        },
+      ]),
 ];
 
 interface MenuProps {

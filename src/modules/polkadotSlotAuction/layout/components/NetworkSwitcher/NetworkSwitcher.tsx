@@ -15,31 +15,33 @@ export const NetworkSwitcher = () => {
 
   const [currentNetwork, setCurrentNetwork] = useState(networkType);
 
-  const networks = isMainnet ? ['KSM', 'DOT'] : ['KSM', 'DOT', 'WND', 'ROC'];
+  const networks = isMainnet ? ['KSM'] : ['WND', 'ROC'];
 
   const handleCurrentActionChange = (newNetwork: string) => {
     setCurrentNetwork(newNetwork);
   };
 
   return (
-    <div className={classes.networkSwitcher}>
-      {networks.map(network => (
-        <a
-          key={uid(network)}
-          href={getParachainBondsCrowdloansPath(network.toLowerCase())}
-          onClick={() => handleCurrentActionChange(network)}
-          className={classes.networkHref}
-          rel="noopener noreferrer"
-        >
-          <div
-            className={classNames(classes.networkButton, {
-              [classes.activeNetworkButton]: network === currentNetwork,
-            })}
+    networks.length > 1 && (
+      <div className={classes.networkSwitcher}>
+        {networks.map(network => (
+          <a
+            key={uid(network)}
+            href={getParachainBondsCrowdloansPath(network.toLowerCase())}
+            onClick={() => handleCurrentActionChange(network)}
+            className={classes.networkHref}
+            rel="noopener noreferrer"
           >
-            {network}
-          </div>
-        </a>
-      ))}
-    </div>
+            <div
+              className={classNames(classes.networkButton, {
+                [classes.activeNetworkButton]: network === currentNetwork,
+              })}
+            >
+              {network}
+            </div>
+          </a>
+        ))}
+      </div>
+    )
   );
 };

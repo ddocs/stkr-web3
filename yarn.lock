@@ -2,22 +2,22 @@
 # yarn lockfile v1
 
 
-"@ankr.com/stakefi-polkadot@^0.0.48":
-  version "0.0.48"
-  resolved "https://registry.yarnpkg.com/@ankr.com/stakefi-polkadot/-/stakefi-polkadot-0.0.48.tgz#6c4249983f7333fca959e1a91fea8785a429338d"
-  integrity sha512-f2WBNY3neTJ3D1hPja8gjK4kR/RY+/8EFY7Q+LAGHk2SzLoTLauiJy0+R1xf1Ft5jN7He9mCaX2/i1YR+oP43w==
+"@ankr.com/stakefi-polkadot@^0.0.51":
+  version "0.0.51"
+  resolved "https://registry.yarnpkg.com/@ankr.com/stakefi-polkadot/-/stakefi-polkadot-0.0.51.tgz#c4663c09aa3c6087b9de4c33c15f344859c7a7cd"
+  integrity sha512-4XUd5fZst3/9z2HDaCT38Y6WCkike3ZOnt2TpJSYHcy8NHnTOecxP/9mZ+olCTq3qV7s38yWdad/u3ZtyAeGaA==
   dependencies:
-    "@ankr.com/stakefi-web3" "^0.0.48"
+    "@ankr.com/stakefi-web3" "^0.0.51"
     "@polkadot/api" "^4.17.1"
     "@polkadot/extension-dapp" "^0.38.8"
     axios "^0.21.1"
     axios-cache-adapter "^2.7.3"
     base58-js "^1.0.0"
 
-"@ankr.com/stakefi-web3@^0.0.48":
-  version "0.0.48"
-  resolved "https://registry.yarnpkg.com/@ankr.com/stakefi-web3/-/stakefi-web3-0.0.48.tgz#8613d794d577c67e997a252cb4cdfd101cff6ee0"
-  integrity sha512-/hntt0NyedualfW8GKYXHYAG/aue2aEseLrbtqYr66/mMjKUqy2Ygn2rkHXuqBiyKGkqzy3+gebVgJFY8k2hOA==
+"@ankr.com/stakefi-web3@^0.0.51":
+  version "0.0.51"
+  resolved "https://registry.yarnpkg.com/@ankr.com/stakefi-web3/-/stakefi-web3-0.0.51.tgz#ad11ffab241340483e27b7159453e35b12d6e55c"
+  integrity sha512-4Rp9t+CKjUt2I0ugstYz/kGxGUWgRZsyvK5A0cieXL0Fd1jFLGekDGWosczCCwmXrjqF/Vocac3PDceuaT4VCw==
   dependencies:
     "@types/node" "^14.14.41"
     bignumber.js "^9.0.1"

@@ -57,11 +57,7 @@ export const MyRewards = () => {
 
   const { crowdloans } = useCrowdloans(slotAuctionSdk, 'SUCCEEDED');
 
-  const { balances } = useCrowdloanBalances(
-    slotAuctionSdk,
-    'SUCCEEDED',
-    polkadotAccount,
-  );
+  const { balances } = useCrowdloanBalances();
 
   const { claimableStakingRewards } = useRewards(slotAuctionSdk);
 
@@ -82,12 +78,7 @@ export const MyRewards = () => {
         myLoanId,
       ),
     );
-    await dispatch(
-      SlotAuctionActions.fetchCrowdloanBalances(
-        slotAuctionSdk,
-        polkadotAccount,
-      ),
-    );
+    await dispatch(SlotAuctionActions.fetchCrowdloanBalances(polkadotAccount));
     setLoading(false);
   };
 

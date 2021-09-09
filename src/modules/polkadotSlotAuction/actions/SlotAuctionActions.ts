@@ -6,14 +6,23 @@ import { Web3KeyProvider } from '@ankr.com/stakefi-web3';
 import { fade, lighten } from '@material-ui/core';
 import { ISlotAuctionConfig } from '@ankr.com/stakefi-polkadot/dist/types/config';
 import {
+  ContractManager,
   SlotAuctionSdk,
   TCrowdloanStatus,
-  ContractManager,
+  TNetworkType,
 } from '@ankr.com/stakefi-polkadot';
 import { BlockchainNetworkId } from '../../../common/types';
 import { isMainnet } from '../../../common/const';
 import { PALETTE } from '../../../common/themes/mainTheme';
 import { providerDefaultOptions } from '../../api/provider';
+import { RequestAction } from '@redux-requests/core';
+import { NotificationActions } from '../../../store/actions/NotificationActions';
+
+interface IConnect {
+  polkadotAccount: string;
+  networkType: TNetworkType;
+  isConnected: boolean;
+}
 
 class Web3KeyProviderParachain extends Web3KeyProvider {
   public async connectFromInjected(): Promise<void> {
@@ -41,17 +50,12 @@ class Web3KeyProviderParachain extends Web3KeyProvider {
 class SlotAuctionSdkSingleton {
   private static sdk?: SlotAuctionSdk;
 
-  public static getInstance(config: ISlotAuctionConfig): SlotAuctionSdk {
+  public static getInstance(config?: ISlotAuctionConfig): SlotAuctionSdk {
     if (SlotAuctionSdkSingleton.sdk) return SlotAuctionSdkSingleton.sdk;
 
-    const web3KeyProvider = new Web3KeyProviderParachain({
-      // TODO set expectedChainId in runtime depends on current parachain
-      expectedChainId: isMainnet
-        ? BlockchainNetworkId.mainnet
-        : BlockchainNetworkId.goerli,
-    });
+    SlotAuctionSdkSingleton.sdk = new SlotAuctionSdk(config);
 
-    SlotAuctionSdkSingleton.sdk = new SlotAuctionSdk(web3KeyProvider, config);
+    SlotAuctionSdkSingleton.sdk.initPolkadotProvider();
 
     return SlotAuctionSdkSingleton.sdk;
   }
@@ -71,12 +75,24 @@ export const SlotAuctionActions = {
       },
     }),
   ),
-  connect: createAction(
+  connect: createAction<RequestAction<IConnect, IConnect>>(
     'CONNECT_SLOT_AUCTION_SDK',
-    (slotAuctionSdk: SlotAuctionSdk, selectedPolkadotAccount?: string) => ({
+    (selectedPolkadotAccount?: string) => ({
       request: {
         promise: (async function () {
+          const slotAuctionSdk = SlotAuctionSdkSingleton.getInstance();
           if (!slotAuctionSdk.isConnected()) {
+            const web3KeyProvider = new Web3KeyProviderParachain({
+              // TODO set expectedChainId in runtime depends on current parachain
+              expectedChainId: isMainnet
+                ? BlockchainNetworkId.mainnet
+                : BlockchainNetworkId.goerli,
+            });
+            // TODO Connection of web3 and polkadot at the same time
+            slotAuctionSdk.initWeb3Provider(web3KeyProvider);
+            if (!slotAuctionSdk.getKeyProvider().isConnected()) {
+              await slotAuctionSdk.getKeyProvider().connectFromInjected();
+            }
             await slotAuctionSdk.connect();
           }
           const accounts = await slotAuctionSdk.getPolkadotAccounts();
@@ -98,6 +114,40 @@ export const SlotAuctionActions = {
       },
       meta: {
         asMutation: false,
+        onSuccess: (response, action, store) => {
+          const slotAuctionSdk = SlotAuctionSdkSingleton.getInstance();
+          store.dispatchRequest(
+            SlotAuctionActions.fetchPolkadotAccounts(slotAuctionSdk),
+          );
+
+          store.dispatchRequest(
+            SlotAuctionActions.fetchPolkadotBalance(
+              slotAuctionSdk,
+              response.data.polkadotAccount,
+            ),
+          );
+
+          store.dispatchRequest(
+            SlotAuctionActions.fetchCrowdloanBalances(
+              response.data.polkadotAccount,
+            ),
+          );
+
+          store.dispatchRequest(
+            SlotAuctionActions.fetchClaimableStakingRewards(slotAuctionSdk),
+          );
+
+          return response;
+        },
+        onError: (error, action, store) => {
+          store.dispatch(
+            NotificationActions.showNotification({
+              message: error.toString(),
+              severity: 'error',
+            }),
+          );
+          throw error;
+        },
       },
     }),
   ),
@@ -155,9 +205,10 @@ export const SlotAuctionActions = {
   ),
   fetchCrowdloanBalances: createAction(
     'FETCH_CROWDLOAN_BALANCES',
-    (slotAuctionSdk: SlotAuctionSdk, polkadotAccount: string) => ({
+    (polkadotAccount: string) => ({
       request: {
         promise: (async () => {
+          const slotAuctionSdk = SlotAuctionSdkSingleton.getInstance();
           const backendBalances = await slotAuctionSdk.getCrowdloanBalances(
             polkadotAccount,
           );

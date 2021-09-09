@@ -7,7 +7,7 @@ export const usePolkadotBalance = (): {
   balance: BigNumber;
   symbol: string;
 } => {
-  const { slotAuctionSdk, networkType, polkadotAccount } = useSlotAuctionSdk();
+  const { networkType } = useSlotAuctionSdk();
   const {
     data: { balance, symbol },
   } = useQuery({
@@ -15,8 +15,6 @@ export const usePolkadotBalance = (): {
       balance: new BigNumber('0'),
       symbol: networkType,
     },
-    variables: [slotAuctionSdk, polkadotAccount],
-    autoLoad: true,
     type: SlotAuctionActions.fetchPolkadotBalance,
   });
 

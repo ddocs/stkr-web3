@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import classNames from 'classnames';
 import { Box } from '@material-ui/core';
-import { web3Enable } from '@polkadot/extension-dapp';
 import { PolkadotProvider } from '@ankr.com/stakefi-polkadot';
 import { SlotAuctionActions } from '../../../actions/SlotAuctionActions';
 import { Curtains } from '../../../../../UiKit/Curtains';
@@ -18,35 +17,42 @@ import { useHeaderStyles } from './HeaderStyles';
 import { PolkadotExtension } from '../../../components/PolkadotExtension/PolkadotExtension';
 import { useDialog } from '../../../../../store/dialogs/selectors';
 import { DIALOG_POLKADOT_EXTENSION } from '../../../../../store/dialogs/actions';
+import { useQuery } from '@redux-requests/react';
+import { web3Enable } from '@polkadot/extension-dapp';
+import { name } from '../../../../../../package.json';
 
 export const HeaderComponent = () => {
   const classes = useHeaderStyles();
 
   const dispatch = useDispatch();
 
-  const { slotAuctionSdk, polkadotAccount, isConnected } = useSlotAuctionSdk();
-  const { polkadotAccounts } = usePolkadotAccounts(slotAuctionSdk);
+  const { polkadotAccount, isConnected } = useSlotAuctionSdk();
+  const { polkadotAccounts } = usePolkadotAccounts();
 
   const { isOpened, handleClose, handleOpen } = useDialog(
     DIALOG_POLKADOT_EXTENSION,
   );
 
-  const [loading, setLoading] = useState(false);
+  const { loading: connectLoading } = useQuery({
+    type: SlotAuctionActions.connect.toString(),
+    action: SlotAuctionActions.connect,
+  });
+
+  const { loading: fetchPolkadotAccountsLoading } = useQuery({
+    type: SlotAuctionActions.fetchPolkadotAccounts.toString(),
+    action: SlotAuctionActions.fetchPolkadotAccounts,
+  });
+
+  const loading = connectLoading || fetchPolkadotAccountsLoading;
 
   const handleConnect = (newAccount?: string) => async () => {
-    await web3Enable('stakefi.com');
-
+    await web3Enable(name);
     if (!PolkadotProvider.isSupported()) {
       handleOpen();
       return;
     }
 
-    setLoading(true);
-
-    await dispatch(SlotAuctionActions.connect(slotAuctionSdk, newAccount));
-    await dispatch(SlotAuctionActions.fetchPolkadotAccounts(slotAuctionSdk));
-
-    setLoading(false);
+    await dispatch(SlotAuctionActions.connect(newAccount));
   };
 
   return (

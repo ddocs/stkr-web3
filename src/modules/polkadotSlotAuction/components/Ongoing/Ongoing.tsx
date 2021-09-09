@@ -46,16 +46,11 @@ const captions: CaptionType[] = [
 export const Ongoing = () => {
   const classes = useOngoingStyles();
 
-  const { slotAuctionSdk, isConnected, polkadotAccount, networkType } =
-    useSlotAuctionSdk();
+  const { slotAuctionSdk, isConnected, networkType } = useSlotAuctionSdk();
 
   const { crowdloans } = useCrowdloans(slotAuctionSdk, 'ONGOING');
 
-  const { balances } = useCrowdloanBalances(
-    slotAuctionSdk,
-    'ONGOING',
-    polkadotAccount,
-  );
+  const { balances } = useCrowdloanBalances();
 
   return (
     <Table
