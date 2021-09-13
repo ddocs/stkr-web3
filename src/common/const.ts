@@ -71,9 +71,10 @@ export const SOCIAL_LINK = {
   telegram: 'https://t.me/ankrnetwork',
   telegramAnnouncements: 'https://t.me/anrknetworkann',
   twitter: 'https://twitter.com/ankr',
-  whitepaperCh: 'https://assets.ankr.com/files/stkr_whitepaper_cn.pdf',
-  whitepaperEn: 'https://assets.ankr.com/files/stkr_whitepaper.pdf',
+  whitepaperCh: 'https://assets.ankr.com/files/stkr_litepaper_cn.pdf',
+  whitepaperEn: 'https://assets.ankr.com/files/stkr_litepaper.pdf',
 };
+
 export const ANKR_DEPOSIT_LINK =
   'https://app.uniswap.org/#/swap?outputCurrency=0x8290333cef9e6d528dd5618fb97a76f268f3edd4';
 export const DOCS_LINK = 'https://docs.ankr.com/';
