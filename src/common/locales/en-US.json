@@ -100,8 +100,8 @@
       "fETH": "{value, number}<span class=\"unit\"> aETHb</span>"
     },
     "price": {
-      "aETH": "aETHc={value, number}ETH",
-      "fETH": "1aETHb={value, number}ETH"
+      "aETH": "1 aETHc = {value, number} ETH",
+      "fETH": "1 aETHb = {value, number} ETH"
     },
     "tip": {
       "aETH": "With aETHc, rewards are built in to the token price, so as time passes, the token becomes more valuable. Once Ethereum 2.0 Phase 1.5 is released, you can redeem your aETHc for your original ETH plus accumulated rewards.",

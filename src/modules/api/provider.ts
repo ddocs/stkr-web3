@@ -495,28 +495,34 @@ export class Web3ModalKeyProvider extends KeyProvider {
       return '';
     }
     const { v, r, s } = rawTx as any; /* this fields are not-documented */
-    const newTx = new Transaction(
-      {
-        gasLimit: this.getWeb3().utils.numberToHex(rawTx.gas),
-        gasPrice: this.getWeb3().utils.numberToHex(Number(rawTx.gasPrice)),
-        to: `${rawTx.to}`,
-        nonce: this.getWeb3().utils.numberToHex(rawTx.nonce),
-        data: rawTx.input,
-        v: v,
-        r: r,
-        s: s,
-        value: this.getWeb3().utils.numberToHex(rawTx.value),
-      },
-      {
-        chain: this.chainId,
-      },
-    );
-    if (!newTx.verifySignature())
-      throw new Error(`The signature is not valid for this transaction`);
-    console.log(`New Tx: `, JSON.stringify(newTx, null, 2));
-    const rawTxHex = newTx.serialize().toString('hex');
-    console.log(`Raw transaction hex is: `, rawTxHex);
-    return rawTxHex;
+    try {
+      const newTx = new Transaction(
+        {
+          gasLimit: this.getWeb3().utils.numberToHex(rawTx.gas),
+          gasPrice: this.getWeb3().utils.numberToHex(Number(rawTx.gasPrice)),
+          to: `${rawTx.to}`,
+          nonce: this.getWeb3().utils.numberToHex(rawTx.nonce),
+          data: rawTx.input,
+          v: v,
+          r: r,
+          s: s,
+          value: this.getWeb3().utils.numberToHex(rawTx.value),
+        },
+        {
+          chain: this.chainId,
+        },
+      );
+      if (!newTx.verifySignature()) {
+        throw new Error(`The signature is not valid for this transaction`);
+      }
+      console.log(`New Tx: `, JSON.stringify(newTx, null, 2));
+      const rawTxHex = newTx.serialize().toString('hex');
+      console.log(`Raw transaction hex is: `, rawTxHex);
+
+      return rawTxHex;
+    } catch (error) {
+      return '';
+    }
   }
 
   public async sendAsync(
