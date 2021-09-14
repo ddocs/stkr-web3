@@ -97,8 +97,8 @@ export const Ongoing = () => {
                     {t(`polkadot-slot-auction.crowdloan-status.${item.status}`)}
                   </TableBodyCell>
                   <TableBodyCell>
-                    {new Date(item.startTime * 1000).toLocaleDateString()} –{' '}
-                    {new Date(item.endTime * 1000).toLocaleDateString()}
+                    {new Date(item.startLease * 1000).toLocaleDateString()} –{' '}
+                    {new Date(item.endLease * 1000).toLocaleDateString()}
                   </TableBodyCell>
                   <TableBodyCell>
                     <Body2 color="secondary">

@@ -29,7 +29,6 @@ import {
   PARACHAIN_BONDS,
   PARACHAIN_BONDS_LEND_PATH,
   PARACHAIN_BONDS_CROWDLOANS_PATH,
-  ENABLE_PARACHAIN_APP,
 } from './common/const';
 import { BlockchainNetworkId } from './common/types';
 import { PageNotFound } from './components/PageNotFound';
@@ -451,21 +450,17 @@ export function Routes() {
         exact
       />
 
-      {ENABLE_PARACHAIN_APP && (
-        <>
-          <Route
-            path={PARACHAIN_BONDS_CROWDLOANS_PATH}
-            component={PolkadotSlotAuctionContainer}
-            exact
-          />
+      <Route
+        path={PARACHAIN_BONDS_CROWDLOANS_PATH}
+        component={PolkadotSlotAuctionContainer}
+        exact
+      />
 
-          <Route
-            path={PARACHAIN_BONDS_LEND_PATH}
-            component={PolkadotSlotAuctionLend}
-            exact
-          />
-        </>
-      )}
+      <Route
+        path={PARACHAIN_BONDS_LEND_PATH}
+        component={PolkadotSlotAuctionLend}
+        exact
+      />
 
       <Route component={withDefaultLayout(PageNotFound)} />
     </Switch>

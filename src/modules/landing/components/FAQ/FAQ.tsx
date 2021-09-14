@@ -77,7 +77,7 @@ const questions = [
   },
   {
     question: 'What is the minimum staking requirement?',
-    answer: <span>1 Dot / 1 KSM</span>,
+    answer: <span>1 DOT / 1 KSM</span>,
   },
   {
     question: 'Will projects on Kusama Parachain crowdloans be supported?',

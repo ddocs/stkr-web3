@@ -1,4 +1,5 @@
 import { BalancesType } from '../hooks/useCrowdloans';
+import { DEFAULT_FIXED } from '../../../common/const';
 
 export const getBalance = (balances: BalancesType, loanId: number) => {
   let balanceResult = ``;
@@ -8,6 +9,7 @@ export const getBalance = (balances: BalancesType, loanId: number) => {
     balanceResult = `${balance.total
       .plus(balance.onchain)
       .plus(balance.claimable)
+      .decimalPlaces(DEFAULT_FIXED)
       .toString(10)}`;
   }
 

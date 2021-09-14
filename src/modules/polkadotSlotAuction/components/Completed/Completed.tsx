@@ -24,6 +24,7 @@ import {
 } from '../../../../components/QueryLoading/QueryLoading';
 import { Query } from '@redux-requests/react';
 import { useDispatch } from 'react-redux';
+import { DEFAULT_FIXED } from '../../../../common/const';
 
 const captions: CaptionType[] = [
   {
@@ -145,7 +146,9 @@ export const Completed = () => {
                         >
                           {t('polkadot-slot-auction.claim-tokens-button', {
                             value: balance
-                              ? balance.claimable.toString(10)
+                              ? balance.claimable
+                                  .decimalPlaces(DEFAULT_FIXED)
+                                  .toString(10)
                               : '0',
                             currency: networkType,
                           })}
@@ -162,6 +165,7 @@ export const Completed = () => {
                             value: balance.total
                               .plus(balance.onchain)
                               .plus(balance.claimable)
+                              .decimalPlaces(DEFAULT_FIXED)
                               .toString(10),
                             currency: networkType,
                           })}

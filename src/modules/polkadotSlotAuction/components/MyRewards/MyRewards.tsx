@@ -24,6 +24,7 @@ import {
 import { Query } from '@redux-requests/react';
 import { useRewards } from '../../hooks/useRewards';
 import { useDispatch } from 'react-redux';
+import { DEFAULT_FIXED } from '../../../../common/const';
 
 const captions: CaptionType[] = [
   {
@@ -129,9 +130,9 @@ export const MyRewards = () => {
                   </TableBodyCell>
                   <TableBodyCell>
                     {currentBalance
-                      ? `${currentBalance.claimableStakingRewards.toString(
-                          10,
-                        )} ${currentBalance.stakingTokenSymbol}`
+                      ? `${currentBalance.claimableStakingRewards
+                          .decimalPlaces(DEFAULT_FIXED)
+                          .toString(10)} ${currentBalance.stakingTokenSymbol}`
                       : '0'}
                   </TableBodyCell>
                   <TableBodyCell>
@@ -141,9 +142,9 @@ export const MyRewards = () => {
                   </TableBodyCell>
                   <TableBodyCell>
                     {currentBalance
-                      ? `${currentBalance.total.toString(10)} ${
-                          currentBalance.stakingTokenSymbol
-                        }`
+                      ? `${currentBalance.total
+                          .decimalPlaces(DEFAULT_FIXED)
+                          .toString(10)} ${currentBalance.stakingTokenSymbol}`
                       : '0'}
                   </TableBodyCell>
                   <TableBodyCell>

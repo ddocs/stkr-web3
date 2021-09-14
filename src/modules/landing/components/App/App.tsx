@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import cn from 'classnames';
-import { Fade } from '@material-ui/core';
 
 import Header from '../Header/Header';
 
@@ -15,7 +14,6 @@ import BgVideo from '../BgVideo/BgVideo';
 import Menu from '../Menu/Menu';
 import Button from '../Button/Button';
 import NetworkModal from '../NetworkModal/NetworkModal';
-import { ENABLE_PARACHAIN_APP } from '../../../../common/const';
 
 const App = () => {
   const classes = useStyles();
@@ -43,17 +41,7 @@ const App = () => {
         isVisible={isNetworkModalOpened}
       />
       <div className={classes.launchButton}>
-        {ENABLE_PARACHAIN_APP ? (
-          <Button
-            text="Launch App"
-            needFade
-            onClick={handleNetworkModalToggle}
-          />
-        ) : (
-          <Fade in timeout={1500}>
-            <div className={classes.launchButtonText}>Coming soon</div>
-          </Fade>
-        )}
+        <Button text="Launch App" needFade onClick={handleNetworkModalToggle} />
       </div>
       <BgVideo />
       <Title />

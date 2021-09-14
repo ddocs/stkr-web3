@@ -932,9 +932,9 @@
       "title": "Support {value} project",
       "wantContribute": "I want to contribute",
       "balance": "Your balance: {value} {currency}",
-      "willGet": "You will get a{currency}p BNC",
-      "initialReward": "Expected Initial airdrop BNC Reward",
-      "dailyReward": "Daily BNC Reward",
+      "willGet": "You will get {bondTokenSymbol}",
+      "initialReward": "Expected Initial airdrop {rewardTokenSymbol} Reward",
+      "dailyReward": "Daily {rewardTokenSymbol} Reward",
       "disclaimer": "a{currency}p tokens can be claimed on Ethereum if {project} wins a Polkadot Parachain slot auction. a{currency}p will enable claiming daily rewards on Ethereum as well as potentially an initial airdrop reward after winning a Polkadot Parachain slot auction.",
       "contribute": "Contribute"
     },

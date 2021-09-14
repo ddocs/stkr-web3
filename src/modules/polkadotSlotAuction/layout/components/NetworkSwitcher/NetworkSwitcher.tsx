@@ -21,27 +21,29 @@ export const NetworkSwitcher = () => {
     setCurrentNetwork(newNetwork);
   };
 
+  if (networks.length < 2) {
+    return null;
+  }
+
   return (
-    networks.length > 1 && (
-      <div className={classes.networkSwitcher}>
-        {networks.map(network => (
-          <a
-            key={uid(network)}
-            href={getParachainBondsCrowdloansPath(network.toLowerCase())}
-            onClick={() => handleCurrentActionChange(network)}
-            className={classes.networkHref}
-            rel="noopener noreferrer"
+    <div className={classes.networkSwitcher}>
+      {networks.map(network => (
+        <a
+          key={uid(network)}
+          href={getParachainBondsCrowdloansPath(network.toLowerCase())}
+          onClick={() => handleCurrentActionChange(network)}
+          className={classes.networkHref}
+          rel="noopener noreferrer"
+        >
+          <div
+            className={classNames(classes.networkButton, {
+              [classes.activeNetworkButton]: network === currentNetwork,
+            })}
           >
-            <div
-              className={classNames(classes.networkButton, {
-                [classes.activeNetworkButton]: network === currentNetwork,
-              })}
-            >
-              {network}
-            </div>
-          </a>
-        ))}
-      </div>
-    )
+            {network}
+          </div>
+        </a>
+      ))}
+    </div>
   );
 };

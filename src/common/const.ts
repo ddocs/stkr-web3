@@ -97,7 +97,6 @@ export const ENABLE_AVA = true;
 export const ENABLE_DOT = false;
 export const ENABLE_KSM = false;
 export const ENABLE_PROVIDER = true;
-export const ENABLE_PARACHAIN_APP = true;
 
 export const featuresConfig = {
   aEthVideo: false,

@@ -15,6 +15,7 @@ import { ICrowdloanType } from '@ankr.com/stakefi-polkadot';
 import { usePolkadotBalance } from '../../../../hooks/usePolkadotBalance';
 import { useDispatch } from 'react-redux';
 import { SlotAuctionActions } from '../../../../actions/SlotAuctionActions';
+import { DEFAULT_FIXED } from '../../../../../../common/const';
 
 export const SupportProjectForm = ({
   crowdloan,
@@ -66,7 +67,7 @@ export const SupportProjectForm = ({
           errors.contributeValue = t('validation.min', { value: 0 });
         } else if (value > balance.toNumber()) {
           errors.contributeValue = t('validation.max', {
-            value: balance.toNumber(),
+            value: balance.decimalPlaces(DEFAULT_FIXED).toNumber(),
           });
         }
       }
@@ -118,16 +119,20 @@ export const SupportProjectForm = ({
 
       <InfoLine
         title={t('polkadot-slot-auction.supportProject.willGet', {
-          currency,
+          bondTokenSymbol: crowdloan.bondTokenSymbol,
         })}
         value={values.contributeValue ?? 0}
       />
       <InfoLine
-        title={t('polkadot-slot-auction.supportProject.initialReward')}
+        title={t('polkadot-slot-auction.supportProject.initialReward', {
+          rewardTokenSymbol: crowdloan.rewardTokenSymbol,
+        })}
         value={initialReward}
       />
       <InfoLine
-        title={t('polkadot-slot-auction.supportProject.dailyReward')}
+        title={t('polkadot-slot-auction.supportProject.dailyReward', {
+          rewardTokenSymbol: crowdloan.rewardTokenSymbol,
+        })}
         value={dailyReward}
       />
       <div className={classes.footer}>
