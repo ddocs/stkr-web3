@@ -26,11 +26,7 @@ const Menu = ({ onMenuToggle, isVisible }: MenuProps) => {
           </a>
         </div>
         <div className={classes.menuItem}>
-          <a
-            href="https://docs.ankr.com/"
-            target="_blank"
-            rel="noreferrer"
-          >
+          <a href="https://docs.ankr.com/" target="_blank" rel="noreferrer">
             Docs
           </a>
         </div>
