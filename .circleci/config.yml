@@ -59,6 +59,10 @@ jobs:
     <<: *build-template
   build-bs-2:
     <<: *build-template
+  build-bs-3:
+    <<: *build-template
+  build-bs-4:
+    <<: *build-template
   # upload
   upload-develop:
     <<: *upload-template
@@ -72,54 +76,16 @@ jobs:
     <<: *upload-template
   upload-bs-2:
     <<: *upload-template
+  upload-bs-3:
+    <<: *upload-template
+  upload-bs-4:
+    <<: *upload-template
 
 workflows:
   version: 2.1
   stkr_web3:
     jobs:
-      # develop
-      - approve-develop:
-          type: approval
-      - build-develop:
-          context: stkr_build_develop
-          requires:
-            - approve-develop
-      - upload-develop:
-          context:
-            - cicd
-            - stkr_build_develop
-          requires:
-            - build-develop
-      # goerli
-      - approve-goerli:
-          type: approval
-      - build-goerli:
-          context: stkr_build_goerli
-          requires:
-            - approve-goerli
-      - upload-goerli:
-          context:
-            - cicd
-            - stkr_build_goerli
-          requires:
-            - build-goerli
-      # prod
-      - approve-prod:
-          type: approval
-          filters:
-            branches:
-              only: [master]
-      - build-prod:
-          context: stkr_build_prod
-          requires:
-            - approve-prod
-      - upload-prod:
-          context:
-            - cicd
-            - stkr_build_prod
-          requires:
-            - build-prod
-      # stakefi
+      # https://stakefi.ankr.com/
       - approve-stakefi:
           type: approval
           filters:
@@ -135,7 +101,33 @@ workflows:
             - stkr_deploy_stakefi
           requires:
             - build-stakefi
-      # bs-1
+      # https://dev.stkr.io/
+      - approve-develop:
+          type: approval
+      - build-develop:
+          context: stkr_build_develop
+          requires:
+            - approve-develop
+      - upload-develop:
+          context:
+            - cicd
+            - stkr_build_develop
+          requires:
+            - build-develop
+      # https://goerli.stkr.io/
+      - approve-goerli:
+          type: approval
+      - build-goerli:
+          context: stkr_build_goerli
+          requires:
+            - approve-goerli
+      - upload-goerli:
+          context:
+            - cicd
+            - stkr_build_goerli
+          requires:
+            - build-goerli
+      # https://bs-1-dev.stkr.io/
       - approve-bs-1:
           type: approval
       - build-bs-1:
@@ -148,7 +140,7 @@ workflows:
             - stkr_deploy_bs_1
           requires:
             - build-bs-1
-      # bs-2
+      # https://bs-2-dev.stkr.io/
       - approve-bs-2:
           type: approval
       - build-bs-2:
@@ -161,3 +153,29 @@ workflows:
             - stkr_deploy_bs_2
           requires:
             - build-bs-2
+      # https://bs-3-dev.stkr.io/
+      - approve-bs-3:
+          type: approval
+      - build-bs-3:
+          context: stkr_build_goerli
+          requires:
+            - approve-bs-3
+      - upload-bs-3:
+          context:
+            - cicd
+            - stkr_deploy_bs_3
+          requires:
+            - build-bs-3
+      # https://bs-4-dev.stkr.io/
+      - approve-bs-4:
+          type: approval
+      - build-bs-4:
+          context: stkr_build_goerli
+          requires:
+            - approve-bs-4
+      - upload-bs-4:
+          context:
+            - cicd
+            - stkr_deploy_bs_4
+          requires:
+            - build-bs-4
