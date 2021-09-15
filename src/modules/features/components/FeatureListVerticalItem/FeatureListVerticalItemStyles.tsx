@@ -20,12 +20,6 @@ export const useFeaturesListVerticalItemStyles = makeStyles((theme: Theme) => ({
     },
   },
   new: {
-    background: 'rgba(255, 255, 255, 0.18)',
-    borderRadius: 30,
-    color: '#fff',
-    padding: '3px 23px',
-    fontSize: 14,
-    fontWeight: 500,
     position: 'absolute',
     top: 23,
     right: 23,

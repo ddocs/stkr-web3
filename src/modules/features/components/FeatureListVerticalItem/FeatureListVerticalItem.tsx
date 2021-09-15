@@ -1,6 +1,7 @@
 import { Button, Typography } from '@material-ui/core';
 import React, { ReactElement } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
+import { Label } from '../../../../components/Label';
 import { useFeaturesListVerticalItemStyles } from './FeatureListVerticalItemStyles';
 
 export interface IFeatureListVerticalItemProps {
@@ -27,7 +28,7 @@ export const FeatureListVerticalItem = ({
 
   return (
     <div className={classes.container}>
-      {isNew && <div className={classes.new}>NEW</div>}
+      {isNew && <Label className={classes.new} title="NEW" />}
       <Icon className={classes.icon} />
       <Typography className={classes.title} variant="h4">
         {title}
