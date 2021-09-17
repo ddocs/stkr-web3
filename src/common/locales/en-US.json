@@ -872,12 +872,11 @@
   },
   "connect": {
     "access-request": "Access Request",
-    "ask-connect": "Would you like to let ankr.com access you Ankr Staking account?",
+    "ask-connect": "Click to allow Ankr StakeFi to connect to your wallet?",
     "grant": "Grant Access",
-    "info": "Pressing this button will prompt you for your concent",
-    "info-binance": "Pressing this button will prompt you for your concent (only&nbsp;Binance&nbsp;Wallet)",
+    "info-binance": "Click to connect your (only&nbsp;Binance&nbsp;Wallet)",
     "install-binance": "You need to <span class=\"highlight\">install Binance wallet</span> first to proceed",
-    "available-networks": "The network you need to connect:",
+    "available-networks": "The network you need to connect to:",
     "unsupported-network": "The current page is not available on this network.<br />Please select the network you need:",
     "networks": {
       "ethereum-mainnet": "Ethereum Mainnet",
